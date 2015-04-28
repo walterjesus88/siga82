@@ -14,7 +14,23 @@ class Admin_Model_DbTable_Propuesta extends Zend_Db_Table_Abstract
             print "Error: Al momento de leer todas las personas".$e->getMessage();
         }
     }
- 
+    
+     public function _getPropuestaxIndices($codigo,$propuestaid,$revision)
+     {
+        try{
+            $sql=$this->_db->query("
+               select * from propuesta 
+               where propuestaid='$propuestaid' and revision='$revision' and codigo_prop_proy='$codigo' 
+            ");
+            $row=$sql->fetchAll();
+            return $row;           
+            }  
+            
+           catch (Exception $ex){
+            print $ex->getMessage();
+        }
+    }
+
 
 
 }
