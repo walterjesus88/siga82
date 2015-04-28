@@ -6,7 +6,6 @@ lib/PHPExcel1.8
 lib/pdf
 app/conf
 html/alerta
-html/js
 html/jsgraficos
 html/upload
 html/otroslib/
