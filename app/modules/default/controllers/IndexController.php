@@ -74,7 +74,6 @@ class IndexController extends Zend_Controller_Action {
                         // Seleccionamos y seteamos los datos de sesion de una persona
                         $persona = new Admin_Model_DbTable_Persona();
                         $rp = $persona->_getPersona($data->dni);
-                        print_r($rp);
                         if ($rp){
                             $data->personal=$rp['ape_paterno']." ".$rp['ape_materno'].", ".$rp['nombres'];
                             $data->sexo= $rp['sexo']; 
