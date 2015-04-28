@@ -20,8 +20,7 @@ class Admin_Form_Proyecto extends Zend_Form{
 
     $propuestaid= new Zend_Form_Element_Select('propuestaid');
     $propuestaid->removeDecorator('Label')->removeDecorator("HtmlTag");
-    $bdpropuesta = new Api_Model_DbTable_Propuesta();
-    $propuestaid->addMultiOption('0',' -- Seleccione -- ');
+    $bdpropuesta = new Api_Model_DbTable_Propuesta(); 
     $listpropuesta=$bdpropuesta->_getPropuestaAll();
     foreach ($listpropuesta as $propuesta ){
         $propuestaid->addMultiOption($propuesta['propuestaid']);
@@ -29,8 +28,7 @@ class Admin_Form_Proyecto extends Zend_Form{
 
     $clienteid= new Zend_Form_Element_Select('clienteid');
     $clienteid->removeDecorator('Label')->removeDecorator("HtmlTag");
-    $bdcliente = new Api_Model_DbTable_Cliente();
-    $propuestaid->addMultiOption('0',' -- Seleccione -- ');
+    $bdcliente = new Api_Model_DbTable_Cliente(); 
     $listcliente=$bdcliente->_getClienteAll();
     foreach ($listcliente as $cliente ){
         $clienteid->addMultiOption($cliente['nombre'],);
@@ -39,7 +37,6 @@ class Admin_Form_Proyecto extends Zend_Form{
     $unidad_minera= new Zend_Form_Element_Select('unidad_minera');
     $unidad_minera->removeDecorator('Label')->removeDecorator("HtmlTag");
     $bdunidad_minera = new Api_Model_DbTable_Unidadminera();
-    $unidad_minera->addMultiOption('0','-- Seleccione --' );
     $listunidad_minera=$bdunidad_minera->_getUnidadmineraAll();
     foreach ($listunidad_minera as $uminera ){
         $dni->addMultiOption($uminera['nombre']);
