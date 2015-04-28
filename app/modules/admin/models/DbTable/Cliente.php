@@ -1,7 +1,7 @@
 <?php 
 class Admin_Model_DbTable_Cliente extends Zend_Db_Table_Abstract
 {
-    protected $_name = 'clienteid';
+    protected $_name = 'cliente';
     protected $_primary = array("clienteid");
 
      /* Lista toda las Personas */    

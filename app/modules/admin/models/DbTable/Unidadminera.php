@@ -1,7 +1,7 @@
 <?php 
 class Admin_Model_DbTable_Unidadminera extends Zend_Db_Table_Abstract
 {
-    protected $_name = 'unidadminera';
+    protected $_name = 'unidad_minera';
     protected $_primary = array("unidad_mineraid", "clienteid");
 
      /* Lista toda las Personas */    

@@ -1,1 +1,106 @@
-nuevoooooooooooooooooo
+
+    <link href="../../css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/bootstrap-reset.css" rel="stylesheet">
+    <!--external css-->
+    <link href="assets/font-awesome/css/font-awesome.css" rel="stylesheet" />
+    <link href="assets/jquery-ui/jquery-ui-1.10.1.custom.min.css" rel="stylesheet"/>
+      <!--right slidebar-->
+      <link href="css/slidebars.css" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link href="css/style.css" rel="stylesheet">
+    <link href="css/style-responsive.css" rel="stylesheet" />
+    <link href="assets/font-awesome/css/font-awesome.css" rel="stylesheet" />
+      <!--right slidebar-->
+    <link href="css/slidebars.css" rel="stylesheet">
+        <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/bootstrap-reset.css" rel="stylesheet">
+    <!--external css-->
+    <link href="assets/font-awesome/css/font-awesome.css" rel="stylesheet" />
+      <!--right slidebar-->
+      <link href="css/slidebars.css" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link href="css/style.css" rel="stylesheet">
+    <link href="css/style-responsive.css" rel="stylesheet" />
+
+
+
+
+<form name="<?php echo $this->form->getName(); ?>" action="<?php echo $this->form->getAction(); ?>" method="post" enctype="application/x-www-form-urlencoded">
+
+<div class="row">
+  <div class="col-sm-8"><h2>Nuevo Proyecto</h2></div>
+  <div class="col-sm-2"><?php print $this->form->save;?></div>
+  <div class="col-sm-1"><br><a href="/admin/faculty"  class="btn btn-danger  " >Cancelar</a></br></div>
+</div>
+
+<div>
+
+
+<table class="table span6 table-striped table-bordered">
+	<tr>
+        <div class="control-group">
+          <td class="span4"><label class="control-label">Codigo:</label></td>
+          <td class="span4"><div class="controls">
+            <?php print $this->form->codigo_prop_proy;?>
+          </div></td>
+        </div>
+    </tr>
+
+    <tr>
+        <div class="control-group">
+          <td><label class="control-label">nombre_proyecto:</label></td>
+          <td><div class="controls">
+            <?php print $this->form->nombre_proyecto;?>
+          </div></td>
+        </div>
+    </tr>
+
+	<tr>
+        <div class="control-group">
+          <td><label class="control-label">propuesta:</label></td>
+          <td><div class="controls">
+            <?php print $this->form->proyectoid;?>
+          </div></td>
+        </div>
+    </tr>
+
+	<tr>
+        <div class="control-group">
+          <td><label class="control-label">cliente:</label></td>
+          <td><div class="controls">
+            <?php print $this->form->clienteid;?>
+          </div></td>
+        </div>
+    </tr>
+
+
+    <tr>
+        <div class="control-group">
+          <td><label class="control-label">unidad_minera:</label></td>
+          <td><div class="controls">
+            <?php print $this->form->unidad_minera;?>
+          </div></td>
+        </div>
+    </tr>
+
+    <tr>
+        <div class="control-group">
+          <td><label class="control-label">gerente_proyecto:</label></td>
+          <td><div class="controls">
+            <?php print $this->form->gerente_proyecto;?>
+          </div></td>
+        </div>
+    </tr>
+
+
+    <tr>
+        <div class="control-group">
+          <td><label class="control-label">Estado:</label></td>
+          <td><div class="controls">
+            <?php print $this->form->estado;?>
+          </div></td>
+        </div>
+    </tr>
+</table>
+</div>
+</form>

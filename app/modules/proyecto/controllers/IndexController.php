@@ -35,7 +35,7 @@ class Proyecto_IndexController extends Zend_Controller_Action {
 
             $form= new Admin_Form_Proyecto();
             // $form->save->setLabel("Guardar");
-            // $this->view->form=$form;
+            $this->view->form=$form;
             // if ($this->getRequest()->isPost())
             // {
             //     $formdata = $this->getRequest()->getPost();
