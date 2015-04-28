@@ -5,8 +5,8 @@ class Default_Form_Login extends Zend_Form
     {
         $this->setName("frmlogin");
         $usuario  = new Zend_Form_Element_Text('usuario');
-        $usuario->setRequired(true)->addErrorMessage('Este campo es requerido');
-        $usuario->setAttrib("title","Ingrese codigo de usuario");
+        $usuario->setRequired(true)->addErrorMessage('Este campo es requerido.');
+        $usuario->setAttrib("title","Ingrese Codigo de Usuario.");
         $usuario->removeDecorator('Label');
         $usuario->removeDecorator('HtmlTag');
         $usuario->setAttrib('placeholder','Usuario');
@@ -14,8 +14,8 @@ class Default_Form_Login extends Zend_Form
 
 
         $clave = new Zend_Form_Element_Password("clave");
-        $clave->setRequired(true)->addErrorMessage('Este campo es requerido');;
-        $clave->setAttrib("title","Ingrese su contraseña");
+        $clave->setRequired(true)->addErrorMessage('Este campo es requerido.');;
+        $clave->setAttrib("title","Ingrese su contraseña.");
         $clave->removeDecorator('Label');
         $clave->removeDecorator('HtmlTag');
         $clave->setAttrib('placeholder','Password');
@@ -27,7 +27,7 @@ class Default_Form_Login extends Zend_Form
         $submit->setAttrib('id', 'enviarf');
         $submit->removeDecorator('Label');
         $submit->removeDecorator('HtmlTag');
-         $submit->removeDecorator('DtDdWrapper');
+        $submit->removeDecorator('DtDdWrapper');
 
         $this->addElements(array($usuario,$clave,$submit));       
     }
