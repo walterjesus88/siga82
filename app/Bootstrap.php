@@ -2,7 +2,6 @@
 
 class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 {
-
     protected function _initViewHelpers() {
             $this->bootstrap('layout');
             $layout = $this->getResource('layout');
@@ -10,8 +9,6 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
             $view->doctype('XHTML1_STRICT');
             $view->headMeta()->appendHttpEquiv('Content-Type', 'text/html;charset=utf-8');
             //$view->headMeta()->appendHttpEquiv('Cache-Control', 'no-cache');
-
-
 
             $view->headLink()->prependStylesheet('/css/bootstrap.min.css')
                      ->headLink()->appendStylesheet('/css/bootstrap-reset.css')
@@ -39,7 +36,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
                         ->headScript()->appendFile('/js/count.js');
 
             $view->headTitle()->setSeparator(' - ');
-            $view->headTitle('Sistema Anddes');
+            $view->headTitle('Sistema de Planificación y Control | Anddes');
             Zend_Session::start();
             Zend_Layout::startMvc(APPLICATION_PATH . '/layouts/scripts');
             $view = Zend_Layout::getMvcInstance()->getView();
@@ -52,7 +49,6 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 
     protected function _initDbAdaptersToRegistry()
             {
-
                 $this->bootstrap('multidb');
                 $resource = $this->getPluginResource('multidb');
                 $resource->init();
@@ -64,9 +60,4 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
                 Zend_Registry::set('Adaptador2',$Adapter2);
                 Zend_Registry::set('Adaptador3',$Adapter3);
             }
-
-
-            
-
 }
-
