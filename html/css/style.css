@@ -46,7 +46,8 @@ a, a:hover, a:focus {
 /*login page*/
 
 .login-body {
-    background: url("/img/Blur-1.png") no-repeat center center fixed;
+    background: url("/img/paisaje_blur.jpg") no-repeat center center fixed;
+    /*background: url("/img/Blur-1.png") no-repeat center center fixed;*/
     background-size: cover;
     -moz-background-size: cover;
     -webkit-background-size: cover;
