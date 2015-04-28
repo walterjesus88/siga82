@@ -11,6 +11,8 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
             $view->headMeta()->appendHttpEquiv('Content-Type', 'text/html;charset=utf-8');
             //$view->headMeta()->appendHttpEquiv('Cache-Control', 'no-cache');
 
+
+
             $view->headLink()->prependStylesheet('/css/bootstrap.min.css')
                      ->headLink()->appendStylesheet('/css/bootstrap-reset.css')
                      ->headLink()->appendStylesheet('/assets/font-awesome/css/font-awesome.css')
