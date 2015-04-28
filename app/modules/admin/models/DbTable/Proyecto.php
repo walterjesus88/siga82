@@ -14,7 +14,20 @@ class Admin_Model_DbTable_Proyecto extends Zend_Db_Table_Abstract
             print "Error: Al momento de leer todas las personas".$e->getMessage();
         }
     }
+
+
+    public function _save($data)
+    {
+        try{
+            if ($data['codigo_prop_proy']=='' ||  $data['codigo_prop_proy']=='' ) return false;
+            return $this->insert($data);
+            return false;
+        }catch (Exception $e){
+                print "Error: Registration ".$e->getMessage();
+        }
+    }
  
+
 
 
 }

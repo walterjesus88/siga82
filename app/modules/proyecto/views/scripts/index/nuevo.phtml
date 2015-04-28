@@ -29,8 +29,12 @@
 
 <div class="row">
   <div class="col-sm-8"><h2>Nuevo Proyecto</h2></div>
-  <div class="col-sm-2"><?php print $this->form->save;?></div>
+
   <div class="col-sm-1"><br><a href="/admin/faculty"  class="btn btn-danger  " >Cancelar</a></br></div>
+
+  <div class="col-sm-2"><?php print $this->form->guardar;?></div>
+
+    
 </div>
 
 <div>
@@ -39,9 +43,27 @@
 <table class="table span6 table-striped table-bordered">
 	<tr>
         <div class="control-group">
-          <td class="span4"><label class="control-label">Codigo:</label></td>
+          <td class="span4"><label class="control-label">proyectoid:</label></td>
+          <td class="span4"><div class="controls">
+            <?php print $this->form->proyectoid;?>
+          </div></td>
+        </div>
+    </tr>
+
+    <tr>
+        <div class="control-group">
+          <td class="span4"><label class="control-label">Codigo proyectoid:</label></td>
           <td class="span4"><div class="controls">
             <?php print $this->form->codigo_prop_proy;?>
+          </div></td>
+        </div>
+    </tr>
+
+    <tr>
+        <div class="control-group">
+          <td class="span4"><label class="control-label">Revision:</label></td>
+          <td class="span4"><div class="controls">
+            <?php print $this->form->revision;?>
           </div></td>
         </div>
     </tr>
@@ -59,20 +81,19 @@
         <div class="control-group">
           <td><label class="control-label">propuesta:</label></td>
           <td><div class="controls">
-            <?php print $this->form->proyectoid;?>
+            <?php print $this->form->propuestaid;?>
           </div></td>
         </div>
     </tr>
 
-	<tr>
+    <tr>
         <div class="control-group">
-          <td><label class="control-label">cliente:</label></td>
+          <td><label class="control-label">clienteid:</label></td>
           <td><div class="controls">
             <?php print $this->form->clienteid;?>
           </div></td>
         </div>
     </tr>
-
 
     <tr>
         <div class="control-group">
@@ -95,12 +116,73 @@
 
     <tr>
         <div class="control-group">
+          <td><label class="control-label">control_proyecto:</label></td>
+          <td><div class="controls">
+            <?php print $this->form->control_proyecto;?>
+          </div></td>
+        </div>
+    </tr>
+
+
+    <tr>
+        <div class="control-group">
           <td><label class="control-label">Estado:</label></td>
           <td><div class="controls">
             <?php print $this->form->estado;?>
           </div></td>
         </div>
     </tr>
+
+    <tr>
+        <div class="control-group">
+          <td><label class="control-label">descripcion:</label></td>
+          <td><div class="controls">
+            <?php print $this->form->descripcion;?>
+          </div></td>
+        </div>
+    </tr>
+
+    <tr>
+        <div class="control-group">
+          <td><label class="control-label">fecha_inicio:</label></td>
+          <td><div class="controls">
+            <?php print $this->form->fecha_inicio;?>
+          </div></td>
+        </div>
+    </tr>
+
+    <tr>
+        <div class="control-group">
+          <td><label class="control-label">tag:</label></td>
+          <td><div class="controls">
+            <?php print $this->form->tag;?>
+          </div></td>
+        </div>
+    </tr>
+
+    <tr>
+        <div class="control-group">
+          <td><label class="control-label">tipo_proyecto:</label></td>
+          <td><div class="controls">
+            <?php print $this->form->tipo_proyecto;?>
+          </div></td>
+        </div>
+    </tr>
+
+
+    <tr>
+        <div class="control-group">
+          <td><label class="control-label">control_documentario:</label></td>
+          <td><div class="controls">
+            <?php print $this->form->control_documentario;?>
+          </div></td>
+        </div>
+    </tr>
+
+                   
+
+    
+
 </table>
 </div>
 </form>
