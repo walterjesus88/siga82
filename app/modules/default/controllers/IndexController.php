@@ -75,13 +75,19 @@ class IndexController extends Zend_Controller_Action {
                         $persona = new Admin_Model_DbTable_Persona();
                         $rp = $persona->_getPersona($data->dni);
                         if ($rp){
-                            $data->personal=$rp['ape_paterno']." ".$rp['ape_materno'].", ".$rp['nombres'];
-                            $data->sexo= $rp['sexo']; 
-                            $data->alias= $rp['alias']; 
+                            $data->personal = new stdClass();
+                            $data->personal->full_name = $rp['ape_paterno']." ".$rp['ape_materno'].", ".$rp['nombres'];
+                            $data->personal->ape_paterno = $rp['ape_paterno'];
+                            $data->personal->ape_materno = $rp['ape_materno'];
+                            $data->personal->nombres = $rp['nombres'];
+                            $data->personal->iscontacto = $rp['iscontacto'];
+                            $data->personal->email_anddes = $rp['email_anddes'];
+                            $data->personal->isanddes = $rp['isanddes'];
+                            $data->personal->sexo= $rp['sexo']; 
+                            $data->personal->alias= $rp['alias']; 
                                                    
                         }
-                        //$data->dni = $data->pid;
-                        // $data->modulo=''
+                        //print_r($data);
                         $auth->getStorage()->write($data);
                         
                         // Registrando el Acceso en la BD
@@ -139,7 +145,11 @@ class IndexController extends Zend_Controller_Action {
             print "Error Login".$ex->getMessage();
         }
     }
-    
-  
 
+    public function salirAction(){
+        $sesion  = Zend_Auth::getInstance();
+        $sesion_ = $sesion->getStorage()->read();
+        Zend_Auth::getInstance()->clearIdentity();
+        $this->_redirect("/");
+    }
 }
