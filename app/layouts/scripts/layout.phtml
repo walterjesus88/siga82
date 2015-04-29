@@ -7,8 +7,9 @@
     }
 
     $sesion = $auth->getStorage()->read();
+    print_r($sesion);
     $name = $sesion -> personal->alias;
-
+    $rol = $sesion -> rid;
 ?>
 <html lang="es">
 	<head>
@@ -102,28 +103,57 @@
                       	</a>
                   	</li>
 
-                  	<li class="sub-menu">
-                      	<a href="javascript:;" >
-                          	<i class="fa fa-tasks"></i>
-                          	<span>Menu 1</span>
-                      	</a>
-	                    <ul class="sub">
-	                        <li><a  href="#">Form Components</a></li>
-	                        <li><a  href="#">Advanced Components</a></li>
-	                        <li><a  href="#">Form Wizard</a></li>
-	                        <li><a  href="#">Form Validation</a></li>
-	                        <li><a  href="#">Dropzone File Upload</a></li>
-	                    </ul>
-                  	</li>
+                  	<?php 
+                  	if ($rol == "PROPUESTA") { ?>
+                  		<li class="sub-menu">
+	                      	<a href="/propuesta" >
+	                          	<i class="fa fa-bar-chart-o"></i>
+	                          	<span>Propuesta</span>
+	                      	</a>
+		                    <ul class="sub">
+		                        <li><a  href="/propuesta/index/listar">Lista</a></li>
+		                        <li><a  href="/propuesta/index/nuevo">Nuevo</a></li>
+		                    </ul>
+	                  	</li>
+
+	                  	<li class="sub-menu">
+	                      	<a href="javascript:;" >
+	                          	<i class="fa fa-book"></i>
+	                          	<span>Control Documentario</span>
+	                      	</a>
+	                  	</li>
+                  		<?php
+                  	}
+                  	if ($rol == "PROYECTO") { ?>
+                  		<li class="sub-menu">
+	                      	<a href="/proyecto" >
+	                          	<i class="fa fa-archive"></i>
+	                          	<span>Proyecto</span>
+	                      	</a>
+		                    <ul class="sub">
+		                        <li><a  href="/proyecto/index/listar">Lista</a></li>
+		                        <li><a  href="/proyecto/index/listar">Nuevo</a></li>
+		                    </ul>
+	                  	</li>
+                  	<?php 
+                  	} ?>
+
                   	<li>
-                      	<a  href="login.html">
-                          	<i class="fa fa-user"></i>
-                          	<span>Menu 2</span>
-                      	</a>
-                  	</li>
+	                   	<a  href="#">
+	                       	<i class="fa fa-calendar-o"></i>
+	                       	<span>Timesheet</span>
+	                   	</a>
+	               	</li>
+
+	               	<li>
+	                   	<a  href="#">
+                        	<i class="fa fa-money"></i>
+	                        <span>Expense</span>
+	                    </a>
+	                </li>
 
                   	<!--multi level menu start-->
-                  	<li class="sub-menu">
+                  	<!-- <li class="sub-menu">
                       	<a href="javascript:;" >
                           	<i class="fa fa-sitemap"></i>
                           	<span>Menu 3</span>
@@ -144,7 +174,7 @@
                               	</ul>
                           	</li>
                       	</ul>
-                  	</li>
+                  	</li> -->
                   	<!--multi level menu end-->
 
               	</ul>
