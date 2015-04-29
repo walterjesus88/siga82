@@ -24,92 +24,98 @@
 
                                   <form name="<?php echo $this->form->getName(); ?>" action="<?php echo $this->form->getAction(); ?>" method="post" enctype="application/x-www-form-urlencoded">
 
-                                  <div class="row">
-                                   
-                                    </br>
-                                    <div class="col-sm-1 "><br><p ><?php print $this->form->guardar;?></br></p></div>
-                                    <div class="col-sm-1"><br><a href="/admin/faculty"  >Cancelar</a></br></div>
+                                  <div class="row">                                 
+                                  <!-- <div class="col-sm-1"><input type="button" id="save"/><p>save</p></div> -->
+                                    <div class="col-sm-1" id="save" ><br><a class="btn btn-info" href="#">save</a></br></div>
+                                    <div class="col-sm-1"><br><a class="btn btn-info" href="/admin/faculty"  >Cancelar</a></br></div>
                                   </div>
 
-                                 
+
 
                                     <div class="bio-row">
-                                      <p><span class="bold">Codigo: </span>: <a href="#"><?php print $this->form->codigo_prop_proy;?></a></p>
+                                        <p><span class="bold">Proyectoid </span>: <?php print $this->form->proyectoid;?></p>
                                     </div>
 
                                     <div class="bio-row">
-                                      <p><span class="bold">nombre_proyecto: </span>: <?php print $this->form->nombre_proyecto;?></p>
+                                      <p><span class="bold">Nombre </span>: <?php print $this->form->nombre_proyecto;?></p>
                                     </div>
 
-                                    <div class="bio-row">
-                                      <p><span class="bold">propuesta: </span>: <?php print $this->form->propuestaid;?></p>
+                                
+                                    <div class="bio-row"> 
+                                    <span class="bold">Propuesta </span>                                   
+                                    <select  id="propuestaid" name="propuestaid" class="form-control">
+                                        <option  value="">Seleccione..</option>
+                                        <?php
+                                        foreach ($this->propuestas  as $propuesta){
+                                            ?>
+                                            <option value="<?php echo $propuesta['propuestaid']?>"><?php echo $propuesta['nombre_propuesta']?></option>
+                                            <?php
+                                        }?>
+                                    </select>
                                     </div> 
 
                                     <div class="bio-row">
-                                      <p><span class="bold">cliente: </span>: <?php print $this->form->clienteid;?></p>
+                                        <span class="bold">Codigo Proyecto </span>
+                                        <select disabled id="cod_proy_prop" name="cod_proy_prop" class="form-control">
+                                         
+                                        </select>
                                     </div>
 
                                     <div class="bio-row">
-                                      <p><span class="bold">unidad_minera: </span>: <?php print $this->form->unidad_minera;?></p>
-                                    </div>
-
-
-                                    <div class="bio-row">
-                                      <p><span class="bold">gerente_proyecto: </span>: <?php print $this->form->gerente_proyecto;?></p>
-                                    </div>
-
-
-                                    <div class="bio-row">
-                                        <p><span class="bold">proyectoid </span>: <?php print $this->form->proyectoid;?></p>
-                                    </div>
-
-                                    <div class="bio-row">
-                                      <p><span class="bold">Revision: </span>: <?php print $this->form->revision;?></p>
-                                    </div>
-
-                                    <div class="bio-row">
-                                        <p><span class="bold">tipo_proyecto: </span>: <?php print $this->form->tipo_proyecto;?></p>
-                                    </div>
-
-                                    <div class="bio-row">
-                                      <p><span class="bold">control_proyecto:: </span>: <?php print $this->form->control_proyecto;?></p>
-                                    </div>
-
-                                    <div class="bio-row">
-                                      <p><span class="bold">gerente_proyecto:: </span>: <?php print $this->form->gerente_proyecto;?></p>
+                                        <span class="bold">Cliente </span>
+                                        <select disabled id="cliente" name="cliente" class="form-control">
+                                         
+                                        </select>
                                     </div>
 
 
                                     <div class="bio-row">
-                                      <p><span class="bold">descripcion: </span>: <?php print $this->form->descripcion;?></p>
+                                        <span class="bold">Unidad Minera </span>
+                                        <select disabled id="uminera" name="uminera" class="form-control">
+                                          
+                                        </select>
+                                    </div> 
+ 
+
+                                    <div class="bio-row">
+                                        <span class="bold">Revision </span>
+                                        <select disabled  id="revision" name="revision" class="form-control">
+                                          
+                                        </select>
+                                    </div> 
+ 
+
+                                    <div class="bio-row">
+                                      <p><span class="bold">Gerente</span>: <?php print $this->form->gerente_proyecto;?></p>
+                                    </div>
+
+
+                            
+                                    <div class="bio-row">
+                                      <p><span class="bold">Control/Proyecto</span>: <?php print $this->form->control_proyecto;?></p>
+                                    </div>                          
+
+
+                                    <div class="bio-row">
+                                      <p><span class="bold">Descripcion </span>: <?php print $this->form->descripcion;?></p>
                                     </div>
 
                                     <div class="bio-row">
-                                      <p><span class="bold">fecha_inicio: </span>: <?php print $this->form->fecha_inicio;?></p>
+                                      <p><span class="bold">Fecha Inicio </span>: <?php print $this->form->fecha_inicio;?></p>
                                     </div>
 
 
                                     <div class="bio-row">
-                                      <p><span class="bold">control_documentario: </span>: <?php print $this->form->control_documentario;?></p>
+                                      <p><span class="bold">Control/Documentario </span>: <?php print $this->form->control_documentario;?></p>
                                     </div>
 
                                     <div class="bio-row">
-                                      <p><span class="bold">Estado: </span>: <?php print $this->form->estado;?></p>
+                                      <p><span class="bold">Estado </span>: <?php print $this->form->estado;?></p>
                                     </div>
                                
                       
 
-                                  <div class="col-lg-12">
-                                      <dl class="dl-horizontal mtop20 p-progress">
-                                          <dt>Project Completed:</dt>
-                                          <dd>
-                                              <div class="progress progress-striped active ">
-                                                  <div style="width: 80%;" class="progress-bar progress-bar-success"></div>
-                                              </div>
-                                              <small>Project completed in <strong>80%</strong>. Remaining close the project, sign a contract and invoice.</small>
-                                          </dd>
-                                      </dl>
-                                  </div>
+                             
                               </div>
 
                           </div>
@@ -322,7 +328,121 @@
       <!-- Right Slidebar end -->
 
       <!--footer start-->
-  
+ <div id="loadingcourses"></div> 
       <!--footer end-->
+
+<script type='text/javascript'>
+     
+  $("#propuestaid").change(function(){
+    var propuestaid = $(this).val(); 
+    //alert(propuestaid);
+
+    url="/proyecto/index/codproyprop/propuesta/"+propuestaid;
+    url1="/proyecto/index/cliente/propuesta/"+propuestaid;
+    url2="/proyecto/index/uminera/propuesta/"+propuestaid;
+    url3="/proyecto/index/revision/propuesta/"+propuestaid;
+
+    $("#cod_proy_prop").html("Cargando....");
+    //alert(url);
+    $("#cod_proy_prop").load(url);
+    $("#cliente").load(url1);
+    $("#uminera").load(url2);
+    $("#revision").load(url3);
+
+    }); 
+</script>
+
+<script type='text/javascript'>      
+  $("#save").click(function(){
+
+        var proyectoid = $("#proyectoid").val();
+        var nombre_proyecto = $("#nombre_proyecto").val();
+        var propuestaid = $("#propuestaid").val();   
+        var cod_proy_prop = $("#cod_proy_prop").val();   
+        var propuestaid = $("#propuestaid").val();   
+        var codeo = $("#codeo").val();   
+         
+        var cliente = $("#cliente").val();   
+        var uminera = $("#uminera").val();   
+        var control_proyecto = $("#control_proyecto").val();  
+        var revision = $("#revision").val();  
+        var gerente_proyecto = $("#gerente_proyecto").val();  
+        var tag = $("#tag").val();  
+        var tipo_proyecto = $("#tipo_proyecto").val();  
+
+      
+        var descripcion = $("#descripcion").val();  
+        var fecha_inicio = $("#fecha_inicio").val();  
+        var control_documentario = $("#control_documentario").val();  
+        var estado = $("#estado").val();  
+
+
+        url="/proyecto/index/nuevo/proyectoid/"+proyectoid+"/propuesta/"+propuestaid+"/nombre_proyecto/"+nombre_proyecto+"/cod_proy_prop/"+cod_proy_prop+"/proyectoid/"+proyectoid+"/cliente/"+cliente+"/uminera/"+uminera+"/control_proyecto/"+control_proyecto+"/revision/"+revision+"/descripcion/"+descripcion+"/fecha_inicio/"+fecha_inicio+"/control_documentario/"+control_documentario+"/estado/"+estado+"/gerente_proyecto/"+gerente_proyecto+"/tipo_proyecto/"+tipo_proyecto+"/tag/"+tag;
+       
+          $.ajax({
+                type: 'POST',
+                url: url,
+                data: $(this).serialize(),
+                success: function(data) { 
+                    $('#loadingcourses').html(data);
+                    $('#loadingcourses').hide();
+                    location.href="/proyecto/index/listar/";
+
+                }
+            });        
+    }); 
+
+
+
+
+            // $.ajax({
+            //     type: 'POST',
+            //     url: '/distribution/distribution/deleteasigncourse/',
+            //     data: params,
+            //     success: function(data) {
+
+            //         if (data.status==true) {
+            //             $("#deleteModal").modal('hide');
+            //             $("#menssageAll").html('<span class="text-success"><b>'+data.msg+'</b></span>');
+            //             location.reload();
+            //         }
+            //         else{
+            //             $("#deleteModal").modal('hide');
+            //             $("#menssageAll").html('<span class="text-danger"><b>'+data.msg+'</b></span>');
+            //         };
+            //     }
+            // });
+
+
+            //   $('#save').click(function(){
+            //     $.ajax({
+            //       type   : 'post',
+            //       url    : '/distribution/distribution/savedistribution',
+            //       data   : $('#form').serialize(),
+            //       success: function(data){
+            //         $('.alert').addClass('hidden');
+            //         if (data == 'exito') {
+            //           $(location).attr('href', "/distribution/distribution/index/anio/<?php echo $this->dataforUpdate['anio'] ?>")
+            //         }else if (data == 'falta-datos'){
+            //           $('#missing').removeClass('hidden');
+            //         }
+            //       }
+            //     });
+            //   });
+
+
+            //     $('#frmcourses').submit(function() {  
+            //         $.ajax({
+            //             type: 'POST',
+            //             url: $(this).attr('action'),
+            //             data: $(this).serialize(),
+            //             success: function(data) { 
+            //                 $('#loadcourses').html(data);  
+            //             }
+            //         });         
+            //         return false;
+            //     });
+
+</script>
 
 

@@ -31,6 +31,19 @@ class Admin_Model_DbTable_Propuesta extends Zend_Db_Table_Abstract
         }
     }
 
+    public function _getFilter($propuestaid){
+        try{
+            $sql=$this->_db->query("
+               select * from propuesta 
+               where propuestaid='$propuestaid' and isproyecto='S' ");
+            $row=$sql->fetchAll();
+            return $row;           
+            }  
+            
+           catch (Exception $ex){
+            print $ex->getMessage();
+        }
+    }
 
 
 }
