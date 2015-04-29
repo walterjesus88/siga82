@@ -1,188 +1,328 @@
 
-    <link href="../../css/bootstrap.min.css" rel="stylesheet">
-    <link href="css/bootstrap-reset.css" rel="stylesheet">
-    <!--external css-->
-    <link href="assets/font-awesome/css/font-awesome.css" rel="stylesheet" />
-    <link href="assets/jquery-ui/jquery-ui-1.10.1.custom.min.css" rel="stylesheet"/>
-      <!--right slidebar-->
-      <link href="css/slidebars.css" rel="stylesheet">
-    <!-- Custom styles for this template -->
-    <link href="css/style.css" rel="stylesheet">
-    <link href="css/style-responsive.css" rel="stylesheet" />
-    <link href="assets/font-awesome/css/font-awesome.css" rel="stylesheet" />
-      <!--right slidebar-->
-    <link href="css/slidebars.css" rel="stylesheet">
-        <link href="css/bootstrap.min.css" rel="stylesheet">
-    <link href="css/bootstrap-reset.css" rel="stylesheet">
-    <!--external css-->
-    <link href="assets/font-awesome/css/font-awesome.css" rel="stylesheet" />
-      <!--right slidebar-->
-      <link href="css/slidebars.css" rel="stylesheet">
-    <!-- Custom styles for this template -->
-    <link href="css/style.css" rel="stylesheet">
-    <link href="css/style-responsive.css" rel="stylesheet" />
+
+  
+              <!-- page start-->
+              <section class="panel">
+                  <header class="panel-heading">
+                      Projects Details
+                      <span class="pull-right">
+                          <button type="button" id="loading-btn" class="btn btn-warning btn-xs"><i class="fa fa-refresh"></i> Refresh</button>
+                      </span>
+                  </header>
+
+              </section>
+              <div class="row">
+                  <div class="col-md-8">
+                      <section class="panel">
+                          <div class="bio-graph-heading project-heading">
+                              <strong> [ Nuevo Proyecto ] </strong>
+
+                          </div>
+                          <div class="panel-body bio-graph-info">
+                              <!--<h1>New Dashboard BS3 </h1>-->
+                              <div class="row p-details">
+
+                                  <form name="<?php echo $this->form->getName(); ?>" action="<?php echo $this->form->getAction(); ?>" method="post" enctype="application/x-www-form-urlencoded">
+
+                                  <div class="row">
+                                   
+                                    </br>
+                                    <div class="col-sm-1 "><br><p ><?php print $this->form->guardar;?></br></p></div>
+                                    <div class="col-sm-1"><br><a href="/admin/faculty"  >Cancelar</a></br></div>
+                                  </div>
+
+                                 
+
+                                    <div class="bio-row">
+                                      <p><span class="bold">Codigo: </span>: <a href="#"><?php print $this->form->codigo_prop_proy;?></a></p>
+                                    </div>
+
+                                    <div class="bio-row">
+                                      <p><span class="bold">nombre_proyecto: </span>: <?php print $this->form->nombre_proyecto;?></p>
+                                    </div>
+
+                                    <div class="bio-row">
+                                      <p><span class="bold">propuesta: </span>: <?php print $this->form->propuestaid;?></p>
+                                    </div> 
+
+                                    <div class="bio-row">
+                                      <p><span class="bold">cliente: </span>: <?php print $this->form->clienteid;?></p>
+                                    </div>
+
+                                    <div class="bio-row">
+                                      <p><span class="bold">unidad_minera: </span>: <?php print $this->form->unidad_minera;?></p>
+                                    </div>
 
 
+                                    <div class="bio-row">
+                                      <p><span class="bold">gerente_proyecto: </span>: <?php print $this->form->gerente_proyecto;?></p>
+                                    </div>
 
 
-<form name="<?php echo $this->form->getName(); ?>" action="<?php echo $this->form->getAction(); ?>" method="post" enctype="application/x-www-form-urlencoded">
+                                    <div class="bio-row">
+                                        <p><span class="bold">proyectoid </span>: <?php print $this->form->proyectoid;?></p>
+                                    </div>
 
-<div class="row">
-  <div class="col-sm-8"><h2>Nuevo Proyecto</h2></div>
+                                    <div class="bio-row">
+                                      <p><span class="bold">Revision: </span>: <?php print $this->form->revision;?></p>
+                                    </div>
 
-  <div class="col-sm-1"><br><a href="/admin/faculty"  class="btn btn-danger  " >Cancelar</a></br></div>
+                                    <div class="bio-row">
+                                        <p><span class="bold">tipo_proyecto: </span>: <?php print $this->form->tipo_proyecto;?></p>
+                                    </div>
 
-  <div class="col-sm-2"><?php print $this->form->guardar;?></div>
+                                    <div class="bio-row">
+                                      <p><span class="bold">control_proyecto:: </span>: <?php print $this->form->control_proyecto;?></p>
+                                    </div>
 
-    
-</div>
-
-<div>
-
-
-<table class="table span6 table-striped table-bordered">
-	<tr>
-        <div class="control-group">
-          <td class="span4"><label class="control-label">proyectoid:</label></td>
-          <td class="span4"><div class="controls">
-            <?php print $this->form->proyectoid;?>
-          </div></td>
-        </div>
-    </tr>
-
-    <tr>
-        <div class="control-group">
-          <td class="span4"><label class="control-label">Codigo proyectoid:</label></td>
-          <td class="span4"><div class="controls">
-            <?php print $this->form->codigo_prop_proy;?>
-          </div></td>
-        </div>
-    </tr>
-
-    <tr>
-        <div class="control-group">
-          <td class="span4"><label class="control-label">Revision:</label></td>
-          <td class="span4"><div class="controls">
-            <?php print $this->form->revision;?>
-          </div></td>
-        </div>
-    </tr>
-
-    <tr>
-        <div class="control-group">
-          <td><label class="control-label">nombre_proyecto:</label></td>
-          <td><div class="controls">
-            <?php print $this->form->nombre_proyecto;?>
-          </div></td>
-        </div>
-    </tr>
-
-	<tr>
-        <div class="control-group">
-          <td><label class="control-label">propuesta:</label></td>
-          <td><div class="controls">
-            <?php print $this->form->propuestaid;?>
-          </div></td>
-        </div>
-    </tr>
-
-    <tr>
-        <div class="control-group">
-          <td><label class="control-label">clienteid:</label></td>
-          <td><div class="controls">
-            <?php print $this->form->clienteid;?>
-          </div></td>
-        </div>
-    </tr>
-
-    <tr>
-        <div class="control-group">
-          <td><label class="control-label">unidad_minera:</label></td>
-          <td><div class="controls">
-            <?php print $this->form->unidad_minera;?>
-          </div></td>
-        </div>
-    </tr>
-
-    <tr>
-        <div class="control-group">
-          <td><label class="control-label">gerente_proyecto:</label></td>
-          <td><div class="controls">
-            <?php print $this->form->gerente_proyecto;?>
-          </div></td>
-        </div>
-    </tr>
+                                    <div class="bio-row">
+                                      <p><span class="bold">gerente_proyecto:: </span>: <?php print $this->form->gerente_proyecto;?></p>
+                                    </div>
 
 
-    <tr>
-        <div class="control-group">
-          <td><label class="control-label">control_proyecto:</label></td>
-          <td><div class="controls">
-            <?php print $this->form->control_proyecto;?>
-          </div></td>
-        </div>
-    </tr>
+                                    <div class="bio-row">
+                                      <p><span class="bold">descripcion: </span>: <?php print $this->form->descripcion;?></p>
+                                    </div>
+
+                                    <div class="bio-row">
+                                      <p><span class="bold">fecha_inicio: </span>: <?php print $this->form->fecha_inicio;?></p>
+                                    </div>
 
 
-    <tr>
-        <div class="control-group">
-          <td><label class="control-label">Estado:</label></td>
-          <td><div class="controls">
-            <?php print $this->form->estado;?>
-          </div></td>
-        </div>
-    </tr>
+                                    <div class="bio-row">
+                                      <p><span class="bold">control_documentario: </span>: <?php print $this->form->control_documentario;?></p>
+                                    </div>
 
-    <tr>
-        <div class="control-group">
-          <td><label class="control-label">descripcion:</label></td>
-          <td><div class="controls">
-            <?php print $this->form->descripcion;?>
-          </div></td>
-        </div>
-    </tr>
+                                    <div class="bio-row">
+                                      <p><span class="bold">Estado: </span>: <?php print $this->form->estado;?></p>
+                                    </div>
+                               
+                      
 
-    <tr>
-        <div class="control-group">
-          <td><label class="control-label">fecha_inicio:</label></td>
-          <td><div class="controls">
-            <?php print $this->form->fecha_inicio;?>
-          </div></td>
-        </div>
-    </tr>
+                                  <div class="col-lg-12">
+                                      <dl class="dl-horizontal mtop20 p-progress">
+                                          <dt>Project Completed:</dt>
+                                          <dd>
+                                              <div class="progress progress-striped active ">
+                                                  <div style="width: 80%;" class="progress-bar progress-bar-success"></div>
+                                              </div>
+                                              <small>Project completed in <strong>80%</strong>. Remaining close the project, sign a contract and invoice.</small>
+                                          </dd>
+                                      </dl>
+                                  </div>
+                              </div>
 
-    <tr>
-        <div class="control-group">
-          <td><label class="control-label">tag:</label></td>
-          <td><div class="controls">
-            <?php print $this->form->tag;?>
-          </div></td>
-        </div>
-    </tr>
+                          </div>
 
-    <tr>
-        <div class="control-group">
-          <td><label class="control-label">tipo_proyecto:</label></td>
-          <td><div class="controls">
-            <?php print $this->form->tipo_proyecto;?>
-          </div></td>
-        </div>
-    </tr>
+                      </section>
 
 
-    <tr>
-        <div class="control-group">
-          <td><label class="control-label">control_documentario:</label></td>
-          <td><div class="controls">
-            <?php print $this->form->control_documentario;?>
-          </div></td>
-        </div>
-    </tr>
+                  </div>
+                  <div class="col-md-4">
+                      <section class="panel">
+                          <header class="panel-heading">
+                              Projects Description
+                          </header>
 
-                   
+                          <div class="panel-body">
+                              <br/>
 
-    
+                                    <div class="bio-row">
+                                      <p><span class="bold">tag: </span>: <?php print $this->form->tag;?></p>
+                                    </div>
 
-</table>
-</div>
-</form>
+                                    <div class="bio-row">
+                                      <p><span class="bold">tipo_proyecto: </span>: <?php print $this->form->tipo_proyecto;?></p>
+                                    </div>
+
+                              </form>
+                              <h5 class="bold">Priority</h5>
+                              <ul class="nav nav-pills nav-stacked labels-info ">
+                                  <li><i class=" fa fa-circle text-danger"></i> High Priority</p></li>
+                              </ul>
+
+                              <br/>
+                              <h5 class="bold">Project files</h5>
+                              <ul class="list-unstyled p-files">
+                                  <li><a href=""><i class="fa fa-file-text"></i> Project-document.docx</a></li>
+                                  <li><a href=""><i class="fa fa-picture-o"></i> Logo-company.jpg</a></li>
+                                  <li><a href=""><i class="fa fa-mail-forward"></i> Email-from-flatbal.mln</a></li>
+                                  <li><a href=""><i class="fa fa-file"></i> Contract-10_12_2014.docx</a></li>
+                              </ul>
+                              <br/>
+
+                              <h5 class="bold">Project Tags</h5>
+                              <ul class="p-tag-list">
+                                  <li><a href=""><i class="fa fa-tag"></i> Dlor</a></li>
+                                  <li><a href=""><i class="fa fa-tag"></i> Lorem ipsum</a></li>
+                                  <li><a href=""><i class="fa fa-tag"></i> Google</a></li>
+                                  <li><a href=""><i class="fa fa-tag"></i> Excellent</a></li>
+                                  <li><a href=""><i class="fa fa-tag"></i> Dlor</a></li>
+                                  <li><a href=""><i class="fa fa-tag"></i> Lorem ipsum</a></li>
+                                  <li><a href=""><i class="fa fa-tag"></i> Google</a></li>
+                                  <li><a href=""><i class="fa fa-tag"></i> Excellent</a></li>
+                              </ul>
+
+                              <div class="text-center mtop20">
+                                  <a href="#" class="btn btn-sm btn-primary">Add files</a>
+                                  <a href="#" class="btn btn-sm btn-warning">Report contact</a>
+                              </div>
+                          </div>
+
+                      </section>
+                  </div>
+              </div>
+              <!-- page end-->
+
+      <!--main content end-->
+
+      <!-- Right Slidebar start -->
+      <div class="sb-slidebar sb-right sb-style-overlay">
+          <h5 class="side-title">Online Customers</h5>
+          <ul class="quick-chat-list">
+              <li class="online">
+                  <div class="media">
+                      <a href="#" class="pull-left media-thumb">
+                          <img alt="" src="img/chat-avatar2.jpg" class="media-object">
+                      </a>
+                      <div class="media-body">
+                          <strong>John Doe</strong>
+                          <small>Dream Land, AU</small>
+                      </div>
+                  </div><!-- media -->
+              </li>
+              <li class="online">
+                  <div class="media">
+                      <a href="#" class="pull-left media-thumb">
+                          <img alt="" src="img/chat-avatar.jpg" class="media-object">
+                      </a>
+                      <div class="media-body">
+                          <div class="media-status">
+                              <span class=" badge bg-important">3</span>
+                          </div>
+                          <strong>Jonathan Smith</strong>
+                          <small>United States</small>
+                      </div>
+                  </div><!-- media -->
+              </li>
+
+              <li class="online">
+                  <div class="media">
+                      <a href="#" class="pull-left media-thumb">
+                          <img alt="" src="img/pro-ac-1.png" class="media-object">
+                      </a>
+                      <div class="media-body">
+                          <div class="media-status">
+                              <span class=" badge bg-success">5</span>
+                          </div>
+                          <strong>Jane Doe</strong>
+                          <small>ABC, USA</small>
+                      </div>
+                  </div><!-- media -->
+              </li>
+              <li class="online">
+                  <div class="media">
+                      <a href="#" class="pull-left media-thumb">
+                          <img alt="" src="img/avatar1.jpg" class="media-object">
+                      </a>
+                      <div class="media-body">
+                          <strong>Anjelina Joli</strong>
+                          <small>Fockland, UK</small>
+                      </div>
+                  </div><!-- media -->
+              </li>
+              <li class="online">
+                  <div class="media">
+                      <a href="#" class="pull-left media-thumb">
+                          <img alt="" src="img/mail-avatar.jpg" class="media-object">
+                      </a>
+                      <div class="media-body">
+                          <div class="media-status">
+                              <span class=" badge bg-warning">7</span>
+                          </div>
+                          <strong>Mr Tasi</strong>
+                          <small>Dream Land, USA</small>
+                      </div>
+                  </div><!-- media -->
+              </li>
+          </ul>
+          <h5 class="side-title"> pending Task</h5>
+          <ul class="p-task tasks-bar">
+              <li>
+                  <a href="#">
+                      <div class="task-info">
+                          <div class="desc">Dashboard v1.3</div>
+                          <div class="percent">40%</div>
+                      </div>
+                      <div class="progress progress-striped">
+                          <div style="width: 40%" aria-valuemax="100" aria-valuemin="0" aria-valuenow="40" role="progressbar" class="progress-bar progress-bar-success">
+                              <span class="sr-only">40% Complete (success)</span>
+                          </div>
+                      </div>
+                  </a>
+              </li>
+              <li>
+                  <a href="#">
+                      <div class="task-info">
+                          <div class="desc">Database Update</div>
+                          <div class="percent">60%</div>
+                      </div>
+                      <div class="progress progress-striped">
+                          <div style="width: 60%" aria-valuemax="100" aria-valuemin="0" aria-valuenow="60" role="progressbar" class="progress-bar progress-bar-warning">
+                              <span class="sr-only">60% Complete (warning)</span>
+                          </div>
+                      </div>
+                  </a>
+              </li>
+              <li>
+                  <a href="#">
+                      <div class="task-info">
+                          <div class="desc">Iphone Development</div>
+                          <div class="percent">87%</div>
+                      </div>
+                      <div class="progress progress-striped">
+                          <div style="width: 87%" aria-valuemax="100" aria-valuemin="0" aria-valuenow="20" role="progressbar" class="progress-bar progress-bar-info">
+                              <span class="sr-only">87% Complete</span>
+                          </div>
+                      </div>
+                  </a>
+              </li>
+              <li>
+                  <a href="#">
+                      <div class="task-info">
+                          <div class="desc">Mobile App</div>
+                          <div class="percent">33%</div>
+                      </div>
+                      <div class="progress progress-striped">
+                          <div style="width: 33%" aria-valuemax="100" aria-valuemin="0" aria-valuenow="80" role="progressbar" class="progress-bar progress-bar-danger">
+                              <span class="sr-only">33% Complete (danger)</span>
+                          </div>
+                      </div>
+                  </a>
+              </li>
+              <li>
+                  <a href="#">
+                      <div class="task-info">
+                          <div class="desc">Dashboard v1.3</div>
+                          <div class="percent">45%</div>
+                      </div>
+                      <div class="progress progress-striped active">
+                          <div style="width: 45%" aria-valuemax="100" aria-valuemin="0" aria-valuenow="45" role="progressbar" class="progress-bar">
+                              <span class="sr-only">45% Complete</span>
+                          </div>
+                      </div>
+
+                  </a>
+              </li>
+              <li class="external">
+                  <a href="#">See All Tasks</a>
+              </li>
+          </ul>
+      </div>
+      <!-- Right Slidebar end -->
+
+      <!--footer start-->
+  
+      <!--footer end-->
+
+
