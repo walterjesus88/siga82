@@ -50,6 +50,32 @@ class Admin_Model_DbTable_Propuesta extends Zend_Db_Table_Abstract
         }
     }
 
+    public function _buscarPropuesta($propuesta)
+     {
+        try{
+            $sql=$this->_db->query("
+               select * from propuesta where lower(nombre_propuesta) like '%$propuesta%'
+               order by propuestaid desc
+
+            ");
+            $row=$sql->fetchAll();
+            return $row;           
+            }  
+            
+           catch (Exception $ex){
+            print $ex->getMessage();
+        }
+    }
+
+    public function _update($data,$str=''){
+        try{
+            if ($str=="") return false;
+            return $this->update($data,$str);
+        }catch (Exception $ex){
+            print "Error: Actualizando un registro de Propuesta".$ex->getMessage();
+        }
+    }
+
 
 
 }
