@@ -20,6 +20,9 @@
               <div class="input-group"><input id="buscar_propuesta" type="text" placeholder="Buscar Propuesta" class="input-sm form-control"> <span class="input-group-btn">
               <button id="btn_buscar_propuesta" type="button" class="btn btn-sm btn-success"> Buscar!</button> 
 <a href="/propuesta/index/nuevo" class=" btn btn-primary btn-sm" > Crear</a>
+<a href="/propuesta/index/reporteexcel" class=" btn btn-danger btn-sm " > Exportar</a>
+
+
               </span></div>
           </div>
       </div>
@@ -83,6 +86,7 @@
                     <li><a href="/propuesta/index/cambiar/propuestaid/<?php echo $lista['propuestaid']?>/revision/<?php echo $lista['revision']?>/codigo/<?php echo $lista['codigo_prop_proy']?>/estado/E">Enviada</a></li>
                     <li><a href="/propuesta/index/cambiar/propuestaid/<?php echo $lista['propuestaid']?>/revision/<?php echo $lista['revision']?>/codigo/<?php echo $lista['codigo_prop_proy']?>/estado/D">Declinada</a></li>
                     <li><a href="/propuesta/index/cambiar/propuestaid/<?php echo $lista['propuestaid']?>/revision/<?php echo $lista['revision']?>/codigo/<?php echo $lista['codigo_prop_proy']?>/estado/A">Anulada</a></li>
+                    <li><a href="/propuesta/index/cambiar/propuestaid/<?php echo $lista['propuestaid']?>/revision/<?php echo $lista['revision']?>/codigo/<?php echo $lista['codigo_prop_proy']?>/estado/S">Superada</a></li>
                 </ul>
             </div>
             </td>
@@ -106,11 +110,11 @@
   <table class="table table-hover p-table">
       <thead>
       <tr>  
-          <th style="width: 10%;">Codigo</th>
+           <th style="width: 10%;">Codigo</th>
           <th style="width: 5%;">Revisión</th>
           <th style="width: 30%;">Cliente</th>
-          <th style="width: 45%;">Nombre</th>
-          <th style="width: 10%;">Status</th>
+          <th style="width: 35%;">Nombre</th>
+          <th style="width: 20%;">Status</th>
           <th style="width: 10%;">Operaciones</th>
       </tr>
       </thead>
@@ -152,18 +156,18 @@
                         <span class="label label-primary label-mini">Ganada</span><?php
                     }
                 ?>
-            <!-- Habilitar cambio estado d elas propuesta sganadas -->
-            <!--
+            
             <div class="btn-group">
                 <button data-toggle="dropdown" class="btn btn-info dropdown-toggle btn-xs" type="button" aria-expanded="false">Modificar<span class="caret"></span></button>
                 <ul role="menu" class="dropdown-menu">
-                    <li><a href="/propuesta/index/cambiar/propuestaid/<?php echo $lista['propuestaid']?>/revision/<?php echo $lista['revision']?>/codigo/<?php echo $lista['codigo_prop_proy']?>/estado/G">Ganada</a></li>
+                    <li><a href="/propuesta/index/cambiar/propuestaid/<?php echo $lista['propuestaid']?>/revision/<?php echo $lista['revision']?>/codigo/<?php echo $lista['codigo_prop_proy']?>/estado/EE">En Elaboración</a></li>
                     <li><a href="/propuesta/index/cambiar/propuestaid/<?php echo $lista['propuestaid']?>/revision/<?php echo $lista['revision']?>/codigo/<?php echo $lista['codigo_prop_proy']?>/estado/P">Perdida</a></li>
                     <li><a href="/propuesta/index/cambiar/propuestaid/<?php echo $lista['propuestaid']?>/revision/<?php echo $lista['revision']?>/codigo/<?php echo $lista['codigo_prop_proy']?>/estado/E">Enviada</a></li>
                     <li><a href="/propuesta/index/cambiar/propuestaid/<?php echo $lista['propuestaid']?>/revision/<?php echo $lista['revision']?>/codigo/<?php echo $lista['codigo_prop_proy']?>/estado/D">Declinada</a></li>
                     <li><a href="/propuesta/index/cambiar/propuestaid/<?php echo $lista['propuestaid']?>/revision/<?php echo $lista['revision']?>/codigo/<?php echo $lista['codigo_prop_proy']?>/estado/A">Anulada</a></li>
+                    <li><a href="/propuesta/index/cambiar/propuestaid/<?php echo $lista['propuestaid']?>/revision/<?php echo $lista['revision']?>/codigo/<?php echo $lista['codigo_prop_proy']?>/estado/S">Superada</a></li>
                 </ul>
-            </div>-->
+            </div>
             </td>
           <td>
               <a href="/propuesta/index/ver/propuestaid/<?php echo $lista['propuestaid']?>/revision/<?php echo $lista['revision']?>/codigo/<?php echo $lista['codigo_prop_proy']?>"
@@ -188,8 +192,8 @@
           <th style="width: 10%;">Codigo</th>
           <th style="width: 5%;">Revisión</th>
           <th style="width: 30%;">Cliente</th>
-          <th style="width: 45%;">Nombre</th>
-          <th style="width: 10%;">Status</th>
+          <th style="width: 35%;">Nombre</th>
+          <th style="width: 20%;">Status</th>
           <th style="width: 10%;">Operaciones</th>
       </tr>
       </thead>
@@ -222,8 +226,10 @@
             <td class="p-name">
                 <?php echo $lista['nombre_propuesta']; ?>  
             </td>
-          
-            <td>
+            
+
+
+              <td>
                 <?php
                 if ($lista['estado_propuesta']=='P') 
                     {
@@ -231,19 +237,21 @@
                         <span class="label label-danger label-mini">Perdida</span><?php
                     }
                 ?>
-            <!-- Habilitar cambio estado d elas propuesta sganadas -->
-            <!--
+            
             <div class="btn-group">
                 <button data-toggle="dropdown" class="btn btn-info dropdown-toggle btn-xs" type="button" aria-expanded="false">Modificar<span class="caret"></span></button>
                 <ul role="menu" class="dropdown-menu">
-                    <li><a href="/propuesta/index/cambiar/propuestaid/<?php echo $lista['propuestaid']?>/revision/<?php echo $lista['revision']?>/codigo/<?php echo $lista['codigo_prop_proy']?>/estado/G">Ganada</a></li>
-                    <li><a href="/propuesta/index/cambiar/propuestaid/<?php echo $lista['propuestaid']?>/revision/<?php echo $lista['revision']?>/codigo/<?php echo $lista['codigo_prop_proy']?>/estado/P">Perdida</a></li>
+                    <li><a href="/propuesta/index/cambiar/propuestaid/<?php echo $lista['propuestaid']?>/revision/<?php echo $lista['revision']?>/codigo/<?php echo $lista['codigo_prop_proy']?>/estado/EE">En Elaboración</a></li>
+                  <li><a href="/propuesta/index/cambiar/propuestaid/<?php echo $lista['propuestaid']?>/revision/<?php echo $lista['revision']?>/codigo/<?php echo $lista['codigo_prop_proy']?>/estado/G">Ganada</a></li>
                     <li><a href="/propuesta/index/cambiar/propuestaid/<?php echo $lista['propuestaid']?>/revision/<?php echo $lista['revision']?>/codigo/<?php echo $lista['codigo_prop_proy']?>/estado/E">Enviada</a></li>
                     <li><a href="/propuesta/index/cambiar/propuestaid/<?php echo $lista['propuestaid']?>/revision/<?php echo $lista['revision']?>/codigo/<?php echo $lista['codigo_prop_proy']?>/estado/D">Declinada</a></li>
                     <li><a href="/propuesta/index/cambiar/propuestaid/<?php echo $lista['propuestaid']?>/revision/<?php echo $lista['revision']?>/codigo/<?php echo $lista['codigo_prop_proy']?>/estado/A">Anulada</a></li>
+                    <li><a href="/propuesta/index/cambiar/propuestaid/<?php echo $lista['propuestaid']?>/revision/<?php echo $lista['revision']?>/codigo/<?php echo $lista['codigo_prop_proy']?>/estado/S">Superada</a></li>
                 </ul>
-            </div>-->
+            </div>
             </td>
+
+
           <td>
               <a href="/propuesta/index/ver/propuestaid/<?php echo $lista['propuestaid']?>/revision/<?php echo $lista['revision']?>/codigo/<?php echo $lista['codigo_prop_proy']?>"
                class="btn btn-primary btn-xs"><i class="fa fa-folder"></i></a>
@@ -314,10 +322,12 @@
             <div class="btn-group">
                 <button data-toggle="dropdown" class="btn btn-info dropdown-toggle btn-xs" type="button" aria-expanded="false">Modificar<span class="caret"></span></button>
                 <ul role="menu" class="dropdown-menu">
+                   <li><a href="/propuesta/index/cambiar/propuestaid/<?php echo $lista['propuestaid']?>/revision/<?php echo $lista['revision']?>/codigo/<?php echo $lista['codigo_prop_proy']?>/estado/EE">En Elaboración</a></li>
                     <li><a href="/propuesta/index/cambiar/propuestaid/<?php echo $lista['propuestaid']?>/revision/<?php echo $lista['revision']?>/codigo/<?php echo $lista['codigo_prop_proy']?>/estado/G">Ganada</a></li>
-                    <li><a href="/propuesta/index/cambiar/propuestaid/<?php echo $lista['propuestaid']?>/revision/<?php echo $lista['revision']?>/codigo/<?php echo $lista['codigo_prop_proy']?>/estado/P">Perdida</a></li>
+                    <li><a href="/propuesta/index/cambiar/propuestaid/<?php echo $lista['propuestaid']?>/revision/<?php echo $lista['revision']?>/codigo/<?php echo $lista['codigo_prop_proy']?>/estado/P">Perdida</a></li>       
                     <li><a href="/propuesta/index/cambiar/propuestaid/<?php echo $lista['propuestaid']?>/revision/<?php echo $lista['revision']?>/codigo/<?php echo $lista['codigo_prop_proy']?>/estado/D">Declinada</a></li>
                     <li><a href="/propuesta/index/cambiar/propuestaid/<?php echo $lista['propuestaid']?>/revision/<?php echo $lista['revision']?>/codigo/<?php echo $lista['codigo_prop_proy']?>/estado/A">Anulada</a></li>
+                    <li><a href="/propuesta/index/cambiar/propuestaid/<?php echo $lista['propuestaid']?>/revision/<?php echo $lista['revision']?>/codigo/<?php echo $lista['codigo_prop_proy']?>/estado/S">Superada</a></li>
                 </ul>
             </div>
             </td>
@@ -343,11 +353,11 @@
   <table class="table table-hover p-table">
       <thead>
       <tr>  
-          <th style="width: 10%;">Codigo</th>
+         <th style="width: 10%;">Codigo</th>
           <th style="width: 5%;">Revisión</th>
           <th style="width: 30%;">Cliente</th>
-          <th style="width: 45%;">Nombre</th>
-          <th style="width: 10%;">Status</th>
+          <th style="width: 35%;">Nombre</th>
+          <th style="width: 20%;">Status</th>
           <th style="width: 10%;">Operaciones</th>
       </tr>
       </thead>
@@ -389,18 +399,18 @@
                         <span class="label label-default label-mini">Declinada</span><?php
                     }
                 ?>
-            <!-- Habilitar cambio estado d elas propuesta sganadas -->
-            <!--
+            
             <div class="btn-group">
                 <button data-toggle="dropdown" class="btn btn-info dropdown-toggle btn-xs" type="button" aria-expanded="false">Modificar<span class="caret"></span></button>
                 <ul role="menu" class="dropdown-menu">
+                    <li><a href="/propuesta/index/cambiar/propuestaid/<?php echo $lista['propuestaid']?>/revision/<?php echo $lista['revision']?>/codigo/<?php echo $lista['codigo_prop_proy']?>/estado/EE">En Elaboración</a></li>
                     <li><a href="/propuesta/index/cambiar/propuestaid/<?php echo $lista['propuestaid']?>/revision/<?php echo $lista['revision']?>/codigo/<?php echo $lista['codigo_prop_proy']?>/estado/G">Ganada</a></li>
                     <li><a href="/propuesta/index/cambiar/propuestaid/<?php echo $lista['propuestaid']?>/revision/<?php echo $lista['revision']?>/codigo/<?php echo $lista['codigo_prop_proy']?>/estado/P">Perdida</a></li>
-                    <li><a href="/propuesta/index/cambiar/propuestaid/<?php echo $lista['propuestaid']?>/revision/<?php echo $lista['revision']?>/codigo/<?php echo $lista['codigo_prop_proy']?>/estado/E">Enviada</a></li>
-                    <li><a href="/propuesta/index/cambiar/propuestaid/<?php echo $lista['propuestaid']?>/revision/<?php echo $lista['revision']?>/codigo/<?php echo $lista['codigo_prop_proy']?>/estado/D">Declinada</a></li>
+                    <li><a href="/propuesta/index/cambiar/propuestaid/<?php echo $lista['propuestaid']?>/revision/<?php echo $lista['revision']?>/codigo/<?php echo $lista['codigo_prop_proy']?>/estado/E">Enviada</a></li>                   
                     <li><a href="/propuesta/index/cambiar/propuestaid/<?php echo $lista['propuestaid']?>/revision/<?php echo $lista['revision']?>/codigo/<?php echo $lista['codigo_prop_proy']?>/estado/A">Anulada</a></li>
+                    <li><a href="/propuesta/index/cambiar/propuestaid/<?php echo $lista['propuestaid']?>/revision/<?php echo $lista['revision']?>/codigo/<?php echo $lista['codigo_prop_proy']?>/estado/S">Superada</a></li>
                 </ul>
-            </div>-->
+            </div>
             </td>
           <td>
               <a href="/propuesta/index/ver/propuestaid/<?php echo $lista['propuestaid']?>/revision/<?php echo $lista['revision']?>/codigo/<?php echo $lista['codigo_prop_proy']?>"
@@ -422,11 +432,11 @@
   <table class="table table-hover p-table">
       <thead>
       <tr>  
-          <th style="width: 10%;">Codigo</th>
+         <th style="width: 10%;">Codigo</th>
           <th style="width: 5%;">Revisión</th>
           <th style="width: 30%;">Cliente</th>
-          <th style="width: 45%;">Nombre</th>
-          <th style="width: 10%;">Status</th>
+          <th style="width: 35%;">Nombre</th>
+          <th style="width: 20%;">Status</th>
           <th style="width: 10%;">Operaciones</th>
       </tr>
       </thead>
@@ -467,19 +477,18 @@
                         ?>
                         <span class="label label-info label-mini">Anulada</span><?php
                     }
-                ?>
-            <!-- Habilitar cambio estado d elas propuesta sganadas -->
-            <!--
+                ?>           
             <div class="btn-group">
                 <button data-toggle="dropdown" class="btn btn-info dropdown-toggle btn-xs" type="button" aria-expanded="false">Modificar<span class="caret"></span></button>
                 <ul role="menu" class="dropdown-menu">
+                    <li><a href="/propuesta/index/cambiar/propuestaid/<?php echo $lista['propuestaid']?>/revision/<?php echo $lista['revision']?>/codigo/<?php echo $lista['codigo_prop_proy']?>/estado/EE">En Elaboración</a></li>
                     <li><a href="/propuesta/index/cambiar/propuestaid/<?php echo $lista['propuestaid']?>/revision/<?php echo $lista['revision']?>/codigo/<?php echo $lista['codigo_prop_proy']?>/estado/G">Ganada</a></li>
                     <li><a href="/propuesta/index/cambiar/propuestaid/<?php echo $lista['propuestaid']?>/revision/<?php echo $lista['revision']?>/codigo/<?php echo $lista['codigo_prop_proy']?>/estado/P">Perdida</a></li>
                     <li><a href="/propuesta/index/cambiar/propuestaid/<?php echo $lista['propuestaid']?>/revision/<?php echo $lista['revision']?>/codigo/<?php echo $lista['codigo_prop_proy']?>/estado/E">Enviada</a></li>
-                    <li><a href="/propuesta/index/cambiar/propuestaid/<?php echo $lista['propuestaid']?>/revision/<?php echo $lista['revision']?>/codigo/<?php echo $lista['codigo_prop_proy']?>/estado/D">Declinada</a></li>
-                    <li><a href="/propuesta/index/cambiar/propuestaid/<?php echo $lista['propuestaid']?>/revision/<?php echo $lista['revision']?>/codigo/<?php echo $lista['codigo_prop_proy']?>/estado/A">Anulada</a></li>
+                    <li><a href="/propuesta/index/cambiar/propuestaid/<?php echo $lista['propuestaid']?>/revision/<?php echo $lista['revision']?>/codigo/<?php echo $lista['codigo_prop_proy']?>/estado/D">Declinada</a></li>             
+                    <li><a href="/propuesta/index/cambiar/propuestaid/<?php echo $lista['propuestaid']?>/revision/<?php echo $lista['revision']?>/codigo/<?php echo $lista['codigo_prop_proy']?>/estado/S">Superada</a></li>
                 </ul>
-            </div>-->
+            </div>
             </td>
           <td>
               <a href="/propuesta/index/ver/propuestaid/<?php echo $lista['propuestaid']?>/revision/<?php echo $lista['revision']?>/codigo/<?php echo $lista['codigo_prop_proy']?>"

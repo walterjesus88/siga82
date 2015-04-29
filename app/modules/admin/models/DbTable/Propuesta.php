@@ -54,8 +54,10 @@ class Admin_Model_DbTable_Propuesta extends Zend_Db_Table_Abstract
      {
         try{
             $sql=$this->_db->query("
-               select * from propuesta where lower(nombre_propuesta) like '%$propuesta%'
-               order by propuestaid desc
+                select * from propuesta as pro inner join cliente as cli on
+                pro.clienteid=cli.clienteid where lower(pro.nombre_propuesta) like '%$propuesta%' 
+                or lower(cli.nombre_comercial) like '%$propuesta%'
+                order by pro.orden_estado asc
 
             ");
             $row=$sql->fetchAll();
