@@ -110,7 +110,7 @@ class Propuesta_IndexController extends Zend_Controller_Action {
         include ($dir);
         //require_once dirname(__FILE__) . '/../Classes/PHPExcel.php';
         $listapropuesta = new Admin_Model_DbTable_Propuesta();
-        $status_propuesta=$this->_getParam('status_propuesta');
+        //$status_propuesta=$this->_getParam('status_propuesta');
         If($status_propuesta=='EE'){
         $status="En Elaboración";}
         $lista_enelaboracion=$listapropuesta->_getPropuestaAllOrdenadoxEstadoPropuesta($status_propuesta);

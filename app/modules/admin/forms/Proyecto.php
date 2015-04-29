@@ -11,14 +11,8 @@ class Admin_Form_Proyecto extends Zend_Form{
     $proyectoid->setAttrib("maxlength", "100");
     $proyectoid->setAttrib('class', 'form-control');
         
-    $codigo_prop_proy= new Zend_Form_Element_Text('codigo_prop_proy');
-    $codigo_prop_proy->setRequired(true)->addErrorMessage('Este campo es requerido');
-    $codigo_prop_proy->removeDecorator('Label')->removeDecorator("HtmlTag");
-    $codigo_prop_proy->setAttrib("maxlength", "100");
-    $codigo_prop_proy->setAttrib('class', 'form-control');
   
     $nombre_proyecto= new Zend_Form_Element_Text('nombre_proyecto');
-    $nombre_proyecto->setRequired(true)->addErrorMessage('Este campo es requerido');
     $nombre_proyecto->removeDecorator('Label')->removeDecorator("HtmlTag");
     $nombre_proyecto->setAttrib("maxlength", "100");
     $nombre_proyecto->setAttrib('class', 'form-control');
@@ -28,7 +22,6 @@ class Admin_Form_Proyecto extends Zend_Form{
     $revision->removeDecorator('Label')->removeDecorator("HtmlTag");
     $revision->setAttrib("maxlength", "100");
     $revision->setAttrib('class', 'form-control');
-
 
 
     $fecha_inicio= new Zend_Form_Element_Text('fecha_inicio');
@@ -46,6 +39,19 @@ class Admin_Form_Proyecto extends Zend_Form{
     foreach ($listpropuesta as $propuesta ){        
         $propuestaid->addMultiOption($propuesta['propuestaid'],$propuesta['nombre_propuesta']);
     }
+
+    $codigo_prop_proy= new Zend_Form_Element_Text('codigo_prop_proy');
+    $codigo_prop_proy->setRequired(true)->addErrorMessage('Este campo es requerido');
+    $codigo_prop_proy->removeDecorator('Label')->removeDecorator("HtmlTag");
+    $codigo_prop_proy->setAttrib("maxlength", "100");
+    $codigo_prop_proy->setAttrib('class', 'form-control');
+    // $bdcodigo_prop_proy = new Admin_Model_DbTable_Propuesta();   
+    // $data['propuestaid']=$propuestaid;        
+    // $attr = "";
+    // $rows = $bdcodigo_prop_proy->_getFilter($data,$attr);    
+    // $codigo_prop_proy->addMultiOption('0',$rows['codigo_prop_proy']);
+
+
 
     $clienteid= new Zend_Form_Element_Select('clienteid');
     $clienteid->removeDecorator('Label')->removeDecorator("HtmlTag");

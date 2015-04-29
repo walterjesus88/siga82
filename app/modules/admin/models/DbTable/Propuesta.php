@@ -50,6 +50,7 @@ class Admin_Model_DbTable_Propuesta extends Zend_Db_Table_Abstract
         }
     }
 
+
     public function _buscarPropuesta($propuesta)
      {
         try{
@@ -60,6 +61,17 @@ class Admin_Model_DbTable_Propuesta extends Zend_Db_Table_Abstract
                 order by pro.orden_estado asc
 
             ");
+ } 
+ catch (Exception $ex){
+            print $ex->getMessage();
+        }
+    }
+
+    public function _getFilter($propuestaid){
+        try{
+            $sql=$this->_db->query("
+               select * from propuesta 
+               where propuestaid='$propuestaid' and isproyecto='S' ");
             $row=$sql->fetchAll();
             return $row;           
             }  
@@ -69,6 +81,7 @@ class Admin_Model_DbTable_Propuesta extends Zend_Db_Table_Abstract
         }
     }
 
+
     public function _update($data,$str=''){
         try{
             if ($str=="") return false;
@@ -77,6 +90,7 @@ class Admin_Model_DbTable_Propuesta extends Zend_Db_Table_Abstract
             print "Error: Actualizando un registro de Propuesta".$ex->getMessage();
         }
     }
+
 
 
 
