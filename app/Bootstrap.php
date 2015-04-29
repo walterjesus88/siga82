@@ -30,7 +30,6 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
                         ->headScript()->appendFile('/js/jquery.customSelect.min.js')
                         ->headScript()->appendFile('/js/respond.min.js')
                         ->headScript()->appendFile('/js/slidebars.min.js')
-                        ->headScript()->appendFile('/js/common-scripts.js')
                         ->headScript()->appendFile('/js/sparkline-chart.js')
                         ->headScript()->appendFile('/js/easy-pie-chart.js')
                         ->headScript()->appendFile('/js/count.js');
