@@ -1,4 +1,3 @@
-
 <!-- page start-->
 
 <div class="row">
@@ -6,193 +5,184 @@
     <div class="col-lg-6">
         <section class="panel">
             <header class="panel-heading">
-                Propuesta - Cliente
+                Nueva Propuesta - Cliente
             </header>
+           
             <div class="panel-body">
                 <form class="form-horizontal" role="form">
                     <div class="form-group">
-                        <label for="inputEmail1" class="col-lg-2 col-sm-2 control-label">Codigo</label>
+                        <label for="cliente" class="col-lg-2 col-sm-2 control-label">Cliente</label>
                         <div class="col-lg-10">
-                            <input type="email" class="form-control" id="inputEmail1" placeholder="Email">
+                        <select id="cliente" class="form-control input-sm m-bot15 col-lg-10">
+                            <option>Option 1</option>
+                            <option>Option 2</option>
+                            <option>Option 3</option>
+                        </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="unidad" class="col-lg-2 col-sm-2 control-label">Unidad Minera</label>
+                        <div class="col-lg-10">
+                        <select id="unidad" class="form-control input-sm m-bot15 col-lg-10">
+                            <option>Option 1</option>
+                            <option>Option 2</option>
+                            <option>Option 3</option>
+                        </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="propuestaid" class="col-lg-2 col-sm-2 control-label">Codigo</label>
+                        <div class="col-lg-3">
+                            <input class="form-control" id="propuestaid">
                          
                         </div>
+                        <label for="revision" class="col-lg-2 col-sm-2 control-label">Revision</label>
+                        <div class="col-lg-3">
+                            <input class="form-control" id="revision">
+                        </div>
                     </div>
                     <div class="form-group">
-                        <label for="inputPassword1" class="col-lg-2 col-sm-2 control-label">Revisión</label>
+                        <label for="nombre_propuesta" class="col-lg-2 col-sm-2 control-label">Nombre</label>
                         <div class="col-lg-10">
-                            <input type="password" class="form-control" id="inputPassword1" placeholder="Password">
+                            <input class="form-control" id="nombrepropuesta" >
                         </div>
                     </div>
+                    
                     <div class="form-group">
                         <div class="col-lg-offset-2 col-lg-10">
-                            <div class="checkbox">
-                                <label>
-                                    <input type="checkbox"> Remember me
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-lg-offset-2 col-lg-10">
-                            <button type="submit" class="btn btn-danger">Sign in</button>
+                            <button type="submit" class="btn btn-success" id="guardar_cliente">Guardar</button>
                         </div>
                     </div>
                 </form>
             </div>
         </section>
+    </div>
+    <div class="col-lg-6">
         <section class="panel">
-
+            <header class="panel-heading">
+                Nueva Propuesta - Datos del Equipo
+            </header>
+           
             <div class="panel-body">
-                <a href="#myModal" data-toggle="modal" class="btn btn-xs btn-success">
-                    Form in Modal
-                </a>
-                <a href="#myModal-1" data-toggle="modal" class="btn btn-xs btn-warning">
-                    Form in Modal 2
-                </a>
-                <a href="#myModal-2" data-toggle="modal" class="btn btn-xs btn-danger">
-                    Form in Modal 3
-                </a>
-
-                <div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="myModal" class="modal fade">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <button aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button>
-                                <h4 class="modal-title">Form Tittle</h4>
-                            </div>
-                            <div class="modal-body">
-
-                                <form role="form">
-                                    <div class="form-group">
-                                        <label for="exampleInputEmail1">Email address</label>
-                                        <input type="email" class="form-control" id="exampleInputEmail3" placeholder="Enter email">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="exampleInputPassword1">Password</label>
-                                        <input type="password" class="form-control" id="exampleInputPassword3" placeholder="Password">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="exampleInputFile">File input</label>
-                                        <input type="file" id="exampleInputFile3">
-                                        <p class="help-block">Example block-level help text here.</p>
-                                    </div>
-                                    <div class="checkbox">
-                                        <label>
-                                            <input type="checkbox"> Check me out
-                                        </label>
-                                    </div>
-                                    <button type="submit" class="btn btn-default">Submit</button>
-                                </form>
-                            </div>
+                <form class="form-horizontal" role="form">
+                    <div class="form-group">
+                        <label for="responsable" class="col-lg-4 col-sm-4 control-label">Responsable</label>
+                        <div class="col-lg-6">
+                        <select id="responsable" class="form-control input-sm m-bot15 col-lg-10">
+                            <option>Option 1</option>
+                            <option>Option 2</option>
+                            <option>Option 3</option>
+                        </select>
                         </div>
                     </div>
-                </div>
-                <div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="myModal-1" class="modal fade">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <button aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button>
-                                <h4 class="modal-title">Form Tittle</h4>
-                            </div>
-                            <div class="modal-body">
 
-                                <form class="form-horizontal" role="form">
-                                    <div class="form-group">
-                                        <label for="inputEmail1" class="col-lg-2 col-sm-2 control-label">Email</label>
-                                        <div class="col-lg-10">
-                                            <input type="email" class="form-control" id="inputEmail4" placeholder="Email">
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="inputPassword1" class="col-lg-2 col-sm-2 control-label">Password</label>
-                                        <div class="col-lg-10">
-                                            <input type="password" class="form-control" id="inputPassword4" placeholder="Password">
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <div class="col-lg-offset-2 col-lg-10">
-                                            <div class="checkbox">
-                                                <label>
-                                                    <input type="checkbox"> Remember me
-                                                </label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <div class="col-lg-offset-2 col-lg-10">
-                                            <button type="submit" class="btn btn-default">Sign in</button>
-                                        </div>
-                                    </div>
-                                </form>
-
-                            </div>
-
+                    <div class="form-group">
+                        <label for="revisor" class="col-lg-4 col-sm-4 control-label">Revisor Principal</label>
+                        <div class="col-lg-6">
+                        <select id='revisor' class="form-control input-sm m-bot15 col-lg-10">
+                            <option>Option 1</option>
+                            <option>Option 2</option>
+                            <option>Option 3</option>
+                        </select>
                         </div>
                     </div>
-                </div>
-                <div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="myModal-2" class="modal fade">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <button aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button>
-                                <h4 class="modal-title">Form Tittle</h4>
-                            </div>
-                            <div class="modal-body">
-                                <form class="form-inline" role="form">
-                                    <div class="form-group">
-                                        <label class="sr-only" for="exampleInputEmail2">Email address</label>
-                                        <input type="email" class="form-control sm-input" id="exampleInputEmail5" placeholder="Enter email">
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="sr-only" for="exampleInputPassword2">Password</label>
-                                        <input type="password" class="form-control sm-input" id="exampleInputPassword5" placeholder="Password">
-                                    </div>
-                                    <div class="checkbox">
-                                        <label>
-                                            <input type="checkbox"> Remember me
-                                        </label>
-                                    </div>
-                                    <button type="submit" class="btn btn-default">Sign in</button>
-                                </form>
 
-                            </div>
-
+                    <div class="form-group">
+                        <label for="gerente" class="col-lg-4 col-sm-4 control-label">Gerente Proyecto</label>
+                        <div class="col-lg-6">
+                        <select id="gerente" class="form-control input-sm m-bot15 col-lg-10">
+                            <option>Option 1</option>
+                            <option>Option 2</option>
+                            <option>Option 3</option>
+                        </select>
                         </div>
                     </div>
-                </div>
+
+                    <div class="form-group">
+                        <label for="control_documnetario" class="col-lg-4 col-sm-4 control-label">Control Documentario</label>
+                        <div class="col-lg-6">
+                        <select id='control_documentario' class="form-control input-sm m-bot15 col-lg-10">
+                            <option>Option 1</option>
+                            <option>Option 2</option>
+                            <option>Option 3</option>
+                        </select>
+                        </div>
+                    </div>
+                    
+                    <div class="panel-body">
+                                                    <button type="submit" class="btn btn-success" id="guardar_equipo">Guardar</button>
+                        
+                    </div>
+                </form>
             </div>
         </section>
     </div>
 </div>
 <div class="row">
-    <div class="col-lg-6">
+  <div class="col-lg-6">
         <section class="panel">
             <header class="panel-heading">
-                Iconic field
+                Datos Propuesta 
             </header>
+           
             <div class="panel-body">
-                <form role="form">
+                <form class="form-horizontal" role="form">
                     <div class="form-group">
-                        <label>Left Icon</label>
-                        <div class="iconic-input">
-                            <i class="fa fa-bullhorn"></i>
-                            <input type="text" class="form-control" placeholder="left icon">
+                        <label for="tipo_propuesta" class="col-lg-4 col-sm-4 control-label">Tipo Propuesta</label>
+                        <div class="col-lg-6">
+                        <select id="tipo propuesta" class="form-control input-sm m-bot15 col-lg-10">
+                            <option value="SA">Suma Alzada</option>
+                            <option value="CU">Costos Unitarios</option>
+                        </select>
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <label>Right Icon</label>
-                        <div class="iconic-input right">
-                            <i class="fa fa-coffee"></i>
-                            <input type="text" class="form-control" placeholder="left icon">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label>Input with Loading</label>
-                        <input type="text" class="form-control spinner" placeholder="Something Processing">
                     </div>
 
+                    <div class="form-group">
+                        <label for="estado_propuesta" class="col-lg-4 col-sm-4 control-label">Estado Propuesta</label>
+                        <div class="col-lg-6">
+                        <select id='estado_propuesta' class="form-control input-sm m-bot15 col-lg-10">
+                            <option value="G">Ganada</option>
+                            <option value="E">Enviada</option>
+                            <option value="EE">En elaboración</option>
+                            <option value="P">Perdida</option>
+                            <option value="D">Declinada</option>
+                            <option value="S">Standby</option>
+                            <option value="A">Anulada</option>
+                        </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="tipo_servicio" class="col-lg-4 col-sm-4 control-label">Tipo de Servicio</label>
+                        <div class="col-lg-6">
+                        <select id="tipo_servicio" class="form-control input-sm m-bot15 col-lg-10">
+                            <option value="AMB">Ambiental</option>
+                            <option value="TDM">TDM</option>
+                            <option value="ING">Ingeniería</option>
+                            <option value="GEO">Geotecnia</option>
+                            <option value="CON">Construcción</option>
+                        </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="control_documnetario" class="col-lg-4 col-sm-4 control-label">Control Documentario</label>
+                        <div class="col-lg-6">
+                        <select id='control_documentario' class="form-control input-sm m-bot15 col-lg-10">
+                            <option>Option 1</option>
+                            <option>Option 2</option>
+                            <option>Option 3</option>
+                        </select>
+                        </div>
+                    </div>
+                    
+                    <div class="panel-body">
+                                                    <button type="submit" class="btn btn-success" id="guardar_equipo">Guardar</button>
+                        
+                    </div>
                 </form>
-
             </div>
         </section>
     </div>
