@@ -19,8 +19,6 @@
                       <thead>
                       <tr>
                           <th>Nombre Propuesta</th>
-                          <th>Equipo Propuesta</th>
-                          <th>Progreso Propuesta</th>
                           <th>Status de la Propuesta</th>
                           <th>Operaciones</th>
                       </tr>
@@ -49,23 +47,7 @@
                                 echo $lista['nombre_propuesta'];
                           ?> </small>
                           </td>
-                          <td class="p-team">
-                              <a href="#"><img alt="image" class="" src="img/chat-avatar.jpg">
-                               
-                              </a>
-                              <a href="#"><img alt="image" class="" src="img/chat-avatar2.jpg"></a>
-                              <a href="#"><img alt="image" class="" src="img/pro-ac-1.png"></a>
-                          </td>
-                          <td class="p-progress">
-                              <div class="progress progress-xs">
-                                  <div style="width: <?php
-                                echo $lista['progreso'];
-                          ?>%;" class="progress-bar progress-bar-success"></div>
-                              </div>
-                              <small><?php
-                                echo $lista['progreso'];
-                          ?>% Completado </small>
-                          </td>
+                          
                           <td>
                               <span class="label label-primary">Activo</span>
                           </td>
