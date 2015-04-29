@@ -7,7 +7,6 @@
     }
 
     $sesion = $auth->getStorage()->read();
-    print_r($sesion);
     $name = $sesion -> personal->alias;
     $rol = $sesion -> rid;
 ?>
@@ -27,9 +26,9 @@
 	<section id="container" >
       	<!--header start-->
       	<header class="header white-bg">
-            <!-- <div class="sidebar-toggle-box">
-                <div class="fa fa-bars tooltips" data-placement="right" data-original-title="Toggle Navigation"></div>
-            </div> -->
+            <div class="sidebar-toggle-box">
+                  <div class="fa fa-bars tooltips" data-placement="right" data-original-title="Navegación"></div>
+              </div>
             <!--logo start-->
             <a href="#" class="logo"><img width="150" src="/img/logo.jpg"></a>
             <!--logo end-->
@@ -192,10 +191,11 @@
       	<!--main content end-->
     </section>
     <footer class="site-footer" style="margin-top: 10%">
-        <div class="text-center">
-            2015 &copy; Anddes Asociados
-            <a href="#" class="go-top"><i class="fa fa-angle-up"></i></a>
-        </div>
-     </footer>
+	    <div class="text-center">
+	        2015 &copy; Anddes Asociados
+	        <a href="#" class="go-top"><i class="fa fa-angle-up"></i></a>
+	    </div>
+	</footer>
+    <script src="/js/common-scripts.js"></script>
   	</body>
 </html>
