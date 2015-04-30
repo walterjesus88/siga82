@@ -9,10 +9,8 @@
     $sesion = $auth->getStorage()->read();
     $name = $sesion -> personal->alias;
     $rol = $sesion -> rid;
-<<<<<<< HEAD
-=======
     $dni = $sesion -> dni;
->>>>>>> e0c9f339b75046a64e75451edb8b5de80b28b5b4
+
 ?>
 <html lang="es">
 	<head>
@@ -76,11 +74,11 @@
                     <!-- user login dropdown start-->
                     <li class="dropdown">
                         <a data-toggle="dropdown" class="dropdown-toggle" href="#">
-<<<<<<< HEAD
+
                             <img src="/img/avatar1_small.jpg" style="border-radius : 50%">
-=======
+
                             <img src="/img/fotos-anddes/<?php print $dni ?>.jpg" style="border-radius : 50%; width : 29px ; height : 30px">
->>>>>>> e0c9f339b75046a64e75451edb8b5de80b28b5b4
+
                             <span class="username"><?php print $name ?></span>
                             <b class="caret"></b>
                         </a>
@@ -155,7 +153,7 @@
                   		<?php
                   	}
                   	if ($rol == "PROYECTO") { ?>
-<<<<<<< HEAD
+
 
                       <li class="sub-menu">
                           <a href="/propuesta/index/listar" >
@@ -169,7 +167,7 @@
                         </ul>
                       </li>
 
-=======
+
                         <li class="sub-menu">
                             <a href="/propuesta/index/listar" >
                                 <i class="fa fa-bar-chart-o"></i>
@@ -191,7 +189,7 @@
                                 <li><a  href="/propuesta/index/nuevo">Nuevo</a></li>
                             </ul>
                         </li>
->>>>>>> e0c9f339b75046a64e75451edb8b5de80b28b5b4
+
                   		<li class="sub-menu">
 	                      	<a href="/proyecto/index/listar" >
 	                          	<i class="fa fa-archive"></i>
@@ -219,11 +217,11 @@
 
                   	<?php 
                   	} ?>
-<<<<<<< HEAD
+
 
                   	<li>
 	                   	<a  href="#">
-=======
+
                     
                     <li class="sub-menu">
                         <a href="/admin" >
@@ -248,23 +246,23 @@
                     </li>
                  	<li>
 	                   	<a href="/admin">
->>>>>>> e0c9f339b75046a64e75451edb8b5de80b28b5b4
+
 	                       	<i class="fa fa-calendar-o"></i>
 	                       	<span>Timesheet</span>
 	                   	</a>
 	               	</li>
 
 	               	<li>
-<<<<<<< HEAD
+
 	                   	<a  href="#">
-=======
+
 	                   	<a href="/admin">
->>>>>>> e0c9f339b75046a64e75451edb8b5de80b28b5b4
+
                         	<i class="fa fa-money"></i>
 	                        <span>Expense</span>
 	                    </a>
 	                </li>
-<<<<<<< HEAD
+
 
                       <li>
                       <a  href="#">
@@ -291,7 +289,7 @@
                           <span>Admin</span>
                       </a>
                   </li>
-=======
+
                     <li>
                         <a href="/admin">
                             <i class="fa fa-user"></i>
@@ -304,7 +302,7 @@
                             <span>RR. HH.</span>
                         </a>
                     </li>
->>>>>>> e0c9f339b75046a64e75451edb8b5de80b28b5b4
+
 
                   	<!--multi level menu start-->
                   	<!-- <li class="sub-menu">
