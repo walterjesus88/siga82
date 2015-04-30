@@ -14,6 +14,24 @@ class Admin_Model_DbTable_Cliente extends Zend_Db_Table_Abstract
             print "Error: Al momento de leer todas las personas".$e->getMessage();
         }
     }
+
+    public function _getClientexIndice($clienteid)
+     {
+        try{
+            $sql=$this->_db->query("
+               select * from cliente 
+               where clienteid='$clienteid'  
+
+            ");
+            $row=$sql->fetchAll();
+            return $row;           
+            }  
+            
+           catch (Exception $ex){
+            print $ex->getMessage();
+        }
+    }
+
  
 
 

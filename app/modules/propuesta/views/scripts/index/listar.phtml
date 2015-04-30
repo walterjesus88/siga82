@@ -2,21 +2,28 @@
     <header class="panel-heading">
       Lista de Propuestas
       <span class="pull-right">
-            <a href="/propuesta/index/nuevo" class=" btn btn-primary btn-xs"> Crear Propuesta</a>
-            <a id="mostrar_enelaboracion" class=" btn btn-success btn-xs"> En Elaboración</a>
-            <a id="mostrar_ganada" class=" btn btn-primary  btn-xs"> Ganada</a>
-            <a id="mostrar_perdida" class=" btn btn-danger  btn-xs"> Perdida</a>
-            <a id="mostrar_enviada" class=" btn btn-warning  btn-xs"> Enviada</a>
-            <a id="mostrar_declinada" class=" btn btn-default  btn-xs"> Declinada</a>
-            <a id="mostrar_anulada" class=" btn btn-info  btn-xs"> Anulada</a>
             
+            <a id="mostrar_enelaboracion" class=" btn btn-success btn-xs"> En Elaboración</a>
+            <a id="mostrar_enviada" class=" btn btn-warning  btn-xs"> Enviada</a>
+            <a id="mostrar_ganada" class=" btn btn-primary  btn-xs" style="background-color: #59ace2;color: #fff;"> Ganada</a>
+            <a id="mostrar_perdida" class=" btn btn-danger  btn-xs"> Perdida</a>
+            
+            <a id="mostrar_declinada" class=" btn btn-default  btn-xs"> Declinada</a>
+            <a id="mostrar_anulada" class=" btn   btn-xs" style="background-color: #8175c7;color: #fff;"> Anulada</a>
+            
+
       </span>
     </header>
     <div class="panel-body">
         <div class="row">
             <div class="col-md-12">
-              <div class="input-group"><input type="text" placeholder="Buscar Propuesta" class="input-sm form-control"> <span class="input-group-btn">
-              <button type="button" class="btn btn-sm btn-success"> Buscar!</button> </span></div>
+              <div class="input-group"><input id="buscar_propuesta" type="text" placeholder="Buscar Propuesta" class="input-sm form-control"> <span class="input-group-btn">
+              <button id="btn_buscar_propuesta" type="button" class="btn btn-sm btn-success"> Buscar!</button> 
+<a href="/propuesta/index/nuevo" class=" btn btn-primary btn-sm" > Crear</a>
+<a href="/propuesta/index/reporteexcel" class=" btn btn-danger btn-sm " > Exportar</a>
+
+
+              </span></div>
           </div>
       </div>
   </div>
@@ -25,9 +32,12 @@
   <table class="table table-hover p-table">
       <thead>
       <tr>  
-          <th>Nombre Propuesta</th>
-          <th>Status de la Propuesta</th>
-          <th>Operaciones</th>
+          <th style="width: 10%;">Codigo</th>
+          <th style="width: 5%;">Revisión</th>
+          <th style="width: 30%;">Cliente</th>
+          <th style="width: 35%;">Nombre</th>
+          <th style="width: 20%;">Status</th>
+          <th style="width: 10%;">Operaciones</th>
       </tr>
       </thead>
       <tbody>
@@ -38,47 +48,29 @@
           //print_r($lista);
         ?>  
 
-      <tr>
-          <td class="p-name">
-              <a href="project_details.html">
-              <?php
-                echo $lista['propuestaid'];
+        <tr>
+            <td class="p-name">
+            <a class="control-label">
+                <?php echo $lista['propuestaid'];?>
+                </a>
+            </td>
 
-                echo " Revisión: ";
-                echo $lista['revision'];
+            <td class="p-name">
+                <center><?php echo $lista['revision'];?>  </center>
+            </td>
 
-          ?>  
-        </a>
-              <br>
-              <small><?php
-                echo $lista['nombre_propuesta'];
-          ?> </small>
-          </td>
+            <td class="p-name">
+                <?php
+                    $buscacliente = new Admin_Model_DbTable_Cliente();
+                    $buscanombre_cliente=$buscacliente->_getClientexIndice($lista['clienteid']);
+                    print_r($buscanombre_cliente[0]['nombre_comercial']);
+                ?>  
+            </td>
+            <td class="p-name">
+                <?php echo $lista['nombre_propuesta']; ?>  
+            </td>
           
-          <td>
-                <?php
-                if ($lista['estado_propuesta']=='P') 
-                    {
-                        ?>
-                        <span class="label label-danger label-mini">Perdida</span><?php
-                    }?>
-
-                <?php
-                if ($lista['estado_propuesta']=='G') 
-                    {
-                        ?>
-                        <span class="label label-primary label-mini">Ganada</span><?php
-                    }
-                ?>
-
-                <?php
-                if ($lista['estado_propuesta']=='E') 
-                    {
-                        ?>
-                        <span class="label label-warning label-mini">Enviada</span><?php
-                    }
-                ?>
-
+            <td>
                 <?php
                 if ($lista['estado_propuesta']=='EE') 
                     {
@@ -86,38 +78,18 @@
                         <span class="label label-success label-mini">En Elaboración</span><?php
                     }
                 ?>
-                
-                <?php
-                if ($lista['estado_propuesta']=='D') 
-                    {
-                        ?>
-                        <span class="label label-default label-mini">Declinada</span><?php
-                    }
-                ?>
-
-                <?php
-                if ($lista['estado_propuesta']=='A') 
-                    {
-                        ?>
-                        <span class="label label-info label-mini">Anulada</span><?php
-                    }
-                ?>
-
-                <div class="btn-group">
-                                  <button class="btn btn-white" type="button">Cambiar</button>
-                                  <button data-toggle="dropdown" class="btn btn-white dropdown-toggle" type="button" aria-expanded="false"><span class="caret"></span></button>
-                                  <ul role="menu" class="dropdown-menu">
-                                      <li><a href="#">Action</a></li>
-                                      <li><a href="#">Another action</a></li>
-                                      <li><a href="#">Something else here</a></li>
-                                      <li class="divider"></li>
-                                      <li><a href="#">Separated link</a></li>
-                                  </ul>
-                              </div>
-
-
-                
-          </td>
+            <div class="btn-group">
+                <button data-toggle="dropdown" class="btn btn-info dropdown-toggle btn-xs" type="button" aria-expanded="false">Modificar<span class="caret"></span></button>
+                <ul role="menu" class="dropdown-menu">
+                    <li><a href="/propuesta/index/cambiar/propuestaid/<?php echo $lista['propuestaid']?>/revision/<?php echo $lista['revision']?>/codigo/<?php echo $lista['codigo_prop_proy']?>/estado/G">Ganada</a></li>
+                    <li><a href="/propuesta/index/cambiar/propuestaid/<?php echo $lista['propuestaid']?>/revision/<?php echo $lista['revision']?>/codigo/<?php echo $lista['codigo_prop_proy']?>/estado/P">Perdida</a></li>
+                    <li><a href="/propuesta/index/cambiar/propuestaid/<?php echo $lista['propuestaid']?>/revision/<?php echo $lista['revision']?>/codigo/<?php echo $lista['codigo_prop_proy']?>/estado/E">Enviada</a></li>
+                    <li><a href="/propuesta/index/cambiar/propuestaid/<?php echo $lista['propuestaid']?>/revision/<?php echo $lista['revision']?>/codigo/<?php echo $lista['codigo_prop_proy']?>/estado/D">Declinada</a></li>
+                    <li><a href="/propuesta/index/cambiar/propuestaid/<?php echo $lista['propuestaid']?>/revision/<?php echo $lista['revision']?>/codigo/<?php echo $lista['codigo_prop_proy']?>/estado/A">Anulada</a></li>
+                    <li><a href="/propuesta/index/cambiar/propuestaid/<?php echo $lista['propuestaid']?>/revision/<?php echo $lista['revision']?>/codigo/<?php echo $lista['codigo_prop_proy']?>/estado/S">Superada</a></li>
+                </ul>
+            </div>
+            </td>
           <td>
               <a href="/propuesta/index/ver/propuestaid/<?php echo $lista['propuestaid']?>/revision/<?php echo $lista['revision']?>/codigo/<?php echo $lista['codigo_prop_proy']?>"
                class="btn btn-primary btn-xs"><i class="fa fa-folder"></i></a>
@@ -138,9 +110,12 @@
   <table class="table table-hover p-table">
       <thead>
       <tr>  
-          <th>Nombre Propuesta</th>
-          <th>Status de la Propuesta</th>
-          <th>Operaciones</th>
+           <th style="width: 10%;">Codigo</th>
+          <th style="width: 5%;">Revisión</th>
+          <th style="width: 30%;">Cliente</th>
+          <th style="width: 35%;">Nombre</th>
+          <th style="width: 20%;">Status</th>
+          <th style="width: 10%;">Operaciones</th>
       </tr>
       </thead>
       <tbody>
@@ -152,30 +127,28 @@
         ?>  
 
       <tr>
-          <td class="p-name">
-              <a href="project_details.html">
-              <?php
-                echo $lista['propuestaid'];
+           <td class="p-name">
+            <a class="control-label">
+                <?php echo $lista['propuestaid'];?>
+                </a>
+            </td>
 
-                echo " Revisión: ";
-                echo $lista['revision'];
+            <td class="p-name">
+                <center><?php echo $lista['revision'];?>  </center>
+            </td>
 
-          ?>  
-        </a>
-              <br>
-              <small><?php
-                echo $lista['nombre_propuesta'];
-          ?> </small>
-          </td>
-          
-          <td>
+            <td class="p-name">
                 <?php
-                if ($lista['estado_propuesta']=='P') 
-                    {
-                        ?>
-                        <span class="label label-danger label-mini">Perdida</span><?php
-                    }?>
-
+                    $buscacliente = new Admin_Model_DbTable_Cliente();
+                    $buscanombre_cliente=$buscacliente->_getClientexIndice($lista['clienteid']);
+                    print_r($buscanombre_cliente[0]['nombre_comercial']);
+                ?>  
+            </td>
+            <td class="p-name">
+                <?php echo $lista['nombre_propuesta']; ?>  
+            </td>
+          
+            <td>
                 <?php
                 if ($lista['estado_propuesta']=='G') 
                     {
@@ -183,40 +156,19 @@
                         <span class="label label-primary label-mini">Ganada</span><?php
                     }
                 ?>
-
-                <?php
-                if ($lista['estado_propuesta']=='E') 
-                    {
-                        ?>
-                        <span class="label label-warning label-mini">Enviada</span><?php
-                    }
-                ?>
-
-                <?php
-                if ($lista['estado_propuesta']=='EE') 
-                    {
-                        ?>
-                        <span class="label label-success label-mini">En Elaboración</span><?php
-                    }
-                ?>
-                
-                <?php
-                if ($lista['estado_propuesta']=='D') 
-                    {
-                        ?>
-                        <span class="label label-default label-mini">Declinada</span><?php
-                    }
-                ?>
-
-                <?php
-                if ($lista['estado_propuesta']=='A') 
-                    {
-                        ?>
-                        <span class="label label-info label-mini">Anulada</span><?php
-                    }
-                ?>
-                
-          </td>
+            
+            <div class="btn-group">
+                <button data-toggle="dropdown" class="btn btn-info dropdown-toggle btn-xs" type="button" aria-expanded="false">Modificar<span class="caret"></span></button>
+                <ul role="menu" class="dropdown-menu">
+                    <li><a href="/propuesta/index/cambiar/propuestaid/<?php echo $lista['propuestaid']?>/revision/<?php echo $lista['revision']?>/codigo/<?php echo $lista['codigo_prop_proy']?>/estado/EE">En Elaboración</a></li>
+                    <li><a href="/propuesta/index/cambiar/propuestaid/<?php echo $lista['propuestaid']?>/revision/<?php echo $lista['revision']?>/codigo/<?php echo $lista['codigo_prop_proy']?>/estado/P">Perdida</a></li>
+                    <li><a href="/propuesta/index/cambiar/propuestaid/<?php echo $lista['propuestaid']?>/revision/<?php echo $lista['revision']?>/codigo/<?php echo $lista['codigo_prop_proy']?>/estado/E">Enviada</a></li>
+                    <li><a href="/propuesta/index/cambiar/propuestaid/<?php echo $lista['propuestaid']?>/revision/<?php echo $lista['revision']?>/codigo/<?php echo $lista['codigo_prop_proy']?>/estado/D">Declinada</a></li>
+                    <li><a href="/propuesta/index/cambiar/propuestaid/<?php echo $lista['propuestaid']?>/revision/<?php echo $lista['revision']?>/codigo/<?php echo $lista['codigo_prop_proy']?>/estado/A">Anulada</a></li>
+                    <li><a href="/propuesta/index/cambiar/propuestaid/<?php echo $lista['propuestaid']?>/revision/<?php echo $lista['revision']?>/codigo/<?php echo $lista['codigo_prop_proy']?>/estado/S">Superada</a></li>
+                </ul>
+            </div>
+            </td>
           <td>
               <a href="/propuesta/index/ver/propuestaid/<?php echo $lista['propuestaid']?>/revision/<?php echo $lista['revision']?>/codigo/<?php echo $lista['codigo_prop_proy']?>"
                class="btn btn-primary btn-xs"><i class="fa fa-folder"></i></a>
@@ -233,13 +185,16 @@
   </table>
   </div>
 
-  <div id="propuesta_perdida" style="display: none;">
+   <div id="propuesta_perdida" style="display: none;">
   <table class="table table-hover p-table">
       <thead>
       <tr>  
-          <th>Nombre Propuesta</th>
-          <th>Status de la Propuesta</th>
-          <th>Operaciones</th>
+          <th style="width: 10%;">Codigo</th>
+          <th style="width: 5%;">Revisión</th>
+          <th style="width: 30%;">Cliente</th>
+          <th style="width: 35%;">Nombre</th>
+          <th style="width: 20%;">Status</th>
+          <th style="width: 10%;">Operaciones</th>
       </tr>
       </thead>
       <tbody>
@@ -251,71 +206,52 @@
         ?>  
 
       <tr>
-          <td class="p-name">
-              <a href="project_details.html">
-              <?php
-                echo $lista['propuestaid'];
+           <td class="p-name">
+            <a class="control-label">
+                <?php echo $lista['propuestaid'];?>
+                </a>
+            </td>
 
-                echo " Revisión: ";
-                echo $lista['revision'];
+            <td class="p-name">
+                <center><?php echo $lista['revision'];?>  </center>
+            </td>
 
-          ?>  
-        </a>
-              <br>
-              <small><?php
-                echo $lista['nombre_propuesta'];
-          ?> </small>
-          </td>
-          
-          <td>
+            <td class="p-name">
+                <?php
+                    $buscacliente = new Admin_Model_DbTable_Cliente();
+                    $buscanombre_cliente=$buscacliente->_getClientexIndice($lista['clienteid']);
+                    print_r($buscanombre_cliente[0]['nombre_comercial']);
+                ?>  
+            </td>
+            <td class="p-name">
+                <?php echo $lista['nombre_propuesta']; ?>  
+            </td>
+            
+
+
+              <td>
                 <?php
                 if ($lista['estado_propuesta']=='P') 
                     {
                         ?>
                         <span class="label label-danger label-mini">Perdida</span><?php
-                    }?>
+                    }
+                ?>
+            
+            <div class="btn-group">
+                <button data-toggle="dropdown" class="btn btn-info dropdown-toggle btn-xs" type="button" aria-expanded="false">Modificar<span class="caret"></span></button>
+                <ul role="menu" class="dropdown-menu">
+                    <li><a href="/propuesta/index/cambiar/propuestaid/<?php echo $lista['propuestaid']?>/revision/<?php echo $lista['revision']?>/codigo/<?php echo $lista['codigo_prop_proy']?>/estado/EE">En Elaboración</a></li>
+                  <li><a href="/propuesta/index/cambiar/propuestaid/<?php echo $lista['propuestaid']?>/revision/<?php echo $lista['revision']?>/codigo/<?php echo $lista['codigo_prop_proy']?>/estado/G">Ganada</a></li>
+                    <li><a href="/propuesta/index/cambiar/propuestaid/<?php echo $lista['propuestaid']?>/revision/<?php echo $lista['revision']?>/codigo/<?php echo $lista['codigo_prop_proy']?>/estado/E">Enviada</a></li>
+                    <li><a href="/propuesta/index/cambiar/propuestaid/<?php echo $lista['propuestaid']?>/revision/<?php echo $lista['revision']?>/codigo/<?php echo $lista['codigo_prop_proy']?>/estado/D">Declinada</a></li>
+                    <li><a href="/propuesta/index/cambiar/propuestaid/<?php echo $lista['propuestaid']?>/revision/<?php echo $lista['revision']?>/codigo/<?php echo $lista['codigo_prop_proy']?>/estado/A">Anulada</a></li>
+                    <li><a href="/propuesta/index/cambiar/propuestaid/<?php echo $lista['propuestaid']?>/revision/<?php echo $lista['revision']?>/codigo/<?php echo $lista['codigo_prop_proy']?>/estado/S">Superada</a></li>
+                </ul>
+            </div>
+            </td>
 
-                <?php
-                if ($lista['estado_propuesta']=='G') 
-                    {
-                        ?>
-                        <span class="label label-primary label-mini">Ganada</span><?php
-                    }
-                ?>
 
-                <?php
-                if ($lista['estado_propuesta']=='E') 
-                    {
-                        ?>
-                        <span class="label label-warning label-mini">Enviada</span><?php
-                    }
-                ?>
-
-                <?php
-                if ($lista['estado_propuesta']=='EE') 
-                    {
-                        ?>
-                        <span class="label label-success label-mini">En Elaboración</span><?php
-                    }
-                ?>
-                
-                <?php
-                if ($lista['estado_propuesta']=='D') 
-                    {
-                        ?>
-                        <span class="label label-default label-mini">Declinada</span><?php
-                    }
-                ?>
-
-                <?php
-                if ($lista['estado_propuesta']=='A') 
-                    {
-                        ?>
-                        <span class="label label-info label-mini">Anulada</span><?php
-                    }
-                ?>
-                
-          </td>
           <td>
               <a href="/propuesta/index/ver/propuestaid/<?php echo $lista['propuestaid']?>/revision/<?php echo $lista['revision']?>/codigo/<?php echo $lista['codigo_prop_proy']?>"
                class="btn btn-primary btn-xs"><i class="fa fa-folder"></i></a>
@@ -332,13 +268,17 @@
   </table>
   </div>
 
-    <div id="propuesta_enviada" style="display: none;">
+
+  <div id="propuesta_enviada" style="display: none;">
   <table class="table table-hover p-table">
       <thead>
       <tr>  
-          <th>Nombre Propuesta</th>
-          <th>Status de la Propuesta</th>
-          <th>Operaciones</th>
+          <th style="width: 10%;">Codigo</th>
+          <th style="width: 5%;">Revisión</th>
+          <th style="width: 30%;">Cliente</th>
+          <th style="width: 35%;">Nombre</th>
+          <th style="width: 20%;">Status</th>
+          <th style="width: 10%;">Operaciones</th>
       </tr>
       </thead>
       <tbody>
@@ -349,39 +289,29 @@
           //print_r($lista);
         ?>  
 
-      <tr>
-          <td class="p-name">
-              <a href="project_details.html">
-              <?php
-                echo $lista['propuestaid'];
+        <tr>
+            <td class="p-name">
+            <a class="control-label">
+                <?php echo $lista['propuestaid'];?>
+                </a>
+            </td>
 
-                echo " Revisión: ";
-                echo $lista['revision'];
+            <td class="p-name">
+                <center><?php echo $lista['revision'];?>  </center>
+            </td>
 
-          ?>  
-        </a>
-              <br>
-              <small><?php
-                echo $lista['nombre_propuesta'];
-          ?> </small>
-          </td>
+            <td class="p-name">
+                <?php
+                    $buscacliente = new Admin_Model_DbTable_Cliente();
+                    $buscanombre_cliente=$buscacliente->_getClientexIndice($lista['clienteid']);
+                    print_r($buscanombre_cliente[0]['nombre_comercial']);
+                ?>  
+            </td>
+            <td class="p-name">
+                <?php echo $lista['nombre_propuesta']; ?>  
+            </td>
           
-          <td>
-                <?php
-                if ($lista['estado_propuesta']=='P') 
-                    {
-                        ?>
-                        <span class="label label-danger label-mini">Perdida</span><?php
-                    }?>
-
-                <?php
-                if ($lista['estado_propuesta']=='G') 
-                    {
-                        ?>
-                        <span class="label label-primary label-mini">Ganada</span><?php
-                    }
-                ?>
-
+            <td>
                 <?php
                 if ($lista['estado_propuesta']=='E') 
                     {
@@ -389,32 +319,18 @@
                         <span class="label label-warning label-mini">Enviada</span><?php
                     }
                 ?>
-
-                <?php
-                if ($lista['estado_propuesta']=='EE') 
-                    {
-                        ?>
-                        <span class="label label-success label-mini">En Elaboración</span><?php
-                    }
-                ?>
-                
-                <?php
-                if ($lista['estado_propuesta']=='D') 
-                    {
-                        ?>
-                        <span class="label label-default label-mini">Declinada</span><?php
-                    }
-                ?>
-
-                <?php
-                if ($lista['estado_propuesta']=='A') 
-                    {
-                        ?>
-                        <span class="label label-info label-mini">Anulada</span><?php
-                    }
-                ?>
-                
-          </td>
+            <div class="btn-group">
+                <button data-toggle="dropdown" class="btn btn-info dropdown-toggle btn-xs" type="button" aria-expanded="false">Modificar<span class="caret"></span></button>
+                <ul role="menu" class="dropdown-menu">
+                   <li><a href="/propuesta/index/cambiar/propuestaid/<?php echo $lista['propuestaid']?>/revision/<?php echo $lista['revision']?>/codigo/<?php echo $lista['codigo_prop_proy']?>/estado/EE">En Elaboración</a></li>
+                    <li><a href="/propuesta/index/cambiar/propuestaid/<?php echo $lista['propuestaid']?>/revision/<?php echo $lista['revision']?>/codigo/<?php echo $lista['codigo_prop_proy']?>/estado/G">Ganada</a></li>
+                    <li><a href="/propuesta/index/cambiar/propuestaid/<?php echo $lista['propuestaid']?>/revision/<?php echo $lista['revision']?>/codigo/<?php echo $lista['codigo_prop_proy']?>/estado/P">Perdida</a></li>       
+                    <li><a href="/propuesta/index/cambiar/propuestaid/<?php echo $lista['propuestaid']?>/revision/<?php echo $lista['revision']?>/codigo/<?php echo $lista['codigo_prop_proy']?>/estado/D">Declinada</a></li>
+                    <li><a href="/propuesta/index/cambiar/propuestaid/<?php echo $lista['propuestaid']?>/revision/<?php echo $lista['revision']?>/codigo/<?php echo $lista['codigo_prop_proy']?>/estado/A">Anulada</a></li>
+                    <li><a href="/propuesta/index/cambiar/propuestaid/<?php echo $lista['propuestaid']?>/revision/<?php echo $lista['revision']?>/codigo/<?php echo $lista['codigo_prop_proy']?>/estado/S">Superada</a></li>
+                </ul>
+            </div>
+            </td>
           <td>
               <a href="/propuesta/index/ver/propuestaid/<?php echo $lista['propuestaid']?>/revision/<?php echo $lista['revision']?>/codigo/<?php echo $lista['codigo_prop_proy']?>"
                class="btn btn-primary btn-xs"><i class="fa fa-folder"></i></a>
@@ -431,13 +347,18 @@
   </table>
   </div>
 
+
+   
    <div id="propuesta_declinada" style="display: none;">
   <table class="table table-hover p-table">
       <thead>
       <tr>  
-          <th>Nombre Propuesta</th>
-          <th>Status de la Propuesta</th>
-          <th>Operaciones</th>
+         <th style="width: 10%;">Codigo</th>
+          <th style="width: 5%;">Revisión</th>
+          <th style="width: 30%;">Cliente</th>
+          <th style="width: 35%;">Nombre</th>
+          <th style="width: 20%;">Status</th>
+          <th style="width: 10%;">Operaciones</th>
       </tr>
       </thead>
       <tbody>
@@ -449,54 +370,28 @@
         ?>  
 
       <tr>
-          <td class="p-name">
-              <a href="project_details.html">
-              <?php
-                echo $lista['propuestaid'];
+           <td class="p-name">
+            <a class="control-label">
+                <?php echo $lista['propuestaid'];?>
+                </a>
+            </td>
 
-                echo " Revisión: ";
-                echo $lista['revision'];
+            <td class="p-name">
+                <center><?php echo $lista['revision'];?>  </center>
+            </td>
 
-          ?>  
-        </a>
-              <br>
-              <small><?php
-                echo $lista['nombre_propuesta'];
-          ?> </small>
-          </td>
+            <td class="p-name">
+                <?php
+                    $buscacliente = new Admin_Model_DbTable_Cliente();
+                    $buscanombre_cliente=$buscacliente->_getClientexIndice($lista['clienteid']);
+                    print_r($buscanombre_cliente[0]['nombre_comercial']);
+                ?>  
+            </td>
+            <td class="p-name">
+                <?php echo $lista['nombre_propuesta']; ?>  
+            </td>
           
-          <td>
-                <?php
-                if ($lista['estado_propuesta']=='P') 
-                    {
-                        ?>
-                        <span class="label label-danger label-mini">Perdida</span><?php
-                    }?>
-
-                <?php
-                if ($lista['estado_propuesta']=='G') 
-                    {
-                        ?>
-                        <span class="label label-primary label-mini">Ganada</span><?php
-                    }
-                ?>
-
-                <?php
-                if ($lista['estado_propuesta']=='E') 
-                    {
-                        ?>
-                        <span class="label label-warning label-mini">Enviada</span><?php
-                    }
-                ?>
-
-                <?php
-                if ($lista['estado_propuesta']=='EE') 
-                    {
-                        ?>
-                        <span class="label label-success label-mini">En Elaboración</span><?php
-                    }
-                ?>
-                
+            <td>
                 <?php
                 if ($lista['estado_propuesta']=='D') 
                     {
@@ -504,16 +399,19 @@
                         <span class="label label-default label-mini">Declinada</span><?php
                     }
                 ?>
-
-                <?php
-                if ($lista['estado_propuesta']=='A') 
-                    {
-                        ?>
-                        <span class="label label-info label-mini">Anulada</span><?php
-                    }
-                ?>
-                
-          </td>
+            
+            <div class="btn-group">
+                <button data-toggle="dropdown" class="btn btn-info dropdown-toggle btn-xs" type="button" aria-expanded="false">Modificar<span class="caret"></span></button>
+                <ul role="menu" class="dropdown-menu">
+                    <li><a href="/propuesta/index/cambiar/propuestaid/<?php echo $lista['propuestaid']?>/revision/<?php echo $lista['revision']?>/codigo/<?php echo $lista['codigo_prop_proy']?>/estado/EE">En Elaboración</a></li>
+                    <li><a href="/propuesta/index/cambiar/propuestaid/<?php echo $lista['propuestaid']?>/revision/<?php echo $lista['revision']?>/codigo/<?php echo $lista['codigo_prop_proy']?>/estado/G">Ganada</a></li>
+                    <li><a href="/propuesta/index/cambiar/propuestaid/<?php echo $lista['propuestaid']?>/revision/<?php echo $lista['revision']?>/codigo/<?php echo $lista['codigo_prop_proy']?>/estado/P">Perdida</a></li>
+                    <li><a href="/propuesta/index/cambiar/propuestaid/<?php echo $lista['propuestaid']?>/revision/<?php echo $lista['revision']?>/codigo/<?php echo $lista['codigo_prop_proy']?>/estado/E">Enviada</a></li>                   
+                    <li><a href="/propuesta/index/cambiar/propuestaid/<?php echo $lista['propuestaid']?>/revision/<?php echo $lista['revision']?>/codigo/<?php echo $lista['codigo_prop_proy']?>/estado/A">Anulada</a></li>
+                    <li><a href="/propuesta/index/cambiar/propuestaid/<?php echo $lista['propuestaid']?>/revision/<?php echo $lista['revision']?>/codigo/<?php echo $lista['codigo_prop_proy']?>/estado/S">Superada</a></li>
+                </ul>
+            </div>
+            </td>
           <td>
               <a href="/propuesta/index/ver/propuestaid/<?php echo $lista['propuestaid']?>/revision/<?php echo $lista['revision']?>/codigo/<?php echo $lista['codigo_prop_proy']?>"
                class="btn btn-primary btn-xs"><i class="fa fa-folder"></i></a>
@@ -529,13 +427,17 @@
       </tbody>
   </table>
   </div>
-   <div id="propuesta_anulada" style="display: none;">
+
+<div id="propuesta_anulada" style="display: none;">
   <table class="table table-hover p-table">
       <thead>
       <tr>  
-          <th>Nombre Propuesta</th>
-          <th>Status de la Propuesta</th>
-          <th>Operaciones</th>
+         <th style="width: 10%;">Codigo</th>
+          <th style="width: 5%;">Revisión</th>
+          <th style="width: 30%;">Cliente</th>
+          <th style="width: 35%;">Nombre</th>
+          <th style="width: 20%;">Status</th>
+          <th style="width: 10%;">Operaciones</th>
       </tr>
       </thead>
       <tbody>
@@ -547,71 +449,47 @@
         ?>  
 
       <tr>
-          <td class="p-name">
-              <a href="project_details.html">
-              <?php
-                echo $lista['propuestaid'];
+           <td class="p-name">
+            <a class="control-label">
+                <?php echo $lista['propuestaid'];?>
+                </a>
+            </td>
 
-                echo " Revisión: ";
-                echo $lista['revision'];
+            <td class="p-name">
+                <center><?php echo $lista['revision'];?>  </center>
+            </td>
 
-          ?>  
-        </a>
-              <br>
-              <small><?php
-                echo $lista['nombre_propuesta'];
-          ?> </small>
-          </td>
+            <td class="p-name">
+                <?php
+                    $buscacliente = new Admin_Model_DbTable_Cliente();
+                    $buscanombre_cliente=$buscacliente->_getClientexIndice($lista['clienteid']);
+                    print_r($buscanombre_cliente[0]['nombre_comercial']);
+                ?>  
+            </td>
+            <td class="p-name">
+                <?php echo $lista['nombre_propuesta']; ?>  
+            </td>
           
-          <td>
-                <?php
-                if ($lista['estado_propuesta']=='P') 
-                    {
-                        ?>
-                        <span class="label label-danger label-mini">Perdida</span><?php
-                    }?>
-
-                <?php
-                if ($lista['estado_propuesta']=='G') 
-                    {
-                        ?>
-                        <span class="label label-primary label-mini">Ganada</span><?php
-                    }
-                ?>
-
-                <?php
-                if ($lista['estado_propuesta']=='E') 
-                    {
-                        ?>
-                        <span class="label label-warning label-mini">Enviada</span><?php
-                    }
-                ?>
-
-                <?php
-                if ($lista['estado_propuesta']=='EE') 
-                    {
-                        ?>
-                        <span class="label label-success label-mini">En Elaboración</span><?php
-                    }
-                ?>
-                
-                <?php
-                if ($lista['estado_propuesta']=='D') 
-                    {
-                        ?>
-                        <span class="label label-default label-mini">Declinada</span><?php
-                    }
-                ?>
-
+            <td>
                 <?php
                 if ($lista['estado_propuesta']=='A') 
                     {
                         ?>
                         <span class="label label-info label-mini">Anulada</span><?php
                     }
-                ?>
-                
-          </td>
+                ?>           
+            <div class="btn-group">
+                <button data-toggle="dropdown" class="btn btn-info dropdown-toggle btn-xs" type="button" aria-expanded="false">Modificar<span class="caret"></span></button>
+                <ul role="menu" class="dropdown-menu">
+                    <li><a href="/propuesta/index/cambiar/propuestaid/<?php echo $lista['propuestaid']?>/revision/<?php echo $lista['revision']?>/codigo/<?php echo $lista['codigo_prop_proy']?>/estado/EE">En Elaboración</a></li>
+                    <li><a href="/propuesta/index/cambiar/propuestaid/<?php echo $lista['propuestaid']?>/revision/<?php echo $lista['revision']?>/codigo/<?php echo $lista['codigo_prop_proy']?>/estado/G">Ganada</a></li>
+                    <li><a href="/propuesta/index/cambiar/propuestaid/<?php echo $lista['propuestaid']?>/revision/<?php echo $lista['revision']?>/codigo/<?php echo $lista['codigo_prop_proy']?>/estado/P">Perdida</a></li>
+                    <li><a href="/propuesta/index/cambiar/propuestaid/<?php echo $lista['propuestaid']?>/revision/<?php echo $lista['revision']?>/codigo/<?php echo $lista['codigo_prop_proy']?>/estado/E">Enviada</a></li>
+                    <li><a href="/propuesta/index/cambiar/propuestaid/<?php echo $lista['propuestaid']?>/revision/<?php echo $lista['revision']?>/codigo/<?php echo $lista['codigo_prop_proy']?>/estado/D">Declinada</a></li>             
+                    <li><a href="/propuesta/index/cambiar/propuestaid/<?php echo $lista['propuestaid']?>/revision/<?php echo $lista['revision']?>/codigo/<?php echo $lista['codigo_prop_proy']?>/estado/S">Superada</a></li>
+                </ul>
+            </div>
+            </td>
           <td>
               <a href="/propuesta/index/ver/propuestaid/<?php echo $lista['propuestaid']?>/revision/<?php echo $lista['revision']?>/codigo/<?php echo $lista['codigo_prop_proy']?>"
                class="btn btn-primary btn-xs"><i class="fa fa-folder"></i></a>
@@ -626,6 +504,8 @@
      
       </tbody>
   </table>
+  </div>
+  <div id="resultado_busqueda">     
   </div>
 </section>
 <!-- page end-->
@@ -641,6 +521,7 @@ $(document).ready(function(){
         $("#propuesta_enviada").hide();
         $("#propuesta_declinada").hide();
         $("#propuesta_anulada").hide();
+        $("#resultado_busqueda").hide();
 
     });
     $("#mostrar_enelaboracion").click(function(){
@@ -650,6 +531,7 @@ $(document).ready(function(){
         $("#propuesta_enviada").hide();
         $("#propuesta_declinada").hide();
         $("#propuesta_anulada").hide();
+        $("#resultado_busqueda").hide();
     });
     $("#mostrar_perdida").click(function(){
         $("#propuesta_enelaboracion").hide();
@@ -658,6 +540,7 @@ $(document).ready(function(){
         $("#propuesta_enviada").hide();
         $("#propuesta_declinada").hide();
         $("#propuesta_anulada").hide();
+        $("#resultado_busqueda").hide();
     });
 
     $("#mostrar_enviada").click(function(){
@@ -667,6 +550,7 @@ $(document).ready(function(){
         $("#propuesta_enviada").show();
         $("#propuesta_declinada").hide();
         $("#propuesta_anulada").hide();
+        $("#resultado_busqueda").hide();
     });
 
     $("#mostrar_declinada").click(function(){
@@ -676,6 +560,7 @@ $(document).ready(function(){
         $("#propuesta_enviada").hide();
         $("#propuesta_declinada").show();
         $("#propuesta_anulada").hide();
+        $("#resultado_busqueda").hide();
     });
 
     $("#mostrar_anulada").click(function(){
@@ -685,6 +570,31 @@ $(document).ready(function(){
         $("#propuesta_enviada").hide();
         $("#propuesta_declinada").hide();
         $("#propuesta_anulada").show();
+        $("#resultado_busqueda").hide();
     });    
+
+
+    $("#btn_buscar_propuesta").click(function(){
+        var buscar_propuesta = $("#buscar_propuesta").val();
+        //alert(buscar_propuesta);
+        $("#propuesta_enelaboracion").hide();
+        $("#propuesta_enelaboracion").hide();
+        $("#propuesta_ganada").hide();
+        $("#propuesta_perdida").hide();
+        $("#propuesta_enviada").hide();
+        $("#propuesta_declinada").hide();
+        $("#propuesta_anulada").hide();
+        $("#resultado_busqueda").show();
+        if (buscar_propuesta=='')  
+        {
+            alert("ingrese propuesta a buscar");
+        }
+        else
+        { 
+            var url="/propuesta/index/buscar/propuesta/"+buscar_propuesta;    
+        }
+        $("#resultado_busqueda").load(url);
+    });    
+
 });
 </script>

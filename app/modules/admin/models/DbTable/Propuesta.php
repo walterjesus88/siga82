@@ -50,6 +50,23 @@ class Admin_Model_DbTable_Propuesta extends Zend_Db_Table_Abstract
         }
     }
 
+
+    public function _buscarPropuesta($propuesta)
+     {
+        try{
+            $sql=$this->_db->query("
+                select * from propuesta as pro inner join cliente as cli on
+                pro.clienteid=cli.clienteid where lower(pro.nombre_propuesta) like '%$propuesta%' 
+                or lower(cli.nombre_comercial) like '%$propuesta%'
+                order by pro.orden_estado asc
+
+            ");
+ } 
+ catch (Exception $ex){
+            print $ex->getMessage();
+        }
+    }
+
     public function _getFilter($propuestaid){
         try{
             $sql=$this->_db->query("
@@ -63,6 +80,18 @@ class Admin_Model_DbTable_Propuesta extends Zend_Db_Table_Abstract
             print $ex->getMessage();
         }
     }
+
+
+    public function _update($data,$str=''){
+        try{
+            if ($str=="") return false;
+            return $this->update($data,$str);
+        }catch (Exception $ex){
+            print "Error: Actualizando un registro de Propuesta".$ex->getMessage();
+        }
+    }
+
+
 
 
 }
