@@ -14,7 +14,6 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
                      ->headLink()->appendStylesheet('/css/bootstrap-reset.css')
                      ->headLink()->appendStylesheet('/assets/font-awesome/css/font-awesome.css')
                      ->headLink()->appendStylesheet('/assets/jquery-easy-pie-chart/jquery.easy-pie-chart.css')
-                     ->headLink()->appendStylesheet('/assets/bootstrap-datepicker/css/datepicker.css')
                      ->headLink()->appendStylesheet('/css/owl.carousel.css')
                      ->headLink()->appendStylesheet('/css/slidebars.css')
                      ->headLink()->appendStylesheet('/css/style.css')
