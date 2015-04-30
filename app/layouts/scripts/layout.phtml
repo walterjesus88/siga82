@@ -9,7 +9,7 @@
     $sesion = $auth->getStorage()->read();
     $name = $sesion -> personal->alias;
     $rol = $sesion -> rid;
-    $uid = $sesion -> uid;
+    $dni = $sesion -> dni;
 ?>
 <html lang="es">
 	<head>
@@ -73,7 +73,7 @@
                     <!-- user login dropdown start-->
                     <li class="dropdown">
                         <a data-toggle="dropdown" class="dropdown-toggle" href="#">
-                            <img src="/img/fotos-anddes/<?php print $uid ?>.png" style="border-radius : 50%; width : 30px">
+                            <img src="/img/fotos-anddes/<?php print $dni ?>.jpg" style="border-radius : 50%; width : 29px ; height : 30px">
                             <span class="username"><?php print $name ?></span>
                             <b class="caret"></b>
                         </a>
@@ -97,7 +97,7 @@
               	<!-- sidebar menu start-->
               	<ul class="sidebar-menu" id="nav-accordion">
                   	<li>
-                      	<a class="active" href="#">
+                      	<a class="active" href="/admin">
                           	<i class="fa fa-home"></i>
                           	<span>Inicio</span>
                       	</a>
@@ -155,7 +155,7 @@
                   	} ?>
                     
                     <li class="sub-menu">
-                        <a href="#" >
+                        <a href="/admin" >
                             <i class="fa fa-suitcase"></i>
                             <span>Comercial</span>
                         </a>
@@ -164,38 +164,38 @@
                         </ul>
                     </li>
                     <li class="sub-menu">
-                        <a href="#" >
+                        <a href="/admin" >
                             <i class="fa fa-check-square"></i>
                             <span>Control Proyecto</span>
                         </a>
                     </li>
                     <li class="sub-menu">
-                        <a href="#" >
+                        <a href="/admin" >
                             <i class="fa fa-bookmark-o"></i>
                             <span>Control Documentario</span>
                         </a>
                     </li>
                  	<li>
-	                   	<a href="#">
+	                   	<a href="/admin">
 	                       	<i class="fa fa-calendar-o"></i>
 	                       	<span>Timesheet</span>
 	                   	</a>
 	               	</li>
 
 	               	<li>
-	                   	<a href="#">
+	                   	<a href="/admin">
                         	<i class="fa fa-money"></i>
 	                        <span>Expense</span>
 	                    </a>
 	                </li>
                     <li>
-                        <a href="#">
+                        <a href="/admin">
                             <i class="fa fa-user"></i>
                             <span>Administrador</span>
                         </a>
                     </li>
                     <li>
-                        <a href="#">
+                        <a href="/admin">
                             <i class="fa fa-group"></i>
                             <span>RR. HH.</span>
                         </a>
@@ -246,6 +246,9 @@
 	        <a href="#" class="go-top"><i class="fa fa-angle-up"></i></a>
 	    </div>
 	</footer>
+    
+    <script src="/js/soon/plugins.js"></script>
+    <script src="/js/soon/custom.js"></script>
     <script src="/js/common-scripts.js"></script>
   	</body>
 </html>

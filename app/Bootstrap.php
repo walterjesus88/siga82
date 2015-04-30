@@ -16,6 +16,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
                      ->headLink()->appendStylesheet('/assets/jquery-easy-pie-chart/jquery.easy-pie-chart.css')
                      ->headLink()->appendStylesheet('/css/owl.carousel.css')
                      ->headLink()->appendStylesheet('/css/slidebars.css')
+                     ->headLink()->appendStylesheet('/css/soon.css')
                      ->headLink()->appendStylesheet('/css/style.css')
                      ->headLink()->appendStylesheet('/css/style-responsive.css');
 
@@ -26,19 +27,17 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
                         ->headScript()->appendFile('/js/jquery.nicescroll.js')
                         ->headScript()->appendFile('/js/jquery.sparkline.js')
                         ->headScript()->appendFile('/assets/jquery-easy-pie-chart/jquery.easy-pie-chart.js')
+                        ->headScript()->appendFile('/assets/bootstrap-datepicker/js/bootstrap-datepicker.js')
+                        ->headScript()->appendFile('/assets/bootstrap-datetimepicker/js/bootstrap-datetimepicker.js')
+                        ->headScript()->appendFile('/assets/bootstrap-daterangepicker/moment.min.js')
+                        ->headScript()->appendFile('/assets/bootstrap-daterangepicker/daterangepicker.js')
                         ->headScript()->appendFile('/js/owl.carousel.js')
                         ->headScript()->appendFile('/js/jquery.customSelect.min.js')
                         ->headScript()->appendFile('/js/respond.min.js')
                         ->headScript()->appendFile('/js/slidebars.min.js')
                         ->headScript()->appendFile('/js/sparkline-chart.js')
                         ->headScript()->appendFile('/js/easy-pie-chart.js')
-                        ->headScript()->appendFile('/js/count.js')
-                        ->headScript()->appendFile('/assets/bootstrap-datepicker/js/bootstrap-datepicker.js')
-                        ->headScript()->appendFile('/assets/bootstrap-datetimepicker/js/bootstrap-datetimepicker.js')
-                        ->headScript()->appendFile('/asets/bootstrap-daterangepicker/moment.min.js')
-                        ->headScript()->appendFile('/assets/bootstrap-daterangepicker/daterangepicker.js');
-
-                    
+                        ->headScript()->appendFile('/js/count.js');
 
                             
 
