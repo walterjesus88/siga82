@@ -11,9 +11,7 @@ class Proyecto_IndexController extends Zend_Controller_Action {
     
     public function indexAction() {
         
-      echo "ggggg";
-      exit();
-            
+   
     }
 	
     public function listarAction() {
@@ -31,104 +29,43 @@ class Proyecto_IndexController extends Zend_Controller_Action {
         $prop=$propuestas->_getPropuestaAll();       
         $this->view->propuestas=$prop;
 
+        $form= new Admin_Form_Proyecto();        
+        $this->view->form=$form;   
 
-        //try 
-        //{
+        $proyectoid = $this->_getParam('proyectoid');
+        $propuestaid = $this->_getParam('propuesta');
+        $nombre_proyecto = $this->_getParam('nombre_proyecto');
+        $codigo_prop_proy = $this->_getParam('cod_proy_prop');
 
-            $form= new Admin_Form_Proyecto();
-            // $form->save->setLabel("Guardar");
-            $this->view->form=$form;
-            //if ($this->getRequest()->isPost())
-            //{
-                //$formdata = $this->getRequest()->getPost();
-
-                 $proyectoid = $this->_getParam('proyectoid');
-                 $propuestaid = $this->_getParam('propuesta');
-                 $nombre_proyecto = $this->_getParam('nombre_proyecto');
-                 $codigo_prop_proy = $this->_getParam('cod_proy_prop');
-
-                 $control_proyecto = $this->_getParam('control_proyecto');
-                 $revision = $this->_getParam('revision');   
-                 $descripcion = $this->_getParam('descripcion');   
-                 $fecha_inicio = $this->_getParam('fecha_inicio');
-                 $control_documentario = $this->_getParam('control_documentario');
-                 $estado = $this->_getParam('estado');
-                 $gerente_proyecto = $this->_getParam('gerente_proyecto'); 
-                 $tipo_proyecto = $this->_getParam('tipo_proyecto');
-                 $tag = $this->_getParam('tag');
-
+        $control_proyecto = $this->_getParam('control_proyecto');
+        $revision = $this->_getParam('revision');   
+        $descripcion = $this->_getParam('descripcion');   
+        $fecha_inicio = $this->_getParam('fecha_inicio');
+        $control_documentario = $this->_getParam('control_documentario');
+        $estado = $this->_getParam('estado');
+        $gerente_proyecto = $this->_getParam('gerente_proyecto'); 
+        $tipo_proyecto = $this->_getParam('tipo_proyecto');
+        $tag = $this->_getParam('tag');
  
-                 // print_r($proyectoid['0']); 
-                 // echo "---";                
-                 // print_r($propuestaid);                 
-                 // echo "---";                
-                 // print_r($nombre_proyecto);                 
-                 // echo "---";                
-                 // print_r($codigo_prop_proy);                 
-                 // echo "---";                
-                 // print_r($control_proyecto);                 
-                 // echo "---";                
-                 // print_r($revision);                 
-                 // echo "---";                
-                 // print_r($descripcion);                 
-                 // echo "---";                
-                 // print_r($fecha_inicio);                 
-                 // echo "---";                
-                 // print_r($control_documentario);                 
-                 // echo "---";                
-                 // print_r($estado);                 
-                 // echo "---";                
-                 // print_r($gerente_proyecto);                 
-                 // echo "---";                
-                 // print_r($tipo_proyecto);                 
-                 // echo "---";                
-                 // print_r($tag);
-
-
-
-                 //print $codigo_prop_proy;
-                    //if ($form->isValid($formdata)) {
-                       // unset($formdata['guardar']);
-                       // unset($formdata['unidad_minera']);
-                       // unset($formdata['clienteid']);
-                       $formdata['proyectoid']=$proyectoid['0'];
-                       $formdata['propuestaid']=$propuestaid;
-                       $formdata['nombre_proyecto']=$nombre_proyecto;
-                       $formdata['codigo_prop_proy']=$codigo_prop_proy;
-                       $formdata['control_proyecto']=$control_proyecto;                       
-                       $formdata['revision']=$revision;
-                       $formdata['descripcion']=$descripcion;
-                       $formdata['fecha_inicio']=$fecha_inicio;
-                       $formdata['control_documentario']=$control_documentario;
-                       $formdata['estado']=$estado;
-                       $formdata['gerente_proyecto']=$gerente_proyecto;
-                       $formdata['tipo_proyecto']=$tipo_proyecto;
-                
-                       
-                       $formdata['paisid']='01';
-                       $formdata['oid']='AND-10';
+        $formdata['proyectoid']=$proyectoid['0'];
+        $formdata['propuestaid']=$propuestaid;
+        $formdata['nombre_proyecto']=$nombre_proyecto;
+        $formdata['codigo_prop_proy']=$codigo_prop_proy;
+        $formdata['control_proyecto']=$control_proyecto;                       
+        $formdata['revision']=$revision;
+        $formdata['descripcion']=$descripcion;
+        $formdata['fecha_inicio']=$fecha_inicio;
+        $formdata['control_documentario']=$control_documentario;
+        $formdata['estado']=$estado;
+        $formdata['gerente_proyecto']=$gerente_proyecto;
+        $formdata['tipo_proyecto']=$tipo_proyecto;
+        $formdata['tag']=$tag;
+        $formdata['paisid']='01';
+        $formdata['oid']='AND-10';
        
-                       //print_r($formdata);
+        $newrec=new Admin_Model_DbTable_Proyecto();
+        $newrec->_save($formdata);
 
-                      $newrec=new Admin_Model_DbTable_Proyecto();
-                      $newrec->_save($formdata);
-                      //if($newrec->_save($formdata))
-                      //{
-                            //$this->_redirect("/proyecto/index/listar");
-                      //}
-                 
-                      
-                //         //print_r($formdata);
-                //         }
-                //         else
-                //         {
-                //         }
-                //     }
-                    //} 
-                // catch (Exception $ex) 
-                // {
-                //   print "Error ".$ex->getMessage();
-                // } 
             
     }
 
@@ -141,7 +78,7 @@ class Proyecto_IndexController extends Zend_Controller_Action {
       $where['propuesta']=$propuestaid;
       $propuesta=  $dbpropuestaid->_getFilter($propuestaid);
       $this->view->propuesta = $propuesta;
-      print_r($propuesta);
+      //print_r($propuesta);
 
     }
 
@@ -154,7 +91,7 @@ class Proyecto_IndexController extends Zend_Controller_Action {
       $where['propuesta']=$propuestaid;
       $propuesta=  $dbpropuestaid->_getFilter($propuestaid);
       $this->view->propuesta = $propuesta;
-      print_r($propuesta);
+      //print_r($propuesta);
 
     }
 
@@ -167,7 +104,7 @@ class Proyecto_IndexController extends Zend_Controller_Action {
       $where['propuesta']=$propuestaid;
       $propuesta=  $dbpropuestaid->_getFilter($propuestaid);
       $this->view->propuesta = $propuesta;
-      print_r($propuesta);
+      //print_r($propuesta);
 
     }
 
@@ -180,23 +117,73 @@ class Proyecto_IndexController extends Zend_Controller_Action {
       $where['propuesta']=$propuestaid;
       $propuesta=  $dbpropuestaid->_getFilter($propuestaid);
       $this->view->propuesta = $propuesta;
-      print_r($propuesta);
+      //print_r($propuesta);
 
     }
 
 
     public function cambiarestadoAction() {
-          //$this->_helper->layout()->disableLayout();
-          $propuestaid= $this->_getParam("propuesta");
-          //$propuestaid= '15.10.015';
 
-          $dbpropuestaid = new Admin_Model_DbTable_Proyecto();
-          $where['propuesta']=$propuestaid;
-          $propuesta=  $dbpropuestaid->_getFilter($propuestaid);
-          $this->view->propuesta = $propuesta;
-          print_r($propuesta);
+        $this->_helper->layout()->disableLayout();
+        $proyectoid= $this->_getParam("proyectoid");
+        $propuestaid= $this->_getParam("propuesta");
+        $nombre_proyecto= $this->_getParam("nombre_proyecto");
+        $codigo_prop_proy= $this->_getParam("codigo_prop_proy");
+        $estado= $this->_getParam("estado");
+        $revision= $this->_getParam("revision");
+        $oid= $this->_getParam("oid");
+        $gerente_proyecto= $this->_getParam("gerente_proyecto");
+        $control_proyecto= $this->_getParam("control_proyecto");
+        $control_documentario= $this->_getParam("control_documentario");
+        $tipo_proyecto= $this->_getParam("tipo_proyecto");
+        $paisid= $this->_getParam("paisid");
+        $fecha_inicio= $this->_getParam("fecha_inicio");
+         
+        $pk  =   array(                        
+                        'codigo_prop_proy'   =>$codigo_prop_proy,
+                        'proyectoid'   =>$proyectoid,
+                        'revision'   =>$revision,
+                            
+                        );
+        $data = array(
+                        'estado' =>  $estado
+                     );
+
+          
+        $updrec=new Admin_Model_DbTable_Proyecto();
+        $updrec->_update($data,$pk);
+
 
     }
     
+
+    public function deleteAction(){
+        try {
+            $this->_helper->layout()->disablelayout();
+     
+            $proyectoid=$this->_getParam("proyectoid");
+            $propuesta=$this->_getParam("propuesta");
+            $codigo_prop_proy=$this->_getParam("codigo_prop_proy");
+            $revision=$this->_getParam("revision");
+
+            $pk  =   array(                        
+                        'codigo_prop_proy'   =>$codigo_prop_proy,
+                        'proyectoid'   =>$proyectoid,
+                                                 
+                        );
+
+            print_r($pk);
+            
+            $delproy = new Admin_Model_DbTable_Proyecto();
+            $delproy->_delete($pk);         
+
+
+        } catch (Exception $e) {
+            print "Error: ".$e->getMessage();
+        }
+    }
+
+
+
     
 }

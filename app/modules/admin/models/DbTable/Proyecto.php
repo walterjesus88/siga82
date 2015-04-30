@@ -27,7 +27,30 @@ class Admin_Model_DbTable_Proyecto extends Zend_Db_Table_Abstract
         }
     }
  
+    public function _update($data,$pk)
+    {
+        try{
+            if ($pk['codigo_prop_proy']=='' ||  $pk['proyectoid']=='' ) return false;
+            $where = "codigo_prop_proy = '".$pk['codigo_prop_proy']."' and proyectoid='".$pk['proyectoid']."' ";
+            return $this->update($data, $where);
+            return false;
+        }catch (Exception $e){
+            print "Error: Update Distribution".$e->getMessage();
+        }
+    }
 
+    public function _delete($pk=null)
+    {
+        try{
+            if ($pk['codigo_prop_proy']=='' ||  $pk['proyectoid']=='' ) return false;
+
+            $where = "codigo_prop_proy = '".$pk['codigo_prop_proy']."' and proyectoid='".$pk['proyectoid']."' ";
+            return $this->delete( $where);
+            return false;
+        }catch (Exception $e){
+            print "Error: Update Distribution".$e->getMessage();
+        }
+    }
 
 
 }
