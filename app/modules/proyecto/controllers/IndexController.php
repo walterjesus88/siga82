@@ -26,7 +26,7 @@ class Proyecto_IndexController extends Zend_Controller_Action {
     public function nuevoAction() {
 
         $propuestas = new Admin_Model_DbTable_Propuesta();
-        $prop=$propuestas->_getPropuestaAll();       
+        $prop=$propuestas->_getPropuestaxnoproyectxganado();       
         $this->view->propuestas=$prop;
 
         $form= new Admin_Form_Proyecto();        
@@ -64,7 +64,25 @@ class Proyecto_IndexController extends Zend_Controller_Action {
         $formdata['oid']='AND-10';
        
         $newrec=new Admin_Model_DbTable_Proyecto();
-        $newrec->_save($formdata);
+        if($newrec->_save($formdata))
+        {
+
+            $pk  =   array(                        
+                            'codigo_prop_proy'   =>$codigo_prop_proy,
+                            'propuestaid'   =>$propuestaid,
+                            'revision'   =>$revision,
+                                
+                            );
+            $data = array(
+                            'isproyecto' =>  'S'
+                         );
+
+
+            $updisproject=new Admin_Model_DbTable_Propuesta();
+            $updisproject->_updateX($data,$pk);
+
+        }
+
 
             
     }
@@ -78,7 +96,7 @@ class Proyecto_IndexController extends Zend_Controller_Action {
       $where['propuesta']=$propuestaid;
       $propuesta=  $dbpropuestaid->_getFilter($propuestaid);
       $this->view->propuesta = $propuesta;
-      //print_r($propuesta);
+      print_r($propuesta);
 
     }
 
@@ -98,7 +116,7 @@ class Proyecto_IndexController extends Zend_Controller_Action {
     public function umineraAction() {
       $this->_helper->layout()->disableLayout();
       $propuestaid= $this->_getParam("propuesta");
-      //$propuestaid= '15.10.015';
+      
 
       $dbpropuestaid = new Admin_Model_DbTable_Propuesta();
       $where['propuesta']=$propuestaid;
@@ -173,7 +191,7 @@ class Proyecto_IndexController extends Zend_Controller_Action {
                         );
 
             print_r($pk);
-            
+
             $delproy = new Admin_Model_DbTable_Proyecto();
             $delproy->_delete($pk);         
 
