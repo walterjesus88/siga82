@@ -11,7 +11,7 @@ class Propuesta_IndexController extends Zend_Controller_Action {
     }
     
     public function indexAction() {
-        echo "waaaaaa";
+         $this->_helper->redirector('index','index','admin');
             
     }
 
@@ -24,26 +24,21 @@ class Propuesta_IndexController extends Zend_Controller_Action {
         $lista_enviada=$listapropuesta->_getPropuestaAllOrdenadoxEstadoPropuesta('E');
         $lista_declinada=$listapropuesta->_getPropuestaAllOrdenadoxEstadoPropuesta('D');
         $lista_anulada=$listapropuesta->_getPropuestaAllOrdenadoxEstadoPropuesta('A');
-      // print_r($lista);
         $this->view->lista_enelaboracion = $lista_enelaboracion; 
         $this->view->lista_ganada = $lista_ganada; 
         $this->view->lista_perdida = $lista_perdida; 
         $this->view->lista_enviada = $lista_enviada; 
         $this->view->lista_declinada = $lista_declinada; 
         $this->view->lista_anulada = $lista_anulada; 
-            
     }
 
     public function verAction() {
         $codigo=$this->_getParam('codigo');
         $propuestaid=$this->_getParam('propuestaid');
         $revision=$this->_getParam('revision');
-
         $buscapropuesta = new Admin_Model_DbTable_Propuesta();
         $busca=$buscapropuesta->_getPropuestaxIndices($codigo,$propuestaid,$revision);
-        //print_r($listapropuesta);
         $this->view->buscapropuesta = $busca; 
-            
     }  
 
     public function cambiarAction() {
@@ -90,9 +85,7 @@ class Propuesta_IndexController extends Zend_Controller_Action {
         $buscar_propuesta=strtolower($buscar_propuesta);
         $buscapropuesta = new Admin_Model_DbTable_Propuesta();
         $buscar=$buscapropuesta->_buscarPropuesta($buscar_propuesta);
-        //print_r($buscar);
         $this->view->lista_buscar = $buscar; 
-            
     }  
 
     public function nuevoAction() {
@@ -162,6 +155,16 @@ class Propuesta_IndexController extends Zend_Controller_Action {
         $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
         $objWriter->save('php://output');
         exit;
-    }  
+    }
+
+    public function umineraAction() {
+      $this->_helper->layout()->disableLayout();
+      $clienteid= $this->_getParam("clienteid");
+      $dbunidadminera = new Admin_Model_DbTable_Unidadminera();
+      $uminera=  $dbunidadminera->_getUnidadmineraxIndice($clienteid);
+      $this->view->uminera = $uminera;
+      print_r($uminera);
+
+    }    
     
 }

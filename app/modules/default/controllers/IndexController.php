@@ -152,4 +152,10 @@ class IndexController extends Zend_Controller_Action {
         Zend_Auth::getInstance()->clearIdentity();
         $this->_redirect("/");
     }
+
+     public function proximamenteAction(){
+        
+    }
+
+
 }
