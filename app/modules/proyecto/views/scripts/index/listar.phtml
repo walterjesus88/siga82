@@ -2,12 +2,20 @@
       <!--sidebar end-->
 
       <!--main content start-->
-
               <!-- page start-->
               <div class="row">
                  
+                  
                   <div class="col-md-9">
                       <section class="panel">
+                      <div class="panel-body">
+                            <div class="row">
+                                <div class="col-md-12">
+                                  <div class="input-group"><input type="text" placeholder="Buscar Propuesta" class="input-sm form-control"> <span class="input-group-btn">
+                                  <button type="button" class="btn btn-sm btn-success"> Buscar!</button> </span></div>
+                              </div>
+                          </div>
+                      </div>
                           <div class="panel-body">
                               <div class="pro-sort">
                                   <label class="pro-lab">Sort By</label>
@@ -49,67 +57,78 @@
                       <table class="table table-hover p-table">
 
                         <?php
-                        $c=1;
+                        $c=0;
                         foreach ($this->listaproyecto as $lista) {
-                        ?>  
-                     
+                        ?>                   
 
                         <tr>
                               <td class="p-name">
                                   <a href="project_details.html"><?php echo $lista['codigo_prop_proy']; ?></a>
+                                  <a href="project_details.html"><?php echo $lista['proyectoid']; ?></a>
+
                                   <br>
                                   <small>Created 27.11.2014</small>
-                              </td>                            
-                   
-                              <!--<td>
-                                  <span class="label label-primary">Active</span>
-                              </td> -->
-
+                              </td>
                               <td>
-                                <select id="estado" name="estado" required="required">
-                                    <option value="A">Activo</option>
-                                    <option value="C">Cerrado</option>
-                                    <option value="CA">Cancelado</option>
-                                    <option value="PA">Paralizado</option>
-                                </select>                              
+                                <select id="estado_<?php echo $c?>" name="estado">
+                                  <option value="">Seleccione</option>
+                                  <option value="A" <?php echo ($lista['estado'] == 'A')?'selected': '' ?> >Activo</option>
+                                  <option value="C" <?php echo ($lista['estado'] == 'C')?'selected': '' ?> >Cerrado</option>
+                                  <option value="CA" <?php echo ($lista['estado'] == 'CA')?'selected': '' ?> >Cancelado</option>
+                                  <option value="PA" <?php echo ($lista['estado'] == 'PA')?'selected': '' ?> >Paralizado</option>
+
+                                </select>
                               </td>
 
                               <td>
                                   <a href="project_details.html" class="btn btn-primary btn-xs"><i class="fa fa-folder"></i> View </a>
                                   <a href="#" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i> Edit </a>
-                                  <a href="#" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i> Delete </a>
+                                  <a id="deletecourse_<?php echo $c?>" href="#" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i> Delete </a>
                               </td>
+
+                              <script>
+                                    $("#estado_<?php echo $c?>").change(function(){
+
+                                      var $estado=$(this).val();
+                                      var $codigo_prop_proy="<?php echo $lista['codigo_prop_proy']?>"
+                                      var $proyectoid="<?php echo $lista['proyectoid']?>" 
+                                      var $propuestaid="<?php echo $lista['propuestaid']?>" 
+                                      var $revision="<?php echo $lista['revision']?>"
+                                      var $oid="<?php echo $lista['oid']?>"
+                                      var $nombre_proyecto="<?php echo $lista['nombre_proyecto']?>" 
+                                      var $gerente_proyecto="<?php echo $lista['gerente_proyecto']?>"
+                                      var $control_proyecto="<?php echo $lista['control_proyecto']?>"
+                                      var $control_documentario="<?php echo $lista['control_documentario']?>"                                     
+                                      var $tipo_proyecto="<?php echo $lista['tipo_proyecto']?>"
+                                      var $paisid="<?php echo $lista['paisid']?>"
+                                      var $fecha_inicio="<?php echo $lista['fecha_inicio']?>"
+                                     
+                                      url="/proyecto/index/cambiarestado/proyectoid/"+$proyectoid+"/propuesta/"+$propuestaid+"/nombre_proyecto/"+$nombre_proyecto+"/codigo_prop_proy/"+$codigo_prop_proy+"/estado/"+$estado+"/revision/"+$revision+"/oid/"+$oid+"/gerente_proyecto/"+$gerente_proyecto+"/control_proyecto/"+$control_proyecto+"/control_documentario/"+$control_documentario+"/tipo_proyecto/"+$tipo_proyecto+"/paisid/"+$paisid+"/fecha_inicio/"+$fecha_inicio;
+                                      $("#loadingcourses").load(url);
+
+                                    });  
+                              </script>
+
+                              <script>
+                                    $("#deletecourse_<?php echo $c?>").click(function(){                                      
+                                      var $codigo_prop_proy="<?php echo $lista['codigo_prop_proy']?>"
+                                      var $proyectoid="<?php echo $lista['proyectoid']?>" 
+                                      var $propuestaid="<?php echo $lista['propuestaid']?>" 
+                                      var $revision="<?php echo $lista['revision']?>"
+                                                                           
+                                      url="/proyecto/index/delete/proyectoid/"+$proyectoid+"/propuesta/"+$propuestaid+"/codigo_prop_proy/"+$codigo_prop_proy+"/revision/"+$revision;
+                                      //alert(url);
+                                      $("#deleteproyecto").load(url);
+                                      location.href="/proyecto/index/listar/";  
+
+                                    });  
+                              </script>
+
+
+
                           </tr>
 
-                              <!--<div class="col-md-4">
-                                <section class="panel">
-                                        <div class="pro-img-box">
-                                            <img src="img/gallery/4.jpg" alt=""/>
-                                                                         
-                                        </div>                             
-
-                                        <div class="panel-body">
-                                                <div class="bio-chart">                                              
-                                                    <h4 class="red"><?php //echo $lista['codigo_prop_proy']; ?></h4>                         
-                                                    <h4 class="red"><?php //echo $lista['proyectoid']; ?></h4>                         
-                                                </div>
-                                                <div class="bio-desk">
-                                                    
-                                                    <p><?php //echo $lista['nombre_proyecto']; ?></p>                                           
-                                                    <p><?php //echo $lista['monto_total']; ?></p>
-                                                    <p><?php //echo $lista['fecha_inicio']; ?></p>
-                                                    <p><?php //echo $lista['fecha_cierre']; ?></p>
-                                                  
-                                                </div>
-                                        </div>
-                                        <ul class="nav nav-pills nav-stacked">
-                                            <li><a href="profile-activity.html"> <i class="fa fa-calendar"></i> Equipo <span class="label label-danger pull-right r-activity">9</span></a></li>
-                                            <li class="active"><a href="profile.html"> <i class="fa fa-user"></i> Cliente</a></li>
-                                            <li><a href="profile-edit.html"> <i class="fa fa-edit"></i> Reporte</a></li>
-                                        </ul>
-                                </section>
-                              </div> -->
-
+                            
                         <?php
                         $c++;
                         }
@@ -122,6 +141,8 @@
               </div>
 
               <!-- page end-->
+      <div id="loadingcourses"></div> 
+      <div id="deleteproyecto"></div> 
 
       <!--main content end-->
 
@@ -287,59 +308,5 @@
 
       </script>
 
-      <script>
-          $("#estado").change(function(){
-            // var $td = $(this).parent();
-            // var $tr = $td.parent();
-            // if ( $(this).val() != '') {
-            //   _save($(this).val(),$tr);
-            // }
-            //alert('kkkk');
-
-          });
-
-
-      // function _save($value,$parent){
-
-      //   var $params = {};
-      //   $params['codigo_prop_proy'] = $.trim($parent.attr('codigo_prop_proy'));  
-      //   $params['proyectoid']  = $.trim($parent.attr('proyectoid'));   
-      //   $params['propuestaid'] = $.trim($parent.attr('propuestaid'));  
-      //   $params['revision'] = $.trim($parent.attr('revision'));  
-      //   $params['oid'] = $.trim($parent.attr('oid'));  
-      //   $params['nombre_proyecto']  = $.trim($parent.attr('nombre_proyecto')); 
-      //   $params['gerente_proyecto'] = $.trim($parent.attr('gerente_proyecto'));
-      //   $params['control_proyecto'] = $.trim($parent.attr('control_proyecto'));
-      //   $params['control_documentario'] = $.trim($parent.attr('control_documentario'));
-      //   $params['estado'] = $.trim($parent.attr('estado'));
-      //   $params['tipo_proyecto'] = $.trim($parent.attr('tipo_proyecto'));
-      //   $params['paisid'] = $.trim($parent.attr('paisid'));
-      
-
-      //   result =  '';
-      //   for (var prop in $params ) {
-      //           result += '' + prop + '/' + $params[prop]  + '/'; 
-      //       }
-      //   result = result.substring(0, result.length-1);
-      //   var url = "/proyecto/index/cambiarestado/"+result;
-      //   $.ajax({
-      //     url : url,
-      //     async:false,
-      //     success: function($data){
-      //       if ($data.status == true ) {
-
-
-      //       };
-      //     },
-      //     error: function ($error){
-      //       alert("!Vaya¡ Ocurrio un Error al Cambiar Tipo de Curso");
-      //     }
-      //   });
-      //   $params = {};
-      //   return true;
-
-      // }
-
-      </script>
 
 
