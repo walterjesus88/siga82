@@ -109,6 +109,17 @@
                     <?php 
                     if ($rol == "PROPUESTA") { ?>
                         <li class="sub-menu">
+                            <a href="/proyecto/index/listar" >
+                                <i class="fa fa-archive"></i>
+                                <span>Proyectos</span>
+                            </a>
+                            <ul class="sub">
+                                <li><a  href="/proyecto/index/listar">Lista</a></li>
+                                <li><a  href="/proyecto/index/nuevo">Nuevo</a></li>
+                            </ul>
+                        </li>
+
+                        <li class="sub-menu">
                             <a href="/propuesta/index/listar" >
                                 <i class="fa fa-bar-chart-o"></i>
                                 <span>Propuestas</span>
@@ -119,20 +130,20 @@
                             <li><a  href="/propuesta/index/transmittal">Transmittal</a></li>
                             </ul>
                         </li>
-
+                    <?php
+                    }
+                    if ($rol == "PROYECTO") { ?>
                         <li class="sub-menu">
                             <a href="/proyecto/index/listar" >
                                 <i class="fa fa-archive"></i>
-                                <span>Proyectos</span>
+                                <span>Proyecto</span>
                             </a>
                             <ul class="sub">
                                 <li><a  href="/proyecto/index/listar">Lista</a></li>
                                 <li><a  href="/proyecto/index/nuevo">Nuevo</a></li>
                             </ul>
                         </li>
-                    <?php
-                    }
-                    if ($rol == "PROYECTO") { ?>
+
                         <li class="sub-menu">
                             <a href="/propuesta/index/listar" >
                                 <i class="fa fa-bar-chart-o"></i>
@@ -144,32 +155,13 @@
                                 <li><a  href="/propuesta/index/transmittal">Transmittal</a></li>
                             </ul>
                         </li>
-                        <li class="sub-menu">
-                            <a href="/proyecto/index/listar" >
-                                <i class="fa fa-archive"></i>
-                                <span>Proyecto</span>
-                            </a>
-                            <ul class="sub">
-                                <li><a  href="/proyecto/index/listar">Lista</a></li>
-                                <li><a  href="/proyecto/index/nuevo">Nuevo</a></li>
-                            </ul>
-                        </li>
                     <?php 
                     } ?>
                     
                     <li class="sub-menu">
                         <a href="/admin" >
-                            <i class="fa fa-suitcase"></i>
-                            <span>Comercial</span>
-                        </a>
-                        <ul class="sub">
-                            <li><a  href="#">Lista</a></li>
-                        </ul>
-                    </li>
-                    <li class="sub-menu">
-                        <a href="/admin" >
                             <i class="fa fa-check-square"></i>
-                            <span>Control Proyecto</span>
+                            <span>Control de Proyectos</span>
                         </a>
                     </li>
                     <li class="sub-menu">
@@ -184,7 +176,6 @@
                             <span>Timesheet</span>
                         </a>
                     </li>
-
                     <li>
                         <a href="/admin">
                             <i class="fa fa-money"></i>
@@ -193,16 +184,31 @@
                     </li>
                     <li>
                         <a href="/admin">
+                            <i class="fa fa-group"></i>
+                            <span>RR. HH.</span>
+                        </a>
+                        <ul class="sub">
+                            <li><a  href="/admin">Lista Personal</a></li>
+                            <li><a  href="/admin">Rates</a></li>
+                        </ul>
+                    </li>
+                    <li class="sub-menu">
+                        <a href="/admin" >
+                            <i class="fa fa-suitcase"></i>
+                            <span>Comercial</span>
+                        </a>
+                        <ul class="sub">
+                            <li><a  href="/admin">Clientes</a></li>
+                            <li><a  href="/admin">Contactos</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="/admin">
                             <i class="fa fa-user"></i>
                             <span>Administrador</span>
                         </a>
                     </li>
-                    <li>
-                        <a href="/admin">
-                            <i class="fa fa-group"></i>
-                            <span>RR. HH.</span>
-                        </a>
-                    </li>
+                    
 
                     <!--multi level menu start-->
                     <!-- <li class="sub-menu">
