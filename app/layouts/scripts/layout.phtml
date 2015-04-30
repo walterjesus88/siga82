@@ -9,6 +9,7 @@
     $sesion = $auth->getStorage()->read();
     $name = $sesion -> personal->alias;
     $rol = $sesion -> rid;
+    $uid = $sesion -> uid;
 ?>
 <html lang="es">
 	<head>
@@ -72,7 +73,7 @@
                     <!-- user login dropdown start-->
                     <li class="dropdown">
                         <a data-toggle="dropdown" class="dropdown-toggle" href="#">
-                            <img src="/img/avatar1_small.jpg" style="border-radius : 50%">
+                            <img src="/img/fotos-anddes/<?php print $uid ?>.png" style="border-radius : 50%; width : 30px">
                             <span class="username"><?php print $name ?></span>
                             <b class="caret"></b>
                         </a>
@@ -116,35 +117,21 @@
 		                    </ul>
 	                  	</li>
 
-                      <li class="sub-menu">
-                          <a href="/proyecto/index/listar" >
-                              <i class="fa fa-archive"></i>
-                              <span>Proyectos</span>
-                          </a>
-                        <ul class="sub">
-                            <li><a  href="/proyecto/index/listar">Lista</a></li>
-                            <li><a  href="/proyecto/index/nuevo">Nuevo</a></li>
-                        </ul>
-                      </li>
-
-                      <li class="sub-menu">
-                          <a href="#" >
-                              <i class="fa fa-book"></i>
-                              <span>Control de Proyectos</span>
-                          </a>
-                      </li>
-
-	                  	<li class="sub-menu">
-	                      	<a href="#" >
-	                          	<i class="fa fa-book"></i>
-	                          	<span>Control Documentario</span>
-	                      	</a>
-	                  	</li>
-            
-                  		<?php
+                        <li class="sub-menu">
+                            <a href="/proyecto/index/listar" >
+                                <i class="fa fa-archive"></i>
+                                <span>Proyectos</span>
+                            </a>
+                            <ul class="sub">
+                                <li><a  href="/proyecto/index/listar">Lista</a></li>
+                                <li><a  href="/proyecto/index/nuevo">Nuevo</a></li>
+                            </ul>
+                        </li>
+                  	<?php
                   	}
                   	if ($rol == "PROYECTO") { ?>
 
+<<<<<<< HEAD
                       <li class="sub-menu">
                           <a href="/propuesta/index/listar" >
                               <i class="fa fa-bar-chart-o"></i>
@@ -156,6 +143,18 @@
                             <li><a  href="/propuesta/index/transmittal">Transmittal</a></li>
                         </ul>
                       </li>
+=======
+                        <li class="sub-menu">
+                            <a href="/propuesta/index/listar" >
+                                <i class="fa fa-bar-chart-o"></i>
+                                <span>Propuestas</span>
+                            </a>
+                            <ul class="sub">
+                                <li><a  href="/propuesta/index/listar">Lista</a></li>
+                                <li><a  href="/propuesta/index/nuevo">Nuevo</a></li>
+                            </ul>
+                        </li>
+>>>>>>> 3453910001d8a6ba7e77b81d8901d7fb7c35ce2c
 
                   		<li class="sub-menu">
 	                      	<a href="/proyecto/index/listar" >
@@ -167,63 +166,55 @@
 		                        <li><a  href="/proyecto/index/nuevo">Nuevo</a></li>
 		                    </ul>
 	                  	</li>
-                      <li class="sub-menu">
-                          <a href="#" >
-                              <i class="fa fa-book"></i>
-                              <span>Control Proyecto</span>
-                          </a>
-                      </li>
-
-                      <li class="sub-menu">
-                          <a href="#" >
-                              <i class="fa fa-book"></i>
-                              <span>Control Documentario</span>
-                          </a>
-                      </li>
-            
-
                   	<?php 
                   	} ?>
-
-                  	<li>
-	                   	<a  href="#">
+                    
+                    <li class="sub-menu">
+                        <a href="#" >
+                            <i class="fa fa-suitcase"></i>
+                            <span>Comercial</span>
+                        </a>
+                        <ul class="sub">
+                            <li><a  href="#">Lista</a></li>
+                        </ul>
+                    </li>
+                    <li class="sub-menu">
+                        <a href="#" >
+                            <i class="fa fa-check-square"></i>
+                            <span>Control Proyecto</span>
+                        </a>
+                    </li>
+                    <li class="sub-menu">
+                        <a href="#" >
+                            <i class="fa fa-bookmark-o"></i>
+                            <span>Control Documentario</span>
+                        </a>
+                    </li>
+                 	<li>
+	                   	<a href="#">
 	                       	<i class="fa fa-calendar-o"></i>
 	                       	<span>Timesheet</span>
 	                   	</a>
 	               	</li>
 
 	               	<li>
-	                   	<a  href="#">
+	                   	<a href="#">
                         	<i class="fa fa-money"></i>
 	                        <span>Expense</span>
 	                    </a>
 	                </li>
-
-                      <li>
-                      <a  href="#">
-                          <i class="fa fa-money"></i>
-                          <span>RRHH</span>
-                      </a>
-                  </li>
-                    <li class="sub-menu">
-                          <a href="/proyecto/index/listar" >
-                              <i class="fa fa-archive"></i>
-                              <span>Comercial</span>
-                          </a>
-                        <ul class="sub">
-                            <li><a  href="/comercial/index/listar">Lista</a></li>
-                           
-                        </ul>
-                      </li>
-
-                  
-
-                  <li>
-                      <a  href="#">
-                          <i class="fa fa-money"></i>
-                          <span>Admin</span>
-                      </a>
-                  </li>
+                    <li>
+                        <a href="#">
+                            <i class="fa fa-user"></i>
+                            <span>Administrador</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <i class="fa fa-group"></i>
+                            <span>RR. HH.</span>
+                        </a>
+                    </li>
 
                   	<!--multi level menu start-->
                   	<!-- <li class="sub-menu">

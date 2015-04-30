@@ -6,7 +6,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
             $this->bootstrap('layout');
             $layout = $this->getResource('layout');
             $view = $layout->getView();
-            $view->doctype('XHTML1_STRICT');
+            $view->doctype('HTML5');
             $view->headMeta()->appendHttpEquiv('Content-Type', 'text/html;charset=utf-8');
             //$view->headMeta()->appendHttpEquiv('Cache-Control', 'no-cache');
 
@@ -36,7 +36,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
                         ->headScript()->appendFile('/assets/bootstrap-datepicker/js/bootstrap-datepicker.js')
                         ->headScript()->appendFile('/assets/bootstrap-datetimepicker/js/bootstrap-datetimepicker.js')
                         ->headScript()->appendFile('/asets/bootstrap-daterangepicker/moment.min.js')
-                        ->headScript()->appendFile('/assets/bootstrap-daterangepicker/daterangepicker.j');
+                        ->headScript()->appendFile('/assets/bootstrap-daterangepicker/daterangepicker.js');
 
                     
 
