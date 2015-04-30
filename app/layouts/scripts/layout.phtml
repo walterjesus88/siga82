@@ -109,17 +109,6 @@
                     <?php 
                     if ($rol == "PROPUESTA") { ?>
                         <li class="sub-menu">
-                            <a href="/proyecto/index/listar" >
-                                <i class="fa fa-archive"></i>
-                                <span>Proyectos</span>
-                            </a>
-                            <ul class="sub">
-                                <li><a  href="/proyecto/index/listar">Lista</a></li>
-                                <li><a  href="/proyecto/index/nuevo">Nuevo</a></li>
-                            </ul>
-                        </li>
-
-                        <li class="sub-menu">
                             <a href="/propuesta/index/listar" >
                                 <i class="fa fa-bar-chart-o"></i>
                                 <span>Propuestas</span>
@@ -130,20 +119,20 @@
                             <li><a  href="/propuesta/index/transmittal">Transmittal</a></li>
                             </ul>
                         </li>
-                    <?php
-                    }
-                    if ($rol == "PROYECTO") { ?>
+
                         <li class="sub-menu">
                             <a href="/proyecto/index/listar" >
                                 <i class="fa fa-archive"></i>
-                                <span>Proyecto</span>
+                                <span>Proyectos</span>
                             </a>
                             <ul class="sub">
                                 <li><a  href="/proyecto/index/listar">Lista</a></li>
                                 <li><a  href="/proyecto/index/nuevo">Nuevo</a></li>
                             </ul>
                         </li>
-
+                    <?php
+                    }
+                    if ($rol == "PROYECTO") { ?>
                         <li class="sub-menu">
                             <a href="/propuesta/index/listar" >
                                 <i class="fa fa-bar-chart-o"></i>
@@ -153,6 +142,17 @@
                                 <li><a  href="/propuesta/index/listar">Lista</a></li>
                                 <li><a  href="/propuesta/index/nuevo">Nuevo</a></li>
                                 <li><a  href="/propuesta/index/transmittal">Transmittal</a></li>
+                            </ul>
+                        </li>
+
+                        <li class="sub-menu">
+                            <a href="/proyecto/index/listar" >
+                                <i class="fa fa-archive"></i>
+                                <span>Proyecto</span>
+                            </a>
+                            <ul class="sub">
+                                <li><a  href="/proyecto/index/listar">Lista</a></li>
+                                <li><a  href="/proyecto/index/nuevo">Nuevo</a></li>
                             </ul>
                         </li>
                     <?php 
@@ -182,7 +182,7 @@
                             <span>Expense</span>
                         </a>
                     </li>
-                    <li>
+                    <li class="sub-menu">
                         <a href="/admin">
                             <i class="fa fa-group"></i>
                             <span>RR. HH.</span>
