@@ -86,6 +86,7 @@ class Propuesta_IndexController extends Zend_Controller_Action {
         $buscapropuesta = new Admin_Model_DbTable_Propuesta();
         $buscar=$buscapropuesta->_buscarPropuesta($buscar_propuesta);
         $this->view->lista_buscar = $buscar; 
+       
     }  
 
     public function nuevoAction() {

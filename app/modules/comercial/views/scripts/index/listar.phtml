@@ -1,29 +1,20 @@
 <section class="panel">
     <header class="panel-heading">
-      Lista de Propuestas
+      Lista de Clientes
       <span class="pull-right">
-            
-            <a id="mostrar_enelaboracion" class=" btn btn-success btn-xs"> En Elaboración</a>
-            <a id="mostrar_enviada" class=" btn btn-warning  btn-xs"> Enviada</a>
-            <a id="mostrar_ganada" class=" btn btn-primary  btn-xs" style="background-color: #59ace2;color: #fff;"> Ganada</a>
-            <a id="mostrar_perdida" class=" btn btn-danger  btn-xs"> Perdida</a>
-            
-            <a id="mostrar_declinada" class=" btn btn-default  btn-xs"> Declinada</a>
-            <a id="mostrar_anulada" class=" btn   btn-xs" style="background-color: #8175c7;color: #fff;"> Anulada</a>
-            
-
+            <a id="mostrar_enelaboracion" class=" btn btn-success btn-xs"> Proyecto</a>
+            <a id="mostrar_enviada" class=" btn btn-warning  btn-xs"> Proveedores</a>
+            <a id="mostrar_ganada" class=" btn btn-primary  btn-xs" style="background-color: #59ace2;color: #fff;"> Propuesta</a>
       </span>
     </header>
     <div class="panel-body">
         <div class="row">
             <div class="col-md-12">
-              <div class="input-group"><input id="buscar_propuesta" type="text" placeholder="Buscar Propuesta" class="input-sm form-control"> <span class="input-group-btn">
-              <button id="btn_buscar_propuesta" type="button" class="btn btn-sm btn-success"> Buscar!</button> 
-<a href="/propuesta/index/nuevo" class=" btn btn-primary btn-sm" > Crear</a>
-<!--/propuesta/index/reporteexcel-->
-<a href="#" class=" btn btn-danger btn-sm " > Exportar</a>
-
-
+                <div class="input-group"><input id="buscar_propuesta" type="text" placeholder="Buscar Propuesta" class="input-sm form-control"> <span class="input-group-btn">
+                <button id="btn_buscar_propuesta" type="button" class="btn btn-sm btn-success"> Buscar!</button> 
+                <a href="/propuesta/index/nuevo" class=" btn btn-primary btn-sm" > Crear</a>
+                <!--/propuesta/index/reporteexcel-->
+                <a href="#" class=" btn btn-danger btn-sm " > Exportar</a>
               </span></div>
           </div>
       </div>
@@ -33,8 +24,8 @@
   <table class="table table-hover p-table">
       <thead>
       <tr>  
-          <th style="width: 10%;">Codigo</th>
-          <th style="width: 5%;">Revisión</th>
+          <th style="width: 10%;">RUC</th>
+          <th style="width: 5%;">Razon Social</th>
           <th style="width: 30%;">Cliente</th>
           <th style="width: 35%;">Nombre</th>
           <th style="width: 20%;">Status</th>
@@ -45,19 +36,19 @@
 
   <?php
         $c=1;
-       foreach ($this->lista_enelaboracion as $lista) {
+       foreach ($this->lista_cliente as $lista) {
           //print_r($lista);
         ?>  
 
         <tr>
             <td class="p-name">
             <a class="control-label">
-                <?php echo $lista['propuestaid'];?>
+                <?php echo $lista['clienteid'];?>
                 </a>
             </td>
 
             <td class="p-name">
-                <center><?php echo $lista['revision'];?>  </center>
+                <center><?php echo $lista['nombre_comercial'];?>  </center>
             </td>
 
             <td class="p-name">
