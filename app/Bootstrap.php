@@ -14,6 +14,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
                      ->headLink()->appendStylesheet('/css/bootstrap-reset.css')
                      ->headLink()->appendStylesheet('/assets/font-awesome/css/font-awesome.css')
                      ->headLink()->appendStylesheet('/assets/jquery-easy-pie-chart/jquery.easy-pie-chart.css')
+                     ->headLink()->appendStylesheet('/assets/bootstrap-datepicker/css/datepicker.css')
                      ->headLink()->appendStylesheet('/css/owl.carousel.css')
                      ->headLink()->appendStylesheet('/css/slidebars.css')
                      ->headLink()->appendStylesheet('/css/style.css')
@@ -32,7 +33,15 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
                         ->headScript()->appendFile('/js/slidebars.min.js')
                         ->headScript()->appendFile('/js/sparkline-chart.js')
                         ->headScript()->appendFile('/js/easy-pie-chart.js')
-                        ->headScript()->appendFile('/js/count.js');
+                        ->headScript()->appendFile('/js/count.js')
+                        ->headScript()->appendFile('/assets/bootstrap-datepicker/js/bootstrap-datepicker.js')
+                        ->headScript()->appendFile('/assets/bootstrap-datetimepicker/js/bootstrap-datetimepicker.js')
+                        ->headScript()->appendFile('/asets/bootstrap-daterangepicker/moment.min.js')
+                        ->headScript()->appendFile('/assets/bootstrap-daterangepicker/daterangepicker.j');
+
+                    
+
+                            
 
             $view->headTitle()->setSeparator(' - ');
             $view->headTitle('Sistema de Planificación y Control | Anddes');

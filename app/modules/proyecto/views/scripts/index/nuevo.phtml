@@ -96,9 +96,6 @@
                                     </div>                          
 
 
-                                    <div class="bio-row">
-                                      <p><span class="bold">Descripcion </span>: <?php print $this->form->descripcion;?></p>
-                                    </div>
 
                                     <div class="bio-row">
                                       <p><span class="bold">Fecha Inicio </span>: <?php print $this->form->fecha_inicio;?></p>
@@ -113,9 +110,23 @@
                                       <p><span class="bold">Estado </span>: <?php print $this->form->estado;?></p>
                                     </div>
                                
-                      
+                                    <div class="bio-row">
+                                      <p><span class="bold">Descripcion </span>: <?php print $this->form->descripcion;?></p>
+                                    </div>
 
-                             
+
+                                    <div class="col-md-3 col-xs-11">
+
+                                      <div data-date-viewmode="years" data-date-format="dd-mm-yyyy" data-date="12-02-2012"  class="input-append date dpYears">
+                                          <input type="text" readonly="" value="12-02-2012" size="16" class="form-control">
+                                              <span class="input-group-btn add-on">
+                                                <button class="btn btn-danger" type="button"><i class="fa fa-calendar"></i></button>
+                                              </span>
+                                      </div>
+                                      <span class="help-block">Select date</span>
+                                  </div>
+
+                                                   
                               </div>
 
                           </div>
@@ -379,17 +390,26 @@
 
         url="/proyecto/index/nuevo/proyectoid/"+proyectoid+"/propuesta/"+propuestaid+"/nombre_proyecto/"+nombre_proyecto+"/cod_proy_prop/"+cod_proy_prop+"/proyectoid/"+proyectoid+"/cliente/"+cliente+"/uminera/"+uminera+"/control_proyecto/"+control_proyecto+"/revision/"+revision+"/descripcion/"+descripcion+"/fecha_inicio/"+fecha_inicio+"/control_documentario/"+control_documentario+"/estado/"+estado+"/gerente_proyecto/"+gerente_proyecto+"/tipo_proyecto/"+tipo_proyecto+"/tag/"+tag;
        
-          $.ajax({
+        $("#loadingcourses").load(url);
+        $("#loadingcourses").hide();
+        location.href="/proyecto/index/listar/";
+        
+       
+/*          $.ajax({
                 type: 'POST',
                 url: url,
                 data: $(this).serialize(),
                 success: function(data) { 
-                    $('#loadingcourses').html(data);
-                    $('#loadingcourses').hide();
-                    location.href="/proyecto/index/listar/";
-
+                    if (data.status==true) {
+                        $("#loadingcourses").html('<span class="text-success"><b>'+data.msg+'</b></span>');
+                        alert('ola');
+                    }
+                    else{
+                        $("#loadingcourses").html('<span class="text-danger"><b>'+data.msg+'</b></span>');
+                    };
+              
                 }
-            });        
+            });    */    
     }); 
 
 

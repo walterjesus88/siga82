@@ -86,12 +86,20 @@ class Admin_Form_Proyecto extends Zend_Form{
     $control_documentario->setAttrib("maxlength", "100");
     $control_documentario->setAttrib('class', 'form-control');
 
-    $descripcion = new Zend_Form_Element_Text('descripcion');
-    $descripcion->setRequired(true)->addErrorMessage('Este campo es requerido');
-    $descripcion->removeDecorator('Label')->removeDecorator("HtmlTag");
-    $descripcion->setAttrib("class", "input-small");
-    $descripcion->setAttrib("maxlength", "4");
-    $descripcion->setAttrib('class', 'form-control');
+    // $descripcion = new Zend_Form_Element_Text('descripcion');
+    // $descripcion->setRequired(true)->addErrorMessage('Este campo es requerido');
+    // $descripcion->removeDecorator('Label')->removeDecorator("HtmlTag");
+    // $descripcion->setAttrib("class", "input-small");
+    // $descripcion->setAttrib("maxlength", "4");
+    // $descripcion->setAttrib('class', 'form-control');
+
+    $descripcion = new Zend_Form_Element_Textarea('descripcion');
+    $descripcion->removeDecorator('Label')
+                    ->setRequired(true)
+                    ->setAttrib('class', 'form-control')
+                    ->setAttrib('rows', '9')
+                    ->setAttrib('style', 'resize : none;')
+                    ->setAttrib('title', 'Descripción');
 
     $tipo_proyecto= new Zend_Form_Element_Text('tipo_proyecto');
     $tipo_proyecto->removeDecorator('Label')->removeDecorator("HtmlTag");

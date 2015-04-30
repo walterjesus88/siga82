@@ -96,7 +96,7 @@
               	<!-- sidebar menu start-->
               	<ul class="sidebar-menu" id="nav-accordion">
                   	<li>
-                      	<a class="active" href="#">
+                      	<a class="active" href="/admin/index">
                           	<i class="fa fa-home"></i>
                           	<span>Inicio</span>
                       	</a>
@@ -105,9 +105,9 @@
                   	<?php 
                   	if ($rol == "PROPUESTA") { ?>
                   		<li class="sub-menu">
-	                      	<a href="/propuesta" >
+	                      	<a href="/propuesta/index/listar" >
 	                          	<i class="fa fa-bar-chart-o"></i>
-	                          	<span>Propuesta</span>
+	                          	<span>Propuestas</span>
 	                      	</a>
 		                    <ul class="sub">
 		                        <li><a  href="/propuesta/index/listar">Lista</a></li>
@@ -115,17 +115,48 @@
 		                    </ul>
 	                  	</li>
 
+                      <li class="sub-menu">
+                          <a href="/proyecto/index/listar" >
+                              <i class="fa fa-archive"></i>
+                              <span>Proyectos</span>
+                          </a>
+                        <ul class="sub">
+                            <li><a  href="/proyecto/index/listar">Lista</a></li>
+                            <li><a  href="/proyecto/index/nuevo">Nuevo</a></li>
+                        </ul>
+                      </li>
+
+                      <li class="sub-menu">
+                          <a href="/admin/index" >
+                              <i class="fa fa-book"></i>
+                              <span>Control de Proyectos</span>
+                          </a>
+                      </li>
+
 	                  	<li class="sub-menu">
-	                      	<a href="javascript:;" >
+	                      	<a href="/admin/index" >
 	                          	<i class="fa fa-book"></i>
 	                          	<span>Control Documentario</span>
 	                      	</a>
 	                  	</li>
+            
                   		<?php
                   	}
                   	if ($rol == "PROYECTO") { ?>
+
+                      <li class="sub-menu">
+                          <a href="/propuesta/index/listar" >
+                              <i class="fa fa-bar-chart-o"></i>
+                              <span>Propuestas</span>
+                          </a>
+                        <ul class="sub">
+                            <li><a  href="/propuesta/index/listar">Lista</a></li>
+                            <li><a  href="/propuesta/index/nuevo">Nuevo</a></li>
+                        </ul>
+                      </li>
+
                   		<li class="sub-menu">
-	                      	<a href="/proyecto" >
+	                      	<a href="/proyecto/index/listar" >
 	                          	<i class="fa fa-archive"></i>
 	                          	<span>Proyecto</span>
 	                      	</a>
@@ -134,22 +165,57 @@
 		                        <li><a  href="/proyecto/index/nuevo">Nuevo</a></li>
 		                    </ul>
 	                  	</li>
+                      <li class="sub-menu">
+                          <a href="/admin/index" >
+                              <i class="fa fa-book"></i>
+                              <span>Control Proyecto</span>
+                          </a>
+                      </li>
+
+                      <li class="sub-menu">
+                          <a href="/admin/index" >
+                              <i class="fa fa-book"></i>
+                              <span>Control Documentario</span>
+                          </a>
+                      </li>
+            
+
                   	<?php 
                   	} ?>
 
                   	<li>
-	                   	<a  href="#">
+	                   	<a  href="/admin/index">
 	                       	<i class="fa fa-calendar-o"></i>
 	                       	<span>Timesheet</span>
 	                   	</a>
 	               	</li>
 
 	               	<li>
-	                   	<a  href="#">
+	                   	<a  href="/admin/index">
                         	<i class="fa fa-money"></i>
 	                        <span>Expense</span>
 	                    </a>
 	                </li>
+
+                      <li>
+                      <a  href="/admin/index">
+                          <i class="fa fa-money"></i>
+                          <span>RRHH</span>
+                      </a>
+                  </li>
+                  <li>
+                      <a  href="/admin/index">
+                          <i class="fa fa-money"></i>
+                          <span>Comercial</span>
+                      </a>
+                  </li>
+
+                  <li>
+                      <a  href="/admin/index">
+                          <i class="fa fa-money"></i>
+                          <span>Admin</span>
+                      </a>
+                  </li>
 
                   	<!--multi level menu start-->
                   	<!-- <li class="sub-menu">

@@ -3,7 +3,7 @@ class Admin_IndexController extends Zend_Controller_Action {
 
     public function init() {
                  $options = array(
-            'layout' => 'default',
+            'layout' => 'layout',
         );
         Zend_Layout::startMvc($options);
 

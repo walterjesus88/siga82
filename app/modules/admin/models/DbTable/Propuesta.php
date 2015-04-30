@@ -33,6 +33,26 @@ class Admin_Model_DbTable_Propuesta extends Zend_Db_Table_Abstract
         }
     }
 
+
+    public function _getPropuestaxnoproyectxganado()
+     {
+        try{
+            $sql=$this->_db->query("
+               select * from propuesta 
+               where estado_propuesta='G' and  isproyecto!='S' 
+
+            ");
+            $row=$sql->fetchAll();
+            return $row;           
+            }  
+            
+           catch (Exception $ex){
+            print $ex->getMessage();
+        }
+    }
+
+
+
     public function _getPropuestaAllOrdenadoxEstadoPropuesta($estado_propuesta)
      {
         try{
@@ -71,7 +91,7 @@ class Admin_Model_DbTable_Propuesta extends Zend_Db_Table_Abstract
         try{
             $sql=$this->_db->query("
                select * from propuesta 
-               where propuestaid='$propuestaid' and isproyecto='S' ");
+               where propuestaid='$propuestaid'  ");
             $row=$sql->fetchAll();
             return $row;           
             }  
@@ -91,6 +111,17 @@ class Admin_Model_DbTable_Propuesta extends Zend_Db_Table_Abstract
         }
     }
 
+    public function _updateX($data,$pk)
+    {
+        try{
+            if ($pk['codigo_prop_proy']=='' ||  $pk['propuestaid']=='' ||  $pk['revision']=='' ) return false;
+            $where = "codigo_prop_proy = '".$pk['codigo_prop_proy']."' and propuestaid='".$pk['propuestaid']."' and revision='".$pk['revision']."' ";
+            return $this->update($data, $where);
+            return false;
+        }catch (Exception $e){
+            print "Error: Update Distribution".$e->getMessage();
+        }
+    }
 
 
 
