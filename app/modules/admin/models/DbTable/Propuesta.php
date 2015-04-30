@@ -71,21 +71,23 @@ class Admin_Model_DbTable_Propuesta extends Zend_Db_Table_Abstract
     }
 
 
-    public function _buscarPropuesta($propuesta)
-     {
+    
+     public function _buscarPropuesta($propuesta){
         try{
             $sql=$this->_db->query("
-                select * from propuesta as pro inner join cliente as cli on
+select * from propuesta as pro inner join cliente as cli on
                 pro.clienteid=cli.clienteid where lower(pro.nombre_propuesta) like '%$propuesta%' 
                 or lower(cli.nombre_comercial) like '%$propuesta%'
-                order by pro.orden_estado asc
-
-            ");
- } 
- catch (Exception $ex){
+                order by pro.orden_estado asc");
+            $row=$sql->fetchAll();
+            return $row;           
+            }  
+            
+           catch (Exception $ex){
             print $ex->getMessage();
         }
     }
+
 
     public function _getFilter($propuestaid){
         try{
