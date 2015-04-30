@@ -1,0 +1,38 @@
+<table class="table table-hover p-table">
+      <thead>
+      <tr>  
+          <th style="width: 10%;">RUC</th>
+          <th style="width: 40%;"> Razon Social</th>
+          <th style="width: 30%;">Logo</th>
+          <th style="width: 20%;">Tag</th>
+          <th style="width: 10%;">Operaciones</th>
+      </tr>
+      </thead>
+        <tbody>
+
+  <?php
+        $c=1;
+       foreach ($this->lista_cliente as $lista) {
+        ?>  
+
+        <tr>
+            <td class="p-name">
+                <a class="control-label"> <?php echo $lista['clienteid'];?> </a>
+            </td>
+            <td class="p-name">
+                <?php echo $lista['nombre_comercial'];?>  
+            </td>
+            <td class="p-name">
+               <a href="/comercial/index/upload" class="logo"><img width="150" src="/img/cliente/<?php echo $lista['clienteid'];?>.jpg"></a>
+            </td>
+         <td style="width: 15%"> <input type="button" class=" icon-folder-close-alt" value="Subir Logo" onClick="window.open('/comercial/index/upload/ruc/<?php echo $lista['clienteid'];?>','mywindow','width=400,height=400,left=0,top=100,screenX=0,screenY=100')">  </td> 
+            <td>
+                <a href="/propuesta/index/ver/propuestaid/<?php echo $lista['propuestaid']?>/revision/<?php echo $lista['revision']?>/codigo/<?php echo $lista['codigo_prop_proy']?>"
+               class="btn btn-primary btn-xs"><i class="fa fa-folder"></i></a>
+                <a href="/propuesta/index/ver" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i></a>
+                <a href="/propuesta/index/ver" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i></a>
+            </td>
+        </tr>
+        <?php  }?>
+        </tbody>
+  </table>

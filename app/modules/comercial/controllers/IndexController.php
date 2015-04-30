@@ -28,15 +28,14 @@ class Comercial_IndexController extends Zend_Controller_Action {
     } catch (Exception $e) {
       print "Error: ".$e->getMessage();
     }
-  }
+    }
 
    public function buscarAction() {
         $this->_helper->layout()->disableLayout();
-        $buscar_propuesta=$this->_getParam('cliente');
-        $buscar_propuesta=strtolower($buscar_propuesta);
-        $buscapropuesta = new Admin_Model_DbTable_Propuesta();
-        $buscar=$buscapropuesta->_buscarPropuesta($buscar_propuesta);
-        $this->view->lista_buscar = $buscar; 
-       
+        $buscar_cliente=$this->_getParam('cliente');
+        $buscar_cliente=strtolower($buscar_cliente);
+        $buscapropuesta = new Admin_Model_DbTable_Cliente();
+        $buscar=$buscapropuesta->_buscarCliente($buscar_cliente);
+        $this->view->lista_cliente = $buscar; 
     }  
 }

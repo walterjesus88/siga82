@@ -49,6 +49,22 @@ class Admin_Model_DbTable_Cliente extends Zend_Db_Table_Abstract
         }
     }
 
+
+     public function _buscarCliente($cliente){
+        try{
+            $sql=$this->_db->query("
+                select * from cliente where lower(nombre_comercial) like '%$cliente%'
+                order by nombre_comercial asc");
+            $row=$sql->fetchAll();
+            return $row;           
+            }  
+            
+           catch (Exception $ex){
+            print $ex->getMessage();
+        }
+    }
+
+
  
 
 
