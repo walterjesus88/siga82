@@ -118,8 +118,18 @@
                                                                            
                                       url="/proyecto/index/delete/proyectoid/"+$proyectoid+"/propuesta/"+$propuestaid+"/codigo_prop_proy/"+$codigo_prop_proy+"/revision/"+$revision;
                                       //alert(url);
-                                      $("#deleteproyecto").load(url);
-                                      location.href="/proyecto/index/listar/";  
+                                      //$("#deleteproyecto").load(url);
+                                      location.href="/proyecto/index/listar/"; 
+                                        $.ajax({
+                                              type: 'POST',
+                                              url: url,
+                                              data: $(this).serialize(),
+                                              success: function(data) {                                                    
+                                                      $("#deleteproyecto").html(data);
+                                                 
+                                              }
+                                              
+                                        });       
 
                                     });  
                               </script>

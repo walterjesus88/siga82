@@ -32,7 +32,13 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
                         ->headScript()->appendFile('/js/slidebars.min.js')
                         ->headScript()->appendFile('/js/sparkline-chart.js')
                         ->headScript()->appendFile('/js/easy-pie-chart.js')
-                        ->headScript()->appendFile('/js/count.js');
+                        ->headScript()->appendFile('/js/count.js')
+                        ->headScript()->appendFile('/assets/bootstrap-datepicker/js/bootstrap-datepicker.js')
+                        ->headScript()->appendFile('/assets/bootstrap-datetimepicker/js/bootstrap-datetimepicker.js')
+                        ->headScript()->appendFile('/asets/bootstrap-daterangepicker/moment.min.js')
+                        ->headScript()->appendFile('/assets/bootstrap-daterangepicker/daterangepicker.j');
+
+                    
 
             $view->headTitle()->setSeparator(' - ');
             $view->headTitle('Sistema de Planificación y Control | Anddes');
