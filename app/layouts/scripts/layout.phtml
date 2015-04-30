@@ -9,6 +9,10 @@
     $sesion = $auth->getStorage()->read();
     $name = $sesion -> personal->alias;
     $rol = $sesion -> rid;
+<<<<<<< HEAD
+=======
+    $dni = $sesion -> dni;
+>>>>>>> e0c9f339b75046a64e75451edb8b5de80b28b5b4
 ?>
 <html lang="es">
 	<head>
@@ -72,7 +76,11 @@
                     <!-- user login dropdown start-->
                     <li class="dropdown">
                         <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+<<<<<<< HEAD
                             <img src="/img/avatar1_small.jpg" style="border-radius : 50%">
+=======
+                            <img src="/img/fotos-anddes/<?php print $dni ?>.jpg" style="border-radius : 50%; width : 29px ; height : 30px">
+>>>>>>> e0c9f339b75046a64e75451edb8b5de80b28b5b4
                             <span class="username"><?php print $name ?></span>
                             <b class="caret"></b>
                         </a>
@@ -83,6 +91,9 @@
                             <li><a href="#"><i class="fa fa-bell-o"></i> Notificaciones</a></li>
                             <li><a href="/logout"><i class="fa fa-key"></i> Salir</a></li>
                         </ul>
+                    </li>
+                    <li class="sb-toggle-right">
+                        <i class="fa  fa-align-right"></i>
                     </li>
                     <!-- user login dropdown end -->
                 </ul>
@@ -96,7 +107,7 @@
               	<!-- sidebar menu start-->
               	<ul class="sidebar-menu" id="nav-accordion">
                   	<li>
-                      	<a class="active" href="#">
+                      	<a class="active" href="/admin">
                           	<i class="fa fa-home"></i>
                           	<span>Inicio</span>
                       	</a>
@@ -144,6 +155,7 @@
                   		<?php
                   	}
                   	if ($rol == "PROYECTO") { ?>
+<<<<<<< HEAD
 
                       <li class="sub-menu">
                           <a href="/propuesta/index/listar" >
@@ -157,6 +169,29 @@
                         </ul>
                       </li>
 
+=======
+                        <li class="sub-menu">
+                            <a href="/propuesta/index/listar" >
+                                <i class="fa fa-bar-chart-o"></i>
+                                <span>Propuestas</span>
+                            </a>
+                            <ul class="sub">
+                                <li><a  href="/propuesta/index/listar">Lista</a></li>
+                                <li><a  href="/propuesta/index/nuevo">Nuevo</a></li>
+                                <li><a  href="/propuesta/index/transmittal">Transmittal</a></li>
+                            </ul>
+                        </li>
+                        <li class="sub-menu">
+                            <a href="/propuesta/index/listar" >
+                                <i class="fa fa-bar-chart-o"></i>
+                                <span>Propuestas</span>
+                            </a>
+                            <ul class="sub">
+                                <li><a  href="/propuesta/index/listar">Lista</a></li>
+                                <li><a  href="/propuesta/index/nuevo">Nuevo</a></li>
+                            </ul>
+                        </li>
+>>>>>>> e0c9f339b75046a64e75451edb8b5de80b28b5b4
                   		<li class="sub-menu">
 	                      	<a href="/proyecto/index/listar" >
 	                          	<i class="fa fa-archive"></i>
@@ -184,20 +219,52 @@
 
                   	<?php 
                   	} ?>
+<<<<<<< HEAD
 
                   	<li>
 	                   	<a  href="#">
+=======
+                    
+                    <li class="sub-menu">
+                        <a href="/admin" >
+                            <i class="fa fa-suitcase"></i>
+                            <span>Comercial</span>
+                        </a>
+                        <ul class="sub">
+                            <li><a  href="#">Lista</a></li>
+                        </ul>
+                    </li>
+                    <li class="sub-menu">
+                        <a href="/admin" >
+                            <i class="fa fa-check-square"></i>
+                            <span>Control Proyecto</span>
+                        </a>
+                    </li>
+                    <li class="sub-menu">
+                        <a href="/admin" >
+                            <i class="fa fa-bookmark-o"></i>
+                            <span>Control Documentario</span>
+                        </a>
+                    </li>
+                 	<li>
+	                   	<a href="/admin">
+>>>>>>> e0c9f339b75046a64e75451edb8b5de80b28b5b4
 	                       	<i class="fa fa-calendar-o"></i>
 	                       	<span>Timesheet</span>
 	                   	</a>
 	               	</li>
 
 	               	<li>
+<<<<<<< HEAD
 	                   	<a  href="#">
+=======
+	                   	<a href="/admin">
+>>>>>>> e0c9f339b75046a64e75451edb8b5de80b28b5b4
                         	<i class="fa fa-money"></i>
 	                        <span>Expense</span>
 	                    </a>
 	                </li>
+<<<<<<< HEAD
 
                       <li>
                       <a  href="#">
@@ -224,6 +291,20 @@
                           <span>Admin</span>
                       </a>
                   </li>
+=======
+                    <li>
+                        <a href="/admin">
+                            <i class="fa fa-user"></i>
+                            <span>Administrador</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/admin">
+                            <i class="fa fa-group"></i>
+                            <span>RR. HH.</span>
+                        </a>
+                    </li>
+>>>>>>> e0c9f339b75046a64e75451edb8b5de80b28b5b4
 
                   	<!--multi level menu start-->
                   	<!-- <li class="sub-menu">
@@ -263,13 +344,33 @@
           	</section>
       	</section>
       	<!--main content end-->
+
+        <!-- Right Slidebar start -->
+        <div class="sb-slidebar sb-right sb-style-overlay">
+            <h5 class="side-title">Calendario</h5>
+            <section class="panel">
+                <div class="panel-body">
+                    <div id="calendar" class="has-toolbar"></div>
+                </div>
+            </section>
+        </div>
+        <!-- Right Slidebar end -->
+
+        <footer class="site-footer" style="margin-top: 10%">
+            <div class="text-center">
+                2015 &copy; Anddes Asociados
+                <a href="#" class="go-top"><i class="fa fa-angle-up"></i></a>
+            </div>
+        </footer>
     </section>
-    <footer class="site-footer" style="margin-top: 10%">
-	    <div class="text-center">
-	        2015 &copy; Anddes Asociados
-	        <a href="#" class="go-top"><i class="fa fa-angle-up"></i></a>
-	    </div>
-	</footer>
+
+    <script src="/assets/fullcalendar/fullcalendar/fullcalendar.min.js"></script>
+    <!--script for this page only-->
+    <script src="/js/external-dragging-calendar.js"></script>
+    
+    
+    <script src="/js/soon/plugins.js"></script>
+    <script src="/js/soon/custom.js"></script>
     <script src="/js/common-scripts.js"></script>
   	</body>
 </html>
