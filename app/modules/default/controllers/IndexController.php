@@ -87,8 +87,8 @@ class IndexController extends Zend_Controller_Action {
                             $data->personal->alias= $rp['alias']; 
                                                    
                         }
-                        print_r($data);
-                        exit();
+                        //print_r($data);
+                        //exit();
                         $auth->getStorage()->write($data);
                         
                         // Registrando el Acceso en la BD
@@ -153,10 +153,5 @@ class IndexController extends Zend_Controller_Action {
         Zend_Auth::getInstance()->clearIdentity();
         $this->_redirect("/");
     }
-
-     public function proximamenteAction(){
-        
-    }
-
 
 }
