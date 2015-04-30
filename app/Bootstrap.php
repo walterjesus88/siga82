@@ -13,6 +13,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
             $view->headLink()->prependStylesheet('/css/bootstrap.min.css')
                      ->headLink()->appendStylesheet('/css/bootstrap-reset.css')
                      ->headLink()->appendStylesheet('/assets/font-awesome/css/font-awesome.css')
+                     ->headLink()->appendStylesheet('/assets/fullcalendar/fullcalendar/bootstrap-fullcalendar.css')
                      ->headLink()->appendStylesheet('/assets/jquery-easy-pie-chart/jquery.easy-pie-chart.css')
                      ->headLink()->appendStylesheet('/css/owl.carousel.css')
                      ->headLink()->appendStylesheet('/css/slidebars.css')
