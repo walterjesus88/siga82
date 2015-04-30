@@ -10,8 +10,8 @@
     <div class="panel-body">
         <div class="row">
             <div class="col-md-12">
-                <div class="input-group"><input id="buscar_propuesta" type="text" placeholder="Buscar Cliente" class="input-sm form-control"> <span class="input-group-btn">
-                <button id="btn_buscar_propuesta" type="button" class="btn btn-sm btn-success"> Buscar!</button> 
+                <div class="input-group"><input id="buscar_cliente" type="text" placeholder="Buscar Cliente" class="input-sm form-control"> <span class="input-group-btn">
+                <button id="btn_buscar_cliente" type="button" class="btn btn-sm btn-success"> Buscar!</button> 
                 <a href="/propuesta/index/nuevo" class=" btn btn-primary btn-sm" > Crear</a>
                 <!--/propuesta/index/reporteexcel-->
                 <a href="#" class=" btn btn-danger btn-sm " > Exportar</a>
@@ -20,7 +20,7 @@
       </div>
   </div>
   
-  <div id="propuesta_enelaboracion" >
+  <div id="cliente" >
   <table class="table table-hover p-table">
       <thead>
       <tr>  
@@ -31,131 +31,53 @@
           <th style="width: 10%;">Operaciones</th>
       </tr>
       </thead>
-      <tbody>
+        <tbody>
 
   <?php
         $c=1;
        foreach ($this->lista_cliente as $lista) {
-          //print_r($lista);
         ?>  
 
         <tr>
             <td class="p-name">
-            <a class="control-label">
-                <?php echo $lista['clienteid'];?>
-                </a>
+                <a class="control-label"> <?php echo $lista['clienteid'];?> </a>
             </td>
-
             <td class="p-name">
                 <?php echo $lista['nombre_comercial'];?>  
             </td>
-
             <td class="p-name">
-               <a href="#" class="logo"><img width="150" src="/img/logo.jpg"></a>
+               <a href="/comercial/index/upload" class="logo"><img width="150" src="/img/cliente/<?php echo $lista['clienteid'];?>.jpg"></a>
             </td>
-                  <td class="p-name">
-              
-            </td>
-          
-            
-          <td>
-              <a href="/propuesta/index/ver/propuestaid/<?php echo $lista['propuestaid']?>/revision/<?php echo $lista['revision']?>/codigo/<?php echo $lista['codigo_prop_proy']?>"
+         <td style="width: 15%"> <input type="button" class=" icon-folder-close-alt" value="Subir Logo" onClick="window.open('/comercial/index/upload/ruc/<?php echo $lista['clienteid'];?>','mywindow','width=400,height=400,left=0,top=100,screenX=0,screenY=100')">  </td> 
+            <td>
+                <a href="/propuesta/index/ver/propuestaid/<?php echo $lista['propuestaid']?>/revision/<?php echo $lista['revision']?>/codigo/<?php echo $lista['codigo_prop_proy']?>"
                class="btn btn-primary btn-xs"><i class="fa fa-folder"></i></a>
-              <a href="/propuesta/index/ver" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i></a>
-              <a href="/propuesta/index/ver" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i></a>
-          </td>
-       
-
-      </tr>
-
-      <?php  }?>
-     
-      </tbody>
+                <a href="/propuesta/index/ver" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i></a>
+                <a href="/propuesta/index/ver" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i></a>
+            </td>
+        </tr>
+        <?php  }?>
+        </tbody>
   </table>
   </div>
-
+<div id="resultado_busqueda">     
+  </div>
+</section>
+<!-- page end-->
 
 <script>
 $(document).ready(function(){
-    $("#mostrar_ganada").click(function(){
-             
-        $("#propuesta_enelaboracion").hide();
-        $("#propuesta_ganada").show();
-        $("#propuesta_perdida").hide();
-        $("#propuesta_enviada").hide();
-        $("#propuesta_declinada").hide();
-        $("#propuesta_anulada").hide();
-        $("#resultado_busqueda").hide();
-
-    });
-    $("#mostrar_enelaboracion").click(function(){
-        $("#propuesta_enelaboracion").show();
-        $("#propuesta_ganada").hide();
-        $("#propuesta_perdida").hide();
-        $("#propuesta_enviada").hide();
-        $("#propuesta_declinada").hide();
-        $("#propuesta_anulada").hide();
-        $("#resultado_busqueda").hide();
-    });
-    $("#mostrar_perdida").click(function(){
-        $("#propuesta_enelaboracion").hide();
-        $("#propuesta_ganada").hide();
-        $("#propuesta_perdida").show();
-        $("#propuesta_enviada").hide();
-        $("#propuesta_declinada").hide();
-        $("#propuesta_anulada").hide();
-        $("#resultado_busqueda").hide();
-    });
-
-    $("#mostrar_enviada").click(function(){
-        $("#propuesta_enelaboracion").hide();
-        $("#propuesta_ganada").hide();
-        $("#propuesta_perdida").hide();
-        $("#propuesta_enviada").show();
-        $("#propuesta_declinada").hide();
-        $("#propuesta_anulada").hide();
-        $("#resultado_busqueda").hide();
-    });
-
-    $("#mostrar_declinada").click(function(){
-        $("#propuesta_enelaboracion").hide();
-        $("#propuesta_ganada").hide();
-        $("#propuesta_perdida").hide();
-        $("#propuesta_enviada").hide();
-        $("#propuesta_declinada").show();
-        $("#propuesta_anulada").hide();
-        $("#resultado_busqueda").hide();
-    });
-
-    $("#mostrar_anulada").click(function(){
-        $("#propuesta_enelaboracion").hide();
-        $("#propuesta_ganada").hide();
-        $("#propuesta_perdida").hide();
-        $("#propuesta_enviada").hide();
-        $("#propuesta_declinada").hide();
-        $("#propuesta_anulada").show();
-        $("#resultado_busqueda").hide();
-    });    
-
-
-    $("#btn_buscar_propuesta").click(function(){
-        var buscar_propuesta = $("#buscar_propuesta").val();
-        
-        $("#propuesta_enelaboracion").hide();
-        $("#propuesta_enelaboracion").hide();
-        $("#propuesta_ganada").hide();
-        $("#propuesta_perdida").hide();
-        $("#propuesta_enviada").hide();
-        $("#propuesta_declinada").hide();
-        $("#propuesta_anulada").hide();
+    $("#btn_buscar_cliente").click(function(){
+        var buscar_cliente = $("#buscar_cliente").val();
+        $("#cliente").hide();
         $("#resultado_busqueda").show();
-        if (buscar_propuesta=='')  
+        if (buscar_cliente=='')  
         {
-            alert("ingrese propuesta a buscar");
+            alert("ingrese datos del cliente a buscar");
         }
         else
         { 
-            var url="/propuesta/index/buscar/propuesta/"+buscar_propuesta;    
+            var url="/comercial/index/buscar/cliente/"+buscar_cliente;    
         }
         $("#resultado_busqueda").load(url);
     });    
