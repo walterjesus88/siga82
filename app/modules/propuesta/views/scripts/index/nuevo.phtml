@@ -1,7 +1,48 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+            <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.1/themes/base/jquery-ui.css" />
+            <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+            <script src="http://code.jquery.com/ui/1.10.1/jquery-ui.js"></script>
+            <script>
+            $(function () {
+                $("#f_inicio_propuesta").datepicker();
+                $("#f_entrega_bases").datepicker();
+                $("#f_presentacion_consulta").datepicker();
+                $("#f_absolucion_consulta").datepicker();
+                $("#f_presentacion_propuesta").datepicker();
+                $("#f_respuesta_propuesta").datepicker();
+                $("#f_charla_informativa").datepicker();
+                $("#f_visita_tecnica").datepicker();
+
+            });
+            $(function () {
+                $("#fecha2").datepicker();
+            });
+            $.datepicker.regional['es'] = {
+                closeText: 'Cerrar',
+                prevText: '<Ant',
+                nextText: 'Sig>',
+                 currentText: 'Hoy',
+                 monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+                 monthNamesShort: ['Ene','Feb','Mar','Abr', 'May','Jun','Jul','Ago','Sep', 'Oct','Nov','Dic'],
+                 dayNames: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
+                 dayNamesShort: ['Dom','Lun','Mar','Mié','Juv','Vie','Sáb'],
+                 dayNamesMin: ['Do','Lu','Ma','Mi','Ju','Vi','Sá'],
+                 weekHeader: 'Sm',
+                 dateFormat: 'dd/mm/yy',
+                 firstDay: 1,
+                 isRTL: false,
+                 showMonthAfterYear: false,
+                 yearSuffix: ''
+            };
+            $.datepicker.setDefaults($.datepicker.regional['es']);
+            </script>
+    </head>
+<body>
 <!-- page start-->
-
 <div class="row">
-
     <div class="col-lg-6">
         <section class="panel">
             <header class="panel-heading">
@@ -27,8 +68,8 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="unidad" class="col-lg-2 col-sm-2 control-label">Unidad Minera</label>
-                        <div class="col-lg-10">
+                        <label for="unidad" class="col-lg-3 col-sm-3 control-label">Unidad Minera</label>
+                        <div class="col-lg-9">
                         <select  id="uminera" name="unidadminera" class="form-control">
                         </select>
 
@@ -49,9 +90,15 @@
                         </div>
                     </div>
                     <div class="form-group">
+                        <label for="nro_propuesta" class="col-lg-3 col-sm-3 control-label">Nro Propuesta</label>
+                        <div class="col-lg-9">
+                            <input class="form-control" id="nro_propuesta" >
+                        </div>
+                    </div>
+                    <div class="form-group">
                         <label for="nombre_propuesta" class="col-lg-2 col-sm-2 control-label">Nombre</label>
                         <div class="col-lg-10">
-                            <input class="form-control" id="nombrepropuesta" >
+                            <input class="form-control" id="nombre_propuesta" >
                         </div>
                     </div>
 
@@ -178,7 +225,6 @@
                             <option value="EE">En elaboración</option>
                             <option value="P">Perdida</option>
                             <option value="D">Declinada</option>
-                            <option value="S">Standby</option>
                             <option value="A">Anulada</option>
                         </select>
                         </div>
@@ -200,7 +246,6 @@
                         <div class="col-lg-6">
                         <select id="tipo_servicio" class="form-control input-sm m-bot15 col-lg-10">
                             <option value="AMB">Ambiental</option>
-                            <option value="TDM">TDM</option>
                             <option value="ING">Ingeniería</option>
                             <option value="GEO">Geotecnia</option>
                             <option value="CON">Construcción</option>
@@ -208,10 +253,61 @@
                         </div>
                     </div>
 
-          
+
+                    <div class="form-group">
+                        <label for="tipo_servicio" class="col-lg-4 col-sm-4 control-label">Tipo de Moneda</label>
+                        <div class="col-lg-6">
+                        <select id="tipo_servicio" class="form-control input-sm m-bot15 col-lg-10">
+                            <option value="D">Dolares</option>
+                            <option value="S">Soles</option>
+                        </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="costo_honorarios" class="col-lg-4 col-sm-4 control-label">Costo Honorarios</label>
+                        <div class="col-lg-6">
+                            <input class="form-control" id="costo_honorarios" >
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="costo_gastos" class="col-lg-4 col-sm-4 control-label">Costo Gastos</label>
+                        <div class="col-lg-6">
+                            <input class="form-control" id="costo_gastos" >
+                        </div>
+                    </div>
                     
+                    <div class="form-group">
+                        <label for="costo_laboratorio" class="col-lg-4 col-sm-4 control-label">Costo Laboratorio</label>
+                        <div class="col-lg-6">
+                            <input class="form-control" id="costo_laboratorio" >
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="costo_otros" class="col-lg-4 col-sm-4 control-label">Costo Otros</label>
+                        <div class="col-lg-6">
+                            <input class="form-control" id="costo_otros" >
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="descuento" class="col-lg-4 col-sm-4 control-label">Descuento</label>
+                        <div class="col-lg-6">
+                            <input class="form-control" id="descuento" >
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="total" class="col-lg-4 col-sm-4 control-label">Total</label>
+                        <div class="col-lg-6">
+                            <input class="form-control" id="total" >
+                        </div>
+                    </div>
+
                     <div class="panel-body">
-                                                    <button type="submit" class="btn btn-success" id="guardar_equipo">Guardar</button>
+                        <button type="submit" class="btn btn-success" id="guardar_propuesta">Guardar</button>
                         
                     </div>
                 </form>
@@ -228,30 +324,31 @@
                     <div class="form-group">
                         <label class="col-lg-4 col-sm-4 control-label">Inicio Propuesta</label>
                         <div class="col-lg-6">
-                            <input class="form-control form-control-inline input-medium default-date-picker"  size="16" type="text" value="" />
+                            <input class="form-control form-control-inline input-medium default-date-picker"  size="16" type="text" id="f_inicio_propuesta" value="" />
+
                             <span class="help-block">Fecha Inicio de elaboracion</span>
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-lg-4 col-sm-4 control-label">Entrega de Bases</label>
                         <div class="col-lg-6">
-                            <input class="form-control form-control-inline input-medium default-date-picker"  size="16" type="text" value="" />
-                            <span class="help-block">Seleccione Fecha Entrega de Bases</span>
+                            <input class="form-control form-control-inline input-medium default-date-picker"  size="16" type="text" id="f_entrega_bases" value="" />
+                            
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-lg-4 col-sm-4 control-label">Presentación Consulta</label>
                         <div class="col-lg-6">
-                            <input class="form-control form-control-inline input-medium default-date-picker"  size="16" type="text" value="" />
-                            <span class="help-block">Seleccione Fecha Presentación Consulta</span>
+                            <input class="form-control form-control-inline input-medium default-date-picker"  size="16" type="text" id="f_presentacion_consulta" value="" />
+                            
                         </div>
                     </div>
                     <div class="form-group">
                         <label  class="col-lg-4 col-sm-4 control-label">Absolución Consulta</label>
                   
                             <div class="col-lg-6">
-                            <input class="form-control form-control-inline input-medium default-date-picker"  size="16" type="text" value="" />
-                            <span class="help-block">Seleccione Fecha Absolución Consulta</span>
+                            <input class="form-control form-control-inline input-medium default-date-picker"  size="16" type="text" id="f_absolucion_consulta" value="" />
+                            
                         </div>
                        
                     </div>
@@ -259,8 +356,8 @@
                         <label  class="col-lg-4 col-sm-4 control-label">Presentación Propuesta</label>
                         <div class="col-lg-6">
                             
-                                <input class="form-control form-control-inline input-medium default-date-picker"  size="16" type="text" value="" />
-                                <span class="help-block">Seleccione Fecha Presentación Propuesta</span>
+                                <input class="form-control form-control-inline input-medium default-date-picker"  size="16" type="text" id="f_presentacion_propuesta" value="" />
+                            
                            
                         </div>
                     </div>
@@ -268,8 +365,8 @@
                         <label  class="col-lg-4 col-sm-4 control-label">Respuesta a la Propuesta</label>
                  
                          <div class="col-lg-6">
-                                <input class="form-control form-control-inline input-medium default-date-picker"  size="16" type="text" value="" />
-                                <span class="help-block">Seleccione Fecha Respuesta a la Propuesta</span>
+                                <input class="form-control form-control-inline input-medium default-date-picker"  size="16" type="text" id="f_respuesta_propuesta" value="" />
+                            
                             </div>
                       
                     </div>
@@ -279,8 +376,8 @@
                         <label  class="col-lg-4 col-sm-4 control-label">Charla Informativa</label>
                       
                          <div class="col-lg-6">
-                                <input class="form-control form-control-inline input-medium default-date-picker"  size="16" type="text" value="" />
-                                <span class="help-block">Seleccione Fecha Charla Informativa</span>
+                                <input class="form-control form-control-inline input-medium default-date-picker"  size="16" type="text" id="f_charla_informativa" value="" />
+                            
                             </div>
                         
                     </div>
@@ -289,32 +386,20 @@
                         <label  class="col-lg-4 col-sm-4 control-label">Visita Tecnica</label>
                       
                          <div class="col-lg-6">
-                                <input class="form-control form-control-inline input-medium default-date-picker"  size="16" type="text" value="" />
-                                <span class="help-block">Seleccione Fecha Visita Tecnica</span>
+                                <input class="form-control form-control-inline input-medium default-date-picker"  size="16" type="text" id="f_visita_tecnica" value="" />
+                            
                             </div>
                         
                     </div>
-
-                    <div class="form-group">
-                        <label class="col-sm-3 control-label col-lg-3">Button addons</label>
-                        <div class="col-lg-9">
-                            <div class="input-group m-bot15">
-                                <span class="input-group-btn">
-                                  <button type="button" class="btn btn-white"><i class="fa fa-search"></i></button>
-                                </span>
-                                <input type="text" class="form-control">
-                            </div>
-
-                        </div>
-                    </div>
-
                 </form>
             </div>
         </section>
     </div>
 </div>
-
 <!-- page end-->
+
+</body>
+</html>
 
 <script type='text/javascript'>
   $("#clienteid").change(function(){
@@ -322,4 +407,52 @@
     url2="/propuesta/index/uminera/clienteid/"+clienteid;
     $("#uminera").load(url2);
     }); 
+
+  $("#guardar_propuesta").click(function(){
+
+    alert("sssss");
+
+        /*var proyectoid = $("#proyectoid").val();
+        var nombre_proyecto = $("#nombre_proyecto").val();
+        var propuestaid = $("#propuestaid").val();   
+        var cod_proy_prop = $("#cod_proy_prop").val();   
+        var propuestaid = $("#propuestaid").val();   
+        var codeo = $("#codeo").val();   
+         
+        var cliente = $("#cliente").val();   
+        var uminera = $("#uminera").val();   
+        var control_proyecto = $("#control_proyecto").val();  
+        var revision = $("#revision").val();  
+        var gerente_proyecto = $("#gerente_proyecto").val();  
+        var tag = $("#tag").val();  
+        var tipo_proyecto = $("#tipo_proyecto").val();  
+
+      
+        var descripcion = $("#descripcion").val();  
+        var fecha_inicio = $("#fecha_inicio").val();  
+        var control_documentario = $("#control_documentario").val();  
+        var estado = $("#estado").val();  
+
+
+        url="/proyecto/index/nuevo/proyectoid/"+proyectoid+"/propuesta/"+propuestaid+"/nombre_proyecto/"+nombre_proyecto+"/cod_proy_prop/"+cod_proy_prop+"/proyectoid/"+proyectoid+"/cliente/"+cliente+"/uminera/"+uminera+"/control_proyecto/"+control_proyecto+"/revision/"+revision+"/descripcion/"+descripcion+"/fecha_inicio/"+fecha_inicio+"/control_documentario/"+control_documentario+"/estado/"+estado+"/gerente_proyecto/"+gerente_proyecto+"/tipo_proyecto/"+tipo_proyecto+"/tag/"+tag;
+       
+        $("#loadingcourses").load(url);
+        $("#loadingcourses").hide();
+        location.href="/proyecto/index/listar/";
+/*          $.ajax({
+                type: 'POST',
+                url: url,
+                data: $(this).serialize(),
+                success: function(data) { 
+                    if (data.status==true) {
+                        $("#loadingcourses").html('<span class="text-success"><b>'+data.msg+'</b></span>');
+                        alert('ola');
+                    }
+                    else{
+                        $("#loadingcourses").html('<span class="text-danger"><b>'+data.msg+'</b></span>');
+                    };
+              
+                }
+            });    */    
+    });
 </script>

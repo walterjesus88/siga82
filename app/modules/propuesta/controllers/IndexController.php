@@ -89,6 +89,7 @@ class Propuesta_IndexController extends Zend_Controller_Action {
     }  
 
     public function nuevoAction() {
+         //$this->_helper->layout()->disableLayout();
         $buscapropuesta = new Admin_Model_DbTable_Propuesta();
         //$busca=$buscapropuesta->_getPropuestaxIndices($codigo,$propuestaid,$revision);
         //print_r($listapropuesta);
