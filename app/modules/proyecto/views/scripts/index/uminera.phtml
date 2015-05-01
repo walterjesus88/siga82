@@ -1,8 +1,12 @@
 <?php
     foreach ($this->propuesta  as $propuesta){
+
+        $where=array('unidad_mineraid'=>$propuesta['unidad_mineraid'],'clienteid'=>$propuesta['clienteid']);		
+		$dbnombre= new Admin_Model_DbTable_Unidadminera();
+		$minera = $dbnombre->_getOne($where);
         ?>
       
-          <option value="<?php echo $propuesta['unidad_mineraid']?>"><?php echo $propuesta['unidad_mineraid']?> </option>
+          <option value="<?php echo $propuesta['unidad_mineraid']?>"><?php echo $minera['nombre']?> </option>
         <?php  
         }
 ?>

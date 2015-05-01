@@ -1,8 +1,14 @@
 <?php
     foreach ($this->propuesta  as $propuesta){
+ 
+        $where=array('clienteid'=>$propuesta['clienteid']);
+		
+		$dbnombre= new Admin_Model_DbTable_Cliente();
+		$cliente = $dbnombre->_getOne($where);
+
         ?>
-      
-          <option value="<?php echo $propuesta['clienteid']?>"><?php echo $propuesta['clienteid']?> </option>
+      	  
+          <option value="<?php echo $propuesta['clienteid']?>"><?php echo $cliente['nombre']?> </option>
         <?php  
         }
 ?>

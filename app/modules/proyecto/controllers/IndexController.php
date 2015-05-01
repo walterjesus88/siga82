@@ -64,7 +64,6 @@ class Proyecto_IndexController extends Zend_Controller_Action {
         $formdata['oid']='AND-10';
        
         $newrec=new Admin_Model_DbTable_Proyecto();
-        $newrec->_save($formdata);
         if($newrec->_save($formdata))
         {
 
@@ -189,7 +188,9 @@ class Proyecto_IndexController extends Zend_Controller_Action {
                         'codigo_prop_proy'   =>$codigo_prop_proy,
                         'proyectoid'   =>$proyectoid,
                                                  
-                        );            
+                        );
+
+            print_r($pk);
 
             $delproy = new Admin_Model_DbTable_Proyecto();
             $delproy->_delete($pk);         

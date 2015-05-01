@@ -32,6 +32,19 @@ class Admin_Model_DbTable_Unidadminera extends Zend_Db_Table_Abstract
             print $ex->getMessage();
         }
     }
+
+
+    public function _getOne($where=array()){
+        try{
+            if ($where['clienteid']=='' || $where['unidad_mineraid']=='') return false;
+            $wherestr="clienteid = '".$where['clienteid']."' and unidad_mineraid = '".$where['unidad_mineraid']."' ";
+            $row = $this->fetchRow($wherestr);
+            if($row) return $row->toArray();
+            return false;
+        }catch (Exception $e){
+            print "Error: Read One Add_reportacad_adm ".$e->getMessage();
+        }
+    }
  
 
 }

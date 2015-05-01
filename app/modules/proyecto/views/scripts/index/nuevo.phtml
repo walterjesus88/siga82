@@ -1,10 +1,11 @@
-
-
   
+
+
+
               <!-- page start-->
               <section class="panel">
                   <header class="panel-heading">
-                      Projects Details
+                      Proyecto Nuevo
                       <span class="pull-right">
                           <button type="button" id="loading-btn" class="btn btn-warning btn-xs"><i class="fa fa-refresh"></i> Refresh</button>
                       </span>
@@ -24,10 +25,13 @@
 
                                   <form name="<?php echo $this->form->getName(); ?>" action="<?php echo $this->form->getAction(); ?>" method="post" enctype="application/x-www-form-urlencoded">
 
-                                  <div class="row">                                 
+
+
+
+                                  <div class="panel-body">                                 
                                   <!-- <div class="col-sm-1"><input type="button" id="save"/><p>save</p></div> -->
-                                    <div class="col-sm-1" id="save" ><br><a class="btn btn-info" href="#">save</a></br></div>
-                                    <div class="col-sm-1"><br><a class="btn btn-info" href="/admin/faculty"  >Cancelar</a></br></div>
+                                    <div class="col-sm-1" id="save" ><br><a class="btn btn-info" href="#">Guardar</a></br></div>
+                                    <div class="col-sm-1"><br><a class="btn btn-info" href="/admin/faculty">Cancelar</a></br></div>
                                   </div>
 
 
@@ -93,38 +97,34 @@
                             
                                     <div class="bio-row">
                                       <p><span class="bold">Control/Proyecto</span>: <?php print $this->form->control_proyecto;?></p>
-                                    </div>                          
-
-
-
-                                    <div class="bio-row">
-                                      <p><span class="bold">Fecha Inicio </span>: <?php print $this->form->fecha_inicio;?></p>
                                     </div>
-
 
                                     <div class="bio-row">
                                       <p><span class="bold">Control/Documentario </span>: <?php print $this->form->control_documentario;?></p>
                                     </div>
-
+                       
                                     <div class="bio-row">
                                       <p><span class="bold">Estado </span>: <?php print $this->form->estado;?></p>
                                     </div>
+
+
+                                    <div class="col-md-3 col-xs-11">
+                                      <div data-date-viewmode="years" data-date-format="dd-mm-yyyy" data-date="12-02-2012"  class="input-append date dpYears">
+                                          <p><span class="bold">Fecha Inicio </span>: 
+                                              <?php print $this->form->fecha_inicio;?>
+                                              <span class="input-group-btn add-on">
+                                                  <button class="btn btn-danger" type="button"><i class="fa fa-calendar"></i></button>
+                                              </span></p>
+                                      </div>
+                               
+                                    </div>                                   
+                                
                                
                                     <div class="bio-row">
                                       <p><span class="bold">Descripcion </span>: <?php print $this->form->descripcion;?></p>
                                     </div>
 
 
-                                    <div class="col-md-3 col-xs-11">
-
-                                      <div data-date-viewmode="years" data-date-format="dd-mm-yyyy" data-date="12-02-2012"  class="input-append date dpYears">
-                                          <input type="text" readonly="" value="12-02-2012" size="16" class="form-control">
-                                              <span class="input-group-btn add-on">
-                                                <button class="btn btn-danger" type="button"><i class="fa fa-calendar"></i></button>
-                                              </span>
-                                      </div>
-                                      <span class="help-block">Select date</span>
-                                  </div>
 
                                                    
                               </div>
@@ -346,6 +346,7 @@
      
   $("#propuestaid").change(function(){
     var propuestaid = $(this).val(); 
+    
     //alert(propuestaid);
 
     url="/proyecto/index/codproyprop/propuesta/"+propuestaid;
@@ -359,6 +360,8 @@
     $("#cliente").load(url1);
     $("#uminera").load(url2);
     $("#revision").load(url3);
+
+    alert(url1);
 
     }); 
 </script>
@@ -393,8 +396,6 @@
         $("#loadingcourses").load(url);
         $("#loadingcourses").hide();
         location.href="/proyecto/index/listar/";
-        
-       
 /*          $.ajax({
                 type: 'POST',
                 url: url,
@@ -410,9 +411,12 @@
               
                 }
             });    */    
-    }); 
-
-
+    });
 </script>
 
 
+
+
+
+
+  <script src="../../js/advanced-form-components.js"></script>
