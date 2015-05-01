@@ -1,46 +1,3 @@
-<!doctype html>
-<html>
-    <head>
-        <meta charset="utf-8" />
-            <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.1/themes/base/jquery-ui.css" />
-            <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
-            <script src="http://code.jquery.com/ui/1.10.1/jquery-ui.js"></script>
-            <script>
-            $(function () {
-                $("#f_inicio_propuesta").datepicker();
-                $("#f_entrega_bases").datepicker();
-                $("#f_presentacion_consulta").datepicker();
-                $("#f_absolucion_consulta").datepicker();
-                $("#f_presentacion_propuesta").datepicker();
-                $("#f_respuesta_propuesta").datepicker();
-                $("#f_charla_informativa").datepicker();
-                $("#f_visita_tecnica").datepicker();
-
-            });
-            $(function () {
-                $("#fecha2").datepicker();
-            });
-            $.datepicker.regional['es'] = {
-                closeText: 'Cerrar',
-                prevText: '<Ant',
-                nextText: 'Sig>',
-                 currentText: 'Hoy',
-                 monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
-                 monthNamesShort: ['Ene','Feb','Mar','Abr', 'May','Jun','Jul','Ago','Sep', 'Oct','Nov','Dic'],
-                 dayNames: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
-                 dayNamesShort: ['Dom','Lun','Mar','Mié','Juv','Vie','Sáb'],
-                 dayNamesMin: ['Do','Lu','Ma','Mi','Ju','Vi','Sá'],
-                 weekHeader: 'Sm',
-                 dateFormat: 'dd/mm/yy',
-                 firstDay: 1,
-                 isRTL: false,
-                 showMonthAfterYear: false,
-                 yearSuffix: ''
-            };
-            $.datepicker.setDefaults($.datepicker.regional['es']);
-            </script>
-    </head>
-<body>
 <!-- page start-->
 <div class="row">
     <div class="col-lg-6">
@@ -51,7 +8,7 @@
            
             <div class="panel-body">
                 <form class="form-horizontal" role="form">
-                    <div class="form-group">
+                    <div class="form-group has-error">
                         <label for="cliente" class="col-lg-2 col-sm-2 control-label">Cliente</label>
                         <div class="col-lg-10">
                         <select id="clienteid" class="form-control input-sm m-bot15 col-lg-10">
@@ -67,7 +24,7 @@
                         </div>
                     </div>
 
-                    <div class="form-group">
+                    <div class="form-group has-error ">
                         <label for="unidad" class="col-lg-3 col-sm-3 control-label">Unidad Minera</label>
                         <div class="col-lg-9">
                         <select  id="uminera" name="unidadminera" class="form-control">
@@ -78,30 +35,41 @@
                         </div>
                     </div>
 
-                    <div class="form-group">
+                    <div class="form-group has-error">
                         <label for="propuestaid" class="col-lg-2 col-sm-2 control-label">Codigo</label>
                         <div class="col-lg-3">
                             <input class="form-control" id="propuestaid">
                          
                         </div>
-                        <label for="revision" class="col-lg-2 col-sm-2 control-label">Revision</label>
+                        <label for="revision has-error" class="col-lg-2 col-sm-2 control-label">Revision</label>
                         <div class="col-lg-3">
                             <input class="form-control" id="revision">
                         </div>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group has-error">
                         <label for="nro_propuesta" class="col-lg-3 col-sm-3 control-label">Nro Propuesta</label>
                         <div class="col-lg-9">
                             <input class="form-control" id="nro_propuesta" >
                         </div>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group has-error">
                         <label for="nombre_propuesta" class="col-lg-2 col-sm-2 control-label">Nombre</label>
                         <div class="col-lg-10">
                             <input class="form-control" id="nombre_propuesta" >
                         </div>
                     </div>
 
+                    <div class="form-group has-error">
+                        <label for="descripcion_propuesta" class="col-lg-2 col-sm-2 control-label">Descripción</label>
+                        <div class="col-lg-10">
+                            
+                            <textarea class="form-control" id="descripcion_propuesta" rows="5" cols="60" >Escribe aquí una breve descripción propuesta</textarea>
+
+                        </div>
+
+
+
+                    </div>
                 </form>
             </div>
         </section>
@@ -114,13 +82,13 @@
            
             <div class="panel-body">
                 <form class="form-horizontal" role="form">
-                    <div class="form-group">
+                    <div class="form-group has-error">
                         <label for="responsable" class="col-lg-4 col-sm-4 control-label">Responsable</label>
                         <div class="col-lg-6">
                         <select id="responsable" class="form-control input-sm m-bot15 col-lg-10">
 
 
-                            <option value="">Seleccione Responsble</option>
+                            <option value="">Seleccione Responsable</option>
                                 
 
 
@@ -135,7 +103,7 @@
                         </div>
                     </div>
 
-                    <div class="form-group">
+                    <div class="form-group has-error">
                         <label for="revisor" class="col-lg-4 col-sm-4 control-label">Revisor Principal</label>
                         <div class="col-lg-6">
                         <select id='revisor' class="form-control input-sm m-bot15 col-lg-10">
@@ -157,7 +125,7 @@
                         </div>
                     </div>
 
-                    <div class="form-group">
+                    <div class="form-group has-error">
                         <label for="gerente" class="col-lg-4 col-sm-4 control-label">Gerente Proyecto</label>
                         <div class="col-lg-6">
                         <select id="gerente" class="form-control input-sm m-bot15 col-lg-10">
@@ -179,7 +147,7 @@
                         </div>
                     </div>
 
-                    <div class="form-group">
+                    <div class="form-group has-error">
                         <label for="control_documnetario" class="col-lg-4 col-sm-4 control-label">Control Documentario</label>
                         <div class="col-lg-6">
                         <select id='control_documentario' class="form-control input-sm m-bot15 col-lg-10">
@@ -216,7 +184,7 @@
             <div class="panel-body">
                 <form class="form-horizontal" role="form">
 
-                    <div class="form-group">
+                    <div class="form-group has-error">
                         <label for="estado_propuesta" class="col-lg-4 col-sm-4 control-label">Estado Propuesta</label>
                         <div class="col-lg-6">
                         <select id='estado_propuesta' class="form-control input-sm m-bot15 col-lg-10">
@@ -229,10 +197,10 @@
                         </select>
                         </div>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group has-error">
                         <label for="tipo_propuesta" class="col-lg-4 col-sm-4 control-label">Tipo Propuesta</label>
                         <div class="col-lg-6">
-                        <select id="tipo propuesta" class="form-control input-sm m-bot15 col-lg-10">
+                        <select id="tipo_propuesta" class="form-control input-sm m-bot15 col-lg-10">
                             <option value="SA">Suma Alzada</option>
                             <option value="CU">Costos Unitarios</option>
                         </select>
@@ -241,7 +209,7 @@
 
                    
 
-                    <div class="form-group">
+                    <div class="form-group has-error">
                         <label for="tipo_servicio" class="col-lg-4 col-sm-4 control-label">Tipo de Servicio</label>
                         <div class="col-lg-6">
                         <select id="tipo_servicio" class="form-control input-sm m-bot15 col-lg-10">
@@ -254,10 +222,10 @@
                     </div>
 
 
-                    <div class="form-group">
-                        <label for="tipo_servicio" class="col-lg-4 col-sm-4 control-label">Tipo de Moneda</label>
+                    <div class="form-group has-error">
+                        <label for="tipo_moneda" class="col-lg-4 col-sm-4 control-label">Tipo de Moneda</label>
                         <div class="col-lg-6">
-                        <select id="tipo_servicio" class="form-control input-sm m-bot15 col-lg-10">
+                        <select id="tipo_moneda" class="form-control input-sm m-bot15 col-lg-10">
                             <option value="D">Dolares</option>
                             <option value="S">Soles</option>
                         </select>
@@ -306,11 +274,9 @@
                         </div>
                     </div>
 
-                    <div class="panel-body">
-                        <button type="submit" class="btn btn-success" id="guardar_propuesta">Guardar</button>
-                        
-                    </div>
+                  
                 </form>
+                
             </div>
         </section>
     </div>
@@ -321,7 +287,7 @@
             </header>
             <div class="panel-body">
                 <form class="form-horizontal" role="form">
-                    <div class="form-group">
+                    <div class="form-group has-error">
                         <label class="col-lg-4 col-sm-4 control-label">Inicio Propuesta</label>
                         <div class="col-lg-6">
                             <input class="form-control form-control-inline input-medium default-date-picker"  size="16" type="text" id="f_inicio_propuesta" value="" />
@@ -394,12 +360,30 @@
                 </form>
             </div>
         </section>
+        <section class="panel">
+                                  <header class="panel-heading">
+                                      Tags Propuesta
+                                  </header>
+                                  <div class="panel-body">
+                                      <input name="tagsinput" id="tagsinput" class="tagsinput" value="Flat,Design,Lab,Clean" style="display: none;"><div id="tagsinput_tagsinput" class="tagsinput " style="height: 100%;"><span class="tag"><span>Flat&nbsp;&nbsp;</span><a class="tagsinput-remove-link"></a></span><span class="tag"><span>Design&nbsp;&nbsp;</span><a class="tagsinput-remove-link"></a></span><span class="tag"><span>Lab&nbsp;&nbsp;</span><a class="tagsinput-remove-link"></a></span><span class="tag"><span>Clean&nbsp;&nbsp;</span><a class="tagsinput-remove-link"></a></span><div class="tagsinput-add-container" id="tagsinput_addTag"><div class="tagsinput-add"></div><input id="tagsinput_tag" value="" data-default="" style="color: rgb(102, 102, 102); width: 7px;"></div></div>
+                                  </div>
+                              </section>
+
     </div>
 </div>
-<!-- page end-->
+<div class="row">
+    <div class="col-lg-6"> 
+        <section class="panel">
+            <div class="panel-body">
+                <button type="submit" class="btn btn-success" id="guardar_propuesta">Guardar</button>
+            </div>
+            <input type="text" id="l-name" class="form-control "> 
+        </section>
+    </div>
+</div>
 
-</body>
-</html>
+<!-- page end-->
+<div id="cargar_nueva_propuesta"></div> 
 
 <script type='text/javascript'>
   $("#clienteid").change(function(){
@@ -409,50 +393,73 @@
     }); 
 
   $("#guardar_propuesta").click(function(){
+    var clienteid = $("#clienteid").val();
+    var uminera = $("#uminera").val();
+    var propuestaid = $("#propuestaid").val();   
+    var revision = $("#revision").val();   
+    var nro_propuesta = $("#nro_propuesta").val();   
+    var captura_nombre_propuesta = $("#nombre_propuesta").val();   
+    var nombre_propuesta= captura_nombre_propuesta.replace(/\s/g,"_");
+    var responsable = $("#responsable").val();  
+    var revisor = $("#revisor").val();  
+    var gerente = $("#gerente").val();  
+    var control_documentario = $("#control_documentario").val();  
 
-    alert("sssss");
+    var estado_propuesta = $("#estado_propuesta").val();  
+    var tipo_propuesta = $("#tipo_propuesta").val();  
+    var tipo_servicio = $("#tipo_servicio").val();  
+    var tipo_moneda = $("#tipo_moneda").val();  
+    var costo_honorarios = $("#costo_honorarios").val();  
+    var costo_gastos = $("#costo_gastos").val();  
+    var costo_laboratorio = $("#costo_laboratorio").val();  
+    var costo_otros = $("#costo_otros").val();  
+    var descuento = $("#descuento").val();  
+    var total = $("#total").val();  
+    var f_inicio_propuesta = $("#f_inicio_propuesta").val();  
+    var f_entrega_bases = $("#f_entrega_bases").val();  
+    var f_presentacion_consulta = $("#f_presentacion_consulta").val();  
+    var f_absolucion_consulta = $("#f_absolucion_consulta").val();  
+    var f_presentacion_propuesta = $("#f_presentacion_propuesta").val();  
+    var f_respuesta_propuesta = $("#f_respuesta_propuesta").val();  
+    var f_charla_informativa = $("#f_charla_informativa").val();  
+    var f_visita_tecnica = $("#f_visita_tecnica").val();  
 
-        /*var proyectoid = $("#proyectoid").val();
-        var nombre_proyecto = $("#nombre_proyecto").val();
-        var propuestaid = $("#propuestaid").val();   
-        var cod_proy_prop = $("#cod_proy_prop").val();   
-        var propuestaid = $("#propuestaid").val();   
-        var codeo = $("#codeo").val();   
-         
-        var cliente = $("#cliente").val();   
-        var uminera = $("#uminera").val();   
-        var control_proyecto = $("#control_proyecto").val();  
-        var revision = $("#revision").val();  
-        var gerente_proyecto = $("#gerente_proyecto").val();  
-        var tag = $("#tag").val();  
-        var tipo_proyecto = $("#tipo_proyecto").val();  
+    if (propuestaid=='')  
+    {
+      alert("ingrese todos los datos requeridos");
 
+    }
+    else
+    { 
       
-        var descripcion = $("#descripcion").val();  
-        var fecha_inicio = $("#fecha_inicio").val();  
-        var control_documentario = $("#control_documentario").val();  
-        var estado = $("#estado").val();  
+    
 
+    url="/propuesta/index/guardar/clienteid/"+clienteid+"/uminera/"+uminera+"/propuestaid/"+propuestaid+"/revision/"+revision+"/nro_propuesta/"+nro_propuesta+"/nombre_propuesta/"+nombre_propuesta+"/responsable/"+responsable+"/revisor/"+revisor+"/gerente/"+gerente+"/control_documentario/"+control_documentario+"/estado_propuesta/"+estado_propuesta+"/tipo_propuesta/"+tipo_propuesta+"/tipo_servicio/"+tipo_servicio+"/tipo_moneda/"+tipo_moneda+"/costo_honorarios/"+costo_honorarios+"/costo_gastos/"+costo_gastos+"/costo_laboratorio/"+costo_laboratorio+"/costo_otros/"+costo_otros+"/descuento/"+descuento+"/total/"+total+"/f_entrega_bases/"+f_entrega_bases+"/f_presentacion_consulta/"+f_presentacion_consulta+"/f_absolucion_consulta/"+f_absolucion_consulta+"/f_presentacion_propuesta/"+f_presentacion_propuesta+"/f_respuesta_propuesta/"+f_respuesta_propuesta+"/f_charla_informativa/"+f_charla_informativa+"/f_visita_tecnica/"+f_visita_tecnica+"/f_inicio_propuesta/"+f_inicio_propuesta;
+        
 
-        url="/proyecto/index/nuevo/proyectoid/"+proyectoid+"/propuesta/"+propuestaid+"/nombre_proyecto/"+nombre_proyecto+"/cod_proy_prop/"+cod_proy_prop+"/proyectoid/"+proyectoid+"/cliente/"+cliente+"/uminera/"+uminera+"/control_proyecto/"+control_proyecto+"/revision/"+revision+"/descripcion/"+descripcion+"/fecha_inicio/"+fecha_inicio+"/control_documentario/"+control_documentario+"/estado/"+estado+"/gerente_proyecto/"+gerente_proyecto+"/tipo_proyecto/"+tipo_proyecto+"/tag/"+tag;
-       
-        $("#loadingcourses").load(url);
-        $("#loadingcourses").hide();
-        location.href="/proyecto/index/listar/";
-/*          $.ajax({
+        $("#cargar_nueva_propuesta").load(url);
+       } 
+        //$("#cargar_nueva_propuesta").hide();
+        //location.href="/propuesta/index/listar/";
+          /*$.ajax({
                 type: 'POST',
                 url: url,
                 data: $(this).serialize(),
                 success: function(data) { 
                     if (data.status==true) {
-                        $("#loadingcourses").html('<span class="text-success"><b>'+data.msg+'</b></span>');
+                        $("#cargar_nueva_propuesta").html('<span class="text-success"><b>'+data.msg+'</b></span>');
                         alert('ola');
                     }
                     else{
-                        $("#loadingcourses").html('<span class="text-danger"><b>'+data.msg+'</b></span>');
+                        $("#cargar_nueva_propuesta").html('<span class="text-danger"><b>'+data.msg+'</b></span>');
                     };
               
                 }
-            });    */    
+            });    */
     });
 </script>
+<script src="../../js/advanced-form-components.js"></script>
+<script src="../../js/jquery.tagsinput.js"></script>
+<script src="../../assets/jquery-tags-input/jquery.tagsinput.css"></script>
+<script src="../../assets/jquery-tags-input/jquery.tagsinput.min.js"></script>
+<script src="../../assets/jquery-tags-input/jquery.tagsinput.js"></script>

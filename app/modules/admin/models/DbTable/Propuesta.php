@@ -125,6 +125,17 @@ select * from propuesta as pro inner join cliente as cli on
         }
     }
 
+        public function _save($data)
+    {
+        try{
+            if ($data['codigo_prop_proy']=='' ||  $data['codigo_prop_proy']=='' ) return false;
+            return $this->insert($data);
+            return false;
+        }catch (Exception $e){
+                print "Error: Registration ".$e->getMessage();
+        }
+    }
+
 
 
 }
