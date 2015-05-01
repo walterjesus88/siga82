@@ -52,21 +52,9 @@ class IndexController extends Zend_Controller_Action {
                     $result = $auth->authenticate($authAdapter);
 
                     if ($result->isValid()) {
-                        // // Iniciamos la carga de Periodos para la plataforma
-                        // $per = new Admin_Model_DbTable_IdiomasPeriodo();
-                        // $t = $per->_getPeriodoactivo($eid,'A');
-                        
-                        // if ($t){
-                        //     $periodo= $t['perid'];
-                        //     $nombre_periodo = $t['nombre'];
-                        // }else{
-                        //         $msg = "Error en la seccion del periodo siguiente para la plataforma";
-                        //         $this->_redirect("/error/msg/msg/'$msg'");
-                        // }
-            
                         // // Registramos la sesion para el Objeto con los parametros minimos
                         // // Selecionamos los campos necesarios de USUARIO para llevarlos a una SESION
-                        $data  = $authAdapter->getResultRowObject(array('dni','estado','rid','categoriaid','nivel'));
+                        $data  = $authAdapter->getResultRowObject(array('uid','dni','estado','rid','categoriaid','nivel'));
 
                         // $data->periodo = $periodo;
                         // $data->nombre_periodo = $nombre_periodo;
@@ -87,9 +75,7 @@ class IndexController extends Zend_Controller_Action {
                             $data->personal->alias= $rp['alias']; 
                                                    
                         }
-                        //print_r($data);
                         $auth->getStorage()->write($data);
-                        
                         // Registrando el Acceso en la BD
                         
                         // $clientIp = $this->getRequest()->getClientIp();
@@ -152,10 +138,5 @@ class IndexController extends Zend_Controller_Action {
         Zend_Auth::getInstance()->clearIdentity();
         $this->_redirect("/");
     }
-
-     public function proximamenteAction(){
-        
-    }
-
 
 }

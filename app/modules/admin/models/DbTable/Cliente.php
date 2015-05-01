@@ -50,6 +50,7 @@ class Admin_Model_DbTable_Cliente extends Zend_Db_Table_Abstract
     }
 
 
+
     public function _getFilter($where=null,$attrib=null,$orders=null){
         try{
             if($where['clienteid']=='' ) return false;
@@ -67,11 +68,26 @@ class Admin_Model_DbTable_Cliente extends Zend_Db_Table_Abstract
                 $rows = $results->fetchAll();
                 if ($rows) return $rows;
                 return false;
-        }catch (Exception $e){
-            //print "Error: Read Filter Course ".$e->getMessage();
+        }catch (Exception $ex){
+            print $ex->getMessage();
+
         }
     }
 
+     public function _buscarCliente($cliente){
+        try{
+            $sql=$this->_db->query("
+                select * from cliente where lower(nombre_comercial) like '%$cliente%'
+                order by nombre_comercial asc");
+            $row=$sql->fetchAll();
+            return $row;           
+            }  
+            
+           catch (Exception $ex){
+            print $ex->getMessage();
+
+        }
+    }
 
     public function _getOne($where=array()){
         try{
@@ -84,6 +100,7 @@ class Admin_Model_DbTable_Cliente extends Zend_Db_Table_Abstract
             print "Error: Read One Add_reportacad_adm ".$e->getMessage();
         }
     }
+
  
 
 

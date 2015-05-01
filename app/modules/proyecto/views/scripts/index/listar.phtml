@@ -84,6 +84,7 @@
                   var $fecha_inicio="<?php echo $lista['fecha_inicio']?>"                                     
                   url="/proyecto/index/cambiarestado/proyectoid/"+$proyectoid+"/propuesta/"+$propuestaid+"/nombre_proyecto/"+$nombre_proyecto+"/codigo_prop_proy/"+$codigo_prop_proy+"/estado/"+$estado+"/revision/"+$revision+"/oid/"+$oid+"/gerente_proyecto/"+$gerente_proyecto+"/control_proyecto/"+$control_proyecto+"/control_documentario/"+$control_documentario+"/tipo_proyecto/"+$tipo_proyecto+"/paisid/"+$paisid+"/fecha_inicio/"+$fecha_inicio;
                   $("#loadingcourses").load(url);
+                  
                   });  
                 </script>
               </tr>                            
@@ -155,6 +156,7 @@
                   var $fecha_inicio="<?php echo $lista['fecha_inicio']?>"                                     
                   url="/proyecto/index/cambiarestado/proyectoid/"+$proyectoid+"/propuesta/"+$propuestaid+"/nombre_proyecto/"+$nombre_proyecto+"/codigo_prop_proy/"+$codigo_prop_proy+"/estado/"+$estado+"/revision/"+$revision+"/oid/"+$oid+"/gerente_proyecto/"+$gerente_proyecto+"/control_proyecto/"+$control_proyecto+"/control_documentario/"+$control_documentario+"/tipo_proyecto/"+$tipo_proyecto+"/paisid/"+$paisid+"/fecha_inicio/"+$fecha_inicio;
                   $("#loadingcourses").load(url);
+                 
                  });  
                 </script>
               </tr>                            
@@ -225,6 +227,7 @@
                   var $fecha_inicio="<?php echo $lista['fecha_inicio']?>"                                     
                   url="/proyecto/index/cambiarestado/proyectoid/"+$proyectoid+"/propuesta/"+$propuestaid+"/nombre_proyecto/"+$nombre_proyecto+"/codigo_prop_proy/"+$codigo_prop_proy+"/estado/"+$estado+"/revision/"+$revision+"/oid/"+$oid+"/gerente_proyecto/"+$gerente_proyecto+"/control_proyecto/"+$control_proyecto+"/control_documentario/"+$control_documentario+"/tipo_proyecto/"+$tipo_proyecto+"/paisid/"+$paisid+"/fecha_inicio/"+$fecha_inicio;
                   $("#loadingcourses").load(url);
+              
                   
                   });  
                 </script>
@@ -294,7 +297,8 @@
                   var $paisid="<?php echo $lista['paisid']?>"
                   var $fecha_inicio="<?php echo $lista['fecha_inicio']?>"                                     
                   url="/proyecto/index/cambiarestado/proyectoid/"+$proyectoid+"/propuesta/"+$propuestaid+"/nombre_proyecto/"+$nombre_proyecto+"/codigo_prop_proy/"+$codigo_prop_proy+"/estado/"+$estado+"/revision/"+$revision+"/oid/"+$oid+"/gerente_proyecto/"+$gerente_proyecto+"/control_proyecto/"+$control_proyecto+"/control_documentario/"+$control_documentario+"/tipo_proyecto/"+$tipo_proyecto+"/paisid/"+$paisid+"/fecha_inicio/"+$fecha_inicio;
-                  $("#loadingcourses").load(url);                  
+                  $("#loadingcourses").load(url);  
+                               
                   });  
                 </script>
               </tr>                            
@@ -364,7 +368,8 @@
                   var $paisid="<?php echo $lista['paisid']?>"
                   var $fecha_inicio="<?php echo $lista['fecha_inicio']?>"                                     
                   url="/proyecto/index/cambiarestado/proyectoid/"+$proyectoid+"/propuesta/"+$propuestaid+"/nombre_proyecto/"+$nombre_proyecto+"/codigo_prop_proy/"+$codigo_prop_proy+"/estado/"+$estado+"/revision/"+$revision+"/oid/"+$oid+"/gerente_proyecto/"+$gerente_proyecto+"/control_proyecto/"+$control_proyecto+"/control_documentario/"+$control_documentario+"/tipo_proyecto/"+$tipo_proyecto+"/paisid/"+$paisid+"/fecha_inicio/"+$fecha_inicio;
-                  $("#loadingcourses").load(url);                  
+                  $("#loadingcourses").load(url);  
+                        
                   });  
                 </script>
               </tr>                            
@@ -435,7 +440,8 @@
                   var $paisid="<?php echo $lista['paisid']?>"
                   var $fecha_inicio="<?php echo $lista['fecha_inicio']?>"                                     
                   url="/proyecto/index/cambiarestado/proyectoid/"+$proyectoid+"/propuesta/"+$propuestaid+"/nombre_proyecto/"+$nombre_proyecto+"/codigo_prop_proy/"+$codigo_prop_proy+"/estado/"+$estado+"/revision/"+$revision+"/oid/"+$oid+"/gerente_proyecto/"+$gerente_proyecto+"/control_proyecto/"+$control_proyecto+"/control_documentario/"+$control_documentario+"/tipo_proyecto/"+$tipo_proyecto+"/paisid/"+$paisid+"/fecha_inicio/"+$fecha_inicio;
-                  $("#loadingcourses").load(url);                  
+                  $("#loadingcourses").load(url);   
+
                   });  
                 </script>
               </tr>                            
@@ -447,7 +453,14 @@
 
 
 <script>
-$(document).ready(function(){
+$(document).ready(function(){    
+        $("#Proyecto_Total").hide();
+        $("#Proyecto_Activa").hide();
+        $("#Proyecto_Eliminado").hide();
+        $("#Proyecto_Cerrado").hide();
+        $("#Proyecto_Paralizado").hide();
+        $("#Proyecto_Cancelado").hide();
+    
     $("#mostrar_activo").click(function(){             
         $("#Proyecto_Total").hide();
         $("#Proyecto_Activa").show();

@@ -1,31 +1,32 @@
 <?php echo $this->doctype(); ?>
 <?php 
-	$auth = Zend_Auth::getInstance();
+    $auth = Zend_Auth::getInstance();
 
     if (!$auth->hasIdentity()) { 
-    	exit();
+        exit();
     }
 
     $sesion = $auth->getStorage()->read();
     $name = $sesion -> personal->alias;
     $rol = $sesion -> rid;
+    $dni = $sesion -> dni;
 ?>
 <html lang="es">
-	<head>
-		<!-- Mobile Specific Metas -->
-		<?php echo $this->headTitle()?>
-		<?php echo $this->headMeta()?>
-		<?php echo $this->headLink()?>
-		<?php echo $this->headScript()?>
-		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
-		<link href="http://fonts.googleapis.com/css?family=Cuprum:400italic,400,700italic,700" rel="stylesheet" type="text/css">
-	
-		<link rel="shortcut icon" href="/img/favicon.ico" type="image/x-icon">
-	</head>
-	<body>
-	<section id="container" >
-      	<!--header start-->
-      	<header class="header white-bg">
+    <head>
+        <!-- Mobile Specific Metas -->
+        <?php echo $this->headTitle()?>
+        <?php echo $this->headMeta()?>
+        <?php echo $this->headLink()?>
+        <?php echo $this->headScript()?>
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+        <link href="http://fonts.googleapis.com/css?family=Cuprum:400italic,400,700italic,700" rel="stylesheet" type="text/css">
+    
+        <link rel="shortcut icon" href="/img/favicon.ico" type="image/x-icon">
+    </head>
+    <body>
+    <section id="container" >
+        <!--header start-->
+        <header class="header white-bg">
             <div class="sidebar-toggle-box">
                   <div class="fa fa-bars tooltips" data-placement="right" data-original-title="Navegación"></div>
               </div>
@@ -72,7 +73,7 @@
                     <!-- user login dropdown start-->
                     <li class="dropdown">
                         <a data-toggle="dropdown" class="dropdown-toggle" href="#">
-                            <img src="/img/avatar1_small.jpg" style="border-radius : 50%">
+                            <img src="/img/fotos-anddes/<?php print $dni ?>.jpg" style="border-radius : 50%; width : 29px ; height : 30px">
                             <span class="username"><?php print $name ?></span>
                             <b class="caret"></b>
                         </a>
@@ -84,6 +85,9 @@
                             <li><a href="/logout"><i class="fa fa-key"></i> Salir</a></li>
                         </ul>
                     </li>
+                    <li class="sb-toggle-right">
+                        <i class="fa  fa-align-right"></i>
+                    </li>
                     <!-- user login dropdown end -->
                 </ul>
                 <!--search & user info end-->
@@ -92,182 +96,185 @@
       <!--header end-->
 
       <aside>
-          	<div id="sidebar"  class="nav-collapse ">
-              	<!-- sidebar menu start-->
-              	<ul class="sidebar-menu" id="nav-accordion">
-                  	<li>
-                      	<a class="active" href="/admin/index">
-                          	<i class="fa fa-home"></i>
-                          	<span>Inicio</span>
-                      	</a>
-                  	</li>
+            <div id="sidebar"  class="nav-collapse ">
+                <!-- sidebar menu start-->
+                <ul class="sidebar-menu" id="nav-accordion">
+                    <li>
+                        <a class="active" href="/admin">
+                            <i class="fa fa-home"></i>
+                            <span>Inicio</span>
+                        </a>
+                    </li>
 
-                  	<?php 
-                  	if ($rol == "PROPUESTA") { ?>
-                  		<li class="sub-menu">
-	                      	<a href="/propuesta/index/listar" >
-	                          	<i class="fa fa-bar-chart-o"></i>
-	                          	<span>Propuestas</span>
-	                      	</a>
-		                    <ul class="sub">
-		                        <li><a  href="/propuesta/index/listar">Lista</a></li>
-		                        <li><a  href="/propuesta/index/nuevo">Nuevo</a></li>
-		                    </ul>
-	                  	</li>
+                    <?php 
+                    if ($rol == "PROPUESTA") { ?>
+                        <li class="sub-menu">
+                            <a href="/propuesta/index/listar" >
+                                <i class="fa fa-bar-chart-o"></i>
+                                <span>Propuestas</span>
+                            </a>
+                            <ul class="sub">
+                                <li><a  href="/propuesta/index/listar">Lista</a></li>
+                                <li><a  href="/propuesta/index/nuevo">Nuevo</a></li>
+                            <li><a  href="/propuesta/index/transmittal">Transmittal</a></li>
+                            </ul>
+                        </li>
 
-                      <li class="sub-menu">
-                          <a href="/proyecto/index/listar" >
-                              <i class="fa fa-archive"></i>
-                              <span>Proyectos</span>
-                          </a>
-                        <ul class="sub">
-                            <li><a  href="/proyecto/index/listar">Lista</a></li>
-                            <li><a  href="/proyecto/index/nuevo">Nuevo</a></li>
-                        </ul>
-                      </li>
+                        <li class="sub-menu">
+                            <a href="/proyecto/index/listar" >
+                                <i class="fa fa-archive"></i>
+                                <span>Proyectos</span>
+                            </a>
+                            <ul class="sub">
+                                <li><a  href="/proyecto/index/listar">Lista</a></li>
+                                <li><a  href="/proyecto/index/nuevo">Nuevo</a></li>
+                            </ul>
+                        </li>
+                    <?php
+                    }
+                    if ($rol == "PROYECTO") { ?>
+                        <li class="sub-menu">
+                            <a href="/propuesta/index/listar" >
+                                <i class="fa fa-bar-chart-o"></i>
+                                <span>Propuestas</span>
+                            </a>
+                            <ul class="sub">
+                                <li><a  href="/propuesta/index/listar">Lista</a></li>
+                                <li><a  href="/propuesta/index/nuevo">Nuevo</a></li>
+                                <li><a  href="/propuesta/index/transmittal">Transmittal</a></li>
+                            </ul>
+                        </li>
 
-                      <li class="sub-menu">
-                          <a href="/admin/index" >
-                              <i class="fa fa-book"></i>
-                              <span>Control de Proyectos</span>
-                          </a>
-                      </li>
-
-	                  	<li class="sub-menu">
-	                      	<a href="/admin/index" >
-	                          	<i class="fa fa-book"></i>
-	                          	<span>Control Documentario</span>
-	                      	</a>
-	                  	</li>
-            
-                  		<?php
-                  	}
-                  	if ($rol == "PROYECTO") { ?>
-
-                      <li class="sub-menu">
-                          <a href="/propuesta/index/listar" >
-                              <i class="fa fa-bar-chart-o"></i>
-                              <span>Propuestas</span>
-                          </a>
-                        <ul class="sub">
-                            <li><a  href="/propuesta/index/listar">Lista</a></li>
-                            <li><a  href="/propuesta/index/nuevo">Nuevo</a></li>
-                        </ul>
-                      </li>
-
-                  		<li class="sub-menu">
-	                      	<a href="/proyecto/index/listar" >
-	                          	<i class="fa fa-archive"></i>
-	                          	<span>Proyecto</span>
-	                      	</a>
-		                    <ul class="sub">
-		                        <li><a  href="/proyecto/index/listar">Lista</a></li>
-		                        <li><a  href="/proyecto/index/nuevo">Nuevo</a></li>
-		                    </ul>
-	                  	</li>
-                      <li class="sub-menu">
-                          <a href="/admin/index" >
-                              <i class="fa fa-book"></i>
-                              <span>Control Proyecto</span>
-                          </a>
-                      </li>
-
-                      <li class="sub-menu">
-                          <a href="/admin/index" >
-                              <i class="fa fa-book"></i>
-                              <span>Control Documentario</span>
-                          </a>
-                      </li>
-            
-
-                  	<?php 
-                  	} ?>
-
-                  	<li>
-	                   	<a  href="/admin/index">
-	                       	<i class="fa fa-calendar-o"></i>
-	                       	<span>Timesheet</span>
-	                   	</a>
-	               	</li>
-
-	               	<li>
-	                   	<a  href="/admin/index">
-                        	<i class="fa fa-money"></i>
-	                        <span>Expense</span>
-	                    </a>
-	                </li>
-
-                      <li>
-                      <a  href="/admin/index">
-                          <i class="fa fa-money"></i>
-                          <span>RRHH</span>
-                      </a>
-                  </li>
+                        <li class="sub-menu">
+                            <a href="/proyecto/index/listar" >
+                                <i class="fa fa-archive"></i>
+                                <span>Proyecto</span>
+                            </a>
+                            <ul class="sub">
+                                <li><a  href="/proyecto/index/listar">Lista</a></li>
+                                <li><a  href="/proyecto/index/nuevo">Nuevo</a></li>
+                            </ul>
+                        </li>
+                    <?php 
+                    } ?>
+                    
                     <li class="sub-menu">
-                          <a href="/proyecto/index/listar" >
-                              <i class="fa fa-archive"></i>
-                              <span>Comercial</span>
-                          </a>
+                        <a href="/admin" >
+                            <i class="fa fa-check-square"></i>
+                            <span>Control de Proyectos</span>
+                        </a>
+                    </li>
+                    <li class="sub-menu">
+                        <a href="/admin" >
+                            <i class="fa fa-bookmark-o"></i>
+                            <span>Control Documentario</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/admin">
+                            <i class="fa fa-calendar-o"></i>
+                            <span>Timesheet</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/admin">
+                            <i class="fa fa-money"></i>
+                            <span>Expense</span>
+                        </a>
+                    </li>
+                    <li class="sub-menu">
+                        <a href="/admin">
+                            <i class="fa fa-group"></i>
+                            <span>RR. HH.</span>
+                        </a>
                         <ul class="sub">
-                            <li><a  href="/comercial/index/listar">Lista</a></li>
-                           
+                            <li><a  href="/admin">Lista Personal</a></li>
+                            <li><a  href="/admin">Rates</a></li>
                         </ul>
-                      </li>
+                    </li>
+                    <li class="sub-menu">
+                        <a href="/admin" >
+                            <i class="fa fa-suitcase"></i>
+                            <span>Comercial</span>
+                        </a>
+                        <ul class="sub">
+                            <li><a  href="/admin">Clientes</a></li>
+                            <li><a  href="/admin">Contactos</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="/admin">
+                            <i class="fa fa-user"></i>
+                            <span>Administrador</span>
+                        </a>
+                    </li>
+                    
 
-                  
+                    <!--multi level menu start-->
+                    <!-- <li class="sub-menu">
+                        <a href="javascript:;" >
+                            <i class="fa fa-sitemap"></i>
+                            <span>Menu 3</span>
+                        </a>
+                        <ul class="sub">
+                            <li><a  href="javascript:;">Menu Item 1</a></li>
+                            <li class="sub-menu">
+                                <a  href="boxed_page.html">Menu Item 2</a>
+                                <ul class="sub">
+                                    <li><a  href="javascript:;">Menu Item 2.1</a></li>
+                                    <li class="sub-menu">
+                                        <a  href="javascript:;">Menu Item 3</a>
+                                        <ul class="sub">
+                                            <li><a  href="javascript:;">Menu Item 3.1</a></li>
+                                            <li><a  href="javascript:;">Menu Item 3.2</a></li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li> -->
+                    <!--multi level menu end-->
 
-                  <li>
-                      <a  href="/admin/index">
-                          <i class="fa fa-money"></i>
-                          <span>Admin</span>
-                      </a>
-                  </li>
-
-                  	<!--multi level menu start-->
-                  	<!-- <li class="sub-menu">
-                      	<a href="javascript:;" >
-                          	<i class="fa fa-sitemap"></i>
-                          	<span>Menu 3</span>
-                      	</a>
-                      	<ul class="sub">
-                          	<li><a  href="javascript:;">Menu Item 1</a></li>
-                          	<li class="sub-menu">
-                              	<a  href="boxed_page.html">Menu Item 2</a>
-                              	<ul class="sub">
-                                  	<li><a  href="javascript:;">Menu Item 2.1</a></li>
-                                  	<li class="sub-menu">
-                                      	<a  href="javascript:;">Menu Item 3</a>
-                                      	<ul class="sub">
-                                          	<li><a  href="javascript:;">Menu Item 3.1</a></li>
-                                          	<li><a  href="javascript:;">Menu Item 3.2</a></li>
-                                      	</ul>
-                                  	</li>
-                              	</ul>
-                          	</li>
-                      	</ul>
-                  	</li> -->
-                  	<!--multi level menu end-->
-
-              	</ul>
+                </ul>
               <!-- sidebar menu end-->
-          	</div>
-      	</aside>
-      	<!--sidebar end-->
+            </div>
+        </aside>
+        <!--sidebar end-->
 
-      	<!--main content start-->
-      	<section id="main-content">
-          	<section class="wrapper">
-              	<?php print $this->layout()->content; ?>
-          	</section>
-      	</section>
-      	<!--main content end-->
+        <!--main content start-->
+        <section id="main-content">
+            <section class="wrapper">
+                <?php print $this->layout()->content; ?>
+            </section>
+        </section>
+        <!--main content end-->
+
+        <!-- Right Slidebar start -->
+        <div class="sb-slidebar sb-right sb-style-overlay">
+            <h5 class="side-title">Calendario</h5>
+            <section class="panel">
+                <div class="panel-body">
+                    <div id="calendar" class="has-toolbar"></div>
+                </div>
+            </section>
+        </div>
+        <!-- Right Slidebar end -->
+
+        <footer class="site-footer" style="margin-top: 10%">
+            <div class="text-center">
+                2015 &copy; Anddes Asociados
+                <a href="#" class="go-top"><i class="fa fa-angle-up"></i></a>
+            </div>
+        </footer>
     </section>
-    <footer class="site-footer" style="margin-top: 10%">
-	    <div class="text-center">
-	        2015 &copy; Anddes Asociados
-	        <a href="#" class="go-top"><i class="fa fa-angle-up"></i></a>
-	    </div>
-	</footer>
+
+    <script src="/assets/fullcalendar/fullcalendar/fullcalendar.min.js"></script>
+    <!--script for this page only-->
+    <script src="/js/external-dragging-calendar.js"></script>
+    
+    
+    <script src="/js/soon/plugins.js"></script>
+    <script src="/js/soon/custom.js"></script>
     <script src="/js/common-scripts.js"></script>
-  	</body>
+    </body>
 </html>
