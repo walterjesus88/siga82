@@ -90,12 +90,113 @@ class Propuesta_IndexController extends Zend_Controller_Action {
 
     public function nuevoAction() {
          //$this->_helper->layout()->disableLayout();
-        $buscapropuesta = new Admin_Model_DbTable_Propuesta();
+        $dbpropuesta = new Admin_Model_DbTable_Propuesta();
         //$busca=$buscapropuesta->_getPropuestaxIndices($codigo,$propuestaid,$revision);
         //print_r($listapropuesta);
         //$this->view->buscapropuesta = $busca; 
+        $formdata['clienteid']=$clienteid = $this->_getParam('clienteid');
+        $formdata['unidad_minera']=$uminera = $this->_getParam('uminera');
+        $formdata['propuestaid']=$propuestaid = $this->_getParam('propuestaid');
+        $formdata['revision']=$revision = $this->_getParam('revision');
+        $formdata['nro_propuesta']=$nro_propuesta = $this->_getParam('nro_propuesta');
+        $formdata['nombre_propuesta']=$nombre_propuesta = $this->_getParam('nombre_propuesta');   
+        $formdata['responsable_porpuesta']=$responsable = $this->_getParam('responsable');   
+        $formdata['revisor_final']=$revisor = $this->_getParam('revisor');
+        $formdata['gerente_proyecto']=$gerente = $this->_getParam('gerente');
+        $formdata['estado_propuesta']=$estado_propuesta = $this->_getParam('estado_propuesta');
+        $formdata['tipo_propuesta']=$tipo_propuesta = $this->_getParam('tipo_propuesta');
+        $formdata['moneda']=$tipo_moneda = $this->_getParam('tipo_moneda');
+        $formdata['tipo_servicio']=$tipo_servicio = $this->_getParam('tipo_servicio');        
+        $formdata['costo_gastos']=$costo_gastos = $this->_getParam('costo_gastos');
+        $formdata['costo_honorarios']=$costo_honorarios = $this->_getParam('costo_honorarios');
+        $formdata['costo_laboratorio']=$costo_laboratorio = $this->_getParam('costo_laboratorio');
+        $formdata['costo_otros']=$costo_otros = $this->_getParam('costo_otros');
+        $formdata['descuento']=$descuento = $this->_getParam('descuento');
+        $formdata['total']=$total = $this->_getParam('total');        
+        $formdata['fecha_entrega_bases']=$f_entrega_bases = $this->_getParam('f_entrega_bases');
+        $formdata['fecha_presentacion_consulta']=$f_presentacion_consulta = $this->_getParam('f_presentacion_consulta');
+        $formdata['fecha_absolucion_consulta']=$f_absolucion_consulta = $this->_getParam('f_absolucion_consulta');
+        $formdata['fecha_presentacion_propuesta']=$f_presentacion_propuesta = $this->_getParam('f_presentacion_propuesta');
+        $formdata['fecha_respuesta']=$f_respuesta_propuesta = $this->_getParam('f_respuesta_propuesta');
+        $formdata['charla_informativa']=$f_charla_informativa = $this->_getParam('f_charla_informativa');
+        $formdata['visita_tecnica']=$f_visita_tecnica = $this->_getParam('f_visita_tecnica');
+        $codigo_prop_proy= 'PROP-'.date("Y")."-".$clienteid."-".$uminera."-".$propuestaid."-".$revision;
+
+        $formdata['codigo_prop_proy']=$codigo_prop_proy;
+        
+        
+       
+        $dbpropuesta=new Admin_Model_DbTable_Proyecto();
+ /*       if($dbpropuesta->_save($formdata))
+        {
+        echo "Archivo Guardado";
+
+        }*/
+       // print_r($formdata);
+
             
     }  
+
+     public function guardarAction() {
+        $this->_helper->layout()->disableLayout();
+        $dbpropuesta = new Admin_Model_DbTable_Propuesta();
+        //$busca=$buscapropuesta->_getPropuestaxIndices($codigo,$propuestaid,$revision);
+        //print_r($listapropuesta);
+        //$this->view->buscapropuesta = $busca; 
+        $formdata['clienteid']=$clienteid = $this->_getParam('clienteid');
+        $formdata['unidad_mineraid']=$uminera = $this->_getParam('uminera');
+        $formdata['propuestaid']=$propuestaid = $this->_getParam('propuestaid');
+        $formdata['revision']=$revision = $this->_getParam('revision');
+        $formdata['nro_propuesta']=$nro_propuesta = $this->_getParam('nro_propuesta');
+        $nombre_propuesta = $this->_getParam('nombre_propuesta');   
+        $formdata['nombre_propuesta'] = str_replace("_"," ",$nombre_propuesta);
+
+        $formdata['responsable_propuesta']=$responsable = $this->_getParam('responsable');   
+        $formdata['revisor_final']=$revisor = $this->_getParam('revisor');
+        $formdata['gerente_proyecto']=$gerente = $this->_getParam('gerente');
+        $formdata['estado_propuesta']=$estado_propuesta = $this->_getParam('estado_propuesta');
+        $formdata['tipo_propuesta']=$tipo_propuesta = $this->_getParam('tipo_propuesta');
+        $formdata['control_documentario']=$control_documentario = $this->_getParam('control_documentario');
+        $formdata['moneda']=$tipo_moneda = $this->_getParam('tipo_moneda');
+        $formdata['tipo_servicio']=$tipo_servicio = $this->_getParam('tipo_servicio');        
+        $formdata['costo_gastos']=$costo_gastos = $this->_getParam('costo_gastos');
+        $formdata['costo_honorarios']=$costo_honorarios = $this->_getParam('costo_honorarios');
+        $formdata['costos_laboratorio']=$costo_laboratorio = $this->_getParam('costo_laboratorio');
+        $formdata['costo_otros']=$costo_otros = $this->_getParam('costo_otros');
+        $formdata['descuento']=$descuento = $this->_getParam('descuento');
+        $formdata['total']=$total = $this->_getParam('total');        
+        $formdata['fecha_inicio']=$f_inicio_propuesta = $this->_getParam('f_inicio_propuesta');
+        $formdata['fecha_entrega_bases']=$f_entrega_bases = $this->_getParam('f_entrega_bases');
+        $formdata['fecha_presentacion_consulta']=$f_presentacion_consulta = $this->_getParam('f_presentacion_consulta');
+        $formdata['fecha_absolucion_consulta']=$f_absolucion_consulta = $this->_getParam('f_absolucion_consulta');
+        $formdata['fecha_presentacion_propuesta']=$f_presentacion_propuesta = $this->_getParam('f_presentacion_propuesta');
+        $formdata['fecha_respuesta']=$f_respuesta_propuesta = $this->_getParam('f_respuesta_propuesta');
+        $formdata['charla_informativa']=$f_charla_informativa = $this->_getParam('f_charla_informativa');
+        $formdata['visita_tecnica']=$f_visita_tecnica = $this->_getParam('f_visita_tecnica');
+        $codigo_prop_proy= 'PROP-'.date("Y")."-".$clienteid."-".$uminera."-".$propuestaid."-".$revision;
+        $formdata['codigo_prop_proy']=$codigo_prop_proy;
+        $formdata['oid']='AND-10';
+        $formdata['isproyecto']="N";
+        $estado=$this->_getParam('estado_propuesta');
+            if ($estado=='EE'){$orden = "1"; }
+            if ($estado=='G'){$orden = "2"; }
+            if ($estado=='P'){$orden = "3"; }
+            if ($estado=='E'){$orden = "4"; }
+            if ($estado=='D'){$orden = "5"; }
+            if ($estado=='A'){$orden = "6"; }
+            if ($estado=='S'){$orden = "7"; }
+       $formdata["orden_estado"]=$orden;
+
+
+        if($dbpropuesta->_save($formdata))
+        {
+            echo "Archivo Guardado";
+        }
+      
+
+            
+    }
+
 
     public function reporteexcelAction() {
         $buscapropuesta = new Admin_Model_DbTable_Propuesta();
