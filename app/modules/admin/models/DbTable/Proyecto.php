@@ -52,5 +52,27 @@ class Admin_Model_DbTable_Proyecto extends Zend_Db_Table_Abstract
         }
     }
 
+    public function _buscarProyecto($proyecto){
+        try{
+            $sql=$this->_db->query("
+                select pro.codigo_prop_proy,pro.proyectoid,
+                       pro.nombre_proyecto,pro.gerente_proyecto 
+                       from proyecto as pro 
+                inner join propuesta as prop
+                on pro.propuestaid=prop.propuestaid  and pro.codigo_prop_proy=prop.codigo_prop_proy and pro.revision=prop.revision
+                inner join cliente as cli on
+                prop.clienteid=cli.clienteid 
+                where lower(pro.nombre_proyecto) like '%$proyecto%' 
+                or lower(cli.nombre_comercial) like '%$proyecto%'
+                order by pro.nombre_proyecto asc");
+            $row=$sql->fetchAll();
+            return $row;           
+            }  
+            
+           catch (Exception $ex){
+            print $ex->getMessage();
+        }
+    }
 
 }
+
