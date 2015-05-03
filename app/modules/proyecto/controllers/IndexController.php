@@ -31,12 +31,13 @@ class Proyecto_IndexController extends Zend_Controller_Action {
 
         $form= new Admin_Form_Proyecto();        
         $this->view->form=$form;   
-
+        $codigo_prop_proy = $this->_getParam('cod_proy_prop');
         $proyectoid = $this->_getParam('proyectoid');
+        $e = $this->_getParam('E');
+ 
+
         $propuestaid = $this->_getParam('propuesta');
         $nombre_proyecto = $this->_getParam('nombre_proyecto');
-        $codigo_prop_proy = $this->_getParam('cod_proy_prop');
-
         $control_proyecto = $this->_getParam('control_proyecto');
         $revision = $this->_getParam('revision');   
         $descripcion = $this->_getParam('descripcion');   
@@ -66,25 +67,26 @@ class Proyecto_IndexController extends Zend_Controller_Action {
         $formdata['oid']='AND-10';
        
         $newrec=new Admin_Model_DbTable_Proyecto();
-        if($newrec->_save($formdata))
-        {
 
-            $pk  =   array(                        
-                            'codigo_prop_proy'   =>$codigo_prop_proy,
-                            'propuestaid'   =>$propuestaid,
-                            'revision'   =>$revision,
-                                
-                            );
-            $data = array(
-                            'isproyecto' =>  'S'
-                         );
+            if($newrec->_save($formdata))
+            {
+
+                $pk  =   array(                        
+                                'codigo_prop_proy'   =>$codigo_prop_proy,
+                                'propuestaid'   =>$propuestaid,
+                                'revision'   =>$revision,
+                                    
+                                );
+                $data = array(
+                                'isproyecto' =>  'S'
+                             );
 
 
-            $updisproject=new Admin_Model_DbTable_Propuesta();
-            $updisproject->_updateX($data,$pk);
+                $updisproject=new Admin_Model_DbTable_Propuesta();
+                $updisproject->_updateX($data,$pk);
 
-        }
 
+            }    
 
             
     }
@@ -192,105 +194,54 @@ class Proyecto_IndexController extends Zend_Controller_Action {
 
     public function editarAction() {
 
-        //$this->_helper->layout()->disableLayout();
         $proyectoid= $this->_getParam("proyectoid");
-        $propuestaid= $this->_getParam("propuestaid");
-        $nombre_proyecto= $this->_getParam("nombre_proyecto");
         $codigo_prop_proy= $this->_getParam("codigo_prop_proy");
-        $estado= $this->_getParam("estado");
-        $revision= $this->_getParam("revision");
-        $oid= $this->_getParam("oid");
-        $gerente_proyecto= $this->_getParam("gerente_proyecto");
-        $control_proyecto= $this->_getParam("control_proyecto");
-        $control_documentario= $this->_getParam("control_documentario");
-        $tipo_proyecto= $this->_getParam("tipo_proyecto");
-        $paisid= $this->_getParam("paisid");
-        $fecha_inicio= $this->_getParam("fecha_inicio");
-        /*campos adicionales*/
-        $ubicacion= $this->_getParam("ubicacion");
-        $departamentoid= $this->_getParam("departamentoid");
-        $provinciaid= $this->_getParam("provinciaid");
-        $provinciaid= $this->_getParam("provinciaid");
-        $distritoid= $this->_getParam("distritoid");
-        $prioridad= $this->_getParam("prioridad");
-        $progreso= $this->_getParam("progreso");
-        $fecha_probable_cierre= $this->_getParam("fecha_probable_cierre");        
-        $fecha_cierre= $this->_getParam("fecha_cierre");
-        $monto_total= $this->_getParam("monto_total");
-        $moneda= $this->_getParam("moneda");
-        $acs= $this->_getParam("acs");
-        $monto_total= $this->_getParam("monto_total");
-        $sistema= $this->_getParam("sistema");
-        $unidad_red= $this->_getParam("unidad_red");
-        $ruta= $this->_getParam("ruta");
-        $sistema= $this->_getParam("sistema");
-        $descripcion= $this->_getParam("descripcion");
-        $observacion= $this->_getParam("observacion");
-        //print_r($propuestaid);
-        $color_estilo= $this->_getParam("color_estilo");
-        $tag= $this->_getParam("tag");
-         
-        $pk  =   array(                        
-                        'codigo_prop_proy'   =>$codigo_prop_proy,
-                        'proyectoid'   =>$proyectoid,
-                        //'revision'   =>$revision,
-                            
-                        );
-        $data = array(
-                        //'proyectoid' =>  $proyectoid,
-                        'propuestaid' =>  $propuestaid,
-                        'nombre_proyecto' =>  $nombre_proyecto,
-                        //'codigo_prop_proy' =>  $codigo_prop_proy,
-                        'estado' =>  $estado,
-                        'revision' =>  $revision,
-                        'oid' =>  $oid,
-                        'gerente_proyecto' =>  $gerente_proyecto,
-                        'control_proyecto' =>  $control_proyecto,
-                        'control_documentario' =>  $control_documentario,
-                        'tipo_proyecto' =>  $tipo_proyecto,
-                        'paisid' =>  $paisid,
-                        'fecha_inicio' =>  $fecha_inicio,                    
-                        //--------------------//
-                        'ubicacion' =>  $ubicacion,
-                        'departamentoid' =>  $departamentoid,
-                        'provinciaid' =>  $provinciaid,
-                        'distritoid' =>  $distritoid,
-                        'prioridad' =>  $prioridad,
-                        'progreso' =>  $progreso,                  
-                        'fecha_probable_cierre' =>  $fecha_probable_cierre,
-                        'fecha_cierre' =>  $fecha_cierre,
-                        'monto_total' =>  $monto_total,
-                        'moneda' =>  $moneda,
-                        'acs' =>  $acs,
-                        'monto_total' =>  $monto_total,
-                        'sistema' =>  $sistema,
-                        'unidad_red' =>  $unidad_red,
-                        'ruta' =>  $ruta,
-                        'sistema' =>  $sistema,
-                        'descripcion' =>  $descripcion,
-                        'observacion' =>  $observacion,
-                        'color_estilo' =>  $color_estilo,
-                        'tag' =>  $tag,
-                    );
+
+        $form= new Admin_Form_Proyecto();
+     
+        $editproyect= new Admin_Model_DbTable_Proyecto();
+        $where = array(
+                      'codigo_prop_proy'    => $codigo_prop_proy,
+                      'proyectoid'    => $proyectoid,
+                      );
+        $edit = $editproyect->_getOne($where);
+        $this->view->form = $form;
+        $form->populate($edit);
+
+
+
+        if ($this->getRequest()->isPost()) {
+            $formdata = $this->getRequest()->getPost();
+              if ($form->isValid($formdata)) {
+                    unset($formdata['save']);
+                    unset($formdata['whySubmit']);
+                    $pk = array(    'codigo_prop_proy'    => $codigo_prop_proy,
+                                    'proyectoid'    => $proyectoid,
+                                ); 
+                   
+                    $updrec=new Admin_Model_DbTable_Proyecto();
+               
+                    if($updrec->_update($formdata,$pk))
+                    {   ?>
+                        <script>                  
+                          document.location.href="/proyecto/index/listar";
+                          
+                        </script>
+                        <?php
+                    }
+                    else
+                    {   ?>
+                          <script>                  
+                          alert("Error al guardar verifique porfavor");
+                          //document.location.href="/proyecto/index/listar";                                                 
+                          </script>
+                         <?php
+                    } 
+
+              }
+        }
 
       
-        $updrec=new Admin_Model_DbTable_Proyecto();
-        
-        if($updrec->_update($data,$pk))
-        {   ?>
-          <script>                  
-            //document.location.href="/proyecto/index/listar";
-          </script>
-                <?php
-            }
-        else
-        {   ?>
-          <script>                  
-          //alert("Error al Cambiar estado verifique porfavor");
-          //document.location.href="/proyecto/index/listar";                                                 
-          </script>
-         <?php
-            } 
     }
 
 

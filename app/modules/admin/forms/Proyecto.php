@@ -101,16 +101,26 @@ class Admin_Form_Proyecto extends Zend_Form{
                     ->setAttrib('style', 'resize : none;')
                     ->setAttrib('title', 'Descripción');
 
-    $tipo_proyecto= new Zend_Form_Element_Text('tipo_proyecto');
-    $tipo_proyecto->removeDecorator('Label')->removeDecorator("HtmlTag");
-    $tipo_proyecto->setAttrib("maxlength", "100");
+    $observacion = new Zend_Form_Element_Textarea('observacion');
+    $observacion->removeDecorator('Label')
+                    ->setRequired(true)
+                    ->setAttrib('class', 'form-control')
+                    ->setAttrib('rows', '9')
+                    ->setAttrib('style', 'resize : none;')
+                    ->setAttrib('title', 'Descripción');
+
+
+    $tipo_proyecto = new Zend_Form_Element_Select('tipo_proyecto');
+    $tipo_proyecto->removeDecorator('HtmlTag')->setRequired(true)->addErrorMessage('Es necesario que ingrese el tipo');
+    $tipo_proyecto->setLabel("Ingrese el Tipo de Documento: ");
+    $tipo_proyecto->removeDecorator('Label');
+    $tipo_proyecto->setAttrib('class','form-control');
+    $tipo_proyecto->addMultiOption('ING',"Ingenieria");
+    $tipo_proyecto->addMultiOption('GEO',"Geotecnia");
+    $tipo_proyecto->addMultiOption('CON',"Construccion");
+    $tipo_proyecto->addMultiOption('OTR',"Otros");
     $tipo_proyecto->setAttrib('class', 'form-control');
 
-
-    $observacion= new Zend_Form_Element_Text('observacion');
-    $observacion->removeDecorator('Label')->removeDecorator("HtmlTag");
-    $observacion->setAttrib("maxlength", "100");
-    $observacion->setAttrib('class', 'form-control');
 
     $tag= new Zend_Form_Element_Text('tag');
     $tag->removeDecorator('Label')->removeDecorator("HtmlTag");
@@ -125,7 +135,19 @@ class Admin_Form_Proyecto extends Zend_Form{
     $estado->setAttrib('class','form-control');
     $estado->addMultiOption('A',"Activo");
     $estado->addMultiOption('C',"Cerrado");
+    $estado->addMultiOption('CA',"Cancelado");
+    $estado->addMultiOption('PA',"Paralizado");
     $estado->setAttrib('class', 'form-control');
+
+    $oid = new Zend_Form_Element_Select('oid');
+    $oid->removeDecorator('HtmlTag')->setRequired(true)->addErrorMessage('Es necesario que ingrese el estado');
+    $oid->setLabel("Ingrese el Tipo de Documento: ");
+    $oid->removeDecorator('Label');
+    $oid->setAttrib('class','form-control');
+    $oid->addMultiOption('AND-10',"Anddes - Perú");
+    $oid->addMultiOption('AND-20',"Anddes - Argentina");
+    $oid->addMultiOption('AND-40',"Anddes - Chile");
+    $oid->setAttrib('class', 'form-control');
 
     $submit = new Zend_Form_Element_Submit('guardar');
     $submit->removeDecorator('HtmlTag'); 
@@ -134,7 +156,96 @@ class Admin_Form_Proyecto extends Zend_Form{
     $submit->removeDecorator('Label')->removeDecorator("HtmlTag");
   
     
-    $this->addElements(array($proyectoid,$codigo_prop_proy,$nombre_proyecto,$revision,$fecha_inicio,$propuestaid,$clienteid,$unidad_minera,$gerente_proyecto,$control_proyecto,$control_documentario,$descripcion,$tipo_proyecto,$observacion,$tag,$estado,$submit)); 
+
+
+    $ubicacion= new Zend_Form_Element_Text('ubicacion');
+    $ubicacion->removeDecorator('Label')->removeDecorator("HtmlTag");
+    $ubicacion->setAttrib("maxlength", "100");
+    $ubicacion->setAttrib('class', 'form-control');
+
+
+
+    $paisid= new Zend_Form_Element_Text('paisid');
+    $paisid->removeDecorator('Label')->removeDecorator("HtmlTag");
+    $paisid->setAttrib("maxlength", "100");
+    $paisid->setAttrib('class', 'form-control');
+
+    $departamentoid= new Zend_Form_Element_Text('departamentoid');
+    $departamentoid->removeDecorator('Label')->removeDecorator("HtmlTag");
+    $departamentoid->setAttrib("maxlength", "100");
+    $departamentoid->setAttrib('class', 'form-control');
+
+    $provinciaid= new Zend_Form_Element_Text('provinciaid');
+    $provinciaid->removeDecorator('Label')->removeDecorator("HtmlTag");
+    $provinciaid->setAttrib("maxlength", "100");
+    $provinciaid->setAttrib('class', 'form-control');
+
+    $distritoid= new Zend_Form_Element_Text('distritoid');
+    $distritoid->removeDecorator('Label')->removeDecorator("HtmlTag");
+    $distritoid->setAttrib("maxlength", "100");
+    $distritoid->setAttrib('class', 'form-control');
+
+    $prioridad= new Zend_Form_Element_Text('prioridad');
+    $prioridad->removeDecorator('Label')->removeDecorator("HtmlTag");
+    $prioridad->setAttrib("maxlength", "100");
+    $prioridad->setAttrib('class', 'form-control');
+
+    $progreso= new Zend_Form_Element_Text('progreso');
+    $progreso->removeDecorator('Label')->removeDecorator("HtmlTag");
+    $progreso->setAttrib("maxlength", "100");
+    $progreso->setAttrib('class', 'form-control');
+
+    $fecha_probable_cierre= new Zend_Form_Element_Text('fecha_probable_cierre');
+    $fecha_probable_cierre->removeDecorator('Label')->removeDecorator("HtmlTag");
+    $fecha_probable_cierre->setAttrib("maxlength", "100");
+    $fecha_probable_cierre->setAttrib('class', 'form-control');
+
+    $fecha_cierre= new Zend_Form_Element_Text('fecha_cierre');
+    $fecha_cierre->removeDecorator('Label')->removeDecorator("HtmlTag");
+    $fecha_cierre->setAttrib("maxlength", "100");
+    $fecha_cierre->setAttrib('class', 'form-control');
+
+    $monto_total= new Zend_Form_Element_Text('monto_total');
+    $monto_total->removeDecorator('Label')->removeDecorator("HtmlTag");
+    $monto_total->setAttrib("maxlength", "100");
+    $monto_total->setAttrib('class', 'form-control');
+
+    $moneda= new Zend_Form_Element_Text('moneda');
+    $moneda->removeDecorator('Label')->removeDecorator("HtmlTag");
+    $moneda->setAttrib("maxlength", "100");
+    $moneda->setAttrib('class', 'form-control');
+
+
+    $acs= new Zend_Form_Element_Text('acs');
+    $acs->removeDecorator('Label')->removeDecorator("HtmlTag");
+    $acs->setAttrib("maxlength", "100");
+    $acs->setAttrib('class', 'form-control');
+
+    $sistema= new Zend_Form_Element_Text('sistema');
+    $sistema->removeDecorator('Label')->removeDecorator("HtmlTag");
+    $sistema->setAttrib("maxlength", "100");
+    $sistema->setAttrib('class', 'form-control');
+
+    $unidad_red= new Zend_Form_Element_Text('unidad_red');
+    $unidad_red->removeDecorator('Label')->removeDecorator("HtmlTag");
+    $unidad_red->setAttrib("maxlength", "100");
+    $unidad_red->setAttrib('class', 'form-control');
+
+    $ruta = new Zend_Form_Element_Text('ruta ');
+    $ruta ->removeDecorator('Label')->removeDecorator("HtmlTag");
+    $ruta ->setAttrib("maxlength", "100");
+    $ruta ->setAttrib('class', 'form-control');
+
+
+    $color_estilo = new Zend_Form_Element_Text('color_estilo ');
+    $color_estilo ->removeDecorator('Label')->removeDecorator("HtmlTag");
+    $color_estilo ->setAttrib("maxlength", "100");
+    $color_estilo ->setAttrib('class', 'form-control');
+
+
+  
+
+    $this->addElements(array($proyectoid,$codigo_prop_proy,$nombre_proyecto,$revision,$fecha_inicio,$propuestaid,$clienteid,$unidad_minera,$gerente_proyecto,$control_proyecto,$control_documentario,$descripcion,$observacion,$tag,$estado,$submit,$ubicacion,$tipo_proyecto,$paisid,$departamentoid,$provinciaid,$distritoid,$prioridad,$progreso,$fecha_probable_cierre,$fecha_cierre,$monto_total,$moneda,$acs,$sistema,$unidad_red,$ruta,$color_estilo,$oid)); 
 
 
     }

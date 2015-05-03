@@ -16,6 +16,20 @@ class Admin_Model_DbTable_Proyecto extends Zend_Db_Table_Abstract
     }
 
 
+    public function _getOne($pk=null)
+    {
+        try{
+            if ($pk['codigo_prop_proy']=='' ||  $pk['proyectoid']=='' ) return false;
+            $where = "codigo_prop_proy = '".$pk['codigo_prop_proy']."' and proyectoid='".$pk['proyectoid']."' ";
+            $row = $this->fetchRow($where);
+            if ($row) return $row->toArray();
+            return false;
+        }catch (Exception $ex){
+            print "Error: Get Info Distribution ".$ex->getMessage();
+        }
+    }
+
+
     public function _save($data)
     {
         try{

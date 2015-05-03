@@ -25,16 +25,13 @@
 
                                   <form name="<?php echo $this->form->getName(); ?>" action="<?php echo $this->form->getAction(); ?>" method="post" enctype="application/x-www-form-urlencoded">
 
-
-
-
                                   <div class="panel-body">                                 
-                                  <!-- <div class="col-sm-1"><input type="button" id="save"/><p>save</p></div> -->
-                                    <div class="col-sm-1" id="save" ><br><a class="btn btn-info" href="#">Guardar</a></br></div>
-                                    <div class="col-sm-1"><br><a class="btn btn-info" href="/admin/faculty">Cancelar</a></br></div>
+                                    <div class="text-center mtop20 col-md-8">
+                                      <div class="col-md-2" id="save" ><br><a class="btn btn-info" href="#">Guardar</a></br></div>
+                                      <div class="col-md-3" id="save_seguir" ><br><a class="btn btn-info" href="#">Anadir mas/ver</a></br></div>
+                                      <div class="col-md-2"><br><a class="btn btn-info" href="/proyecto/index/listar">Cancelar</a></br></div>
+                                    </div>
                                   </div>
-
-
 
                                     <div class="bio-row">
                                         <p><span class="bold">Proyectoid </span>: <?php print $this->form->proyectoid;?></p>
@@ -83,18 +80,14 @@
 
                                     <div class="bio-row">
                                         <span class="bold">Revision </span>
-                                        <select disabled  id="revision" name="revision" class="form-control">
-                                          
+                                        <select disabled  id="revision" name="revision" class="form-control">                                          
                                         </select>
-                                    </div> 
- 
+                                    </div>  
 
                                     <div class="bio-row">
                                       <p><span class="bold">Gerente</span>: <?php print $this->form->gerente_proyecto;?></p>
                                     </div>
-
-
-                            
+                          
                                     <div class="bio-row">
                                       <p><span class="bold">Control/Proyecto</span>: <?php print $this->form->control_proyecto;?></p>
                                     </div>
@@ -107,7 +100,6 @@
                                       <p><span class="bold">Estado </span>: <?php print $this->form->estado;?></p>
                                     </div>
 
-
                                     <div class="col-md-3 col-xs-11">
                                       <div data-date-viewmode="years" data-date-format="dd-mm-yyyy" data-date="12-02-2012"  class="input-append date dpYears">
                                           <p><span class="bold">Fecha Inicio </span>: 
@@ -118,15 +110,11 @@
                                       </div>
                                
                                     </div>                                   
-                                
-                               
+                                                              
                                     <div class="bio-row">
                                       <p><span class="bold">Descripcion </span>: <?php print $this->form->descripcion;?></p>
                                     </div>
-
-
-
-                                                   
+                                                  
                               </div>
 
                           </div>
@@ -374,17 +362,14 @@
         var propuestaid = $("#propuestaid").val();   
         var cod_proy_prop = $("#cod_proy_prop").val();   
         var propuestaid = $("#propuestaid").val();   
-        var codeo = $("#codeo").val();   
-         
+        var codeo = $("#codeo").val();         
         var cliente = $("#cliente").val();   
         var uminera = $("#uminera").val();   
         var control_proyecto = $("#control_proyecto").val();  
         var revision = $("#revision").val();  
         var gerente_proyecto = $("#gerente_proyecto").val();  
         var tag = $("#tag").val();  
-        var tipo_proyecto = $("#tipo_proyecto").val();  
-
-      
+        var tipo_proyecto = $("#tipo_proyecto").val();       
         var descripcion = $("#descripcion").val();  
         var fecha_inicio = $("#fecha_inicio").val();  
         var control_documentario = $("#control_documentario").val();  
@@ -416,7 +401,36 @@
 
 
 
+<script type='text/javascript'>      
+  $("#save_seguir").click(function(){
+        var proyectoid = $("#proyectoid").val();
+        var nombre_proyecto = $("#nombre_proyecto").val();
+        var propuestaid = $("#propuestaid").val();   
+        var cod_proy_prop = $("#cod_proy_prop").val();   
+        var propuestaid = $("#propuestaid").val();   
+        var codeo = $("#codeo").val();         
+        var cliente = $("#cliente").val();   
+        var uminera = $("#uminera").val();   
+        var control_proyecto = $("#control_proyecto").val();  
+        var revision = $("#revision").val();  
+        var gerente_proyecto = $("#gerente_proyecto").val();  
+        var tag = $("#tag").val();  
+        var tipo_proyecto = $("#tipo_proyecto").val();       
+        var descripcion = $("#descripcion").val();  
+        var fecha_inicio = $("#fecha_inicio").val();  
+        var control_documentario = $("#control_documentario").val();  
+        var estado = $("#estado").val();  
 
 
 
-  <script src="../../js/advanced-form-components.js"></script>
+        url="/proyecto/index/nuevo/proyectoid/"+proyectoid+"/propuesta/"+propuestaid+"/nombre_proyecto/"+nombre_proyecto+"/cod_proy_prop/"+cod_proy_prop+"/proyectoid/"+proyectoid+"/cliente/"+cliente+"/uminera/"+uminera+"/control_proyecto/"+control_proyecto+"/revision/"+revision+"/descripcion/"+descripcion+"/fecha_inicio/"+fecha_inicio+"/control_documentario/"+control_documentario+"/estado/"+estado+"/gerente_proyecto/"+gerente_proyecto+"/tipo_proyecto/"+tipo_proyecto+"/tag/"+tag+"/E/1";
+        alert(url);
+        $("#loadingcourses").load(url);
+        $("#loadingcourses").hide();
+        location.href="/proyecto/index/editar/proyectoid/"+proyectoid+"/codigo_prop_proy/"+cod_proy_prop;
+        
+      
+    });
+</script>
+
+
