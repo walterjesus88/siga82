@@ -1,0 +1,484 @@
+<section class="panel">
+    <header class="panel-heading">
+    <span class="pull-right">
+      <a id="mostrar_activo" class=" btn btn-success btn-xs"> Activo</a>
+      <a id="mostrar_cerrado" class=" btn btn-warning  btn-xs"> Cerrado</a>
+      <a id="mostrar_cancelado" class=" btn btn-primary  btn-xs" style="background-color: #59ace2;color: #fff;"> Cancelado</a>
+      <a id="mostrar_paralizado" class=" btn btn-danger  btn-xs"> Paralizado</a>
+      <a id="mostrar_eliminado" class=" btn btn-default  btn-xs"> Eliminado</a>                                     
+    </span>
+   </header>
+
+      <div class="panel-body">
+        <div class="row">
+          <div class="col-md-12">   
+            <div class="input-group"><input id="buscar_proyecto" type="text" placeholder="Buscar Proyecto" class="input-sm form-control"> <span class="input-group-btn">
+              <button id="btn_buscar_proyecto" type="button" class="btn btn-sm btn-success"> Buscar!</button> 
+              <a href="/proyecto/index/nuevo" class=" btn btn-primary btn-sm" > Crear</a>                             
+              <a href="#" class=" btn btn-danger btn-sm " > Exportar</a>
+                </span>
+            </div>
+          </div>       
+        </div>
+      </div>
+ 
+
+
+  <div id="Proyecto_Activa">
+    <table class="table table-hover p-table">
+          <thead>
+            <tr>  
+              <th style="width: 30%;">Codigo</th>
+              <th style="width: 10%;">Proyetoid</th>
+              <th style="width: 15;">Nombre</th>
+              <th style="width: 15%;">Gerente</th>
+              <th style="width: 15%;">Estado</th>
+              <th style="width: 20%;">Acciones</th>
+            </tr>
+          </thead>
+          <?php
+            $c=0;
+          foreach ($this->listaproyecto as $lista) {
+               if ($lista['estado']=='A'){
+            ?>                   
+            <tr>
+               <td class="p-name">
+                <a href="#"><?php echo $lista['codigo_prop_proy']; ?></a>
+              </td>
+              <td>
+                <a href="#"><?php echo $lista['proyectoid']; ?></a>                                
+              </td>
+              <td>
+                <a href="#"><?php echo $lista['nombre_proyecto']; ?></a>
+              </td>
+              <td>
+                <a href="#"><?php echo $lista['gerente_proyecto']; ?></a>
+              </td>
+                                
+              <td>
+                
+                  <span class="label label-success label-mini">Activo</span>
+                  <div class="btn-group">
+                      <button data-toggle="dropdown" class="btn btn-info dropdown-toggle btn-xs" type="button" aria-expanded="false">Modificar<span class="caret"></span></button>
+                      <ul role="menu" class="dropdown-menu">
+                          <li><a href="/proyecto/index/cambiarestado/proyectoid/<?php echo $lista['proyectoid']?>/propuesta/<?php echo $lista['propuestaid']?>/nombre_proyecto/<?php echo $lista['nombre_proyecto']?>/codigo_prop_proy/<?php echo $lista['codigo_prop_proy']?>/estado/A/revision/<?php echo $lista['revision']?>/oid/<?php echo $lista['oid']?>/gerente_proyecto/<?php echo $lista['gerente_proyecto']?>/control_proyecto/<?php echo $lista['control_proyecto']?>/control_documentario/<?php echo $lista['control_documentario']?>/tipo_proyecto/<?php echo $lista['tipo_proyecto']?>/paisid/<?php echo $lista['paisid']?>/fecha_inicio/<?php echo $lista['fecha_inicio']?>">Activo</a></li>
+                          <li><a href="/proyecto/index/cambiarestado/proyectoid/<?php echo $lista['proyectoid']?>/propuesta/<?php echo $lista['propuestaid']?>/nombre_proyecto/<?php echo $lista['nombre_proyecto']?>/codigo_prop_proy/<?php echo $lista['codigo_prop_proy']?>/estado/C/revision/<?php echo $lista['revision']?>/oid/<?php echo $lista['oid']?>/gerente_proyecto/<?php echo $lista['gerente_proyecto']?>/control_proyecto/<?php echo $lista['control_proyecto']?>/control_documentario/<?php echo $lista['control_documentario']?>/tipo_proyecto/<?php echo $lista['tipo_proyecto']?>/paisid/<?php echo $lista['paisid']?>/fecha_inicio/<?php echo $lista['fecha_inicio']?>">Cerrado</a></li>
+                           <li><a href="/proyecto/index/cambiarestado/proyectoid/<?php echo $lista['proyectoid']?>/propuesta/<?php echo $lista['propuestaid']?>/nombre_proyecto/<?php echo $lista['nombre_proyecto']?>/codigo_prop_proy/<?php echo $lista['codigo_prop_proy']?>/estado/CA/revision/<?php echo $lista['revision']?>/oid/<?php echo $lista['oid']?>/gerente_proyecto/<?php echo $lista['gerente_proyecto']?>/control_proyecto/<?php echo $lista['control_proyecto']?>/control_documentario/<?php echo $lista['control_documentario']?>/tipo_proyecto/<?php echo $lista['tipo_proyecto']?>/paisid/<?php echo $lista['paisid']?>/fecha_inicio/<?php echo $lista['fecha_inicio']?>">Cancelado</a></li>
+                           <li><a href="/proyecto/index/cambiarestado/proyectoid/<?php echo $lista['proyectoid']?>/propuesta/<?php echo $lista['propuestaid']?>/nombre_proyecto/<?php echo $lista['nombre_proyecto']?>/codigo_prop_proy/<?php echo $lista['codigo_prop_proy']?>/estado/PA/revision/<?php echo $lista['revision']?>/oid/<?php echo $lista['oid']?>/gerente_proyecto/<?php echo $lista['gerente_proyecto']?>/control_proyecto/<?php echo $lista['control_proyecto']?>/control_documentario/<?php echo $lista['control_documentario']?>/tipo_proyecto/<?php echo $lista['tipo_proyecto']?>/paisid/<?php echo $lista['paisid']?>/fecha_inicio/<?php echo $lista['fecha_inicio']?>">Paralizado</a></li>
+                           <li><a href="/proyecto/index/cambiarestado/proyectoid/<?php echo $lista['proyectoid']?>/propuesta/<?php echo $lista['propuestaid']?>/nombre_proyecto/<?php echo $lista['nombre_proyecto']?>/codigo_prop_proy/<?php echo $lista['codigo_prop_proy']?>/estado/E/revision/<?php echo $lista['revision']?>/oid/<?php echo $lista['oid']?>/gerente_proyecto/<?php echo $lista['gerente_proyecto']?>/control_proyecto/<?php echo $lista['control_proyecto']?>/control_documentario/<?php echo $lista['control_documentario']?>/tipo_proyecto/<?php echo $lista['tipo_proyecto']?>/paisid/<?php echo $lista['paisid']?>/fecha_inicio/<?php echo $lista['fecha_inicio']?>">Eliminado</a></li>
+                                      
+                      </ul>
+                  </div>
+              </td>
+
+              <td>
+                <a href="project_details.html" class="btn btn-primary btn-xs"><i class="fa fa-folder"></i> View </a>
+                <a href="/proyecto/index/editar/proyectoid/<?php echo $lista['proyectoid']?>/codigo_prop_proy/<?php echo $lista['codigo_prop_proy']?>" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i> Edit </a>
+                <a id="deletecourse_<?php echo $c?>" href="#" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i> Delete </a>
+              </td>
+
+              </tr>                            
+              <?php $c++;}}?>
+    </table>
+  </div>
+
+
+
+  <div id="Proyecto_Cancelado">
+    <table class="table table-hover p-table">
+          <thead>
+            <tr>  
+              <th style="width: 30%;">Codigo</th>
+              <th style="width: 10%;">Proyetoid</th>
+              <th style="width: 15;">Nombre</th>
+              <th style="width: 15%;">Gerente</th>
+              <th style="width: 15%;">Estado</th>
+              <th style="width: 20%;">Acciones</th>
+            </tr>
+          </thead>
+          <?php
+            $c=0;
+          foreach ($this->listaproyecto as $lista) {
+               if ($lista['estado']=='CA'){
+            ?>                   
+            <tr>
+               <td class="p-name">
+                <a href="#"><?php echo $lista['codigo_prop_proy']; ?></a>
+              </td>
+              <td>
+                <a href="#"><?php echo $lista['proyectoid']; ?></a>                                
+              </td>
+              <td>
+                <a href="#"><?php echo $lista['nombre_proyecto']; ?></a>
+              </td>
+              <td>
+                <a href="#"><?php echo $lista['gerente_proyecto']; ?></a>
+              </td>
+                                
+             <td>
+                
+                  <span class="label label-success label-mini">Cancelado</span>
+                  <div class="btn-group">
+                      <button data-toggle="dropdown" class="btn btn-info dropdown-toggle btn-xs" type="button" aria-expanded="false">Modificar<span class="caret"></span></button>
+                      <ul role="menu" class="dropdown-menu">
+                          <li><a href="/proyecto/index/cambiarestado/proyectoid/<?php echo $lista['proyectoid']?>/propuesta/<?php echo $lista['propuestaid']?>/nombre_proyecto/<?php echo $lista['nombre_proyecto']?>/codigo_prop_proy/<?php echo $lista['codigo_prop_proy']?>/estado/A/revision/<?php echo $lista['revision']?>/oid/<?php echo $lista['oid']?>/gerente_proyecto/<?php echo $lista['gerente_proyecto']?>/control_proyecto/<?php echo $lista['control_proyecto']?>/control_documentario/<?php echo $lista['control_documentario']?>/tipo_proyecto/<?php echo $lista['tipo_proyecto']?>/paisid/<?php echo $lista['paisid']?>/fecha_inicio/<?php echo $lista['fecha_inicio']?>">Activo</a></li>
+                          <li><a href="/proyecto/index/cambiarestado/proyectoid/<?php echo $lista['proyectoid']?>/propuesta/<?php echo $lista['propuestaid']?>/nombre_proyecto/<?php echo $lista['nombre_proyecto']?>/codigo_prop_proy/<?php echo $lista['codigo_prop_proy']?>/estado/C/revision/<?php echo $lista['revision']?>/oid/<?php echo $lista['oid']?>/gerente_proyecto/<?php echo $lista['gerente_proyecto']?>/control_proyecto/<?php echo $lista['control_proyecto']?>/control_documentario/<?php echo $lista['control_documentario']?>/tipo_proyecto/<?php echo $lista['tipo_proyecto']?>/paisid/<?php echo $lista['paisid']?>/fecha_inicio/<?php echo $lista['fecha_inicio']?>">Cerrado</a></li>
+                           <li><a href="/proyecto/index/cambiarestado/proyectoid/<?php echo $lista['proyectoid']?>/propuesta/<?php echo $lista['propuestaid']?>/nombre_proyecto/<?php echo $lista['nombre_proyecto']?>/codigo_prop_proy/<?php echo $lista['codigo_prop_proy']?>/estado/CA/revision/<?php echo $lista['revision']?>/oid/<?php echo $lista['oid']?>/gerente_proyecto/<?php echo $lista['gerente_proyecto']?>/control_proyecto/<?php echo $lista['control_proyecto']?>/control_documentario/<?php echo $lista['control_documentario']?>/tipo_proyecto/<?php echo $lista['tipo_proyecto']?>/paisid/<?php echo $lista['paisid']?>/fecha_inicio/<?php echo $lista['fecha_inicio']?>">Cancelado</a></li>
+                           <li><a href="/proyecto/index/cambiarestado/proyectoid/<?php echo $lista['proyectoid']?>/propuesta/<?php echo $lista['propuestaid']?>/nombre_proyecto/<?php echo $lista['nombre_proyecto']?>/codigo_prop_proy/<?php echo $lista['codigo_prop_proy']?>/estado/PA/revision/<?php echo $lista['revision']?>/oid/<?php echo $lista['oid']?>/gerente_proyecto/<?php echo $lista['gerente_proyecto']?>/control_proyecto/<?php echo $lista['control_proyecto']?>/control_documentario/<?php echo $lista['control_documentario']?>/tipo_proyecto/<?php echo $lista['tipo_proyecto']?>/paisid/<?php echo $lista['paisid']?>/fecha_inicio/<?php echo $lista['fecha_inicio']?>">Paralizado</a></li>
+                           <li><a href="/proyecto/index/cambiarestado/proyectoid/<?php echo $lista['proyectoid']?>/propuesta/<?php echo $lista['propuestaid']?>/nombre_proyecto/<?php echo $lista['nombre_proyecto']?>/codigo_prop_proy/<?php echo $lista['codigo_prop_proy']?>/estado/E/revision/<?php echo $lista['revision']?>/oid/<?php echo $lista['oid']?>/gerente_proyecto/<?php echo $lista['gerente_proyecto']?>/control_proyecto/<?php echo $lista['control_proyecto']?>/control_documentario/<?php echo $lista['control_documentario']?>/tipo_proyecto/<?php echo $lista['tipo_proyecto']?>/paisid/<?php echo $lista['paisid']?>/fecha_inicio/<?php echo $lista['fecha_inicio']?>">Eliminado</a></li>
+                                      
+                      </ul>
+                  </div>
+              </td>
+
+              <td>
+                <a href="project_details.html" class="btn btn-primary btn-xs"><i class="fa fa-folder"></i> View </a>
+                <a href="/proyecto/index/editar/proyectoid/<?php echo $lista['proyectoid']?>/codigo_prop_proy/<?php echo $lista['codigo_prop_proy']?>" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i> Edit </a>
+                <a id="deletecourse_<?php echo $c?>" href="#" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i> Delete </a>
+              </td>
+
+              </tr>                            
+              <?php $c++;}}?>
+    </table>
+  </div>
+
+
+  <div id="Proyecto_Paralizado">
+    <table class="table table-hover p-table">
+          <thead>
+            <tr>  
+              <th style="width: 30%;">Codigo</th>
+              <th style="width: 10%;">Proyetoid</th>
+              <th style="width: 15;">Nombre</th>
+              <th style="width: 15%;">Gerente</th>
+              <th style="width: 15%;">Estado</th>
+              <th style="width: 20%;">Acciones</th>
+            </tr>
+          </thead>
+          <?php
+            $c=0;
+          foreach ($this->listaproyecto as $lista) {
+               if ($lista['estado']=='PA'){
+            ?>                   
+            <tr>
+             <td class="p-name">
+                <a href="#"><?php echo $lista['codigo_prop_proy']; ?></a>
+              </td>
+              <td>
+                <a href="#"><?php echo $lista['proyectoid']; ?></a>                                
+              </td>
+              <td>
+                <a href="#"><?php echo $lista['nombre_proyecto']; ?></a>
+              </td>
+              <td>
+                <a href="#"><?php echo $lista['gerente_proyecto']; ?></a>
+              </td>
+
+              <td>
+                
+                  <span class="label label-success label-mini">Paralizado</span>
+                  <div class="btn-group">
+                      <button data-toggle="dropdown" class="btn btn-info dropdown-toggle btn-xs" type="button" aria-expanded="false">Modificar<span class="caret"></span></button>
+                      <ul role="menu" class="dropdown-menu">
+                          <li><a href="/proyecto/index/cambiarestado/proyectoid/<?php echo $lista['proyectoid']?>/propuesta/<?php echo $lista['propuestaid']?>/nombre_proyecto/<?php echo $lista['nombre_proyecto']?>/codigo_prop_proy/<?php echo $lista['codigo_prop_proy']?>/estado/A/revision/<?php echo $lista['revision']?>/oid/<?php echo $lista['oid']?>/gerente_proyecto/<?php echo $lista['gerente_proyecto']?>/control_proyecto/<?php echo $lista['control_proyecto']?>/control_documentario/<?php echo $lista['control_documentario']?>/tipo_proyecto/<?php echo $lista['tipo_proyecto']?>/paisid/<?php echo $lista['paisid']?>/fecha_inicio/<?php echo $lista['fecha_inicio']?>">Activo</a></li>
+                          <li><a href="/proyecto/index/cambiarestado/proyectoid/<?php echo $lista['proyectoid']?>/propuesta/<?php echo $lista['propuestaid']?>/nombre_proyecto/<?php echo $lista['nombre_proyecto']?>/codigo_prop_proy/<?php echo $lista['codigo_prop_proy']?>/estado/C/revision/<?php echo $lista['revision']?>/oid/<?php echo $lista['oid']?>/gerente_proyecto/<?php echo $lista['gerente_proyecto']?>/control_proyecto/<?php echo $lista['control_proyecto']?>/control_documentario/<?php echo $lista['control_documentario']?>/tipo_proyecto/<?php echo $lista['tipo_proyecto']?>/paisid/<?php echo $lista['paisid']?>/fecha_inicio/<?php echo $lista['fecha_inicio']?>">Cerrado</a></li>
+                           <li><a href="/proyecto/index/cambiarestado/proyectoid/<?php echo $lista['proyectoid']?>/propuesta/<?php echo $lista['propuestaid']?>/nombre_proyecto/<?php echo $lista['nombre_proyecto']?>/codigo_prop_proy/<?php echo $lista['codigo_prop_proy']?>/estado/CA/revision/<?php echo $lista['revision']?>/oid/<?php echo $lista['oid']?>/gerente_proyecto/<?php echo $lista['gerente_proyecto']?>/control_proyecto/<?php echo $lista['control_proyecto']?>/control_documentario/<?php echo $lista['control_documentario']?>/tipo_proyecto/<?php echo $lista['tipo_proyecto']?>/paisid/<?php echo $lista['paisid']?>/fecha_inicio/<?php echo $lista['fecha_inicio']?>">Cancelado</a></li>
+                           <li><a href="/proyecto/index/cambiarestado/proyectoid/<?php echo $lista['proyectoid']?>/propuesta/<?php echo $lista['propuestaid']?>/nombre_proyecto/<?php echo $lista['nombre_proyecto']?>/codigo_prop_proy/<?php echo $lista['codigo_prop_proy']?>/estado/PA/revision/<?php echo $lista['revision']?>/oid/<?php echo $lista['oid']?>/gerente_proyecto/<?php echo $lista['gerente_proyecto']?>/control_proyecto/<?php echo $lista['control_proyecto']?>/control_documentario/<?php echo $lista['control_documentario']?>/tipo_proyecto/<?php echo $lista['tipo_proyecto']?>/paisid/<?php echo $lista['paisid']?>/fecha_inicio/<?php echo $lista['fecha_inicio']?>">Paralizado</a></li>
+                           <li><a href="/proyecto/index/cambiarestado/proyectoid/<?php echo $lista['proyectoid']?>/propuesta/<?php echo $lista['propuestaid']?>/nombre_proyecto/<?php echo $lista['nombre_proyecto']?>/codigo_prop_proy/<?php echo $lista['codigo_prop_proy']?>/estado/E/revision/<?php echo $lista['revision']?>/oid/<?php echo $lista['oid']?>/gerente_proyecto/<?php echo $lista['gerente_proyecto']?>/control_proyecto/<?php echo $lista['control_proyecto']?>/control_documentario/<?php echo $lista['control_documentario']?>/tipo_proyecto/<?php echo $lista['tipo_proyecto']?>/paisid/<?php echo $lista['paisid']?>/fecha_inicio/<?php echo $lista['fecha_inicio']?>">Eliminado</a></li>
+                                      
+                      </ul>
+                  </div>
+              </td>
+
+              <td>
+                <a href="project_details.html" class="btn btn-primary btn-xs"><i class="fa fa-folder"></i> View </a>
+                <a href="/proyecto/index/editar/proyectoid/<?php echo $lista['proyectoid']?>/codigo_prop_proy/<?php echo $lista['codigo_prop_proy']?>" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i> Edit </a>
+                <a id="deletecourse_<?php echo $c?>" href="#" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i> Delete </a>
+              </td>
+
+              </tr>                            
+              <?php $c++;}}?>
+    </table>
+  </div>
+
+
+
+  <div id="Proyecto_Cerrado">
+    <table class="table table-hover p-table">
+          <thead>
+            <tr>  
+              <th style="width: 30%;">Codigo</th>
+              <th style="width: 10%;">Proyetoid</th>
+              <th style="width: 15;">Nombre</th>
+              <th style="width: 15%;">Gerente</th>
+              <th style="width: 15%;">Estado</th>
+              <th style="width: 20%;">Acciones</th>
+            </tr>
+          </thead>
+          <?php
+            $c=0;
+          foreach ($this->listaproyecto as $lista) {
+               if ($lista['estado']=='C'){
+            ?>                   
+            <tr>
+              <td class="p-name">
+                <a href="#"><?php echo $lista['codigo_prop_proy']; ?></a>
+              </td>
+              <td>
+                <a href="#"><?php echo $lista['proyectoid']; ?></a>                                
+              </td>
+              <td>
+                <a href="#"><?php echo $lista['nombre_proyecto']; ?></a>
+              </td>
+              <td>
+                <a href="#"><?php echo $lista['gerente_proyecto']; ?></a>
+              </td>
+
+              <td>
+                
+                  <span class="label label-success label-mini">Cerrado</span>
+                  <div class="btn-group">
+                      <button data-toggle="dropdown" class="btn btn-info dropdown-toggle btn-xs" type="button" aria-expanded="false">Modificar<span class="caret"></span></button>
+                      <ul role="menu" class="dropdown-menu">
+                          <li><a href="/proyecto/index/cambiarestado/proyectoid/<?php echo $lista['proyectoid']?>/propuesta/<?php echo $lista['propuestaid']?>/nombre_proyecto/<?php echo $lista['nombre_proyecto']?>/codigo_prop_proy/<?php echo $lista['codigo_prop_proy']?>/estado/A/revision/<?php echo $lista['revision']?>/oid/<?php echo $lista['oid']?>/gerente_proyecto/<?php echo $lista['gerente_proyecto']?>/control_proyecto/<?php echo $lista['control_proyecto']?>/control_documentario/<?php echo $lista['control_documentario']?>/tipo_proyecto/<?php echo $lista['tipo_proyecto']?>/paisid/<?php echo $lista['paisid']?>/fecha_inicio/<?php echo $lista['fecha_inicio']?>">Activo</a></li>
+                          <li><a href="/proyecto/index/cambiarestado/proyectoid/<?php echo $lista['proyectoid']?>/propuesta/<?php echo $lista['propuestaid']?>/nombre_proyecto/<?php echo $lista['nombre_proyecto']?>/codigo_prop_proy/<?php echo $lista['codigo_prop_proy']?>/estado/C/revision/<?php echo $lista['revision']?>/oid/<?php echo $lista['oid']?>/gerente_proyecto/<?php echo $lista['gerente_proyecto']?>/control_proyecto/<?php echo $lista['control_proyecto']?>/control_documentario/<?php echo $lista['control_documentario']?>/tipo_proyecto/<?php echo $lista['tipo_proyecto']?>/paisid/<?php echo $lista['paisid']?>/fecha_inicio/<?php echo $lista['fecha_inicio']?>">Cerrado</a></li>
+                           <li><a href="/proyecto/index/cambiarestado/proyectoid/<?php echo $lista['proyectoid']?>/propuesta/<?php echo $lista['propuestaid']?>/nombre_proyecto/<?php echo $lista['nombre_proyecto']?>/codigo_prop_proy/<?php echo $lista['codigo_prop_proy']?>/estado/CA/revision/<?php echo $lista['revision']?>/oid/<?php echo $lista['oid']?>/gerente_proyecto/<?php echo $lista['gerente_proyecto']?>/control_proyecto/<?php echo $lista['control_proyecto']?>/control_documentario/<?php echo $lista['control_documentario']?>/tipo_proyecto/<?php echo $lista['tipo_proyecto']?>/paisid/<?php echo $lista['paisid']?>/fecha_inicio/<?php echo $lista['fecha_inicio']?>">Cancelado</a></li>
+                           <li><a href="/proyecto/index/cambiarestado/proyectoid/<?php echo $lista['proyectoid']?>/propuesta/<?php echo $lista['propuestaid']?>/nombre_proyecto/<?php echo $lista['nombre_proyecto']?>/codigo_prop_proy/<?php echo $lista['codigo_prop_proy']?>/estado/PA/revision/<?php echo $lista['revision']?>/oid/<?php echo $lista['oid']?>/gerente_proyecto/<?php echo $lista['gerente_proyecto']?>/control_proyecto/<?php echo $lista['control_proyecto']?>/control_documentario/<?php echo $lista['control_documentario']?>/tipo_proyecto/<?php echo $lista['tipo_proyecto']?>/paisid/<?php echo $lista['paisid']?>/fecha_inicio/<?php echo $lista['fecha_inicio']?>">Paralizado</a></li>
+                           <li><a href="/proyecto/index/cambiarestado/proyectoid/<?php echo $lista['proyectoid']?>/propuesta/<?php echo $lista['propuestaid']?>/nombre_proyecto/<?php echo $lista['nombre_proyecto']?>/codigo_prop_proy/<?php echo $lista['codigo_prop_proy']?>/estado/E/revision/<?php echo $lista['revision']?>/oid/<?php echo $lista['oid']?>/gerente_proyecto/<?php echo $lista['gerente_proyecto']?>/control_proyecto/<?php echo $lista['control_proyecto']?>/control_documentario/<?php echo $lista['control_documentario']?>/tipo_proyecto/<?php echo $lista['tipo_proyecto']?>/paisid/<?php echo $lista['paisid']?>/fecha_inicio/<?php echo $lista['fecha_inicio']?>">Eliminado</a></li>
+                                      
+                      </ul>
+                  </div>
+              </td>
+
+              <td>
+                <a href="project_details.html" class="btn btn-primary btn-xs"><i class="fa fa-folder"></i> View </a>
+                <a href="/proyecto/index/editar/proyectoid/<?php echo $lista['proyectoid']?>/codigo_prop_proy/<?php echo $lista['codigo_prop_proy']?>" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i> Edit </a>
+                <a id="deletecourse_<?php echo $c?>" href="#" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i> Delete </a>
+              </td>
+
+
+              </tr>                            
+              <?php $c++;}}?>
+    </table>
+  </div>
+
+
+
+
+  <div id="Proyecto_Eliminado">
+    <table class="table table-hover p-table">
+          <thead>
+            <tr>  
+              <th style="width: 30%;">Codigo</th>
+              <th style="width: 10%;">Proyetoid</th>
+              <th style="width: 15;">Nombre</th>
+              <th style="width: 15%;">Gerente</th>
+              <th style="width: 15%;">Estado</th>
+              <th style="width: 20%;">Acciones</th>
+            </tr>
+          </thead>
+          <?php
+            $c=0;
+          foreach ($this->listaproyecto as $lista) {
+               if ($lista['estado']=='E'){
+            ?>                   
+            <tr>
+              <td class="p-name">
+                <a href="#"><?php echo $lista['codigo_prop_proy']; ?></a>
+              </td>
+              <td>
+                <a href="#"><?php echo $lista['proyectoid']; ?></a>                                
+              </td>
+              <td>
+                <a href="#"><?php echo $lista['nombre_proyecto']; ?></a>
+              </td>
+              <td>
+                <a href="#"><?php echo $lista['gerente_proyecto']; ?></a>
+              </td>
+
+              <td>
+                
+                  <span class="label label-success label-mini">Eliminado</span>
+                  <div class="btn-group">
+                      <button data-toggle="dropdown" class="btn btn-info dropdown-toggle btn-xs" type="button" aria-expanded="false">Modificar<span class="caret"></span></button>
+                      <ul role="menu" class="dropdown-menu">
+                          <li><a href="/proyecto/index/cambiarestado/proyectoid/<?php echo $lista['proyectoid']?>/propuesta/<?php echo $lista['propuestaid']?>/nombre_proyecto/<?php echo $lista['nombre_proyecto']?>/codigo_prop_proy/<?php echo $lista['codigo_prop_proy']?>/estado/A/revision/<?php echo $lista['revision']?>/oid/<?php echo $lista['oid']?>/gerente_proyecto/<?php echo $lista['gerente_proyecto']?>/control_proyecto/<?php echo $lista['control_proyecto']?>/control_documentario/<?php echo $lista['control_documentario']?>/tipo_proyecto/<?php echo $lista['tipo_proyecto']?>/paisid/<?php echo $lista['paisid']?>/fecha_inicio/<?php echo $lista['fecha_inicio']?>">Activo</a></li>
+                          <li><a href="/proyecto/index/cambiarestado/proyectoid/<?php echo $lista['proyectoid']?>/propuesta/<?php echo $lista['propuestaid']?>/nombre_proyecto/<?php echo $lista['nombre_proyecto']?>/codigo_prop_proy/<?php echo $lista['codigo_prop_proy']?>/estado/C/revision/<?php echo $lista['revision']?>/oid/<?php echo $lista['oid']?>/gerente_proyecto/<?php echo $lista['gerente_proyecto']?>/control_proyecto/<?php echo $lista['control_proyecto']?>/control_documentario/<?php echo $lista['control_documentario']?>/tipo_proyecto/<?php echo $lista['tipo_proyecto']?>/paisid/<?php echo $lista['paisid']?>/fecha_inicio/<?php echo $lista['fecha_inicio']?>">Cerrado</a></li>
+                           <li><a href="/proyecto/index/cambiarestado/proyectoid/<?php echo $lista['proyectoid']?>/propuesta/<?php echo $lista['propuestaid']?>/nombre_proyecto/<?php echo $lista['nombre_proyecto']?>/codigo_prop_proy/<?php echo $lista['codigo_prop_proy']?>/estado/CA/revision/<?php echo $lista['revision']?>/oid/<?php echo $lista['oid']?>/gerente_proyecto/<?php echo $lista['gerente_proyecto']?>/control_proyecto/<?php echo $lista['control_proyecto']?>/control_documentario/<?php echo $lista['control_documentario']?>/tipo_proyecto/<?php echo $lista['tipo_proyecto']?>/paisid/<?php echo $lista['paisid']?>/fecha_inicio/<?php echo $lista['fecha_inicio']?>">Cancelado</a></li>
+                           <li><a href="/proyecto/index/cambiarestado/proyectoid/<?php echo $lista['proyectoid']?>/propuesta/<?php echo $lista['propuestaid']?>/nombre_proyecto/<?php echo $lista['nombre_proyecto']?>/codigo_prop_proy/<?php echo $lista['codigo_prop_proy']?>/estado/PA/revision/<?php echo $lista['revision']?>/oid/<?php echo $lista['oid']?>/gerente_proyecto/<?php echo $lista['gerente_proyecto']?>/control_proyecto/<?php echo $lista['control_proyecto']?>/control_documentario/<?php echo $lista['control_documentario']?>/tipo_proyecto/<?php echo $lista['tipo_proyecto']?>/paisid/<?php echo $lista['paisid']?>/fecha_inicio/<?php echo $lista['fecha_inicio']?>">Paralizado</a></li>
+                           <li><a href="/proyecto/index/cambiarestado/proyectoid/<?php echo $lista['proyectoid']?>/propuesta/<?php echo $lista['propuestaid']?>/nombre_proyecto/<?php echo $lista['nombre_proyecto']?>/codigo_prop_proy/<?php echo $lista['codigo_prop_proy']?>/estado/E/revision/<?php echo $lista['revision']?>/oid/<?php echo $lista['oid']?>/gerente_proyecto/<?php echo $lista['gerente_proyecto']?>/control_proyecto/<?php echo $lista['control_proyecto']?>/control_documentario/<?php echo $lista['control_documentario']?>/tipo_proyecto/<?php echo $lista['tipo_proyecto']?>/paisid/<?php echo $lista['paisid']?>/fecha_inicio/<?php echo $lista['fecha_inicio']?>">Eliminado</a></li>
+                                      
+                      </ul>
+                  </div>
+              </td>
+
+              <td>
+                <a href="project_details.html" class="btn btn-primary btn-xs"><i class="fa fa-folder"></i> View </a>
+                <a href="/proyecto/index/editar/proyectoid/<?php echo $lista['proyectoid']?>/codigo_prop_proy/<?php echo $lista['codigo_prop_proy']?>" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i> Edit </a>
+                <a id="deletecourse_<?php echo $c?>" href="#" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i> Delete </a>
+              </td>
+
+              </tr>                            
+              <?php $c++;}}?>
+    </table>
+  </div>
+
+
+    <div id="Proyecto_Total">
+    <table class="table table-hover p-table">
+          <thead>
+            <tr>  
+              <th style="width: 30%;">Codigo</th>
+              <th style="width: 10%;">Proyetoid</th>
+              <th style="width: 15;">Nombre</th>
+              <th style="width: 15%;">Gerente</th>
+              <th style="width: 15%;">Estado</th>
+              <th style="width: 20%;">Acciones</th>
+            </tr>
+          </thead>
+          <?php
+            $c=0;
+          foreach ($this->listaproyecto as $lista) {
+             
+            ?>                   
+            <tr>
+              <td class="p-name">
+                <a href="#"><?php echo $lista['codigo_prop_proy']; ?></a>
+              </td>
+              <td>
+                <a href="#"><?php echo $lista['proyectoid']; ?></a>                                
+              </td>
+              <td>
+                <a href="#"><?php echo $lista['nombre_proyecto']; ?></a>
+              </td>
+              <td>
+                <a href="#"><?php echo $lista['gerente_proyecto']; ?></a>
+              </td>
+
+              <td>
+                
+                  
+                  <div class="btn-group">
+                      <button data-toggle="dropdown" class="btn btn-info dropdown-toggle btn-xs" type="button" aria-expanded="false">Modificar<span class="caret"></span></button>
+                      <ul role="menu" class="dropdown-menu">
+                          <li><a href="/proyecto/index/cambiarestado/proyectoid/<?php echo $lista['proyectoid']?>/propuesta/<?php echo $lista['propuestaid']?>/nombre_proyecto/<?php echo $lista['nombre_proyecto']?>/codigo_prop_proy/<?php echo $lista['codigo_prop_proy']?>/estado/A/revision/<?php echo $lista['revision']?>/oid/<?php echo $lista['oid']?>/gerente_proyecto/<?php echo $lista['gerente_proyecto']?>/control_proyecto/<?php echo $lista['control_proyecto']?>/control_documentario/<?php echo $lista['control_documentario']?>/tipo_proyecto/<?php echo $lista['tipo_proyecto']?>/paisid/<?php echo $lista['paisid']?>/fecha_inicio/<?php echo $lista['fecha_inicio']?>">Activo</a></li>
+                          <li><a href="/proyecto/index/cambiarestado/proyectoid/<?php echo $lista['proyectoid']?>/propuesta/<?php echo $lista['propuestaid']?>/nombre_proyecto/<?php echo $lista['nombre_proyecto']?>/codigo_prop_proy/<?php echo $lista['codigo_prop_proy']?>/estado/C/revision/<?php echo $lista['revision']?>/oid/<?php echo $lista['oid']?>/gerente_proyecto/<?php echo $lista['gerente_proyecto']?>/control_proyecto/<?php echo $lista['control_proyecto']?>/control_documentario/<?php echo $lista['control_documentario']?>/tipo_proyecto/<?php echo $lista['tipo_proyecto']?>/paisid/<?php echo $lista['paisid']?>/fecha_inicio/<?php echo $lista['fecha_inicio']?>">Cerrado</a></li>
+                           <li><a href="/proyecto/index/cambiarestado/proyectoid/<?php echo $lista['proyectoid']?>/propuesta/<?php echo $lista['propuestaid']?>/nombre_proyecto/<?php echo $lista['nombre_proyecto']?>/codigo_prop_proy/<?php echo $lista['codigo_prop_proy']?>/estado/CA/revision/<?php echo $lista['revision']?>/oid/<?php echo $lista['oid']?>/gerente_proyecto/<?php echo $lista['gerente_proyecto']?>/control_proyecto/<?php echo $lista['control_proyecto']?>/control_documentario/<?php echo $lista['control_documentario']?>/tipo_proyecto/<?php echo $lista['tipo_proyecto']?>/paisid/<?php echo $lista['paisid']?>/fecha_inicio/<?php echo $lista['fecha_inicio']?>">Cancelado</a></li>
+                           <li><a href="/proyecto/index/cambiarestado/proyectoid/<?php echo $lista['proyectoid']?>/propuesta/<?php echo $lista['propuestaid']?>/nombre_proyecto/<?php echo $lista['nombre_proyecto']?>/codigo_prop_proy/<?php echo $lista['codigo_prop_proy']?>/estado/PA/revision/<?php echo $lista['revision']?>/oid/<?php echo $lista['oid']?>/gerente_proyecto/<?php echo $lista['gerente_proyecto']?>/control_proyecto/<?php echo $lista['control_proyecto']?>/control_documentario/<?php echo $lista['control_documentario']?>/tipo_proyecto/<?php echo $lista['tipo_proyecto']?>/paisid/<?php echo $lista['paisid']?>/fecha_inicio/<?php echo $lista['fecha_inicio']?>">Paralizado</a></li>
+                           <li><a href="/proyecto/index/cambiarestado/proyectoid/<?php echo $lista['proyectoid']?>/propuesta/<?php echo $lista['propuestaid']?>/nombre_proyecto/<?php echo $lista['nombre_proyecto']?>/codigo_prop_proy/<?php echo $lista['codigo_prop_proy']?>/estado/E/revision/<?php echo $lista['revision']?>/oid/<?php echo $lista['oid']?>/gerente_proyecto/<?php echo $lista['gerente_proyecto']?>/control_proyecto/<?php echo $lista['control_proyecto']?>/control_documentario/<?php echo $lista['control_documentario']?>/tipo_proyecto/<?php echo $lista['tipo_proyecto']?>/paisid/<?php echo $lista['paisid']?>/fecha_inicio/<?php echo $lista['fecha_inicio']?>">Eliminado</a></li>
+                                      
+                      </ul>
+                  </div>
+              </td>
+
+              <td>
+                <a href="project_details.html" class="btn btn-primary btn-xs"><i class="fa fa-folder"></i> View </a>
+                <a href="/proyecto/index/editar/proyectoid/<?php echo $lista['proyectoid']?>/codigo_prop_proy/<?php echo $lista['codigo_prop_proy']?>" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i> Edit </a>
+                <a id="deletecourse_<?php echo $c?>" href="#" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i> Delete </a>
+              </td>
+
+              </tr>                            
+              <?php $c++;}?>
+    </table>
+  </div>
+    <div id="resultado_busqueda"> </div>
+</section> 
+
+
+<script>
+$(document).ready(function(){
+        $("#Proyecto_Total").show();
+        $("#Proyecto_Activa").hide();
+        $("#Proyecto_Eliminado").hide();
+        $("#Proyecto_Cerrado").hide();
+        $("#Proyecto_Paralizado").hide();
+        $("#Proyecto_Cancelado").hide();        
+        $("#resultado_busqueda").hide();
+
+    $("#mostrar_activo").click(function(){             
+        $("#Proyecto_Total").hide();
+        $("#Proyecto_Activa").show();
+        $("#Proyecto_Eliminado").hide();
+        $("#Proyecto_Cerrado").hide();
+        $("#Proyecto_Paralizado").hide();
+        $("#Proyecto_Cancelado").hide();        
+        $("#resultado_busqueda").hide();
+    });
+
+      $("#mostrar_cerrado").click(function(){             
+        $("#Proyecto_Total").hide();
+        $("#Proyecto_Activa").hide();
+        $("#Proyecto_Eliminado").hide();
+        $("#Proyecto_Cerrado").show();
+        $("#Proyecto_Paralizado").hide();
+        $("#Proyecto_Cancelado").hide();            
+        $("#resultado_busqueda").hide();
+
+    });
+       $("#mostrar_cancelado").click(function(){             
+        $("#Proyecto_Total").hide();
+        $("#Proyecto_Activa").hide();
+        $("#Proyecto_Eliminado").hide();
+        $("#Proyecto_Cerrado").hide();
+        $("#Proyecto_Paralizado").hide();
+        $("#Proyecto_Cancelado").show();
+        $("#resultado_busqueda").hide();
+    });
+        $("#mostrar_paralizado").click(function(){             
+        $("#Proyecto_Total").hide();
+        $("#Proyecto_Activa").hide();
+        $("#Proyecto_Eliminado").hide();
+        $("#Proyecto_Cerrado").hide();
+        $("#Proyecto_Paralizado").show();
+        $("#Proyecto_Cancelado").hide();
+        $("#resultado_busqueda").hide();
+    });
+        $("#mostrar_eliminado").click(function(){             
+        $("#Proyecto_Total").hide();
+        $("#Proyecto_Activa").hide();
+        $("#Proyecto_Eliminado").show();
+        $("#Proyecto_Cerrado").hide();
+        $("#Proyecto_Paralizado").hide();
+        $("#Proyecto_Cancelado").hide();
+        $("#resultado_busqueda").hide();
+
+    });
+
+    $("#btn_buscar_proyecto").click(function(){
+        var buscar_proyecto = $("#buscar_proyecto").val();
+        
+        $("#Proyecto_Total").hide();
+        $("#Proyecto_Activa").hide();
+        $("#Proyecto_Eliminado").hide();
+        $("#Proyecto_Cerrado").hide();
+        $("#Proyecto_Paralizado").hide();
+        $("#Proyecto_Cancelado").hide();
+        $("#resultado_busqueda").show();
+        if (buscar_proyecto=='')  
+        {
+            alert("ingrese propuesta a buscar");
+        }
+        else
+        { 
+            var url="/proyecto/index/buscar/proyecto/"+buscar_proyecto;   
+            
+        }
+        $("#resultado_busqueda").load(url);
+    });    
+
+});
+  
+</script>
+
+
+
+
+<script src="js/common-scripts.js"></script>
+
+<script type="text/javascript">
+  $(document).ready(function() {
+    $(function(){
+    $('select').customSelect();
+    });
+  });
+</script>
