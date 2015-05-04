@@ -71,6 +71,21 @@ class Admin_Model_DbTable_Propuesta extends Zend_Db_Table_Abstract
     }
 
 
+     public function _getPropuestaAllOrdenadoOrdenEstado(){
+        try{
+            $sql=$this->_db->query("
+                select * from propuesta as pro inner join cliente as cli on
+                pro.clienteid=cli.clienteid 
+                order by pro.orden_estado asc");
+            $row=$sql->fetchAll();
+            return $row;           
+            }  
+            
+           catch (Exception $ex){
+            print $ex->getMessage();
+        }
+    }
+    
     
      public function _buscarPropuesta($propuesta){
         try{

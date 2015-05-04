@@ -53,6 +53,7 @@ class Propuesta_IndexController extends Zend_Controller_Action {
             if ($estado=='D'){$orden = "5"; }
             if ($estado=='A'){$orden = "6"; }
             if ($estado=='S'){$orden = "7"; }
+            if ($estado=='ELI'){$orden = "8"; }
             $updatepropuesta = new Admin_Model_DbTable_Propuesta();
             $data["estado_propuesta"]=$estado;
             $data["orden_estado"]=$orden;
@@ -89,11 +90,7 @@ class Propuesta_IndexController extends Zend_Controller_Action {
     }  
 
     public function nuevoAction() {
-         //$this->_helper->layout()->disableLayout();
         $dbpropuesta = new Admin_Model_DbTable_Propuesta();
-        //$busca=$buscapropuesta->_getPropuestaxIndices($codigo,$propuestaid,$revision);
-        //print_r($listapropuesta);
-        //$this->view->buscapropuesta = $busca; 
         $formdata['clienteid']=$clienteid = $this->_getParam('clienteid');
         $formdata['unidad_minera']=$uminera = $this->_getParam('uminera');
         $formdata['propuestaid']=$propuestaid = $this->_getParam('propuestaid');
@@ -199,16 +196,13 @@ class Propuesta_IndexController extends Zend_Controller_Action {
 
 
     public function reporteexcelAction() {
-        $buscapropuesta = new Admin_Model_DbTable_Propuesta();
+       $buscapropuesta = new Admin_Model_DbTable_Propuesta();
         /** Include PHPExcel */
         $dir = APPLICATION_LIBRARY . "/PHPExcel1.8/Classes/PHPExcel.php";
         include ($dir);
         //require_once dirname(__FILE__) . '/../Classes/PHPExcel.php';
         $listapropuesta = new Admin_Model_DbTable_Propuesta();
-        //$status_propuesta=$this->_getParam('status_propuesta');
-        If($status_propuesta=='EE'){
-        $status="En Elaboración";}
-        $lista_enelaboracion=$listapropuesta->_getPropuestaAllOrdenadoxEstadoPropuesta($status_propuesta);
+        $lista=$listapropuesta->_getPropuestaAllOrdenadoOrdenEstado();
         // Create new PHPExcel object
         $objPHPExcel = new PHPExcel();
         // Set document properties
@@ -228,7 +222,7 @@ class Propuesta_IndexController extends Zend_Controller_Action {
             ->setCellValue('E1', 'Status');
         // Miscellaneous glyphs, UTF-8
         $i=2;
-        foreach ($lista_enelaboracion as $lista) {
+        foreach ($lista as $lista) {
             $buscacliente = new Admin_Model_DbTable_Cliente();
             $buscanombre_cliente=$buscacliente->_getClientexIndice($lista['clienteid']);
         $objPHPExcel->setActiveSheetIndex(0)
@@ -236,11 +230,11 @@ class Propuesta_IndexController extends Zend_Controller_Action {
             ->setCellValue('B'.$i, $lista['revision'])
             ->setCellValue('C'.$i, $buscanombre_cliente[0]['nombre_comercial'])
             ->setCellValue('D'.$i, $lista['nombre_propuesta'])
-            ->setCellValue('E'.$i, $status);
+            ->setCellValue('E'.$i, $lista['nombre_propuesta']);
             $i++;
         }
         // Rename worksheet
-        $objPHPExcel->getActiveSheet()->setTitle('Simple');
+        $objPHPExcel->getActiveSheet()->setTitle('Reporte Propuesta Anddes');
         // Set active sheet index to the first sheet, so Excel opens this as the first sheet
         $objPHPExcel->setActiveSheetIndex(0);
         // Redirect output to a client’s web browser (Excel2007)
@@ -268,5 +262,20 @@ class Propuesta_IndexController extends Zend_Controller_Action {
       print_r($uminera);
 
     }    
+
+    public function transmittalAction() {
+        /*$listatransmittal = new Admin_Model_DbTable_Transmittal();
+        $lista_enviadas=$listatransmittal->_getTransmittalAllOrdenadoxEstadoEnvio('E');
+        $lista_respondidas=$listatransmittal->_getTransmittalAllOrdenadoxEstadoEnvio('R');
+        $lista_noenviadas=$listatransmittal->_getTransmittalAllOrdenadoxEstadoEnvio('R');
+        $this->view->lista_enviadas = $lista_enviadas; 
+        $this->view->lista_respondidas = $lista_respondidas; 
+        $this->view->lista_noenviadas = $lista_noenviadas;*/
+    }   
+    
+    public function generartransmittalAction() {
+    
+    
+    }
     
 }

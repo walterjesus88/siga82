@@ -1,26 +1,19 @@
 <section class="panel">
     <header class="panel-heading">
-      Lista de Propuestas
-      <span class="pull-right">
+      Lista de Propuestas con Trnsmittal
+      <span class="pull-right"> 
             
-            <a id="mostrar_enelaboracion" class=" btn btn-success btn-xs"> En Elaboración</a>
-            <a id="mostrar_enviada" class=" btn btn-warning  btn-xs"> Enviada</a>
-            <a id="mostrar_ganada" class=" btn btn-primary  btn-xs" style="background-color: #59ace2;color: #fff;"> Ganada</a>
-            <a id="mostrar_perdida" class=" btn btn-danger  btn-xs"> Perdida</a>
-            
-            <a id="mostrar_declinada" class=" btn btn-default  btn-xs"> Declinada</a>
-            <a id="mostrar_anulada" class=" btn   btn-xs" style="background-color: #8175c7;color: #fff;"> Anulada</a>
-            
-
+            <a id="mostrar_envidas" class=" btn btn-warning  btn-xs"> Enviadas</a>
+            <a id="mostrar_respondidas" class=" btn btn-primary  btn-xs" style="background-color: #59ace2;color: #fff;"> Respondidas</a>
+            <a id="mostrar_noenviadas" class=" btn btn-danger btn-xs"> No Enviadas</a>
       </span>
     </header>
     <div class="panel-body">
         <div class="row">
             <div class="col-md-12">
-              <div class="input-group"><input id="buscar_propuesta" type="text" placeholder="Buscar Propuesta" class="input-sm form-control"> <span class="input-group-btn">
+              <div class="input-group"><input id="buscar_propuesta" type="text" placeholder="Buscar Propuesta con Transmittal" class="input-sm form-control"> <span class="input-group-btn">
               <button id="btn_buscar_propuesta" type="button" class="btn btn-sm btn-success"> Buscar!</button> 
-<a href="/propuesta/index/nuevo" class=" btn btn-primary btn-sm" > Crear</a>
-
+<!--/propuesta/index/reporteexcel-->
 <a href="#" class=" btn btn-danger btn-sm " > Exportar</a>
 
 
@@ -29,7 +22,7 @@
       </div>
   </div>
   
-  <div id="propuesta_enelaboracion" >
+  <div id="transmittal_enviadas" >
   <table class="table table-hover p-table">
       <thead>
       <tr>  
@@ -37,15 +30,15 @@
           <th style="width: 5%;">Revisión</th>
           <th style="width: 30%;">Cliente</th>
           <th style="width: 35%;">Nombre</th>
-          <th style="width: 20%;">Status</th>
-          <th style="width: 10%;">Operaciones</th>
+          <th style="width: 20%;">Persona Enviada</th>
+          <th style="width: 10%;">Fecha</th>
       </tr>
       </thead>
       <tbody>
 
   <?php
         $c=1;
-       foreach ($this->lista_enelaboracion as $lista) {
+       foreach ($this->lista_enviados as $lista) {
           //print_r($lista);
         ?>  
 
@@ -94,8 +87,8 @@
           <td>
               <a href="/propuesta/index/ver/propuestaid/<?php echo $lista['propuestaid']?>/revision/<?php echo $lista['revision']?>/codigo/<?php echo $lista['codigo_prop_proy']?>"
                class="btn btn-primary btn-xs"><i class="fa fa-folder"></i></a>
-              
-               <a title="Eliminar" onclick="return confirm('Esta Seguro que desea eliminar el registro?');" href="/propuesta/index/cambiar/propuestaid/<?php echo $lista['propuestaid']?>/revision/<?php echo $lista['revision']?>/codigo/<?php echo $lista['codigo_prop_proy']?>/estado/ELI" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i></a>
+              <a href="/propuesta/index/ver" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i></a>
+              <a href="/propuesta/index/ver" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i></a>
           </td>
        
 
@@ -173,8 +166,8 @@
           <td>
               <a href="/propuesta/index/ver/propuestaid/<?php echo $lista['propuestaid']?>/revision/<?php echo $lista['revision']?>/codigo/<?php echo $lista['codigo_prop_proy']?>"
                class="btn btn-primary btn-xs"><i class="fa fa-folder"></i></a>
-             <a title="Generar Transmittal" href="/propuesta/index/generartransmittal/propuestaid/<?php echo $lista['propuestaid']?>/revision/<?php echo $lista['revision']?>/codigo/<?php echo $lista['codigo_prop_proy']?>" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i></a>
-             <a title="Eliminar" onclick="return confirm('Esta Seguro que desea eliminar el registro?');" href="/propuesta/index/cambiar/propuestaid/<?php echo $lista['propuestaid']?>/revision/<?php echo $lista['revision']?>/codigo/<?php echo $lista['codigo_prop_proy']?>/estado/ELI" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i></a>
+              <a href="/propuesta/index/ver" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i></a>
+              <a href="/propuesta/index/ver" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i></a>
           </td>
        
 
@@ -256,7 +249,8 @@
           <td>
               <a href="/propuesta/index/ver/propuestaid/<?php echo $lista['propuestaid']?>/revision/<?php echo $lista['revision']?>/codigo/<?php echo $lista['codigo_prop_proy']?>"
                class="btn btn-primary btn-xs"><i class="fa fa-folder"></i></a>
-               <a title="Eliminar" onclick="return confirm('Esta Seguro que desea eliminar el registro?');" href="/propuesta/index/cambiar/propuestaid/<?php echo $lista['propuestaid']?>/revision/<?php echo $lista['revision']?>/codigo/<?php echo $lista['codigo_prop_proy']?>/estado/ELI" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i></a>
+              <a href="/propuesta/index/ver" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i></a>
+              <a href="/propuesta/index/ver" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i></a>
           </td>
        
 
@@ -334,8 +328,8 @@
           <td>
               <a href="/propuesta/index/ver/propuestaid/<?php echo $lista['propuestaid']?>/revision/<?php echo $lista['revision']?>/codigo/<?php echo $lista['codigo_prop_proy']?>"
                class="btn btn-primary btn-xs"><i class="fa fa-folder"></i></a>
-           <a title="Generar Transmittal" href="/propuesta/index/generartransmittal/propuestaid/<?php echo $lista['propuestaid']?>/revision/<?php echo $lista['revision']?>/codigo/<?php echo $lista['codigo_prop_proy']?>" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i></a>
-              <a title="Eliminar" onclick="return confirm('Esta Seguro que desea eliminar el registro?');" href="/propuesta/index/cambiar/propuestaid/<?php echo $lista['propuestaid']?>/revision/<?php echo $lista['revision']?>/codigo/<?php echo $lista['codigo_prop_proy']?>/estado/ELI" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i></a>
+              <a href="/propuesta/index/ver" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i></a>
+              <a href="/propuesta/index/ver" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i></a>
           </td>
        
 
@@ -415,7 +409,8 @@
           <td>
               <a href="/propuesta/index/ver/propuestaid/<?php echo $lista['propuestaid']?>/revision/<?php echo $lista['revision']?>/codigo/<?php echo $lista['codigo_prop_proy']?>"
                class="btn btn-primary btn-xs"><i class="fa fa-folder"></i></a>
-             <a title="Eliminar" onclick="return confirm('Esta Seguro que desea eliminar el registro?');" href="/propuesta/index/cambiar/propuestaid/<?php echo $lista['propuestaid']?>/revision/<?php echo $lista['revision']?>/codigo/<?php echo $lista['codigo_prop_proy']?>/estado/ELI" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i></a>
+              <a href="/propuesta/index/ver" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i></a>
+              <a href="/propuesta/index/ver" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i></a>
           </td>
        
 
@@ -492,7 +487,8 @@
           <td>
               <a href="/propuesta/index/ver/propuestaid/<?php echo $lista['propuestaid']?>/revision/<?php echo $lista['revision']?>/codigo/<?php echo $lista['codigo_prop_proy']?>"
                class="btn btn-primary btn-xs"><i class="fa fa-folder"></i></a>
-               <a title="Eliminar" onclick="return confirm('Esta Seguro que desea eliminar el registro?');" href="/propuesta/index/cambiar/propuestaid/<?php echo $lista['propuestaid']?>/revision/<?php echo $lista['revision']?>/codigo/<?php echo $lista['codigo_prop_proy']?>/estado/ELI" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i></a>
+              <a href="/propuesta/index/ver" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i></a>
+              <a href="/propuesta/index/ver" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i></a>
           </td>
        
 
