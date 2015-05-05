@@ -89,6 +89,16 @@ class Propuesta_IndexController extends Zend_Controller_Action {
        
     }  
 
+    public function buscarpropuestaAction() {
+        $this->_helper->layout()->disableLayout();
+        $buscar_propuesta=$this->_getParam('propuesta');
+        
+        $buscapropuesta = new Admin_Model_DbTable_Propuesta();
+        $buscar=$buscapropuesta->_buscarPropuestaxPropuestaid($buscar_propuesta);
+        $this->view->lista_buscar = $buscar; 
+       
+    } 
+
     public function nuevoAction() {
         $dbpropuesta = new Admin_Model_DbTable_Propuesta();
         $formdata['clienteid']=$clienteid = $this->_getParam('clienteid');

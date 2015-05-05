@@ -103,6 +103,22 @@ select * from propuesta as pro inner join cliente as cli on
         }
     }
 
+     public function _buscarPropuestaxPropuestaid($propuestaid){
+        try{
+            $sql=$this->_db->query("
+                select * from propuesta as pro inner join cliente as cli on
+                pro.clienteid=cli.clienteid where pro.propuestaid like '%$propuestaid%' 
+                and pro.estado_propuesta='EE'
+                ");
+            $row=$sql->fetchAll();
+            return $row;           
+            }  
+            
+           catch (Exception $ex){
+            print $ex->getMessage();
+        }
+    }
+
 
     public function _getFilter($propuestaid){
         try{

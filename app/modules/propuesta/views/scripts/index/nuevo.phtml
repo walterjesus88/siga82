@@ -1,11 +1,23 @@
-<!-- page start-->
-<div class="row">
-    <div class="col-lg-6">
-        <section class="panel">
-            <header class="panel-heading">
-                Nueva Propuesta - Cliente
-            </header>
-           
+<section class="panel">
+    <header class="panel-heading tab-bg-dark-navy-blue ">
+        <ul class="nav nav-tabs">
+            <li class="active">
+                <a data-toggle="tab" href="#cliente" aria-expanded="true">Cliente</a>
+            </li>
+            <li class="">
+                <a data-toggle="tab" href="#equipo" aria-expanded="false">Equipo</a>
+            </li>
+            <li class="">
+                <a data-toggle="tab" href="#propuesta" aria-expanded="false">Propuesta</a>
+            </li>
+            <li class="">
+                <a data-toggle="tab" href="#fechas" aria-expanded="false">Fechas</a>
+            </li>
+        </ul>
+    </header>
+    <div class="panel-body">
+        <div class="tab-content">
+            <div id="cliente" class="tab-pane active">
             <div class="panel-body">
                 <form class="form-horizontal" role="form">
                     <div class="form-group has-error">
@@ -46,12 +58,30 @@
                             <input class="form-control" id="revision">
                         </div>
                     </div>
+                                        <div class="form-group has-error" id "partes_propuesta" >
+                        <label for="estado_propuesta" class="col-lg-4 col-sm-4 control-label">Partes de Propuesta</label>
+                        <div class="col-lg-6">
+                            <label class="checkbox-inline">
+                                              <input type="checkbox" id="tecnica" value="1" name="tecnica"   > Tecnica
+                                          </label>
+
+                                                    <label class="checkbox-inline">
+                                              <input type="checkbox" id="economica" value="2" name="economica"  > Economica
+
+                                          </label>
+                                          <label class="checkbox-inline">
+                                              <input type="checkbox" id="seguridad" value="3" name="seguridad"  > Seguridad
+                                              
+                                          </label>
+                        </div>
+                    </div>
+                    <!--
                     <div class="form-group has-error">
                         <label for="nro_propuesta" class="col-lg-3 col-sm-3 control-label">Nro Propuesta</label>
                         <div class="col-lg-9">
                             <input class="form-control" id="nro_propuesta" >
                         </div>
-                    </div>
+                    </div>-->
                     <div class="form-group has-error">
                         <label for="nombre_propuesta" class="col-lg-2 col-sm-2 control-label">Nombre</label>
                         <div class="col-lg-10">
@@ -72,15 +102,9 @@
                     </div>
                 </form>
             </div>
-        </section>
-    </div>
-    <div class="col-lg-6">
-        <section class="panel">
-            <header class="panel-heading">
-                Nueva Propuesta - Datos del Equipo
-            </header>
-           
-            <div class="panel-body">
+            </div>
+            <div id="equipo" class="tab-pane">
+                 <div class="panel-body">
                 <form class="form-horizontal" role="form">
                     <div class="form-group has-error">
                         <label for="responsable" class="col-lg-4 col-sm-4 control-label">Responsable</label>
@@ -170,19 +194,14 @@
                     </div>
 
                 </form>
+            </div>            
             </div>
-        </section>
-    </div>
-</div>
-<div class="row">
-  <div class="col-lg-6">
-        <section class="panel">
-            <header class="panel-heading">
-                Datos Propuesta 
-            </header>
-           
-            <div class="panel-body">
+            <div id="propuesta" class="tab-pane">
+                <div class="panel-body">
+
                 <form class="form-horizontal" role="form">
+
+     
 
                     <div class="form-group has-error">
                         <label for="estado_propuesta" class="col-lg-4 col-sm-4 control-label">Estado Propuesta</label>
@@ -278,14 +297,9 @@
                 </form>
                 
             </div>
-        </section>
-    </div>
-    <div class="col-lg-6">
-        <section class="panel">
-            <header class="panel-heading">
-                Fechas Propuesta
-            </header>
-            <div class="panel-body">
+            </div>
+            <div id="fechas" class="tab-pane">
+                <div class="panel-body">
                 <form class="form-horizontal" role="form">
                     <div class="form-group has-error">
                         <label class="col-lg-4 col-sm-4 control-label">Inicio Propuesta</label>
@@ -359,33 +373,67 @@
                     </div>
                 </form>
             </div>
-        </section>
-        <section class="panel">
-                                  <header class="panel-heading">
-                                      Tags Propuesta
-                                  </header>
-                                  <div class="panel-body">
-                                      <input name="tagsinput" id="tagsinput" class="tagsinput" value="Flat,Design,Lab,Clean" style="display: none;"><div id="tagsinput_tagsinput" class="tagsinput " style="height: 100%;"><span class="tag"><span>Flat&nbsp;&nbsp;</span><a class="tagsinput-remove-link"></a></span><span class="tag"><span>Design&nbsp;&nbsp;</span><a class="tagsinput-remove-link"></a></span><span class="tag"><span>Lab&nbsp;&nbsp;</span><a class="tagsinput-remove-link"></a></span><span class="tag"><span>Clean&nbsp;&nbsp;</span><a class="tagsinput-remove-link"></a></span><div class="tagsinput-add-container" id="tagsinput_addTag"><div class="tagsinput-add"></div><input id="tagsinput_tag" value="" data-default="" style="color: rgb(102, 102, 102); width: 7px;"></div></div>
-                                  </div>
-                              </section>
 
-    </div>
-</div>
-<div class="row">
-    <div class="col-lg-6"> 
-        <section class="panel">
+            
             <div class="panel-body">
                 <button type="submit" class="btn btn-success" id="guardar_propuesta">Guardar</button>
             </div>
-            <input type="text" id="l-name" class="form-control "> 
-        </section>
-    </div>
-</div>
+            
+       
 
-<!-- page end-->
+            </div>
+        </div>
+    </div>
+</section>
+
 <div id="cargar_nueva_propuesta"></div> 
 
+
+
 <script type='text/javascript'>
+var myValue;
+
+$(document).ready(function(){
+    $('[name^="tecnica"]').click(function(event) {
+        
+        if ($(this).is(":checked")) {
+            
+        }
+        
+    });    
+});
+
+$(document).ready(function(){
+    $('[name^="economica"]').click(function(event) {
+        if ($(this).is(":checked")) {
+            var clienteid = $("#clienteid").val();
+            var uminera = $("#uminera").val();
+            var propuestaid = $("#propuestaid").val();   
+            var revision = $("#revision").val(); 
+            if (propuestaid=='' || clienteid=='' || uminera==''  ||  revision=='' )  
+            {
+                alert("ingrese datos del cliente, codigo propuesta y revision.");
+            }
+            else
+            { 
+                url="/propuesta/index/guardarpartepropuesta/clienteid/"+clienteid+"/uminera/"+uminera+"/propuestaid/"+propuestaid+"/revision/"+revision+"/economica/S";
+               // $("#cargar_nueva_propuesta").load(url);
+            } 
+        }
+    });    
+});
+
+$(document).ready(function(){
+    $('[name^="seguridad"]').click(function(event) {
+        
+        if ($(this).is(":checked")) {
+         
+        }
+        
+    });    
+});
+
+
   $("#clienteid").change(function(){
     var clienteid = $(this).val(); 
     url2="/propuesta/index/uminera/clienteid/"+clienteid;
@@ -393,17 +441,21 @@
     }); 
 
   $("#guardar_propuesta").click(function(){
+    
+
     var clienteid = $("#clienteid").val();
     var uminera = $("#uminera").val();
     var propuestaid = $("#propuestaid").val();   
     var revision = $("#revision").val();   
-    var nro_propuesta = $("#nro_propuesta").val();   
+    
     var captura_nombre_propuesta = $("#nombre_propuesta").val();   
     var nombre_propuesta= captura_nombre_propuesta.replace(/\s/g,"_");
     var responsable = $("#responsable").val();  
     var revisor = $("#revisor").val();  
     var gerente = $("#gerente").val();  
     var control_documentario = $("#control_documentario").val();  
+    var captura_descripcion_propuesta = $("#descripcion_propuesta").val();  
+    var descripcion_propuesta= captura_descripcion_propuesta.replace(/\s/g,"_");
 
     var estado_propuesta = $("#estado_propuesta").val();  
     var tipo_propuesta = $("#tipo_propuesta").val();  
@@ -424,9 +476,11 @@
     var f_charla_informativa = $("#f_charla_informativa").val();  
     var f_visita_tecnica = $("#f_visita_tecnica").val();  
 
-    if (propuestaid=='')  
+  
+
+    if (propuestaid=='' || clienteid=='' || uminera==''  ||  revision=='' || responsable==''  || revisor==''  || gerente==''  || control_documentario==''  || f_inicio_propuesta=='' )  
     {
-      alert("ingrese todos los datos requeridos");
+      alert("ingrese todos los datos requeridos marcados de rojo.");
 
     }
     else
@@ -434,7 +488,7 @@
       
     
 
-    url="/propuesta/index/guardar/clienteid/"+clienteid+"/uminera/"+uminera+"/propuestaid/"+propuestaid+"/revision/"+revision+"/nro_propuesta/"+nro_propuesta+"/nombre_propuesta/"+nombre_propuesta+"/responsable/"+responsable+"/revisor/"+revisor+"/gerente/"+gerente+"/control_documentario/"+control_documentario+"/estado_propuesta/"+estado_propuesta+"/tipo_propuesta/"+tipo_propuesta+"/tipo_servicio/"+tipo_servicio+"/tipo_moneda/"+tipo_moneda+"/costo_honorarios/"+costo_honorarios+"/costo_gastos/"+costo_gastos+"/costo_laboratorio/"+costo_laboratorio+"/costo_otros/"+costo_otros+"/descuento/"+descuento+"/total/"+total+"/f_entrega_bases/"+f_entrega_bases+"/f_presentacion_consulta/"+f_presentacion_consulta+"/f_absolucion_consulta/"+f_absolucion_consulta+"/f_presentacion_propuesta/"+f_presentacion_propuesta+"/f_respuesta_propuesta/"+f_respuesta_propuesta+"/f_charla_informativa/"+f_charla_informativa+"/f_visita_tecnica/"+f_visita_tecnica+"/f_inicio_propuesta/"+f_inicio_propuesta;
+    url="/propuesta/index/guardar/clienteid/"+clienteid+"/uminera/"+uminera+"/propuestaid/"+propuestaid+"/revision/"+revision+"/nombre_propuesta/"+nombre_propuesta+"/responsable/"+responsable+"/revisor/"+revisor+"/gerente/"+gerente+"/control_documentario/"+control_documentario+"/estado_propuesta/"+estado_propuesta+"/tipo_propuesta/"+tipo_propuesta+"/tipo_servicio/"+tipo_servicio+"/tipo_moneda/"+tipo_moneda+"/costo_honorarios/"+costo_honorarios+"/costo_gastos/"+costo_gastos+"/costo_laboratorio/"+costo_laboratorio+"/costo_otros/"+costo_otros+"/descuento/"+descuento+"/total/"+total+"/f_entrega_bases/"+f_entrega_bases+"/f_presentacion_consulta/"+f_presentacion_consulta+"/f_absolucion_consulta/"+f_absolucion_consulta+"/f_presentacion_propuesta/"+f_presentacion_propuesta+"/f_respuesta_propuesta/"+f_respuesta_propuesta+"/f_charla_informativa/"+f_charla_informativa+"/f_visita_tecnica/"+f_visita_tecnica+"/f_inicio_propuesta/"+f_inicio_propuesta+"/descripcion_propuesta/"+descripcion_propuesta;
         
 
         $("#cargar_nueva_propuesta").load(url);
