@@ -1,18 +1,17 @@
 <section class="panel">
     <header class="panel-heading">
-      Lista de Propuestas con Trnsmittal
+      Lista de Propuestas con Transmittal
       <span class="pull-right"> 
             
-            <a id="mostrar_envidas" class=" btn btn-warning  btn-xs"> Enviadas</a>
-            <a id="mostrar_respondidas" class=" btn btn-primary  btn-xs" style="background-color: #59ace2;color: #fff;"> Respondidas</a>
-            <a id="mostrar_noenviadas" class=" btn btn-danger btn-xs"> No Enviadas</a>
+            <a id="" class=" btn btn-warning  btn-xs"> Para Aprobacion</a>
+          
       </span>
     </header>
     <div class="panel-body">
         <div class="row">
             <div class="col-md-12">
               <div class="input-group"><input id="buscar_propuesta" type="text" placeholder="Buscar Propuesta con Transmittal" class="input-sm form-control"> <span class="input-group-btn">
-              <button id="btn_buscar_propuesta" type="button" class="btn btn-sm btn-success"> Buscar!</button> 
+              <button id="" type="button" class="btn btn-sm btn-success"> Buscar!</button> 
 <!--/propuesta/index/reporteexcel-->
 <a href="#" class=" btn btn-danger btn-sm " > Exportar</a>
 
@@ -26,31 +25,35 @@
   <table class="table table-hover p-table">
       <thead>
       <tr>  
-          <th style="width: 10%;">Codigo</th>
-          <th style="width: 5%;">Revisión</th>
-          <th style="width: 30%;">Cliente</th>
-          <th style="width: 35%;">Nombre</th>
-          <th style="width: 20%;">Persona Enviada</th>
-          <th style="width: 10%;">Fecha</th>
+          <th style="width: 20%;">Codigo</th>
+          <th style="width: 20%;">Tranmitta Nro.</th>
+          <th style="width: 20%;">Cliente</th>
+          <th style="width: 5%;">Codigo Propuesta</th>
+          <th style="width: 5%;">Revision</th>
+          <th style="width: 20%;">Parte Propuesta</th>
+          <th style="width: 5%;">Status</th>
+          
+          <th style="width: 10%;">Operaciones</th>
+
       </tr>
       </thead>
       <tbody>
 
   <?php
         $c=1;
-       foreach ($this->lista_enviados as $lista) {
+       foreach ($this->listenviadoaprobacion as $lista) {
           //print_r($lista);
         ?>  
 
         <tr>
             <td class="p-name">
             <a class="control-label">
-                <?php echo $lista['propuestaid'];?>
+                <?php echo $lista['transmittaid'];?>
                 </a>
             </td>
 
             <td class="p-name">
-                <center><?php echo $lista['revision'];?>  </center>
+                <center><?php echo $lista['nro_documento'];?>  </center>
             </td>
 
             <td class="p-name">
@@ -61,34 +64,37 @@
                 ?>  
             </td>
             <td class="p-name">
-                <?php echo $lista['nombre_propuesta']; ?>  
+                <?php echo $lista['propuestaid']; ?>  
             </td>
           
-            <td>
-                <?php
-                if ($lista['estado_propuesta']=='EE') 
-                    {
-                        ?>
-                        <span class="label label-success label-mini">En Elaboración</span><?php
-                    }
-                ?>
-            <div class="btn-group">
-                <button data-toggle="dropdown" class="btn btn-info dropdown-toggle btn-xs" type="button" aria-expanded="false">Modificar<span class="caret"></span></button>
-                <ul role="menu" class="dropdown-menu">
-                    <li><a href="/propuesta/index/cambiar/propuestaid/<?php echo $lista['propuestaid']?>/revision/<?php echo $lista['revision']?>/codigo/<?php echo $lista['codigo_prop_proy']?>/estado/G">Ganada</a></li>
-                    <li><a href="/propuesta/index/cambiar/propuestaid/<?php echo $lista['propuestaid']?>/revision/<?php echo $lista['revision']?>/codigo/<?php echo $lista['codigo_prop_proy']?>/estado/P">Perdida</a></li>
-                    <li><a href="/propuesta/index/cambiar/propuestaid/<?php echo $lista['propuestaid']?>/revision/<?php echo $lista['revision']?>/codigo/<?php echo $lista['codigo_prop_proy']?>/estado/E">Enviada</a></li>
-                    <li><a href="/propuesta/index/cambiar/propuestaid/<?php echo $lista['propuestaid']?>/revision/<?php echo $lista['revision']?>/codigo/<?php echo $lista['codigo_prop_proy']?>/estado/D">Declinada</a></li>
-                    <li><a href="/propuesta/index/cambiar/propuestaid/<?php echo $lista['propuestaid']?>/revision/<?php echo $lista['revision']?>/codigo/<?php echo $lista['codigo_prop_proy']?>/estado/A">Anulada</a></li>
-                    <li><a href="/propuesta/index/cambiar/propuestaid/<?php echo $lista['propuestaid']?>/revision/<?php echo $lista['revision']?>/codigo/<?php echo $lista['codigo_prop_proy']?>/estado/S">Superada</a></li>
-                </ul>
-            </div>
+              <td class="p-name">
+                <?php echo $lista['revision']; ?>  
             </td>
+
+<td class="p-name">
+                <?php 
+                    $buscarparte = new Admin_Model_DbTable_Partepropuesta();
+                    $listparte=$buscarparte->_getPartePropuestaxIndices($lista['propuestaid'],$lista['revision'],$lista['clienteid'],$lista['unidad_mineraid']);
+                    foreach ($listparte as $listas) {
+                      print_r($listas['nro_propuesta']);
+                      echo"<br>";
+                    }
+                
+
+                ?>  
+            </td>
+
+
+<td class="p-name">
+                <?php echo $lista['tipo_envio']; ?>  
+            </td>
+
+
           <td>
-              <a href="/propuesta/index/ver/propuestaid/<?php echo $lista['propuestaid']?>/revision/<?php echo $lista['revision']?>/codigo/<?php echo $lista['codigo_prop_proy']?>"
+              <a href=""
                class="btn btn-primary btn-xs"><i class="fa fa-folder"></i></a>
-              <a href="/propuesta/index/ver" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i></a>
-              <a href="/propuesta/index/ver" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i></a>
+              
+              
           </td>
        
 

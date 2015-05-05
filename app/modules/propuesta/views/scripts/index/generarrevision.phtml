@@ -1,0 +1,520 @@
+<section class="panel">
+    <header class="panel-heading tab-bg-dark-navy-blue ">
+        <ul class="nav nav-tabs">
+            <li class="active">
+                <a data-toggle="tab" href="#cliente" aria-expanded="true">Cliente</a>
+            </li>
+            <!--
+            <li class="">
+                <a data-toggle="tab" href="#equipo" aria-expanded="false">Equipo</a>
+            </li>
+            <li class="">
+                <a data-toggle="tab" href="#propuesta" aria-expanded="false">Propuesta</a>
+            </li>
+            <li class="">
+                <a data-toggle="tab" href="#fechas" aria-expanded="false">Fechas</a>
+            </li>-->
+        </ul>
+    </header>
+    <div class="panel-body">
+        <div class="tab-content">
+            <div id="cliente" class="tab-pane active">
+            <div class="panel-body">
+                <form class="form-horizontal" role="form">
+                    <div class="form-group has-error">
+                        <label for="cliente" class="col-lg-2 col-sm-2 control-label">Cliente</label>
+                        <div class="col-lg-10">
+                         <?php echo $this->cliente ?>
+                        </div>
+                    </div>
+
+                    <div class="form-group has-error ">
+                        <label for="unidad" class="col-lg-3 col-sm-3 control-label">Unidad Minera</label>
+                        <div class="col-lg-9">
+                          <?php echo $this->unidad ?>
+                        </div>
+                    </div>
+
+                    <div class="form-group has-error">
+                        <label for="propuestaid" class="col-lg-2 col-sm-2 control-label">Codigo</label>
+                        <div class="col-lg-3">
+                             <?php echo $this->propuestaid ?>
+                         
+                        </div>
+                        <label for="revision has-error" class="col-lg-2 col-sm-2 control-label">Revision</label>
+                        <div class="col-lg-3">
+                              <?php 
+                                if ($this->revision=='A') {echo "B";}
+                                if ($this->revision=='B') {echo "C";}
+                                if ($this->revision=='C') {echo "D";}
+                                if ($this->revision=='D') {echo "E";}
+
+                               ?>
+
+                        </div>
+                    </div>
+          
+                    <!--
+                    <div class="form-group has-error">
+                        <label for="nro_propuesta" class="col-lg-3 col-sm-3 control-label">Nro Propuesta</label>
+                        <div class="col-lg-9">
+                            <input class="form-control" id="nro_propuesta" >
+                        </div>
+                    </div>-->
+                    <div class="form-group has-error">
+                        <label for="nombre_propuesta" class="col-lg-2 col-sm-2 control-label">Nombre</label>
+                        <div class="col-lg-10">
+                            <?php print_r($this->buscapropuesta[0]['nombre_propuesta']) ?>
+                        </div>
+                    </div>
+
+                    <div class="form-group has-error">
+                        <label for="descripcion_propuesta" class="col-lg-2 col-sm-2 control-label">Descripción</label>
+                        <div class="col-lg-10">
+                            
+                             <?php print_r($this->buscapropuesta[0]['descripcion']) ?>
+
+                        </div>
+
+
+
+                    </div>
+
+                     <div class="form-group">
+                       <label for="propuestaid" class="col-lg-3 col-sm-3 control-label">Parte Propuesta</label>
+                        <div class="col-lg-9">
+                            <?php 
+
+                            $buscarparte = new Admin_Model_DbTable_Partepropuesta();
+                    $listparte=$buscarparte->_getPartePropuestaxIndices( $this->propuestaid,$this->revision,$this->clienteid,$this->uminera);
+                    foreach ($listparte as $listas) {
+                      print_r($listas['nro_propuesta']);
+                      echo"-";
+                      print_r($listas['tipo_revision']);
+                      echo"<br>";
+                    }
+                     ?>
+
+                        </div>
+                        
+                    </div>
+
+
+                                                  <div class="form-group has-error" id "partes_propuesta" >
+                        <label for="estado_propuesta" class="col-lg-4 col-sm-4 control-label">Elija las Partes de Propuestas a Revision</label>
+                        <div class="col-lg-6">
+                            <label class="checkbox-inline">
+                                              <input type="checkbox" id="tecnica" value="1" name="tecnica"   > 01 - Tecnica
+                                          </label>
+
+                                                    <label class="checkbox-inline">
+                                              <input type="checkbox" id="economica" value="2" name="economica"  > 02 - Economica
+
+                                          </label>
+                                          <label class="checkbox-inline">
+                                              <input type="checkbox" id="seguridad" value="3" name="seguridad"  > 03 - Seguridad
+                                              
+                                          </label>
+                        </div>
+                    </div>
+
+                      <div class="panel-body">
+                <button type="submit" class="btn btn-success" id="guardar_revision">Guardar</button>
+            </div>
+
+                </form>
+            </div>
+            </div>
+            <div id="equipo" class="tab-pane">
+                 <div class="panel-body">
+                <form class="form-horizontal" role="form">
+                    <div class="form-group has-error">
+                        <label for="responsable" class="col-lg-4 col-sm-4 control-label">Responsable</label>
+                        <div class="col-lg-6">
+                        <select id="responsable" class="form-control input-sm m-bot15 col-lg-10">
+
+
+                            <option value="">Seleccione Responsable</option>
+                                
+
+
+                            <?php 
+                                $bdpersona = new Admin_Model_DbTable_Persona();
+                                $listresp_propuesta=$bdpersona->_getPropuestaxResponsablePropuesta('RESP-PROP');
+                                foreach ($listresp_propuesta as $responsable) {?>
+                                <option value="<?php echo $responsable['dni']?>"><?php echo strtoupper($responsable['alias'])?></option>
+                                <?php }?>
+                        </select>
+
+                        </div>
+                    </div>
+
+                    <div class="form-group has-error">
+                        <label for="revisor" class="col-lg-4 col-sm-4 control-label">Revisor Principal</label>
+                        <div class="col-lg-6">
+                        <select id='revisor' class="form-control input-sm m-bot15 col-lg-10">
+                            
+
+                            <option value="">Revisor Principal Propuesta</option>
+                                
+
+
+                            <?php 
+                                $bdpersona = new Admin_Model_DbTable_Persona();
+                                $listresp_propuesta=$bdpersona->_getPropuestaxResponsablePropuesta('RP-PROP');
+                                foreach ($listresp_propuesta as $responsable) {?>
+                                <option value="<?php echo $responsable['dni']?>"><?php echo strtoupper($responsable['alias'])?></option>
+                                <?php }?>
+                        </select>
+
+                        </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group has-error">
+                        <label for="gerente" class="col-lg-4 col-sm-4 control-label">Gerente Proyecto</label>
+                        <div class="col-lg-6">
+                        <select id="gerente" class="form-control input-sm m-bot15 col-lg-10">
+                           
+
+                            <option value="">Gerente Proyecto</option>
+                                
+
+
+                            <?php 
+                                $bdpersona = new Admin_Model_DbTable_Persona();
+                                $listresp_propuesta=$bdpersona->_getPropuestaxResponsablePropuesta('GP-PROP');
+                                foreach ($listresp_propuesta as $responsable) {?>
+                                <option value="<?php echo $responsable['dni']?>"><?php echo strtoupper($responsable['alias'])?></option>
+                                <?php }?>
+                        </select>
+
+                        </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group has-error">
+                        <label for="control_documnetario" class="col-lg-4 col-sm-4 control-label">Control Documentario</label>
+                        <div class="col-lg-6">
+                        <select id='control_documentario' class="form-control input-sm m-bot15 col-lg-10">
+                           
+
+                            <option value="">Seleccione Control Documentario</option>
+                                
+
+
+                            <?php 
+                                $bdpersona = new Admin_Model_DbTable_Persona();
+                                $listresp_propuesta=$bdpersona->_getPropuestaxResponsablePropuesta('CD-PROP');
+                                foreach ($listresp_propuesta as $responsable) {?>
+                                <option value="<?php echo $responsable['dni']?>"><?php echo strtoupper($responsable['alias'])?></option>
+                                <?php }?>
+                        </select>
+
+                        </select>
+                        </div>
+                    </div>
+
+                </form>
+            </div>            
+            </div>
+            <div id="propuesta" class="tab-pane">
+                <div class="panel-body">
+
+                <form class="form-horizontal" role="form">
+
+     
+
+                    <div class="form-group has-error">
+                        <label for="estado_propuesta" class="col-lg-4 col-sm-4 control-label">Estado Propuesta</label>
+                        <div class="col-lg-6">
+                        <select id='estado_propuesta' class="form-control input-sm m-bot15 col-lg-10">
+                            <option value="EE">En elaboración</option>
+                            <option value="E">Enviada</option>
+                            <option value="G">Ganada</option>
+                            <option value="P">Perdida</option>
+                            <option value="D">Declinada</option>
+                            <option value="A">Anulada</option>
+                        </select>
+                        </div>
+                    </div>
+                    <div class="form-group has-error">
+                        <label for="tipo_propuesta" class="col-lg-4 col-sm-4 control-label">Tipo Propuesta</label>
+                        <div class="col-lg-6">
+                        <select id="tipo_propuesta" class="form-control input-sm m-bot15 col-lg-10">
+                            <option value="SA">Suma Alzada</option>
+                            <option value="CU">Costos Unitarios</option>
+                        </select>
+                        </div>
+                    </div>
+
+                   
+
+                    <div class="form-group has-error">
+                        <label for="tipo_servicio" class="col-lg-4 col-sm-4 control-label">Tipo de Servicio</label>
+                        <div class="col-lg-6">
+                        <select id="tipo_servicio" class="form-control input-sm m-bot15 col-lg-10">
+                            <option value="ING">Ingeniería</option>
+                            <option value="AMB">Ambiental</option>
+                            <option value="GEO">Geotecnia</option>
+                            <option value="CON">Construcción</option>
+                        </select>
+                        </div>
+                    </div>
+
+
+                    <div class="form-group has-error">
+                        <label for="tipo_moneda" class="col-lg-4 col-sm-4 control-label">Tipo de Moneda</label>
+                        <div class="col-lg-6">
+                        <select id="tipo_moneda" class="form-control input-sm m-bot15 col-lg-10">
+                            <option value="D">Dolares</option>
+                            <option value="S">Soles</option>
+                        </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="costo_honorarios" class="col-lg-4 col-sm-4 control-label">Costo Honorarios</label>
+                        <div class="col-lg-6">
+                            <input class="form-control" id="costo_honorarios" >
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="costo_gastos" class="col-lg-4 col-sm-4 control-label">Costo Gastos</label>
+                        <div class="col-lg-6">
+                            <input class="form-control" id="costo_gastos" >
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="costo_laboratorio" class="col-lg-4 col-sm-4 control-label">Costo Laboratorio</label>
+                        <div class="col-lg-6">
+                            <input class="form-control" id="costo_laboratorio" >
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="costo_otros" class="col-lg-4 col-sm-4 control-label">Costo Otros</label>
+                        <div class="col-lg-6">
+                            <input class="form-control" id="costo_otros" >
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="descuento" class="col-lg-4 col-sm-4 control-label">Descuento</label>
+                        <div class="col-lg-6">
+                            <input class="form-control" id="descuento" >
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="total" class="col-lg-4 col-sm-4 control-label">Total</label>
+                        <div class="col-lg-6">
+                            <input class="form-control" id="total" >
+                        </div>
+                    </div>
+
+                  
+                </form>
+                
+            </div>
+            </div>
+            <div id="fechas" class="tab-pane">
+                <div class="panel-body">
+                <form class="form-horizontal" role="form">
+                    <div class="form-group has-error">
+                        <label class="col-lg-4 col-sm-4 control-label">Inicio Propuesta</label>
+                        <div class="col-lg-6">
+                            <input class="form-control form-control-inline input-medium default-date-picker"  size="16" type="text" id="f_inicio_propuesta" value="" />
+
+                            <span class="help-block">Fecha Inicio de elaboracion</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-lg-4 col-sm-4 control-label">Entrega de Bases</label>
+                        <div class="col-lg-6">
+                            <input class="form-control form-control-inline input-medium default-date-picker"  size="16" type="text" id="f_entrega_bases" value="" />
+                            
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-lg-4 col-sm-4 control-label">Presentación Consulta</label>
+                        <div class="col-lg-6">
+                            <input class="form-control form-control-inline input-medium default-date-picker"  size="16" type="text" id="f_presentacion_consulta" value="" />
+                            
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label  class="col-lg-4 col-sm-4 control-label">Absolución Consulta</label>
+                  
+                            <div class="col-lg-6">
+                            <input class="form-control form-control-inline input-medium default-date-picker"  size="16" type="text" id="f_absolucion_consulta" value="" />
+                            
+                        </div>
+                       
+                    </div>
+                   <div class="form-group">
+                        <label  class="col-lg-4 col-sm-4 control-label">Presentación Propuesta</label>
+                        <div class="col-lg-6">
+                            
+                                <input class="form-control form-control-inline input-medium default-date-picker"  size="16" type="text" id="f_presentacion_propuesta" value="" />
+                            
+                           
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label  class="col-lg-4 col-sm-4 control-label">Respuesta a la Propuesta</label>
+                 
+                         <div class="col-lg-6">
+                                <input class="form-control form-control-inline input-medium default-date-picker"  size="16" type="text" id="f_respuesta_propuesta" value="" />
+                            
+                            </div>
+                      
+                    </div>
+
+
+                    <div class="form-group">
+                        <label  class="col-lg-4 col-sm-4 control-label">Charla Informativa</label>
+                      
+                         <div class="col-lg-6">
+                                <input class="form-control form-control-inline input-medium default-date-picker"  size="16" type="text" id="f_charla_informativa" value="" />
+                            
+                            </div>
+                        
+                    </div>
+
+                          <div class="form-group">
+                        <label  class="col-lg-4 col-sm-4 control-label">Visita Tecnica</label>
+                      
+                         <div class="col-lg-6">
+                                <input class="form-control form-control-inline input-medium default-date-picker"  size="16" type="text" id="f_visita_tecnica" value="" />
+                            
+                            </div>
+                        
+                    </div>
+                </form>
+            </div>
+
+            
+          
+            
+       
+
+            </div>
+        </div>
+    </div>
+</section>
+
+<div id="cargar_nueva_propuesta"></div> 
+
+
+
+<script type='text/javascript'>
+var myValue;
+
+$(document).ready(function(){
+    $('[name^="tecnica"]').click(function(event) {
+        
+        if ($(this).is(":checked")) {
+
+            var clienteid = '<?php echo $this->clienteid ?>';  
+            var uminera = '<?php echo $this->uminera ?>'; 
+            var propuestaid = '<?php echo $this->propuestaid ?>';    
+            var revision = '<?php echo $this->revision ?>';  
+            if (propuestaid=='' || clienteid=='' || uminera==''  ||  revision=='' )  
+            {
+                alert("Cargue nuevamente.");
+            }
+            else
+            { 
+                url="/propuesta/index/guardartecnicamod/clienteid/"+clienteid+"/uminera/"+uminera+"/propuestaid/"+propuestaid+"/revision/"+revision+"/tecnica/S";
+               
+                $("#cargar_nueva_propuesta").load(url);
+            } 
+            
+        }
+        
+    });    
+});
+
+
+$(document).ready(function(){
+    $('[name^="economica"]').click(function(event) {
+        
+        if ($(this).is(":checked")) {
+
+            var clienteid = '<?php echo $this->clienteid ?>';  
+            var uminera = '<?php echo $this->uminera ?>'; 
+            var propuestaid = '<?php echo $this->propuestaid ?>';    
+            var revision = '<?php echo $this->revision ?>';  
+            if (propuestaid=='' || clienteid=='' || uminera==''  ||  revision=='' )  
+            {
+                alert("Cargue nuevamente.");
+            }
+            else
+            { 
+                url="/propuesta/index/guardareconomicamod/clienteid/"+clienteid+"/uminera/"+uminera+"/propuestaid/"+propuestaid+"/revision/"+revision+"/economica/S";
+               
+                $("#cargar_nueva_propuesta").load(url);
+            } 
+            
+        }
+        
+    });    
+});
+
+
+
+$(document).ready(function(){
+    $('[name^="seguridad"]').click(function(event) {
+        
+        if ($(this).is(":checked")) {
+
+            var clienteid = '<?php echo $this->clienteid ?>';  
+            var uminera = '<?php echo $this->uminera ?>'; 
+            var propuestaid = '<?php echo $this->propuestaid ?>';    
+            var revision = '<?php echo $this->revision ?>';  
+            if (propuestaid=='' || clienteid=='' || uminera==''  ||  revision=='' )  
+            {
+                alert("Cargue nuevamente.");
+            }
+            else
+            { 
+                url="/propuesta/index/guardarseguridadmod/clienteid/"+clienteid+"/uminera/"+uminera+"/propuestaid/"+propuestaid+"/revision/"+revision+"/seguridad/S";
+                
+                $("#cargar_nueva_propuesta").load(url);
+            } 
+            
+        }
+        
+    });    
+});
+
+
+  $("#clienteid").change(function(){
+    var clienteid = $(this).val(); 
+    url2="/propuesta/index/uminera/clienteid/"+clienteid;
+    $("#uminera").load(url2);
+    }); 
+
+    $("#guardar_revision").click(function(){
+        var clienteid = '<?php echo $this->clienteid ?>';  
+        var uminera = '<?php echo $this->uminera ?>'; 
+        var propuestaid = '<?php echo $this->propuestaid ?>';    
+        var revision = '<?php echo $this->revision ?>';  
+        var codigo = '<?php echo $this->codigo ?>';  
+        if (propuestaid=='' || clienteid=='' || uminera==''  ||  revision=='' )  
+        {
+            alert("Vuelva a cargar la pagina.");
+
+        }
+        else
+        { 
+            url="/propuesta/index/guardarrevision/clienteid/"+clienteid+"/uminera/"+uminera+"/propuestaid/"+propuestaid+"/revision/"+revision+"/codigo/"+codigo;
+
+           //alert(url);
+            $("#cargar_nueva_propuesta").load(url);
+       } 
+    });
+</script>
