@@ -59,8 +59,8 @@ var EditableTable = function () {
                 "oLanguage": {
                     "sLengthMenu": "_MENU_ records per page",
                     "oPaginate": {
-                        "sPrevious": "Prev",
-                        "sNext": "Next"
+                        "sPrevious": "Siguiente",
+                        "sNext": "Anterior"
                     }
                 },
                 "aoColumnDefs": [{

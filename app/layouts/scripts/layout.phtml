@@ -171,7 +171,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="/admin">
+                        <a href="/timesheet">
                             <i class="fa fa-calendar-o"></i>
                             <span>Timesheet</span>
                         </a>
@@ -254,7 +254,7 @@
             <h5 class="side-title">Calendario</h5>
             <section class="panel">
                 <div class="panel-body">
-                    <div id="calendar" class="has-toolbar"></div>
+                    <div id="datepicker"></div>
                 </div>
             </section>
         </div>
@@ -267,12 +267,16 @@
             </div>
         </footer>
     </section>
+   
+    <script>
+    $(function () {
+        $.datepicker.setDefaults($.datepicker.regional["es"]);
+        $("#datepicker").datepicker({
+            firstDay: 1,
+        });
+    });
+    </script>
 
-    <script src="/assets/fullcalendar/fullcalendar/fullcalendar.min.js"></script>
-    <!--script for this page only-->
-    <script src="/js/external-dragging-calendar.js"></script>
-    
-    
     <script src="/js/soon/plugins.js"></script>
     <script src="/js/soon/custom.js"></script>
     <script src="/js/common-scripts.js"></script>
