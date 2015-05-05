@@ -71,6 +71,21 @@ class Admin_Model_DbTable_Propuesta extends Zend_Db_Table_Abstract
     }
 
 
+     public function _getPropuestaAllOrdenadoOrdenEstado(){
+        try{
+            $sql=$this->_db->query("
+                select * from propuesta as pro inner join cliente as cli on
+                pro.clienteid=cli.clienteid 
+                order by pro.orden_estado asc");
+            $row=$sql->fetchAll();
+            return $row;           
+            }  
+            
+           catch (Exception $ex){
+            print $ex->getMessage();
+        }
+    }
+    
     
      public function _buscarPropuesta($propuesta){
         try{
@@ -79,6 +94,22 @@ select * from propuesta as pro inner join cliente as cli on
                 pro.clienteid=cli.clienteid where lower(pro.nombre_propuesta) like '%$propuesta%' 
                 or lower(cli.nombre_comercial) like '%$propuesta%'
                 order by pro.orden_estado asc");
+            $row=$sql->fetchAll();
+            return $row;           
+            }  
+            
+           catch (Exception $ex){
+            print $ex->getMessage();
+        }
+    }
+
+     public function _buscarPropuestaxPropuestaid($propuestaid){
+        try{
+            $sql=$this->_db->query("
+                select * from propuesta as pro inner join cliente as cli on
+                pro.clienteid=cli.clienteid where pro.propuestaid like '%$propuestaid%' 
+                and pro.estado_propuesta='EE'
+                ");
             $row=$sql->fetchAll();
             return $row;           
             }  

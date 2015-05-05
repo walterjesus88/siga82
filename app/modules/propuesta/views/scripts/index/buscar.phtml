@@ -98,9 +98,7 @@
           <td>
               <a href="/propuesta/index/ver/propuestaid/<?php echo $lista['propuestaid']?>/revision/<?php echo $lista['revision']?>/codigo/<?php echo $lista['codigo_prop_proy']?>"
                class="btn btn-primary btn-xs"><i class="fa fa-folder"></i></a>
-              <a href="/propuesta/index/ver" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i></a>
-              <a href="/propuesta/index/ver" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i></a>
-          </td>
+               <a title="Eliminar" onclick="return confirm('Esta Seguro que desea eliminar el registro?');" href="/propuesta/index/cambiar/propuestaid/<?php echo $lista['propuestaid']?>/revision/<?php echo $lista['revision']?>/codigo/<?php echo $lista['codigo_prop_proy']?>/estado/ELI" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i></a>
        
 
       </tr>

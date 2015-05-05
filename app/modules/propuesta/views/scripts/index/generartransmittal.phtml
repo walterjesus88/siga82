@@ -1,0 +1,277 @@
+<!-- page start-->
+<div class="row">
+    <div class="col-lg-6">
+        <section class="panel">
+            <header class="panel-heading">
+                Generar Transmittal
+            </header>
+           
+            <div class="panel-body"> 
+            <div class="form-group">
+            <input id="buscar_propuesta" type="text" placeholder="Ingrese Codigo de Propuesta a buscar" class="input-sm form-control"> <span class="input-group-btn">
+              </span></div>
+<div id="cargar_buscar_propuesta"></div> 
+
+           
+                <form class="form-horizontal" role="form">
+                    <div class="form-group has-error">
+                        <label for="cliente" class="col-lg-2 col-sm-2 control-label">Cliente</label>
+                        <div class="col-lg-10">
+                        <select id="clienteid" class="form-control input-sm m-bot15 col-lg-10">
+                        
+                            <option value="">Seleccione Cliente</option>
+                                <?php 
+                                    $bdcliente = new Admin_Model_DbTable_Cliente();
+                                    $listcliente=$bdcliente->_getClienteAllOrdenado();
+                                    foreach ($listcliente as $cli) {?>
+                                    <option value="<?php echo $cli['clienteid']?>"><?php echo strtoupper($cli['nombre_comercial'])?></option>
+                                <?php }?>
+                        </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group has-error ">
+                        <label for="unidad" class="col-lg-3 col-sm-3 control-label">Unidad Minera</label>
+                        <div class="col-lg-9">
+                        <select  id="uminera" name="unidadminera" class="form-control">
+                        </select>
+
+
+
+                        </div>
+                    </div>
+
+                    <div class="form-group has-error">
+                        <label for="propuestaid" class="col-lg-3 col-sm-3 control-label">Seleccione la Propuesta</label>
+                        <div class="col-lg-9">
+                           <select  id="propuesta" name="propuesta" class="form-control">
+                          </select>
+                        </div>
+                        
+                    </div>
+              
+                   
+
+                    <div class="form-group has-error">
+                        <label for="descripcion_propuesta" class="col-lg-2 col-sm-2 control-label">Descripción</label>
+                        <div class="col-lg-10">
+                            
+                            <textarea class="form-control" id="descripcion_propuesta" rows="5" cols="60" >Escribe aquí una breve descripción propuesta</textarea>
+
+                        </div>
+
+
+
+                    </div>
+                </form>
+            </div>
+        </section>
+    </div>
+    <div class="col-lg-6">
+        <section class="panel">
+            <header class="panel-heading">
+                Nueva Propuesta - Datos del Equipo
+            </header>
+           
+            <div class="panel-body">
+                <form class="form-horizontal" role="form">
+                    <div class="form-group has-error">
+                        <label for="responsable" class="col-lg-4 col-sm-4 control-label">Responsable</label>
+                        <div class="col-lg-6">
+                        <select id="responsable" class="form-control input-sm m-bot15 col-lg-10">
+
+
+                            <option value="">Seleccione Responsable</option>
+                                
+
+
+                            <?php 
+                                $bdpersona = new Admin_Model_DbTable_Persona();
+                                $listresp_propuesta=$bdpersona->_getPropuestaxResponsablePropuesta('RESP-PROP');
+                                foreach ($listresp_propuesta as $responsable) {?>
+                                <option value="<?php echo $responsable['dni']?>"><?php echo strtoupper($responsable['alias'])?></option>
+                                <?php }?>
+                        </select>
+
+                        </div>
+                    </div>
+
+                    <div class="form-group has-error">
+                        <label for="revisor" class="col-lg-4 col-sm-4 control-label">Revisor Principal</label>
+                        <div class="col-lg-6">
+                        <select id='revisor' class="form-control input-sm m-bot15 col-lg-10">
+                            
+
+                            <option value="">Revisor Principal Propuesta</option>
+                                
+
+
+                            <?php 
+                                $bdpersona = new Admin_Model_DbTable_Persona();
+                                $listresp_propuesta=$bdpersona->_getPropuestaxResponsablePropuesta('RP-PROP');
+                                foreach ($listresp_propuesta as $responsable) {?>
+                                <option value="<?php echo $responsable['dni']?>"><?php echo strtoupper($responsable['alias'])?></option>
+                                <?php }?>
+                        </select>
+
+                        </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group has-error">
+                        <label for="gerente" class="col-lg-4 col-sm-4 control-label">Gerente Proyecto</label>
+                        <div class="col-lg-6">
+                        <select id="gerente" class="form-control input-sm m-bot15 col-lg-10">
+                           
+
+                            <option value="">Gerente Proyecto</option>
+                                
+
+
+                            <?php 
+                                $bdpersona = new Admin_Model_DbTable_Persona();
+                                $listresp_propuesta=$bdpersona->_getPropuestaxResponsablePropuesta('GP-PROP');
+                                foreach ($listresp_propuesta as $responsable) {?>
+                                <option value="<?php echo $responsable['dni']?>"><?php echo strtoupper($responsable['alias'])?></option>
+                                <?php }?>
+                        </select>
+
+                        </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group has-error">
+                        <label for="control_documnetario" class="col-lg-4 col-sm-4 control-label">Control Documentario</label>
+                        <div class="col-lg-6">
+                        <select id='control_documentario' class="form-control input-sm m-bot15 col-lg-10">
+                           
+
+                            <option value="">Seleccione Control Documentario</option>
+                                
+
+
+                            <?php 
+                                $bdpersona = new Admin_Model_DbTable_Persona();
+                                $listresp_propuesta=$bdpersona->_getPropuestaxResponsablePropuesta('CD-PROP');
+                                foreach ($listresp_propuesta as $responsable) {?>
+                                <option value="<?php echo $responsable['dni']?>"><?php echo strtoupper($responsable['alias'])?></option>
+                                <?php }?>
+                        </select>
+
+                        </select>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+        </section>
+    </div>
+</div>
+
+
+<!-- page end-->
+<div id="cargar_buscar_propuesta"></div> 
+
+
+
+<script type='text/javascript'>
+    $("#clienteid").change(function(){
+        var clienteid = $(this).val(); 
+        url2="/propuesta/index/uminera/clienteid/"+clienteid;
+        $("#uminera").load(url2);
+    }); 
+
+  
+    $( "#buscar_propuesta" ).keypress(function() {
+        if ( event.which == 13 ) {
+           
+            var buscar_propuesta = $("#buscar_propuesta").val();
+            $("#cargar_buscar_propuesta").show();
+           
+
+ if (buscar_propuesta=='')  
+        {
+            alert("ingrese propuesta a buscar");
+        }
+        else
+        { 
+            var url="/propuesta/index/buscarpropuesta/propuesta/"+buscar_propuesta;    
+        }
+        $("#cargar_buscar_propuesta").load(url);
+
+
+              
+        }
+    });
+
+  $("#guardar_propuesta").click(function(){
+    var clienteid = $("#clienteid").val();
+    var uminera = $("#uminera").val();
+    var propuestaid = $("#propuestaid").val();   
+    var revision = $("#revision").val();   
+    var nro_propuesta = $("#nro_propuesta").val();   
+    var captura_nombre_propuesta = $("#nombre_propuesta").val();   
+    var nombre_propuesta= captura_nombre_propuesta.replace(/\s/g,"_");
+    var responsable = $("#responsable").val();  
+    var revisor = $("#revisor").val();  
+    var gerente = $("#gerente").val();  
+    var control_documentario = $("#control_documentario").val();  
+
+    var estado_propuesta = $("#estado_propuesta").val();  
+    var tipo_propuesta = $("#tipo_propuesta").val();  
+    var tipo_servicio = $("#tipo_servicio").val();  
+    var tipo_moneda = $("#tipo_moneda").val();  
+    var costo_honorarios = $("#costo_honorarios").val();  
+    var costo_gastos = $("#costo_gastos").val();  
+    var costo_laboratorio = $("#costo_laboratorio").val();  
+    var costo_otros = $("#costo_otros").val();  
+    var descuento = $("#descuento").val();  
+    var total = $("#total").val();  
+    var f_inicio_propuesta = $("#f_inicio_propuesta").val();  
+    var f_entrega_bases = $("#f_entrega_bases").val();  
+    var f_presentacion_consulta = $("#f_presentacion_consulta").val();  
+    var f_absolucion_consulta = $("#f_absolucion_consulta").val();  
+    var f_presentacion_propuesta = $("#f_presentacion_propuesta").val();  
+    var f_respuesta_propuesta = $("#f_respuesta_propuesta").val();  
+    var f_charla_informativa = $("#f_charla_informativa").val();  
+    var f_visita_tecnica = $("#f_visita_tecnica").val();  
+
+    if (propuestaid=='')  
+    {
+      alert("ingrese todos los datos requeridos");
+
+    }
+    else
+    { 
+      
+    
+
+    url="/propuesta/index/guardar/clienteid/"+clienteid+"/uminera/"+uminera+"/propuestaid/"+propuestaid+"/revision/"+revision+"/nro_propuesta/"+nro_propuesta+"/nombre_propuesta/"+nombre_propuesta+"/responsable/"+responsable+"/revisor/"+revisor+"/gerente/"+gerente+"/control_documentario/"+control_documentario+"/estado_propuesta/"+estado_propuesta+"/tipo_propuesta/"+tipo_propuesta+"/tipo_servicio/"+tipo_servicio+"/tipo_moneda/"+tipo_moneda+"/costo_honorarios/"+costo_honorarios+"/costo_gastos/"+costo_gastos+"/costo_laboratorio/"+costo_laboratorio+"/costo_otros/"+costo_otros+"/descuento/"+descuento+"/total/"+total+"/f_entrega_bases/"+f_entrega_bases+"/f_presentacion_consulta/"+f_presentacion_consulta+"/f_absolucion_consulta/"+f_absolucion_consulta+"/f_presentacion_propuesta/"+f_presentacion_propuesta+"/f_respuesta_propuesta/"+f_respuesta_propuesta+"/f_charla_informativa/"+f_charla_informativa+"/f_visita_tecnica/"+f_visita_tecnica+"/f_inicio_propuesta/"+f_inicio_propuesta;
+        
+
+        $("#cargar_nueva_propuesta").load(url);
+       } 
+        //$("#cargar_nueva_propuesta").hide();
+        //location.href="/propuesta/index/listar/";
+          /*$.ajax({
+                type: 'POST',
+                url: url,
+                data: $(this).serialize(),
+                success: function(data) { 
+                    if (data.status==true) {
+                        $("#cargar_nueva_propuesta").html('<span class="text-success"><b>'+data.msg+'</b></span>');
+                        alert('ola');
+                    }
+                    else{
+                        $("#cargar_nueva_propuesta").html('<span class="text-danger"><b>'+data.msg+'</b></span>');
+                    };
+              
+                }
+            });    */
+    });
+</script>
+<script src="../../js/advanced-form-components.js"></script>
+<script src="../../js/jquery.tagsinput.js"></script>
+<script src="../../assets/jquery-tags-input/jquery.tagsinput.css"></script>
+<script src="../../assets/jquery-tags-input/jquery.tagsinput.min.js"></script>
+<script src="../../assets/jquery-tags-input/jquery.tagsinput.js"></script>
