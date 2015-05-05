@@ -287,5 +287,27 @@ class Propuesta_IndexController extends Zend_Controller_Action {
     
     
     }
+
+    public function guardarpartepropuestaAction() {
+     $this->_helper->layout()->disableLayout();
+        $dbpartepropuesta = new Admin_Model_DbTable_Partepropuesta();
+        //$busca=$buscapropuesta->_getPropuestaxIndices($codigo,$propuestaid,$revision);
+        //print_r($listapropuesta);
+        //$this->view->buscapropuesta = $busca; 
+        $formdata['clienteid']=$clienteid = $this->_getParam('clienteid');
+        $formdata['unidad_mineraid']=$uminera = $this->_getParam('uminera');
+        $formdata['propuestaid']=$propuestaid = $this->_getParam('propuestaid');
+        $formdata['revision']=$revision = $this->_getParam('revision');
+
+        $economica= $this->_getParam('economica');
+        if ($economica=='S') {$prop='001';}
+        $formdata['nro_propuesta']= $formdata['propuestaid'].$prop;
+$formdata['tipo_propuesta']= 'economica';
+        
+       if($dbpartepropuesta->_save($formdata))
+        {
+            echo "Archivo Guardado";
+        }
+    } 
     
 }

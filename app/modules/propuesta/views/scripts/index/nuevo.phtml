@@ -417,7 +417,7 @@ $(document).ready(function(){
             else
             { 
                 url="/propuesta/index/guardarpartepropuesta/clienteid/"+clienteid+"/uminera/"+uminera+"/propuestaid/"+propuestaid+"/revision/"+revision+"/economica/S";
-               // $("#cargar_nueva_propuesta").load(url);
+                $("#cargar_nueva_propuesta").load(url);
             } 
         }
     });    
@@ -478,7 +478,7 @@ $(document).ready(function(){
 
   
 
-    if (propuestaid=='' || clienteid=='' || uminera==''  ||  revision=='' || responsable==''  || revisor==''  || gerente==''  || control_documentario==''  || f_inicio_propuesta=='' )  
+    if (propuestaid=='' || clienteid=='' || uminera==''  ||  revision=='' || responsable==''  || revisor==''  || gerente==''  || control_documentario==''  )  
     {
       alert("ingrese todos los datos requeridos marcados de rojo.");
 
@@ -512,8 +512,3 @@ $(document).ready(function(){
             });    */
     });
 </script>
-<script src="../../js/advanced-form-components.js"></script>
-<script src="../../js/jquery.tagsinput.js"></script>
-<script src="../../assets/jquery-tags-input/jquery.tagsinput.css"></script>
-<script src="../../assets/jquery-tags-input/jquery.tagsinput.min.js"></script>
-<script src="../../assets/jquery-tags-input/jquery.tagsinput.js"></script>
