@@ -1,11 +1,11 @@
 <?php 
-class Admin_Model_DbTable_Contacto extends Zend_Db_Table_Abstract
+class Admin_Model_DbTable_Area extends Zend_Db_Table_Abstract
 {
-    protected $_name = 'contacto';
-    protected $_primary = array("contactoid", "areaid", "clienteid");
+    protected $_name = 'area';
+    protected $_primary = array("areaid");
 
 
-    public function _getContactoAll(){
+    public function _getAreaAll(){
         try{
             $f = $this->fetchAll();
             if ($f) return $f->toArray ();
@@ -15,12 +15,63 @@ class Admin_Model_DbTable_Contacto extends Zend_Db_Table_Abstract
         }
     }
 
-    public function _getConstactoxIndice($contactoid,$areaid,$clienteid)
+    public function _getAreaxIndice($areaid)
      {
         try{
             $sql=$this->_db->query("
-               select * from contacto
-               where constactoid='$contactoid' and areaid='$areaid' and clienteid='$clienteid'  
+               select * from area
+               where areaid='$areaid' 
+
+            ");
+            $row=$sql->fetchAll();
+            return $row;           
+            }  
+            
+           catch (Exception $ex){
+            print $ex->getMessage();
+        }
+    }
+
+    public function _getAreaxPropuesta()
+     {
+        try{
+            $sql=$this->_db->query("
+               select * from area
+               where ispropuesta='S'  
+
+            ");
+            $row=$sql->fetchAll();
+            return $row;           
+            }  
+            
+           catch (Exception $ex){
+            print $ex->getMessage();
+        }
+    }
+
+    public function _getAreaxProyecto()
+     {
+        try{
+            $sql=$this->_db->query("
+               select * from area
+               where isproyecto='S'  
+
+            ");
+            $row=$sql->fetchAll();
+            return $row;           
+            }  
+            
+           catch (Exception $ex){
+            print $ex->getMessage();
+        }
+    }
+
+    public function _getAreaxContacto()
+     {
+        try{
+            $sql=$this->_db->query("
+               select * from area
+               where iscontacto='S'  
 
             ");
             $row=$sql->fetchAll();
@@ -33,58 +84,7 @@ class Admin_Model_DbTable_Contacto extends Zend_Db_Table_Abstract
     }
 
 
-    public function _getConstactoxAreaxCliente($areaid,$clienteid)
-     {
-        try{
-            $sql=$this->_db->query("
-               select * from contacto
-               where areaid='$areaid' and clienteid='$clienteid'  
-
-            ");
-            $row=$sql->fetchAll();
-            return $row;           
-            }  
-            
-           catch (Exception $ex){
-            print $ex->getMessage();
-        }
-    }
-
-
-     public function _getConstactoxPropuesta($clienteid)
-     {
-        try{
-            $sql=$this->_db->query("
-               select * from contacto
-               where clienteid='$clienteid'  
-
-            ");
-            $row=$sql->fetchAll();
-            return $row;           
-            }  
-            
-           catch (Exception $ex){
-            print $ex->getMessage();
-        }
-    }
-
-
-    public function _buscarContacto($nombre){
-        try{
-            $sql=$this->_db->query("
-                select * from contacto where lower(nombre) like '%$nombre%'
-                ");
-            $row=$sql->fetchAll();
-            return $row;           
-            }  
-            
-           catch (Exception $ex){
-            print $ex->getMessage();
-
-        }
-    }
-
-     public function _update($data,$str=''){
+    public function _update($data,$str=''){
         try{
             if ($str=="") return false;
             return $this->update($data,$str);
@@ -107,19 +107,6 @@ class Admin_Model_DbTable_Contacto extends Zend_Db_Table_Abstract
     }
 
 
-    public function _delete($pk=null)
-    {
-        try{
-            if ($pk['contactoid']=='' ||  $pk['clienteid']=='' ) return false;
-
-            $where = "contactoid = '".$pk['contactoid']."' and clienteid='".$pk['clienteid']."' and areaid='".$pk['areaid']."' ";
-            return $this->delete( $where);
-            return false;
-        }catch (Exception $e){
-            print "Error: Update Distribution".$e->getMessage();
-        }
-    }
-    
 
 
 }
