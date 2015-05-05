@@ -3,10 +3,16 @@
     <div class="col-lg-6">
         <section class="panel">
             <header class="panel-heading">
-                Genrera Transmittal
+                Generar Transmittal
             </header>
            
-            <div class="panel-body">
+            <div class="panel-body"> 
+            <div class="form-group">
+            <input id="buscar_propuesta" type="text" placeholder="Ingrese Codigo de Propuesta a buscar" class="input-sm form-control"> <span class="input-group-btn">
+              </span></div>
+<div id="cargar_buscar_propuesta"></div> 
+
+           
                 <form class="form-horizontal" role="form">
                     <div class="form-group has-error">
                         <label for="cliente" class="col-lg-2 col-sm-2 control-label">Cliente</label>
@@ -161,223 +167,42 @@
         </section>
     </div>
 </div>
-<div class="row">
-  <div class="col-lg-6">
-        <section class="panel">
-            <header class="panel-heading">
-                Datos Propuesta 
-            </header>
-           
-            <div class="panel-body">
-                <form class="form-horizontal" role="form">
 
-                    <div class="form-group has-error">
-                        <label for="estado_propuesta" class="col-lg-4 col-sm-4 control-label">Estado Propuesta</label>
-                        <div class="col-lg-6">
-                        <select id='estado_propuesta' class="form-control input-sm m-bot15 col-lg-10">
-                            <option value="G">Ganada</option>
-                            <option value="E">Enviada</option>
-                            <option value="EE">En elaboración</option>
-                            <option value="P">Perdida</option>
-                            <option value="D">Declinada</option>
-                            <option value="A">Anulada</option>
-                        </select>
-                        </div>
-                    </div>
-                    <div class="form-group has-error">
-                        <label for="tipo_propuesta" class="col-lg-4 col-sm-4 control-label">Tipo Propuesta</label>
-                        <div class="col-lg-6">
-                        <select id="tipo_propuesta" class="form-control input-sm m-bot15 col-lg-10">
-                            <option value="SA">Suma Alzada</option>
-                            <option value="CU">Costos Unitarios</option>
-                        </select>
-                        </div>
-                    </div>
-
-                   
-
-                    <div class="form-group has-error">
-                        <label for="tipo_servicio" class="col-lg-4 col-sm-4 control-label">Tipo de Servicio</label>
-                        <div class="col-lg-6">
-                        <select id="tipo_servicio" class="form-control input-sm m-bot15 col-lg-10">
-                            <option value="AMB">Ambiental</option>
-                            <option value="ING">Ingeniería</option>
-                            <option value="GEO">Geotecnia</option>
-                            <option value="CON">Construcción</option>
-                        </select>
-                        </div>
-                    </div>
-
-
-                    <div class="form-group has-error">
-                        <label for="tipo_moneda" class="col-lg-4 col-sm-4 control-label">Tipo de Moneda</label>
-                        <div class="col-lg-6">
-                        <select id="tipo_moneda" class="form-control input-sm m-bot15 col-lg-10">
-                            <option value="D">Dolares</option>
-                            <option value="S">Soles</option>
-                        </select>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="costo_honorarios" class="col-lg-4 col-sm-4 control-label">Costo Honorarios</label>
-                        <div class="col-lg-6">
-                            <input class="form-control" id="costo_honorarios" >
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="costo_gastos" class="col-lg-4 col-sm-4 control-label">Costo Gastos</label>
-                        <div class="col-lg-6">
-                            <input class="form-control" id="costo_gastos" >
-                        </div>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="costo_laboratorio" class="col-lg-4 col-sm-4 control-label">Costo Laboratorio</label>
-                        <div class="col-lg-6">
-                            <input class="form-control" id="costo_laboratorio" >
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="costo_otros" class="col-lg-4 col-sm-4 control-label">Costo Otros</label>
-                        <div class="col-lg-6">
-                            <input class="form-control" id="costo_otros" >
-                        </div>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="descuento" class="col-lg-4 col-sm-4 control-label">Descuento</label>
-                        <div class="col-lg-6">
-                            <input class="form-control" id="descuento" >
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="total" class="col-lg-4 col-sm-4 control-label">Total</label>
-                        <div class="col-lg-6">
-                            <input class="form-control" id="total" >
-                        </div>
-                    </div>
-
-                  
-                </form>
-                
-            </div>
-        </section>
-    </div>
-    <div class="col-lg-6">
-        <section class="panel">
-            <header class="panel-heading">
-                Fechas Propuesta
-            </header>
-            <div class="panel-body">
-                <form class="form-horizontal" role="form">
-                    <div class="form-group has-error">
-                        <label class="col-lg-4 col-sm-4 control-label">Inicio Propuesta</label>
-                        <div class="col-lg-6">
-                            <input class="form-control form-control-inline input-medium default-date-picker"  size="16" type="text" id="f_inicio_propuesta" value="" />
-
-                            <span class="help-block">Fecha Inicio de elaboracion</span>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-lg-4 col-sm-4 control-label">Entrega de Bases</label>
-                        <div class="col-lg-6">
-                            <input class="form-control form-control-inline input-medium default-date-picker"  size="16" type="text" id="f_entrega_bases" value="" />
-                            
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-lg-4 col-sm-4 control-label">Presentación Consulta</label>
-                        <div class="col-lg-6">
-                            <input class="form-control form-control-inline input-medium default-date-picker"  size="16" type="text" id="f_presentacion_consulta" value="" />
-                            
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label  class="col-lg-4 col-sm-4 control-label">Absolución Consulta</label>
-                  
-                            <div class="col-lg-6">
-                            <input class="form-control form-control-inline input-medium default-date-picker"  size="16" type="text" id="f_absolucion_consulta" value="" />
-                            
-                        </div>
-                       
-                    </div>
-                   <div class="form-group">
-                        <label  class="col-lg-4 col-sm-4 control-label">Presentación Propuesta</label>
-                        <div class="col-lg-6">
-                            
-                                <input class="form-control form-control-inline input-medium default-date-picker"  size="16" type="text" id="f_presentacion_propuesta" value="" />
-                            
-                           
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label  class="col-lg-4 col-sm-4 control-label">Respuesta a la Propuesta</label>
-                 
-                         <div class="col-lg-6">
-                                <input class="form-control form-control-inline input-medium default-date-picker"  size="16" type="text" id="f_respuesta_propuesta" value="" />
-                            
-                            </div>
-                      
-                    </div>
-
-
-                    <div class="form-group">
-                        <label  class="col-lg-4 col-sm-4 control-label">Charla Informativa</label>
-                      
-                         <div class="col-lg-6">
-                                <input class="form-control form-control-inline input-medium default-date-picker"  size="16" type="text" id="f_charla_informativa" value="" />
-                            
-                            </div>
-                        
-                    </div>
-
-                          <div class="form-group">
-                        <label  class="col-lg-4 col-sm-4 control-label">Visita Tecnica</label>
-                      
-                         <div class="col-lg-6">
-                                <input class="form-control form-control-inline input-medium default-date-picker"  size="16" type="text" id="f_visita_tecnica" value="" />
-                            
-                            </div>
-                        
-                    </div>
-                </form>
-            </div>
-        </section>
-        <section class="panel">
-                                  <header class="panel-heading">
-                                      Tags Propuesta
-                                  </header>
-                                  <div class="panel-body">
-                                      <input name="tagsinput" id="tagsinput" class="tagsinput" value="Flat,Design,Lab,Clean" style="display: none;"><div id="tagsinput_tagsinput" class="tagsinput " style="height: 100%;"><span class="tag"><span>Flat&nbsp;&nbsp;</span><a class="tagsinput-remove-link"></a></span><span class="tag"><span>Design&nbsp;&nbsp;</span><a class="tagsinput-remove-link"></a></span><span class="tag"><span>Lab&nbsp;&nbsp;</span><a class="tagsinput-remove-link"></a></span><span class="tag"><span>Clean&nbsp;&nbsp;</span><a class="tagsinput-remove-link"></a></span><div class="tagsinput-add-container" id="tagsinput_addTag"><div class="tagsinput-add"></div><input id="tagsinput_tag" value="" data-default="" style="color: rgb(102, 102, 102); width: 7px;"></div></div>
-                                  </div>
-                              </section>
-
-    </div>
-</div>
-<div class="row">
-    <div class="col-lg-6"> 
-        <section class="panel">
-            <div class="panel-body">
-                <button type="submit" class="btn btn-success" id="guardar_propuesta">Guardar</button>
-            </div>
-            <input type="text" id="l-name" class="form-control "> 
-        </section>
-    </div>
-</div>
 
 <!-- page end-->
-<div id="cargar_nueva_propuesta"></div> 
+<div id="cargar_buscar_propuesta"></div> 
+
+
 
 <script type='text/javascript'>
-  $("#clienteid").change(function(){
-    var clienteid = $(this).val(); 
-    url2="/propuesta/index/uminera/clienteid/"+clienteid;
-    $("#uminera").load(url2);
+    $("#clienteid").change(function(){
+        var clienteid = $(this).val(); 
+        url2="/propuesta/index/uminera/clienteid/"+clienteid;
+        $("#uminera").load(url2);
     }); 
+
+  
+    $( "#buscar_propuesta" ).keypress(function() {
+        if ( event.which == 13 ) {
+           
+            var buscar_propuesta = $("#buscar_propuesta").val();
+            $("#cargar_buscar_propuesta").show();
+           
+
+ if (buscar_propuesta=='')  
+        {
+            alert("ingrese propuesta a buscar");
+        }
+        else
+        { 
+            var url="/propuesta/index/buscarpropuesta/propuesta/"+buscar_propuesta;    
+        }
+        $("#cargar_buscar_propuesta").load(url);
+
+
+              
+        }
+    });
 
   $("#guardar_propuesta").click(function(){
     var clienteid = $("#clienteid").val();
