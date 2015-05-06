@@ -7,102 +7,102 @@
             </header>
            
             <div class="panel-body"> 
+            <!--
             <div class="form-group">
             <input id="buscar_propuesta" type="text" placeholder="Ingrese Codigo de Propuesta a buscar" class="input-sm form-control"> <span class="input-group-btn">
               </span></div>
-<div id="cargar_buscar_propuesta"></div> 
+<div id="cargar_buscar_propuesta"></div> -->
 
            
                 <form class="form-horizontal" role="form">
-                    <div class="form-group has-error">
+                    <div class="form-group">
                         <label for="cliente" class="col-lg-2 col-sm-2 control-label">Cliente</label>
                         <div class="col-lg-10">
-                        <select id="clienteid" class="form-control input-sm m-bot15 col-lg-10">
-                        
-                            <option value="">Seleccione Cliente</option>
-                                <?php 
-                                    $bdcliente = new Admin_Model_DbTable_Cliente();
-                                    $listcliente=$bdcliente->_getClienteAllOrdenado();
-                                    foreach ($listcliente as $cli) {?>
-                                    <option value="<?php echo $cli['clienteid']?>"><?php echo strtoupper($cli['nombre_comercial'])?></option>
-                                <?php }?>
-                        </select>
+                        <?php echo $this->cliente ?>
                         </div>
                     </div>
 
-                    <div class="form-group has-error ">
+                    <div class="form-group ">
                         <label for="unidad" class="col-lg-3 col-sm-3 control-label">Unidad Minera</label>
                         <div class="col-lg-9">
-                        <select  id="uminera" name="unidadminera" class="form-control">
-                        </select>
-
-
-
+                        <?php echo $this->unidad ?>
                         </div>
                     </div>
 
-                    <div class="form-group has-error">
-                        <label for="propuestaid" class="col-lg-3 col-sm-3 control-label">Seleccione la Propuesta</label>
-                        <div class="col-lg-9">
-                           <select  id="propuesta" name="propuesta" class="form-control">
-                          </select>
+                    <div class="form-group">
+                        <label for="propuestaid" class="col-lg-4 col-sm-4 control-label">Nombre Propuesta</label>
+                        <div class="col-lg-8">
+                           
+                        <?php print_r($this->buscapropuesta[0]['nombre_propuesta']) ?>
                         </div>
                         
                     </div>
-              
-                   
-
-                    <div class="form-group has-error">
-                        <label for="descripcion_propuesta" class="col-lg-2 col-sm-2 control-label">Descripción</label>
-                        <div class="col-lg-10">
-                            
-                            <textarea class="form-control" id="descripcion_propuesta" rows="5" cols="60" >Escribe aquí una breve descripción propuesta</textarea>
-
+                    
+                    <div class="form-group">
+                        <label for="propuestaid" class="col-lg-4 col-sm-4 control-label">Descripcion Propuesta</label>
+                        <div class="col-lg-8">
+                           
+                        <?php print_r($this->buscapropuesta[0]['descripcion']) ?>
                         </div>
-
-
-
+                        
                     </div>
-                </form>
-            </div>
-        </section>
-    </div>
-    <div class="col-lg-6">
-        <section class="panel">
-            <header class="panel-heading">
-                Nueva Propuesta - Datos del Equipo
-            </header>
-           
-            <div class="panel-body">
-                <form class="form-horizontal" role="form">
-                    <div class="form-group has-error">
-                        <label for="responsable" class="col-lg-4 col-sm-4 control-label">Responsable</label>
-                        <div class="col-lg-6">
-                        <select id="responsable" class="form-control input-sm m-bot15 col-lg-10">
 
-
-                            <option value="">Seleccione Responsable</option>
-                                
-
-
-                            <?php 
-                                $bdpersona = new Admin_Model_DbTable_Persona();
-                                $listresp_propuesta=$bdpersona->_getPropuestaxResponsablePropuesta('RESP-PROP');
-                                foreach ($listresp_propuesta as $responsable) {?>
-                                <option value="<?php echo $responsable['dni']?>"><?php echo strtoupper($responsable['alias'])?></option>
+                    <div class="form-group">
+                        <label for="propuestaid" class="col-lg-4 col-sm-4 control-label">Contacto
+                        </label>
+                        <div class="col-lg-8">
+                         <select id="contactoid" class="form-control input-sm m-bot15 col-lg-2">
+                        
+                            <option value="">Seleccione Contacto</option>
+                                <?php 
+                                $ruc=$this->clienteid ;
+                                    $bdcontacto = new Admin_Model_DbTable_Contacto();
+                                    $listcliente=$bdcontacto->_getConstactoxPropuesta($ruc);
+                                    foreach ($listcliente as $cli) {?>
+                                    <option value="<?php echo $cli['contactoid']?>"><?php echo strtoupper($cli['nombre'])?></option>
                                 <?php }?>
-                        </select>
-
+                        </select> 
+                        
+                         <a class="btn btn-default" data-toggle="modal" href="#myModal9">
+                                  Añadir
+                              </a>
+                        
                         </div>
+                        
+                        
                     </div>
 
-                    <div class="form-group has-error">
-                        <label for="revisor" class="col-lg-4 col-sm-4 control-label">Revisor Principal</label>
+
+                    <div class="form-group">
+                        <label for="propuestaid" class="col-lg-4 col-sm-4 control-label">Con copia
+                        </label>
+                        <div class="col-lg-8">
+                         <select id="contactoid2" class="form-control input-sm m-bot15 col-lg-2">
+                        
+                            <option value="">Seleccione Contacto</option>
+                                <?php 
+                                $ruc=$this->clienteid ;
+                                    $bdcontacto = new Admin_Model_DbTable_Contacto();
+                                    $listcliente=$bdcontacto->_getConstactoxPropuesta($ruc);
+                                    foreach ($listcliente as $cli) {?>
+                                    <option value="<?php echo $cli['contactoid']?>"><?php echo strtoupper($cli['nombre'])?></option>
+                                <?php }?>
+                        </select> 
+                        
+                         
+                        
+                        </div>
+                        
+                        
+                    </div>
+
+                     <div class="form-group has-error">
+                        <label for="revisor" class="col-lg-4 col-sm-4 control-label">Autorizado Por</label>
                         <div class="col-lg-6">
-                        <select id='revisor' class="form-control input-sm m-bot15 col-lg-10">
+                        <select id='autorizado' class="form-control input-sm m-bot15 col-lg-10">
                             
 
-                            <option value="">Revisor Principal Propuesta</option>
+                            <option value="">Seleccione</option>
                                 
 
 
@@ -114,17 +114,17 @@
                                 <?php }?>
                         </select>
 
-                        </select>
+                       
                         </div>
                     </div>
 
                     <div class="form-group has-error">
-                        <label for="gerente" class="col-lg-4 col-sm-4 control-label">Gerente Proyecto</label>
+                        <label for="gerente" class="col-lg-4 col-sm-4 control-label">Aprobado Por</label>
                         <div class="col-lg-6">
-                        <select id="gerente" class="form-control input-sm m-bot15 col-lg-10">
+                        <select id="aprobado" class="form-control input-sm m-bot15 col-lg-10">
                            
 
-                            <option value="">Gerente Proyecto</option>
+                            <option value="">Aprobado por</option>
                                 
 
 
@@ -136,31 +136,116 @@
                                 <?php }?>
                         </select>
 
+                        
+                        </div>
+                    </div>
+
+
+                           <div class="panel-body">
+                <button type="submit" class="btn btn-success" id="guardar_transmitta">Guardar</button>
+                                <button type="submit" class="btn btn-success" id="imprimir_transmitta">Imprimir</button>
+            </div>
+
+
+                  
+                </form>
+            </div>
+        </section>
+    </div>
+    <div class="col-lg-6">
+        <section class="panel">
+            <header class="panel-heading">
+                Datos del Tranmitta
+            </header>
+           
+            <div class="panel-body">
+                <form class="form-horizontal" role="form">
+                    <div class="form-group">
+                        <label for="propuestaid" class="col-lg-3 col-sm-3 control-label">Propuesta id</label>
+                        <div class="col-lg-9">
+                            <?php echo $this->propuestaid ?>
+
+                        </div>
+                        
+                    </div>
+
+                    <div class="form-group">
+                       <label for="propuestaid" class="col-lg-3 col-sm-3 control-label">Revision</label>
+                        <div class="col-lg-9">
+                            <?php echo $this->revision ?>
+
+                        </div>
+                        
+                    </div>
+
+
+                    <div class="form-group">
+                       <label for="propuestaid" class="col-lg-3 col-sm-3 control-label">Parte Propuesta</label>
+                        <div class="col-lg-9">
+                            <?php 
+
+                            $buscarparte = new Admin_Model_DbTable_Partepropuesta();
+                    $listparte=$buscarparte->_getPartePropuestaxIndices( $this->propuestaid,$this->revision,$this->clienteid,$this->uminera);
+                    foreach ($listparte as $listas) {
+                      print_r($listas['nro_propuesta']);
+                      echo"-";
+                      print_r($listas['tipo_revision']);
+                      echo"<br>";
+                    }
+                     ?>
+
+                        </div>
+                        
+                    </div>
+
+
+                    <div class="form-group">
+                        <label for="propuestaid" class="col-lg-4 col-sm-4 control-label">Ingrese el Correlativo</label>
+                        <div class="col-lg-8">
+                           10-TR-AND-16-15-<input class="form-control" id="correlativo" class="input-sm form-control">
+                       </div>
+                     </div>
+
+                    <div class="form-group">
+                        <label for="propuestaid" class="col-lg-3 col-sm-3 control-label">Transmitta Nro.</label>
+                        <div class="col-lg-9">
+                           <input class="form-control" id="nro_transmitta" class="input-sm form-control">
+                       </div>
+                     </div>
+
+                    <div class="form-group">
+                        <label for="propuestaid" class="col-lg-3 col-sm-3 control-label">Fecha Transmitta </label>
+                        <div class="col-lg-9">
+                           <?php echo date("Y-m-d");?>
+                        </div>
+                        
+                    </div>
+
+
+                    <div class="form-group has-error">
+                        <label for="envio" class="col-lg-4 col-sm-4 control-label">Envio Tranmitta</label>
+                        <div class="col-lg-6">
+                        <select id="envio" class="form-control input-sm m-bot15 col-lg-10">
+                            <option value="EMAIL">Email</option>
+                            <option value="FISICO">Fisico</option>
+                            
                         </select>
                         </div>
                     </div>
 
                     <div class="form-group has-error">
-                        <label for="control_documnetario" class="col-lg-4 col-sm-4 control-label">Control Documentario</label>
+                        <label for="tipo_envio" class="col-lg-4 col-sm-4 control-label">Tipo Envio</label>
                         <div class="col-lg-6">
-                        <select id='control_documentario' class="form-control input-sm m-bot15 col-lg-10">
-                           
-
-                            <option value="">Seleccione Control Documentario</option>
-                                
-
-
-                            <?php 
-                                $bdpersona = new Admin_Model_DbTable_Persona();
-                                $listresp_propuesta=$bdpersona->_getPropuestaxResponsablePropuesta('CD-PROP');
-                                foreach ($listresp_propuesta as $responsable) {?>
-                                <option value="<?php echo $responsable['dni']?>"><?php echo strtoupper($responsable['alias'])?></option>
-                                <?php }?>
-                        </select>
-
+                        <select id="tipo_envio" class="form-control input-sm m-bot15 col-lg-10">
+                            <option value="A">Documento para Revision y Aprobacion</option>
+                            <option value="B">Documento para Informacion</option>
+                            <option value="C">Documento Final</option>
+                            
                         </select>
                         </div>
                     </div>
+
+                   
 
                 </form>
             </div>
@@ -174,22 +259,83 @@
 
 
 
+<div class="modal fade modal-dialog-center top-modal-with-space" id="myModal9" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+      <div class="">
+          <div class="modal-content">
+              <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                  <h4 class="modal-title">Añadir Contacto</h4>
+
+   
+
+
+
+              </div>
+              <div class="modal-body">
+               <form class="form-horizontal" role="form">
+                    <div class="form-group">
+                        <label for="cliente" class="col-lg-2 col-sm-2 control-label">Cliente</label>
+                        <div class="col-lg-10">
+                        <?php echo $this->cliente ?>
+                        </div>
+                    </div>
+
+                    <div class="form-group ">
+                        <label for="unidad" class="col-lg-3 col-sm-3 control-label">Unidad Minera</label>
+                        <div class="col-lg-9">
+                        <?php echo $this->unidad ?>
+                        </div>
+                    </div>
+
+                    <div class="form-group ">
+
+                        <label for="area_contacto" class="col-lg-4 col-sm-4 control-label">Tipo Contacto</label>
+                        <div class="col-lg-6">
+                        <select id='area_contacto' class="form-control input-sm m-bot15 col-lg-10">
+                            <option value="70">Comercial</option>
+                            <option value="16">Control Documnetario</option>
+                            
+                        </select>
+                        </div>
+                     </div>
+
+                
+
+                    <div class="form-group">
+                        <label for="nombre_contacto" class="col-lg-4 col-sm-4 control-label">Nombre</label>
+                        <div class="col-lg-6">
+                            <input class="form-control" id="nombre_contacto" >
+                        </div>
+                    </div>
+
+                    </form>
+                  
+
+              </div>
+              <div class="modal-footer">
+                  <button data-dismiss="modal" class="btn btn-default" type="button">Cerrar</button>
+                  <button id="guardar_contacto" class="btn btn-warning" type="button"> Guardar</button>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>
+
+<div id="cargar" ></div>
+
 <script type='text/javascript'>
     $("#clienteid").change(function(){
         var clienteid = $(this).val(); 
         url2="/propuesta/index/uminera/clienteid/"+clienteid;
         $("#uminera").load(url2);
     }); 
-
-  
+ 
     $( "#buscar_propuesta" ).keypress(function() {
         if ( event.which == 13 ) {
-           
             var buscar_propuesta = $("#buscar_propuesta").val();
             $("#cargar_buscar_propuesta").show();
-           
-
- if (buscar_propuesta=='')  
+        if (buscar_propuesta=='')  
         {
             alert("ingrese propuesta a buscar");
         }
@@ -198,43 +344,39 @@
             var url="/propuesta/index/buscarpropuesta/propuesta/"+buscar_propuesta;    
         }
         $("#cargar_buscar_propuesta").load(url);
-
-
-              
         }
     });
 
-  $("#guardar_propuesta").click(function(){
-    var clienteid = $("#clienteid").val();
-    var uminera = $("#uminera").val();
-    var propuestaid = $("#propuestaid").val();   
-    var revision = $("#revision").val();   
-    var nro_propuesta = $("#nro_propuesta").val();   
-    var captura_nombre_propuesta = $("#nombre_propuesta").val();   
-    var nombre_propuesta= captura_nombre_propuesta.replace(/\s/g,"_");
-    var responsable = $("#responsable").val();  
-    var revisor = $("#revisor").val();  
-    var gerente = $("#gerente").val();  
-    var control_documentario = $("#control_documentario").val();  
 
-    var estado_propuesta = $("#estado_propuesta").val();  
-    var tipo_propuesta = $("#tipo_propuesta").val();  
-    var tipo_servicio = $("#tipo_servicio").val();  
-    var tipo_moneda = $("#tipo_moneda").val();  
-    var costo_honorarios = $("#costo_honorarios").val();  
-    var costo_gastos = $("#costo_gastos").val();  
-    var costo_laboratorio = $("#costo_laboratorio").val();  
-    var costo_otros = $("#costo_otros").val();  
-    var descuento = $("#descuento").val();  
-    var total = $("#total").val();  
-    var f_inicio_propuesta = $("#f_inicio_propuesta").val();  
-    var f_entrega_bases = $("#f_entrega_bases").val();  
-    var f_presentacion_consulta = $("#f_presentacion_consulta").val();  
-    var f_absolucion_consulta = $("#f_absolucion_consulta").val();  
-    var f_presentacion_propuesta = $("#f_presentacion_propuesta").val();  
-    var f_respuesta_propuesta = $("#f_respuesta_propuesta").val();  
-    var f_charla_informativa = $("#f_charla_informativa").val();  
-    var f_visita_tecnica = $("#f_visita_tecnica").val();  
+    $("#guardar_contacto").click(function(){
+        var clienteid = '<?php echo $this->clienteid ?>';  
+        var uminera = '<?php echo $this->uminera ?>';  
+        var area_contacto = $("#area_contacto").val(); 
+        var captura_nombre_contacto = $("#nombre_contacto").val(); 
+        var nombre_contacto= captura_nombre_contacto.replace(/\s/g,"_");
+        if (clienteid=='')  
+        { alert("cargue nuevamente la pagina");        }
+        else
+        { url="/propuesta/index/guardarcontacto/clienteid/"+clienteid+"/uminera/"+uminera+"/area_contacto/"+area_contacto+"/nombre_contacto/"+nombre_contacto;
+        $("#cargar").load(url);
+        }   
+    });
+
+  $("#guardar_transmitta").click(function(){
+        var clienteid = '<?php echo $this->clienteid ?>';  
+        var uminera = '<?php echo $this->uminera ?>'; 
+        var propuestaid = '<?php echo $this->propuestaid ?>';    
+        var revision = '<?php echo $this->revision ?>';  
+        var codigo = '<?php echo $this->codigo ?>'; 
+        var fecha_transmitta = '<?php echo date("Y-m-d");?>'; 
+        var nro_transmitta = $("#nro_transmitta").val();  
+        var envio = $("#envio").val();  
+        var tipo_envio = $("#tipo_envio").val();  
+        var contactoid=$("#contactoid").val();  
+        var contactoid2=$("#contactoid2").val();  
+        var correlativo=$("#correlativo").val();  
+        var autorizado=$("#autorizado").val();  
+        var aprobado=$("#aprobado").val();  
 
     if (propuestaid=='')  
     {
@@ -243,31 +385,12 @@
     }
     else
     { 
-      
-    
+    url="/propuesta/index/guardartransmitta/clienteid/"+clienteid+"/uminera/"+uminera+"/propuestaid/"+propuestaid+"/revision/"+revision+"/codigo/"+codigo+"/fecha_transmitta/"+fecha_transmitta+"/nro_transmitta/"+nro_transmitta+"/envio/"+envio+"/tipo_envio/"+tipo_envio+"/contactoid/"+contactoid+"/contactoid2/"+contactoid2+"/autorizado/"+autorizado+"/aprobado/"+aprobado+"/correlativo/"+correlativo;
 
-    url="/propuesta/index/guardar/clienteid/"+clienteid+"/uminera/"+uminera+"/propuestaid/"+propuestaid+"/revision/"+revision+"/nro_propuesta/"+nro_propuesta+"/nombre_propuesta/"+nombre_propuesta+"/responsable/"+responsable+"/revisor/"+revisor+"/gerente/"+gerente+"/control_documentario/"+control_documentario+"/estado_propuesta/"+estado_propuesta+"/tipo_propuesta/"+tipo_propuesta+"/tipo_servicio/"+tipo_servicio+"/tipo_moneda/"+tipo_moneda+"/costo_honorarios/"+costo_honorarios+"/costo_gastos/"+costo_gastos+"/costo_laboratorio/"+costo_laboratorio+"/costo_otros/"+costo_otros+"/descuento/"+descuento+"/total/"+total+"/f_entrega_bases/"+f_entrega_bases+"/f_presentacion_consulta/"+f_presentacion_consulta+"/f_absolucion_consulta/"+f_absolucion_consulta+"/f_presentacion_propuesta/"+f_presentacion_propuesta+"/f_respuesta_propuesta/"+f_respuesta_propuesta+"/f_charla_informativa/"+f_charla_informativa+"/f_visita_tecnica/"+f_visita_tecnica+"/f_inicio_propuesta/"+f_inicio_propuesta;
+        $("#cargar").load(url);
+
         
-
-        $("#cargar_nueva_propuesta").load(url);
        } 
-        //$("#cargar_nueva_propuesta").hide();
-        //location.href="/propuesta/index/listar/";
-          /*$.ajax({
-                type: 'POST',
-                url: url,
-                data: $(this).serialize(),
-                success: function(data) { 
-                    if (data.status==true) {
-                        $("#cargar_nueva_propuesta").html('<span class="text-success"><b>'+data.msg+'</b></span>');
-                        alert('ola');
-                    }
-                    else{
-                        $("#cargar_nueva_propuesta").html('<span class="text-danger"><b>'+data.msg+'</b></span>');
-                    };
-              
-                }
-            });    */
     });
 </script>
 <script src="../../js/advanced-form-components.js"></script>

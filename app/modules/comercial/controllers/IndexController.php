@@ -38,4 +38,72 @@ class Comercial_IndexController extends Zend_Controller_Action {
         $buscar=$buscapropuesta->_buscarCliente($buscar_cliente);
         $this->view->lista_cliente = $buscar; 
     }  
+
+    public function contactoAction() {
+        $dbcontacto = new Admin_Model_DbTable_Contacto();
+        $this->view->lista_contactos = $dbcontacto->_getContactoAll(); 
+
+        
+    }  
+
+    public function guardarcontactoAction() {
+  $this->_helper->layout()->disableLayout();
+        $dbcontacto = new Admin_Model_DbTable_Contacto();
+        $formdata['clienteid']=$clienteid = $this->_getParam('clienteid');
+        $formdata['relacion']=$relacion = $this->_getParam('relacion');
+
+        $formdata['areaid']=$areaid = $this->_getParam('areaid');
+        $formdata['numero']=$numero = $this->_getParam('numero');
+        $nombre_contacto = $this->_getParam('nombre_contacto');
+        $direccion = $this->_getParam('direccion');
+        $correo = $this->_getParam('correo');
+
+        $formdata['direccion'] = str_replace("_"," ",$direccion);
+        $formdata['correo'] = $correo;
+
+        $formdata['contactoid'] = $formdata['clienteid']."-".$formdata['areaid']."-".$formdata['numero'];
+        
+       if($dbcontacto->_save($formdata))
+        {
+            
+            ?>
+                <script>                  
+                    alert("Contacto Guardado");
+                    document.location.href="/comercial/index/contacto";                                                 
+                </script>
+                <?php
+        }
+
+        
+    }
+
+
+    public function eliminarcontactoAction() {
+  $this->_helper->layout()->disableLayout();
+        $dbcontacto = new Admin_Model_DbTable_Contacto();
+        $contactoid = $this->_getParam('contactoid');
+        $clienteid = $this->_getParam('clienteid');
+        $areaid = $this->_getParam('areaid');
+
+                  $pk  =   array(                        
+                        'contactoid'   =>$contactoid,
+                        'clienteid'   =>$clienteid,
+                        'areaid'   =>$areaid,
+                                                 
+                        );
+
+        
+      
+            $dbcontacto->_delete($pk); 
+
+         ?>
+                <script>                  
+                   
+                    document.location.href="/comercial/index/contacto";                                                 
+                </script>
+                <?php
+
+        
+    }  
+
 }

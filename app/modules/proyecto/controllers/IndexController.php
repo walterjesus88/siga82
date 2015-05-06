@@ -285,5 +285,265 @@ class Proyecto_IndexController extends Zend_Controller_Action {
 
 
 
+  public function leerexcelAction(){
+    try {
+      $fecha = $this->_getParam("fecha");
+      $ano=date("Y");
+      $semana=date('W', strtotime($fecha));  
+      $dias = array('lunes', 'martes', 'miercoles', 
+      'jueves', 'viernes', 'sabado','domingo');
+      $enero = mktime(1,1,1,1,1,$ano); 
+      $mos = (11-date('w',$enero))%7-3;
+      $inicios = strtotime(($semana-1) . ' weeks '.$mos.' days', $enero); 
+      for ($x=0; $x<=6; $x++) {
+        $dias[] = date('d-m-Y', strtotime("+ $x day", $inicios));
+        $dia[] = date('w', strtotime("+ $x day", $inicios));
+      }
+      $this->view->semana=$semana;
+      $proyectoid = $this->_getParam("proyectoid");
+      $responsable = $this->_getParam("responsable");
+      $dir = APPLICATION_LIBRARY . "/excel/excel/reader.php";
+      include ($dir);
+      $data = new Spreadsheet_Excel_Reader();
+      $data->setOutputEncoding('CP1251');
+      $data->read($proyectoid.'.xls');
+      //echo ($data->sheets[0]['numRows']);
+      /*  */
+      for ($j = 1; $j <= $data->sheets[0]['numCols']; $j++) {
+        if (isset( $data->sheets[0]['cells'][1][$j] ))
+          { 
+            //revisor, revisor principal, gerente
+            $categoria=$data->sheets[0]['cells'][1][$j];
+            //echo $categoria; echo "<tr>";
+          }
+      }
+      for ($i = 2; $i <= $data->sheets[0]['numRows']; $i++) {
+        if (isset( $data->sheets[0]['cells'][$i][1] ))
+          {
+            $actividadid=$data->sheets[0]['cells'][$i][1];
+            $nombre=$data->sheets[0]['cells'][$i][2];
+            $actividadint=$actividadid;
+            if (ctype_digit(trim($actividadint))) {
+              //echo "GUARDAR ACTIVIDADES PADRE";
+              $datosactividadpadre["actividadid"]=$actividadid;
+              $datosactividadpadre["proyectoid"]=$proyectoid;
+              $datosactividadpadre["nombre"]=utf8_encode($nombre);
+              $datosactividadpadre["fecha_creacion"]=$fecha;
+              $datosactividadpadre["estado"]='P';
+              $datosactividadpadre["duracion"]='0';
+              $datosactividadpadre["efectivas"]='0';
+              $datosactividadpadre["planificadas"]='0';
+              $datosactividadpadre["actividad_padre"]='';
+              $datosactividadpadre["orden"]=$i-1;
+              $bdactividad = new Proyectos_Model_DbTable_Actividad();
+              //$datosactividad = $bdactividad->_guardar($datosactividadpadre);
+              //print_r($datosactividadpadre);
+            }
+            else {
+              $actividadeshijas = explode(".",$actividadint);
+              if (count($actividadeshijas)=='2')
+              {
+                $datosactividadespecialidad["actividadid"]=$actividadid;
+                $datosactividadespecialidad["proyectoid"]=$proyectoid;
+                $datosactividadespecialidad["nombre"]=utf8_encode($nombre);
+                $datosactividadespecialidad["fecha_creacion"]=$fecha;
+                $datosactividadespecialidad["estado"]='P';
+                $datosactividadespecialidad["duracion"]='0';
+                $datosactividadespecialidad["efectivas"]='0';
+                $datosactividadespecialidad["planificadas"]='0';
+                $datosactividadespecialidad["actividad_padre"]=intval($actividadid);
+                $datosactividadespecialidad["orden"]=$i-1;
+                $bdactividad = new Proyectos_Model_DbTable_Actividad();
+                $nombrecompleto=utf8_encode($nombre);
+                echo utf8_encode($nombre);
+                echo "<br>";
+
+                
+                //print_r($datosarea);
+                //guardar actividades hijas
+                //$datosactividad = $bdactividad->_guardar($datosactividadespecialidad);
+                //echo "actividad especialidad";
+                //echo "<br>";
+                //print_r($datosactividadespecialidad);
+                $nombreespecialidades = explode(":",$nombrecompleto);
+                if (count($nombreespecialidades)=='2')
+                {
+                  $comparar=strtolower($nombreespecialidades[1]);
+                  $bdarea = new Proyectos_Model_DbTable_ProyectoArea();
+                  $datosarea = $bdarea->_getxNombreArea($comparar);
+                  
+
+                  
+                  if($datosarea) {
+                    echo "-----";
+                    print_r($datosarea);
+                  }
+                  else
+                  {
+                    $no_permitidas= array ("á","é","í","ó","ú","Á","É","Í","Ó","Ú","ñ","À","Ã","Ì","Ò","Ù","Ã™","Ã ","Ã¨","Ã¬","Ã²","Ã¹","ç","Ç","Ã¢","ê","Ã®","Ã´","Ã»","Ã‚","ÃŠ","ÃŽ","Ã”","Ã›","ü","Ã¶","Ã–","Ã¯","Ã¤","«","Ò","Ã","Ã„","Ã‹");
+                    $permitidas= array ("a","e","i","o","u","A","E","I","O","U","n","N","A","E","I","O","U","a","e","i","o","u","c","C","a","e","i","o","u","A","E","I","O","U","u","o","O","i","a","e","U","I","A","E");
+                    $texto = str_replace($no_permitidas, $permitidas ,$nombreespecialidades[1]);
+                    echo $texto;
+                    $datos = $bdarea->_getxNombreArea($comparar);
+                    if($datos)
+                    {
+                      echo "++++++";
+                      print_r($datos);
+                    }
+                    //print_r($datosarea);
+                  }
+
+                }
+              }
+              else
+              {
+                $actividadeshijas = explode(".",$actividadint);
+                if (count($actividadeshijas)=='3')
+                {
+                  $datostareaespecialidad["actividadid"]=$actividadid;
+                  $datostareaespecialidad["proyectoid"]=$proyectoid;
+                  $datostareaespecialidad["nombre"]=utf8_encode($nombre);
+                  $datostareaespecialidad["fecha_creacion"]=$fecha;
+                  $datostareaespecialidad["estado"]='P';
+                  $datostareaespecialidad["duracion"]='0';
+                  $datostareaespecialidad["efectivas"]='0';
+                  $datostareaespecialidad["planificadas"]='0';
+                  $datostareaespecialidad["actividad_padre"]=$actividadeshijas[0].".".$actividadeshijas[1];
+                  $datostareaespecialidad["orden"]=$i-1;
+                  $bdactividad = new Proyectos_Model_DbTable_Actividad();
+                  //guardar tareas
+                  //$datosactividad = $bdactividad->_guardar($datostareaespecialidad);
+                  //echo "tareas";
+                  //echo "<br>";
+                  //print_r($datostareaespecialidad); 
+                } 
+
+              }
+            }
+            echo "<br>";
+          }
+        else
+          {
+            echo("<td>"."</td>");
+          }
+      }
+      
+      $fila=$data->sheets[0]['numRows'];
+        for ($i = 2; $i <= $fila; $i++) {
+          $columnas=$data->sheets[0]['numCols'];
+          for ($j = 3; $j <= $columnas-1 ; $j++) {
+            $actividad=$data->sheets[0]['cells'][$i][1];
+            $categoria=$data->sheets[0]['cells'][1][$j];
+            if (isset( $data->sheets[0]['cells'][$i][$j] ))
+            {
+
+         //     echo("<td>".utf8_encode($data->sheets[0]['cells'][$i][$j]) ."</td>");
+              $duracion=utf8_encode($data->sheets[0]['cells'][$i][$j]);
+            //  echo $actividad;
+            //  echo $categoria;
+            //  echo $duracion;
+
+              
+              $datostarea["asignado"]=$responsable;
+              $datostarea["semana"]=$semana;
+              $datostarea["actividadid"]=$actividad;
+              $datostarea["proyectoid"]=$proyectoid;
+              $datostarea["fecha_tarea"]=$fecha;
+              $datostarea["estado"]='I';
+              $datostarea["etapa"]='INICIO';
+              $datostarea["horas_propuesta"]=$duracion;
+              $datostarea["horas_efectivas"]='0';
+              $datostarea["horas_planeadas"]='0';
+              $datostarea["categoriaid"]=$categoria;
+          //    print_r($datostarea);
+              //guardar datos de las horas
+              $bdtarea = new Proyectos_Model_DbTable_Proyecto();
+              //$datostarea = $bdtarea->_guardar($datostarea);
+            }
+            else
+            {
+              //echo("<td>"."</td>");
+            }
+          }
+          
+        }
+
+      echo("<table>");
+      $fila=$data->sheets[0]['numRows'];
+   //   echo $fila;
+        for ($i = 1; $i <= $fila; $i++) {
+          echo("<tr>");
+          $columnas=$data->sheets[0]['numCols'];
+     //     echo $columnas;
+          for ($j = 1; $j <= $columnas ; $j++) {
+            //$actividad=$data->sheets[0]['cells'][$i+1][1];
+            //$categoria=$data->sheets[0]['cells'][1][$j+1];
+            /*if isset($data->sheets[0]['cells'][$i][$j]) {
+            $valuesSQL .= "\"" . $data->sheets[0]['cells'][$i][$j] . "\""; 
+            } else {
+            $valuesSQL .= 'NULL'; }*/
+            if (isset( $data->sheets[0]['cells'][$i][$j] ))
+            {
+              echo("<td>".utf8_encode($data->sheets[0]['cells'][$i][$j]) ."</td>");
+              $duracion=utf8_encode($data->sheets[0]['cells'][$i][$j]);
+              /*
+              $datostarea["asignado"]=$responsable;
+              $datostarea["semana"]=$semana;
+              $datostarea["actividadid"]=$actividad;
+              $datostarea["proyectoid"]=$proyectoid;
+              $datostarea["fecha_tarea"]=$fecha;
+              $datostarea["estado"]='I';
+              $datostarea["etapa"]='INICIO';
+              $datostarea["horas_propuesta"]=$duracion;
+              $datostarea["horas_efectivas"]='0';
+              $datostarea["horas_planeadas "]='0';
+              $datostarea["categoriaid"]=$categoria;
+              print_r($datostarea);
+              */
+              //$bdactividad = new Proyectos_Model_DbTable_Actividad();
+              //$datosactividad = $bdactividad->_guardar($datosactividad);
+            }
+            else
+            {
+              echo("<td>"."</td>");
+            }
+          }
+          echo("</tr>");
+        }
+      echo("</table>");
+    }
+    catch (Exception $e) {
+        print "Error: ".$e->getMessage();
+    }
+  }
+
+public function subirpropuestaAction(){
+  try {
+    $proyectoid= $this->_getParam("proyectoid");
+    $codigo_prop_proy= $this->_getParam("codigo_prop_proy");
+    $bandera= $this->_getParam("bandera");
+    if ($bandera=='S')
+    {
+    $this->view->bandera='S';}
+
+    $editproyect= new Admin_Model_DbTable_Proyecto();
+    $where = array(
+                      'codigo_prop_proy'    => $codigo_prop_proy,
+                      'proyectoid'    => $proyectoid,
+                      );
+    $edit = $editproyect->_getOne($where);
+    print_r($edit);
+    $this->view->proyectoid = $edit['proyectoid'];
+    $this->view->codigo = $edit['codigo_prop_proy'];
+
+
+
+
+    }
+  catch (Exception $e) {
+    print "Error: ".$e->getMessage();
+  }
+}
+
     
 }

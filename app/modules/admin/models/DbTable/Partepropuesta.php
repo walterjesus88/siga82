@@ -16,13 +16,13 @@ class Admin_Model_DbTable_Partepropuesta extends Zend_Db_Table_Abstract
         }
     }
     
-     public function _getPartePropuestaxIndices($propuestaid,$revision,$clienteid,$nro_propuesta)
+     public function _getPartePropuestaxIndices($propuestaid,$revision,$clienteid,$unidad_minera)
      {
         try{
             $sql=$this->_db->query("
                select * from parte_propuesta 
                where propuestaid='$propuestaid' and revision='$revision' and clienteid='$clienteid'
-               and nro_propuesta='$nro_propuesta' 
+               and unidad_mineraid='$unidad_minera' 
 
             ");
             $row=$sql->fetchAll();
