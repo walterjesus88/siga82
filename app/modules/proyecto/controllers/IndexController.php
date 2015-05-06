@@ -535,6 +535,8 @@ public function subirpropuestaAction(){
     print_r($edit);
     $this->view->proyectoid = $edit['proyectoid'];
     $this->view->codigo = $edit['codigo_prop_proy'];
+    $this->view->propuestaid = $edit['propuestaid'];
+    $this->view->revision = $edit['revision'];
 
 
     $nombre_fichero = './upload/proyecto/'.$proyectoid.'-HH.xls';
