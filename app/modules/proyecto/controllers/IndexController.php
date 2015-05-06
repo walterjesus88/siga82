@@ -518,26 +518,32 @@ class Proyecto_IndexController extends Zend_Controller_Action {
   }
 
 public function subirpropuestaAction(){
-    try {
+  try {
+    $proyectoid= $this->_getParam("proyectoid");
+    $codigo_prop_proy= $this->_getParam("codigo_prop_proy");
+    $bandera= $this->_getParam("bandera");
+    if ($bandera=='S')
+    {
+    $this->view->bandera='S';}
 
-       $proyectoid= $this->_getParam("proyectoid");
-        $codigo_prop_proy= $this->_getParam("codigo_prop_proy");
-
-        $form= new Admin_Form_Proyecto();
-     
-        $editproyect= new Admin_Model_DbTable_Proyecto();
-        $where = array(
+    $editproyect= new Admin_Model_DbTable_Proyecto();
+    $where = array(
                       'codigo_prop_proy'    => $codigo_prop_proy,
                       'proyectoid'    => $proyectoid,
                       );
-        $edit = $editproyect->_getOne($where);
-        print_r($edit);
+    $edit = $editproyect->_getOne($where);
+    print_r($edit);
+    $this->view->proyectoid = $edit['proyectoid'];
+    $this->view->codigo = $edit['codigo_prop_proy'];
 
-          }
-    catch (Exception $e) {
-        print "Error: ".$e->getMessage();
+
+
+
     }
+  catch (Exception $e) {
+    print "Error: ".$e->getMessage();
   }
+}
 
     
 }
