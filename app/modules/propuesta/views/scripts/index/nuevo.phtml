@@ -62,15 +62,15 @@
                         <label for="estado_propuesta" class="col-lg-4 col-sm-4 control-label">Partes de Propuesta</label>
                         <div class="col-lg-6">
                             <label class="checkbox-inline">
-                                              <input type="checkbox" id="tecnica" value="1" name="tecnica"   > Tecnica
+                                              <input type="checkbox" id="tecnica" value="1" name="tecnica"   > 01 - Tecnica
                                           </label>
 
                                                     <label class="checkbox-inline">
-                                              <input type="checkbox" id="economica" value="2" name="economica"  > Economica
+                                              <input type="checkbox" id="economica" value="2" name="economica"  > 02 - Economica
 
                                           </label>
                                           <label class="checkbox-inline">
-                                              <input type="checkbox" id="seguridad" value="3" name="seguridad"  > Seguridad
+                                              <input type="checkbox" id="seguridad" value="3" name="seguridad"  > 03 - Seguridad
                                               
                                           </label>
                         </div>
@@ -207,9 +207,9 @@
                         <label for="estado_propuesta" class="col-lg-4 col-sm-4 control-label">Estado Propuesta</label>
                         <div class="col-lg-6">
                         <select id='estado_propuesta' class="form-control input-sm m-bot15 col-lg-10">
-                            <option value="G">Ganada</option>
-                            <option value="E">Enviada</option>
                             <option value="EE">En elaboración</option>
+                            <option value="E">Enviada</option>
+                            <option value="G">Ganada</option>
                             <option value="P">Perdida</option>
                             <option value="D">Declinada</option>
                             <option value="A">Anulada</option>
@@ -232,8 +232,8 @@
                         <label for="tipo_servicio" class="col-lg-4 col-sm-4 control-label">Tipo de Servicio</label>
                         <div class="col-lg-6">
                         <select id="tipo_servicio" class="form-control input-sm m-bot15 col-lg-10">
-                            <option value="AMB">Ambiental</option>
                             <option value="ING">Ingeniería</option>
+                            <option value="AMB">Ambiental</option>
                             <option value="GEO">Geotecnia</option>
                             <option value="CON">Construcción</option>
                         </select>
@@ -397,6 +397,19 @@ $(document).ready(function(){
     $('[name^="tecnica"]').click(function(event) {
         
         if ($(this).is(":checked")) {
+             var clienteid = $("#clienteid").val();
+            var uminera = $("#uminera").val();
+            var propuestaid = $("#propuestaid").val();   
+            var revision = $("#revision").val(); 
+            if (propuestaid=='' || clienteid=='' || uminera==''  ||  revision=='' )  
+            {
+                alert("ingrese datos del cliente, codigo propuesta y revision.");
+            }
+            else
+            { 
+                url="/propuesta/index/guardartecnica/clienteid/"+clienteid+"/uminera/"+uminera+"/propuestaid/"+propuestaid+"/revision/"+revision+"/tecnica/S";
+                $("#cargar_nueva_propuesta").load(url);
+            } 
             
         }
         
@@ -417,7 +430,7 @@ $(document).ready(function(){
             else
             { 
                 url="/propuesta/index/guardarpartepropuesta/clienteid/"+clienteid+"/uminera/"+uminera+"/propuestaid/"+propuestaid+"/revision/"+revision+"/economica/S";
-               // $("#cargar_nueva_propuesta").load(url);
+                $("#cargar_nueva_propuesta").load(url);
             } 
         }
     });    
@@ -427,6 +440,19 @@ $(document).ready(function(){
     $('[name^="seguridad"]').click(function(event) {
         
         if ($(this).is(":checked")) {
+                         var clienteid = $("#clienteid").val();
+            var uminera = $("#uminera").val();
+            var propuestaid = $("#propuestaid").val();   
+            var revision = $("#revision").val(); 
+            if (propuestaid=='' || clienteid=='' || uminera==''  ||  revision=='' )  
+            {
+                alert("ingrese datos del cliente, codigo propuesta y revision.");
+            }
+            else
+            { 
+                url="/propuesta/index/guardarseguridad/clienteid/"+clienteid+"/uminera/"+uminera+"/propuestaid/"+propuestaid+"/revision/"+revision+"/seguridad/S";
+                $("#cargar_nueva_propuesta").load(url);
+            } 
          
         }
         
@@ -478,7 +504,7 @@ $(document).ready(function(){
 
   
 
-    if (propuestaid=='' || clienteid=='' || uminera==''  ||  revision=='' || responsable==''  || revisor==''  || gerente==''  || control_documentario==''  || f_inicio_propuesta=='' )  
+    if (propuestaid=='' || clienteid=='' || uminera==''  ||  revision=='' || responsable==''  || revisor==''  || gerente==''  || control_documentario==''  )  
     {
       alert("ingrese todos los datos requeridos marcados de rojo.");
 
@@ -512,8 +538,3 @@ $(document).ready(function(){
             });    */
     });
 </script>
-<script src="../../js/advanced-form-components.js"></script>
-<script src="../../js/jquery.tagsinput.js"></script>
-<script src="../../assets/jquery-tags-input/jquery.tagsinput.css"></script>
-<script src="../../assets/jquery-tags-input/jquery.tagsinput.min.js"></script>
-<script src="../../assets/jquery-tags-input/jquery.tagsinput.js"></script>

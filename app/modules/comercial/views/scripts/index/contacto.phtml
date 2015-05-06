@@ -1,0 +1,265 @@
+<section class="panel">
+  <header class="panel-heading">
+    <div class="row">
+      <div class="col-lg-6">
+        Lista de Contactos de Clientes / Area 
+      </div>
+      <div class="col-lg-3">
+        <select class="form-control m-bot4 col-lg-10">
+          <option>Cliente</option>
+          <?php 
+            $bdcliente = new Admin_Model_DbTable_Cliente();
+            $listcliente=$bdcliente->_getClienteAllOrdenado();
+            foreach ($listcliente as $cli) {?>
+            <option value="<?php echo $cli['clienteid']?>"><?php echo strtoupper($cli['nombre_comercial'])?></option>
+          <?php }?>
+        </select></div>
+      <div class="col-lg-3">
+        <select class="form-control m-bot1 col-lg-5">
+          <option>Area</option>
+          <?php 
+            $bdarea = new Admin_Model_DbTable_Area();
+            $listarea=$bdarea->_getAreaxContacto();
+            foreach ($listarea as $area) {?>
+            <option value="<?php echo $area['areaid']?>"><?php echo strtoupper($area['nombre'])?></option>
+          <?php }?>
+        </select></div>
+    </div>
+  </header>
+  <div class="panel-body">
+        <div class="row">
+            <div class="col-md-12">
+              <div class="input-group"><input id="buscar_contacto" type="text" placeholder="Buscar Contacto" class="input-sm form-control"> <span class="input-group-btn">
+              <button id="btn_buscar_propuesta" type="button" class="btn btn-sm btn-success"> Buscar!</button> 
+
+
+ <a class="btn btn-default btn-sm " data-toggle="modal" href="#myModal9">
+                                  Añadir Contacto
+                              </a>
+ 
+
+
+              </span></div>
+          </div>
+      </div>
+  </div>
+  
+  <div id="lista_contactos" >
+  <table class="table table-hover p-table">
+      <thead>
+      <tr>  
+          <th style="width: 40%;">Cliente</th>
+          <th style="width: 20%;">Area</th>
+          <th style="width: 15%;">Contacto</th>
+          <th style="width: 20%;">Nombre</th>
+          <th style="width: 20%;">Celular</th>
+          <th style="width: 5%;">Operaciones</th>
+      </tr>
+      </thead>
+      <tbody>
+
+  <?php
+        $c=1;
+       foreach ($this->lista_contactos as $lista) {
+          //print_r($lista);
+        ?>  
+
+        <tr>
+            <td class="p-name">
+            <a class="control-label">
+                <?php 
+                    $buscacliente = new Admin_Model_DbTable_Cliente();
+                    $buscanombre_cliente=$buscacliente->_getClientexIndice($lista['clienteid']);
+                    print_r($buscanombre_cliente[0]['nombre_comercial']);
+                ?>
+                </a>
+            </td>
+
+            <td class="p-name">
+                <?php
+                  $bdarea = new Admin_Model_DbTable_Area();
+                  $listarea=$bdarea->_getAreaxIndice($lista['areaid']);
+                 print_r(strtoupper($listarea[0]['nombre'])) ;?>  
+
+                
+            </td>
+
+            <td class="p-name">
+                <?php
+                    echo $lista['relacion'];
+                ?>  
+            </td>
+            <td class="p-name">
+                <?php echo $lista['nombre']; ?>  
+            </td>
+             <td class="p-name">
+                <?php echo $lista['numero']; ?>  
+            </td>
+
+                     
+            
+          <td>
+              <a href=""
+               class="btn btn-primary btn-xs"><i class="fa fa-folder"></i></a>
+
+            
+                <a title="Eliminar" onclick="return confirm('Esta Seguro que desea eliminar el registro?');" href="/comercial/index/eliminarcontacto/contactoid/<?php echo $lista['contactoid']?>/clienteid/<?php echo $lista['clienteid']?>/areaid/<?php echo $lista['areaid']?>" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i></a>
+
+          </td>
+       
+
+      </tr>
+
+      <?php  }?>
+     
+      </tbody>
+  </table>
+  </div>
+
+ 
+
+
+<div class="modal fade modal-dialog-center top-modal-with-space" id="myModal9" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+      <div class="">
+          <div class="modal-content">
+              <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                  <h4 class="modal-title">Añadir Contacto</h4>
+
+   
+
+
+
+              </div>
+              <div class="modal-body">
+               <form class="form-horizontal" role="form">
+                    <div class="form-group">
+                        <label for="cliente" class="col-lg-2 col-sm-2 control-label">Cliente</label>
+                        <div class="col-lg-10">
+                        <select id="clienteid" class="form-control m-bot4 col-lg-10">
+          <option>Cliente</option>
+          <?php 
+            $bdcliente = new Admin_Model_DbTable_Cliente();
+            $listcliente=$bdcliente->_getClienteAllOrdenado();
+            foreach ($listcliente as $cli) {?>
+            <option value="<?php echo $cli['clienteid']?>"><?php echo strtoupper($cli['nombre_comercial'])?></option>
+          <?php }?>
+        </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group ">
+                        <label for="unidad" class="col-lg-3 col-sm-3 control-label">Area</label>
+                        <div class="col-lg-9">
+                        <select id="areaid" class="form-control m-bot1 col-lg-5">
+          <option>Area</option>
+          <?php 
+            $bdarea = new Admin_Model_DbTable_Area();
+            $listarea=$bdarea->_getAreaxContacto();
+            foreach ($listarea as $area) {?>
+            <option value="<?php echo $area['areaid']?>"><?php echo strtoupper($area['nombre'])?></option>
+          <?php }?>
+        </select>
+                        </div>
+                    </div>
+
+                  <div class="form-group">
+                        <label for="nombre_contacto" class="col-lg-4 col-sm-4 control-label">Nombre</label>
+                        <div class="col-lg-6">
+                            <input class="form-control" id="nombre_contacto" >
+                        </div>
+                    </div>
+                
+
+                    <div class="form-group">
+                        <label for="celular" class="col-lg-4 col-sm-4 control-label">Celular</label>
+                        <div class="col-lg-6">
+                            <input class="form-control" id="numero" >
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="relacion" class="col-lg-4 col-sm-4 control-label">Relacion</label>
+                        <div class="col-lg-6">
+                            <input class="form-control" id="relacion" >
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="relacion" class="col-lg-4 col-sm-4 control-label">Correo</label>
+                        <div class="col-lg-6">
+                            <input class="form-control" id="correo" >
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="relacion" class="col-lg-4 col-sm-4 control-label">Direccion</label>
+                        <div class="col-lg-6">
+                            <input class="form-control" id="direccion" >
+                        </div>
+                    </div>
+
+                    </form>
+                  
+
+              </div>
+              <div class="modal-footer">
+                  <button data-dismiss="modal" class="btn btn-default" type="button">Cerrar</button>
+                  <button id="guardar_contacto" class="btn btn-warning" type="button"> Guardar</button>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>
+
+<div id="cargar"></div>
+
+<script>
+$(document).ready(function(){
+   
+  $("#guardar_contacto").click(function(){
+        var clienteid = $("#clienteid").val(); 
+        var areaid = $("#areaid").val(); 
+        var numero = $("#numero").val(); 
+        var relacion = $("#relacion").val(); 
+        var correo = $("#correo").val(); 
+        var captura_direccion = $("#direccion").val(); 
+        var direccion= captura_direccion.replace(/\s/g,"_");
+        var captura_nombre_contacto = $("#nombre_contacto").val(); 
+        var nombre_contacto= captura_nombre_contacto.replace(/\s/g,"_");
+        if (clienteid=='')  
+        { alert("cargue nuevamente la pagina");        }
+        else
+        { url="/comercial/index/guardarcontacto/clienteid/"+clienteid+"/areaid/"+areaid+"/numero/"+numero+"/relacion/"+relacion+"/nombre_contacto/"+nombre_contacto+"/correo/"+correo+"/direccion/"+direccion;
+
+        $("#cargar").load(url);
+        }   
+    });
+
+
+
+    $("#btn_buscar_propuesta").click(function(){
+        var buscar_propuesta = $("#buscar_propuesta").val();
+        
+        $("#propuesta_enelaboracion").hide();
+        $("#propuesta_enelaboracion").hide();
+        $("#propuesta_ganada").hide();
+        $("#propuesta_perdida").hide();
+        $("#propuesta_enviada").hide();
+        $("#propuesta_declinada").hide();
+        $("#propuesta_anulada").hide();
+        $("#resultado_busqueda").show();
+        if (buscar_propuesta=='')  
+        {
+            alert("ingrese propuesta a buscar");
+        }
+        else
+        { 
+            var url="/propuesta/index/buscar/propuesta/"+buscar_propuesta;    
+        }
+        $("#resultado_busqueda").load(url);
+    });    
+
+});
+</script>

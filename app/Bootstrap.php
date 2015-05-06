@@ -13,15 +13,19 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
             $view->headLink()->prependStylesheet('/css/bootstrap.min.css')
                      ->headLink()->appendStylesheet('/css/bootstrap-reset.css')
                      ->headLink()->appendStylesheet('/assets/font-awesome/css/font-awesome.css')
+                     ->headLink()->appendStylesheet('/assets/data-tables/DT_bootstrap.css')
                      ->headLink()->appendStylesheet('/assets/fullcalendar/fullcalendar/bootstrap-fullcalendar.css')
                      ->headLink()->appendStylesheet('/assets/jquery-easy-pie-chart/jquery.easy-pie-chart.css')
                      ->headLink()->appendStylesheet('/css/owl.carousel.css')
                      ->headLink()->appendStylesheet('/css/slidebars.css')
                      ->headLink()->appendStylesheet('/css/soon.css')
+                     ->headLink()->appendStylesheet('/css/jquery-ui.css')
                      ->headLink()->appendStylesheet('/css/style.css')
                      ->headLink()->appendStylesheet('/css/style-responsive.css');
 
             $view   ->headScript()->appendFile('/js/jquery.js')
+                        ->headScript()->appendFile('/js/jquery-ui-1.9.2.custom.min.js')
+                        ->headScript()->appendFile('/js/jquery-migrate-1.2.1.min.js')
                         ->headScript()->appendFile('/js/bootstrap.min.js')
                         ->headScript()->appendFile('/js/jquery.dcjqaccordion.2.7.js')
                         ->headScript()->appendFile('/js/jquery.scrollTo.min.js')
@@ -32,12 +36,17 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
                         ->headScript()->appendFile('/assets/bootstrap-datetimepicker/js/bootstrap-datetimepicker.js')
                         ->headScript()->appendFile('/assets/bootstrap-daterangepicker/moment.min.js')
                         ->headScript()->appendFile('/assets/bootstrap-daterangepicker/daterangepicker.js')
+                        ->headScript()->appendFile('/assets/data-tables/jquery.dataTables.js')
+                        ->headScript()->appendFile('/assets/data-tables/DT_bootstrap.js')
                         ->headScript()->appendFile('/js/owl.carousel.js')
                         ->headScript()->appendFile('/js/jquery.customSelect.min.js')
                         ->headScript()->appendFile('/js/respond.min.js')
                         ->headScript()->appendFile('/js/slidebars.min.js')
                         ->headScript()->appendFile('/js/sparkline-chart.js')
                         ->headScript()->appendFile('/js/easy-pie-chart.js')
+                        ->headScript()->appendFile('/js/advanced-form-components.js')
+                        ->headScript()->appendFile('/js/jquery-ui.js')
+                        ->headScript()->appendFile('/js/datepicker-es.js')
                         ->headScript()->appendFile('/js/count.js');
 
                             

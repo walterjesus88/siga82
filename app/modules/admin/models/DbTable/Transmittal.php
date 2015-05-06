@@ -1,7 +1,7 @@
 <?php 
 class Admin_Model_DbTable_Transmittal extends Zend_Db_Table_Abstract
 {
-    protected $_name = 'transmittal';
+    protected $_name = 'transmitta';
     protected $_primary = array("codigo_prop_proy", "propuestaid", "revision");
 
      /* Lista toda las Personas */    
@@ -20,8 +20,25 @@ class Admin_Model_DbTable_Transmittal extends Zend_Db_Table_Abstract
      {
         try{
             $sql=$this->_db->query("
-               select * from transmittal 
+               select * from transmitta 
                where propuestaid='$propuestaid' and revision='$revision' and codigo_prop_proy='$codigo' 
+
+            ");
+            $row=$sql->fetchAll();
+            return $row;           
+            }  
+            
+           catch (Exception $ex){
+            print $ex->getMessage();
+        }
+    }
+
+         public function _getTransmittalxStatus($status)
+     {
+        try{
+            $sql=$this->_db->query("
+               select * from transmitta 
+               where tipo_envio='$status' 
 
             ");
             $row=$sql->fetchAll();
@@ -38,7 +55,7 @@ class Admin_Model_DbTable_Transmittal extends Zend_Db_Table_Abstract
      {
         try{
             $sql=$this->_db->query("
-               select * from transmittal where estado_transmittal='$estado_transmittal'
+               select * from transmitta where estado_transmittal='$estado_transmittal'
                order by propuestaid desc
 
             ");
@@ -54,7 +71,7 @@ class Admin_Model_DbTable_Transmittal extends Zend_Db_Table_Abstract
      public function _buscarTransmittal($transmittal){
         try{
             $sql=$this->_db->query("
-                select * from transmittal as pro inner join cliente as cli on
+                select * from transmitta as pro inner join cliente as cli on
                 pro.clienteid=cli.clienteid where lower(pro.nombre_propuesta) like '%$propuesta%' 
                 or lower(cli.nombre_comercial) like '%$transmittal%'
                 order by pro.orden_estado asc");
@@ -80,11 +97,11 @@ class Admin_Model_DbTable_Transmittal extends Zend_Db_Table_Abstract
         public function _save($data)
     {
         try{
-            if ($data['codigo_prop_proy']=='' ||  $data['codigo_prop_proy']=='' ) return false;
+            if ($data['codigo_prop_proy']=='' ) return false;
             return $this->insert($data);
             return false;
         }catch (Exception $e){
-                print "Error: Registration ".$e->getMessage();
+                print "Error: SSSS ".$e->getMessage();
         }
     }
 

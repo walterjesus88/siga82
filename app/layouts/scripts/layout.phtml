@@ -139,9 +139,9 @@
                                 <span>Propuestas</span>
                             </a>
                             <ul class="sub">
-                                <li><a  href="/propuesta/index/listar">Lista</a></li>
-                                <li><a  href="/propuesta/index/nuevo">Nuevo</a></li>
-                                <li><a  href="/propuesta/index/transmittal">Transmittal</a></li>
+                                <li><a  href="/propuesta/index/listar">Lista Propuestas</a></li>
+                                <li><a  href="/propuesta/index/nuevo">Nueva Propuesta</a></li>
+                            <li><a  href="/propuesta/index/transmittal">Lista Transmittal</a></li>
                             </ul>
                         </li>
 
@@ -171,7 +171,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="/admin">
+                        <a href="/timesheet/index/registro">
                             <i class="fa fa-calendar-o"></i>
                             <span>Timesheet</span>
                         </a>
@@ -188,7 +188,7 @@
                             <span>RR. HH.</span>
                         </a>
                         <ul class="sub">
-                            <li><a  href="/admin">Lista Personal</a></li>
+                            <li><a  href="/rrhh/index/listar">Lista Personal</a></li>
                             <li><a  href="/admin">Rates</a></li>
                         </ul>
                     </li>
@@ -199,7 +199,7 @@
                         </a>
                         <ul class="sub">
                             <li><a  href="/comercial/index/listar">Clientes</a></li>
-                            <li><a  href="/admin">Contactos</a></li>
+                            <li><a  href="/comercial/index/contacto">Contactos</a></li>
                         </ul>
                     </li>
                     <li>
@@ -254,7 +254,7 @@
             <h5 class="side-title">Calendario</h5>
             <section class="panel">
                 <div class="panel-body">
-                    <div id="calendar" class="has-toolbar"></div>
+                    <div id="datepicker"></div>
                 </div>
             </section>
         </div>
@@ -267,11 +267,16 @@
             </div>
         </footer>
     </section>
+   
+    <script>
+    $(function () {
+        $.datepicker.setDefaults($.datepicker.regional["es"]);
+        $("#datepicker").datepicker({
+            firstDay: 1,
+        });
+    });
+    </script>
 
-    <script src="/assets/fullcalendar/fullcalendar/fullcalendar.min.js"></script>
-    <!--script for this page only-->
-    <script src="/js/external-dragging-calendar.js"></script>
-    <script src="/js/advanced-form-components.js"></script>
     
     <script src="/js/soon/plugins.js"></script>
     <script src="/js/soon/custom.js"></script>
