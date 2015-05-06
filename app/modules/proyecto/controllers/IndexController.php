@@ -537,6 +537,15 @@ public function subirpropuestaAction(){
     $this->view->codigo = $edit['codigo_prop_proy'];
 
 
+    $nombre_fichero = './upload/proyecto/'.$proyectoid.'-HH.xls';
+
+    if (file_exists($nombre_fichero)) {
+    $this->view->bandera='S';      
+    } else {
+      $this->view->bandera='N';
+      $this->view->cargar='S';
+    }
+
 
 
     }
