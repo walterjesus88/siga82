@@ -13,7 +13,8 @@ class Proyecto_IndexController extends Zend_Controller_Action {
         
    
     }
-	
+
+
     public function listarAction() {
 
         $listaproyecto = new Admin_Model_DbTable_Proyecto();
@@ -525,6 +526,39 @@ public function subirpropuestaAction(){
     if ($bandera=='S')
     {
     $this->view->bandera='S';}
+    $editproyect= new Admin_Model_DbTable_Proyecto();
+    $where = array(
+      'codigo_prop_proy'    => $codigo_prop_proy,
+      'proyectoid'    => $proyectoid,
+    );
+    $edit = $editproyect->_getOne($where);
+    //print_r($edit);
+    $this->view->proyectoid = $edit['proyectoid'];
+    $this->view->codigo = $edit['codigo_prop_proy'];
+    $this->view->propuestaid = $edit['propuestaid'];
+    $this->view->revision = $edit['revision'];
+    $this->view->moneda = $edit['moneda'];
+
+
+    $nombre_fichero = './upload/proyecto/'.$proyectoid.'-HH.xls';
+    if (file_exists($nombre_fichero)) {
+      $this->view->bandera='S';      
+      } else {
+      $this->view->bandera='N';
+      $this->view->cargar='S';
+      }
+    }
+    catch (Exception $e) {
+    print "Error: ".$e->getMessage();
+  }
+}
+
+public function subiractividadesAction(){
+  try {
+
+    $proyectoid= $this->_getParam("proyectoid");
+    $codigo_prop_proy= $this->_getParam("codigo_prop_proy");
+    
 
     $editproyect= new Admin_Model_DbTable_Proyecto();
     $where = array(
@@ -532,22 +566,116 @@ public function subirpropuestaAction(){
                       'proyectoid'    => $proyectoid,
                       );
     $edit = $editproyect->_getOne($where);
-    print_r($edit);
-    $this->view->proyectoid = $edit['proyectoid'];
-    $this->view->codigo = $edit['codigo_prop_proy'];
-    $this->view->propuestaid = $edit['propuestaid'];
-    $this->view->revision = $edit['revision'];
+    //print_r($edit);
+    $proyectoid = $edit['proyectoid'];
+    $codigo = $edit['codigo_prop_proy'];
+    $propuestaid = $edit['propuestaid'];
+    $revision = $edit['revision'];
+    $moneda = $edit['moneda'];
 
 
-    $nombre_fichero = './upload/proyecto/'.$proyectoid.'-HH.xls';
+    $dir = APPLICATION_LIBRARY . "/excel/excel/reader.php";
+    include ($dir);
+    $data = new Spreadsheet_Excel_Reader();
+    $data->setOutputEncoding('CP1251');
+    $data->read('./upload/proyecto/'.$proyectoid.'-HH.xls');
+    $columnas=$data->sheets[0]['numCols'];
+    $filas=$data->sheets[0]['numRows'];
+    //migrar actividades
+    for ($i = 2; $i <= $data->sheets[0]['numRows']; $i++) {
+      $colsuma=$columnas-1;
+      $areaid=$data->sheets[0]['cells'][$i][1];
+      $actividadid=$data->sheets[0]['cells'][$i][2];
+      $nombre=$data->sheets[0]['cells'][$i][3];
+      $suma=$data->sheets[0]['cells'][$i][$colsuma];
 
-    if (file_exists($nombre_fichero)) {
-    $this->view->bandera='S';      
-    } else {
-      $this->view->bandera='N';
-      $this->view->cargar='S';
+      $actividadint=$actividadid;
+      if (ctype_digit(trim($actividadint))) {
+        $datosactividadpadre["actividadid"]=$actividadid;
+        $datosactividadpadre["codigo_actividad"]=$areaid."-".$actividadid;
+        $datosactividadpadre["codigo_prop_proy"]=$codigo;
+        $datosactividadpadre["revision"]=$revision;
+        $datosactividadpadre["areaid"]=$areaid;
+        $datosactividadpadre["proyectoid"]=$proyectoid;
+        $datosactividadpadre["propuestaid"]=$propuestaid;
+        $datosactividadpadre["actividad_padre"]='';
+
+        $datosactividadpadre["nombre"]=utf8_encode($nombre);
+        $datosactividadpadre["fecha_creacion"]=date("Y-m-d");
+        $datosactividadpadre["estado"]='P';
+        $datosactividadpadre["duracion_total"]='0';
+        $datosactividadpadre["h_propuesta"]=$suma;
+      $datosactividadpadre["h_extra"]='0';
+        $datosactividadpadre["h_planificada"]='0';
+        $datosactividadpadre["orden"]=$i-1;
+        $datosactividadpadre["isproyecto"]='S';
+        $datosactividadpadre["moneda"]=$moneda;
+        $bdactividad = new Admin_Model_DbTable_Actividad();
+        if($bdactividad->_save($datosactividadpadre))
+          {
+          echo "guardo bien";   }
+        
+        } 
+        else {
+        $actividadeshijas = explode(".",$actividadint);
+          if (count($actividadeshijas)=='2'){
+            $datosactividadhija["actividadid"]=$actividadint;
+            $datosactividadhija["codigo_actividad"]=$areaid."-".$actividadid;
+            $datosactividadhija["codigo_prop_proy"]=$codigo;
+            $datosactividadhija["revision"]=$revision;
+            $datosactividadhija["areaid"]=$areaid;
+            $datosactividadhija["proyectoid"]=$proyectoid;
+            $datosactividadhija["propuestaid"]=$propuestaid;
+            $datosactividadhija["actividad_padre"]=$actividadeshijas[0];
+
+            $datosactividadhija["nombre"]=utf8_encode($nombre);
+            $datosactividadhija["fecha_creacion"]=date("Y-m-d");
+            $datosactividadhija["estado"]='P';
+            $datosactividadhija["duracion_total"]='0';
+            $datosactividadhija["h_propuesta"]=$suma;
+          $datosactividadhija["h_extra"]='0';
+            $datosactividadhija["h_planificada"]='0';
+            $datosactividadhija["orden"]=$i-1;
+            $datosactividadhija["isproyecto"]='S';
+            $datosactividadhija["moneda"]=$moneda;
+            $bdactividad = new Admin_Model_DbTable_Actividad();
+          if($bdactividad->_save($datosactividadhija))
+            {
+              echo "guardo bien";
+            }
+            }
+
+            if (count($actividadeshijas)=='3'){
+          $datosactividadnieta["actividadid"]=$actividadint;
+            $datosactividadnieta["codigo_actividad"]=$areaid."-".$actividadid;
+            $datosactividadnieta["codigo_prop_proy"]=$codigo;
+            $datosactividadnieta["revision"]=$revision;
+            $datosactividadnieta["areaid"]=$areaid;
+            $datosactividadnieta["proyectoid"]=$proyectoid;
+            $datosactividadnieta["propuestaid"]=$propuestaid;
+            $datosactividadnieta["actividad_padre"]=$actividadeshijas[0].".".$actividadeshijas[1];
+
+            $datosactividadnieta["nombre"]=utf8_encode($nombre);
+            $datosactividadnieta["fecha_creacion"]=date("Y-m-d");
+            $datosactividadnieta["estado"]='P';
+            $datosactividadnieta["duracion_total"]='0';
+            $datosactividadnieta["h_propuesta"]=$suma;
+          $datosactividadnieta["h_extra"]='0';
+            $datosactividadnieta["h_planificada"]='0';
+            $datosactividadnieta["orden"]=$i-1;
+            $datosactividadnieta["isproyecto"]='S';
+            $datosactividadnieta["moneda"]=$moneda;
+            $bdactividad = new Admin_Model_DbTable_Actividad();
+           
+            if($bdactividad->_save($datosactividadnieta))
+            {
+              echo "guardo bien";
+            }
+            print_r($datosactividadnieta);
+
+            }
+      }
     }
-
 
 
     }
@@ -555,6 +683,225 @@ public function subirpropuestaAction(){
     print "Error: ".$e->getMessage();
   }
 }
+
+public function verAction() {
+    $proyectoid= $this->_getParam("proyectoid");
+    $codigo_prop_proy= $this->_getParam("codigo_prop_proy");
+    $bandera= $this->_getParam("bandera");
+    if ($bandera=='S')
+    {
+    $this->view->bandera='S';}
+    $editproyect= new Admin_Model_DbTable_Proyecto();
+    $where = array(
+      'codigo_prop_proy'    => $codigo_prop_proy,
+      'proyectoid'    => $proyectoid,
+    );
+    $edit = $editproyect->_getOne($where);
+    $this->view->proyecto = $edit;
+
+  
+}   
+
+public function subirareacategoriaAction() {
+    
+    $proyectoid= $this->_getParam("proyectoid");
+    $codigo_prop_proy= $this->_getParam("codigo_prop_proy");
+    
+
+    $editproyect= new Admin_Model_DbTable_Proyecto();
+    $where = array(
+                      'codigo_prop_proy'    => $codigo_prop_proy,
+                      'proyectoid'    => $proyectoid,
+                      );
+    $edit = $editproyect->_getOne($where);
+    //print_r($edit);
+    $proyectoid = $edit['proyectoid'];
+    $codigo = $edit['codigo_prop_proy'];
+    $propuestaid = $edit['propuestaid'];
+    $revision = $edit['revision'];
+    $moneda = $edit['moneda'];
+
+
+    $dir = APPLICATION_LIBRARY . "/excel/excel/reader.php";
+    include ($dir);
+    $data = new Spreadsheet_Excel_Reader();
+    $data->setOutputEncoding('CP1251');
+    $data->read('./upload/proyecto/'.$proyectoid.'-HH.xls');
+    $columnas=$data->sheets[0]['numCols'];
+    $filas=$data->sheets[0]['numRows'];
+
+    for ($i = 2; $i <= $filas; $i++) {
+        for ($j = 6; $j <= $columnas-2 ; $j++) {
+        
+
+        $areaid=$data->sheets[0]['cells'][$i][1];
+        $actividadid=$data->sheets[0]['cells'][$i][2];
+        $categoria=$data->sheets[0]['cells'][1][$j];
+        $bdcategoria = new Admin_Model_DbTable_Categoria();
+        $datoscat=$bdcategoria-> _buscarCategoriaxTag($categoria);
+        $idcategoria=$datoscat[0]['categoriaid'];
+        $bdequipo_area = new Admin_Model_DbTable_Equipoarea();
+        $datosequipoarea=$bdequipo_area->_buscarEquipoxProyecto($codigo,$proyectoid,$areaid,$idcategoria);
+        
+        if(isset($datosequipoarea)) 
+            { 
+                $dataequipoarea['areaid']=$areaid;
+                $dataequipoarea['codigo_prop_proy']=$codigo;
+                $dataequipoarea['proyectoid']=$proyectoid;
+                $dataequipoarea['categoriaid']=$idcategoria;
+                $dataequipoarea['fecha_creacion']=date("Y-m-d");
+                $dataequipoarea['estado']='A';
+                $dataequipoarea['funcion']='PROPUESTA';
+                $bdarea_categoria = new Admin_Model_DbTable_Areacategoria();
+                $existearea_categoria=$bdarea_categoria->_getAreacategoriaxIndice($idcategoria,$areaid);
+               // print_r($existearea_categoria);
+               // echo $idcategoria;
+               // echo $areaid;
+               // echo "<br>";
+                if($existearea_categoria) {
+                    
+                   
+                 
+                    if ($bdequipo_area->_save($dataequipoarea))
+                            {
+                                echo "mmmmmmmmm";
+                            }
+
+                    
+                }
+                else
+                {
+                    $bdarea = new Admin_Model_DbTable_Area();
+                    $datosarea=$bdarea->_getAreaxIndice($areaid);
+
+                    $dataarea_cat['areaid']=$areaid;
+                    $dataarea_cat['categoriaid']=$idcategoria;
+                    $dataarea_cat['nombre']=$datosarea[0]['nombre']."-".$datoscat[0]['nombre_categoria'];
+                    $dataarea_cat['estado']='A';
+                    //print_r($dataarea_cat);
+                    if ($bdarea_categoria->_save($dataarea_cat))
+                    {
+                        echo "se creo area_categoria";
+                       if ($bdequipo_area->_save($dataequipoarea))
+                            {
+                                echo "lllllllllll";
+                            }
+
+                    } 
+                }
+        }
+
+      }
+    }
+}   
+
+public function subirtareoAction() {
+   $proyectoid= $this->_getParam("proyectoid");
+    $codigo_prop_proy= $this->_getParam("codigo_prop_proy");
+    
+
+    $editproyect= new Admin_Model_DbTable_Proyecto();
+    $where = array(
+                      'codigo_prop_proy'    => $codigo_prop_proy,
+                      'proyectoid'    => $proyectoid,
+                      );
+    $edit = $editproyect->_getOne($where);
+    //print_r($edit);
+    $proyectoid = $edit['proyectoid'];
+    $codigo = $edit['codigo_prop_proy'];
+    $propuestaid = $edit['propuestaid'];
+    $revision = $edit['revision'];
+    $moneda = $edit['moneda'];
+
+
+    $dir = APPLICATION_LIBRARY . "/excel/excel/reader.php";
+    include ($dir);
+    $data = new Spreadsheet_Excel_Reader();
+    $data->setOutputEncoding('CP1251');
+    $data->read('./upload/proyecto/'.$proyectoid.'-HH.xls');
+    $columnas=$data->sheets[0]['numCols'];
+    $filas=$data->sheets[0]['numRows'];
+
+    for ($i = 2; $i <= $filas; $i++) {
+        for ($j = 6; $j <= $columnas-2 ; $j++) {
+
+        $areaid=$data->sheets[0]['cells'][$i][1];
+        $actividadid=$data->sheets[0]['cells'][$i][2];
+        $categoria=$data->sheets[0]['cells'][1][$j];
+        $nombre_actividad=$data->sheets[0]['cells'][$i][3];
+        
+
+        if (isset( $data->sheets[0]['cells'][$i][$j] ))
+        {
+            $suma=$data->sheets[0]['cells'][$i][$j];
+        $horas_propuesta=utf8_encode($data->sheets[0]['cells'][$i][$j]);
+
+        $bdcategoria = new Admin_Model_DbTable_Categoria();
+        $datoscat=$bdcategoria-> _buscarCategoriaxTag($categoria);
+        $idcategoria=$datoscat[0]['categoriaid'];
+        $actividadint=$actividadid;
+        $actividadeshijas = explode(".",$actividadint);
+        if (count($actividadeshijas)=='2'){
+            $codigo_actividad=$areaid."-".$actividadid;
+            $bdtareo = new Admin_Model_DbTable_Tareo();
+            $existe_tareo=$bdtareo->_getTareoxProyectoxActividadHijaxAreaxCategoria($proyectoid,$codigo,$revision,$actividadeshijas[0],$actividadid,$codigo_actividad,$areaid,$idcategoria);
+            if(isset($existe_tareo)) { 
+                $datostareo["actividadid"]=$actividadid;
+                $datostareo["codigo_actividad"]=$areaid."-".$actividadid;
+                $datostareo["codigo_prop_proy"]=$codigo;
+                $datostareo["revision"]=$revision;
+                $datostareo["areaid"]=$areaid;
+                $datostareo["proyectoid"]=$proyectoid;
+                $datostareo["actividad_padre"]=$actividadeshijas[0];
+                $datostareo["fecha_creacion"]=date("Y-m-d");
+                $datostareo["estado"]='P';
+                $datostareo["h_propuesta"]=$suma;
+                $datostareo["duracion"]='0';
+                $datostareo["h_extra"]='0';
+                $datostareo["h_planificada"]='0';
+                $datostareo["h_real"]='0';
+                $datostareo["isproyecto"]='S';
+                $datostareo["categoriaid"]=$idcategoria;
+                $datostareo["nombre"]=utf8_encode($nombre_actividad);
+                if($bdtareo->_save($datostareo)){
+                    echo "guardado ";
+                }
+            }
+        }
+
+        if (count($actividadeshijas)=='3'){
+            $codigo_actividad=$areaid."-".$actividadid;
+            $bdtareo = new Admin_Model_DbTable_Tareo();
+            $existe_tareo=$bdtareo->_getTareoxProyectoxActividadHijaxAreaxCategoria($proyectoid,$codigo,$revision,$actividadeshijas[0],$actividadid,$codigo_actividad,$areaid,$idcategoria);
+            if(isset($existe_tareo)) { 
+                $datostareo2["actividadid"]=$actividadid;
+                $datostareo2["codigo_actividad"]=$areaid."-".$actividadid;
+                $datostareo2["codigo_prop_proy"]=$codigo;
+                $datostareo2["revision"]=$revision;
+                $datostareo2["areaid"]=$areaid;
+                $datostareo2["proyectoid"]=$proyectoid;
+                $datostareo2["actividad_padre"]=$actividadeshijas[0].".".$actividadeshijas[1];
+                $datostareo2["fecha_creacion"]=date("Y-m-d");
+                $datostareo2["estado"]='P';
+                $datostareo2["h_propuesta"]=$suma;
+                $datostareo2["duracion"]='0';
+                $datostareo2["h_extra"]='0';
+                $datostareo2["h_planificada"]='0';
+                $datostareo2["h_real"]='0';
+                $datostareo2["isproyecto"]='S';
+                $datostareo2["categoriaid"]=$idcategoria;
+                $datostareo2["nombre"]=utf8_encode($nombre_actividad);
+                if($bdtareo->_save($datostareo2)){
+                    
+                }
+            }
+        }
+
+      }
+    } }
+
+
+}   
 
     
 }
