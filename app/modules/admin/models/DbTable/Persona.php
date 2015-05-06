@@ -6,10 +6,10 @@ class Admin_Model_DbTable_Persona extends Zend_Db_Table_Abstract
 
 
      /* Lista toda las Personas */    
-    public function _getTodasPersonas($eid="",$oid=""){
+    public function _getTodasPersonas(){
         try{
-            if ($eid=='' || $oid=='') return false;
-            $f = $this->fetchAll("eid='$eid' and oid=$oid");
+            
+            $f = $this->fetchAll();
             if ($f) return $f->toArray ();
             return false;
         }catch (Exception $e){
@@ -122,6 +122,19 @@ class Admin_Model_DbTable_Persona extends Zend_Db_Table_Abstract
                 inner join persona as per
                 on usu.dni=per.dni
                 where usu.cargo='$cargo' and usu.estado_sistema='A' and usu.estado='A'
+            ");
+            $row=$sql->fetchAll();
+           return $row;  
+        }catch (Exception $ex) {
+            print "Error: Retornando los datos del alumno deacuerdo a una palabra ingresada".$ex->getMessage();
+        }
+    }
+
+    public function _getPersonasOrdenadoxApellido(){
+        try{
+            $sql=$this->_db->query("
+                select * from persona
+                order by ape_paterno
             ");
             $row=$sql->fetchAll();
            return $row;  

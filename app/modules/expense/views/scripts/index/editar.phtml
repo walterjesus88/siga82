@@ -1,0 +1,265 @@
+
+
+<form name="<?php echo $this->form->getName(); ?>" action="<?php echo $this->form->getAction(); ?>" method="post" id="form">
+			<div class="bio-graph-heading project-heading">			
+                        <strong> [ Editar Proyecto ] </strong>       
+	        </div>
+	<div class="panel-body">
+			
+			<div class="col-md-1 ">
+	   			<button id="save" name="save" type="submit" class="btn btn-info" value="<?php echo $this->form->submit ?>">Guardar</button> 
+	        </div>
+
+			<div class="col-md-1 ">
+	   			<button  href="/proyecto/index/listar" id="save" name="save" type="submit" class="btn btn-info" value="<?php echo $this->form->submit ?>">Cancelar</button> 
+			</div>
+		
+	</div> 
+
+<section class="panel">
+<div class="row">
+	<div class="col-md-9 ">
+	
+		<div class="col-md-12">
+			
+			<div class="row">
+				<div class="col-md-4">
+				
+					<h5 class="text-muted">Codigo</h5>
+					<?php echo $this->form->proyectoid ?>
+				</div>
+
+				<div class="col-md-4">
+				
+					<h5 class="text-muted">Codigo</h5>
+					<?php echo $this->form->codigo_prop_proy ?>
+				</div>	
+
+				<div class="col-md-4">
+					
+					<h5 class="text-muted">Nombre Proyecto</h5>
+					<?php echo $this->form->nombre_proyecto ?>
+				</div>
+
+			</div>
+		</div>
+
+		<div class="col-md-12">
+			
+			<div class="row">
+
+				<div class="col-md-3">
+					<h4><br></h4>
+					<h5 class="text-muted">Propuesta</h5>
+					<?php echo $this->form->propuestaid ?>
+				</div>
+				
+				<div class="col-md-3">
+					<h4><br></h4>
+					<h5 class="text-muted">Control Proyecto</h5>
+					<?php echo $this->form->control_proyecto ?>
+				</div>
+
+				<div class="col-md-3">
+					<h4><br></h4>
+					<h5 class="text-muted">Gerente Proyecto</h5>
+					<?php echo $this->form->gerente_proyecto ?>
+				</div>
+
+				<div class="col-md-3">
+					<h4><br></h4>
+					<h5 class="text-muted">Control Documentario</h5>
+					<?php echo $this->form->control_documentario ?>
+				</div>
+			
+				
+			</div><br>
+		</div>
+
+		<div class="col-md-12">
+			
+			<div class="row">
+				<div class="col-md-3">
+					
+					<h5 class="text-muted">Progreso</h5>
+					<?php echo $this->form->progreso ?>
+				</div>
+
+				<div class="col-md-3">				
+					<h5 class="text-muted">Unidad Red</h5>
+					<?php echo $this->form->unidad_red ?>
+				</div>
+
+				<div class="col-md-3">
+					
+					<h5 class="text-muted">Ruta</h5>
+					<?php echo $this->form->ruta ?>
+				</div>
+
+				<div class="col-md-3">
+					
+					<h5 class="text-muted">Ubicacion</h5>
+					<?php echo $this->form->ubicacion ?>
+				</div>
+	
+			</div><br>
+		</div>	
+
+		<div class="col-md-12">
+			
+			<div class="row">
+				<div class="col-md-3">
+					
+					<h5 class="text-muted">Pais</h5>
+					<?php echo $this->form->paisid ?>
+				</div>
+
+
+				<div class="col-md-3">
+					
+					<h5 class="text-muted">Departamento</h5>
+					<?php echo $this->form->departamentoid ?>
+				</div>
+
+				<div class="col-md-3">
+					
+					<h5 class="text-muted">Provincia</h5>
+					<?php echo $this->form->provinciaid ?>
+				</div>
+
+				<div class="col-md-3">
+				
+					<h5 class="text-muted">Distrito</h5>
+					<?php echo $this->form->distritoid ?>
+				</div>
+
+			</div>
+		</div>
+
+		<div class="col-md-12">
+			
+			<div class="row">
+					
+				<div class="col-md-4">
+					<div data-date-viewmode="years" data-date-format="dd-mm-yyyy" data-date="12-02-2015"  class="input-append date dpYears">
+						<h5 class="text-muted">Fecha Inicio</h5>
+						<p><?php echo $this->form->fecha_inicio ?>
+						<span class="input-group-btn add-on">
+			            <button class="btn btn-danger" type="button"><i class="fa fa-calendar"></i></button>
+			            </span></p>
+		            </div>
+				</div>
+
+				<div class="col-md-4">
+					<div data-date-viewmode="years" data-date-format="dd-mm-yyyy" data-date="12-02-2015"  class="input-append date dpYears">
+						<h5 class="text-muted">Fecha Probable Cierre</h5>
+						<p><?php echo $this->form->fecha_probable_cierre ?>
+						<span class="input-group-btn add-on">
+			            <button class="btn btn-danger" type="button"><i class="fa fa-calendar"></i></button>
+			            </span></p>
+		            </div>
+				</div>
+
+				<div class="col-md-4">
+					<div data-date-viewmode="years" data-date-format="dd-mm-yyyy" data-date="12-02-2015"  class="input-append date dpYears">
+						<h5 class="text-muted">Fecha Cierre</h5>
+						<p><?php echo $this->form->fecha_cierre ?>
+						<span class="input-group-btn add-on">
+			            <button class="btn btn-danger" type="button"><i class="fa fa-calendar"></i></button>
+			            </span></p>
+		            </div>
+				</div>	
+				
+			</div><br>
+		</div>
+
+		<div class="col-md-12">
+			
+			<div class="row">
+				
+				<div class="col-md-6">
+			
+					<h5 class="text-muted">Observacion</h5>
+					<?php echo $this->form->observacion ?>
+				</div>	
+
+				<div class="col-md-6">
+				
+					<h5 class="text-muted">Descripcion</h5>
+					<?php echo $this->form->descripcion ?>
+				</div>
+				
+			</div><br>
+		</div>		
+
+	</div>
+
+	<div class="col-md-3 ">		
+                         
+		<div class="col-md-12">		
+			<h5 class="text-muted">Estado</h5>
+			<?php echo $this->form->estado ?>
+		</div>
+
+		<div class="col-md-12">	
+			<h5 class="text-muted">Organizacion</h5>
+			<?php echo $this->form->oid ?>
+		</div>
+
+		<div class="col-md-6">	
+			<h5 class="text-muted">Tag</h5>
+			<?php echo $this->form->tag ?>
+		</div>
+		
+		<div class="col-md-6">
+			<h5 class="text-muted">Revision</h5>
+			<?php echo $this->form->revision ?>
+		</div>
+
+		<div class="col-md-6">
+		
+			<h5 class="text-muted">Tipo Proyecto</h5>
+			<?php echo $this->form->tipo_proyecto ?>
+		</div>
+
+		<div class="col-md-6">
+		
+			<h5 class="text-muted">Prioridad</h5>
+			<?php echo $this->form->prioridad ?>
+		</div>
+		
+
+		<div class="col-md-4">
+			<h5 class="text-muted">Monto</h5>
+			<?php echo $this->form->monto_total ?>
+		</div>
+
+		<div class="col-md-4">
+			<h5 class="text-muted">Moneda</h5>
+			<?php echo $this->form->moneda ?>
+		</div>
+
+		<div class="col-md-4">
+			<h5 class="text-muted">acs</h5>
+			<?php echo $this->form->acs ?>
+		</div>
+
+		<div class="col-md-6">
+			<h5 class="text-muted">Sistema</h5>
+			<?php echo $this->form->sistema ?>
+		</div>
+
+		<div class="col-md-6">
+			
+			<h5 class="text-muted">Color_estilo</h5>
+			<?php echo $this->form->color_estilo ?>
+		</div>		
+
+	</div>
+</div>
+</section>
+
+<input type="hidden" name="whySubmit" value="update">
+</form>
+
+

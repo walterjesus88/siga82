@@ -1,0 +1,235 @@
+<?php
+$dir = APPLICATION_LIBRARY . "/pdf/MPDF54/mpdf.php";
+include ($dir);
+ob_start();
+
+?>
+
+<link type="text/css" rel="stylesheet" href="/css/groundwork.css">
+<div class="container">
+<div class="one whole padded">
+  <table  style="width:1200px" data-max="15" class="responsive responsiveTable" >
+    <tr>
+      <th style="width: 25%;"><img src="/img/logo.jpg"></th>
+      <th style="width: 75%;"> </th>
+    </tr>
+
+  </table>
+  
+    <table data-max="15" class="responsive responsiveTable" style="width: 100%; font-size: 15px;">
+
+    <thead>
+      <tr>
+        <th colspan=4><center>
+
+         <h3 tyle="font-weight: bold;" > INGRESO DE HORAS PROGRAMADAS DE LA <?php 
+    echo "SEMANA NRO ";
+    echo $this->semanalabor;
+    echo " DEL ";
+    print_r($this->diassemana[7]);
+    echo " AL "; 
+    print_r($this->diassemana[13]);?> 
+    </h3>
+    </center>
+    </th>
+      </tr>
+    </thead>
+    <br>
+    <tbody>
+    <tr>
+      <td style="width: 25%;">NOMBRE :</td>
+                      <td style="width: 75%;"><?php
+
+                           $bdpersona = new Proyectos_Model_DbTable_Usuario();
+        $datosper = $bdpersona->_getPersonaxDNIxProyecto($this->asignado);
+        print_r($datosper[0]['nombrecompleto']);
+
+                      ?></td>
+                      
+                    </tr>
+                    
+                    <tr>
+                      <td style="width: 25%;">AREA :</td>
+                      <td style="width: 75%;"><?php
+
+                       echo $this->categoria;
+                      ?></td>
+                      
+                    </tr>
+
+                  </tbody>
+    
+  </table>
+<br>
+<br>
+<table  style="width:1200px; border: 1px solid #7E7C7C; ">
+      <thead>
+      <tr style=" border: 1px solid #7E7C7C; ">
+        <th colspan="3" style="width: 150px;"><center>Proyectos</center></th>
+        <th colspan="2" style="width: 50px;"><center>Lunes</center></th> 
+        <th colspan="2" style="width: 50px;"><center>Martes</center></th> 
+        <th colspan="2" style="width: 50px;"><center>Miercoles</center></th> 
+        <th colspan="2" style="width: 50px;"><center>Jueves</center></th> 
+        <th colspan="2" style="width: 50px;"><center>Viernes</center></th> 
+        <th colspan="2" style="width: 50px;"><center>Sabado</center></th> 
+        <th colspan="2" style="width: 50px;"><center>Domingo</center></th> 
+      </tr>
+      </thead>
+      <tbody>
+      <?php
+      $semana=$this->semana;
+      $categoria=$this->categoria;
+      $asignado=$this->asignado;
+      echo $asignado;
+      $ano=date("Y");
+    $enero = mktime(1,1,1,1,1,$ano); 
+    //$mos = (11-date('w',1))%7-3; 
+    $mos = (11-date('w',$enero))%7-3;
+    $inicios = strtotime(($semana-1) . ' weeks '.$mos.' days', $enero); 
+    for ($x=0; $x<=6; $x++) {
+      $dias[] = date('d-m-Y', strtotime("+ $x day", $inicios));
+      $dia[] = date('w', strtotime("+ $x day", $inicios));
+    }
+
+      $bdtarea = new Proyectos_Model_DbTable_Proyecto();
+      $lista=$bdtarea->ListaTareasSemanaxPersona($semana,$categoria,$asignado);
+      foreach($lista as $planificacion) {?>
+      <tr style=" border: 1px solid #7E7C7C; ">
+        <td colspan="3"> 
+          <?php
+           // $bdproyecto = new Logistica_Model_DbTable_Proyecto();
+            //$lista=$bdproyecto->_getProyectosxProyectoid($planificacion['proyectoid']);
+            //print_r(strtoupper($lista[0]['proyecto']));
+            print_r($planificacion['proyectoid']);
+            echo "-";
+            print_r($planificacion['nombre_tarea']);
+
+          ?>
+        </td>
+        
+      
+         <td colspan="2" > <center>
+          <?php
+            $diaasig=$bdtarea->ListaTareasSemanaxPersonaxDiaxProyecto($this->semana,$this->categoria,$this->asignado,$dias[0],$planificacion['proyectoid'],$planificacion['tareaid']);
+           if($diaasig) {
+              if($diaasig[0]['efectivas'])
+                { print_r($diaasig[0]['efectivas']); }
+              else { echo "";} }
+          ?>
+        </center></td>
+        
+        <td colspan="2" > <center>
+          <?php
+            $diaasig=$bdtarea->ListaTareasSemanaxPersonaxDiaxProyecto($this->semana,$this->categoria,$this->asignado,$dias[1],$planificacion['proyectoid'],$planificacion['tareaid']);
+           if($diaasig) {
+              if($diaasig[0]['efectivas'])
+                { print_r($diaasig[0]['efectivas']); }
+              else { echo "";} }
+          ?>
+        </center></td>
+        
+        <td colspan="2"> <center>
+          <?php
+            $diaasig=$bdtarea->ListaTareasSemanaxPersonaxDiaxProyecto($this->semana,$this->categoria,$this->asignado,$dias[2],$planificacion['proyectoid'],$planificacion['tareaid']);
+           if($diaasig) {
+              if($diaasig[0]['efectivas'])
+                { print_r($diaasig[0]['efectivas']); }
+              else { echo "";} }
+          ?>
+        </center></td>
+        
+        <td colspan="2" > <center>
+          <?php
+            $diaasig=$bdtarea->ListaTareasSemanaxPersonaxDiaxProyecto($this->semana,$this->categoria,$this->asignado,$dias[3],$planificacion['proyectoid'],$planificacion['tareaid']);
+           if($diaasig) {
+              if($diaasig[0]['efectivas'])
+                { print_r($diaasig[0]['efectivas']); }
+              else { echo "";} }
+          ?>
+        </center></td>
+        
+        <td colspan="2" > <center>
+          <?php
+            $diaasig=$bdtarea->ListaTareasSemanaxPersonaxDiaxProyecto($this->semana,$this->categoria,$this->asignado,$dias[4],$planificacion['proyectoid'],$planificacion['tareaid']);
+           if($diaasig) {
+              if($diaasig[0]['efectivas'])
+                { print_r($diaasig[0]['efectivas']); }
+              else { echo "";} }
+          ?>
+        </center></td>
+        
+        <td colspan="2" > <center>
+          <?php
+            $diaasig=$bdtarea->ListaTareasSemanaxPersonaxDiaxProyecto($this->semana,$this->categoria,$this->asignado,$dias[5],$planificacion['proyectoid'],$planificacion['tareaid']);
+           if($diaasig) {
+              if($diaasig[0]['efectivas'])
+                { print_r($diaasig[0]['efectivas']); }
+              else { echo "";} }
+          ?>
+        </center></td>
+        
+        <td colspan="2" > <center>
+          <?php
+            $diaasig=$bdtarea->ListaTareasSemanaxPersonaxDiaxProyecto($this->semana,$this->categoria,$this->asignado,$dias[6],$planificacion['proyectoid'],$planificacion['tareaid']);
+           if($diaasig) {
+              if($diaasig[0]['efectivas'])
+                { print_r($diaasig[0]['efectivas']); }
+              else { echo "";} }
+          ?>
+        </center></td>
+
+      </tr>
+      <?php
+      } ?>
+      </tbody>
+    </table>
+
+              
+
+
+<?php
+  $html = ob_get_contents();
+  $mpdf=new mPDF('win-1252','A3','','',15,15,2,12,5,7);
+  $mpdf->SetHTMLHeader($header);
+  $mpdf->SetFooter(' {DATE j/m/Y}|Página {PAGENO}/{nbpg}|Proyectos - Anddes');
+  ob_end_clean();
+  $mpdf -> WriteHTML($html);
+  $mpdf->Output('reporte.pdf','D');
+?>
+
+
+<style>
+p {
+  color: blue;
+  margin: 8px;
+}
+.suffix{
+  padding: 0.1em; height: 1.25em; color:  #fff;
+  background:#2E9AFE;
+}
+
+table th, table td {
+/*
+border-left: 1px solid #070708;
+border-bottom: 1px solid #212324;
+border: 1px solid #080808;*/
+}
+table th, table td, table thead tr th, table thead tr td {
+/*background: #0069AD;
+color: #fff;*/
+border: 1px solid #7E7C7C;
+}
+
+table thead tr th, table thead tr td {
+background: #34495e;
+color: #fff;
+}
+
+input[type="text"]:disabled {
+    background: #dddddd;
+}
+
+table tr:nth-child(even) th, table tr:nth-child(even) td {
+background: #fff;
+}
+</style>
