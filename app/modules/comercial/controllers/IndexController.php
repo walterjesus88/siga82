@@ -46,6 +46,18 @@ class Comercial_IndexController extends Zend_Controller_Action {
         
     }  
 
+     public function direccionAction() {
+        $this->_helper->layout()->disableLayout();
+        $cliente=$this->_getParam('clienteid');
+        $buscapropuesta = new Admin_Model_DbTable_Cliente();
+        $buscar=$buscapropuesta->_getClientexIndice($cliente);
+        if($buscar){
+        print_r($buscar[0]['direccion']);}
+
+        
+    }  
+
+
     public function guardarcontactoAction() {
   $this->_helper->layout()->disableLayout();
         $dbcontacto = new Admin_Model_DbTable_Contacto();
@@ -57,9 +69,14 @@ class Comercial_IndexController extends Zend_Controller_Action {
         $nombre_contacto = $this->_getParam('nombre_contacto');
         $direccion = $this->_getParam('direccion');
         $correo = $this->_getParam('correo');
+         $anexo = $this->_getParam('anexo');
+          $telefono = $this->_getParam('telefono');
 
         $formdata['direccion'] = str_replace("_"," ",$direccion);
+        $formdata['nombre'] = str_replace("_"," ",$nombre_contacto);
         $formdata['correo'] = $correo;
+        $formdata['anexo'] = $anexo;
+        $formdata['telefono'] = $telefono;
 
         $formdata['contactoid'] = $formdata['clienteid']."-".$formdata['areaid']."-".$formdata['numero'];
         
@@ -104,6 +121,8 @@ class Comercial_IndexController extends Zend_Controller_Action {
                 <?php
 
         
-    }  
+    } 
+
+
 
 }

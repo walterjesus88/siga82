@@ -14,7 +14,7 @@ move_uploaded_file($tempFile, "./upload/proyecto/$fileName".".xls");
  var codigo='<?php echo $_POST['codigo']; ?>';
 
                     alert("Propuesta Cargada de Horas en el Servidor");
-                    document.location.href="/proyecto/index/subirpropuesta/proyectoid/"+proyectoid+"/codigo_prop_proy/"+codigo+"/bandera/S";                                                 
+                    document.location.href="/proyecto/index/ver/proyectoid/"+proyectoid+"/codigo_prop_proy/"+codigo+"/bandera/S";                                                 
                 </script>
 
 

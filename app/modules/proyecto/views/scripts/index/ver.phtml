@@ -1,0 +1,370 @@
+
+              <!-- page start-->
+              <section class="panel">
+                  <header class="panel-heading">
+                      Detalles del Projecto
+                      <span class="pull-right">
+                          
+                      </span>
+                  </header>
+
+              </section>
+              <div class="row">
+                  <div class="col-md-8">
+                      <section class="panel">
+                          <div class="bio-graph-heading project-heading">
+                              <strong>  Projecto: <?php print_r($this->proyecto['proyectoid']); echo "<br>";
+                              print_r($this->proyecto['nombre_proyecto'])?></strong>
+                          </div>
+                          <div class="panel-body bio-graph-info">
+                              <!--<h1>New Dashboard BS3 </h1>-->
+                              <div class="row p-details">
+                                  <div class="bio-row">
+                                      <p><span class="bold">Codigo Proyecto </span>: <?php print_r($this->proyecto['proyectoid'])?></p>
+                                  </div>
+                                  <div class="bio-row">
+                                      <p><span class="bold">Estado </span>: <span class="label label-primary"></span><?php print_r($this->proyecto['estado'])?></p>
+                                  </div>
+                                  <div class="bio-row">
+                                      <p><span class="bold">Fecha Inicio </span>: <?php print_r($this->proyecto['fecha_inicio'])?></p>
+                                  </div>
+                                  <div class="bio-row">
+                                      <p><span class="bold">Fecha Cierre</span>: <?php print_r($this->proyecto['fecha_cierre'])?></p>
+                                  </div>
+                                  
+                    
+
+                              </div>
+
+                          </div>
+
+                      </section><section class="panel">
+    <?php 
+                        $proyectoid=$this->proyecto['proyectoid'];
+                        $nombre_fichero = './upload/proyecto/'.$proyectoid.'-HH.xls';
+                        if (file_exists($nombre_fichero)) {?>
+
+                      
+                     <header class="panel-heading">
+                          Lista Actividades <a href="/proyecto/index/subiractividades/codigo_prop_proy/<?php  print_r($this->proyecto['codigo_prop_proy'])?>/proyectoid/<?php print_r($this->proyecto['proyectoid']);?>"  id="btn_cargar_actividades" class="btn btn-sm btn-warning">Cargar Actividades</a>
+                          <a href="/proyecto/index/subirareacategoria/codigo_prop_proy/<?php  print_r($this->proyecto['codigo_prop_proy'])?>/proyectoid/<?php print_r($this->proyecto['proyectoid']);?>"  id="btn_cargar_area_categoria" class="btn btn-sm btn-warning">Cargar Areas x Categoria</a>
+
+                          <a href="/proyecto/index/subirtareo/codigo_prop_proy/<?php  print_r($this->proyecto['codigo_prop_proy'])?>/proyectoid/<?php print_r($this->proyecto['proyectoid']);?>"  id="btn_cargar_hh" class="btn btn-sm btn-warning">Cargar HH</a>
+
+
+                        </header>
+                        <div id="cargar_actividades" class="panel-body" >
+                          <table class="table table-hover p-table">
+                          <thead>
+                          <tr>
+                              <th>Actividad</th>
+                              <th>Nombre</th>
+                              <th>Horas Propuesta</th>
+                              
+                              <th>Operaciones</th>
+                          </tr>
+                          </thead>
+                          <tbody>
+                          <?php 
+                           $bdactividad = new Admin_Model_DbTable_Actividad();
+                           $actividades=$bdactividad->_getActividadesxIndice($this->proyecto['proyectoid'],$this->proyecto['codigo_prop_proy'],$this->proyecto['propuestaid'],$this->proyecto['revision']);
+
+                          foreach ($actividades as $lista) { 
+
+                            ?>
+                          <tr>
+                              <td>
+                                  <?php print_r($lista['actividadid']); ?>
+                              </td>
+                              <td>
+                                 <?php print_r($lista['nombre']); ?>
+                              </td>
+                              <td>
+                                  <?php print_r($lista['h_propuesta']); ?>
+                              </td>
+                             
+                              <td>
+                                  <button type="button" class="btn btn-info btn-xs">Ver</button>
+                              </td>
+                          </tr>
+                          
+                          <?php }?>
+                          </tbody>
+                          </table>
+
+                        </div>
+
+
+                        <?php
+                        } else {?>
+
+                          <form enctype="multipart/form-data" action="/../cargar_horas.php" method="post">
+                            <input type="hidden" name="MAX_FILE_SIZE" value="200000" />
+                            <input type="file" name="Filedata" />
+
+                            <input type="submit" value="Cargar Propuesta HH al Servidor" />
+                            <input style="display: none;" type="text" id="proyectoid" name="proyectoid" value="<?php print_r($this->proyecto['proyectoid']);?>"/>
+                            <input style="display: none;" type="text" id="codigo" name="codigo" value="<?php  print_r($this->proyecto['codigo_prop_proy']);?>"/>
+                          </form>
+                        <?php
+                         
+                        }
+                      ?>
+                        
+                      </section>
+
+                      <section class="panel">
+                     
+                      </section>
+
+                  </div>
+                  <div class="col-md-4">
+                      <section class="panel">
+                          <header class="panel-heading">
+                              Descripcion Proyecto
+                          </header>
+
+                          <div class="panel-body">
+                              <a href="#"><img src="/img/email-img/vector-lab.jpg" alt=""/></a>
+
+                              <p>
+                                  <?php print_r($this->proyecto['descripcion']); ?>
+                              </p>
+                              <br/>
+                              
+
+                              <br/>
+                              
+                              <br/>
+
+                              <h5 class="bold">Lista de Disciplinas</h5>
+
+                                <div class="panel-group m-bot20" id="accordion">
+
+                                  <?php 
+                           $bdequipoarea = new Admin_Model_DbTable_Equipoarea();
+                           $area=$bdequipoarea->_buscarAreasxProyecto($this->proyecto['codigo_prop_proy'],$this->proyecto['proyectoid']);
+$i=1;
+                          foreach ($area as $lista) { 
+
+                            ?>
+
+                                <div class="panel panel-default">
+                                  <div class="panel-heading">
+                                      <h4 class="panel-title">
+                                          <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#<?php echo $i;?>">
+                                              <?php print_r($lista['areaid']); 
+                                              echo "-";
+                                              print_r($lista['nombre']); ?>
+                                              
+                                          </a>
+                                              <span class="pull-right">
+                                       
+
+                                        <a data-id="<?php print_r($lista['areaid']); ?>" class="open-Modal btn btn-info btn-xs" data-toggle="modal" href="#myModal9">
+                                          Añadir 
+                                        </a>
+
+                                       </span>
+                                      </h4>
+                                  
+                                  </div>
+                                  <div id="<?php echo $i;?>" class="panel-collapse collapse">
+                                      <div class="panel-body">
+                                        <?php 
+                                          $bdequipo = new Admin_Model_DbTable_Equipo();
+                                          $equipo=$bdequipo->_buscarEquipoxProyectoxArea($this->proyecto['codigo_prop_proy'],$this->proyecto['proyectoid'],$lista['areaid']);
+                                          
+                                          foreach ($equipo as $lista) { 
+                                            echo $lista['uid'];
+                                            echo $lista['dni'];
+                                            echo "<br>";
+                                          
+                                          }?>
+
+                                      </div>
+                                  </div>
+                                </div>
+                                 <?php $i++;}?>
+                               
+                                </div>
+
+                              
+
+                             
+                          </div>
+
+                      </section>
+                  </div>
+              </div>
+              <!-- page end-->
+
+
+
+
+<div class="modal fade modal-dialog-center top-modal-with-space" id="myModal9" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+      <div class="">
+          <div class="modal-content">
+              <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                  <h4 class="modal-title">Añadir Personas x Rate al Proyecto</h4>
+              </div>
+              <div class="modal-body">
+                
+                <input type="text" name="DNI" id="DNI" value=""/>
+
+               <form class="form-horizontal" role="form">
+                    <div class="form-group">
+                        <label for="cliente" class="col-lg-2 col-sm-2 control-label">Cliente</label>
+                        <div class="col-lg-10">
+                        <?php echo "<script> document.write(areaid) </script>"?>              
+          
+
+        
+                        </div>
+                    </div>
+
+                    <div class="form-group ">
+                        <label for="unidad" class="col-lg-3 col-sm-3 control-label">Area</label>
+                        <div class="col-lg-9">
+                        <select id="areaid" class="form-control m-bot1 col-lg-5">
+          <option>Area</option>
+          <?php 
+            $bdarea = new Admin_Model_DbTable_Area();
+            $listarea=$bdarea->_getAreaxContactoComercial();
+            foreach ($listarea as $area) {?>
+            <option value="<?php echo $area['areaid']?>"><?php echo strtoupper($area['nombre'])?></option>
+          <?php }?>
+        </select>
+                        </div>
+                    </div>
+
+                  <div class="form-group">
+                        <label for="nombre_contacto" class="col-lg-4 col-sm-4 control-label">Nombre y Apellido</label>
+                        <div class="col-lg-6">
+                            <input class="form-control" id="nombre_contacto" >
+                        </div>
+                    </div>
+                
+
+                    <div class="form-group">
+                        <label for="celular" class="col-lg-4 col-sm-4 control-label">Celular</label>
+                        <div class="col-lg-6">
+                            <input class="form-control" id="numero" >
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="celular" class="col-lg-4 col-sm-4 control-label">Telefono</label>
+                        <div class="col-lg-6">
+                            <input class="form-control" id="telefono" >
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="celular" class="col-lg-4 col-sm-4 control-label">Anexo</label>
+                        <div class="col-lg-6">
+                            <input class="form-control" id="anexo" >
+                        </div>
+                    </div>
+
+                 
+
+                    <div class="form-group">
+                        <label for="relacion" class="col-lg-4 col-sm-4 control-label">Correo</label>
+                        <div class="col-lg-6">
+                            <input class="form-control" id="correo" >
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="relacion" class="col-lg-4 col-sm-4 control-label">Direccion</label>
+                        <div class="col-lg-6">
+                            <input class="form-control" id="direccion" >
+                            <div id="direccion_valida"></div>
+
+                        </div>
+                    </div>
+
+                    </form>
+                  
+
+              </div>
+              <div class="modal-footer">
+                  <button data-dismiss="modal" class="btn btn-default" type="button">Cerrar</button>
+                  <button id="guardar_contacto" class="btn btn-warning" type="button"> Guardar</button>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>
+
+
+
+<script>
+$(document).ready(function(){
+   
+  $("#guardar_contacto").click(function(){
+        var clienteid = $("#clienteid").val(); 
+        var areaid = $("#areaid").val(); 
+        var numero = $("#numero").val(); 
+        var relacion = $("#relacion").val(); 
+        var correo = $("#correo").val(); 
+        var telefono = $("#telefono").val(); 
+        var anexo = $("#anexo").val(); 
+
+        var captura_direccion = $("#direccion").val(); 
+        var direccion= captura_direccion.replace(/\s/g,"_");
+        var captura_nombre_contacto = $("#nombre_contacto").val(); 
+        var nombre_contacto= captura_nombre_contacto.replace(/\s/g,"_");
+        if (clienteid=='')  
+        { alert("cargue nuevamente la pagina");        }
+        else
+        { url="/comercial/index/guardarcontacto/clienteid/"+clienteid+"/areaid/"+areaid+"/numero/"+numero+"/relacion/"+relacion+"/nombre_contacto/"+nombre_contacto+"/correo/"+correo+"/direccion/"+direccion+"telefono/"+telefono+"/anexo/"+anexo;
+
+        $("#cargar").load(url);
+        }   
+    });
+
+    $("#clienteid").click(function(){
+      var clienteid = $("#clienteid").val(); 
+      url="/comercial/index/direccion/clienteid/"+clienteid;
+      
+      $("#direccion_valida").load(url);
+
+        
+    });
+
+    $("#btn_buscar_propuesta").click(function(){
+        var buscar_propuesta = $("#buscar_propuesta").val();
+        
+        $("#propuesta_enelaboracion").hide();
+        $("#propuesta_enelaboracion").hide();
+        $("#propuesta_ganada").hide();
+        $("#propuesta_perdida").hide();
+        $("#propuesta_enviada").hide();
+        $("#propuesta_declinada").hide();
+        $("#propuesta_anulada").hide();
+        $("#resultado_busqueda").show();
+        if (buscar_propuesta=='')  
+        {
+            alert("ingrese propuesta a buscar");
+        }
+        else
+        { 
+            var url="/propuesta/index/buscar/propuesta/"+buscar_propuesta;    
+        }
+        $("#resultado_busqueda").load(url);
+    });  
+
+
+
+});
+
+$(document).on("click", ".open-Modal", function () {
+var myDNI = $(this).data('id');
+$(".modal-body #DNI").val( myDNI );
+});
+
+</script>
