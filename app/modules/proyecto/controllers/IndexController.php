@@ -984,5 +984,44 @@ public function cargartarea2Action() {
           $this->view->list = $list;
     }
 
+
+
+    public function cargartarea4Action() {
+   $this->_helper->layout()->disablelayout();
+        $codigo='PROP-2015-20209133394-1407-15.10.053-B';
+        $proyectoid='1215.10.25';
+        $propuestaid='15.10.053';
+        $revision='B';
+        $actividadid= $this->_getParam("disciplinaid");
+
+        $editproyect= new Admin_Model_DbTable_Proyecto();
+        $where = array(
+                      'codigo_prop_proy'    => $codigo,
+                      'proyectoid'    => $proyectoid,
+                      );
+        $edit = $editproyect->_getOne($where);
+        $this->view->proyecto = $edit;
+
+
+        $actividadpadre= new Admin_Model_DbTable_Actividad();
+        $list=$actividadpadre->_getActividadesHijas($proyectoid,$codigo,$propuestaid,$revision,$actividadid);
+          $this->view->list = $list;
+    }
+
+
+        public function buscarcategoriaAction() {
+        $this->_helper->layout()->disablelayout();
+        
+        $areaid= $this->_getParam("areaid");
+
+        
+        $bdarea_cat = new Admin_Model_DbTable_Areacategoria();
+        $listcat=$bdarea_cat->_buscarCategoriaxAreaxProyecto($areaid);
+          $this->view->categoria = $listcat;
+
+
+
+    }
+
     
 }
