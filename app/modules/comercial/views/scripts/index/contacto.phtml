@@ -48,11 +48,12 @@
   <table class="table table-hover p-table">
       <thead>
       <tr>  
-          <th style="width: 40%;">Cliente</th>
-          <th style="width: 20%;">Area</th>
-          <th style="width: 15%;">Contacto</th>
+          <th style="width: 35%;">Cliente</th>
+          <th style="width: 25%;">Area</th>
+
           <th style="width: 20%;">Nombre</th>
-          <th style="width: 20%;">Celular</th>
+          <th style="width: 10%;">Celular</th>
+          <th style="width: 15%;">Correo</th>
           <th style="width: 5%;">Operaciones</th>
       </tr>
       </thead>
@@ -84,11 +85,7 @@
                 
             </td>
 
-            <td class="p-name">
-                <?php
-                    echo $lista['relacion'];
-                ?>  
-            </td>
+       
             <td class="p-name">
                 <?php echo $lista['nombre']; ?>  
             </td>
@@ -96,7 +93,9 @@
                 <?php echo $lista['numero']; ?>  
             </td>
 
-                     
+    <td class="p-name">
+                <?php echo $lista['correo']; ?>  
+            </td>                     
             
           <td>
               <a href=""
@@ -156,7 +155,7 @@
           <option>Area</option>
           <?php 
             $bdarea = new Admin_Model_DbTable_Area();
-            $listarea=$bdarea->_getAreaxContacto();
+            $listarea=$bdarea->_getAreaxContactoComercial();
             foreach ($listarea as $area) {?>
             <option value="<?php echo $area['areaid']?>"><?php echo strtoupper($area['nombre'])?></option>
           <?php }?>
@@ -165,7 +164,7 @@
                     </div>
 
                   <div class="form-group">
-                        <label for="nombre_contacto" class="col-lg-4 col-sm-4 control-label">Nombre</label>
+                        <label for="nombre_contacto" class="col-lg-4 col-sm-4 control-label">Nombre y Apellido</label>
                         <div class="col-lg-6">
                             <input class="form-control" id="nombre_contacto" >
                         </div>
@@ -180,11 +179,20 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="relacion" class="col-lg-4 col-sm-4 control-label">Relacion</label>
+                        <label for="celular" class="col-lg-4 col-sm-4 control-label">Telefono</label>
                         <div class="col-lg-6">
-                            <input class="form-control" id="relacion" >
+                            <input class="form-control" id="telefono" >
                         </div>
                     </div>
+
+                    <div class="form-group">
+                        <label for="celular" class="col-lg-4 col-sm-4 control-label">Anexo</label>
+                        <div class="col-lg-6">
+                            <input class="form-control" id="anexo" >
+                        </div>
+                    </div>
+
+                 
 
                     <div class="form-group">
                         <label for="relacion" class="col-lg-4 col-sm-4 control-label">Correo</label>
@@ -197,6 +205,8 @@
                         <label for="relacion" class="col-lg-4 col-sm-4 control-label">Direccion</label>
                         <div class="col-lg-6">
                             <input class="form-control" id="direccion" >
+                            <div id="direccion_valida"></div>
+
                         </div>
                     </div>
 
@@ -224,6 +234,9 @@ $(document).ready(function(){
         var numero = $("#numero").val(); 
         var relacion = $("#relacion").val(); 
         var correo = $("#correo").val(); 
+        var telefono = $("#telefono").val(); 
+        var anexo = $("#anexo").val(); 
+
         var captura_direccion = $("#direccion").val(); 
         var direccion= captura_direccion.replace(/\s/g,"_");
         var captura_nombre_contacto = $("#nombre_contacto").val(); 
@@ -231,13 +244,20 @@ $(document).ready(function(){
         if (clienteid=='')  
         { alert("cargue nuevamente la pagina");        }
         else
-        { url="/comercial/index/guardarcontacto/clienteid/"+clienteid+"/areaid/"+areaid+"/numero/"+numero+"/relacion/"+relacion+"/nombre_contacto/"+nombre_contacto+"/correo/"+correo+"/direccion/"+direccion;
+        { url="/comercial/index/guardarcontacto/clienteid/"+clienteid+"/areaid/"+areaid+"/numero/"+numero+"/relacion/"+relacion+"/nombre_contacto/"+nombre_contacto+"/correo/"+correo+"/direccion/"+direccion+"telefono/"+telefono+"/anexo/"+anexo;
 
         $("#cargar").load(url);
         }   
     });
 
+    $("#clienteid").click(function(){
+      var clienteid = $("#clienteid").val(); 
+      url="/comercial/index/direccion/clienteid/"+clienteid;
+      
+      $("#direccion_valida").load(url);
 
+        
+    });
 
     $("#btn_buscar_propuesta").click(function(){
         var buscar_propuesta = $("#buscar_propuesta").val();
@@ -259,7 +279,9 @@ $(document).ready(function(){
             var url="/propuesta/index/buscar/propuesta/"+buscar_propuesta;    
         }
         $("#resultado_busqueda").load(url);
-    });    
+    });  
+
+
 
 });
 </script>

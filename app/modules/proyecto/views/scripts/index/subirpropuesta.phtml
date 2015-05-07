@@ -2,27 +2,31 @@
 <?php if($this->bandera=='S') { ?>
 <?php
 $proyectoid=$this->proyectoid;
- $dir = APPLICATION_LIBRARY . "/excel/excel/reader.php";
-      include ($dir);
-      $data = new Spreadsheet_Excel_Reader();
-      $data->setOutputEncoding('CP1251');
-      $data->read('./upload/proyecto/'.$proyectoid.'-HH.xls');
+$dir = APPLICATION_LIBRARY . "/excel/excel/reader.php";
+include ($dir);
+$data = new Spreadsheet_Excel_Reader();
+$data->setOutputEncoding('CP1251');
+$data->read('./upload/proyecto/'.$proyectoid.'-HH.xls');
+$columnas=$data->sheets[0]['numCols'];
+$filas=$data->sheets[0]['numRows'];
 
-      echo ($data->sheets[0]['numRows']);
+/*for ($j = 1; $j <= $data->sheets[0]['numCols']; $j++) {
+  if (isset( $data->sheets[0]['cells'][1][$j] ))
+    { 
+      //revisor, revisor principal, gerente
+      $categoria=$data->sheets[0]['cells'][1][$j];
+      echo $categoria; echo "<br>";
+    }
+}*/
+}
+?>
 
-       for ($j = 1; $j <= $data->sheets[0]['numCols']; $j++) {
-        if (isset( $data->sheets[0]['cells'][1][$j] ))
-          { 
-            //revisor, revisor principal, gerente
-            $categoria=$data->sheets[0]['cells'][1][$j];
-            echo $categoria; echo "<br>";
-          }
-      }
-
+<?php
 
 ?>
 
-<?php } ?>
+
+
 
 
 <?php if($this->cargar=='S') { ?>

@@ -83,6 +83,23 @@ class Admin_Model_DbTable_Area extends Zend_Db_Table_Abstract
         }
     }
 
+    public function _getAreaxContactoComercial()
+     {
+        try{
+            $sql=$this->_db->query("
+               select * from area
+               where iscomercial='S'  
+
+            ");
+            $row=$sql->fetchAll();
+            return $row;           
+            }  
+            
+           catch (Exception $ex){
+            print $ex->getMessage();
+        }
+    }
+
 
     public function _update($data,$str=''){
         try{
