@@ -2,17 +2,34 @@
 <?php if($this->bandera=='S') { ?>
 <?php
 $proyectoid=$this->proyectoid;
- $dir = APPLICATION_LIBRARY . "/excel/excel/reader.php";
-      include ($dir);
-      $data = new Spreadsheet_Excel_Reader();
-      $data->setOutputEncoding('CP1251');
-      $data->read('./upload/proyecto/'.$proyectoid.'.xls');
+$dir = APPLICATION_LIBRARY . "/excel/excel/reader.php";
+include ($dir);
+$data = new Spreadsheet_Excel_Reader();
+$data->setOutputEncoding('CP1251');
+$data->read('./upload/proyecto/'.$proyectoid.'-HH.xls');
+$columnas=$data->sheets[0]['numCols'];
+$filas=$data->sheets[0]['numRows'];
 
-      echo ($data->sheets[0]['numRows']);
+/*for ($j = 1; $j <= $data->sheets[0]['numCols']; $j++) {
+  if (isset( $data->sheets[0]['cells'][1][$j] ))
+    { 
+      //revisor, revisor principal, gerente
+      $categoria=$data->sheets[0]['cells'][1][$j];
+      echo $categoria; echo "<br>";
+    }
+}*/
+}
+?>
+
+<?php
 
 ?>
 
-<?php } ?>
+
+
+
+
+<?php if($this->cargar=='S') { ?>
 
 <form enctype="multipart/form-data" action="/../cargar_horas.php" method="post">
 <input type="hidden" name="MAX_FILE_SIZE" value="200000" />
@@ -22,3 +39,7 @@ $proyectoid=$this->proyectoid;
 <input style="display: none;" type="text" id="proyectoid" name="proyectoid" value="<?php echo $this->proyectoid;?>"/>
 <input style="display: none;" type="text" id="codigo" name="codigo" value="<?php echo $this->codigo;?>"/>
 </form>
+
+<?php } ?>
+
+
