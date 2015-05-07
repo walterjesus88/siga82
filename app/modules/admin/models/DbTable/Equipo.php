@@ -38,6 +38,40 @@ class Admin_Model_DbTable_Equipo extends Zend_Db_Table_Abstract
         }
     }
 
+     public function _buscarEquipoxProyectoxArea($codigo,$proyectoid,$areaid)
+     {
+        try{
+            $sql=$this->_db->query("
+               select * from equipo
+               where codigo_prop_proy='$codigo' and proyectoid='$proyectoid' and areaid='$areaid'
+            ");
+            $row=$sql->fetchAll();
+            return $row;           
+            }  
+            
+           catch (Exception $ex){
+            print $ex->getMessage();
+        }
+    }
+
+     public function _buscarEquipoxProyectoxAreaxCategoria($codigo,$proyectoid,$areaid,$categoriaid)
+     {
+        try{
+            $sql=$this->_db->query("
+               select * from equipo
+               where codigo_prop_proy='$codigo' and proyectoid='$proyectoid' and areaid='$areaid'
+               and categoriaid='$categoriaid'
+            ");
+            $row=$sql->fetchAll();
+            return $row;           
+            }  
+            
+           catch (Exception $ex){
+            print $ex->getMessage();
+        }
+    }
+
+
     // public function _getOne($where=array()){
     //     try{
     //         if ($where['clienteid']=='' ) return false;
