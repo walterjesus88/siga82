@@ -902,6 +902,30 @@ public function subirtareoAction() {
 
 
 }   
+  public function cargarhorasAction() {
+
+  $ano=date("Y");
+  $semana=date("W");
+  /*echo "semana nro: ".(date("W"));
+  echo "dia del mes nro: ".(date("j"));
+  echo "# dias de la semana".(date("N"));*/
+  $dias = array('lunes', 'martes', 'miercoles', 
+    'jueves', 'viernes', 'sabado','domingo');
+  $enero = mktime(1,1,1,1,1,$ano); 
+  //$mos = (11-date('w',1))%7-3; 
+  $mos = (11-date('w',$enero))%7-3;
+  $inicios = strtotime(($semana-1) . ' weeks '.$mos.' days', $enero); 
+  for ($x=0; $x<=6; $x++) {
+    $dias[] = date('d/m/Y', strtotime("+ $x day", $inicios));
+    $dia[] = date('w', strtotime("+ $x day", $inicios));
+  }
+  $this->view->diassemana=$dias;
+  $this->view->semanalabor=$semana;
+
+   
+  }
+
+
 
     
 }

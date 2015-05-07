@@ -47,9 +47,9 @@
                       
                      <header class="panel-heading">
                           Lista Actividades <a href="/proyecto/index/subiractividades/codigo_prop_proy/<?php  print_r($this->proyecto['codigo_prop_proy'])?>/proyectoid/<?php print_r($this->proyecto['proyectoid']);?>"  id="btn_cargar_actividades" class="btn btn-sm btn-warning">Cargar Actividades</a>
-                          <a href="/proyecto/index/subirareacategoria/codigo_prop_proy/<?php  print_r($this->proyecto['codigo_prop_proy'])?>/proyectoid/<?php print_r($this->proyecto['proyectoid']);?>"  id="btn_cargar_actividades" class="btn btn-sm btn-warning">Cargar Areas x Categoria</a>
+                          <a href="/proyecto/index/subirareacategoria/codigo_prop_proy/<?php  print_r($this->proyecto['codigo_prop_proy'])?>/proyectoid/<?php print_r($this->proyecto['proyectoid']);?>"  id="btn_cargar_area_categoria" class="btn btn-sm btn-warning">Cargar Areas x Categoria</a>
 
-                          <a href="/proyecto/index/subirtareo/codigo_prop_proy/<?php  print_r($this->proyecto['codigo_prop_proy'])?>/proyectoid/<?php print_r($this->proyecto['proyectoid']);?>"  id="btn_cargar_actividades" class="btn btn-sm btn-warning">Cargar HH</a>
+                          <a href="/proyecto/index/subirtareo/codigo_prop_proy/<?php  print_r($this->proyecto['codigo_prop_proy'])?>/proyectoid/<?php print_r($this->proyecto['proyectoid']);?>"  id="btn_cargar_hh" class="btn btn-sm btn-warning">Cargar HH</a>
 
 
                         </header>
@@ -84,7 +84,7 @@
                               </td>
                              
                               <td>
-                                  <span class="label label-info">Completed</span>
+                                  <button type="button" class="btn btn-info btn-xs">Ver</button>
                               </td>
                           </tr>
                           
@@ -141,9 +141,9 @@
                                <table class="table table-hover p-table">
                           <thead>
                           <tr>
-                              <th>Disciplina</th>
-                              <th>Nombre</th>
-                              <th>Operaciones</th>
+                              <th style="width: 20%;">Disciplina</th>
+                              <th style="width: 60%;">Nombre</th>
+                              <th style="width: 20%;">Ope.</th>
                           </tr>
                           </thead>
                           <tbody>
@@ -163,8 +163,8 @@
                               </td>
                               
                              
-                              <td>
-                                  <span class="label label-info">Completed</span>
+                              <td><a  href="/proyecto/index/anadirequipo/codigo_prop_proy/<?php  print_r($this->proyecto['codigo_prop_proy'])?>/proyectoid/<?php print_r($this->proyecto['proyectoid']);?>"  id="btn_anadir_equipo"  class="btn btn-info btn-xs">+                                </a>
+
                               </td>
                           </tr>
                           
