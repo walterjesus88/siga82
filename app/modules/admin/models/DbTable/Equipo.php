@@ -17,7 +17,7 @@ class Admin_Model_DbTable_Equipo extends Zend_Db_Table_Abstract
 
     public function _getFilter($where=null,$attrib=null,$orders=null){
         try{
-            if($where['codigo_prop_proy']=='' || $where['proyectoid']=='' || $where['categoriaid']=='') return false;
+            //if($where['codigo_prop_proy']=='' || $where['proyectoid']=='' || $where['categoriaid']=='') return false;
                 $select = $this->_db->select();
                 if ($attrib=='') $select->from("equipo");
                 else $select->from("equipo",$attrib);

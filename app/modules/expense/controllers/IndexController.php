@@ -12,7 +12,7 @@ class Expense_IndexController extends Zend_Controller_Action {
         if ($auth->hasIdentity()) { 
           $sesion = $auth->getStorage()->read();
           $this->sesion=$sesion;
-          print_r($sesion);
+         // print_r($sesion);
        
         }
     
@@ -23,15 +23,20 @@ class Expense_IndexController extends Zend_Controller_Action {
         $dni=$this->sesion->dni;
         $uid=$this->sesion->uid;
 
-        print_r($dni);
-        print_r($uid);
+        //print_r($dni);
+        //print_r($uid);
 
         $where=array('uid'=>$uid,'dni'=>$dni);
-        $attrib=array('codigo_prop_proy','proyectoid','areaid','cargo','categoriaid');
-        $dbusuariocategoria = new Admin_Model_DbTable_Usuariocategoria();
+        $attrib=array('codigo_prop_proy','proyectoid','areaid','cargo','categoriaid','estado');
+        $dbusuariocategoria = new Admin_Model_DbTable_Equipo();
         $dataucategoria= $dbusuariocategoria->_getFilter($where,$attrib);
 
-        print_r($dataucategoria);
+        $this->view->listaproyecto = $dataucategoria;
+
+
+
+       // print_r($dataucategoria);
+        //echo "ffff";
 
         // $codigo_prop_proy='PROP-2015-20205467603-1112-15.10.021-B';
         // $proyectoid='test';     
