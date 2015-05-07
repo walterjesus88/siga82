@@ -1,0 +1,72 @@
+<section class="panel">
+    <header class="panel-heading" style="padding-bottom : 22px">
+        Timesheet
+        <a class="btn btn-danger pull-right" data-toggle="modal" href="#calendar">Calendario</a>
+    </header>
+    <div class="modal fade full-width-modal-right" id="calendar" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content-wrap">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title">Calendario</h4>
+                    </div>
+                    <div class="modal-body">
+                        <section class="panel">
+                            <div class="panel-body">
+                                <div id="datepicker"></div>
+                            </div>
+                        </section>
+                    </div>
+                    <div class="modal-footer">
+                        <button data-dismiss="modal" class="btn btn-default" type="button">Cerrar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div id="registro"></div>
+
+<script type="text/javascript">
+    $.datepicker.setDefaults($.datepicker.regional["es"]);
+    $("#datepicker").datepicker({
+        firstDay: 1,
+        onSelect: function (date, inst) {
+            var dateObj = $('#datepicker').datepicker('getDate');
+            var dateFrom = $.datepicker.formatDate('mm/dd/yy', dateObj);
+            var weekfrom = $.datepicker.iso8601Week(new Date(dateFrom));
+            var diasSemana = new Array("Domingo","Lunes","Martes","Miércoles","Jueves","Viernes","Sábado");
+            var day_select = diasSemana[dateObj.getDay()];
+            for (i = 0; i < diasSemana.length; i++) { 
+                if (diasSemana[i] == day_select) {
+                    if (i == 0) {
+                        var num_day = 6;
+                        
+                    } else {
+                        var num_day = i - 1;
+                    };
+                };
+            };
+            fecha_inicio = mostrarFecha(dateObj,-num_day);
+            $("#registro").load("/timesheet/index/registro/fecha/" + fecha_inicio);
+        },
+    });
+
+
+    function mostrarFecha(fecha,days){
+        milisegundos=parseInt(35*24*60*60*1000);
+        //Obtenemos los milisegundos desde media noche del 1/1/1970
+        tiempo=fecha.getTime();
+        //Calculamos los milisegundos sobre la fecha que hay que sumar o restar...
+        milisegundos=parseInt(days*24*60*60*1000);
+        //Modificamos la fecha actual
+        total=fecha.setTime(tiempo+milisegundos);
+        day=fecha.getDate();
+        month=fecha.getMonth()+1;
+        year=fecha.getFullYear();
+     
+        return(day+"-"+month+"-"+year);
+    }
+</script>
