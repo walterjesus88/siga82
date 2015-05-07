@@ -27,7 +27,7 @@ class Expense_IndexController extends Zend_Controller_Action {
         print_r($uid);
 
         $where=array('uid'=>$uid,'dni'=>$dni);
-        $attrib=array('ucategoriaid','uid','dni','areaid','cargo');
+        $attrib=array('codigo_prop_proy','proyectoid','areaid','cargo','categoriaid');
         $dbusuariocategoria = new Admin_Model_DbTable_Usuariocategoria();
         $dataucategoria= $dbusuariocategoria->_getFilter($where,$attrib);
 
@@ -52,21 +52,17 @@ class Expense_IndexController extends Zend_Controller_Action {
         $this->view->listaproyecto = $lista;*/            
     }
 
-
     public function nuevoAction() {
         
-    }
-   
+    }   
 
     public function editarAction() {
       
     }
 
-
-
     public function buscarAction() {      
        
-    }  
+    }
 
     public function deleteAction(){
 
