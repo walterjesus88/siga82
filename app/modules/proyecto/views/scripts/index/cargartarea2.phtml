@@ -1,0 +1,41 @@
+
+<div class="chat-room-head">
+                          <h3>Actividad</h3>
+                          
+                      </div>
+                          
+                          <div class="group-rom">
+                             
+                             <?php 
+                             $j=1;
+                             foreach ($this->list as $lista) { ?>
+
+                              <a id="tareas_<?php echo $j?>" >
+                              <div class="second-part"><?php echo $lista['nombre'];?></div>
+                                <input style="display:none" class="form-control" id="actividad_<?php echo $j?>" value="<?php echo $lista['actividadid'];?>"> </a>
+
+                                <script>
+									$(document).ready(function(){
+										$("#tareas_<?php echo $j?>").click(function(){
+     									
+									    var actividadid = $("#actividad_<?php echo $j?>").val(); 
+      									alert(actividadid);
+
+      									url="/proyecto/index/cargartarea3/actividadid/"+actividadid;
+      									alert(url);
+      								      $("#carga3").load(url);
+								 });          
+
+
+
+});
+</script>
+
+                              <?php $j++;}
+
+
+
+                              ?>
+                             
+                          </div>
+

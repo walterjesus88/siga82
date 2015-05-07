@@ -925,7 +925,64 @@ public function subirtareoAction() {
    
   }
 
+public function cargartareaAction() {
+        $codigo='PROP-2015-20209133394-1407-15.10.053-B';
+        $proyectoid='1215.10.25';
+        $propuestaid='15.10.053';
+        $revision='B';
 
+        $editproyect= new Admin_Model_DbTable_Proyecto();
+        $where = array(
+                      'codigo_prop_proy'    => $codigo,
+                      'proyectoid'    => $proyectoid,
+                      );
+        $edit = $editproyect->_getOne($where);
+        $this->view->proyecto = $edit;
+         
+    }
+
+public function cargartarea2Action() {
+   $this->_helper->layout()->disablelayout();
+        $codigo='PROP-2015-20209133394-1407-15.10.053-B';
+        $proyectoid='1215.10.25';
+        $propuestaid='15.10.053';
+        $revision='B';
+
+        $editproyect= new Admin_Model_DbTable_Proyecto();
+        $where = array(
+                      'codigo_prop_proy'    => $codigo,
+                      'proyectoid'    => $proyectoid,
+                      );
+        $edit = $editproyect->_getOne($where);
+        $this->view->proyecto = $edit;
+
+
+        $actividadpadre= new Admin_Model_DbTable_Actividad();
+        $list=$actividadpadre->_getActividadesPadres($proyectoid,$codigo,$propuestaid,$revision);
+          $this->view->list = $list;
+    }
+
+    public function cargartarea3Action() {
+   $this->_helper->layout()->disablelayout();
+        $codigo='PROP-2015-20209133394-1407-15.10.053-B';
+        $proyectoid='1215.10.25';
+        $propuestaid='15.10.053';
+        $revision='B';
+        $actividadid= $this->_getParam("actividadid");
+
+        $editproyect= new Admin_Model_DbTable_Proyecto();
+        $where = array(
+                      'codigo_prop_proy'    => $codigo,
+                      'proyectoid'    => $proyectoid,
+                      );
+        $edit = $editproyect->_getOne($where);
+        $this->view->proyecto = $edit;
+
+
+        $actividadpadre= new Admin_Model_DbTable_Actividad();
+        $list=$actividadpadre->_getActividadesHijas($proyectoid,$codigo,$propuestaid,$revision,$actividadid);
+          $this->view->list = $list;
+    }
 
     
 }

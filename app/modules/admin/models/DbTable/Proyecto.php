@@ -87,6 +87,5 @@ class Admin_Model_DbTable_Proyecto extends Zend_Db_Table_Abstract
             print $ex->getMessage();
         }
     }
-
 }
 

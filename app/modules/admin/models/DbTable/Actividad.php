@@ -77,7 +77,41 @@ class Admin_Model_DbTable_Actividad extends Zend_Db_Table_Abstract
         }
     }
 
-  
+
+    public function _getActividadesPadres($proyectoid,$codigo,$propuestaid,$revision)
+     {
+        try{
+            $sql=$this->_db->query("
+               select * from actividad 
+               where proyectoid='$proyectoid' and codigo_prop_proy='$codigo' 
+               and propuestaid='$propuestaid' and revision='$revision' and actividad_padre IS NULL order by orden asc;
+            ");
+            $row=$sql->fetchAll();
+            return $row;           
+            }  
+            
+           catch (Exception $ex){
+            print $ex->getMessage();
+        }
+    }
+
+    public function _getActividadesHijas($proyectoid,$codigo,$propuestaid,$revision,$actividadid)
+     {
+        try{
+            $sql=$this->_db->query("
+               select * from actividad 
+               where proyectoid='$proyectoid' and codigo_prop_proy='$codigo' 
+               and propuestaid='$propuestaid' and revision='$revision' and actividad_padre='$actividadid' order by orden asc;
+            ");
+            $row=$sql->fetchAll();
+            return $row;           
+            }  
+            
+           catch (Exception $ex){
+            print $ex->getMessage();
+        }
+    }
+
 
   
     

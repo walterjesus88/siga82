@@ -212,29 +212,35 @@ $i=1;
               </div>
               <div class="modal-body">
                 
-                <input type="text" name="DNI" id="DNI" value=""/>
+             
+
 
                <form class="form-horizontal" role="form">
                     <div class="form-group">
-                        <label for="cliente" class="col-lg-2 col-sm-2 control-label">Cliente</label>
+                        <label for="cliente" class="col-lg-2 col-sm-2 control-label">Area</label>
                         <div class="col-lg-10">
-                        <?php echo "<script> document.write(areaid) </script>"?>              
-          
+                        <?php  $IDCAT="<input type='text' id='DNI'>";
+                              echo $a = (string)$IDCAT;
+                              echo $a+1;
+                        ?>              
+                    
 
         
                         </div>
                     </div>
 
                     <div class="form-group ">
-                        <label for="unidad" class="col-lg-3 col-sm-3 control-label">Area</label>
+                        <label for="unidad" class="col-lg-3 col-sm-3 control-label">Rate</label>
                         <div class="col-lg-9">
                         <select id="areaid" class="form-control m-bot1 col-lg-5">
           <option>Area</option>
           <?php 
-            $bdarea = new Admin_Model_DbTable_Area();
-            $listarea=$bdarea->_getAreaxContactoComercial();
-            foreach ($listarea as $area) {?>
-            <option value="<?php echo $area['areaid']?>"><?php echo strtoupper($area['nombre'])?></option>
+            //$IDCAT="<input type='text' id='DNI'>"
+            $area='02';
+            $bdarea_cat = new Admin_Model_DbTable_Areacategoria();
+            $listcat=$bdarea_cat->_buscarCategoriaxAreaxProyecto($area);
+            foreach ($listcat as $categoria) {?>
+            <option value="<?php echo $categoria['categoriaid']?>"><?php echo strtoupper($categoria['nombre'])?></option>
           <?php }?>
         </select>
                         </div>
@@ -248,44 +254,7 @@ $i=1;
                     </div>
                 
 
-                    <div class="form-group">
-                        <label for="celular" class="col-lg-4 col-sm-4 control-label">Celular</label>
-                        <div class="col-lg-6">
-                            <input class="form-control" id="numero" >
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="celular" class="col-lg-4 col-sm-4 control-label">Telefono</label>
-                        <div class="col-lg-6">
-                            <input class="form-control" id="telefono" >
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="celular" class="col-lg-4 col-sm-4 control-label">Anexo</label>
-                        <div class="col-lg-6">
-                            <input class="form-control" id="anexo" >
-                        </div>
-                    </div>
-
-                 
-
-                    <div class="form-group">
-                        <label for="relacion" class="col-lg-4 col-sm-4 control-label">Correo</label>
-                        <div class="col-lg-6">
-                            <input class="form-control" id="correo" >
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="relacion" class="col-lg-4 col-sm-4 control-label">Direccion</label>
-                        <div class="col-lg-6">
-                            <input class="form-control" id="direccion" >
-                            <div id="direccion_valida"></div>
-
-                        </div>
-                    </div>
+                   
 
                     </form>
                   

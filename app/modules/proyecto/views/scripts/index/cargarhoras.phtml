@@ -13,6 +13,7 @@
           <thead>
             <tr>
                 <th>  </th>
+                <th>  </th>
                 <th style="width:30%;"><center>Proyecto / Tarea</center></th>
                 <th style="width:10%;"><center>lunes</center></th>
                 <th style="width:10%;"><center>martes</center></th>
@@ -27,12 +28,11 @@
           <tbody>
      
             <tr class="fila-base" >
+                <td ><a class="btn btn-default btn-sm " data-toggle="modal" href="#myModal9">
+                                  Añadir
+                              </a></td>
                 <td  class="eliminar"><button  class="btn btn-danger btn-xs"><i class="fa fa-trash-o "></i></button></td>
-                <td  ><select class="form-control input-sm m-bot15">
-                                              <option>Option 1</option>
-                                              <option>Option 2</option>
-                                              <option>Option 3</option>
-                                          </select></td>
+                <td>  </td>
                 <td ><input id="buscar_propuesta" type="text" class="input-sm form-control"> </td>
                 <td><input id="buscar_propuesta" type="text" class="input-sm form-control"> </td>
                 <td><input id="buscar_propuesta" type="text" class="input-sm form-control"> </td>
@@ -49,60 +49,114 @@
   </div>
 </div>
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
-<html xmlns="http://www.w3.org/1999/xhtml"> 
-<head> 
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> 
-<title>Documento sin título</title> 
-<script type="text/javascript" src="/js/jquery-1.9.1.min.js"></script> 
-<script type="text/javascript" src="/js/jquery.ztree.all-3.5.js"></script> 
-<script type="text/javascript" src="/droptree.js"></script> 
-<link href="droptree_style.css" rel="stylesheet" /> 
-<link href="zTreeStyle/zTreeStyle.css" rel="stylesheet" /> 
-</head> 
-<script type="text/javascript"> 
-$(document).ready(function(){ 
-$("#simple-select").droptree({ 
-transition:'mfs', 
-items:[{code:'man',name:'Hombre'}, 
-{code:'woman',name:'Mujer'}, 
-{code:'yao',name:'El monstruo'} 
-]} 
-); 
 
 
-$("#simple_input").droptree({items:[ 
-{code:'root',name:'El nodo raíz',pid:-1}, 
-{code:'man',name:'Hombres',pid:'root'}, 
-{code:'woman',name:'Mujeres',pid:'root'}, 
-{code:'man1',name:'Los hombres de 1',pid:'man'}, 
-{code:'man2',name:'Hombre 2',pid:'man'}, 
-{code:'woman1',name:'Mujer 1',pid:'woman'} 
-], 
-transition:"ztree" 
-}); 
-}); 
 
-</script> 
-</head> 
-<body> 
+<div class="modal fade modal-dialog-center top-modal-with-space" id="myModal9" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+      <div class="">
+          <div class="modal-content">
+              <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                  <h4 class="modal-title">Añadir Contacto</h4>
 
-<div class="wrap" style="width:600px; margin:0 auto; margin-top:200px"> 
-<div style="width:60px;float:left"> 
-<select id="simple-select" name="simple-select"> 
-<option value="opt1">option 1</option> 
-<option value="opt2">option 2</option> 
-<option value="opt3" selected="selected">option 3</option> 
-</select> 
-</div> 
+   
 
-<div style="float:right"> 
-<input type="text" name="simple_input" id="simple_input" value="man2"/> 
-</div> 
 
-</div> 
-</body> 
-</html> 
+
+              </div>
+              <div class="modal-body">
+               <form class="form-horizontal" role="form">
+                    <div class="form-group">
+                        <label for="cliente" class="col-lg-2 col-sm-2 control-label">Cliente</label>
+                        <div class="col-lg-10">
+                        <select id="clienteid" class="form-control m-bot4 col-lg-10">
+          <option>Cliente</option>
+          <?php 
+            $bdcliente = new Admin_Model_DbTable_Cliente();
+            $listcliente=$bdcliente->_getClienteAllOrdenado();
+            foreach ($listcliente as $cli) {?>
+            <option value="<?php echo $cli['clienteid']?>"><?php echo strtoupper($cli['nombre_comercial'])?></option>
+          <?php }?>
+        </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group ">
+                        <label for="unidad" class="col-lg-3 col-sm-3 control-label">Area</label>
+                        <div class="col-lg-9">
+                        <select id="areaid" class="form-control m-bot1 col-lg-5">
+          <option>Area</option>
+          <?php 
+            $bdarea = new Admin_Model_DbTable_Area();
+            $listarea=$bdarea->_getAreaxContactoComercial();
+            foreach ($listarea as $area) {?>
+            <option value="<?php echo $area['areaid']?>"><?php echo strtoupper($area['nombre'])?></option>
+          <?php }?>
+        </select>
+                        </div>
+                    </div>
+
+                  <div class="form-group">
+                        <label for="nombre_contacto" class="col-lg-4 col-sm-4 control-label">Nombre y Apellido</label>
+                        <div class="col-lg-6">
+                            <input class="form-control" id="nombre_contacto" >
+                        </div>
+                    </div>
+                
+
+                    <div class="form-group">
+                        <label for="celular" class="col-lg-4 col-sm-4 control-label">Celular</label>
+                        <div class="col-lg-6">
+                            <input class="form-control" id="numero" >
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="celular" class="col-lg-4 col-sm-4 control-label">Telefono</label>
+                        <div class="col-lg-6">
+                            <input class="form-control" id="telefono" >
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="celular" class="col-lg-4 col-sm-4 control-label">Anexo</label>
+                        <div class="col-lg-6">
+                            <input class="form-control" id="anexo" >
+                        </div>
+                    </div>
+
+                 
+
+                    <div class="form-group">
+                        <label for="relacion" class="col-lg-4 col-sm-4 control-label">Correo</label>
+                        <div class="col-lg-6">
+                            <input class="form-control" id="correo" >
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="relacion" class="col-lg-4 col-sm-4 control-label">Direccion</label>
+                        <div class="col-lg-6">
+                            <input class="form-control" id="direccion" >
+                            <div id="direccion_valida"></div>
+
+                        </div>
+                    </div>
+
+                    </form>
+                  
+
+              </div>
+              <div class="modal-footer">
+                  <button data-dismiss="modal" class="btn btn-default" type="button">Cerrar</button>
+                  <button id="guardar_contacto" class="btn btn-warning" type="button"> Guardar</button>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>
+
 
 
 <script type="text/javascript">

@@ -1,0 +1,53 @@
+
+              <div class="chat-room">
+                  <aside class="left-side" >
+                      <div class="user-head">
+                          
+                          <h3>Proyecto</h3>
+                      </div>
+                      <ul class="chat-list">
+                          
+                          <li>
+                              <a id="tarea2" >
+                                <i class="fa fa-rocket"></i>
+                                <span><?php echo $this->proyecto['proyectoid'];?></span>
+                                <input style="display:none" class="form-control" id="proyecto" value="<?php echo $this->proyecto['proyectoid'];?>">
+                                
+                              </a>
+                          </li>
+                          
+
+                      </ul>
+         
+                  </aside>
+                  <aside id="actividad" class="right-side" >
+                      
+                        <div id="carga2"></div> 
+
+                   
+                  </aside>
+                  <aside class="right-side">
+                          <div id="carga3"></div> 
+                  </aside>
+              </div>
+
+<script>
+$(document).ready(function(){
+
+
+$("#tarea2").click(function(){
+     // var proyectoid = '<?php echo $this->clienteid ?>';  
+
+      var proyectoid = $("#proyecto").val(); 
+      alert(proyectoid)
+      url="/proyecto/index/cargartarea2/proyectoid/"+proyectoid;
+      
+      $("#carga2").load(url);
+
+        
+    });          
+
+
+
+});
+</script>

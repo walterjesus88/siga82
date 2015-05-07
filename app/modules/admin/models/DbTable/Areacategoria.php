@@ -32,6 +32,24 @@ class Admin_Model_DbTable_Areacategoria extends Zend_Db_Table_Abstract
         }
     }
 
+    public function _buscarCategoriaxAreaxProyecto($areaid)
+     {
+        try{
+            $sql=$this->_db->query("
+               select * from area_categoria where areaid = '$areaid' and estado='P' 
+               
+
+            ");
+            $row=$sql->fetchAll();
+            return $row;           
+            }  
+            
+           catch (Exception $ex){
+            print $ex->getMessage();
+        }
+    }
+
+
 
 
     public function _update($data,$str=''){
