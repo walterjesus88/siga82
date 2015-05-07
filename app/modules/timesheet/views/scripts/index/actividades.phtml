@@ -1,0 +1,25 @@
+<aside class="right-side">
+                            <div class="user-head">
+                                <h3>Proyecto</h3>
+                            </div>
+                            <ul class="chat-list">
+                                <?php 
+                                $equipo = $this->equipo;
+                                foreach ($equipo as $data_equipo) { ?>
+                                    <li>
+                                        <a class = "proyecto" codigo-prop-proy="<?php echo $data_equipo['codigo_prop_proy'] ?>" proyectoid="<?php echo $data_equipo['proyectoid'] ?>" categoriaid="<?php echo $data_equipo['categoriaid'] ?>" href="##">
+                                            <i class="fa fa-rocket"></i>
+                                            <span><?php echo $data_equipo['nombre_proyecto'] ?></span>
+                                        </a>
+                                    </li>
+                                    <script type="text/javascript">
+                                    $(".proyecto").click(function(){
+                                        var proyectoid = $(this).attr('proyectoid');
+                                        
+                                    });
+                                    </script>
+                                    <?php
+                                }
+                                 ?>
+                            </ul>
+                        </aside>

@@ -2,7 +2,7 @@
     <div class="col-sm-12">
         <section class="panel">
             <header class="panel-heading">
-                  PROYECTO 1
+                  Actividades
                 <span class="tools pull-right">
                     <a href="javascript:;" class="fa fa-chevron-down"></a>
                 </span>
@@ -12,7 +12,6 @@
                     <table  class="display table table-bordered table-striped">
                         <thead>
                             <tr>
-                                <th style="width: 10px;"></th>
                                 <th>Actividades</th>
                                 <?php 
                                 $fecha = $this->fecha;
@@ -34,7 +33,6 @@
                             $actividades = $this->actividades;
                             foreach ($actividades as $data_tareo) { ?>
                                 <tr class="gradeX">
-                                    <td class="center"><img src="/img/details_open.png"></td>
                                     <td><?php echo $data_tareo['nombre'] ?></td>
                                     <td></td>
                                     <td></td>
