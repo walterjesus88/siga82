@@ -71,7 +71,30 @@ class Timesheet_IndexController extends Zend_Controller_Action {
         $this->view->actividadid = $actividadid;
         } catch (Exception $e) {
             print "Error: ".$e->getMessage();
-        } 
+        }
+    }  
+
+    public function actividadestareaAction(){
+        try {
+        $this->_helper->layout()->disableLayout();
+        $uid = $this->sesion->uid;
+        $dni = $this->sesion->dni;
+        $proyectoid = $this->_getParam('proyectoid');
+        $codigo_prop_proy = $this->_getParam('codigo_prop_proy');
+        $categoriaid = $this->_getParam('categoriaid');
+        $actividadid = $this->_getParam('actividadid');
+        $revision = $this->_getParam('revision');
+        $propuestaid = $this->_getParam('propuestaid');
+        $tareo = new Admin_Model_DbTable_Actividad();
+        $data_tareas = $tareo->_getActividadesHijas($proyectoid,$codigo_prop_proy,$propuestaid,$revision,$actividadid);
+        $this->view->tareas = $data_tareas;
+        $this->view->proyectoid = $proyectoid;
+        $this->view->codigo_prop_proy = $codigo_prop_proy;
+        $this->view->categoriaid = $categoriaid;
+        $this->view->actividadid = $actividadid;
+        } catch (Exception $e) {
+            print "Error: ".$e->getMessage();
+        }
     }  
 
 

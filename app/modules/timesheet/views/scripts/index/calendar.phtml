@@ -4,7 +4,7 @@
         <a class="btn btn-danger pull-right" data-toggle="modal" href="#calendar">
             <i class="fa fa-calendar"></i> Calendario
         </a>
-        <a class="btn btn-success pull-right" data-toggle="modal" href="#agregar" style="margin-right : 10px">
+        <a id = "add_work" class="btn btn-success pull-right" data-toggle="modal" href="#agregar" style="margin-right : 10px">
             <i class="fa fa-check-square-o"></i> Agregar
         </a>
     </header>
@@ -18,7 +18,7 @@
                 </div>
                 <div class="modal-body">
                     <div class="chat-room">
-                        <aside class="left-side">
+                        <aside class="left-side" style="width:15%">
                             <div class="user-head">
                                 <h3>Proyecto</h3>
                             </div>
@@ -29,7 +29,7 @@
                                     <li>
                                         <a class="proyecto" codigo-prop-proy="<?php echo $data_equipo['codigo_prop_proy'] ?>" proyectoid="<?php echo $data_equipo['proyectoid'] ?>" categoriaid="<?php echo $data_equipo['categoriaid'] ?>" href="##">
                                             <i class="fa fa-rocket"></i>
-                                            <span><?php echo $data_equipo['nombre_proyecto'] ?></span>
+                                            <span><?php echo $data_equipo['proyectoid']. ' - ' .$data_equipo['nombre_proyecto'] ?></span>
                                         </a>
                                     </li>
                                     <script type="text/javascript">
@@ -50,6 +50,9 @@
                         </aside>
                         <aside class="right-side">
                             <div id="actividades_hijos"></div>
+                        </aside>
+                        <aside class="right-side">
+                            <div id="actividades_tareas"></div>
                         </aside>
                     </div>
                 </div>
@@ -88,6 +91,12 @@
 <div id="registro"></div>
 
 <script type="text/javascript">
+    $("#add_work").click(function(){
+        $("#actividades").html('');
+        $("#actividades_hijos").html('');
+        $("#actividades_tareas").html('');
+    });
+
     $.datepicker.setDefaults($.datepicker.regional["es"]);
     $("#datepicker").datepicker({
         firstDay: 1,

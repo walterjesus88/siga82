@@ -1,0 +1,27 @@
+<div class="user-head">
+    <h3>Tarea</h3>
+</div>
+<ul class="chat-list">
+<?php 
+    $tareas = $this->tareas;
+    foreach ($tareas as $data_tareas) { ?>
+        <li>
+            <a class = "actividad_hijas"  href="##">
+                <span><?php echo $data_tareas['nombre'] ?></span>
+            <input type = "checkbox" class = "pull-right" value="" codigo-prop-proy="<?php echo $this->codigo_prop_proy ?>" proyectoid="<?php echo $this->proyectoid ?>" categoriaid="<?php echo $this->categoriaid ?>" actividadid = "<?php echo $data_tareas['actividadid'] ?>" revision = "<?php echo $data_tareas['revision'] ?>" propuestaid = "<?php echo $data_tareas['propuestaid'] ?>">
+            </a>
+        </li>
+        <script type="text/javascript">
+            /*$(".actividad_hijas").click(function(){
+                var actividadid = $(this).attr('actividadid');
+                var proyectoid = $(this).attr('proyectoid');
+                var codigo_prop_proy = $(this).attr('codigo-prop-proy');
+                var categoriaid = $(this).attr('categoriaid');
+                var revision = $(this).attr('revision');
+                var propuestaid = $(this).attr('propuestaid');
+                $("#actividades_hijos").load("/timesheet/index/actividadestarea/proyectoid/"+proyectoid+"/codigo_prop_proy/"+codigo_prop_proy+"/categoriaid/"+categoriaid+"/actividadid/"+actividadid+"/revision/"+revision+"/propuestaid/"+propuestaid);
+            });*/
+        </script>
+        <?php
+    }?>
+</ul>
