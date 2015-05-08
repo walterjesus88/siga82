@@ -2,7 +2,7 @@
 class Admin_Model_DbTable_Equipo extends Zend_Db_Table_Abstract
 {
     protected $_name = 'equipo';
-    protected $_primary = array("codigo_prop_proy","proyectoid","categoriaid");   
+    protected $_primary = array("codigo_prop_proy","proyectoid","categoriaid","uid","dni","areaid","cargo");   
 
      /* Lista toda las Personas */    
     public function _getEquipoAll(){
@@ -85,6 +85,16 @@ class Admin_Model_DbTable_Equipo extends Zend_Db_Table_Abstract
     // }
 
  
+        public function _save($data)
+    {
+        try{
+            if ($data['areaid']=='' ||  $data['dni']=='' ) return false;
+            return $this->insert($data);
+            return false;
+        }catch (Exception $e){
+                print "Error: Registration ".$e->getMessage();
+        }
+    }
 
 
 }
