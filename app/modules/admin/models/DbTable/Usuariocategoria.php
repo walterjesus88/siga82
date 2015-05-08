@@ -3,8 +3,6 @@ class Admin_Model_DbTable_Usuariocategoria extends Zend_Db_Table_Abstract
 {
     protected $_name = 'usuario_categoria';
     protected $_primary = array("ucategoriaid");
-
-     /* Lista toda las Personas */    
     public function _getUsuariocategoriaAll(){
         try{
             $f = $this->fetchAll();
@@ -14,7 +12,6 @@ class Admin_Model_DbTable_Usuariocategoria extends Zend_Db_Table_Abstract
             print "Error: Al momento de leer todos los gastos persona".$e->getMessage();
         }
     }
-
 
     public function _getFilter($where=null,$attrib=null,$orders=null){
         try{            
@@ -38,4 +35,18 @@ class Admin_Model_DbTable_Usuariocategoria extends Zend_Db_Table_Abstract
         }
     }
 
+    public function _buscarUsuarioxAreaxCategoria($areaid,$categoriaid)
+    {
+        try{
+            $sql=$this->_db->query("
+                select * from usuario_categoria as ucat inner join persona as per on ucat.dni=per.dni
+                where ucat.categoriaid='$categoriaid' and ucat.areaid='$areaid' and ucat.estado_sistema='A' and ucat.estado='A'
+            ");
+            $row=$sql->fetchAll();
+            return $row;           
+            }  
+            catch (Exception $ex){
+            print $ex->getMessage();
+        }
+    }
 }

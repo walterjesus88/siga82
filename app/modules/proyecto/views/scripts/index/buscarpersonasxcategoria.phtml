@@ -1,0 +1,43 @@
+
+
+<?php 
+	$i=0;
+	foreach ($this->listusuarios as $lista) {?>
+		<label class="checkbox-inline">
+			<input type="checkbox" id="persona_<?php echo $i;?>" value="1" name="persona_<?php echo $i;?>"   > 
+			<input type="text" style="display:none" id="nombrepersona_<?php echo $i;?>" value="<?php print_r($lista['dni']);?>" name="nombrepersona_<?php echo $i;?>"   > 
+			<input type="text" style="display:none" id="uid_<?php echo $i;?>" value="<?php print_r($lista['uid']);?>" name="nombrepersona_<?php echo $i;?>"   > 
+			<input type="text" style="display:none" id="cargo_<?php echo $i;?>" value="<?php print_r($lista['cargo']);?>" name="nombrepersona_<?php echo $i;?>"   > 
+			<?php print_r($lista['alias']);?>
+		</label>
+
+<script type='text/javascript'>
+	$(document).ready(function(){
+	    $('[name^="persona_<?php echo $i;?>"]').click(function(event) {
+	        
+	        if ($(this).is(":checked")) {
+	            var dni = $("#nombrepersona_<?php echo $i;?>").val();
+	            var uid = $("#uid_<?php echo $i;?>").val();
+	            var cargo = $("#cargo_<?php echo $i;?>").val();
+	            var categoriaid = '<?php echo $this->categoriaid; ?>'; 
+    			var areaid = '<?php echo $this->areaid; ?>';
+    			var proyectoid='<?php echo $this->proyectoid; ?>';
+    			var codigo='<?php echo $this->codigo; ?>';
+
+	            
+	            url="/proyecto/index/guardarpersonaequipo/codigo/"+codigo+"/proyectoid/"+proyectoid+"/areaid/"+areaid+"/categoriaid/"+categoriaid+"/cargo/"+cargo+"/uid/"+uid+"/dni/"+dni;
+	            alert(url);
+	             $("#cargar").load(url);
+	             
+	            
+	        }
+	        
+	    });    
+	});
+</script>
+
+<?php
+$i++; 
+	}?>
+
+	<div id="cargar"></div>

@@ -25,7 +25,7 @@ datepicker.regional['es'] = {
 	dayNamesShort: ['Dom','Lun','Mar','Mié','Jue','Vie','Sáb'],
 	dayNamesMin: ['D','L','M','M','J','V','S'],
 	weekHeader: 'Sm',
-	dateFormat: 'dd/mm/yy',
+	dateFormat: 'dd-mm-yy',
 	firstDay: 1,
 	isRTL: false,
 	showMonthAfterYear: false,

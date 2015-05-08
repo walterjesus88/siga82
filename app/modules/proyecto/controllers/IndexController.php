@@ -1008,20 +1008,48 @@ public function cargartarea2Action() {
           $this->view->list = $list;
     }
 
+  public function buscarcategoriaAction() {
+    $this->_helper->layout()->disablelayout();
+    $areaid= $this->_getParam("areaid");
+    $bdarea_cat = new Admin_Model_DbTable_Areacategoria();
+    $listcat=$bdarea_cat->_buscarCategoriaxAreaxProyecto($areaid);
+    $this->view->categoria = $listcat;
+  }
+  
+  public function buscarpersonasxcategoriaAction() {
+    $this->_helper->layout()->disablelayout();
+    $areaid= $this->_getParam("areaid");
+    $categoriaid= $this->_getParam("categoria");
+    $proyectoid= $this->_getParam("proyectoid");
+    $codigo= $this->_getParam("codigo");
+    $this->view->areaid = $areaid;
+    $this->view->categoriaid = $categoriaid;
+    $this->view->proyectoid = $proyectoid;
+    $this->view->codigo = $codigo;
 
-        public function buscarcategoriaAction() {
-        $this->_helper->layout()->disablelayout();
-        
-        $areaid= $this->_getParam("areaid");
+    $bdarea_cat = new Admin_Model_DbTable_Usuariocategoria();
+    $listusuarios=$bdarea_cat->_buscarUsuarioxAreaxCategoria($areaid,$categoriaid);
+    $this->view->listusuarios = $listusuarios;
+  }
 
-        
-        $bdarea_cat = new Admin_Model_DbTable_Areacategoria();
-        $listcat=$bdarea_cat->_buscarCategoriaxAreaxProyecto($areaid);
-          $this->view->categoria = $listcat;
+  
 
+  public function guardarpersonaequipoAction() {
+    $this->_helper->layout()->disablelayout();
+    $dataequipo['areaid']=$areaid= $this->_getParam("areaid");
+    $dataequipo['categoriaid']=$categoriaid= $this->_getParam("categoriaid");
+    $dataequipo['proyectoid']=$proyectoid= $this->_getParam("proyectoid");
+    $dataequipo['codigo_prop_proy']=$codigo= $this->_getParam("codigo");
+    $dataequipo['dni']=$dni= $this->_getParam("dni");
+    $dataequipo['uid']=$uid= $this->_getParam("uid");
+    $dataequipo['cargo']=$cargo= $this->_getParam("cargo");
+    $dataequipo['fecha_ingreso']=date("Y-m-d");
+    $dataequipo['estado']='A';
+    print_r($dataequipo);
 
-
-    }
-
+    $dbequipo = new Admin_Model_DbTable_Equipo();
+    $dbequipo->_save($dataequipo);
     
+  }
+
 }

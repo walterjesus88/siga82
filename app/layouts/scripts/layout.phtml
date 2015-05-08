@@ -68,8 +68,11 @@
                 <!--search & user info start-->
                 <ul class="nav pull-right top-menu">
                     <li>
-                        <input type="text" class="form-control search" placeholder="Search">
+                        <input type="text" id="busqueda" class="form-control search" placeholder="Search">
                     </li>
+
+                  
+
                     <!-- user login dropdown start-->
                     <li class="dropdown">
                         <a data-toggle="dropdown" class="dropdown-toggle" href="#">
@@ -270,5 +273,53 @@
     <script src="/js/soon/plugins.js"></script>
     <script src="/js/soon/custom.js"></script>
     <script src="/js/common-scripts.js"></script>
-    </body>
+    </body>   
+
 </html>
+
+
+
+
+
+<script type="text/javascript">
+$(document).ready(function(){
+                                
+        var consulta;                 
+         //hacemos focus al campo de búsqueda
+        $("#busqueda").focus();
+                                                                                                    
+        //comprobamos si se pulsa una tecla
+        $("#busqueda").keyup(function(e){
+                                     
+              //obtenemos el texto introducido en el campo de búsqueda
+              consulta = $("#busqueda").val();
+
+              //alert(consulta);
+              //hace la búsqueda                                                    
+              $.ajax({
+                    type: "POST",
+                    url: "/rrhh/index/busca/",
+                    data: "b="+consulta,
+                    dataType: "html",
+                    beforeSend: function()
+                    {
+                          $("#resultado").html("<p align='center'><img src='ajax-loader.gif'/></p>");
+                          //location.reload();
+                    },                    
+                    error: function(){
+                          alert("error petición ajax");
+                    },
+                    success: function(data){                                                    
+                          $("#resultado").empty();
+                          $("#resultado").append(data);                                     
+                          $("#res").hide();
+                          $("#mensaje").hide();
+
+                    }
+              });
+                                                                                  
+                                                                           
+        });
+                                                                   
+});
+</script>
