@@ -581,6 +581,8 @@ public function subiractividadesAction(){
     $data->read('./upload/proyecto/'.$proyectoid.'-HH.xls');
     $columnas=$data->sheets[0]['numCols'];
     $filas=$data->sheets[0]['numRows'];
+
+
     //migrar actividades
     for ($i = 2; $i <= $data->sheets[0]['numRows']; $i++) {
       $colsuma=$columnas-1;
@@ -611,6 +613,7 @@ public function subiractividadesAction(){
         $datosactividadpadre["isproyecto"]='S';
         $datosactividadpadre["moneda"]=$moneda;
         $bdactividad = new Admin_Model_DbTable_Actividad();
+
         if($bdactividad->_save($datosactividadpadre))
           {
           echo "guardo bien";   }
@@ -671,7 +674,7 @@ public function subiractividadesAction(){
             {
               echo "guardo bien";
             }
-            print_r($datosactividadnieta);
+           
 
             }
       }

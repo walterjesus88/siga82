@@ -30,7 +30,7 @@ class Rrhh_IndexController extends Zend_Controller_Action {
         //$busqueda=strtoupper($busqueda);
         //$where=array('busca'=>$busqueda);
         //print_r($where);
-
+        $busqueda = strtoupper($busqueda);
         $listapersonas = new Admin_Model_DbTable_Persona();
         $lista=$listapersonas->_getBuscarPersonas($busqueda);
         $this->view->lista_personas=$lista;

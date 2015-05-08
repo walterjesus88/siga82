@@ -71,7 +71,7 @@
             </div>
             <div id="gastos" class="tab-pane">
               <div class="panel-body">
-              gastos
+               
               </div>
             </div>
             <div id="laboratorio" class="tab-pane">
@@ -216,6 +216,17 @@ foreach ($actividades as $lista) {
 ?>
 
 </section>
+
+<section class="panel">
+  <?php $proyectoid=$this->proyecto['proyectoid'];
+  $nombre_fichero = './upload/proyecto/'.$proyectoid.'-HH.xls';
+  if (file_exists($nombre_fichero)) {?>
+  <script >
+     $("#gastos_mostrar").show();
+  </script>
+  <?php }?>
+</section>
+
 
 <section class="panel">
 
