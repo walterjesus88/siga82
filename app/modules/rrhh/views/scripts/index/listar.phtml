@@ -1,7 +1,42 @@
+    <?php
+// /* ejemplo 1 */
+
+// for ($i = 1; $i <= 26; $i++) {
+//     echo $i;
+?>
+                  <button type="button" id="a" value="A" class="btn btn-shadow btn-primary">A</button>
+                  <button type="button" id="b" value="B" class="btn btn-shadow btn-primary">B</button>
+                  <button type="button" id="c" value="C" class="btn btn-shadow btn-primary">C</button>
+                  <button type="button" id="d" value="D" class="btn btn-shadow btn-primary">D</button>
+                  <button type="button" id="e" value="E" class="btn btn-shadow btn-primary">E</button>
+                  <button type="button" id="f" value="F" class="btn btn-shadow btn-primary">F</button>
+                  <button type="button" id="g" value="G" class="btn btn-shadow btn-primary">G</button>
+                  <button type="button" id="h" value="H" class="btn btn-shadow btn-primary">H</button>
+                  <button type="button" id="i" value="I" class="btn btn-shadow btn-primary">I</button>
+                  <button type="button" id="j" value="J" class="btn btn-shadow btn-primary">J</button>
+                  <button type="button" id="k" value="K" class="btn btn-shadow btn-primary">K</button>
+                  <button type="button" id="l" value="L" class="btn btn-shadow btn-primary">L</button>
+                  <button type="button" id="m" value="M" class="btn btn-shadow btn-primary">M</button>
+                  <button type="button" id="m" value="N" class="btn btn-shadow btn-primary">N</button>
+                  <button type="button" id="o" value="O" class="btn btn-shadow btn-primary">O</button>
+                  <button type="button" id="p" value="P" class="btn btn-shadow btn-primary">P</button>          
+                  <button type="button" id="q" value="Q" class="btn btn-shadow btn-primary">Q</button>
+                  <button type="button" id="r" value="R" class="btn btn-shadow btn-primary">R</button>
+                  <button type="button" id="s" value="S" class="btn btn-shadow btn-primary">S</button>
+                  <button type="button" id="t" value="T" class="btn btn-shadow btn-primary">T</button>
+                  <button type="button" id="u" value="U" class="btn btn-shadow btn-primary">U</button>
+                  <button type="button" id="v" value="V" class="btn btn-shadow btn-primary">V</button>
+                  <button type="button" id="w" value="W" class="btn btn-shadow btn-primary">W</button>
+                  <button type="button" id="x" value="X" class="btn btn-shadow btn-primary">X</button>
+                  <button type="button" id="y" value="Y" class="btn btn-shadow btn-primary">Y</button>
+                  <button type="button" id="z" value="Z" class="btn btn-shadow btn-primary">Z</button>
+<?php
+//}   
+?> 
   <div id="res">
   <ul class="directory-list">
-                  <li><a href="#">a</a></li>
-                  <li><a href="#">b</a></li>
+                  <!-- <li><a id="a" value="a" href="#">a</a></li> -->
+               <!--    <li><a href="#">b</a></li>
                   <li><a href="#">c</a></li>
                   <li><a href="#">d</a></li>
                   <li><a href="#">e</a></li>
@@ -25,7 +60,7 @@
                   <li><a href="#">w</a></li>
                   <li><a href="#">x</a></li>
                   <li><a href="#">y</a></li>
-                  <li><a href="#">z</a></li>
+                  <li><a href="#">z</a></li> -->
               </ul>
               <div class="directory-info-row">
               <div class="row">
@@ -69,8 +104,355 @@
               
               </div>
 
-
-
-
-
 <div id="resultado"></div>
+<div id="mensaje"></div>
+
+<script>
+/*  $("#a").click(function(){
+  var inicial=$(this).val();
+  switch (inicial) { 
+    case "A":
+      alert('a');
+      break;
+    case "B":
+      alert('b');
+      break;
+    case "C":
+      alert('c');
+      break;
+    }
+  });  */
+</script>
+
+<script>
+  //$(function(){
+    $("#a").click(function(){
+     var inicial=$(this).val();
+     //alert(inicial);
+     var params = {  'inicial' : inicial,};
+
+        $.ajax({
+               type: 'POST',
+               url: '/rrhh/index/buscaletra/inicial/'+inicial,
+               // data: params,
+               data: $(this).serialize(),
+               success: function(data) {
+                    // if (data.status==true) {
+                    //     $("#deleteModal").modal('hide');
+                    //     $("#menssageAll").html('<span class="text-success"><b>'+data.msg+'</b></span>');
+                    //     location.reload();
+                    // }
+                    // else{
+                    //      $("#deleteModal").modal('hide');
+                    //      alert(params);
+                 $("#mensaje").html(data);
+                 $("#res").hide();
+                 //location.reload();//};
+                }
+        }); 
+    });
+
+    $("#b").click(function(){
+      var inicial=$(this).val();
+      //alert(inicial);
+           $.ajax({
+               type: 'POST',
+               url: '/rrhh/index/buscaletra/inicial/'+inicial,
+               data: $(this).serialize(),
+               success: function(data) {                  
+                 $("#mensaje").html(data);
+                 $("#res").hide();
+              }
+          }); 
+    });
+    $("#c").click(function(){
+      var inicial=$(this).val();
+           $.ajax({
+               type: 'POST',
+               url: '/rrhh/index/buscaletra/inicial/'+inicial,
+               data: $(this).serialize(),
+               success: function(data) {                  
+                 $("#mensaje").html(data);
+                 $("#res").hide();
+              }
+          }); 
+    });
+    $("#d").click(function(){
+      var inicial=$(this).val();
+            $.ajax({
+               type: 'POST',
+               url: '/rrhh/index/buscaletra/inicial/'+inicial,
+               data: $(this).serialize(),
+               success: function(data) {                  
+                 $("#mensaje").html(data);
+                 $("#res").hide();
+              }
+          }); 
+    });
+    $("#e").click(function(){
+      var inicial=$(this).val();
+            $.ajax({
+               type: 'POST',
+               url: '/rrhh/index/buscaletra/inicial/'+inicial,
+               data: $(this).serialize(),
+               success: function(data) {                  
+                 $("#mensaje").html(data);
+                 $("#res").hide();
+              }
+          }); 
+    });
+    $("#f").click(function(){
+      var inicial=$(this).val();
+            $.ajax({
+               type: 'POST',
+               url: '/rrhh/index/buscaletra/inicial/'+inicial,
+               data: $(this).serialize(),
+               success: function(data) {                  
+                 $("#mensaje").html(data);
+                 $("#res").hide();
+              }
+          }); 
+    });
+    $("#g").click(function(){
+      var inicial=$(this).val();
+            $.ajax({
+               type: 'POST',
+               url: '/rrhh/index/buscaletra/inicial/'+inicial,
+               data: $(this).serialize(),
+               success: function(data) {                  
+                 $("#mensaje").html(data);
+                 $("#res").hide();
+              }
+          }); 
+    });
+    $("#h").click(function(){
+      var inicial=$(this).val();
+            $.ajax({
+               type: 'POST',
+               url: '/rrhh/index/buscaletra/inicial/'+inicial,
+               data: $(this).serialize(),
+               success: function(data) {                  
+                 $("#mensaje").html(data);
+                 $("#res").hide();
+              }
+          }); 
+    });
+    $("#i").click(function(){
+      var inicial=$(this).val();
+            $.ajax({
+               type: 'POST',
+               url: '/rrhh/index/buscaletra/inicial/'+inicial,
+               data: $(this).serialize(),
+               success: function(data) {                  
+                 $("#mensaje").html(data);
+                 $("#res").hide();
+              }
+          }); 
+    });
+    $("#j").click(function(){
+      var inicial=$(this).val();
+            $.ajax({
+               type: 'POST',
+               url: '/rrhh/index/buscaletra/inicial/'+inicial,
+               data: $(this).serialize(),
+               success: function(data) {                  
+                 $("#mensaje").html(data);
+                 $("#res").hide();
+              }
+          }); 
+    });
+    $("#k").click(function(){
+      var inicial=$(this).val();
+            $.ajax({
+               type: 'POST',
+               url: '/rrhh/index/buscaletra/inicial/'+inicial,
+               data: $(this).serialize(),
+               success: function(data) {                  
+                 $("#mensaje").html(data);
+                 $("#res").hide();
+              }
+          }); 
+    });
+    $("#l").click(function(){
+      var inicial=$(this).val();
+            $.ajax({
+               type: 'POST',
+               url: '/rrhh/index/buscaletra/inicial/'+inicial,
+               data: $(this).serialize(),
+               success: function(data) {                  
+                 $("#mensaje").html(data);
+                 $("#res").hide();
+              }
+          }); 
+    });
+    $("#m").click(function(){
+      var inicial=$(this).val();
+            $.ajax({
+               type: 'POST',
+               url: '/rrhh/index/buscaletra/inicial/'+inicial,
+               data: $(this).serialize(),
+               success: function(data) {                  
+                 $("#mensaje").html(data);
+                 $("#res").hide();
+              }
+          }); 
+    });
+
+    $("#n").click(function(){
+      var inicial=$(this).val();
+            $.ajax({
+               type: 'POST',
+               url: '/rrhh/index/buscaletra/inicial/'+inicial,
+               data: $(this).serialize(),
+               success: function(data) {                  
+                 $("#mensaje").html(data);
+                 $("#res").hide();
+              }
+          }); 
+    });
+    $("#o").click(function(){
+      var inicial=$(this).val();
+            $.ajax({
+               type: 'POST',
+               url: '/rrhh/index/buscaletra/inicial/'+inicial,
+               data: $(this).serialize(),
+               success: function(data) {                  
+                 $("#mensaje").html(data);
+                 $("#res").hide();
+              }
+          }); 
+    });
+    $("#p").click(function(){
+      var inicial=$(this).val();
+            $.ajax({
+               type: 'POST',
+               url: '/rrhh/index/buscaletra/inicial/'+inicial,
+               data: $(this).serialize(),
+               success: function(data) {                  
+                 $("#mensaje").html(data);
+                 $("#res").hide();
+              }
+          }); 
+    });
+    $("#q").click(function(){
+      var inicial=$(this).val();
+            $.ajax({
+               type: 'POST',
+               url: '/rrhh/index/buscaletra/inicial/'+inicial,
+               data: $(this).serialize(),
+               success: function(data) {                  
+                 $("#mensaje").html(data);
+                 $("#res").hide();
+              }
+          }); 
+    });
+    $("#r").click(function(){
+      var inicial=$(this).val();
+            $.ajax({
+               type: 'POST',
+               url: '/rrhh/index/buscaletra/inicial/'+inicial,
+               data: $(this).serialize(),
+               success: function(data) {                  
+                 $("#mensaje").html(data);
+                 $("#res").hide();
+              }
+          }); 
+    });
+    $("#s").click(function(){
+      var inicial=$(this).val();
+            $.ajax({
+               type: 'POST',
+               url: '/rrhh/index/buscaletra/inicial/'+inicial,
+               data: $(this).serialize(),
+               success: function(data) {                  
+                 $("#mensaje").html(data);
+                 $("#res").hide();
+              }
+          }); 
+    });
+    $("#t").click(function(){
+      var inicial=$(this).val();
+            $.ajax({
+               type: 'POST',
+               url: '/rrhh/index/buscaletra/inicial/'+inicial,
+               data: $(this).serialize(),
+               success: function(data) {                  
+                 $("#mensaje").html(data);
+                 $("#res").hide();
+              }
+          }); 
+    });
+    $("#u").click(function(){
+      var inicial=$(this).val();
+            $.ajax({
+               type: 'POST',
+               url: '/rrhh/index/buscaletra/inicial/'+inicial,
+               data: $(this).serialize(),
+               success: function(data) {                  
+                 $("#mensaje").html(data);
+                 $("#res").hide();
+              }
+          }); 
+    });
+    $("#v").click(function(){
+      var inicial=$(this).val();
+            $.ajax({
+               type: 'POST',
+               url: '/rrhh/index/buscaletra/inicial/'+inicial,
+               data: $(this).serialize(),
+               success: function(data) {                  
+                 $("#mensaje").html(data);
+                 $("#res").hide();
+              }
+          }); 
+    });
+    $("#w").click(function(){
+      var inicial=$(this).val();
+            $.ajax({
+               type: 'POST',
+               url: '/rrhh/index/buscaletra/inicial/'+inicial,
+               data: $(this).serialize(),
+               success: function(data) {                  
+                 $("#mensaje").html(data);
+                 $("#res").hide();
+              }
+          }); 
+    });
+    $("#x").click(function(){
+      var inicial=$(this).val();
+            $.ajax({
+               type: 'POST',
+               url: '/rrhh/index/buscaletra/inicial/'+inicial,
+               data: $(this).serialize(),
+               success: function(data) {                  
+                 $("#mensaje").html(data);
+                 $("#res").hide();
+              }
+          }); 
+    });
+    $("#y").click(function(){
+      var inicial=$(this).val();
+            $.ajax({
+               type: 'POST',
+               url: '/rrhh/index/buscaletra/inicial/'+inicial,
+               data: $(this).serialize(),
+               success: function(data) {                  
+                 $("#mensaje").html(data);
+                 $("#res").hide();
+              }
+          }); 
+    });
+    $("#z").click(function(){
+      var inicial=$(this).val();
+            $.ajax({
+               type: 'POST',
+               url: '/rrhh/index/buscaletra/inicial/'+inicial,
+               data: $(this).serialize(),
+               success: function(data) {                  
+                 $("#mensaje").html(data);
+                 $("#res").hide();
+              }
+          }); 
+    });
+
+</script>

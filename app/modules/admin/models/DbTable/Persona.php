@@ -189,6 +189,24 @@ class Admin_Model_DbTable_Persona extends Zend_Db_Table_Abstract
         }
     }
 
+    public function _getBuscarPersonaXInicial($busca=null){
+        try {
+            //if ($busca=='') return false;
+            $sql=$this->_db->query("
+            select 
+            p.ape_paterno,p.ape_materno,p.nombres,p.alias,p.segundo_nombre,p.tercer_nombre,p.dni            
+            from persona as p            
+            where left(p.ape_paterno,1) ='$busca'    
+            order by p.ape_paterno,p.ape_materno 
+            ");
+            $r = $sql->fetchAll();
+            if($r) return $r;
+            return false;
+        }  catch (Exception $ex){
+            print "Error: Retornando los alumnos de una escuela en un periodo".$ex->getMessage();
+        }
+    }
+
 
 
 }

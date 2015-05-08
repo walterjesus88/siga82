@@ -304,6 +304,7 @@ $(document).ready(function(){
                     beforeSend: function()
                     {
                           $("#resultado").html("<p align='center'><img src='ajax-loader.gif'/></p>");
+                          //location.reload();
                     },                    
                     error: function(){
                           alert("error petición ajax");
@@ -311,7 +312,9 @@ $(document).ready(function(){
                     success: function(data){                                                    
                           $("#resultado").empty();
                           $("#resultado").append(data);                                     
-                          $("#res").hide();                                                             
+                          $("#res").hide();
+                          $("#mensaje").hide();
+
                     }
               });
                                                                                   
