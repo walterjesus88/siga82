@@ -344,10 +344,16 @@ echo "<br>";
 </div>
 
 <div class="form-group">
-<label for="nombre_contacto" class="col-lg-4 col-sm-4 control-label">Nombre y Apellido</label>
+<label for="nombre_colaborador" class="col-lg-4 col-sm-4 control-label">Colaboradores</label>
 <div class="col-lg-6">
-<input class="form-control" id="nombre_contacto" >
+ <div id="nombre_colaborador">
+   
+
+ </div>
 </div>
+
+
+
 </div>
 
 
@@ -372,10 +378,19 @@ echo "<br>";
 
  $("#equipo_areaid").change(function(){
     var areaid = $(this).val(); 
-    alert(areaid);
+    //alert(areaid);
     url="/proyecto/index/buscarcategoria/areaid/"+areaid;
-    alert(url);
+    //alert(url);
     $("#categoriaid").load(url);
+    }); 
+
+  $("#categoriaid").change(function(){
+    var categoriaid = $(this).val(); 
+     var areaid = $("#equipo_areaid").val(); 
+    alert(categoriaid);
+    url="/proyecto/index/buscarpersonasxcategoria/categoria/"+categoriaid+"/areaid/"+areaid;
+    alert(url);
+   $("#nombre_colaborador").load(url);
     }); 
 
 

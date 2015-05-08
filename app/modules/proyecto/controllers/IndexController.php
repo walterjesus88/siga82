@@ -1023,5 +1023,21 @@ public function cargartarea2Action() {
 
     }
 
+
+    public function buscarpersonasxcategoriaAction() {
+        $this->_helper->layout()->disablelayout();
+        
+        $areaid= $this->_getParam("areaid");
+
+        
+        $bdarea_cat = new Admin_Model_DbTable_Areacategoria();
+        $listcat=$bdarea_cat->_buscarCategoriaxAreaxProyecto($areaid);
+          $this->view->categoria = $listcat;
+
+
+
+    }
+
+
     
 }
