@@ -1,12 +1,20 @@
 <section class="panel">
     <header class="panel-heading" style="padding-bottom : 22px">
-        Timesheet
-        <a class="btn btn-danger pull-right" data-toggle="modal" href="#calendar">
+
+        <h5> Time Sheet Semana <?php echo $this->semanalabor; echo ": ";?></h5><?php
+         print_r($this->diassemana[7]); echo "-"; print_r($this->diassemana[13]);?>
+        
+          
+
+        <span class="pull-right">
+
+        <a class="btn btn-danger pull-right btn-xs" data-toggle="modal" href="#calendar">
             <i class="fa fa-calendar"></i> Calendario
         </a>
-        <a id = "add_work" class="btn btn-success pull-right" data-toggle="modal" href="#agregar" style="margin-right : 10px">
+        <a id = "add_work" class="btn btn-success pull-right btn-xs" data-toggle="modal" href="#agregar" style="margin-right : 10px">
             <i class="fa fa-check-square-o"></i> Agregar
         </a>
+        </span>
     </header>
     
     <div class="modal fade" id="agregar" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -18,11 +26,11 @@
                 </div>
                 <div class="modal-body">
                     <div class="chat-room">
-                        <aside class="left-side" style="width:15%">
-                            <div class="user-head">
-                                <h3>Proyecto</h3>
+                        <aside  style="width:20%">
+                            <div class="nav nav-pills nav-stacked">
+                                Proyecto
                             </div>
-                            <ul class="chat-list">
+                            <ul class="nav nav-pills nav-stacked">
                                 <?php 
                                 $equipo = $this->equipo;
                                 foreach ($equipo as $data_equipo) { ?>

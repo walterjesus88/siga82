@@ -12,13 +12,14 @@
                     <table  class="display table table-bordered table-striped">
                         <thead>
                             <tr>
-                                <th>Actividades</th>
+                                <th>Proyecto / Actividades</th>
                                 <?php 
                                 $fecha = $this->fecha;
-                                $days_name = array("Lunes","Martes","Miércoles","Jueves","Viernes","Sábado","Domingo");
+                                $fecha_mostrar = $this->fecha_mostrar;
+                                $days_name = array("lunes","martes","miércoles","jueves","viernes","sábado","domingo");
                                 for ($i=0; $i < 7; $i++) { ?>
-                                    <th class = "center">
-                                        <?php print $days_name[$i] ?> <br><?php print $fecha ?>
+                                    <th ><center>
+                                        <?php print $days_name[$i] ?> <br><?php //print $fecha ?></center>
                                     </th>
                                     <?php
                                     $newDate = date("Y-m-d", strtotime($fecha));
@@ -33,14 +34,35 @@
                             $actividades = $this->actividades;
                             foreach ($actividades as $data_tareo) { ?>
                                 <tr class="gradeX">
-                                    <td><?php echo $data_tareo['nombre'] ?></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
+                                    <td><?php echo $data_tareo['nombre_proyecto'];  echo " / "; echo $data_tareo['actividadid']; echo ": ";echo $data_tareo['nombre'] ?></td>
+                                    <td><center>
+                                        <input onBlur="fnc(event)" style="height: 26px; width: 54px;" maxlength="2" editable=true id=""  type="text" name="horario"  value=""  > 
+                                        </center>
+                                    </td>
+                                          <td><center>
+                                        <input onBlur="fnc(event)" style="height: 26px; width: 54px;" maxlength="2" editable=true id=""  type="text" name="horario"  value=""  > 
+                                        </center>
+                                    </td>
+                                         <td><center>
+                                        <input onBlur="fnc(event)" style="height: 26px; width: 54px;" maxlength="2" editable=true id=""  type="text" name="horario"  value=""  > 
+                                        </center>
+                                    </td>
+                                         <td><center>
+                                        <input onBlur="fnc(event)" style="height: 26px; width: 54px;" maxlength="2" editable=true id=""  type="text" name="horario"  value=""  > 
+                                        </center>
+                                    </td>
+                                         <td><center>
+                                        <input onBlur="fnc(event)" style="height: 26px; width: 54px;" maxlength="2" editable=true id=""  type="text" name="horario"  value=""  > 
+                                        </center>
+                                    </td>
+                                       <td><center>
+                                        <input onBlur="fnc(event)" style="height: 26px; width: 54px;" maxlength="2" editable=true id=""  type="text" name="horario"  value=""  > 
+                                        </center>
+                                    </td>
+                                         <td><center>
+                                        <input onBlur="fnc(event)" style="height: 26px; width: 54px;" maxlength="2" editable=true id=""  type="text" name="horario"  value=""  > 
+                                        </center>
+                                    </td>
                                 </tr>
                                 <?php
                             }

@@ -593,7 +593,7 @@ public function subiractividadesAction(){
 
       $actividadint=$actividadid;
       if (ctype_digit(trim($actividadint))) {
-        $datosactividadpadre["actividadid"]=$actividadid;
+        $datosactividadpadre["actividadid"]=$actividadint;
         $datosactividadpadre["codigo_actividad"]=$areaid."-".$actividadid;
         $datosactividadpadre["codigo_prop_proy"]=$codigo;
         $datosactividadpadre["revision"]=$revision;
