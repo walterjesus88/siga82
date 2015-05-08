@@ -98,20 +98,32 @@ class Admin_Model_DbTable_Persona extends Zend_Db_Table_Abstract
     }
 
     /* Retorna los datos de una persona deacuerdo al nro de dni($dni) */
-    public function _getPersonaXDNI($dni='',$eid='',$oid=''){
-        try{
-            $sql=$this->_db->query("
-            select ape_pat || ' ' || ape_mat || ', ' || nombres as nombrecompleto
-                ,sexo,pid
-            from persona 
+    // public function _getPersonaXDNI($dni=''){
+    //     try{
+    //         $sql=$this->_db->query("
+    //         select ape_paterno || ' ' || ape_materno || ', ' || nombres as nombrecompleto,ape_paterno,ape_materno,sexo,estado_civil
+    //         from persona 
+    //         where dni='$dni'
                
-               where eid='$eid' and oid ='$oid' and pid='$dni'
-               
-            ");
-            $row=$sql->fetchAll();
-           return $row;  
-        }catch (Exception $ex) {
-            print "Error: Retornando los datos del alumno deacuerdo a una palabra ingresada".$ex->getMessage();
+    //         ");
+    //         $row=$sql->fetchAll();
+    //        return $row;  
+    //     }catch (Exception $ex) {
+    //         print "Error: Retornando los datos del alumno deacuerdo a una palabra ingresada".$ex->getMessage();
+    //     }
+    // }
+
+    public function _getOne($where=array()){
+        try {
+            if ($where["dni"]=='') return false;
+                
+                $wherestr= "dni = '".$where['dni']."' ";
+
+                $row = $this->fetchRow($wherestr);
+                if($row) return $row->toArray();
+                return false;
+        } catch (Exception $e) {
+            print "Error: Read One Condition".$e->getMessage();
         }
     }
 
