@@ -23,8 +23,8 @@ class Expense_IndexController extends Zend_Controller_Action {
         $dni=$this->sesion->dni;
         $uid=$this->sesion->uid;
 
-        //print_r($dni);
-        //print_r($uid);
+        print_r($dni);
+        print_r($uid);
 
         $where=array('uid'=>$uid,'dni'=>$dni);
         $attrib=array('codigo_prop_proy','proyectoid','areaid','cargo','categoriaid','estado');
