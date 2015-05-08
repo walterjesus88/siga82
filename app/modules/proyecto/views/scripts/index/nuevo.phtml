@@ -7,7 +7,14 @@
                   <header class="panel-heading">
                       Proyecto Nuevo
                       <span class="pull-right">
-                          <button type="button" id="loading-btn" class="btn btn-warning btn-xs"><i class="fa fa-refresh"></i> Refresh</button>
+                          
+                                  
+                                      <a id="save" class="btn btn-success btn-xs" href="#">Guardar</a>
+                                      <!--<a id="save_seguir" class="btn btn-info btn-xs " href="#">Anadir mas/ver</a>-->
+                                      <a class="btn btn-info btn-xs" href="/proyecto/index/listar">Cancelar</a>
+                                  
+
+
                       </span>
                   </header>
 
@@ -15,32 +22,24 @@
               <div class="row">
                   <div class="col-md-8">
                       <section class="panel">
-                          <div class="bio-graph-heading project-heading">
-                              <strong> [ Nuevo Proyecto ] </strong>
-
-                          </div>
                           <div class="panel-body bio-graph-info">
                               <!--<h1>New Dashboard BS3 </h1>-->
                               <div class="row p-details">
 
                                   <form name="<?php echo $this->form->getName(); ?>" action="<?php echo $this->form->getAction(); ?>" method="post" enctype="application/x-www-form-urlencoded">
 
-                                  <div class="panel-body">                                 
-                                    <div class="text-center mtop20 col-md-8">
-                                      <div class="col-md-2" id="save" ><br><a class="btn btn-info" href="#">Guardar</a></br></div>
-                                      <div class="col-md-3" id="save_seguir" ><br><a class="btn btn-info" href="#">Anadir mas/ver</a></br></div>
-                                      <div class="col-md-2"><br><a class="btn btn-info" href="/proyecto/index/listar">Cancelar</a></br></div>
+                   
+                                  <div class="bio-row">
+                                    <div class="form-group">
+                                      <label >Proyectoid</label>
+                                     <?php print $this->form->proyectoid;?>
                                     </div>
                                   </div>
-
-                                    <div class="bio-row">
-                                        <p><span class="bold">Proyectoid </span>: <?php print $this->form->proyectoid;?></p>
+                                  <div class="bio-row">
+                                    <div class="form-group">
+                                      <label >Nombre </label > <?php print $this->form->nombre_proyecto;?></p>
                                     </div>
-
-                                    <div class="bio-row">
-                                      <p><span class="bold">Nombre </span>: <?php print $this->form->nombre_proyecto;?></p>
-                                    </div>
-
+                                  </div>
                                 
                                     <div class="bio-row"> 
                                     <span class="bold">Propuesta </span>                                   
@@ -85,31 +84,27 @@
                                     </div>  
 
                                     <div class="bio-row">
-                                      <p><span class="bold">Gerente</span>: <?php print $this->form->gerente_proyecto;?></p>
+                                      <p><span class="bold">Gerente Proyecto</span> <?php print $this->form->gerente_proyecto;?></p>
                                     </div>
                           
                                     <div class="bio-row">
-                                      <p><span class="bold">Control/Proyecto</span>: <?php print $this->form->control_proyecto;?></p>
+                                      <p><span class="bold">Control Proyecto</span> <?php print $this->form->control_proyecto;?></p>
                                     </div>
 
                                     <div class="bio-row">
-                                      <p><span class="bold">Control/Documentario </span>: <?php print $this->form->control_documentario;?></p>
+                                      <p><span class="bold">Control Documentario </span> <?php print $this->form->control_documentario;?></p>
                                     </div>
                        
                                     <div class="bio-row">
-                                      <p><span class="bold">Estado </span>: <?php print $this->form->estado;?></p>
+                                      <p><span class="bold">Estado </span> <?php print $this->form->estado;?></p>
                                     </div>
 
-                                    <div class="col-md-3 col-xs-11">
-                                      <div data-date-viewmode="years" data-date-format="dd-mm-yyyy" data-date="12-02-2012"  class="input-append date dpYears">
-                                          <p><span class="bold">Fecha Inicio </span>: 
-                                              <?php print $this->form->fecha_inicio;?>
-                                              <span class="input-group-btn add-on">
-                                                  <button class="btn btn-danger" type="button"><i class="fa fa-calendar"></i></button>
-                                              </span></p>
+                              
+
+                                   <div class="bio-row">
+                                        <p><span class="bold">Fecha Inicio </span><?php print $this->form->fecha_inicio;?>
                                       </div>
-                               
-                                    </div>                                   
+                                                               
                                                               
                                     <div class="bio-row">
                                       <p><span class="bold">Descripcion </span>: <?php print $this->form->descripcion;?></p>
@@ -350,7 +345,7 @@
     $("#uminera").load(url2);
     $("#revision").load(url3);
 
-    alert(url1);
+    //alert(url1);
 
     }); 
 </script>
@@ -378,7 +373,7 @@
 
 
         url="/proyecto/index/nuevo/proyectoid/"+proyectoid+"/propuesta/"+propuestaid+"/nombre_proyecto/"+nombre_proyecto+"/cod_proy_prop/"+cod_proy_prop+"/proyectoid/"+proyectoid+"/cliente/"+cliente+"/uminera/"+uminera+"/control_proyecto/"+control_proyecto+"/revision/"+revision+"/descripcion/"+descripcion+"/fecha_inicio/"+fecha_inicio+"/control_documentario/"+control_documentario+"/estado/"+estado+"/gerente_proyecto/"+gerente_proyecto+"/tipo_proyecto/"+tipo_proyecto+"/tag/"+tag;
-       
+      //  alert(url);
         $("#loadingcourses").load(url);
         $("#loadingcourses").hide();
         location.href="/proyecto/index/listar/";
