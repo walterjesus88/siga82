@@ -39,13 +39,41 @@ class Timesheet_IndexController extends Zend_Controller_Action {
         $proyectoid = $this->_getParam('proyectoid');
         $codigo_prop_proy = $this->_getParam('codigo_prop_proy');
         $categoriaid = $this->_getParam('categoriaid');
-        $tareo = new Admin_Model_DbTable_Tareo();
-        $data_tareo = $tareo->_getTareoXUid($where);
-        $this->view->actividades = $data_tareo;
+        $actividad = new Admin_Model_DbTable_Actividad();
+        $data_actividad = $actividad->_getActividadesPadresXproyectoXcodigo($proyectoid, $codigo_prop_proy);
+        $this->view->actividades = $data_actividad;
+        $this->view->proyectoid = $proyectoid;
+        $this->view->codigo_prop_proy = $codigo_prop_proy;
+        $this->view->categoriaid = $categoriaid;
         } catch (Exception $e) {
             print "Error: ".$e->getMessage();
         } 
     }    
+
+
+    public function actividadeshijosAction(){
+        try {
+        $this->_helper->layout()->disableLayout();
+        $uid = $this->sesion->uid;
+        $dni = $this->sesion->dni;
+        $proyectoid = $this->_getParam('proyectoid');
+        $codigo_prop_proy = $this->_getParam('codigo_prop_proy');
+        $categoriaid = $this->_getParam('categoriaid');
+        $actividadid = $this->_getParam('actividadid');
+        $revision = $this->_getParam('revision');
+        $propuestaid = $this->_getParam('propuestaid');
+        $tareo = new Admin_Model_DbTable_Actividad();
+        $data_tareo_hijos = $tareo->_getActividadesHijas($proyectoid,$codigo_prop_proy,$propuestaid,$revision,$actividadid);
+        $this->view->actividades_hijos = $data_tareo_hijos;
+        $this->view->proyectoid = $proyectoid;
+        $this->view->codigo_prop_proy = $codigo_prop_proy;
+        $this->view->categoriaid = $categoriaid;
+        $this->view->actividadid = $actividadid;
+        } catch (Exception $e) {
+            print "Error: ".$e->getMessage();
+        } 
+    }  
+
 
     public function registroAction(){
         try {
