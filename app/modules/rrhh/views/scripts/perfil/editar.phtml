@@ -20,12 +20,6 @@
     <!-- Custom styles for this template -->
     <link href="css/style.css" rel="stylesheet">
     <link href="css/style-responsive.css" rel="stylesheet" />
-
-    <!-- HTML5 shim and Respond.js IE8 support of HTML5 tooltipss and media queries -->
-    <!--[if lt IE 9]>
-      <script src="js/html5shiv.js"></script>
-      <script src="js/respond.min.js"></script>
-    <![endif]-->
   </head>
 
   <body>
@@ -38,8 +32,9 @@
               <div class="row">
                   <aside class="profile-nav col-lg-3">
                       <section class="panel">
-                          <div class="user-heading round">
-                              <a href="#">
+                          <div class="user-heading round">                      
+
+                              <a href="#">                            
                                   <img src="/img/fotos-anddes/<?php echo $this->lista_persona['dni'];?>.jpg" alt="">
                               </a>
                               <h1><?php echo $this->lista_persona['ape_paterno'];echo " ";echo $this->lista_persona['ape_materno'];echo " ";echo $this->lista_persona['nombres']?></h1>
@@ -53,106 +48,33 @@
                           </ul>
 
                       </section>
-                  </aside>
-                  <aside class="profile-info col-lg-9">
-                      <section class="panel">
-                          <div class="bio-graph-heading">
-                              Perfil : <?php echo $this->lista_persona['ape_paterno'];echo " ";echo $this->lista_persona['ape_materno'];echo " ";echo $this->lista_persona['nombres']?>
-                          </div>
-                          <div class="panel-body bio-graph-info">
-                              <h1> Perfil Informacion</h1>
-                              <form class="form-horizontal" role="form">
-                                  <div class="form-group">
-                                      <label  class="col-lg-2 control-label">Sobre Mi</label>
-                                      <div class="col-lg-10">
-                                          <textarea name="" id="" class="form-control" cols="30" rows="10"></textarea>
-                                      </div>
-                                  </div>
-                                  <div class="form-group">
-                                      <label  class="col-lg-2 control-label">Nombres</label>
-                                      <div class="col-lg-6">
-                                          <input type="text" class="form-control" id="f-name" placeholder=" ">
-                                      </div>
-                                  </div>
-                                  <div class="form-group">
-                                      <label  class="col-lg-2 control-label">Apellidos</label>
-                                      <div class="col-lg-6">
-                                          <input type="text" class="form-control" id="l-name" placeholder=" ">
-                                      </div>
-                                  </div>
-                                  <div class="form-group">
-                                      <label  class="col-lg-2 control-label">Ciudad</label>
-                                      <div class="col-lg-6">
-                                          <input type="text" class="form-control" id="c-name" placeholder=" ">
-                                      </div>
-                                  </div>
-                                  <div class="form-group">
-                                      <label  class="col-lg-2 control-label">Cumpleaños</label>
-                                      <div class="col-lg-6">
-                                          <input type="text" class="form-control" id="b-day" placeholder=" ">
-                                      </div>
-                                  </div>
-                                  <div class="form-group">
-                                      <label  class="col-lg-2 control-label">Ocupacion</label>
-                                      <div class="col-lg-6">
-                                          <input type="text" class="form-control" id="occupation" placeholder=" ">
-                                      </div>
-                                  </div>
-                                  <div class="form-group">
-                                      <label  class="col-lg-2 control-label">Email</label>
-                                      <div class="col-lg-6">
-                                          <input type="text" class="form-control" id="email" placeholder=" ">
-                                      </div>
-                                  </div>
-                                  <div class="form-group">
-                                      <label  class="col-lg-2 control-label">Celular</label>
-                                      <div class="col-lg-6">
-                                          <input type="text" class="form-control" id="mobile" placeholder=" ">
-                                      </div>
-                                  </div>
-                                  <div class="form-group">
-                                      <label  class="col-lg-2 control-label">Website URL</label>
-                                      <div class="col-lg-6">
-                                          <input type="text" class="form-control" id="url" placeholder="http://www.theosys.pe ">
-                                      </div>
-                                  </div>
-
-                                  <div class="form-group">
-                                      <div class="col-lg-offset-2 col-lg-10">
-                                          <button type="submit" class="btn btn-success">Guardar</button>
-                                          <button type="button" class="btn btn-default">Cancelar</button>
-                                      </div>
-                                  </div>
-                              </form>
-                          </div>
-                      </section>
-<!--                       <section>
+                       <section>
                           <div class="panel panel-primary">
                               <div class="panel-heading"> Sets New Password & Avatar</div>
                               <div class="panel-body">
                                   <form class="form-horizontal" role="form">
                                       <div class="form-group">
-                                          <label  class="col-lg-2 control-label">Current Password</label>
+                                          <label  class="col-lg-4 control-label">Current Password</label>
                                           <div class="col-lg-6">
                                               <input type="password" class="form-control" id="c-pwd" placeholder=" ">
                                           </div>
                                       </div>
                                       <div class="form-group">
-                                          <label  class="col-lg-2 control-label">New Password</label>
+                                          <label  class="col-lg-4 control-label">New Password</label>
                                           <div class="col-lg-6">
                                               <input type="password" class="form-control" id="n-pwd" placeholder=" ">
                                           </div>
                                       </div>
                                       <div class="form-group">
-                                          <label  class="col-lg-2 control-label">Re-type New Password</label>
+                                          <label  class="col-lg-4 control-label">Re-type New Password</label>
                                           <div class="col-lg-6">
                                               <input type="password" class="form-control" id="rt-pwd" placeholder=" ">
                                           </div>
                                       </div>
 
                                       <div class="form-group">
-                                          <label  class="col-lg-2 control-label">Change Avatar</label>
-                                          <div class="col-lg-6">
+                                          <label  class="col-lg-4 control-label">Change Avatar</label>
+                                          <div class="col-lg-4">
                                               <input type="file" class="file-pos" id="exampleInputFile">
                                           </div>
                                       </div>
@@ -166,7 +88,133 @@
                                   </form>
                               </div>
                           </div>
-                      </section> -->
+                      </section>
+                  </aside>
+                  <aside class="profile-info col-lg-9">
+                      <section class="panel">
+                          <div class="bio-graph-heading">
+                              Perfil : <?php echo $this->lista_persona['ape_paterno'];echo " ";echo $this->lista_persona['ape_materno'];echo " ";echo $this->lista_persona['nombres']?>
+                          </div>
+                          <div class="panel-body bio-graph-info">
+                              <h1> Perfil Informacion</h1>
+                              <!-- <form class="form-horizontal" role="form"> -->                             
+                              <form name="<?php echo $this->form->getName(); ?>" action="<?php echo $this->form->getAction(); ?>" method="post" id="form" class="form-horizontal" role="form">
+
+                                  <div class="form-group">
+                                      <label  class="col-lg-2 control-label">Sobre Mi</label>
+                                      <div class="col-lg-10">
+                                          <?php echo $this->form->descripcion?>                                          
+                                      </div>
+                                  </div>
+                                  <div class="form-group">
+                                      <label  class="col-lg-2 control-label">Nombres</label>
+                                      <div class="col-lg-6">
+                                          <?php echo $this->form->nombres?>
+                                          <!-- <input type="text" class="form-control" value="" id="f-name" placeholder=" "> -->
+                                      </div>
+                                  </div>
+                                  <div class="form-group">
+                                      <label  class="col-lg-2 control-label">Apellido Paterno</label>
+                                      <div class="col-lg-6">
+                                          <?php echo $this->form->ape_paterno?>
+                                          <!-- <input type="text" class="form-control" id="l-name" placeholder=" "> -->
+                                      </div>
+                                  </div>
+                                  <div class="form-group">
+                                      <label  class="col-lg-2 control-label">Apellido Materno</label>
+                                      <div class="col-lg-6">
+                                          <?php echo $this->form->ape_materno?>
+                                      </div>
+                                  </div>
+                                  <div class="form-group">
+                                      <label  class="col-lg-2 control-label">Alias</label>
+                                      <div class="col-lg-6">
+                                          <?php echo $this->form->alias?>
+                                      </div>
+                                  </div>
+
+                                   <div class="form-group">
+                                      <label  class="col-lg-2 control-label">Estado Civil</label>
+                                      <div class="col-lg-6">
+                                          <?php echo $this->form->estado_civil?>
+                                      </div>
+                                  </div>
+
+                                  <div class="form-group">
+                                      <label  class="col-lg-2 control-label">Direccion</label>
+                                      <div class="col-lg-6">
+                                          <?php echo $this->form->direccion?>
+                                      </div>
+                                  </div>
+
+                                   <div class="form-group">
+                                      <label  class="col-lg-2 control-label">condicion</label>
+                                      <div class="col-lg-6">
+                                          <?php echo $this->form->condicion?>
+                                      </div>
+                                  </div>
+
+                                  <div class="form-group">
+                                      <label  class="col-lg-2 control-label">estado</label>
+                                      <div class="col-lg-6">
+                                          <?php echo $this->form->estado?>
+                                      </div>
+                                  </div>
+
+                                  <div class="form-group">
+                                      <label  class="col-lg-2 control-label">sexo</label>
+                                      <div class="col-lg-6">
+                                          <?php echo $this->form->sexo?>
+                                      </div>
+                                  </div>
+
+                                  <div class="form-group">
+                                      <label  class="col-lg-2 control-label">Cumpleaños</label>
+                                      <div class="col-lg-6">
+                                          <?php echo $this->form->fecha_nacimiento?>
+                                      </div>
+                                  </div>
+                                  <div class="form-group">
+                                      <label  class="col-lg-2 control-label">Ocupacion</label>
+                                      <div class="col-lg-6">
+                                          <?php echo $this->form->ocupacion?>
+                                      </div>
+                                  </div>
+                                  <div class="form-group">
+                                      <label  class="col-lg-2 control-label">Email Personal</label>
+                                      <div class="col-lg-6">
+                                          <?php echo $this->form->email_personal?>
+                                      </div>
+                                  </div>
+                                  <div class="form-group">
+                                      <label  class="col-lg-2 control-label">Email Anddes</label>
+                                      <div class="col-lg-6">
+                                          <?php echo $this->form->email_anddes?>
+                                      </div>
+                                  </div>
+                                  <div class="form-group">
+                                      <label  class="col-lg-2 control-label">Celular</label>
+                                      <div class="col-lg-6">
+                                          <?php echo $this->form->celular?>
+                                      </div>
+                                  </div>
+                                  <div class="form-group">
+                                      <label  class="col-lg-2 control-label">uid_registro</label>
+                                      <div class="col-lg-6">
+                                          <?php echo $this->form->uid_registro?>
+                                      </div>
+                                  </div>
+
+                                  <div class="form-group">
+                                      <div class="col-lg-offset-2 col-lg-10">
+                                          <button type="submit" class="btn btn-success">Guardar</button>
+                                          <button type="button" class="btn btn-default">Cancelar</button>
+                                      </div>
+                                  </div>
+                              </form>
+                          </div>
+                      </section>
+                     
                   </aside>
               </div>
 
