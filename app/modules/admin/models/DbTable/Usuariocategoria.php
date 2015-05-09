@@ -2,7 +2,7 @@
 class Admin_Model_DbTable_Usuariocategoria extends Zend_Db_Table_Abstract
 {
     protected $_name = 'usuario_categoria';
-    protected $_primary = array("ucategoriaid");
+    protected $_primary = array('uid','dni','categoriaid','areaid','cargo');
     public function _getUsuariocategoriaAll(){
         try{
             $f = $this->fetchAll();
