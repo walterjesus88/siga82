@@ -1,7 +1,7 @@
-<div class="chat-room-head">
+
     <h3>Tarea / Disciplina</h3>
-</div>
-<ul class="chat-list">
+
+  <ul class="nav nav-pills nav-stacked">
 <?php 
 if ($this->actividadid != 1) {
     $actividades_hijos = $this->actividades_hijos;
@@ -33,7 +33,7 @@ if ($this->actividadid != 1) {
         <li>
             <a class = "actividad_hijas"  href="##">
                 <span><?php echo $data_tareo_hijos['nombre'] ?></span>
-            <input type = "checkbox" class = "pull-right" value="" codigo-prop-proy="<?php echo $this->codigo_prop_proy ?>" proyectoid="<?php echo $this->proyectoid ?>" categoriaid="<?php echo $this->categoriaid ?>" actividadid = "<?php echo $data_tareo_hijos['actividadid'] ?>" revision = "<?php echo $data_tareo_hijos['revision'] ?>" propuestaid = "<?php echo $data_tareo_hijos['propuestaid'] ?>">
+            <input id="tarea_<?php echo $i;?>" type = "checkbox" class = "pull-right" value="" codigo-prop-proy="<?php echo $this->codigo_prop_proy ?>" proyectoid="<?php echo $this->proyectoid ?>" categoriaid="<?php echo $this->categoriaid ?>" actividadid = "<?php echo $data_tareo_hijos['actividadid'] ?>" revision = "<?php echo $data_tareo_hijos['revision'] ?>" propuestaid = "<?php echo $data_tareo_hijos['propuestaid'] ?>">
             </a>
         </li>
         <script type="text/javascript">

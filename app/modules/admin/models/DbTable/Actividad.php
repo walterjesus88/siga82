@@ -100,7 +100,7 @@ class Admin_Model_DbTable_Actividad extends Zend_Db_Table_Abstract
             $sql=$this->_db->query("
                select * from actividad 
                where proyectoid='$proyectoid' and codigo_prop_proy='$codigo' 
-               and propuestaid='$propuestaid' and revision='$revision' and actividad_padre IS NULL order by orden asc;
+               and propuestaid='$propuestaid' and revision='$revision' and actividad_padre IS NULL or actividad_padre='' order by orden asc;
             ");
             $row=$sql->fetchAll();
             return $row;           
