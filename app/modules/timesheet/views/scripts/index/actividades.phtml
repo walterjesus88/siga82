@@ -13,6 +13,8 @@
         </li>
         <script type="text/javascript">
             $(".actividad").click(function(){
+                 $("#actividades_hijos").html('');
+                 $("#actividades_tareas").html('');
                 var actividadid = $(this).attr('actividadid');
                 var proyectoid = $(this).attr('proyectoid');
                 var codigo_prop_proy = $(this).attr('codigo-prop-proy');
@@ -21,6 +23,11 @@
                 var propuestaid = $(this).attr('propuestaid');
                 $("#actividades_hijos").load("/timesheet/index/actividadeshijos/proyectoid/"+proyectoid+"/codigo_prop_proy/"+codigo_prop_proy+"/categoriaid/"+categoriaid+"/actividadid/"+actividadid+"/revision/"+revision+"/propuestaid/"+propuestaid);
             });
+
+            //$("#actividades").html('');
+       
+        //$("#actividades_tareas").html('');
+
         </script>
         <?php
     } ?>

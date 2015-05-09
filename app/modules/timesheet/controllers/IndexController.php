@@ -49,6 +49,9 @@ class Timesheet_IndexController extends Zend_Controller_Action {
         $this->view->diassemana=$dias;
         $this->view->semanalabor=$semana;
 
+
+        
+
     }
 
     public function actividadesAction(){
