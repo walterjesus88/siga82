@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="Mosaddek">
+    <meta name="keyword" content="FlatLab, Dashboard, Bootstrap, Admin, Template, Theme, Responsive, Fluid, Retina">
+    <link rel="shortcut icon" href="img/favicon.png">
+
+    <title>Profile Edit</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/bootstrap-reset.css" rel="stylesheet">
+    <!--external css-->
+    <link href="assets/font-awesome/css/font-awesome.css" rel="stylesheet" />
+      <!--right slidebar-->
+      <link href="css/slidebars.css" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link href="css/style.css" rel="stylesheet">
+    <link href="css/style-responsive.css" rel="stylesheet" />
+  </head>
+
+  <body>
+
+  <section id="container" class="">
+      <!--header start-->
+      </header>
+      
+              <!-- page start-->
+              <div class="row">
+                  <aside class="profile-nav col-lg-3">
+                      <section class="panel">
+                          <div class="user-heading round">                      
+
+                              <a href="#">                            
+                                  <img src="/img/fotos-anddes/<?php echo $this->lista_persona['dni'];?>.jpg" alt="">
+                              </a>
+                              <h1><?php echo $this->lista_persona['ape_paterno'];echo " ";echo $this->lista_persona['ape_materno'];echo " ";echo $this->lista_persona['nombres']?></h1>
+                              <p><?php echo $this->lista_persona['email_anddes'];?></p>
+                          </div>
+
+                          <ul class="nav nav-pills nav-stacked">
+                              <li><a href="/rrhh/perfil/ver/dni/<?php echo $this->lista_persona['dni'];?>"> <i class="fa fa-user"></i> Perfil</a></li>
+                              <li><a href="#"> <i class="fa fa-calendar"></i> Actividades Recientes <span class="label label-danger pull-right r-activity">9</span></a></li>
+                              <li  class="active"><a href="/rrhh/perfil/editar/dni/<?php echo $this->lista_persona['dni'];?>"> <i class="fa fa-edit"></i> Editar perfil</a></li>
+                              <li  class="active"><a href="/rrhh/perfil/cambiarpass/dni/<?php echo $this->lista_persona['dni'];?>"> <i class="fa fa-edit"></i> Cambio Contrasena</a></li>
+                          </ul>
+
+                      </section>
+                   
+                  </aside>
+                  <aside class="profile-info col-lg-9">
+                      <section class="panel">
+                          <div class="bio-graph-heading">
+                              Perfil : <?php echo $this->lista_persona['ape_paterno'];echo " ";echo $this->lista_persona['ape_materno'];echo " ";echo $this->lista_persona['nombres']?>
+                          </div>
+                          <div class="panel-body bio-graph-info">
+                              <h1> Perfil Informacion</h1>
+                              <!-- <form class="form-horizontal" role="form"> -->                             
+                              <form name="<?php echo $this->form->getName(); ?>" action="<?php echo $this->form->getAction(); ?>" method="post" id="form" class="form-horizontal" role="form">
+
+                                  <div class="form-group">
+                                      <label  class="col-lg-2 control-label">Sobre Mi</label>
+                                      <div class="col-lg-10">
+                                          <?php echo $this->form->descripcion?>                                          
+                                      </div>
+                                  </div>
+                                  <div class="form-group">
+                                      <label  class="col-lg-2 control-label">Nombres</label>
+                                      <div class="col-lg-6">
+                                          <?php echo $this->form->nombres?>
+                                          <!-- <input type="text" class="form-control" value="" id="f-name" placeholder=" "> -->
+                                      </div>
+                                  </div>
+                                  <div class="form-group">
+                                      <label  class="col-lg-2 control-label">Apellido Paterno</label>
+                                      <div class="col-lg-6">
+                                          <?php echo $this->form->ape_paterno?>
+                                          <!-- <input type="text" class="form-control" id="l-name" placeholder=" "> -->
+                                      </div>
+                                  </div>
+                                  <div class="form-group">
+                                      <label  class="col-lg-2 control-label">Apellido Materno</label>
+                                      <div class="col-lg-6">
+                                          <?php echo $this->form->ape_materno?>
+                                      </div>
+                                  </div>
+                                  <div class="form-group">
+                                      <label  class="col-lg-2 control-label">Alias</label>
+                                      <div class="col-lg-6">
+                                          <?php echo $this->form->alias?>
+                                      </div>
+                                  </div>
+
+                                   <div class="form-group">
+                                      <label  class="col-lg-2 control-label">Estado Civil</label>
+                                      <div class="col-lg-6">
+                                          <?php echo $this->form->estado_civil?>
+                                      </div>
+                                  </div>
+
+                                  <div class="form-group">
+                                      <label  class="col-lg-2 control-label">Direccion</label>
+                                      <div class="col-lg-6">
+                                          <?php echo $this->form->direccion?>
+                                      </div>
+                                  </div>
+
+                                   <div class="form-group">
+                                      <label  class="col-lg-2 control-label">condicion</label>
+                                      <div class="col-lg-6">
+                                          <?php echo $this->form->condicion?>
+                                      </div>
+                                  </div>
+
+                                  <div class="form-group">
+                                      <label  class="col-lg-2 control-label">estado</label>
+                                      <div class="col-lg-6">
+                                          <?php echo $this->form->estado?>
+                                      </div>
+                                  </div>
+
+                                  <div class="form-group">
+                                      <label  class="col-lg-2 control-label">sexo</label>
+                                      <div class="col-lg-6">
+                                          <?php echo $this->form->sexo?>
+                                      </div>
+                                  </div>
+
+                                  <div class="form-group">
+                                      <label  class="col-lg-2 control-label">Cumpleaños</label>
+                                      <div class="col-lg-6">
+                                          <?php echo $this->form->fecha_nacimiento?>
+                                      </div>
+                                  </div>
+                                  <div class="form-group">
+                                      <label  class="col-lg-2 control-label">Ocupacion</label>
+                                      <div class="col-lg-6">
+                                          <?php echo $this->form->ocupacion?>
+                                      </div>
+                                  </div>
+                                  <div class="form-group">
+                                      <label  class="col-lg-2 control-label">Email Personal</label>
+                                      <div class="col-lg-6">
+                                          <?php echo $this->form->email_personal?>
+                                      </div>
+                                  </div>
+                                  <div class="form-group">
+                                      <label  class="col-lg-2 control-label">Email Anddes</label>
+                                      <div class="col-lg-6">
+                                          <?php echo $this->form->email_anddes?>
+                                      </div>
+                                  </div>
+                                  <div class="form-group">
+                                      <label  class="col-lg-2 control-label">Celular</label>
+                                      <div class="col-lg-6">
+                                          <?php echo $this->form->celular?>
+                                      </div>
+                                  </div>
+                                  <div class="form-group">
+                                      <label  class="col-lg-2 control-label">uid_registro</label>
+                                      <div class="col-lg-6">
+                                          <?php echo $this->form->uid_registro?>
+                                      </div>
+                                  </div>
+
+                                  <div class="form-group">
+                                      <div class="col-lg-offset-2 col-lg-10">
+                                          <button type="submit" class="btn btn-success">Guardar</button>
+                                          <button type="button" class="btn btn-default">Cancelar</button>
+                                      </div>
+                                  </div>
+                              </form>
+                          </div>
+                      </section>
+
+                     
+                  </aside>
+              </div>
+  
+  </section>
+
+
+
+    <!-- js placed at the end of the document so the pages load faster -->
+    <script src="js/jquery.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script class="include" type="text/javascript" src="js/jquery.dcjqaccordion.2.7.js"></script>
+    <script src="js/jquery.scrollTo.min.js"></script>
+    <script src="js/jquery.nicescroll.js" type="text/javascript"></script>
+    <script src="assets/jquery-knob/js/jquery.knob.js"></script>
+    <script src="js/respond.min.js" ></script>
+
+  <!--right slidebar-->
+  <script src="js/slidebars.min.js"></script>
+
+    <!--common script for all pages-->
+    <script src="js/common-scripts.js"></script>
+
+
+  </body>
+</html>

@@ -1,9 +1,4 @@
-    <?php
-// /* ejemplo 1 */
 
-// for ($i = 1; $i <= 26; $i++) {
-//     echo $i;
-?>
                   <button type="button" id="a" value="A" class="btn btn-shadow btn-primary">A</button>
                   <button type="button" id="b" value="B" class="btn btn-shadow btn-primary">B</button>
                   <button type="button" id="c" value="C" class="btn btn-shadow btn-primary">C</button>
@@ -17,7 +12,7 @@
                   <button type="button" id="k" value="K" class="btn btn-shadow btn-primary">K</button>
                   <button type="button" id="l" value="L" class="btn btn-shadow btn-primary">L</button>
                   <button type="button" id="m" value="M" class="btn btn-shadow btn-primary">M</button>
-                  <button type="button" id="m" value="N" class="btn btn-shadow btn-primary">N</button>
+                  <button type="button" id="n" value="N" class="btn btn-shadow btn-primary">N</button>
                   <button type="button" id="o" value="O" class="btn btn-shadow btn-primary">O</button>
                   <button type="button" id="p" value="P" class="btn btn-shadow btn-primary">P</button>          
                   <button type="button" id="q" value="Q" class="btn btn-shadow btn-primary">Q</button>
@@ -30,37 +25,10 @@
                   <button type="button" id="x" value="X" class="btn btn-shadow btn-primary">X</button>
                   <button type="button" id="y" value="Y" class="btn btn-shadow btn-primary">Y</button>
                   <button type="button" id="z" value="Z" class="btn btn-shadow btn-primary">Z</button>
-<?php
-//}   
-?> 
+
   <div id="res">
   <ul class="directory-list">
-                  <!-- <li><a id="a" value="a" href="#">a</a></li> -->
-               <!--    <li><a href="#">b</a></li>
-                  <li><a href="#">c</a></li>
-                  <li><a href="#">d</a></li>
-                  <li><a href="#">e</a></li>
-                  <li><a href="#">f</a></li>
-                  <li><a href="#">g</a></li>
-                  <li><a href="#">h</a></li>
-                  <li><a href="#">i</a></li>
-                  <li><a href="#">j</a></li>
-                  <li><a href="#">k</a></li>
-                  <li><a href="#">l</a></li>
-                  <li><a href="#">m</a></li>
-                  <li><a href="#">n</a></li>
-                  <li><a href="#">o</a></li>
-                  <li><a href="#">p</a></li>
-                  <li><a href="#">q</a></li>
-                  <li><a href="#">r</a></li>
-                  <li><a href="#">s</a></li>
-                  <li><a href="#">t</a></li>
-                  <li><a href="#">u</a></li>
-                  <li><a href="#">v</a></li>
-                  <li><a href="#">w</a></li>
-                  <li><a href="#">x</a></li>
-                  <li><a href="#">y</a></li>
-                  <li><a href="#">z</a></li> -->
+
               </ul>
               <div class="directory-info-row">
               <div class="row">
@@ -71,25 +39,12 @@
                   <div class="panel">
                       <div class="panel-body">
                           <div class="media">
-                              <a class="pull-left" href="#">
+                              <a class="pull-left" href="/rrhh/perfil/ver/dni/<?php echo $personas['dni'];?>">
                                   <img class="thumb media-object" src="/img/fotos-anddes/<?php echo $personas['dni'];?>.jpg" style="width : 50px ; height : 50px">
                               </a>
                               <div class="media-body">
                               <h4><?php echo $personas['nombres']; echo " "; echo $personas['ape_paterno'];   ?><span class="text-muted small"> - UI Engineer</span></h4>
-                              <!--
-                                  <h4><?php echo $personas['nombres']; echo " "; echo $personas['ape_paterno'];   ?><span class="text-muted small"> - UI Engineer</span></h4>
-                                  <ul class="social-links">
-                                      <li><a title="" data-placement="top" data-toggle="tooltip" class="tooltips" href="" data-original-title="Facebook"><i class="fa fa-facebook"></i></a></li>
-                                      <li><a title="" data-placement="top" data-toggle="tooltip" class="tooltips" href="" data-original-title="Twitter"><i class="fa fa-twitter"></i></a></li>
-                                      <li><a title="" data-placement="top" data-toggle="tooltip" class="tooltips" href="" data-original-title="LinkedIn"><i class="fa fa-linkedin"></i></a></li>
-                                      <li><a title="" data-placement="top" data-toggle="tooltip" class="tooltips" href="" data-original-title="Skype"><i class="fa fa-skype"></i></a></li>
-                                  </ul>
-                                  <address>
-                                      <strong>VectorLab, Inc.</strong><br>
-                                      Vamoil Ave, Suite 23<br>
-                                      Dream land, Australia <br>
-                                      <abbr title="Phone">P:</abbr> (142) 454-7890
-                                  </address>-->
+                   
 
                               </div>
                           </div>
@@ -106,23 +61,6 @@
 
 <div id="resultado"></div>
 <div id="mensaje"></div>
-
-<script>
-/*  $("#a").click(function(){
-  var inicial=$(this).val();
-  switch (inicial) { 
-    case "A":
-      alert('a');
-      break;
-    case "B":
-      alert('b');
-      break;
-    case "C":
-      alert('c');
-      break;
-    }
-  });  */
-</script>
 
 <script>
   //$(function(){

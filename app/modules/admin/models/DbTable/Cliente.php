@@ -32,6 +32,25 @@ class Admin_Model_DbTable_Cliente extends Zend_Db_Table_Abstract
         }
     }
 
+    public function _getClientexPropuestaxRevisionxCodigo($propuestaid,$revision,$codigo)
+     {
+        try{
+            $sql=$this->_db->query("
+               select * from cliente as cli inner join propuesta as pro
+               on cli.clienteid=pro.clienteid
+               where pro.propuestaid='$propuestaid'  and pro.revision='$revision' and pro.codigo_prop_proy='$codigo'
+
+            ");
+            $row=$sql->fetchAll();
+            return $row;           
+            }  
+            
+           catch (Exception $ex){
+            print $ex->getMessage();
+        }
+    }
+
+
     public function _getClienteAllOrdenado()     
     {
         try{

@@ -1,13 +1,13 @@
 <?php 
-class Admin_Model_DbTable_Tareo extends Zend_Db_Table_Abstract
+class Admin_Model_DbTable_Tareopersona extends Zend_Db_Table_Abstract
 {
-    protected $_name = 'tareo';
-    protected $_primary = array("codigo_prop_proy", "codigo_actividad", "actividadid", "revision", "actividad_padre", "categoriaid");
+    protected $_name = 'tareo_persona';
+    protected $_primary = array("codigo_prop_proy", "codigo_actividad", "actividadid", "revision", "proyectoid", "semanaid","fecha_tarea","uid","dni");
 
-    public function _getTareoXUid($where=array()){
+    public function _getTareopersonaXUid($where=array()){
         try{
             if ($where['uid'] == '') return false;
-            $wherestr="uid = '".$where['uid']."' ";
+            $wherestr="uid = '".$where['uid']."' and dni = '".$where['dni']."'";
             $row = $this->fetchAll($wherestr);
             if($row) return $row->toArray();
             return false;
@@ -16,7 +16,7 @@ class Admin_Model_DbTable_Tareo extends Zend_Db_Table_Abstract
         }
     }
     
-    public function _getAreaAll(){
+    public function _getTareopersonall(){
         try{
             $f = $this->fetchAll();
             if ($f) return $f->toArray ();
@@ -26,22 +26,7 @@ class Admin_Model_DbTable_Tareo extends Zend_Db_Table_Abstract
         }
     }
 
-    public function _getAreaxIndice($areaid)
-     {
-        try{
-            $sql=$this->_db->query("
-               select * from area
-               where areaid='$areaid' 
-
-            ");
-            $row=$sql->fetchAll();
-            return $row;           
-            }  
-            
-           catch (Exception $ex){
-            print $ex->getMessage();
-        }
-    }
+    
 
     public function _getTareoxProyecto($proyectoid,$codigo,$revision)
      {
@@ -60,13 +45,21 @@ class Admin_Model_DbTable_Tareo extends Zend_Db_Table_Abstract
         }
     }
 
-    public function _getTareoxProyectoxActividadPadre($proyectoid,$codigo,$revision,$actividad_padre)
+    public function _getTareoxPersonaxSemana($uid,$dni,$semanaid)
      {
         try{
             $sql=$this->_db->query("
-               select * from tareo
-               where proyectoid='$proyectoid'  and codigo_prop_proy='$codigo' and revision='$revision'
-               and actividad_padre='$actividad_padre' and isproyecto='S'
+               
+
+                 select * from tareo_persona as tareo inner join actividad as act
+  on tareo.actividadid=act.actividadid and tareo.codigo_actividad=act.codigo_actividad and tareo.codigo_prop_proy=act.codigo_prop_proy
+  and tareo.revision=act.revision
+  inner join proyecto as pro on tareo.codigo_prop_proy=pro.codigo_prop_proy
+  and tareo.revision=pro.revision and tareo.proyectoid=pro.proyectoid 
+  
+where uid='$uid' and dni='$dni' and semanaid='$semanaid'
+
+
             ");
             $row=$sql->fetchAll();
             return $row;           

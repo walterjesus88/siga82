@@ -54,6 +54,18 @@ class Admin_Model_DbTable_Persona extends Zend_Db_Table_Abstract
     }
 
 
+    public function _updateX($data,$pk)
+    {
+        try{
+            if ($pk['dni']=='' ) return false;
+            $where = "dni = '".$pk['dni']."' ";
+            return $this->update($data, $where);
+            return false;
+        }catch (Exception $e){
+            print "Error: Update persona".$e->getMessage();
+        }
+    }
+
 
     /* Eliminando registros de la Persona por su primary key (eid,oid,pid) */
     public function eliminar($eid='',$oid='',$pid=''){
@@ -98,20 +110,32 @@ class Admin_Model_DbTable_Persona extends Zend_Db_Table_Abstract
     }
 
     /* Retorna los datos de una persona deacuerdo al nro de dni($dni) */
-    public function _getPersonaXDNI($dni='',$eid='',$oid=''){
-        try{
-            $sql=$this->_db->query("
-            select ape_pat || ' ' || ape_mat || ', ' || nombres as nombrecompleto
-                ,sexo,pid
-            from persona 
+    // public function _getPersonaXDNI($dni=''){
+    //     try{
+    //         $sql=$this->_db->query("
+    //         select ape_paterno || ' ' || ape_materno || ', ' || nombres as nombrecompleto,ape_paterno,ape_materno,sexo,estado_civil
+    //         from persona 
+    //         where dni='$dni'
                
-               where eid='$eid' and oid ='$oid' and pid='$dni'
-               
-            ");
-            $row=$sql->fetchAll();
-           return $row;  
-        }catch (Exception $ex) {
-            print "Error: Retornando los datos del alumno deacuerdo a una palabra ingresada".$ex->getMessage();
+    //         ");
+    //         $row=$sql->fetchAll();
+    //        return $row;  
+    //     }catch (Exception $ex) {
+    //         print "Error: Retornando los datos del alumno deacuerdo a una palabra ingresada".$ex->getMessage();
+    //     }
+    // }
+
+    public function _getOne($where=array()){
+        try {
+            if ($where["dni"]=='') return false;
+                
+                $wherestr= "dni = '".$where['dni']."' ";
+
+                $row = $this->fetchRow($wherestr);
+                if($row) return $row->toArray();
+                return false;
+        } catch (Exception $e) {
+            print "Error: Read One Condition".$e->getMessage();
         }
     }
 
@@ -142,34 +166,6 @@ class Admin_Model_DbTable_Persona extends Zend_Db_Table_Abstract
             print "Error: Retornando los datos del alumno deacuerdo a una palabra ingresada".$ex->getMessage();
         }
     }
-
-
-    //public function _getBuscarPersona($where=null){
-        //try{
-            //$select = $this->_db->select()
-              //->from(array('p' => 'persona'),array('p.ape_paterno','p.ape_materno','p.nombres','p.alias','p.segundo_nombre','p.tercer_nombre'))
-              
-              //->where('(ape_paterno LIKE ?)','%'.$where.'%' )
-              //->where('(ape_materno LIKE ?)','%'.$where.'%')
-              //->where('(nombres LIKE ?)','%'.$where.'%')
-              //->where('(alias LIKE ?)','%'.$where.'%')
-              //->where('(segundo_nombre LIKE ?)','%'.$where.'%')
-              //->where('(tercer_nombre LIKE ?)','%'.$where.'%'); 
-
-            //$select = $this->_db->select()
-            //->from(array('u' => 'base_users'),array('u.eid','u.oid','u.subid','u.uid','u.escid','u.pid','p.first_name','p.last_name0','p.last_name1'))
-                //->join(array('p' => 'base_person'),'u.pid=p.pid and u.eid=p.eid')
-                //->where('u.state = ?', 'A')->where('u.oid = ?', $where['oid'])->where('u.oid = ?', $where['oid'])->where('u.escid = ?',$where['escid'])->where('u.rid = ?','AL')
-                //->where('(p.last_name0 LIKE ?)', '%'.$where['ap'].'%')->where('(p.last_name1 LIKE ?)', '%'.$where['am'].'%')->where('(upper(p.first_name) LIKE ?)', '%'.$where['am'].'%')->where('(u.uid LIKE ?)', '%'.$where['uid'].'%')
-                //->where("u.uid NOT IN ?", $sub_select) ;
-            //$results = $select->query();            
-            //$rows = $results->fetchAll();
-            //if($rows) return $rows;
-            //return false;   
-        //}catch (Exception $ex) {
-            //print $ex->getMessage();
-        //}
-    //}
 
     public function _getBuscarPersonas($busca=null){
         try {

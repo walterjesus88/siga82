@@ -71,7 +71,7 @@
             </div>
             <div id="gastos" class="tab-pane">
               <div class="panel-body">
-              gastos
+               
               </div>
             </div>
             <div id="laboratorio" class="tab-pane">
@@ -218,6 +218,45 @@ foreach ($actividades as $lista) {
 </section>
 
 <section class="panel">
+  <?php $proyectoid=$this->proyecto['proyectoid'];
+  $nombre_fichero = './upload/proyecto/'.$proyectoid.'-GG.xls';
+  if (file_exists($nombre_fichero)) {
+}else {
+    ?>
+  
+  <form enctype="multipart/form-data" action="/../cargar_gastos.php" method="post">
+<input type="hidden" name="MAX_FILE_SIZE" value="200000" />
+<input type="file" name="Filedata" />
+
+<input type="submit" value="Cargar Gastos Generales del Proyecto al Servidor" />
+<input style="display: none;" type="text" id="proyectoid" name="proyectoid" value="<?php print_r($this->proyecto['proyectoid']);?>"/>
+<input style="display: none;" type="text" id="codigo" name="codigo" value="<?php  print_r($this->proyecto['codigo_prop_proy']);?>"/>
+</form>
+
+  <?php }?>
+</section>
+
+<section class="panel">
+  <?php $proyectoid=$this->proyecto['proyectoid'];
+  $nombre_fichero = './upload/proyecto/'.$proyectoid.'-GL.xls';
+  if (file_exists($nombre_fichero)) {
+}else {
+    ?>
+  
+  <form enctype="multipart/form-data" action="/../cargar_laboratorio.php" method="post">
+<input type="hidden" name="MAX_FILE_SIZE" value="200000" />
+<input type="file" name="Filedata" />
+
+<input type="submit" value="Cargar Gastos de Laboratorio al Proyecto al Servidor" />
+<input style="display: none;" type="text" id="proyectoid" name="proyectoid" value="<?php print_r($this->proyecto['proyectoid']);?>"/>
+<input style="display: none;" type="text" id="codigo" name="codigo" value="<?php  print_r($this->proyecto['codigo_prop_proy']);?>"/>
+</form>
+
+  <?php }?>
+</section>
+
+
+<section class="panel">
 
 </section>
 
@@ -241,14 +280,18 @@ Descripcion Proyecto
 
 <br/>
 
+<?php 
+$bdequipoarea = new Admin_Model_DbTable_Equipoarea();
+
+$area=$bdequipoarea->_buscarAreasxProyecto($this->proyecto['codigo_prop_proy'],$this->proyecto['proyectoid']);
+$i=1;
+
+if ($area){
+  ?>
 <h5 class="bold">Lista de Disciplinas</h5>
 
 <div class="panel-group m-bot20" id="accordion">
-<?php 
-$bdequipoarea = new Admin_Model_DbTable_Equipoarea();
-$area=$bdequipoarea->_buscarAreasxProyecto($this->proyecto['codigo_prop_proy'],$this->proyecto['proyectoid']);
-$i=1;
-if ($area){
+<?php
 foreach ($area as $lista) { ?>
 <div class="panel panel-default">
 <div class="panel-heading">
