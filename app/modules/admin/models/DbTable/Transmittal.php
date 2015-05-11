@@ -106,5 +106,18 @@ class Admin_Model_DbTable_Transmittal extends Zend_Db_Table_Abstract
     }
 
 
+    public function _getOne($where=array()){
+        try{
+            if ($where['codigo_prop_proy']=="" || $where['propuestaid']=="" || $where['revision']=="" || $where['transmittaid']=="") return false;
+            $wherestr="codigo_prop_proy = '".$where['codigo_prop_proy']."' and propuestaid = '".$where['propuestaid']."' and revision = '".$where['revision']."' and transmittaid = '".$where['transmittaid']."' " ;           
+            $row = $this->fetchRow($wherestr);
+            if($row) return $row->toArray();
+            return false;
+        }catch (Exception $e){
+            print "Error: Read One _getOne transmittaid ".$e->getMessage();
+        }
+    }
+
+
 
 }
