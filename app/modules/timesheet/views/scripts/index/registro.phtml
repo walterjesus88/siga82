@@ -14,7 +14,7 @@
                             <tr >
                               
                                 <th>  
-                                 
+                                    B/NB 
                                 </th>
 
                                 <th>Proyecto / Actividades</th>
@@ -47,7 +47,7 @@
 
                                 { ?>
                                 <tr class="gradeX">
-                                    <td> 
+                                    <td> <center>
 
                                     <?php if ($data_tareo['tipo_actividad']=='G') {?>
                                       
@@ -62,21 +62,40 @@
 
                                      
                                       <?php }?>
+
+                                      </center>
                                     </td>
 
                      
 
                                     <td>
-                                                     
-                                     <a onClick="window.open('/timesheet/index/actividadgeneral/codigo/<?php echo $data_tareo['codigo_prop_proy']?>/codigo_actividad/<?php echo $data_tareo['codigo_actividad']?>/actividadid/<?php echo $data_tareo['actividadid']?>/revision/<?php echo $data_tareo['revision']?>/actividad_padre/<?php echo $data_tareo['actividad_padre'] ?>/proyectoid/<?php echo $data_tareo['proyectoid']?>/semanaid/<?php echo $data_tareo['semanaid']?>/fecha_tarea/<?php echo $fechaactual ?>/asignado/<?php echo $data_tareo['asignado']?>/areaid/<?php echo $data_tareo['areaid']?>/categoriaid/<?php echo $data_tareo['categoriaid']?>/dni/<?php echo $data_tareo['dni']?>/cargo/<?php echo $data_tareo['cargo']?>/tipo_actividad/<?php echo $data_tareo['tipo_actividad']?>','mywindow','width=400,height=400,left=0,top=100,screenX=0,screenY=100')" class="btn btn-info btn-xs ">
+                                        
+
+                                        <a title="Eliminar" onclick="return confirm('Esta Seguro que desea eliminar el registro?');"  href="/timesheet/index/eliminartareo/codigo/<?php echo $data_tareo['codigo_prop_proy']?>/codigo_actividad/<?php echo $data_tareo['codigo_actividad']?>/actividadid/<?php echo $data_tareo['actividadid']?>/revision/<?php echo $data_tareo['revision']?>/actividad_padre/<?php echo $data_tareo['actividad_padre'] ?>/proyectoid/<?php echo $data_tareo['proyectoid']?>/semanaid/<?php echo $data_tareo['semanaid']?>/fecha_tarea/<?php echo $fechaactual ?>/asignado/<?php echo $data_tareo['asignado']?>/areaid/<?php echo $data_tareo['areaid']?>/categoriaid/<?php echo $data_tareo['categoriaid']?>/dni/<?php echo $data_tareo['dni']?>/cargo/<?php echo $data_tareo['cargo']?>/tipo_actividad/<?php echo $data_tareo['tipo_actividad']?>'" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i>
+                                      </a>           
+                                    
+
+                                     <?php if ($data_tareo['tipo_actividad']=='G') {?>
+                                      
+                                    <?php 
+                                    $dbactividadgeneral= new Admin_Model_DbTable_Actividadgeneral();
+                                    $datosactgeneral = $dbactividadgeneral->_getActividadgeneralxId($data_tareo['actividad_generalid']);
+                                    echo $data_tareo['nombre_proyecto'];  echo " / "; echo $data_tareo['actividadid']; echo ": ";echo $data_tareo['nombre']; echo " / "; print_r($datosactgeneral[0]['nombre']) ?>
+
+
+                                      <?php }else{ ?>
+                                       <a onClick="window.open('/timesheet/index/actividadgeneral/codigo/<?php echo $data_tareo['codigo_prop_proy']?>/codigo_actividad/<?php echo $data_tareo['codigo_actividad']?>/actividadid/<?php echo $data_tareo['actividadid']?>/revision/<?php echo $data_tareo['revision']?>/actividad_padre/<?php echo $data_tareo['actividad_padre'] ?>/proyectoid/<?php echo $data_tareo['proyectoid']?>/semanaid/<?php echo $data_tareo['semanaid']?>/fecha_tarea/<?php echo $fechaactual ?>/asignado/<?php echo $data_tareo['asignado']?>/areaid/<?php echo $data_tareo['areaid']?>/categoriaid/<?php echo $data_tareo['categoriaid']?>/dni/<?php echo $data_tareo['dni']?>/cargo/<?php echo $data_tareo['cargo']?>/tipo_actividad/<?php echo $data_tareo['tipo_actividad']?>','mywindow','width=400,height=400,left=0,top=100,screenX=0,screenY=100')" class="btn btn-info btn-xs ">
                                       <i class="fa fa-asterisk"></i>
                                       </a>
 
-                                    
+                                       <?php echo $data_tareo['nombre_proyecto'];  echo " / "; echo $data_tareo['actividadid']; echo ": ";echo $data_tareo['nombre'] ?>
 
-                                    
+                                     
+                                      <?php }?>
 
-                                    <?php echo $data_tareo['nombre_proyecto'];  echo " / "; echo $data_tareo['actividadid']; echo ": ";echo $data_tareo['nombre'] ?></td>
+                                        
+
+                                 </td>
                                     
                                     <?php  $fecha = $this->fecha; 
                                      $fecha = date("Y-m-d", strtotime($fecha));

@@ -29,6 +29,21 @@ class Admin_Model_DbTable_Actividadgeneral extends Zend_Db_Table_Abstract
         }
     }
 
+      public function _getActividadgeneralxId($actividadgeneralid)
+     {
+        try{
+            $sql=$this->_db->query("
+               select * from actividad_general where 
+               actividad_generalid='$actividadgeneralid'
+            ");
+            $row=$sql->fetchAll();
+            return $row;           
+            }  
+            catch (Exception $ex){
+            print $ex->getMessage();
+        }
+    }
+
   
 
 
