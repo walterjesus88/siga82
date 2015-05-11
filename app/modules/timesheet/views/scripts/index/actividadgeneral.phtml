@@ -1,0 +1,109 @@
+ <!DOCTYPE html><html lang="es">
+    <head>
+        <!-- Mobile Specific Metas -->
+        <title>Sistema de Planificación y Control | Anddes</title>        <meta http-equiv="Content-Type" content="text/html;charset=utf-8" >        <link href="/css/bootstrap.min.css" media="screen" rel="stylesheet" type="text/css" >
+<link href="/css/bootstrap-reset.css" media="screen" rel="stylesheet" type="text/css" >
+<link href="/assets/font-awesome/css/font-awesome.css" media="screen" rel="stylesheet" type="text/css" >
+<link href="/assets/data-tables/DT_bootstrap.css" media="screen" rel="stylesheet" type="text/css" >
+<link href="/assets/fullcalendar/fullcalendar/bootstrap-fullcalendar.css" media="screen" rel="stylesheet" type="text/css" >
+<link href="/assets/jquery-easy-pie-chart/jquery.easy-pie-chart.css" media="screen" rel="stylesheet" type="text/css" >
+<link href="/css/owl.carousel.css" media="screen" rel="stylesheet" type="text/css" >
+<link href="/css/slidebars.css" media="screen" rel="stylesheet" type="text/css" >
+<link href="/css/soon.css" media="screen" rel="stylesheet" type="text/css" >
+<link href="/css/jquery-ui.css" media="screen" rel="stylesheet" type="text/css" >
+<link href="/css/style.css" media="screen" rel="stylesheet" type="text/css" >
+<link href="/css/style-responsive.css" media="screen" rel="stylesheet" type="text/css" >        <script type="text/javascript" src="/js/jquery.js"></script>
+<script type="text/javascript" src="/js/jquery-ui-1.9.2.custom.min.js"></script>
+<script type="text/javascript" src="/js/jquery-migrate-1.2.1.min.js"></script>
+<script type="text/javascript" src="/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="/js/jquery.dcjqaccordion.2.7.js"></script>
+<script type="text/javascript" src="/js/jquery.scrollTo.min.js"></script>
+<script type="text/javascript" src="/js/jquery.nicescroll.js"></script>
+<script type="text/javascript" src="/js/jquery.sparkline.js"></script>
+<script type="text/javascript" src="/assets/jquery-easy-pie-chart/jquery.easy-pie-chart.js"></script>
+<script type="text/javascript" src="/assets/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
+<script type="text/javascript" src="/assets/bootstrap-datetimepicker/js/bootstrap-datetimepicker.js"></script>
+<script type="text/javascript" src="/assets/bootstrap-daterangepicker/moment.min.js"></script>
+<script type="text/javascript" src="/assets/bootstrap-daterangepicker/daterangepicker.js"></script>
+<script type="text/javascript" src="/assets/data-tables/jquery.dataTables.js"></script>
+<script type="text/javascript" src="/assets/data-tables/DT_bootstrap.js"></script>
+<script type="text/javascript" src="/js/owl.carousel.js"></script>
+<script type="text/javascript" src="/js/jquery.customSelect.min.js"></script>
+<script type="text/javascript" src="/js/respond.min.js"></script>
+<script type="text/javascript" src="/js/slidebars.min.js"></script>
+<script type="text/javascript" src="/js/sparkline-chart.js"></script>
+<script type="text/javascript" src="/js/easy-pie-chart.js"></script>
+<script type="text/javascript" src="/js/advanced-form-components.js"></script>
+<script type="text/javascript" src="/js/jquery-ui.js"></script>
+<script type="text/javascript" src="/js/datepicker-es.js"></script>
+<script type="text/javascript" src="/js/count.js"></script>        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+        <link href="http://fonts.googleapis.com/css?family=Cuprum:400italic,400,700italic,700" rel="stylesheet" type="text/css">
+    
+        <link rel="shortcut icon" href="/img/favicon.ico" type="image/x-icon">
+    </head>
+    <body>
+ <span style="font-weight:bold;">Actividades Generales</span>
+
+  <ul class="nav nav-pills nav-stacked">
+<?php $i=1;
+    $tareas = $this->lista;
+    
+    foreach ($tareas as $data_tareas) { ?>
+        <li>
+            <?php 
+               // if ()
+            ?>
+            <a style="padding:5px 5px;" class = "actividades generales"  href="">
+                <span><?php echo $data_tareas['nombre'] ?></span>
+            <input name="tarea_<?php echo $i;?>" id="tarea_<?php echo $i;?>" type = "checkbox" class = "pull-right" value="" >
+            </a>
+        </li>
+        <script type="text/javascript">
+            $(document).ready(function(){
+                $('[name^="tarea_<?php echo $i;?>"]').click(function(event) {
+                    if ($(this).is(":checked")) {
+                        var codigo = '<?php echo $this->codigo_prop_proy; ?>';
+                        var proyectoid='<?php echo $this->proyectoid; ?>';
+                        var categoriaid='<?php echo $this->categoriaid; ?>';
+                        var revision="<?php echo $this->revision; ?>";
+        
+                        var actividadid="<?php  echo $this->actividadid; ?>";
+                        var codigo_actividad="<?php echo $this->codigo_actividad;  ?>";
+                        var actividad_padre="<?php echo $this->actividad_padre;  ?>";
+
+
+                        var actividad_generalid="<?php echo $data_tareas['actividad_generalid']  ?>";
+                        var area_generalid="<?php echo '90'   ?>";
+
+
+                        var fecha_tarea="<?php echo $this->fecha_tarea; ?>"
+                        var tipo_actividad="<?php  echo $this->tipo_actividad;?>"
+                        var semanaid="<?php  echo $this->semanaid;?>"
+
+                        url="/timesheet/index/guardaractividadgeneral/codigo/"+codigo+"/proyectoid/"+proyectoid+"/revision/"+revision+"/categoriaid/"+categoriaid+"/fecha_tarea/"+fecha_tarea+"/actividadid/"+actividadid+"/codigo_actividad/"+codigo_actividad+"/actividad_padre/"+actividad_padre+"/tipo_actividad/"+tipo_actividad+"/semanaid/"+semanaid+"/actividad_generalid/"+actividad_generalid+"/area_generalid/"+area_generalid;
+                        $("#cargar").load(url);
+
+                        //alert(url);
+                        
+                 
+                
+            }
+            
+        });    
+    }); 
+
+            /*$(".actividad_hijas").click(function(){
+                var actividadid = $(this).attr('actividadid');
+                var proyectoid = $(this).attr('proyectoid');
+                var codigo_prop_proy = $(this).attr('codigo-prop-proy');
+                var categoriaid = $(this).attr('categoriaid');
+                var revision = $(this).attr('revision');
+                var propuestaid = $(this).attr('propuestaid');
+                $("#actividades_hijos").load("/timesheet/index/actividadestarea/proyectoid/"+proyectoid+"/codigo_prop_proy/"+codigo_prop_proy+"/categoriaid/"+categoriaid+"/actividadid/"+actividadid+"/revision/"+revision+"/propuestaid/"+propuestaid);
+            });*/
+        </script>
+        <?php
+    $i++;}?>
+</ul>
+
+<div id="cargar"> </div></body>
