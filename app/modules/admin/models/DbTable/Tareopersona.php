@@ -52,7 +52,7 @@ class Admin_Model_DbTable_Tareopersona extends Zend_Db_Table_Abstract
                select * from tareo_persona
                where proyectoid='$proyectoid'  and codigo_prop_proy='$codigo' and revision='$revision'
                and actividadid='$actividadid' and actividad_padre='$actividad_padre' and semanaid='$semanaid' and fecha_tarea='$fecha_tarea' and fecha_planificacion='$fecha_planificacion'
-               and uid='$uid' and dni='$dni' and cargo='$cargo' and etapa='$etapas'
+               and uid='$uid' and dni='$dni' and cargo='$cargo' and etapa='$etapas' and estado='A'
                
             ");
             $row=$sql->fetchAll();
