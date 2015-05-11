@@ -1,9 +1,9 @@
 <?php
-    // $dir = APPLICATION_LIBRARY."/pdf/MPDF57/mpdf.php";
-    // include_once($dir);
-    // ob_start();
-    // $sesion1  = Zend_Auth::getInstance();
-    // $sesion = $sesion1->getStorage()->read();
+    $dir = APPLICATION_LIBRARY."/pdf/MPDF57/mpdf.php";
+    include_once($dir);
+    ob_start();
+    $sesion1  = Zend_Auth::getInstance();
+    $sesion = $sesion1->getStorage()->read();
 ?>
 
 <!-- <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />  --> 
@@ -75,7 +75,7 @@
 </table>
 
 <table class="table table-bordered">
-    <tr>
+    <tr style="background-color:#1C38B4;">
         <th style="font-size: 12px;width: 10%;text-align: center"> N°</th>       
         <th style="font-size: 12px;width: 10%;text-align: center"> Código</th> 
         <th style="font-size: 12px;width: 10%;text-align: center"> Rev.</th> 
@@ -99,16 +99,16 @@
     
 </table>
 
-<table class="table table-bordered">
+<table class="table table-bordered" style="font-size: 12px">
     <tr> 
         <th style="width: 50%"> 
-            <h5>Tipo de Envío:</h5>
+            <p>Tipo de Envío:</p>
             <p><span class="text-muted">A : </span><i class="fa fa-time"></i>Documento para Revisión y Aprobación</p>
             <p><span class="text-muted">B : </span><i class="fa fa-time"></i>Documento para Información</p>
             <p><span class="text-muted">C : </span><i class="fa fa-time"></i>Documento Final</p>
         </th> 
         <th style="width: 50%">
-            <h5>Tipo de Envío:</h5>
+            <p>Tipo de Envío:</p>
             <p><span class="text-muted">AP : </span><i class="fa fa-time"></i>Aprobado</p>
             <p><span class="text-muted">AC : </span><i class="fa fa-time"></i>Aprobado con Comentarios</p>
             <p><span class="text-muted">NA : </span><i class="fa fa-time"></i>No Aprobado, Corregir y Emitir Nuevamente</p>
@@ -151,11 +151,11 @@
 <script src="js/common-scripts.js"></script>
 
 <?php 
-    // $html = ob_get_contents();
-    // $mpdf=new mPDF('win-1252','A4','','',15,15,30,12,5,7);
-    // $mpdf->SetHTMLHeader($header);
-    // $mpdf->SetFooter(' {DATE j/m/Y}|Página {PAGENO}|Sistema de Gestión e-UNDAC');
-    // ob_end_clean();
-    // $mpdf -> WriteHTML($html);
-    // $mpdf->Output('ASIGNATURAS -'.$this->perid.'.pdf','D');
+    $html = ob_get_contents();
+    $mpdf=new mPDF('win-1252','A4','','',15,15,30,12,5,7);
+    $mpdf->SetHTMLHeader($header);
+    $mpdf->SetFooter(' {DATE j/m/Y}|Página {PAGENO}|Sistema de Gestión e-UNDAC');
+    ob_end_clean();
+    $mpdf -> WriteHTML($html);
+    $mpdf->Output('ASIGNATURAS -'.$this->perid.'.pdf','D');
 ?>    
