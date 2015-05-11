@@ -45,9 +45,36 @@ if ($this->actividadid != 1) {
                 var propuestaid = $(this).attr('propuestaid');
                 $("#actividades_hijos").load("/timesheet/index/actividadestarea/proyectoid/"+proyectoid+"/codigo_prop_proy/"+codigo_prop_proy+"/categoriaid/"+categoriaid+"/actividadid/"+actividadid+"/revision/"+revision+"/propuestaid/"+propuestaid);
             });*/
+
+                $(document).ready(function(){
+                $('[name^="tarea_<?php echo $i;?>"]').click(function(event) {
+                    if ($(this).is(":checked")) {
+                        var codigo = '<?php echo $this->codigo_prop_proy; ?>';
+                        var proyectoid='<?php echo $this->proyectoid; ?>';
+                        var categoriaid='<?php echo $this->categoriaid; ?>';
+                        var revision="<?php echo $data_tareo_hijos['revision']; ?>";
+                        var propuestaid="<?php echo $data_tareo_hijos['propuestaid']; ?>";
+                        var actividadid="<?php echo $data_tareo_hijos['actividadid']; ?>";
+                        var codigo_actividad="<?php echo $data_tareo_hijos['codigo_actividad']; ?>";
+                        var actividad_padre="<?php echo $data_tareo_hijos['actividad_padre']; ?>";
+                        var h_propuesta="<?php echo $data_tareo_hijos['h_propuesta']; ?>";
+                        url="/timesheet/index/guardartareopersona/codigo/"+codigo+"/proyectoid/"+proyectoid+"/revision/"+revision+"/categoriaid/"+categoriaid+"/propuestaid/"+propuestaid+"/actividadid/"+actividadid+"/codigo_actividad/"+codigo_actividad+"/actividad_padre/"+actividad_padre+"/h_propuesta/"+h_propuesta;
+                        alert(url);
+                        //$("#cargar").load(url);
+                 
+                
+            }
+            
+        });    
+    }); 
+
+
         </script>
         <?php
     } ?>
     
 <?php } ?>
 </ul>
+
+
+<div id="cargar"> </div>
