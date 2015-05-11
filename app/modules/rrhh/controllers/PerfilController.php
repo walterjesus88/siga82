@@ -81,11 +81,8 @@ class Rrhh_PerfilController extends Zend_Controller_Action {
         $where=array('dni'=>$dni);
         $datauser=$dbper->_getOne($where);        
         $this->view->lista_persona=$datauser;
-
-
         $veruser=new Admin_Model_DbTable_Usuario();       
         $user=$veruser->_getOne($where);
-
         //echo $user['uid'];
         if($user)
         {
@@ -105,7 +102,12 @@ class Rrhh_PerfilController extends Zend_Controller_Action {
                             $updusuario = new Admin_Model_DbTable_Usuario();
                                 if($updusuario->_updateX($formdata,$pku))
                                 {                              
-                                    echo "La contrasena ha sido cambiada correctamente";                                                              
+                                    //echo "La contrasena ha sido cambiada correctamente";  
+                                    ?>
+                                    <script>
+                                        document.location.href="/rrhh/perfil/curriculum/dni/<?php echo $dni?>";                                                            
+                                    </script>
+                                    <?php
                                 }
                                 else
                                 { 
@@ -128,7 +130,7 @@ class Rrhh_PerfilController extends Zend_Controller_Action {
 
 
     public function curriculumAction(){
-        
+
         $dni = $this->_getParam('dni');        
         $dbper=new Admin_Model_DbTable_Persona();
         $where=array('dni'=>$dni);
