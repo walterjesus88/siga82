@@ -2343,7 +2343,7 @@ ul.inbox-pagination li {
 /*profile*/
 
 .profile-nav .user-heading {
-    background: #286AC2;
+    background: rgba(7, 35, 108, 0.92);
     color: #fff;
     border-radius: 4px 4px 0 0;
     -webkit-border-radius: 4px 4px 0 0;

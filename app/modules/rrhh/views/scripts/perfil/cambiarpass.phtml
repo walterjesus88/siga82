@@ -21,32 +21,32 @@
     <aside class="profile-info col-lg-9">   
     <section>
         <div class="panel panel-primary">
-                              <div class="panel-heading"> Cambiar Nueva Contraseña </div>
-                              <div class="panel-body">
-                                  <form action="/rrhh/perfil/cambiarpass/dni/<?php echo $this->lista_persona['dni'];?>" method="post" id="formu" role="form">
-                                      <!--  -->
-                                      <div class="form-group">
-                                          <label  class="col-lg-4 control-label">Nueva Contraseña</label>
-                                          <div class="col-lg-6">
-                                              <input type="password" class="form-control" id="newpassword" name="newpassword" placeholder=" ">
-                                          </div>
-                                      </div>
-                                      <br>
-                                      <div class="form-group">
-                                          <label  class="col-lg-4 control-label">Repetir Nueva Contraseña</label>
-                                          <div class="col-lg-6">
-                                              <input type="password" class="form-control" id="renewpassword" name="renewpassword" placeholder=" ">
-                                          </div>
-                                      </div>
+            <div class="panel-heading"> Cambiar Nueva Contraseña </div>
+                <div class="panel-body">
+                    <form action="/rrhh/perfil/cambiarpass/dni/<?php echo $this->lista_persona['dni'];?>" method="post" id="formu" role="form">
+                             
+                        <div class="form-group">
+                            <label  class="col-lg-4 control-label">Nueva Contraseña</label>
+	                            <div class="col-lg-6">
+	                                <input type="password" class="form-control" id="newpassword" name="newpassword" placeholder=" ">
+	                            </div>
+                            </div>
+                            <br>
+                            <div class="form-group">
+                                <label  class="col-lg-4 control-label">Repetir Nueva Contraseña</label>
+                                <div class="col-lg-6">
+                                     <input type="password" class="form-control" id="renewpassword" name="renewpassword" placeholder=" ">
+                                </div>
+                            </div>
                     
-                                      <div class="form-group">
-                                          <div class="col-lg-offset-2 col-lg-10">
-                                              <button id="pass" type="submit" class="btn btn-info">Guardar</button>
-                                              <a type="button" href="/rrhh/perfil/ver/dni/<?php echo $this->lista_persona['dni'];?>" class="btn btn-default">Cancelar</a>
-                                          </div>
-                                      </div>
-                                  </form>
-                              </div>
+                            <div class="form-group">
+                            <div class="col-lg-offset-2 col-lg-10">
+                            <button id="pass" type="submit" class="btn btn-info">Guardar</button>
+                            <a type="button" href="/rrhh/perfil/ver/dni/<?php echo $this->lista_persona['dni'];?>" class="btn btn-default">Cancelar</a>
+                        	</div>
+                    	</div>
+            	</form>
+			</div>
         </div>
     </section>
     </aside>

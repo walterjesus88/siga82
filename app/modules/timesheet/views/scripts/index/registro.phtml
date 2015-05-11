@@ -11,14 +11,24 @@
                 <div class="adv-table">
                     <table  class="display table table-bordered table-striped">
                         <thead>
+<<<<<<< HEAD
                             <tr>
+=======
+                            <tr >
+>>>>>>> 464032bcb0d26652213ddef53c101ed6229b5b46
                                 <th>Proyecto / Actividades</th>
                                 <?php 
                                 $fecha = $this->fecha;
                                 $fecha_mostrar = $this->fecha_mostrar;
+<<<<<<< HEAD
                                 $days_name = array("lunes","martes","miércoles","jueves","viernes","sábado","domingo");
                                 for ($i=0; $i < 7; $i++) { ?>
                                     <th ><center>
+=======
+                                $days_name = array("lun","mar","mié","jue","vie","sáb","dom");
+                                for ($i=0; $i < 7; $i++) { ?>
+                                    <th style="width: 100px;"><center>
+>>>>>>> 464032bcb0d26652213ddef53c101ed6229b5b46
                                         <?php print $days_name[$i] ?> <br><?php //print $fecha ?></center>
                                     </th>
                                     <?php
@@ -32,10 +42,13 @@
                         <tbody>
                             <?php 
                             $actividades = $this->actividades;
-                            foreach ($actividades as $data_tareo) { ?>
+                            foreach ($actividades as $data_tareo) 
+
+                                { ?>
                                 <tr class="gradeX">
                                     <td><?php echo $data_tareo['nombre_proyecto'];  echo " / "; echo $data_tareo['actividadid']; echo ": ";echo $data_tareo['nombre'] ?></td>
                                     <td><center>
+<<<<<<< HEAD
                                         <input onBlur="fnc(event)" style="height: 26px; width: 54px;" maxlength="2" editable=true id=""  type="text" name="horario"  value=""  > 
                                         </center>
                                     </td>
@@ -61,6 +74,33 @@
                                     </td>
                                          <td><center>
                                         <input onBlur="fnc(event)" style="height: 26px; width: 54px;" maxlength="2" editable=true id=""  type="text" name="horario"  value=""  > 
+=======
+                                        <input class="form-control" onBlur="fnc(event)" style="height: 26px; width: 60px;" maxlength="2" editable=true id="<?php echo $data_tareo['codigo_prop_proy']."!".$data_tareo['codigo_actividad']."!".$data_tareo['actividadid']."!".$data_tareo['revision']."!".$data_tareo['actividad_padre']."!".$data_tareo['proyectoid']."!".$data_tareo['semanaid']."!".$data_tareo['fecha_tarea']."!".$data_tareo['asignado']."!".$data_tareo['areaid']."!".$data_tareo['categoriaid']."!".$data_tareo['dni']."!".$data_tareo['cargo'];?>  type="text" name="horario"  value=""  > 
+                                        </center>
+                                    </td>
+                                          <td><center>
+                                       <input class="form-control" onBlur="fnc(event)" style="height: 26px; width: 60px;" maxlength="2" editable=true id=""  type="text" name="horario"  value=""  > 
+                                        </center>
+                                    </td>
+                                         <td><center>
+                                       <input class="form-control" onBlur="fnc(event)" style="height: 26px; width: 60px;" maxlength="2" editable=true id=""  type="text" name="horario"  value=""  > 
+                                        </center>
+                                    </td>
+                                         <td><center>
+                                               <input class="form-control" onBlur="fnc(event)" style="height: 26px; width: 60px;" maxlength="2" editable=true id=""  type="text" name="horario"  value=""  > 
+                                        </center>
+                                    </td>
+                                         <td><center>
+                                               <input class="form-control" onBlur="fnc(event)" style="height: 26px; width: 60px;" maxlength="2" editable=true id=""  type="text" name="horario"  value=""  > 
+                                        </center>
+                                    </td>
+                                       <td><center>
+                                               <input class="form-control" onBlur="fnc(event)" style="height: 26px; width: 60px;" maxlength="2" editable=true id=""  type="text" name="horario"  value=""  > 
+                                        </center>
+                                    </td>
+                                         <td><center>
+                                               <input class="form-control" onBlur="fnc(event)" style="height: 26px; width: 60px;" maxlength="2" editable=true id=""  type="text" name="horario"  value=""  > 
+>>>>>>> 464032bcb0d26652213ddef53c101ed6229b5b46
                                         </center>
                                     </td>
                                 </tr>
@@ -74,3 +114,92 @@
         </section>
     </div>
 </div>
+<div id="horaregistrada"></div>
+<script type="text/javascript">
+function fnc(evt) {
+    var evt = evt.target ? evt : window.event;
+    if (!evt.target) { evt.target = evt.srcElement; }
+    var hora = $("#horaregistrada").text();
+    values="-";
+
+    $("#horaregistrada").text( values ); 
+    var variables_input=evt.target.id;
+    var hora_real = parseInt(hora);
+    alert(equipo);
+    
+  /*
+  
+  
+
+  var equipo=evt.target.id;
+  var str = equipo.split("-");
+  var proyectoid=str[0];
+  var actividadid=str[1];
+  var dia=str[2];
+  var personaasignada=str[3];
+  var semanaid = "<?php echo $this->semanalabor?>";
+  var areaid = "<?php echo $this->categoria?>";
+  var responsableid = "<?php echo $this->responsable?>";
+  var url="/proyectos/proyectos/guardaractividadreal/proyectoid/"+proyectoid+"/actividadid/"+actividadid+"/dia/"+dia+"/personaasignada/"+personaasignada+"/semanaid/"+semanaid+"/areaid/"+areaid+"/responsable/"+responsableid+"/horas/"+hora;
+  values="-";
+  
+  $("#horaregistrada").text( values ); 
+  var sumahoras="llenadas_"+proyectoid+"-"+dia+"-"+personaasignada;
+  var sumahorasplanificadas="planificadas_"+proyectoid+"-"+actividadid;
+
+  //suma anterior horas diarias de cada persona por dia
+  var divsumaant=parseInt(document.getElementById(sumahoras).innerHTML); 
+  if (isNaN(divsumaant)) {
+    var sumanterior=0;
+     }
+  else{
+    var sumanterior=parseInt(document.getElementById(sumahoras).innerHTML);
+  }
+  //suma horas planificads por actividad
+  var divsumaplan=parseInt(document.getElementById(sumahorasplanificadas).innerHTML); 
+  if (isNaN(divsumaplan)) {
+    var sumanteriorplan=0;
+     }
+  else{
+    var sumanteriorplan=parseInt(document.getElementById(sumahorasplanificadas).innerHTML);
+  }
+  //hora nueva a ingresar
+  if (isNaN(horasuma)) {
+    var horasumanew=0;
+    }
+  else{
+    var horasumanew=parseInt(horasuma);
+  }
+
+  //suma de horas totales por persona
+  var sumanueva=sumanterior+horasumanew;
+  if (isNaN(sumanueva)) {
+    var sumaf=0;
+    }
+  else{
+    var sumaf=sumanterior+horasumanew; 
+  }
+
+  //suma de horas totales por persona
+  var sumahorasplan=sumanteriorplan+horasumanew;
+  if (isNaN(sumahorasplan)) {
+    var sumafplan=0;
+    }
+  else{
+    var sumafplan=sumanteriorplan+horasumanew; 
+  }
+  //alert(url);
+
+  document.getElementById(sumahoras).textContent =sumaf;
+  document.getElementById(sumahorasplanificadas).textContent =sumafplan;
+  $("#semana").load(url);  
+  //document.getElementById("debug").innerHTML = "El evento es: "+evt.type+" y se disparo en el elemento con id: "+evt.target.id;*/
+}
+
+$( "input" )
+  .keyup(function() {
+  var value = $( this ).val();
+  $("#horaregistrada").text( value );
+})
+
+</script>

@@ -15,71 +15,59 @@ class Rrhh_PerfilController extends Zend_Controller_Action {
     }
 
     public function listarAction() {
-        $listapersonas = new Admin_Model_DbTable_Persona();
-        $this->view->lista_personas = $listapersonas->_getPersonasOrdenadoxApellido();
+        // $listapersonas = new Admin_Model_DbTable_Persona();
+        // $this->view->lista_personas = $listapersonas->_getPersonasOrdenadoxApellido();
 
 
     }
 
     public function verAction() {
 
-        $dni = $this->_getParam('dni');
+        // $dni = $this->_getParam('dni');
 
-        $where=array('dni'=>$dni);
-        $dbper=new Admin_Model_DbTable_Persona();
-        $datauser[0]=$dbper->_getOne($where);
-        //print_r($datauser[0]);
-        $this->view->lista_persona=$datauser[0];
+        // $where=array('dni'=>$dni);
+        // $dbper=new Admin_Model_DbTable_Persona();
+        // $datauser[0]=$dbper->_getOne($where);
+        // //print_r($datauser[0]);
+        // $this->view->lista_persona=$datauser[0];
 
     }
 
     public function editarAction() {
-        $dni = $this->_getParam('dni');
-
-
-        $form= new Admin_Form_Persona();
-        $where=array('dni'=>$dni);
-        $dbper=new Admin_Model_DbTable_Persona();
-        $datauser=$dbper->_getOne($where);
+        //$dni = $this->_getParam('dni');
+        // $form= new Admin_Form_Persona();
+        // $where=array('dni'=>$dni);
+        // $dbper=new Admin_Model_DbTable_Persona();
+        // $datauser=$dbper->_getOne($where);
         
-        $this->view->lista_persona=$datauser;
-        $this->view->form = $form;
-        $form->populate($datauser);
+        // $this->view->lista_persona=$datauser;
+        // $this->view->form = $form;
+        // $form->populate($datauser);
 
         //print_r($datauser[0]);
-        $nombres = $this->_getParam('nombres');
+        //$nombres = $this->_getParam('nombres');
         //echo $nombres;
-
-        if ($this->getRequest()->isPost()) {
-            $formdata = $this->getRequest()->getPost();
-                    
-                    unset($formdata['submit']);
-
-                    $pk = array('dni'    => $dni   ); 
-                   
-                    //print_r($formdata);
-                    $updperson=new Admin_Model_DbTable_Persona();               
-                    if($updperson->_updateX($formdata,$pk))
-                    {   ?>
-                        <script>                  
-                          document.location.href="/rrhh/perfil/ver/dni/<?php echo $dni ?>";
-                          
-                        </script>
-                        <?php
-                    }
-                    else
-                    {   ?>
-                          <script>                  
-                          alert("Error al guardar verifique porfavor");                                                 
-                          </script>
-                         <?php
-                    } 
-        }
-
-        // $lname = $this->_getParam('l-name');
-        // echo $lname;
-
-        //$this->view->lista_personas = $listapersonas->_getPersonasOrdenadoxApellido();
+        // if ($this->getRequest()->isPost()) {
+        //     $formdata = $this->getRequest()->getPost();                    
+        //             unset($formdata['submit']);
+        //             $pk = array('dni'    => $dni   );                   
+        //             print_r($formdata);
+        //             $updperson=new Admin_Model_DbTable_Persona();               
+        //             if($updperson->_updateX($formdata,$pk))
+        //             {   ?>
+        //                 <script> 
+        //                   document.location.href="/rrhh/perfil/ver/dni/<?php echo $dni ?>";
+        //                 </script>
+        //                 <?php
+        //             }
+        //             else
+        //             {   ?>
+        //                   <script>                  
+        //                   alert("Error al guardar verifique porfavor");                                                 
+        //                   </script>
+        //                  <?php
+        //             } 
+        // }
 
     }
 
@@ -140,12 +128,78 @@ class Rrhh_PerfilController extends Zend_Controller_Action {
 
 
     public function curriculumAction(){
+        
         $dni = $this->_getParam('dni');        
         $dbper=new Admin_Model_DbTable_Persona();
         $where=array('dni'=>$dni);
         $datauser=$dbper->_getOne($where);        
         $this->view->lista_persona=$datauser;
 
+        $dbcurriculum=new Admin_Model_DbTable_Curriculum();
+        $datacurriculum=$dbcurriculum->_getOne($where); 
+        $this->view->lista_curriculum=$datacurriculum;
+
+        $dbpuesto=new Admin_Model_DbTable_Puesto();
+        $wherepuesto = array( 'dnipersona' => $dni, 'estado' => 'A');
+        if($datapuesto=$dbpuesto->_getFilter($wherepuesto))
+        {
+            $this->view->lista_puesto=$datapuesto;
+            $dbcomp = new Admin_Model_DbTable_Competencia();
+            $wherecomp=  array('puesto' => $datapuesto[0]['puestoid'], 'estado' => 'A' );
+            $dbcompetencia= $dbcomp->_getFilter($wherecomp);
+            $this->view->lista_competencia=$dbcompetencia;
+
+            $dbfun = new Admin_Model_DbTable_Funcion();
+            $wherefun=  array('puesto' => $datapuesto[0]['puestoid'] );            
+            $dbfuncion= $dbfun->_getFilter($wherefun);
+            $this->view->lista_funcion=$dbfuncion;           
+        }
+
+        $dbevaluacion=new Admin_Model_DbTable_Evaluacion();
+        $dataevaluacion=$dbevaluacion->_getFilter($where); 
+        $this->view->lista_evaluacion=$dataevaluacion;
+      
+
+        $dbcapacitacion=new Admin_Model_DbTable_Capacitacion();
+        $datacapacitacion=$dbcapacitacion->_getFilter($where); 
+        $this->view->lista_capacitacion=$datacapacitacion;
+
+
+
+        //--------------*esto es guardar------------//
+        $dni = $this->_getParam('dni');
+        $form= new Admin_Form_Persona();
+        $where=array('dni'=>$dni);
+        $dbper=new Admin_Model_DbTable_Persona();
+        $datauser=$dbper->_getOne($where);
+        
+        $this->view->lista_persona=$datauser;
+        $this->view->form = $form;
+        $form->populate($datauser);
+
+        if ($this->getRequest()->isPost()) {
+             $formdata = $this->getRequest()->getPost();                    
+                     unset($formdata['submit']);
+                     $pk = array('dni'    => $dni   );                                     
+                     print_r($formdata);
+                     $updperson=new Admin_Model_DbTable_Persona();               
+                     if($updperson->_updateX($formdata,$pk))
+                     {   ?>
+                         <script>
+                            alert('guardado');
+                           //document.location.href="/rrhh/perfil/ver/dni/<?php echo $dni ?>";                          
+                         </script>
+                         <?php
+                     }
+                     else
+                     {   ?>
+                           <script>                  
+                           alert("Error al guardar verifique porfavor");                                                 
+                           </script>
+                          <?php
+                     } 
+        }
+        /*----------------*/
     }
 
 

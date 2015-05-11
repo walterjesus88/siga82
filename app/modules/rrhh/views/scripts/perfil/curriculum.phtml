@@ -1,66 +1,78 @@
-    <aside class="profile-nav col-lg-3">
-        <section class="panel">
-            <div class="user-heading round">
+
+<section id="container" >
+
+<div class="row">
+    <aside class="profile-nav col-lg-3 "   ;>
+        <section class="panel"  >
+            <div class="user-heading round" >
                 <a href="#">                            
                 <img src="/img/fotos-anddes/<?php echo $this->lista_persona['dni'];?>.jpg" alt="">
                 </a>
                 <h1><?php echo $this->lista_persona['ape_paterno'];echo " ";echo $this->lista_persona['ape_materno'];echo " ";echo $this->lista_persona['nombres']?></h1>
                 <p><?php echo $this->lista_persona['email_anddes'];?></p>
-            </div>
+            </div> 
+            <ul class="nav nav-pills nav-stacked "  style="position:absoute">
+<!--                 <li><a href="/rrhh/perfil/ver/dni/<?php //echo $this->lista_persona['dni'];?>"> <i class="fa fa-user"></i> Perfil</a></li>
+                
+                <li  class="active"><a href="/rrhh/perfil/editar/dni/<?php //echo $this->lista_persona['dni'];?>"> <i class="fa fa-edit"></i> Editar perfil</a></li> -->
 
-            <ul class="nav nav-pills nav-stacked">
-	            <li><a href="/rrhh/perfil/ver/dni/<?php echo $this->lista_persona['dni'];?>"> <i class="fa fa-user"></i> Perfil</a></li>
-	            <li><a href="#"> <i class="fa fa-calendar"></i> Actividades Recientes <span class="label label-danger pull-right r-activity">9</span></a></li>
-	            <li  class="active"><a href="/rrhh/perfil/editar/dni/<?php echo $this->lista_persona['dni'];?>"> <i class="fa fa-edit"></i> Editar perfil</a></li>
-	            <li  class="active"><a href="/rrhh/perfil/cambiarpass/dni/<?php echo $this->lista_persona['dni'];?>"> <i class="fa fa-edit"></i> Cambio Contrasena</a></li>
+                <li  class="active"><a id="vverperfil" href="#verperfil"> <i class="fa fa-edit"></i> Ver Perfil</a></li>
+                <li  class="active"><a id="veditar" href="#editarperfil"> <i class="fa fa-edit"></i> Editar Perfil</a></li>
+                <li  class="active"><a id="vpassword" href="#password"> <i class="fa fa-edit"></i> Cambio Contrasena</a></li>
+                <li  class="active"><a id="vcurriculum" href="#curriculum"> <i class="fa fa-edit"></i> Curriculum Vitae</a></li>
+                <li  class="active"><a id="vevaluaciones" href="#evaluaciones"> <i class="fa fa-edit"></i> Evaluaciones</a></li>
+                <li  class="active"><a id="vfunciones" href="#funciones"> <i class="fa fa-edit"></i> Funciones</a></li>
+                <li  class="active"><a id="vcapacitaciones" href="#capacitaciones"> <i class="fa fa-edit"></i> Capacitaciones</a></li>
+                <!-- <li  class="active"><a id="vproyecto" href="#proyecto"> <i class="fa fa-edit"></i> Proyectos</a></li> -->
             </ul>
 
         </section>
                    
     </aside>
+ 
     <aside class="profile-info col-lg-9">
-        <section class="panel">
-        <div class="bio-graph-heading">
-            Curriculum Vitae
-        </div>
-        <div class="room-box">
-            <h5 class="text-primary"><a href="chat_room.html">Resumen</a></h5>
-                <p>Welcome to our world of marketing. Lorem ipsum dolor sit amet</p>
-                <p>Welcome to our world of marketing. Lorem ipsum dolor sit amet</p>
-                <p>Welcome to our world of marketing. Lorem ipsum dolor sit amet</p>         
-                
-        </div>
-        </section>
-        <section class="panel">
+
+        <!--curriculum-->
+        <div id="curriculum">
+        <section class="panel" >
+            <div class="bio-graph-heading">
+                Curriculum Vitae
+            </div>
+            <div class="room-box">
+                <h5 class="text-primary"><a href="chat_room.html">Resumen</a></h5>                
+                    <?php echo $this->lista_curriculum['resumen']; ?>
+            </div>
+        </section>        
+        <section class="panel"  >
             <header class="panel-heading tab-bg-dark-navy-blue">
                     <ul class="nav nav-tabs ">
                         <li class="active">
-                            <a data-toggle="tab" href="#experiencia">
-                                Experiencia
+                            <a data-toggle="tab" id="vexperiencia" href="#experiencia">
+                                Experiencia                       
                             </a>
                         </li>
                         <li>
-                            <a data-toggle="tab" href="#estudios">
-                               Estudios
+                            <a data-toggle="tab"  id="vestudios" href="#estudios">
+                               Estudios 
                             </a>
                         </li>
                         <li>
-                            <a data-toggle="tab" href="#perfeccionamiento">
+                            <a data-toggle="tab"  id="vperfeccionamiento" href="#perfeccionamiento">
                                Perfeccionamiento
                             </a>
                         </li>
                         <li>
-                            <a data-toggle="tab" href="#conocimientos">
-                               Conocimientos
+                            <a data-toggle="tab"  id="vconocimientos" href="#conocimientos">
+                               Conocimientos 
                             </a>
                         </li>
                         <li>
-                            <a data-toggle="tab" href="#certificaciones">
+                            <a data-toggle="tab"  id="vcertificaciones" href="#certificaciones">
                                Certificaciones
                             </a>
                         </li>
                         <li>
-                            <a data-toggle="tab" href="#idiomas">
+                            <a data-toggle="tab"  id="vidiomas" href="#idiomas">
                                Idiomas
                             </a>
                         </li>
@@ -68,63 +80,60 @@
             </header>
             <div class="panel-body">
                 <div class="tab-content tasi-tab">
-                    <div id="experiencia" class="tab-pane active">
-                        <h4 class="pro-d-head">Product Description</h4>
-                                <p> Praesent ac condimentum felis. Nulla at nisl orci, at dignissim dolor, The best product descriptions address your ideal buyer directly and personally. The best product descriptions address your ideal buyer directly and personally. </p>
-                                <p> Praesent ac condimentum felis. Nulla at nisl orci, at dignissim dolor, The best product descriptions address your ideal buyer directly and personally. The best product descriptions address your ideal buyer directly and personally. The best product descriptions address your ideal buyer directly and personally. The best product descriptions address your ideal buyer directly and personally. </p>
+                        <div id="experiencia" class="tab-pane active">
+                            <p><span class="text-muted">Experiencia :</span><i class="fa fa-time"></i><?php echo $this->lista_curriculum['experiencia']; ?> . </p>                                
                         </div>
-                        <div id="estudios" class="tab-pane">
-                        <article class="media">
-                                <a class="pull-left thumb p-thumb">
-                                    <img src="img/avatar-mini.jpg">
-                                </a>
-                                <div class="media-body">
-                                    <a href="#" class="cmt-head">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</a>
-                                    <p> <i class="fa fa-time"></i> 1 hours ago</p>
-                                </div>
-                                <p><span class="text-muted">Admin :</span> Kally Brash | <span class="text-muted">Member :</span> 13 | <span class="text-muted">Last Activity :</span> 15 min ago</p>
-                        </article>
-                        <article class="media">
-                                <a class="pull-left thumb p-thumb">
-                                    <img src="img/avatar-mini2.jpg">
-                                </a>
-                                <div class="media-body">
-                                    <a href="#" class="cmt-head">Nulla vel metus scelerisquejjjjjjjjjjjjjjjjj
-                                    jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjddddddddddddddddddd
-                                    ddddddddddddddddddddddddddddddddddddd                                    
-                                    dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd
-                                    ddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd
-                                    dddddddddddddddddddddddddddddddddddd
-                                     ante sollicitudin commodo</a>
-                                    <p> <i class="fa fa-time"></i> 23 mins ago</p>
-                                    </div>
-                        </article>
-                        <article class="media">
-                                    <a class="pull-left thumb p-thumb">
-                                        <img src="img/avatar-mini3.jpg">
-                                    </a>
+                        <div id="estudios" class="tab-pane">              
+                            <article class="media">                                 
                                     <div class="media-body">
-                                        <a href="#" class="cmt-head">Donec lacinia congue felis in faucibus. </a>
-                                        <p> <i class="fa fa-time"></i> 15 mins ago</p>
+                                        <a href="#" class="cmt-head"></a>
+                                        <p><span class="text-muted">Estudios :</span><i class="fa fa-time"></i><?php echo $this->lista_curriculum['estudios']; ?></p>                                         
                                     </div>
-                        </article>
-                    </div>
+                            </article>                      
+                        </div>
+                        <div id="perfeccionamiento" class="tab-pane active">                                
+                            <p><span class="text-muted">Estudios :</span><i class="fa fa-time"></i><?php echo $this->lista_curriculum['perfeccionamiento']; ?> . </p>                                
+                        </div>
 
+                        <div id="conocimientos" class="tab-pane active">                             
+                            <p> <?php echo $this->lista_curriculum['conocimientos']; ?> . </p>                                
+                        </div>
+
+                        <div id="certificaciones" class="tab-pane active">                                
+                            <p> <?php echo $this->lista_curriculum['certificaciones']; ?> . </p>                                
+                        </div>
+
+                        <div id="idiomas" class="tab-pane active">
+                            <p> <?php echo $this->lista_curriculum['idiomas']; ?> . </p>                                
+                        </div>
                 </div>
             </div>
         </section>
+        </div>
+
 
         <!--Funciones Responsabilidades-->
-        <section class="panel">
+        <div id="funciones">  
+        <section class="panel" >
+            <div class="bio-graph-heading">
+
+                <?php if($this->lista_puesto)
+                      {echo $this->lista_puesto[0]['nombre'];
+                      }else{ echo "No tiene asignado un puesto"; 
+                      ?><a href="#"> Asignele el perfil de puesto</a><?php
+                      }
+
+                ?>
+            </div>
             <header class="panel-heading tab-bg-dark-navy-blue">
                     <ul class="nav nav-tabs ">
                         <li class="active">
-                            <a data-toggle="tab" href="#experiencia">
+                            <a data-toggle="tab" href="#funcion">
                                 Funciones Responsabilidades
                             </a>
                         </li>
                         <li>
-                            <a data-toggle="tab" href="#estudios">
+                            <a data-toggle="tab" href="#competencia">
                                Competencias
                             </a>
                         </li>
@@ -133,72 +142,718 @@
             </header>
             <div class="panel-body">
                 <div class="tab-content tasi-tab">
-                    <div id="experiencia" class="tab-pane active">
-                        <h4 class="pro-d-head">Product Description</h4>
-                                <p> Praesent ac condimentum felis. Nulla at nisl orci, at dignissim dolor, The best product descriptions address your ideal buyer directly and personally. The best product descriptions address your ideal buyer directly and personally. </p>
-                                <p> Praesent ac condimentum felis. Nulla at nisl orci, at dignissim dolor, The best product descriptions address your ideal buyer directly and personally. The best product descriptions address your ideal buyer directly and personally. The best product descriptions address your ideal buyer directly and personally. The best product descriptions address your ideal buyer directly and personally. </p>
+                    <div id="competencia" class="tab-pane ">
+                        
+                        <?php 
+                        if ($this->lista_competencia) {
+                            $c=0;
+                            foreach ($this->lista_competencia as $competencia) {     
+                        ?>
+                            <article class="media">                              
+                                <div class="media-body">
+                                    <a href="#" class="cmt-head"></a>
+                                    <p><span class="text-muted">Competencia :</span><i class="fa fa-time"></i> <?php echo $competencia['competencia']; ?></p>
+                                    <p><span class="text-muted">Competencia Especifica :</span><i class="fa fa-time"></i> <?php echo $competencia['compespecifica']; ?></p>
+                                    <p><span class="text-muted">Grado Academico  :</span><i class="fa fa-time"></i> <?php echo $competencia['gradoacademico']; ?></p>
+                                    <p><span class="text-muted">Experiencia Requerida :</span><i class="fa fa-time"></i> <?php echo $competencia['experiencia']; ?></p>
+                                    <p><span class="text-muted">Competencia Tecnica:</span><i class="fa fa-time"></i> <?php echo $competencia['comptecnica']; ?></p>
+                                    <p><span class="text-muted">Competencia Organizacional:</span><i class="fa fa-time"></i> <?php echo $competencia['comporganizacional']; ?></p>
+                                </div>                                                          
+                            </article>
+                        <?php }$c++; } else { ?><p><?php echo "no exiten registros de competencias"; ?></p><?php } ?>                     
+                                
+                                
+                              
                         </div>
-                        <div id="estudios" class="tab-pane">
-                        <article class="media">
-                                <a class="pull-left thumb p-thumb">
-                                    <img src="img/avatar-mini.jpg">
-                                </a>
+                        <div id="funcion" class="tab-pane active">
+                        <?php 
+                        if ($this->lista_funcion) { 
+                        $c=0;
+                        foreach ($this->lista_funcion as $funcion) { ?>
+                          
+                        <article class="media">                              
                                 <div class="media-body">
-                                    <a href="#" class="cmt-head">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</a>
-                                    <p> <i class="fa fa-time"></i> 1 hours ago</p>
-                                </div>
-                                <p><span class="text-muted">Admin :</span> Kally Brash | <span class="text-muted">Member :</span> 13 | <span class="text-muted">Last Activity :</span> 15 min ago</p>
+                                    <a href="#" class="cmt-head"></a>
+                                    <p><span class="text-muted"> * </span><i class="fa fa-time"></i> <?php echo $funcion['descripcion']; ?></p>
+                                </div>                                                          
                         </article>
-                        <article class="media">
-                                <a class="pull-left thumb p-thumb">
-                                    <img src="img/avatar-mini2.jpg">
-                                </a>
-                                <div class="media-body">
-                                    <a href="#" class="cmt-head">Nulla vel metus scelerisquejjjjjjjjjjjjjjjjj
-                                    jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjddddddddddddddddddd
-                                    ddddddddddddddddddddddddddddddddddddd                                    
-                                    dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd
-                                    ddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd
-                                    dddddddddddddddddddddddddddddddddddd
-                                     ante sollicitudin commodo</a>
-                                    <p> <i class="fa fa-time"></i> 23 mins ago</p>
-                                    </div>
-                        </article>
-                        <article class="media">
-                                    <a class="pull-left thumb p-thumb">
-                                        <img src="img/avatar-mini3.jpg">
-                                    </a>
-                                    <div class="media-body">
-                                        <a href="#" class="cmt-head">Donec lacinia congue felis in faucibus. </a>
-                                        <p> <i class="fa fa-time"></i> 15 mins ago</p>
-                                    </div>
-                        </article>
+                        <?php } $c++; } else { ?><p><?php echo "no exiten registros de funcion"; ?></p><?php } ?>
+      
                     </div>
 
                 </div>
             </div>
-        </section>
-
+        </section>      
+        </div>
+        
 
         <!--Evaluaciones-->
-        <section class="panel">
+        <div id="evaluaciones">
+        <section class="panel" >
+            <div class="bio-graph-heading">
+                Evaluaciaciones de : <?php echo $this->lista_persona['ape_paterno'];echo " ";echo $this->lista_persona['ape_materno'];echo " ";echo $this->lista_persona['nombres']?>
+            </div>  
             <div class="room-box">
             <h5 class="text-primary"><a href="chat_room.html">Evaluaciones</a></h5>
-                <p>Welcome to our world of marketing. Lorem ipsum dolor sit amet
-                Welcome to our world of marketing. Lorem ipsum dolor sit amet
-                Welcome to our world of marketing. Lorem ipsum dolor sit amet</p>
-            <article class="media">
-                <a class="pull-left thumb p-thumb">
-                    <img src="img/avatar-mini.jpg">
-                </a>
-                <div class="media-body">
-                    <a href="#" class="cmt-head">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</a>
-                    <p> <i class="fa fa-time"></i> 1 hours ago</p>
-                </div>
-                <p><span class="text-muted">Admin :</span> Kally Brash | <span class="text-muted">Member :</span> 13 | <span class="text-muted">Last Activity :</span> 15 min ago</p>
-            </article>
+            <?php 
+                if ($this->lista_evaluacion) {  
+                foreach ($this->lista_evaluacion as $evaluacion) { ?>
+                <article class="media">            
+                    <div class="media-body">                    
+                        <p> <i class="fa fa-time"></i> <?php echo $evaluacion['descripcion']; ?></p>             
+                    </div>
+                    <p><span class="text-muted">Fecha Inicio :</span> <?php echo $evaluacion['fecha_inicio']; ?> | <span class="text-muted">Fecha Final :</span> <?php echo $evaluacion['fecha_final']; ?> | <span class="text-muted">Horas :</span> <?php echo $evaluacion['horas']; ?></p>
+                </article>
+            <?php }} else { ?><p><?php echo "no exiten registros de evaluacacion"; ?></p><?php } ?>
             </div>
-
         </section>
+        </div>
 
+        <!--capacitaciones-->
+        <div id="capacitaciones">
+        <section class="panel" >
+            <div class="bio-graph-heading">
+                Capacitaciones de : <?php echo $this->lista_persona['ape_paterno'];echo " ";echo $this->lista_persona['ape_materno'];echo " ";echo $this->lista_persona['nombres']?>
+            </div>       
+            <div class="room-box">
+            <h5 class="text-primary"><a href="chat_room.html">Capacitaciones</a></h5>
+
+            <?php 
+                if ($this->lista_capacitacion) {  
+                foreach ($this->lista_capacitacion as $capacitacion) { ?>
+                <article class="media">                  
+                    <div class="media-body">
+                         <p> <i class="fa fa-time"></i> <?php echo $capacitacion['nombre']; ?></p>
+                    </div>
+                   <p><span class="text-muted">Fecha Inicio :</span> <?php echo $capacitacion['fecha_inicio']; ?> | <span class="text-muted">Fecha Final :</span> <?php echo $capacitacion['fecha_fin']; ?> | <span class="text-muted">Horas :</span> <?php echo $capacitacion['horas']; ?></p>        
+                </article>
+            <?php }} else { ?><p><?php echo "no exiten registros de capacitacion"; ?></p><?php } ?>
+            </div>
+        </section>
+        </div>
+
+        <div id="password">
+        <section>
+        <div class="panel panel-primary">
+                              <div class="bio-graph-heading"> Cambiar Nueva Contraseña </div>
+                              <div class="panel-body">
+                                  <form action="/rrhh/perfil/cambiarpass/dni/<?php echo $this->lista_persona['dni'];?>" method="post" id="formu" role="form">
+                                      <!--  -->
+                                      <div class="form-group">
+                                          <label  class="col-lg-4 control-label">Nueva Contraseña</label>
+                                          <div class="col-lg-6">
+                                              <input type="password" class="form-control" id="newpassword" name="newpassword" placeholder=" ">
+                                          </div>
+                                      </div>
+                                      <br>
+                                      <div class="form-group">
+                                          <label  class="col-lg-4 control-label">Repetir Nueva Contraseña</label>
+                                          <div class="col-lg-6">
+                                              <input type="password" class="form-control" id="renewpassword" name="renewpassword" placeholder=" ">
+                                          </div>
+                                      </div>
+                    
+                                      <div class="form-group">
+                                          <div class="col-lg-offset-2 col-lg-10">
+                                              <button id="pass" type="submit" class="btn btn-info">Guardar</button>
+                                              <a type="button" href="/rrhh/perfil/curriculum/dni/<?php echo $this->lista_persona['dni'];?>" class="btn btn-default">Cancelar</a>
+                                          </div>
+                                      </div>
+                                  </form>
+                              </div>
+        </div>
+        </section>
+        </div>
+
+        <div id="editarperfil">
+        <section class="panel">
+            <div class="bio-graph-heading">
+                Perfil : <?php echo $this->lista_persona['ape_paterno'];echo " ";echo $this->lista_persona['ape_materno'];echo " ";echo $this->lista_persona['nombres']?>
+            </div>
+            <div class="panel-body bio-graph-info">
+                              <h1> Perfil Informacion</h1>
+                              <!-- <form class="form-horizontal" role="form"> -->                             
+                              <form name="<?php echo $this->form->getName(); ?>" action="<?php echo $this->form->getAction(); ?>" method="post" id="form" class="form-horizontal" role="form">
+
+                                  <div class="form-group">
+                                      <label  class="col-lg-2 control-label">Sobre Mi</label>
+                                      <div class="col-lg-10">
+                                          <?php echo $this->form->descripcion?>                                          
+                                      </div>
+                                  </div>
+                                  <div class="form-group">
+                                      <label  class="col-lg-2 control-label">Nombres</label>
+                                      <div class="col-lg-6">
+                                          <?php echo $this->form->nombres?>
+                                          <!-- <input type="text" class="form-control" value="" id="f-name" placeholder=" "> -->
+                                      </div>
+                                  </div>
+                                  <div class="form-group">
+                                      <label  class="col-lg-2 control-label">Apellido Paterno</label>
+                                      <div class="col-lg-6">
+                                          <?php echo $this->form->ape_paterno?>
+                                          <!-- <input type="text" class="form-control" id="l-name" placeholder=" "> -->
+                                      </div>
+                                  </div>
+                                  <div class="form-group">
+                                      <label  class="col-lg-2 control-label">Apellido Materno</label>
+                                      <div class="col-lg-6">
+                                          <?php echo $this->form->ape_materno?>
+                                      </div>
+                                  </div>
+                                  <div class="form-group">
+                                      <label  class="col-lg-2 control-label">Alias</label>
+                                      <div class="col-lg-6">
+                                          <?php echo $this->form->alias?>
+                                      </div>
+                                  </div>
+
+                                   <div class="form-group">
+                                      <label  class="col-lg-2 control-label">Estado Civil</label>
+                                      <div class="col-lg-6">
+                                          <?php echo $this->form->estado_civil?>
+                                      </div>
+                                  </div>
+
+                                  <div class="form-group">
+                                      <label  class="col-lg-2 control-label">Direccion</label>
+                                      <div class="col-lg-6">
+                                          <?php echo $this->form->direccion?>
+                                      </div>
+                                  </div>
+
+                                   <div class="form-group">
+                                      <label  class="col-lg-2 control-label">condicion</label>
+                                      <div class="col-lg-6">
+                                          <?php echo $this->form->condicion?>
+                                      </div>
+                                  </div>
+
+                                  <div class="form-group">
+                                      <label  class="col-lg-2 control-label">estado</label>
+                                      <div class="col-lg-6">
+                                          <?php echo $this->form->estado?>
+                                      </div>
+                                  </div>
+
+                                  <div class="form-group">
+                                      <label  class="col-lg-2 control-label">sexo</label>
+                                      <div class="col-lg-6">
+                                          <?php echo $this->form->sexo?>
+                                      </div>
+                                  </div>
+
+                                  <div class="form-group">
+                                      <label  class="col-lg-2 control-label">Cumpleaños</label>
+                                      <div class="col-lg-6">
+                                          <?php echo $this->form->fecha_nacimiento?>
+                                      </div>
+                                  </div>
+                                  <div class="form-group">
+                                      <label  class="col-lg-2 control-label">Ocupacion</label>
+                                      <div class="col-lg-6">
+                                          <?php echo $this->form->ocupacion?>
+                                      </div>
+                                  </div>
+                                  <div class="form-group">
+                                      <label  class="col-lg-2 control-label">Email Personal</label>
+                                      <div class="col-lg-6">
+                                          <?php echo $this->form->email_personal?>
+                                      </div>
+                                  </div>
+                                  <div class="form-group">
+                                      <label  class="col-lg-2 control-label">Email Anddes</label>
+                                      <div class="col-lg-6">
+                                          <?php echo $this->form->email_anddes?>
+                                      </div>
+                                  </div>
+                                  <div class="form-group">
+                                      <label  class="col-lg-2 control-label">Celular</label>
+                                      <div class="col-lg-6">
+                                          <?php echo $this->form->celular?>
+                                      </div>
+                                  </div>
+                                  <div class="form-group">
+                                      <label  class="col-lg-2 control-label">uid_registro</label>
+                                      <div class="col-lg-6">
+                                          <?php echo $this->form->uid_registro?>
+                                      </div>
+                                  </div>
+
+                                  <div class="form-group">
+                                      <div class="col-lg-offset-2 col-lg-10">
+                                          <button type="submit" class="btn btn-success">Guardar</button>
+                                          <a type="button" href="/rrhh/perfil/curriculum/dni/<?php echo $this->lista_persona['dni'];?>" class="btn btn-default">Cancelar</a>
+                                      </div>
+                                  </div>
+                              </form>
+            </div>
+        </section>
+        </div>
+
+
+        <div id="verperfil">
+        <section class="panel">
+                          <div class="bio-graph-heading">
+                              Perfil : <?php echo $this->lista_persona['ape_paterno'];echo " ";echo $this->lista_persona['ape_materno'];echo " ";echo $this->lista_persona['nombres']?>
+                          </div>
+                          <div class="panel-body bio-graph-info">
+                              <h1>Datos Personales</h1>
+                              <div class="row">
+                                  <div class="bio-row">
+                                      <p><span>Nombres </span>: <?php echo $this->lista_persona['nombres']?></p>
+                                  </div>
+                                  <div class="bio-row">
+                                      <p><span>Apellidos </span>: <?php echo $this->lista_persona['ape_paterno'];echo " ";echo $this->lista_persona['ape_materno'] ?></p>
+                                  </div>
+                                  <div class="bio-row">
+                                      <p><span>Estado Civil </span>:
+                                        <?php
+                                          switch ($this->lista_persona['estado_civil']) {
+                                              case "S":
+                                                  echo "Soltero";
+                                                  break;
+                                              case "C":
+                                                  echo "Casado";
+                                                  break;
+                                              case "V":
+                                                  echo "Viudo";
+                                                  break;
+                                              case "D":
+                                                  echo "Divorciado";
+                                                  break;
+                                          }
+                                        ?>                                     
+                                  </div>
+                                  <div class="bio-row">
+
+                                      <p><span>Cumpleaños</span>: <?php echo $this->lista_persona['fecha_nacimiento'];?></p>
+                                  </div>
+                                  <div class="bio-row">
+                                      <p><span>Ocupacion </span>: <?php echo $this->lista_persona['ocupacion'];?></p>
+
+                                  </div>
+                                  <div class="bio-row">
+                                      <p><span>Email </span>: <?php echo $this->lista_persona['email_personal'];?></p>
+                                  </div>
+                                  <div class="bio-row">
+                                      <p><span>Celular  </span>: <?php echo $this->lista_persona['celular'];?></p>
+                                  </div>
+                                  <div class="bio-row">
+                                      <p><span>Telefono </span>: <?php echo $this->lista_persona['telefono'];?></p>
+                                  </div>
+                              </div>
+                          </div>
+        </section>
+        <section>
+                          <div class="row">
+                              <div class="col-lg-6">
+                                  <div class="panel">
+                                      <div class="panel-body">
+
+                                          <div class="bio-desk">
+                                              <h4 class="red">Anexo/Direccion</h4>
+                                              <p>Anexo : <?php echo $this->lista_persona['anexo'];?></p>
+                                              <p>Direccion : <?php echo $this->lista_persona['direccion'];?></p>
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                              <div class="col-lg-6">
+                                  <div class="panel">
+                                      <div class="panel-body">
+
+                                          <div class="bio-desk">
+                                              <h4 class="terques">Condicion </h4>
+                                              <p>Condicion : 
+                                                    <?php
+                                                      switch ($this->lista_persona['condicion']) {
+                                                          case "C":
+                                                              echo "Contratado";
+                                                              break;
+                                                          case "P":
+                                                              echo "Permanente";
+                                                              break;
+                                                          case "I":
+                                                              echo "Indefinido";
+                                                              break;                                                        
+                                                      }
+                                                    ?> 
+                                              <p>Estado: 
+                                                    <?php
+                                                      switch ($this->lista_persona['estado']) {
+                                                          case "A":
+                                                              echo "Activo";
+                                                              break;
+                                                          case "I":
+                                                              echo "Inactivo";
+                                                              break;
+                                                          case "E":
+                                                              echo "Eliminado";
+                                                              break;                                                        
+                                                      }
+                                                    ?> 
+                                              </p>
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                    
+                          </div>
+        </section>
+        </div>
+
+        <!--timeline start-->
+
+        <!--<section class="panel" id="proyecto" >
+                                  <div class="text-center mbot30">
+                                      <h3 class="timeline-title">Timeline</h3>
+                                      <p class="t-info">Este es una linea de tiempo de los proyectos</p>
+                                  </div>
+
+                                  <div class="timeline">
+                                      <article class="timeline-item">
+                                          <div class="timeline-desk">
+                                              <div class="panel">
+                                                  <div class="panel-body">
+                                                      <span class="arrow"></span>
+                                                      <span class="timeline-icon red"></span>
+                                                      <span class="timeline-date">08:25 am</span>
+                                                      <h1 class="red">12 July | Sunday</h1>
+                                                      <p>Lorem ipsum dolor sit amet consiquest dio</p>
+                                                  </div>
+                                              </div>
+                                          </div>
+                                      </article>
+                                      <article class="timeline-item alt">
+                                          <div class="timeline-desk">
+                                              <div class="panel">
+                                                  <div class="panel-body">
+                                                      <span class="arrow-alt"></span>
+                                                      <span class="timeline-icon green"></span>
+                                                      <span class="timeline-date">10:00 am</span>
+                                                      <h1 class="green">10 July | Wednesday</h1>
+                                                      <p><a href="#">Jonathan Smith</a> added new milestone <span><a href="#" class="green">ERP</a></span></p>
+                                                  </div>
+                                              </div>
+                                          </div>
+                                      </article>
+                                      <article class="timeline-item">
+                                          <div class="timeline-desk">
+                                              <div class="panel">
+                                                  <div class="panel-body">
+                                                      <span class="arrow"></span>
+                                                      <span class="timeline-icon blue"></span>
+                                                      <span class="timeline-date">11:35 am</span>
+                                                      <h1 class="blue">05 July | Monday</h1>
+                                                      <p><a href="#">Anjelina Joli</a> added new album <span><a href="#" class="blue">PARTY TIME</a></span></p>
+                                                      <div class="album">
+                                                          <a href="#">
+                                                              <img alt="" src="img/sm-img-1.jpg">
+                                                          </a>
+                                                          <a href="#">
+                                                              <img alt="" src="img/sm-img-2.jpg">
+                                                          </a>
+                                                          <a href="#">
+                                                              <img alt="" src="img/sm-img-3.jpg">
+                                                          </a>
+                                                          <a href="#">
+                                                              <img alt="" src="img/sm-img-1.jpg">
+                                                          </a>
+                                                          <a href="#">
+                                                              <img alt="" src="img/sm-img-2.jpg">
+                                                          </a>
+                                                      </div>
+                                                  </div>
+                                              </div>
+                                          </div>
+                                      </article>
+                                      <article class="timeline-item alt">
+                                          <div class="timeline-desk">
+                                              <div class="panel">
+                                                  <div class="panel-body">
+                                                      <span class="arrow-alt"></span>
+                                                      <span class="timeline-icon purple"></span>
+                                                      <span class="timeline-date">3:20 pm</span>
+                                                      <h1 class="purple">29 June | Saturday</h1>
+                                                      <p>Lorem ipsum dolor sit amet consiquest dio</p>
+                                                      <div class="notification">
+                                                          <i class=" fa fa-exclamation-sign"></i> New task added for <a href="#">Denial Collins</a>
+                                                      </div>
+                                                  </div>
+                                              </div>
+                                          </div>
+                                      </article>
+                                      <article class="timeline-item alt">
+                                          <div class="timeline-desk">
+                                              <div class="panel">
+                                                  <div class="panel-body">
+                                                      <span class="arrow-alt"></span>
+                                                      <span class="timeline-icon purple"></span>
+                                                      <span class="timeline-date">3:20 pm</span>
+                                                      <h1 class="purple">29 June | Saturday</h1>
+                                                      <p>Lorem ipsum dolor sit amet consiquest dio</p>
+                                                      <div class="notification">
+                                                          <i class=" fa fa-exclamation-sign"></i> New task added for <a href="#">Denial Collins</a>
+                                                      </div>
+                                                  </div>
+                                              </div>
+                                          </div>
+                                      </article>
+                                      <article class="timeline-item alt">
+                                          <div class="timeline-desk">
+                                              <div class="panel">
+                                                  <div class="panel-body">
+                                                      <span class="arrow-alt"></span>
+                                                      <span class="timeline-icon purple"></span>
+                                                      <span class="timeline-date">3:20 pm</span>
+                                                      <h1 class="purple">29 June | Saturday</h1>
+                                                      <p>Lorem ipsum dolor sit amet consiquest dio</p>
+                                                      <div class="notification">
+                                                          <i class=" fa fa-exclamation-sign"></i> New task added for <a href="#">Denial Collins</a>
+                                                      </div>
+                                                  </div>
+                                              </div>
+                                          </div>
+                                      </article>
+                                      <article class="timeline-item alt">
+                                          <div class="timeline-desk">
+                                              <div class="panel">
+                                                  <div class="panel-body">
+                                                      <span class="arrow-alt"></span>
+                                                      <span class="timeline-icon purple"></span>
+                                                      <span class="timeline-date">3:20 pm</span>
+                                                      <h1 class="purple">29 June | Saturday</h1>
+                                                      <p>Lorem ipsum dolor sit amet consiquest dio</p>
+                                                      <div class="notification">
+                                                          <i class=" fa fa-exclamation-sign"></i> New task added for <a href="#">Denial Collins</a>
+                                                      </div>
+                                                  </div>
+                                              </div>
+                                          </div>
+                                      </article>
+                                      <article class="timeline-item alt">
+                                          <div class="timeline-desk">
+                                              <div class="panel">
+                                                  <div class="panel-body">
+                                                      <span class="arrow-alt"></span>
+                                                      <span class="timeline-icon purple"></span>
+                                                      <span class="timeline-date">3:20 pm</span>
+                                                      <h1 class="purple">29 June | Saturday</h1>
+                                                      <p>Lorem ipsum dolor sit amet consiquest dio</p>
+                                                      <div class="notification">
+                                                          <i class=" fa fa-exclamation-sign"></i> New task added for <a href="#">Denial Collins</a>
+                                                      </div>
+                                                  </div>
+                                              </div>
+                                          </div>
+                                      </article>
+                                      <article class="timeline-item">
+                                          <div class="timeline-desk">
+                                              <div class="panel">
+                                                  <div class="panel-body">
+                                                      <span class="arrow"></span>
+                                                      <span class="timeline-icon light-green"></span>
+                                                      <span class="timeline-date">07:49 pm</span>
+                                                      <h1 class="light-green">10 June | Friday</h1>
+                                                      <p><a href="#">Jonatha Smith</a> added new milestone <span><a href="#" class="light-green">prank</a></span> Lorem ipsum dolor sit amet consiquest dio</p>
+                                                  </div>
+                                              </div>
+                                          </div>
+                                      </article>
+                                  </div>
+        </section> -->
+       
+        <!--timeline end-->
     </aside>
+
+</div>
+</section>
+
+<script type="text/javascript">
+    $(document).ready(function(){       
+        $("#estudios").hide();
+        $("#conocimientos").hide();
+        $("#perfeccionamiento").hide();
+        $("#certificaciones").hide();
+        $("#idiomas").hide();    
+        $("#experiencia").show();
+        $("#vestudios").click(function(){
+            $("#estudios").show();
+            $("#conocimientos").hide();
+            $("#perfeccionamiento").hide();
+            $("#certificaciones").hide();
+            $("#idiomas").hide();
+            $("#experiencia").hide();
+        });
+        $("#vconocimientos").click(function(){
+            $("#estudios").hide();
+            $("#conocimientos").show();
+            $("#perfeccionamiento").hide();
+            $("#certificaciones").hide();
+            $("#idiomas").hide();
+            $("#experiencia").hide();
+        });
+        $("#vperfeccionamiento").click(function(){
+            $("#estudios").hide();
+            $("#conocimientos").hide();
+            $("#perfeccionamiento").show();
+            $("#certificaciones").hide();
+            $("#idiomas").hide();
+            $("#experiencia").hide();
+        });
+        $("#vcertificaciones").click(function(){
+            $("#estudios").hide();
+            $("#conocimientos").hide();
+            $("#perfeccionamiento").hide();
+            $("#certificaciones").show();
+            $("#idiomas").hide();
+            $("#experiencia").hide();
+        });
+        $("#vidiomas").click(function(){
+            $("#estudios").hide();
+            $("#conocimientos").hide();
+            $("#perfeccionamiento").hide();
+            $("#certificaciones").hide();
+            $("#idiomas").show();
+            $("#experiencia").hide();
+        });
+        $("#vexperiencia").click(function(){
+            $("#estudios").hide();
+            $("#conocimientos").hide();
+            $("#perfeccionamiento").hide();
+            $("#certificaciones").hide();
+            $("#idiomas").hide();
+            $("#experiencia").show();
+        });
+ 
+    });
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){
+        $("#funciones").hide();
+        $("#evaluaciones").hide();
+        $("#experiencias").hide();
+        $("#capacitaciones").hide();
+        $("#proyecto").hide();
+        $("#password").hide();
+        $("#curriculum").hide();
+        $("#editarperfil").hide();
+        $("#verperfil").show();
+
+        $("#vcurriculum").click(function(){
+            $("#curriculum").show();
+            $("#experiencias").hide();
+            $("#capacitaciones").hide();
+            $("#proyecto").hide();
+            $("#funciones").hide();
+            $("#evaluaciones").hide(); 
+            $("#editarperfil").hide();
+            $("#verperfil").hide();
+            $("#password").hide(); 
+
+
+
+        });
+        $("#vevaluaciones").click(function(){
+            $("#curriculum").hide();
+            $("#experiencias").hide();
+            $("#capacitaciones").hide();
+            $("#proyecto").hide();
+            $("#funciones").hide();
+            $("#evaluaciones").show(); 
+            $("#editarperfil").hide(); 
+            $("#verperfil").hide();
+            $("#password").hide(); 
+
+
+
+        });
+        $("#vfunciones").click(function(){
+            $("#curriculum").hide();
+            $("#experiencias").hide();
+            $("#capacitaciones").hide();
+            $("#proyecto").hide();
+            $("#funciones").show();
+            $("#evaluaciones").hide();
+            $("#editarperfil").hide();
+            $("#verperfil").hide();
+            $("#password").hide(); 
+
+
+
+        });
+        $("#vcapacitaciones").click(function(){
+            $("#curriculum").hide();
+            $("#experiencias").hide();
+            $("#capacitaciones").show();
+            $("#proyecto").hide();
+            $("#funciones").hide();
+            $("#evaluaciones").hide();
+            $("#editarperfil").hide(); 
+            $("#verperfil").hide();
+            $("#password").hide(); 
+
+
+
+        });
+        $("#vproyecto").click(function(){
+            $("#curriculum").hide();
+            $("#experiencias").hide();
+            $("#capacitaciones").hide();
+            $("#proyecto").show();
+            $("#funciones").hide();
+            $("#evaluaciones").hide(); 
+            $("#editarperfil").hide();
+            $("#verperfil").hide();
+            $("#password").hide(); 
+
+
+
+        });
+        $("#vpassword").click(function(){
+            $("#curriculum").hide();
+            $("#experiencias").hide();
+            $("#capacitaciones").hide();
+            $("#proyecto").hide();
+            $("#funciones").hide();
+            $("#evaluaciones").hide(); 
+            $("#password").show(); 
+            $("#editarperfil").hide(); 
+            $("#verperfil").hide();
+
+
+        });
+
+        $("#veditar").click(function(){
+            $("#curriculum").hide();
+            $("#experiencias").hide();
+            $("#capacitaciones").hide();
+            $("#proyecto").hide();
+            $("#funciones").hide();
+            $("#evaluaciones").hide(); 
+            $("#password").hide(); 
+            $("#editarperfil").show(); 
+            $("#verperfil").hide();
+            $("#password").hide(); 
+
+
+        });
+        
+        $("#vverperfil").click(function(){
+            $("#curriculum").hide();
+            $("#experiencias").hide();
+            $("#capacitaciones").hide();
+            $("#proyecto").hide();
+            $("#funciones").hide();
+            $("#evaluaciones").hide(); 
+            $("#password").hide(); 
+            $("#editarperfil").hide(); 
+            $("#verperfil").show();
+            $("#password").hide(); 
+
+
+        });
+});
+</script>

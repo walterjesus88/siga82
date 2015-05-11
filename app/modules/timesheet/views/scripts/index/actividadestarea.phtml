@@ -13,6 +13,7 @@
         </li>
         <script type="text/javascript">
 
+
             $(document).ready(function(){
         $('[name^="tarea_<?php echo $i;?>"]').click(function(event) {
             
@@ -34,6 +35,24 @@
                 url="/timesheet/index/guardartareopersona/codigo/"+codigo+"/proyectoid/"+proyectoid+"/revision/"+revision+"/categoriaid/"+categoriaid+"/propuestaid/"+propuestaid+"/actividadid/"+actividadid+"/codigo_actividad/"+codigo_actividad+"/actividad_padre/"+actividad_padre+"/h_propuesta/"+h_propuesta;
                 alert(url);
                 $("#cargar").load(url);
+
+            $(document).ready(function(){
+                $('[name^="tarea_<?php echo $i;?>"]').click(function(event) {
+                    if ($(this).is(":checked")) {
+                        //  alert("holaaaaa");
+                        var codigo = '<?php echo $this->codigo_prop_proy; ?>';
+                        var proyectoid='<?php echo $this->proyectoid; ?>';
+                        var categoriaid='<?php echo $this->categoriaid; ?>';
+                        var revision="<?php echo $data_tareas['revision']; ?>";
+                        var propuestaid="<?php echo $data_tareas['propuestaid']; ?>";
+                        var actividadid="<?php echo $data_tareas['actividadid']; ?>";
+                        var codigo_actividad="<?php echo $data_tareas['codigo_actividad']; ?>";
+                        var actividad_padre="<?php echo $data_tareas['actividad_padre']; ?>";
+                        var h_propuesta="<?php echo $data_tareas['h_propuesta']; ?>";
+                        url="/timesheet/index/guardartareopersona/codigo/"+codigo+"/proyectoid/"+proyectoid+"/revision/"+revision+"/categoriaid/"+categoriaid+"/propuestaid/"+propuestaid+"/actividadid/"+actividadid+"/codigo_actividad/"+codigo_actividad+"/actividad_padre/"+actividad_padre+"/h_propuesta/"+h_propuesta;
+                        //alert(url);
+                        $("#cargar").load(url);
+
                  
                 
             }
