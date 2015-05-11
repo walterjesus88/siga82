@@ -2,7 +2,7 @@
 class Admin_Model_DbTable_Tareopersona extends Zend_Db_Table_Abstract
 {
     protected $_name = 'tareo_persona';
-    protected $_primary = array("codigo_prop_proy", "codigo_actividad", "actividadid", "revision", "proyectoid", "semanaid","fecha_tarea","uid","dni");
+    protected $_primary = array("codigo_prop_proy", "codigo_actividad", "actividadid", "revision", "actividad_padre","proyectoid", "semanaid","fecha_tarea","uid","dni","cargo","fecha_planificacion");
 
     public function _getTareopersonaXUid($where=array()){
         try{
@@ -45,21 +45,39 @@ class Admin_Model_DbTable_Tareopersona extends Zend_Db_Table_Abstract
         }
     }
 
+    public function _getTareoxProyectoxTareaxDia($proyectoid,$codigo,$revision,$actividadid,$actividad_padre,$semanaid,$fecha_tarea,$fecha_planificacion,$uid,$dni,$cargo)
+     {
+        try{
+            $sql=$this->_db->query("
+               select * from tareo_persona
+               where proyectoid='$proyectoid'  and codigo_prop_proy='$codigo' and revision='$revision'
+               and actividadid='$actividadid' and actividad_padre='$actividad_padre' and semanaid='$semanaid' and fecha_tarea='$fecha_tarea' and fecha_planificacion='$fecha_planificacion'
+               and uid='$uid' and dni='$dni' and cargo='$cargo' and etapa='EJECUCION'
+               
+            ");
+            $row=$sql->fetchAll();
+            return $row;           
+            }  
+            
+           catch (Exception $ex){
+            print $ex->getMessage();
+        }
+    }
+
+
     public function _getTareoxPersonaxSemana($uid,$dni,$semanaid)
      {
         try{
             $sql=$this->_db->query("
-               
-
-                 select * from tareo_persona as tareo inner join actividad as act
-  on tareo.actividadid=act.actividadid and tareo.codigo_actividad=act.codigo_actividad and tareo.codigo_prop_proy=act.codigo_prop_proy
-  and tareo.revision=act.revision
-  inner join proyecto as pro on tareo.codigo_prop_proy=pro.codigo_prop_proy
-  and tareo.revision=pro.revision and tareo.proyectoid=pro.proyectoid 
-  
-where uid='$uid' and dni='$dni' and semanaid='$semanaid'
-
-
+                select * from tareo_persona as tareo 
+                inner join actividad as act
+                on tareo.actividadid=act.actividadid and tareo.codigo_actividad=act.codigo_actividad 
+                    and tareo.codigo_prop_proy=act.codigo_prop_proy
+                    and tareo.revision=act.revision
+                inner join proyecto as pro on tareo.codigo_prop_proy=pro.codigo_prop_proy
+                    and tareo.revision=pro.revision and tareo.proyectoid=pro.proyectoid 
+                where tareo.uid='$uid' and tareo.dni='$dni' and tareo.semanaid='$semanaid' 
+                and tareo.etapa='INICIO' 
             ");
             $row=$sql->fetchAll();
             return $row;           

@@ -600,7 +600,7 @@ public function subiractividadesAction(){
         $datosactividadpadre["areaid"]=$areaid;
         $datosactividadpadre["proyectoid"]=$proyectoid;
         $datosactividadpadre["propuestaid"]=$propuestaid;
-        $datosactividadpadre["actividad_padre"]='';
+        $datosactividadpadre["actividad_padre"]=null;
 
         $datosactividadpadre["nombre"]=utf8_encode($nombre);
         $datosactividadpadre["fecha_creacion"]=date("Y-m-d");
@@ -615,8 +615,8 @@ public function subiractividadesAction(){
         $bdactividad = new Admin_Model_DbTable_Actividad();
 
         if($bdactividad->_save($datosactividadpadre))
-          {
-          echo "guardo bien";   }
+          {echo $actividadint;
+          echo ": guardo bien actividad padre";  echo "<br>"; }
         
         } 
         else {
@@ -643,8 +643,8 @@ public function subiractividadesAction(){
             $datosactividadhija["moneda"]=$moneda;
             $bdactividad = new Admin_Model_DbTable_Actividad();
           if($bdactividad->_save($datosactividadhija))
-            {
-              echo "guardo bien";
+            { echo $actividadint;
+              echo "guardo bien actividad disciplina"; echo "<br>";
             }
             }
 
@@ -671,8 +671,8 @@ public function subiractividadesAction(){
             $bdactividad = new Admin_Model_DbTable_Actividad();
            
             if($bdactividad->_save($datosactividadnieta))
-            {
-              echo "guardo bien";
+            {echo $actividadint;
+              echo "guardo bien tarea";echo "<br>";
             }
            
 

@@ -19,7 +19,10 @@
                                 $days_name = array("lun","mar","mié","jue","vie","sáb","dom");
                                 for ($i=0; $i < 7; $i++) { ?>
                                     <th style="width: 100px;"><center>
-                                        <?php print $days_name[$i] ?> <br><?php //print $fecha ?></center>
+                                        <?php print $days_name[$i] ?> <br><?php 
+                                        list($dia, $mes, $anio) = split('[/.-]', $fecha);
+
+                                        print $dia ?></center>
                                     </th>
                                     <?php
                                     $newDate = date("Y-m-d", strtotime($fecha));
@@ -37,34 +40,54 @@
                                 { ?>
                                 <tr class="gradeX">
                                     <td><?php echo $data_tareo['nombre_proyecto'];  echo " / "; echo $data_tareo['actividadid']; echo ": ";echo $data_tareo['nombre'] ?></td>
+                                    
+                                    <?php  $fecha = $this->fecha; 
+                                     $fecha = date("Y-m-d", strtotime($fecha));
+                                    for ($i=0; $i < 7; $i++) {
+
+                                        $proyectoid=$data_tareo['proyectoid'];
+                                      //  echo $proyectoid;echo "<br>";
+                                        $codigo=$data_tareo['codigo_prop_proy'];
+                                       // echo $codigo;echo "<br>";
+                                        $revision=$data_tareo['revision'];
+                                       //   echo $revision;echo "<br>";
+                                        $actividadid=$data_tareo['actividadid'];
+                                        //  echo $actividadid;echo "<br>";
+                                        $actividad_padre=$data_tareo['actividad_padre'];
+                                       //   echo $actividad_padre;echo "<br>";
+                                        $semanaid=$data_tareo['semanaid'];
+                                      //  echo $semanaid;echo "<br>";
+                                        $fecha_tarea=$fecha;
+                                       // echo $fecha_tarea;echo "<br>";
+                                        $fecha_planificacion=$fecha;
+                                       // echo $fecha_planificacion;echo "<br>";
+                                        $uid=$this->uid;
+                                       // echo $uid;echo "<br>";
+                                        $dni=$this->dni;
+                                      //  echo $dni;echo "<br>";
+                                        $cargo=$this->cargo;
+                                      //  echo $cargo; echo "<br>";
+                                       $tareopersona = new Admin_Model_DbTable_Tareopersona();
+                                       $buscar_tarea=$tareopersona->_getTareoxProyectoxTareaxDia($proyectoid,$codigo,$revision,$actividadid,$actividad_padre,$semanaid,$fecha_tarea,$fecha_planificacion,$uid,$dni,$cargo);
+
+                                     // print_r($buscar_tarea);
+
+                                      ?>
+
                                     <td><center>
-                                        <input class="form-control" onBlur="fnc(event)" style="height: 26px; width: 60px;" maxlength="2" editable=true id="<?php echo $data_tareo['codigo_prop_proy']."!".$data_tareo['codigo_actividad']."!".$data_tareo['actividadid']."!".$data_tareo['revision']."!".$data_tareo['actividad_padre']."!".$data_tareo['proyectoid']."!".$data_tareo['semanaid']."!".$data_tareo['fecha_tarea']."!".$data_tareo['asignado']."!".$data_tareo['areaid']."!".$data_tareo['categoriaid']."!".$data_tareo['dni']."!".$data_tareo['cargo'];?>  type="text" name="horario"  value=""  > 
+                                       
+                                        <input class="form-control" onBlur="fnc(event)" style="height: 26px; width: 60px;" maxlength="2" editable=true id="<?php echo $data_tareo['codigo_prop_proy']."!".$data_tareo['codigo_actividad']."!".$data_tareo['actividadid']."!".$data_tareo['revision']."!".$data_tareo['actividad_padre']."!".$data_tareo['proyectoid']."!".$data_tareo['semanaid']."!".$fecha."!".$data_tareo['asignado']."!".$data_tareo['areaid']."!".$data_tareo['categoriaid']."!".$data_tareo['dni']."!".$data_tareo['cargo'];?>"  type="text" name="horario"  value="<?php if ($buscar_tarea) {print_r($buscar_tarea[0]['h_real']);}
+
+                                        ?>"  > 
+                                        
                                         </center>
                                     </td>
-                                          <td><center>
-                                       <input class="form-control" onBlur="fnc(event)" style="height: 26px; width: 60px;" maxlength="2" editable=true id=""  type="text" name="horario"  value=""  > 
-                                        </center>
-                                    </td>
-                                         <td><center>
-                                       <input class="form-control" onBlur="fnc(event)" style="height: 26px; width: 60px;" maxlength="2" editable=true id=""  type="text" name="horario"  value=""  > 
-                                        </center>
-                                    </td>
-                                         <td><center>
-                                               <input class="form-control" onBlur="fnc(event)" style="height: 26px; width: 60px;" maxlength="2" editable=true id=""  type="text" name="horario"  value=""  > 
-                                        </center>
-                                    </td>
-                                         <td><center>
-                                               <input class="form-control" onBlur="fnc(event)" style="height: 26px; width: 60px;" maxlength="2" editable=true id=""  type="text" name="horario"  value=""  > 
-                                        </center>
-                                    </td>
-                                       <td><center>
-                                               <input class="form-control" onBlur="fnc(event)" style="height: 26px; width: 60px;" maxlength="2" editable=true id=""  type="text" name="horario"  value=""  > 
-                                        </center>
-                                    </td>
-                                         <td><center>
-                                               <input class="form-control" onBlur="fnc(event)" style="height: 26px; width: 60px;" maxlength="2" editable=true id=""  type="text" name="horario"  value=""  > 
-                                        </center>
-                                    </td>
+                                    <?php 
+
+                                       $newDate = date("Y-m-d", strtotime($fecha));
+                                        $nuevafecha = strtotime ( '+1 day' , strtotime ( $newDate ) ) ;
+                                        $fecha = date ( 'Y-m-d' , $nuevafecha );
+                                        }?>
                                 </tr>
                                 <?php
                             }
@@ -77,6 +100,7 @@
     </div>
 </div>
 <div id="horaregistrada"></div>
+<div id="carga"></div>
 <script type="text/javascript">
 function fnc(evt) {
     var evt = evt.target ? evt : window.event;
@@ -87,10 +111,32 @@ function fnc(evt) {
     $("#horaregistrada").text( values ); 
     var variables_input=evt.target.id;
     var hora_real = parseInt(hora);
-    alert(equipo);
-    
+    //alert(variables_input);
+    var array_variables = variables_input.split("!");  
+    var codigo_prop_proy=array_variables[0];
+    var codigo_actividad=array_variables[1];
+    var actividadid=array_variables[2];
+    var revision=array_variables[3];
+    var actividad_padre=array_variables[4];
+    var proyectoid=array_variables[5];
+    var semanaid=array_variables[6];
+    var fecha_tarea =array_variables[7];
+    var asignado=array_variables[8];
+    var areaid=array_variables[9];
+    var categoriaid =array_variables[10];
+    var dni=array_variables[11];
+    var cargo=array_variables[12];
+
+    if (isNaN(hora_real)) {
+
+    }
+    else
+    {
+    var url="/timesheet/index/updatetareoreal/codigo_prop_proy/"+codigo_prop_proy+"/codigo_actividad/"+codigo_actividad+"/actividadid/"+actividadid+"/revision/"+revision+"/actividad_padre/"+actividad_padre+"/proyectoid/"+proyectoid+"/semanaid/"+semanaid+"/fecha_tarea/"+fecha_tarea+"/asignado/"+asignado+"/areaid/"+areaid+"/categoriaid/"+categoriaid+"/dni/"+dni+"/cargo/"+cargo+"/horareal/"+hora_real;
+    alert(url);
+  $("#carga").load(url);  
+    }
   /*
-  
   
 
   var equipo=evt.target.id;

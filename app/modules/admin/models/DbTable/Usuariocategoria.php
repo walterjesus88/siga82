@@ -49,4 +49,20 @@ class Admin_Model_DbTable_Usuariocategoria extends Zend_Db_Table_Abstract
             print $ex->getMessage();
         }
     }
+
+    public function _getUsuarioxPersona($uid,$dni)
+    {
+        try{
+            $sql=$this->_db->query("
+                select * from usuario_categoria 
+                where uid='$uid' and dni='$dni' and estado_sistema='A' and estado='A'
+            ");
+            $row=$sql->fetchAll();
+            return $row;           
+            }  
+            catch (Exception $ex){
+            print $ex->getMessage();
+        }
+    }
+
 }
