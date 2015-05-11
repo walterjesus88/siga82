@@ -1,5 +1,4 @@
-
-    <h3>Tarea / Disciplina</h3>
+    <span style="font-weight:bold;">Tarea / Disciplina</span>
 
   <ul class="nav nav-pills nav-stacked">
 <?php 
@@ -7,7 +6,7 @@ if ($this->actividadid != 1) {
     $actividades_hijos = $this->datos_disciplina;
     foreach ($actividades_hijos as $data_tareo_hijos) { ?>
         <li>
-            <a class = "actividad_hijas" codigo-prop-proy="<?php echo $this->codigo_prop_proy ?>" proyectoid="<?php echo $this->proyectoid ?>" categoriaid="<?php echo $this->categoriaid ?>" actividadid = "<?php echo $data_tareo_hijos['actividadid'] ?>" revision = "<?php echo $data_tareo_hijos['revision'] ?>" propuestaid = "<?php echo $data_tareo_hijos['propuestaid'] ?>" href="##">
+            <a style="padding:5px 5px;"  class = "actividad_hijas" codigo-prop-proy="<?php echo $this->codigo_prop_proy ?>" proyectoid="<?php echo $this->proyectoid ?>" categoriaid="<?php echo $this->categoriaid ?>" actividadid = "<?php echo $data_tareo_hijos['actividadid'] ?>" revision = "<?php echo $data_tareo_hijos['revision'] ?>" propuestaid = "<?php echo $data_tareo_hijos['propuestaid'] ?>" href="##">
                 <i class="fa fa-rocket"></i>
                 <span><?php echo $data_tareo_hijos['nombre'] ?></span>
             </a>
@@ -31,7 +30,7 @@ if ($this->actividadid != 1) {
     $actividades_hijos = $this->datos_tarea;
     foreach ($actividades_hijos as $data_tareo_hijos) { ?>
         <li>
-            <a class = "actividad_hijas"  href="##">
+            <a style="padding:5px 5px;"   class = "actividad_hijas"  href="##">
                 <span><?php echo $data_tareo_hijos['nombre'] ?></span>
             <input id="tarea_<?php echo $i;?>" type = "checkbox" class = "pull-right" value="" codigo-prop-proy="<?php echo $this->codigo_prop_proy ?>" proyectoid="<?php echo $this->proyectoid ?>" categoriaid="<?php echo $this->categoriaid ?>" actividadid = "<?php echo $data_tareo_hijos['actividadid'] ?>" revision = "<?php echo $data_tareo_hijos['revision'] ?>" propuestaid = "<?php echo $data_tareo_hijos['propuestaid'] ?>">
             </a>

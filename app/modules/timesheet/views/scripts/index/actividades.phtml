@@ -1,12 +1,11 @@
-
-    <h3>Actividad</h3>
+     <span style="font-weight:bold;">Actividad</span>
 
   <ul class="nav nav-pills nav-stacked">
 <?php 
     $actividades = $this->actividades;
     foreach ($actividades as $data_actividad) { ?>
         <li>
-            <a class = "actividad" codigo-prop-proy="<?php echo $this->codigo_prop_proy ?>" proyectoid="<?php echo $this->proyectoid ?>" categoriaid="<?php echo $this->categoriaid ?>" actividadid = "<?php echo $data_actividad['actividadid'] ?>" revision = "<?php echo $data_actividad['revision'] ?>" propuestaid = "<?php echo $data_actividad['propuestaid'] ?>" href="##">
+            <a style="padding:5px 5px;"  class = "actividad" codigo-prop-proy="<?php echo $this->codigo_prop_proy ?>" proyectoid="<?php echo $this->proyectoid ?>" categoriaid="<?php echo $this->categoriaid ?>" actividadid = "<?php echo $data_actividad['actividadid'] ?>" revision = "<?php echo $data_actividad['revision'] ?>" propuestaid = "<?php echo $data_actividad['propuestaid'] ?>" href="##">
                 <i class="fa fa-rocket"></i>
                 <span><?php echo $data_actividad['nombre'] ?></span>
             </a>
