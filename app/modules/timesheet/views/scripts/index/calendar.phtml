@@ -27,12 +27,9 @@
                 <div class="modal-body">
                     <div class="chat-room">
                         <aside  style="width:20%">
-
-                            <div class="nav nav-pills nav-stacked">
+                         
                                 Proyecto
-                            </div>
-
-                
+                            
                             <ul class="nav nav-pills nav-stacked">
                                 <?php 
                                 $equipo = $this->equipo;
@@ -45,17 +42,15 @@
                                     </li>
                                     <script type="text/javascript">
                                     $(".proyecto").click(function(){
-
-                                          $("#actividades").html('');
-        $("#actividades_hijos").html('');
-        $("#actividades_tareas").html('');
-        
-
+                                        $("#actividades").html('');
+                                        $("#actividades_hijos").html('');
+                                        $("#actividades_tareas").html('');
                                         var proyectoid = $(this).attr('proyectoid');
                                         var codigo_prop_proy = $(this).attr('codigo-prop-proy');
                                         var categoriaid = $(this).attr('categoriaid');
                                         $("#actividades").load("/timesheet/index/actividades/proyectoid/"+proyectoid+"/codigo_prop_proy/"+codigo_prop_proy+"/categoriaid/"+categoriaid);
 
+                                         
                                     });
                                     </script>
                                     <?php
@@ -115,7 +110,8 @@
         $("#actividades_tareas").html('');
     });
 
-s
+
+
     $.datepicker.setDefaults($.datepicker.regional["es"]);
     $("#datepicker").datepicker({
         firstDay: 1,

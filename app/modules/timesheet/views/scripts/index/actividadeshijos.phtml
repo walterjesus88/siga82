@@ -4,7 +4,7 @@
   <ul class="nav nav-pills nav-stacked">
 <?php 
 if ($this->actividadid != 1) {
-    $actividades_hijos = $this->actividades_hijos;
+    $actividades_hijos = $this->datos_disciplina;
     foreach ($actividades_hijos as $data_tareo_hijos) { ?>
         <li>
             <a class = "actividad_hijas" codigo-prop-proy="<?php echo $this->codigo_prop_proy ?>" proyectoid="<?php echo $this->proyectoid ?>" categoriaid="<?php echo $this->categoriaid ?>" actividadid = "<?php echo $data_tareo_hijos['actividadid'] ?>" revision = "<?php echo $data_tareo_hijos['revision'] ?>" propuestaid = "<?php echo $data_tareo_hijos['propuestaid'] ?>" href="##">
@@ -28,7 +28,7 @@ if ($this->actividadid != 1) {
 
 <?php  
 } else { 
-    $actividades_hijos = $this->actividades_hijos;
+    $actividades_hijos = $this->datos_tarea;
     foreach ($actividades_hijos as $data_tareo_hijos) { ?>
         <li>
             <a class = "actividad_hijas"  href="##">
