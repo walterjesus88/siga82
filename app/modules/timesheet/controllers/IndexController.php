@@ -453,83 +453,96 @@ $data['area_generalid']=$area_generalid = $this->_getParam('area_generalid');
 
 
 public function eliminartareoAction(){
-        try {
+    try {
         $this->_helper->layout()->disableLayout();
         $uid = $this->sesion->uid;
         $dni = $this->sesion->dni;
         $dbucat= new Admin_Model_DbTable_Usuariocategoria();
         $datosucat = $dbucat->_getUsuarioxPersona($uid,$dni);
-        //print_r($datosucat);
         $cargo = $datosucat[0]['cargo'];
         $areaid = $datosucat[0]['areaid']; 
-        $diaactual=date("Y-m-d");
-        $semana=date("W");
-  
-        $data['proyectoid']=$proyectoid = $this->_getParam('proyectoid');
-        $data['codigo_prop_proy']=$codigo_prop_proy = $this->_getParam('codigo_prop_proy');
-        $data['categoriaid']=$categoriaid = $this->_getParam('categoriaid');
-        $data['actividadid']=$actividadid = $this->_getParam('actividadid');
-        $data['revision']=$revision = $this->_getParam('revision');
-        $data['codigo_actividad']=$codigo_actividad = $this->_getParam('codigo_actividad');
-        $data['actividad_padre']=$actividad_padre = $this->_getParam('actividad_padre');
-        $data['h_propuesta']=$h_propuesta = $this->_getParam('h_propuesta');
-        $data['uid']=$uid;
-        $data['asignado']= $dni;
-        $data['estado']= 'A';
-        $data['dni']=$dni;
-        $data['h_propuesta']=$h_propuesta = $this->_getParam('h_propuesta');
-        
-        $etapa= $this->_getParam('etapa');
-        $resultado = str_replace("INICIO", "EJECUCION", $etapa);
-
-        $data['etapa']=$resultado;
-        $data['h_real']=$h_real= $this->_getParam('horareal');
-        $data['fecha_tarea']=$fecha_tarea= $this->_getParam('fecha_tarea');
-        $cargo= $this->_getParam('cargo');
-        $data['fecha_modificacion']=$diaactual;
-        $semanaid=$this->_getParam('semanaid');
-        $data['semanaid']=$semana;
-        $data['fecha_planificacion']=$fecha_tarea;
-        $data['tipo_actividad']=$tipo_actividad= $this->_getParam('tipo_actividad');
-        $data['fecha_creacion']=$fecha_tarea;
-        $data['cargo']=$cargo;
-        $data['areaid']=$areaid;
-        //datos para ctualizar
-        
-        $datos['h_real']=$h_real= $this->_getParam('horareal');
-        $datos['fecha_modificacion']=$diaactual;
-        //$updatetareopersona = new Admin_Model_DbTable_Tareopersona();    
-        /*$str="codigo_prop_proy='$codigo_prop_proy' and proyectoid='$proyectoid' and 
-        categoriaid='$categoriaid' and actividadid='$actividadid' and 
-        revision='$revision' and codigo_actividad='$codigo_actividad'
-        and actividad_padre='$actividad_padre' and cargo='$cargo'
-        and semanaid='$semanaid' and areaid='$areaid'     ";*/
-        //$update=$updatetareopersona -> _update($data,$str);
         $tareopersona = new Admin_Model_DbTable_Tareopersona();
-        $data_tareopersona = $tareopersona->_save($data);
-        if ($data_tareopersona){
-        ?>
-          <script>                  
-            alert("Se guardo satisfactoriamente");
-          </script>
-        <?php
+    
+        $proyectoid = $this->_getParam('proyectoid');
+        $codigo_prop_proy = $this->_getParam('codigo');
+        $categoriaid = $this->_getParam('categoriaid');
+        $actividadid = $this->_getParam('actividadid');
+        $revision = $this->_getParam('revision');
+        $codigo_actividad = $this->_getParam('codigo_actividad');
+        $actividad_padre = $this->_getParam('actividad_padre');
+        $etapa= $this->_getParam('etapa');
+        $fecha_tarea= $this->_getParam('fecha_tarea');
+        $fecha_planificacion= $this->_getParam('fecha_planificacion');
+        $cargo= $this->_getParam('cargo');
+        $semanaid=$this->_getParam('semanaid');
+        $tipo_actividad=$this->_getParam('tipo_actividad');
+
+                
+        $pk  =   array(                        
+            'codigo_prop_proy'   =>$codigo_prop_proy,
+            'codigo_actividad'   =>$codigo_actividad,
+            'actividadid'   =>$actividadid,
+            'revision'   =>$revision,
+            'actividad_padre'   =>$actividad_padre,
+            'proyectoid'   =>$proyectoid,
+            'semanaid'   =>$semanaid,
+            'fecha_tarea'   =>$fecha_tarea,
+            'uid'   =>$uid,
+            'dni'   =>$dni,
+            'cargo'   =>$cargo,
+            'etapa'   =>$etapa,
+            'fecha_planificacion'   =>$fecha_planificacion,
+            'tipo_actividad'   =>$tipo_actividad,
+        );
+        //print_r($pk);
+       
+        if ($tareopersona->_delete($pk)){
+            ?>
+              <script>      
+              function mostrarFecha(fecha,days){
+        milisegundos=parseInt(35*24*60*60*1000);
+        //Obtenemos los milisegundos desde media noche del 1/1/1970
+        tiempo=fecha.getTime();
+        //Calculamos los milisegundos sobre la fecha que hay que sumar o restar...
+        milisegundos=parseInt(days*24*60*60*1000);
+        //Modificamos la fecha actual
+        total=fecha.setTime(tiempo+milisegundos);
+        day=fecha.getDate();
+        month=fecha.getMonth()+1;
+        year=fecha.getFullYear();
+     
+        return(day+"-"+month+"-"+year);
+    }
+                
+                     var dateObj = new Date();
+    //var dateObj = $('#datepicker').datepicker('getDate');
+            var dateFrom = $.datepicker.formatDate('mm/dd/yy', dateObj);
+            var weekfrom = $.datepicker.iso8601Week(new Date(dateFrom));
+            var diasSemana = new Array("Domingo","Lunes","Martes","Miércoles","Jueves","Viernes","Sábado");
+            var day_select = diasSemana[dateObj.getDay()];
+            for (i = 0; i < diasSemana.length; i++) { 
+                if (diasSemana[i] == day_select) {
+                    if (i == 0) {
+                        var num_day = 6;
+                        
+                    } else {
+                        var num_day = i - 1;
+                    };
+                };
+            };
+            fecha_inicio = mostrarFecha(dateObj,-num_day);
+            document.location.href="/timesheet/index/registro/fecha/"+ fecha_inicio; 
+
+           
+              </script>
+            <?php
         }else
         {
-        ?>
-          <script>                  
-            alert("Se actualizo satisfactoriamente");
-          </script>
-        <?php
-            $str="codigo_prop_proy='$codigo_prop_proy' and proyectoid='$proyectoid' and 
-            categoriaid='$categoriaid' and actividadid='$actividadid' and 
-            revision='$revision' and codigo_actividad='$codigo_actividad'
-            and actividad_padre='$actividad_padre' and cargo='$cargo'
-            and semanaid='$semanaid' and areaid='$areaid' and fecha_tarea='$fecha_tarea' 
-            and fecha_planificacion='$fecha_tarea' and etapa='EJECUCION' and tipo_actividad='$tipo_actividad' and etapa='$resultado'
-            and estado='A'
-            ";
-          //  echo $str;
-            $update=$tareopersona -> _update($datos,$str);
+            ?>
+              <script>                  
+                alert("No se elimino");
+              </script>
+            <?php
         }
        
         } catch (Exception $e) {

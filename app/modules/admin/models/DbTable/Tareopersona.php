@@ -189,4 +189,29 @@ class Admin_Model_DbTable_Tareopersona extends Zend_Db_Table_Abstract
         }
     }
 
+     public function _delete($pk=null)
+    {
+        try{
+            if ($pk['codigo_prop_proy']=='' ||  $pk['codigo_actividad']=='' ) return false;
+
+            $where = "codigo_prop_proy = '".$pk['codigo_prop_proy']."' and codigo_actividad='".$pk['codigo_actividad']."' 
+            and actividadid='".$pk['actividadid']."' 
+            and revision='".$pk['revision']."' 
+            and actividad_padre='".$pk['actividad_padre']."' 
+            and proyectoid='".$pk['proyectoid']."' 
+            and semanaid='".$pk['semanaid']."' 
+            and fecha_tarea='".$pk['fecha_tarea']."' 
+            and uid='".$pk['uid']."' 
+            and cargo='".$pk['cargo']."' 
+            and etapa='".$pk['etapa']."' 
+            and fecha_planificacion='".$pk['fecha_planificacion']."' 
+            and tipo_actividad='".$pk['tipo_actividad']."' 
+            ";
+            return $this->delete( $where);
+            return false;
+        }catch (Exception $e){
+            print "Error: Update Distribution".$e->getMessage();
+        }
+    }
+
 }
