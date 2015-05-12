@@ -2,7 +2,7 @@
 class Admin_Model_DbTable_Tareopersona extends Zend_Db_Table_Abstract
 {
     protected $_name = 'tareo_persona';
-    protected $_primary = array("codigo_prop_proy", "codigo_actividad", "actividadid", "revision", "actividad_padre","proyectoid", "semanaid","fecha_tarea","uid","dni","cargo","fecha_planificacion");
+    protected $_primary = array("codigo_prop_proy", "codigo_actividad", "actividadid", "revision", "actividad_padre","proyectoid", "semanaid","fecha_tarea","uid","dni","cargo","fecha_planificacion","etapa","tipo_actividad");
 
     public function _getTareopersonaXUid($where=array()){
         try{
@@ -45,14 +45,14 @@ class Admin_Model_DbTable_Tareopersona extends Zend_Db_Table_Abstract
         }
     }
 
-    public function _getTareoxProyectoxTareaxDia($proyectoid,$codigo,$revision,$actividadid,$actividad_padre,$semanaid,$fecha_tarea,$fecha_planificacion,$uid,$dni,$cargo)
+    public function _getTareoxProyectoxTareaxDia($proyectoid,$codigo,$revision,$actividadid,$actividad_padre,$semanaid,$fecha_tarea,$fecha_planificacion,$uid,$dni,$cargo,$etapas)
      {
         try{
             $sql=$this->_db->query("
                select * from tareo_persona
                where proyectoid='$proyectoid'  and codigo_prop_proy='$codigo' and revision='$revision'
                and actividadid='$actividadid' and actividad_padre='$actividad_padre' and semanaid='$semanaid' and fecha_tarea='$fecha_tarea' and fecha_planificacion='$fecha_planificacion'
-               and uid='$uid' and dni='$dni' and cargo='$cargo' and etapa='EJECUCION'
+               and uid='$uid' and dni='$dni' and cargo='$cargo' and etapa='$etapas' and estado='A'
                
             ");
             $row=$sql->fetchAll();
@@ -77,7 +77,28 @@ class Admin_Model_DbTable_Tareopersona extends Zend_Db_Table_Abstract
                 inner join proyecto as pro on tareo.codigo_prop_proy=pro.codigo_prop_proy
                     and tareo.revision=pro.revision and tareo.proyectoid=pro.proyectoid 
                 where tareo.uid='$uid' and tareo.dni='$dni' and tareo.semanaid='$semanaid' 
-                and tareo.etapa='INICIO' 
+                and tareo.etapa like 'INICIO%'  order by tareo.proyectoid,tareo.actividadid,tipo_actividad desc 
+            ");
+            $row=$sql->fetchAll();
+            return $row;           
+            }  
+            
+           catch (Exception $ex){
+            print $ex->getMessage();
+        }
+    }
+
+    public function _getTareoxPersonaxSemanaxNB($uid,$dni,$semanaid)
+     {
+        try{
+            $sql=$this->_db->query("
+                select * from tareo_persona as tareo 
+                inner join actividad_general as act
+                on tareo.actividadid=act.actividad_generalid 
+                inner join proyecto as pro on tareo.codigo_prop_proy=pro.codigo_prop_proy
+                    and tareo.revision=pro.revision and tareo.proyectoid=pro.proyectoid 
+                where tareo.uid='$uid' and tareo.dni='$dni' and tareo.semanaid='$semanaid' 
+                and tareo.etapa='INICIO' and tareo.tipo_actividad='G'
             ");
             $row=$sql->fetchAll();
             return $row;           
@@ -165,6 +186,31 @@ class Admin_Model_DbTable_Tareopersona extends Zend_Db_Table_Abstract
             return false;
         }catch (Exception $e){
                 print "Error: Registration ".$e->getMessage();
+        }
+    }
+
+     public function _delete($pk=null)
+    {
+        try{
+            if ($pk['codigo_prop_proy']=='' ||  $pk['codigo_actividad']=='' ) return false;
+
+            $where = "codigo_prop_proy = '".$pk['codigo_prop_proy']."' and codigo_actividad='".$pk['codigo_actividad']."' 
+            and actividadid='".$pk['actividadid']."' 
+            and revision='".$pk['revision']."' 
+            and actividad_padre='".$pk['actividad_padre']."' 
+            and proyectoid='".$pk['proyectoid']."' 
+            and semanaid='".$pk['semanaid']."' 
+            and fecha_tarea='".$pk['fecha_tarea']."' 
+            and uid='".$pk['uid']."' 
+            and cargo='".$pk['cargo']."' 
+            and etapa='".$pk['etapa']."' 
+            and fecha_planificacion='".$pk['fecha_planificacion']."' 
+            and tipo_actividad='".$pk['tipo_actividad']."' 
+            ";
+            return $this->delete( $where);
+            return false;
+        }catch (Exception $e){
+            print "Error: Update Distribution".$e->getMessage();
         }
     }
 

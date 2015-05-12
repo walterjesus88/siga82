@@ -1,45 +1,23 @@
+    <span style="font-weight:bold;">Tarea</span>
 
-    <h3>Tarea</h3>
   <ul class="nav nav-pills nav-stacked">
 <?php $i=1;
     $tareas = $this->tareas;
   //  print_r($tareas);
     foreach ($tareas as $data_tareas) { ?>
         <li>
-            <a class = "actividad_hijas"  href="##">
+            <?php 
+               // if ()
+            ?>
+            <a style="padding:5px 5px;" class = "actividad_hijas"  href="">
                 <span><?php echo $data_tareas['nombre'] ?></span>
             <input name="tarea_<?php echo $i;?>" id="tarea_<?php echo $i;?>" type = "checkbox" class = "pull-right" value="" codigo-prop-proy="<?php echo $this->codigo_prop_proy ?>" proyectoid="<?php echo $this->proyectoid ?>" categoriaid="<?php echo $this->categoriaid ?>" actividadid = "<?php echo $data_tareas['actividadid'] ?>" revision = "<?php echo $data_tareas['revision'] ?>" propuestaid = "<?php echo $data_tareas['propuestaid'] ?>">
             </a>
         </li>
         <script type="text/javascript">
-
-
-            $(document).ready(function(){
-        $('[name^="tarea_<?php echo $i;?>"]').click(function(event) {
-            
-            if ($(this).is(":checked")) {
-              //  alert("holaaaaa");
-                
-                var codigo = '<?php echo $this->codigo_prop_proy; ?>';
-                var proyectoid='<?php echo $this->proyectoid; ?>';
-                var categoriaid='<?php echo $this->categoriaid; ?>';
-                var revision="<?php echo $data_tareas['revision']; ?>";
-                var propuestaid="<?php echo $data_tareas['propuestaid']; ?>";
-                var actividadid="<?php echo $data_tareas['actividadid']; ?>";
-                var codigo_actividad="<?php echo $data_tareas['codigo_actividad']; ?>";
-                var actividad_padre="<?php echo $data_tareas['actividad_padre']; ?>";
-                var h_propuesta="<?php echo $data_tareas['h_propuesta']; ?>";
-
-
-
-                url="/timesheet/index/guardartareopersona/codigo/"+codigo+"/proyectoid/"+proyectoid+"/revision/"+revision+"/categoriaid/"+categoriaid+"/propuestaid/"+propuestaid+"/actividadid/"+actividadid+"/codigo_actividad/"+codigo_actividad+"/actividad_padre/"+actividad_padre+"/h_propuesta/"+h_propuesta;
-                alert(url);
-                $("#cargar").load(url);
-
             $(document).ready(function(){
                 $('[name^="tarea_<?php echo $i;?>"]').click(function(event) {
                     if ($(this).is(":checked")) {
-                        //  alert("holaaaaa");
                         var codigo = '<?php echo $this->codigo_prop_proy; ?>';
                         var proyectoid='<?php echo $this->proyectoid; ?>';
                         var categoriaid='<?php echo $this->categoriaid; ?>';
@@ -47,12 +25,11 @@
                         var propuestaid="<?php echo $data_tareas['propuestaid']; ?>";
                         var actividadid="<?php echo $data_tareas['actividadid']; ?>";
                         var codigo_actividad="<?php echo $data_tareas['codigo_actividad']; ?>";
+                        var etapa="<?php echo $data_tareas['etapa']; ?>";
                         var actividad_padre="<?php echo $data_tareas['actividad_padre']; ?>";
                         var h_propuesta="<?php echo $data_tareas['h_propuesta']; ?>";
-                        url="/timesheet/index/guardartareopersona/codigo/"+codigo+"/proyectoid/"+proyectoid+"/revision/"+revision+"/categoriaid/"+categoriaid+"/propuestaid/"+propuestaid+"/actividadid/"+actividadid+"/codigo_actividad/"+codigo_actividad+"/actividad_padre/"+actividad_padre+"/h_propuesta/"+h_propuesta;
-                        //alert(url);
+                        url="/timesheet/index/guardartareopersona/codigo/"+codigo+"/proyectoid/"+proyectoid+"/revision/"+revision+"/categoriaid/"+categoriaid+"/propuestaid/"+propuestaid+"/actividadid/"+actividadid+"/codigo_actividad/"+codigo_actividad+"/actividad_padre/"+actividad_padre+"/h_propuesta/"+h_propuesta+"/etapa/"+etapa;
                         $("#cargar").load(url);
-
                  
                 
             }

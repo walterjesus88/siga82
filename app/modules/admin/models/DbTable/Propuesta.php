@@ -167,6 +167,19 @@ select * from propuesta as pro inner join cliente as cli on
         }
     }
 
+    public function _getOne($where=array()){
+        try{           
+            if ($where['codigo_prop_proy']=='' || $where['propuestaid']=='' || $where['revision']=='') return false;
+            $wherestr="codigo_prop_proy = '".$where['codigo_prop_proy']."' and propuestaid = '".$where['propuestaid']."' and revision = '".$where['revision']."'  ";
+            $row = $this->fetchRow($wherestr);
+            if($row) return $row->toArray();
+            return false;
+        }catch (Exception $e){
+            print "Error: Read One Add_reportacad_adm ".$e->getMessage();
+        }
+    }
+
+    
 
 
 }

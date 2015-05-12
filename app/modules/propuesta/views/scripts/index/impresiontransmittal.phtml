@@ -1,235 +1,154 @@
 <?php
-$dir = APPLICATION_LIBRARY . "/pdf/MPDF54/mpdf.php";
-include ($dir);
-ob_start();
-
+    $dir = APPLICATION_LIBRARY."/pdf/MPDF57/mpdf.php";
+    include_once($dir);
+    ob_start();
+    $sesion1  = Zend_Auth::getInstance();
+    $sesion = $sesion1->getStorage()->read();
 ?>
 
-<link type="text/css" rel="stylesheet" href="/css/groundwork.css">
-<div class="container">
-<div class="one whole padded">
-  <table  style="width:1200px" data-max="15" class="responsive responsiveTable" >
+<!-- <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />  --> 
+<link href='http://fonts.googleapis.com/css?family=Abel' rel='stylesheet' type='text/css'>
+<!-- <link href="/css/print.css" rel="stylesheet">  -->
+
+
+<table  style="width:100%," data-max="15" class="table table-bordered" font-size="9px" style="font-family: 'Abel', serif;">
     <tr>
-      <th style="width: 25%;"><img src="/img/logo.jpg"></th>
-      <th style="width: 75%;"> </th>
+        <th ><img style="width: 30%;" src="/img/logo.jpg"></th>
+        <th rowspan="2" style="width: 50%;text-align: center;"> CONTROL DOCUMENTARIO Transmittal</th>
+        <th style="width: 30%;">  </th>
+    </tr>   
+    <tr> 
+        <th style="width: 10%;text-align: center;"> SIG AND </th>         
+        <th style="width: 30%;">  </th>
+    </tr>    
+</table>
+
+<table style="width: 100%;" class="table table-bordered" font-size="9px" style="font-family: 'Abel', serif;">
+    <tr>
+        <th style="width: 15%"> Para</th>       
+        <th style="width: 40%;"> <?php 
+            $cliente = new Admin_Model_DbTable_Cliente();
+            $where['clienteid']=$this->transmitta['clienteid'];
+            $traercliente=$cliente-> _getOne($where);
+            echo $traercliente['nombre_comercial'];            
+            ?>
+
+        </th> 
+        <th style="width: 15%"> Transmittal N°</th> 
+        <th style="width: 40%;" colspan="3"><?php echo $this->transmitta['transmittaid']  ?></th> 
+    </tr>
+    <tr>
+        <th > Atención</th>       
+        <th > <?php echo $this->transmitta['para'] ?></th> 
+        <th > Proyecto</th> 
+        <th colspan="3"  > <?php
+
+            $propuesta = new Admin_Model_DbTable_Propuesta();            
+            $where['codigo_prop_proy']=$this->transmitta['codigo_prop_proy'];
+            $where['propuestaid']=$this->transmitta['propuestaid'];
+            $where['revision']=$this->transmitta['revision'];
+            $traerpropuesta=$propuesta->_getOne($where);
+            echo $traerpropuesta['nombre_propuesta']; 
+            ?>
+       </th> 
+    </tr>
+    <tr>
+        <th > C.c</th>       
+        <th ><?php         
+            // $where['clienteid']=$this->transmitta['clienteid']; 
+            // $where['contactoid']=$this->transmitta['cc']; 
+            // $contacto = new Admin_Model_DbTable_Contacto();  
+            // $vercontact=$contacto->_getFilter($where);
+            // echo $vercontact['nombre'],
+            echo $this->transmitta['cc']
+           
+            ?> </th> 
+        <th > Referencia</th> 
+        <th colspan="3"><?php echo $this->transmitta['referencia'] ?></th> 
+    </tr>
+    <tr>
+        <th style="width: 10%"> Envío</th>       
+        <th style="width: 40%"> <input type="checkbox"><?php echo $this->transmitta['envio'] ?><br></th>       
+        <th style="width: 10%"> Código</th> 
+        <th style="width: 10%"> <?php echo $this->transmitta['propuestaid'] ?></th> 
+        <th style="width: 10%"> Fecha</th> 
+        <th style="width: 20%"> <?php echo $this->transmitta['fecha_envio'] ?> </th> 
+    </tr>
+</table>
+
+<div  class="table table-bordered" style="width: 100%;height:600px"  ;>
+    <table class="table table-striped table-advance table-hover" font-size="9px" style="font-family: 'Abel', serif;">
+    <tr style="background-color:#1C38B4;">
+        <th style="width: 10%;text-align: center"> N°</th>       
+        <th style="width: 10%;text-align: center"> Código</th> 
+        <th style="width: 10%;text-align: center"> Rev.</th> 
+        <th style="width: 40%;text-align: center"> Título o Descripción</th> 
+        <th style="width: 20%;text-align: center"> Tipo</th> 
+        <th style="width: 20%;text-align: center"> Cantidad</th> 
+    </tr>
+    <tr>
+        <th style="width: 10%;text-align: center"> 1 </th>       
+        <th style="width: 10%;text-align: center"> <?php echo $this->transmitta['propuestaid'] ?></th> 
+        <th style="width: 10%;text-align: center"> <?php echo $this->transmitta['revision'] ?></th> 
+        <th style="width: 40%;text-align: center"> <?php echo $this->transmitta['descripcion'] ?> </th> 
+        <th style="width: 20%;text-align: center"> <?php echo $this->transmitta['tipo_envio'] ?></th> 
+        <th style="width: 20%;text-align: center"> 1 </th> 
     </tr>
 
-  </table>
-  
-    <table data-max="15" class="responsive responsiveTable" style="width: 100%; font-size: 15px;">
-
-    <thead>
-      <tr>
-        <th colspan=4><center>
-
-         <h3 tyle="font-weight: bold;" > INGRESO DE HORAS PROGRAMADAS DE LA <?php 
-    echo "SEMANA NRO ";
-    echo $this->semanalabor;
-    echo " DEL ";
-    print_r($this->diassemana[7]);
-    echo " AL "; 
-    print_r($this->diassemana[13]);?> 
-    </h3>
-    </center>
-    </th>
-      </tr>
-    </thead>
-    <br>
-    <tbody>
-    <tr>
-      <td style="width: 25%;">NOMBRE :</td>
-                      <td style="width: 75%;"><?php
-
-                           $bdpersona = new Proyectos_Model_DbTable_Usuario();
-        $datosper = $bdpersona->_getPersonaxDNIxProyecto($this->asignado);
-        print_r($datosper[0]['nombrecompleto']);
-
-                      ?></td>
-                      
-                    </tr>
-                    
-                    <tr>
-                      <td style="width: 25%;">AREA :</td>
-                      <td style="width: 75%;"><?php
-
-                       echo $this->categoria;
-                      ?></td>
-                      
-                    </tr>
-
-                  </tbody>
+    </table>    
     
-  </table>
-<br>
-<br>
-<table  style="width:1200px; border: 1px solid #7E7C7C; ">
-      <thead>
-      <tr style=" border: 1px solid #7E7C7C; ">
-        <th colspan="3" style="width: 150px;"><center>Proyectos</center></th>
-        <th colspan="2" style="width: 50px;"><center>Lunes</center></th> 
-        <th colspan="2" style="width: 50px;"><center>Martes</center></th> 
-        <th colspan="2" style="width: 50px;"><center>Miercoles</center></th> 
-        <th colspan="2" style="width: 50px;"><center>Jueves</center></th> 
-        <th colspan="2" style="width: 50px;"><center>Viernes</center></th> 
-        <th colspan="2" style="width: 50px;"><center>Sabado</center></th> 
-        <th colspan="2" style="width: 50px;"><center>Domingo</center></th> 
-      </tr>
-      </thead>
-      <tbody>
-      <?php
-      $semana=$this->semana;
-      $categoria=$this->categoria;
-      $asignado=$this->asignado;
-      echo $asignado;
-      $ano=date("Y");
-    $enero = mktime(1,1,1,1,1,$ano); 
-    //$mos = (11-date('w',1))%7-3; 
-    $mos = (11-date('w',$enero))%7-3;
-    $inicios = strtotime(($semana-1) . ' weeks '.$mos.' days', $enero); 
-    for ($x=0; $x<=6; $x++) {
-      $dias[] = date('d-m-Y', strtotime("+ $x day", $inicios));
-      $dia[] = date('w', strtotime("+ $x day", $inicios));
-    }
+</div>
 
-      $bdtarea = new Proyectos_Model_DbTable_Proyecto();
-      $lista=$bdtarea->ListaTareasSemanaxPersona($semana,$categoria,$asignado);
-      foreach($lista as $planificacion) {?>
-      <tr style=" border: 1px solid #7E7C7C; ">
-        <td colspan="3"> 
-          <?php
-           // $bdproyecto = new Logistica_Model_DbTable_Proyecto();
-            //$lista=$bdproyecto->_getProyectosxProyectoid($planificacion['proyectoid']);
-            //print_r(strtoupper($lista[0]['proyecto']));
-            print_r($planificacion['proyectoid']);
-            echo "-";
-            print_r($planificacion['nombre_tarea']);
 
-          ?>
-        </td>
-        
+
+<table class="table table-bordered" font-size="9px" style="font-family: 'Abel', serif;">      
+    <tr> 
+        <th colspan="6" style="width: 100%"> Observación:</th> 
+    </tr>
       
-         <td colspan="2" > <center>
-          <?php
-            $diaasig=$bdtarea->ListaTareasSemanaxPersonaxDiaxProyecto($this->semana,$this->categoria,$this->asignado,$dias[0],$planificacion['proyectoid'],$planificacion['tareaid']);
-           if($diaasig) {
-              if($diaasig[0]['efectivas'])
-                { print_r($diaasig[0]['efectivas']); }
-              else { echo "";} }
-          ?>
-        </center></td>
-        
-        <td colspan="2" > <center>
-          <?php
-            $diaasig=$bdtarea->ListaTareasSemanaxPersonaxDiaxProyecto($this->semana,$this->categoria,$this->asignado,$dias[1],$planificacion['proyectoid'],$planificacion['tareaid']);
-           if($diaasig) {
-              if($diaasig[0]['efectivas'])
-                { print_r($diaasig[0]['efectivas']); }
-              else { echo "";} }
-          ?>
-        </center></td>
-        
-        <td colspan="2"> <center>
-          <?php
-            $diaasig=$bdtarea->ListaTareasSemanaxPersonaxDiaxProyecto($this->semana,$this->categoria,$this->asignado,$dias[2],$planificacion['proyectoid'],$planificacion['tareaid']);
-           if($diaasig) {
-              if($diaasig[0]['efectivas'])
-                { print_r($diaasig[0]['efectivas']); }
-              else { echo "";} }
-          ?>
-        </center></td>
-        
-        <td colspan="2" > <center>
-          <?php
-            $diaasig=$bdtarea->ListaTareasSemanaxPersonaxDiaxProyecto($this->semana,$this->categoria,$this->asignado,$dias[3],$planificacion['proyectoid'],$planificacion['tareaid']);
-           if($diaasig) {
-              if($diaasig[0]['efectivas'])
-                { print_r($diaasig[0]['efectivas']); }
-              else { echo "";} }
-          ?>
-        </center></td>
-        
-        <td colspan="2" > <center>
-          <?php
-            $diaasig=$bdtarea->ListaTareasSemanaxPersonaxDiaxProyecto($this->semana,$this->categoria,$this->asignado,$dias[4],$planificacion['proyectoid'],$planificacion['tareaid']);
-           if($diaasig) {
-              if($diaasig[0]['efectivas'])
-                { print_r($diaasig[0]['efectivas']); }
-              else { echo "";} }
-          ?>
-        </center></td>
-        
-        <td colspan="2" > <center>
-          <?php
-            $diaasig=$bdtarea->ListaTareasSemanaxPersonaxDiaxProyecto($this->semana,$this->categoria,$this->asignado,$dias[5],$planificacion['proyectoid'],$planificacion['tareaid']);
-           if($diaasig) {
-              if($diaasig[0]['efectivas'])
-                { print_r($diaasig[0]['efectivas']); }
-              else { echo "";} }
-          ?>
-        </center></td>
-        
-        <td colspan="2" > <center>
-          <?php
-            $diaasig=$bdtarea->ListaTareasSemanaxPersonaxDiaxProyecto($this->semana,$this->categoria,$this->asignado,$dias[6],$planificacion['proyectoid'],$planificacion['tareaid']);
-           if($diaasig) {
-              if($diaasig[0]['efectivas'])
-                { print_r($diaasig[0]['efectivas']); }
-              else { echo "";} }
-          ?>
-        </center></td>
+    <tr> 
+        <th style="width: 50%"> 
+            <p>Tipo de Envío:</p>
+            <p><span >A : </span><i ></i>Documento para Revisión y Aprobación</p>
+            <p><span >B : </span><i ></i>Documento para Información</p>
+            <p><span >C : </span><i ></i>Documento Final</p>
+        </th> 
+        <th style="width: 50%">
+            <p>Tipo de Envío:</p>
+            <p><span >AP : </span><i ></i>Aprobado</p>
+            <p><span >AC : </span><i ></i>Aprobado con Comentarios</p>
+            <p><span >NA : </span><i ></i>No Aprobado, Corregir y Emitir Nuevamente</p>
+        </th> 
+    </tr>
+    <tr> 
+        <th style="width: 50%"> 
+            <p>Recibido por:</p>
+            <p>Fecha</p>
+            <p>Firma:</p>
+        </th> 
+        <th style="width: 50%"> 
+            <p>De:</p>
+            <p>Firma:</p>
+        </th> 
+    </tr>
+</table>
 
-      </tr>
-      <?php
-      } ?>
-      </tbody>
-    </table>
-
-              
+ 
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <!-- <link href="css/bootstrap-reset.css" rel="stylesheet"> -->
+ 
+   
+   <!--  <link href="css/style.css" rel="stylesheet">
+    <link href="css/style-responsive.css" rel="stylesheet" /> -->
 
 
-<?php
-  $html = ob_get_contents();
-  $mpdf=new mPDF('win-1252','A3','','',15,15,2,12,5,7);
-  $mpdf->SetHTMLHeader($header);
-  $mpdf->SetFooter(' {DATE j/m/Y}|Página {PAGENO}/{nbpg}|Proyectos - Anddes');
-  ob_end_clean();
-  $mpdf -> WriteHTML($html);
-  $mpdf->Output('reporte.pdf','D');
-?>
 
-
-<style>
-p {
-  color: blue;
-  margin: 8px;
-}
-.suffix{
-  padding: 0.1em; height: 1.25em; color:  #fff;
-  background:#2E9AFE;
-}
-
-table th, table td {
-/*
-border-left: 1px solid #070708;
-border-bottom: 1px solid #212324;
-border: 1px solid #080808;*/
-}
-table th, table td, table thead tr th, table thead tr td {
-/*background: #0069AD;
-color: #fff;*/
-border: 1px solid #7E7C7C;
-}
-
-table thead tr th, table thead tr td {
-background: #34495e;
-color: #fff;
-}
-
-input[type="text"]:disabled {
-    background: #dddddd;
-}
-
-table tr:nth-child(even) th, table tr:nth-child(even) td {
-background: #fff;
-}
-</style>
+<?php 
+    $html = ob_get_contents();
+    $mpdf=new mPDF('win-1252','A4','','',15,15,30,12,5,7);
+    $mpdf->SetHTMLHeader($header);
+    $mpdf->SetFooter(' {DATE j/m/Y}|Página {PAGENO}|Sistema Anddes');
+    ob_end_clean();
+    $mpdf -> WriteHTML($html);
+    $mpdf->Output('ASIGNATURAS -'.$this->perid.'.pdf','D');
+?>    

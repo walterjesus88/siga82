@@ -71,7 +71,7 @@
                 <?php echo $lista['revision']; ?>  
             </td>
 
-<td class="p-name">
+            <td class="p-name">
                 <?php 
                     $buscarparte = new Admin_Model_DbTable_Partepropuesta();
                     $listparte=$buscarparte->_getPartePropuestaxIndices($lista['propuestaid'],$lista['revision'],$lista['clienteid'],$lista['unidad_mineraid']);
@@ -85,17 +85,15 @@
             </td>
 
 
-<td class="p-name">
+            <td class="p-name">
                 <?php echo $lista['tipo_envio']; ?>  
             </td>
 
 
-          <td>
-              <a href=""
+            <td>
+              <a href="/propuesta/index/impresiontransmittal/propuestaid/<?php echo $lista['propuestaid'] ?>/revision/<?php echo $lista['revision'] ?>/transmittaid/<?php echo $lista['transmittaid'];?>/codigo_prop_proy/<?php echo $lista['codigo_prop_proy'];?>"
                class="btn btn-primary btn-xs"><i class="fa fa-folder"></i></a>
-              
-              
-          </td>
+            </td>
        
 
       </tr>

@@ -605,4 +605,30 @@ $formdata1['fecha_envio']=$fecha_transmitta = $this->_getParam('fecha_transmitta
     } 
 
 
+    public function impresiontransmittalAction(){
+
+        $propuestaid = $this->_getParam('propuestaid');
+        $revision = $this->_getParam('revision');
+        $transmittaid = $this->_getParam('transmittaid');
+        $codigo_prop_proy = $this->_getParam('codigo_prop_proy');
+        
+        // echo $propuestaid;
+        // echo $revision;
+        // echo $transmittaid;
+        // echo $codigo_prop_proy;
+
+        $where['codigo_prop_proy']=$codigo_prop_proy;
+        $where['revision']=$revision;
+        $where['transmittaid']=$transmittaid;
+        $where['propuestaid']=$propuestaid;
+        //print_r($where);
+
+        $dbtransmitta = new Admin_Model_DbTable_Transmittal();
+        $datatransmitta=$dbtransmitta ->_getOne($where);
+        $this->view->transmitta = $datatransmitta; 
+
+        //print_r($datatransmitta);
+
+    }
+
 }
