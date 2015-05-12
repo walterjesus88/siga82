@@ -1,3 +1,4 @@
+<script src="js/jquery-1.8.3.min.js"></script>
 
 <section id="container" >
 
@@ -12,8 +13,7 @@
                 <p><?php echo $this->lista_persona['email_anddes'];?></p>
             </div> 
             <ul class="nav nav-pills nav-stacked "  style="position:absoute">
-<!--                 <li><a href="/rrhh/perfil/ver/dni/<?php //echo $this->lista_persona['dni'];?>"> <i class="fa fa-user"></i> Perfil</a></li>
-                
+<!--                 <li><a href="/rrhh/perfil/ver/dni/<?php //echo $this->lista_persona['dni'];?>"> <i class="fa fa-user"></i> Perfil</a></li>                
                 <li  class="active"><a href="/rrhh/perfil/editar/dni/<?php //echo $this->lista_persona['dni'];?>"> <i class="fa fa-edit"></i> Editar perfil</a></li> -->
 
                 <li  class="active"><a id="vverperfil" href="#verperfil"> <i class="fa fa-edit"></i> Ver Perfil</a></li>
@@ -269,8 +269,9 @@
                 <div class="panel-body bio-graph-info">
                                   <h1> Perfil Informacion</h1>
                                   <!-- <form class="form-horizontal" role="form"> -->                             
-                                  <form name="<?php echo $this->form->getName(); ?>" action="<?php echo $this->form->getAction(); ?>" method="post" id="form" class="form-horizontal" role="form">
-
+                                  <form name="formedita" name="<?php echo $this->form->getName(); ?>" action="<?php echo $this->form->getAction();?>"  method="post" id="formedita" class="form-horizontal" role="form">
+                                  
+                                  <?php //echo $this->form->getName(); ?>
                                       <div class="form-group">
                                           <label  class="col-lg-2 control-label">Sobre Mi</label>
                                           <div class="col-lg-10">
@@ -341,7 +342,7 @@
 
                                       <div class="form-group">
                                           <label  class="col-lg-2 control-label">Cumpleaños</label>
-                                          <div class="col-lg-6">
+                                          <div class="col-lg-6" >
                                               <?php echo $this->form->fecha_nacimiento?>
                                           </div>
                                       </div>
@@ -369,16 +370,11 @@
                                               <?php echo $this->form->celular?>
                                           </div>
                                       </div>
-                                      <div class="form-group">
-                                          <label  class="col-lg-2 control-label">uid_registro</label>
-                                          <div class="col-lg-6">
-                                              <?php echo $this->form->uid_registro?>
-                                          </div>
-                                      </div>
+                                
 
                                       <div class="form-group">
                                           <div class="col-lg-offset-2 col-lg-10">
-                                              <button type="submit" class="btn btn-success">Guardar</button>
+                                              <button type="submit" id="editarguardaxx" class="btn btn-success">Guardar</button>
                                               <a type="button" href="/rrhh/perfil/curriculum/dni/<?php echo $this->lista_persona['dni'];?>" class="btn btn-default">Cancelar</a>
                                           </div>
                                       </div>
@@ -498,9 +494,7 @@
                               </div>
             </section>
         </div>
-
         <!--timeline start-->
-
         <!--<section class="panel" id="proyecto" >
                                   <div class="text-center mbot30">
                                       <h3 class="timeline-title">Timeline</h3>
@@ -658,13 +652,40 @@
                                           </div>
                                       </article>
                                   </div>
-        </section> -->
-       
+        </section> -->       
         <!--timeline end-->
+    <div id="updateperfil">fff</div>
     </aside>
 
 </div>
 </section>
+
+<!--mensaje de validacion fecha cumpleanios-->
+<div class="modal fade" id="general" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">Campos requeridos</h4>
+                        </div>
+                            <div class="modal-body">
+                                Ingrese la fecha de cumpleanios...
+                            </div>
+                            <div class="modal-body">
+                                Ingrese el Alias...
+                            </div>
+                            <div class="modal-body">
+                                Ingrese un correo personal...
+                            </div>
+                        <div class="modal-footer">
+               
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
 
 <script type="text/javascript">
     $(document).ready(function(){       
@@ -832,31 +853,49 @@ $(document).ready(function(){
         });
 });
 </script>
-<div id="passw"></div>
-<script type="text/javascript">
-    $("#formu").submit(function(){
-       
-       var dni="<?php echo $this->lista_persona['dni'];?>";
-       var newpassword=$("#newpassword").val();
-       var renewpassword=$("#renewpassword").val();
 
-       
-      //      //params = { 'dni': dni,'newpassword': newpassword,'renewpassword': renewpassword }
-           $.ajax({
-               type: 'POST',
-               url: '/rrhh/perfil/cambiarpass/dni'+dni+'/newpassword/'+newpassword+'/renewpassword/'+renewpassword,
-                  alert(url);       
-               data: $(this).serialize(),
-               success: function(data) {  
-                  alert(dni);
-                  alert(newpassword);
-                  alert(renewpassword);
-                  $("#passw").html(data);
-                  document.location.href="/rrhh/perfil/curriculum/dni/<?php echo $this->lista_persona['dni'];?>";                      
-               //window.location.reload();
-                 
-              }
-          }); 
-    });
+
+<script type="text/javascript">
+$('#editarguarda').click(function(e) {
+    if ($('#fecha_nacimiento').val().trim() === '' ||  $('#email_personal').val().trim() === '' ||  $('#alias').val().trim() === '' ) {
+        $("#general").modal('show');
+        e.preventDefault();
+    }
+   
+});
+</script>
+
+
+
+
+
+
+<script >
+//$(function)() { 
+    //$('#editarguardaxx').click(function(){
+        //alert('uno');
+        //var dni="<?php echo $this->lista_persona['dni'];?>";
+        //var fechanacimiento=$("#fecha_nacimiento").val();
+        //var fechanacimiento=$("#dni").val();
+    //    var renewpassword=$("#renewpassword").val();       
+     //params = { 'fechanacimiento': fechanacimiento,'dni':dni }
+      //   alert('url');
+         //$.ajax({
+           //type: 'POST',
+           //url: '/rrhh/perfil/editar/';
+           //url: $(this).attr('action');  
+           //data: $('#formedita').serialize(),
+           //data: params,
+           // alert(data);
+           //success: function(data) { 
+
+            //alert('url');       
+            //$("#updateperfil").html(data);
+                      
+      //   window.location.reload();
+           //}
+         //}); 
+      //});
+//});
 
 </script>

@@ -247,7 +247,7 @@ public function _getTareasxActividadPadrexCategoria($proyectoid,$codigo,$propues
                 
                 where tar.proyectoid='$proyectoid' and tar.categoriaid='$categoriaid' 
                 and act.propuestaid='$propuestaid' and act.revision='$revision' and tar.codigo_prop_proy='$codigo'
-                and tar.actividad_padre='$actividadid'
+                and tar.actividad_padre='$actividadid' 
 
                 
             ");
