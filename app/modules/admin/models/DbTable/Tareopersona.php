@@ -214,4 +214,37 @@ class Admin_Model_DbTable_Tareopersona extends Zend_Db_Table_Abstract
         }
     }
 
+
+    public function _getHorasRealxDiaXWalter($data = null){
+       try {
+           if ($data['escid'] == '' || $data['uid'] == '' || $data['curid'] == '') return false;
+           $results = $this->_db->query("
+               select * from courses_pending_wjrs('".$data['escid']."', '".$data['uid']."', '".$data['curid']."')");
+           $rows = $results->fetchAll();
+           if ($rows) return $rows;
+           return false;
+       } catch (Exception $e) {
+           print "Error: Read Courses per Curriculum... ".$e->getMessage();
+       }
+   }
+
+   public function _getHorasRealxDia($semanaid,$fecha_tarea,$uid,$dni,$cargoid)
+     {
+        try{
+            $sql=$this->_db->query("
+              select * from tareo_persona_horas_reales('$semanaid','$fecha_tarea','$uid','$dni','$cargoid')
+            ");
+            $row=$sql->fetchAll();
+            return $row;           
+            }  
+            
+           catch (Exception $ex){
+            print $ex->getMessage();
+        }
+    }
+
+
 }
+
+
+

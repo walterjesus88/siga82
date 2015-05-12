@@ -31,13 +31,14 @@
             $fechaactual = $this->fecha;
             $fechaactual = date("Y-m-d", strtotime($fechaactual));
             $actividades = $this->actividades;
+            $j=1;
             foreach ($actividades as $data_tareo) 
             { ?>
             <tr class="gradeX">
               <td> 
                 <?php if ($data_tareo['tipo_actividad']=='G') {?>
                   <a ><i class="fa fa-plus-square-o"></i></a>
-                  <a title="Eliminar" onclick="return confirm('Esta Seguro que desea eliminar el registro?');"  href="/timesheet/index/eliminartareo/codigo/<?php echo $data_tareo['codigo_prop_proy']?>/codigo_actividad/<?php echo $data_tareo['codigo_actividad']?>/actividadid/<?php echo $data_tareo['actividadid']?>/revision/<?php echo $data_tareo['revision']?>/actividad_padre/<?php echo $data_tareo['actividad_padre'] ?>/proyectoid/<?php echo $data_tareo['proyectoid']?>/semanaid/<?php echo $data_tareo['semanaid']?>/fecha_tarea/<?php echo $fechaactual ?>/asignado/<?php echo $data_tareo['asignado']?>/areaid/<?php echo $data_tareo['areaid']?>/categoriaid/<?php echo $data_tareo['categoriaid']?>/dni/<?php echo $data_tareo['dni']?>/cargo/<?php echo $data_tareo['cargo']?>/tipo_actividad/<?php echo $data_tareo['tipo_actividad']?>/fecha_planificacion/<?php echo $data_tareo['fecha_planificacion']?>/etapa/<?php echo $data_tareo['etapa']?>"><i class="fa fa-minus-square-o"></i></a><?php }
+                  <a title="Eliminar" id ="eliminar_tareo_<?php echo $j?>" ><i class="fa fa-minus-square-o"></i></a><?php }
                 else{ ?>
                   <a onClick="window.open('/timesheet/index/actividadgeneral/codigo/<?php echo $data_tareo['codigo_prop_proy']?>/codigo_actividad/<?php echo $data_tareo['codigo_actividad']?>/actividadid/<?php echo $data_tareo['actividadid']?>/revision/<?php echo $data_tareo['revision']?>/actividad_padre/<?php echo $data_tareo['actividad_padre'] ?>/proyectoid/<?php echo $data_tareo['proyectoid']?>/semanaid/<?php echo $data_tareo['semanaid']?>/fecha_tarea/<?php echo $fechaactual ?>/asignado/<?php echo $data_tareo['asignado']?>/areaid/<?php echo $data_tareo['areaid']?>/categoriaid/<?php echo $data_tareo['categoriaid']?>/dni/<?php echo $data_tareo['dni']?>/cargo/<?php echo $data_tareo['cargo']?>/tipo_actividad/<?php echo $data_tareo['tipo_actividad']?>','mywindow','width=400,height=400,left=0,top=100,screenX=0,screenY=100')" >
                   <i class="fa fa-plus-square-o"></i>
@@ -100,11 +101,69 @@
                 <?php 
                   $newDate = date("Y-m-d", strtotime($fecha));
                   $nuevafecha = strtotime ( '+1 day' , strtotime ( $newDate ) ) ;
+                  $fecha = date ( 'Y-m-d' , $nuevafecha );?>
+                <?php }?>
+            </tr>
+
+              <script type="text/javascript">
+                $(document).ready(function(){
+                  $("#eliminar_tareo_<?php echo $j?>").click(function(){
+                     var codigo_prop_proy= '<?php echo $data_tareo['codigo_prop_proy']?>';
+                     var codigo_actividad='<?php echo $data_tareo['codigo_actividad']?>';
+
+                     var actividadid="<?php echo $data_tareo['actividadid']?>";
+                     var revision="<?php echo $data_tareo['revision']?>";
+                     var actividad_padre="<?php echo $data_tareo['actividad_padre'] ?>";
+                     var proyectoid="<?php echo $data_tareo['proyectoid']?>";
+                     var semanaid="<?php echo $data_tareo['semanaid']?>";
+                     var fecha_tarea="<?php echo $fechaactual ?>";
+                     var asignado="<?php echo $data_tareo['asignado']?>";
+                     var areaid="<?php echo $data_tareo['areaid']?>";
+                     var categoriaid="<?php echo $data_tareo['categoriaid']?>";
+                     var dni="<?php echo $data_tareo['dni']?>";
+                     var cargo="<?php echo $data_tareo['cargo']?>";
+                     var tipo_actividad="<?php echo $data_tareo['tipo_actividad']?>";
+                     var fecha_planificacion="<?php echo $data_tareo['fecha_planificacion']";
+                     var url="/timesheet/index/updatetareoreal/codigo_prop_proy/"+codigo_prop_proy+"/codigo_actividad/"+codigo_actividad+"/actividadid/"+actividadid+"/revision/"+revision+"/actividad_padre/"+actividad_padre+"/proyectoid/"+proyectoid+"/semanaid/"+semanaid+"/fecha_tarea/"+fecha_tarea+"/asignado/"+asignado+"/areaid/"+areaid+"/categoriaid/"+categoriaid+"/dni/"+dni+"/cargo/"+cargo+"/horareal/"+hora_real+"/tipo_actividad/"+tipo_actividad+"/etapa/"+etapa;
+                      alert(url);
+                      //$("#carga").load(url);  
+                  });
+                });
+              </script>
+
+            <?php $j++;}?>
+           </tbody>
+           <thead>
+            <tr >
+            <th style="width: 5%;">  </th>
+            <th style="width: 25%;" ></th>
+            <th style="width: 10%;"></th>
+            <th style="width: 15%;"></th>
+            <?php $fecha = $this->fecha; 
+              
+              for ($i=0; $i < 7; $i++) { ?>
+              <th style="width: 100px;"><center>
+                <?php 
+                  $fecha = date("Y-m-d", strtotime($fecha));
+                  $semanaid=$data_tareo['semanaid'] ;
+                  $uid=$this->uid;
+                  $dni=$this->dni;
+                  $cargoid=$this->cargo;
+                  $tareopersona = new Admin_Model_DbTable_Tareopersona();
+                  $sumar=$tareopersona-> _getHorasRealxDia($semanaid,$fecha,$uid,$dni,$cargoid);
+                  print_r($sumar[0]['tareo_persona_horas_reales']);
+                ?>
+
+              </center></th>
+                   <?php
+                  $newDate = date("Y-m-d", strtotime($fecha));
+                  $nuevafecha = strtotime ( '+1 day' , strtotime ( $newDate ) ) ;
                   $fecha = date ( 'Y-m-d' , $nuevafecha );
+                
                 }?>
             </tr>
-            <?php }?>
-           </tbody>
+          </thead>
+
           </table>
         </div>
       </div>
