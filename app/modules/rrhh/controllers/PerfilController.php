@@ -42,40 +42,35 @@ class Rrhh_PerfilController extends Zend_Controller_Action {
     }
 
     public function editarAction() {
-        //$dni = $this->_getParam('dni');
-        // $form= new Admin_Form_Persona();
-        // $where=array('dni'=>$dni);
-        // $dbper=new Admin_Model_DbTable_Persona();
-        // $datauser=$dbper->_getOne($where);
+        $dni = $this->_getParam('dni');
+        $form= new Admin_Form_Persona();
+        $where=array('dni'=>$dni);
+        $dbper=new Admin_Model_DbTable_Persona();
+        $datauser=$dbper->_getOne($where);
         
-        // $this->view->lista_persona=$datauser;
-        // $this->view->form = $form;
-        // $form->populate($datauser);
+        $this->view->lista_persona=$datauser;
+        $this->view->form = $form;
+       // $form->populate($datauser);
 
         //print_r($datauser[0]);
-        //$nombres = $this->_getParam('nombres');
-        //echo $nombres;
-        // if ($this->getRequest()->isPost()) {
-        //     $formdata = $this->getRequest()->getPost();                    
-        //             unset($formdata['submit']);
-        //             $pk = array('dni'    => $dni   );                   
-        //             print_r($formdata);
-        //             $updperson=new Admin_Model_DbTable_Persona();               
-        //             if($updperson->_updateX($formdata,$pk))
-        //             {   ?>
-        //                 <script> 
-        //                   document.location.href="/rrhh/perfil/ver/dni/<?php echo $dni ?>";
-        //                 </script>
-        //                 <?php
-        //             }
-        //             else
-        //             {   ?>
-        //                   <script>                  
-        //                   alert("Error al guardar verifique porfavor");                                                 
-        //                   </script>
-        //                  <?php
-        //             } 
-        // }
+        echo "fffffffffffffff";
+
+        $nombres = $this->_getParam('nombres');
+        echo $nombres;
+        if ($this->getRequest()->isPost()) {
+            $formdata = $this->getRequest()->getPost();                    
+                    unset($formdata['submit']);
+                    $pk = array('dni'    => $dni   );                   
+                    print_r($formdata);
+                    $updperson=new Admin_Model_DbTable_Persona();               
+                    $updperson->_updateX($formdata,$pk);
+                    ?>
+                    <script>
+                    alert('dddd');
+                    </script>
+                    <?php
+      
+        }
 
     }
 
@@ -113,7 +108,7 @@ class Rrhh_PerfilController extends Zend_Controller_Action {
                                     //echo "La contrasena ha sido cambiada correctamente";  
                                     ?>
                                     <script>
-                                        document.location.href="/rrhh/perfil/curriculum/dni/<?php echo $dni?>";                                                            
+                                        //document.location.href="/rrhh/perfil/curriculum/dni/<?php echo $dni?>";                                                            
                                     </script>
                                     <?php
                                 }
@@ -197,23 +192,10 @@ class Rrhh_PerfilController extends Zend_Controller_Action {
                     $formdata['fecha_registro']=date('Y-m-d H:m:s');;
 
                      $pk = array('dni'    => $dni   );                                     
-                     print_r($formdata);
+                     //print_r($formdata);
                      $updperson=new Admin_Model_DbTable_Persona();               
-                     if($updperson->_updateX($formdata,$pk))
-                     {   ?>
-                         <script>
-                            alert('guardado');
-                           //document.location.href="/rrhh/perfil/ver/dni/<?php echo $dni ?>";                          
-                         </script>
-                         <?php
-                     }
-                     else
-                     {   ?>
-                           <script>                  
-                           alert("Error al guardar verifique porfavor");                                                 
-                           </script>
-                          <?php
-                     } 
+                     $updperson->_updateX($formdata,$pk);
+            
         }
         /*----------------*/
     }
