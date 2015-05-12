@@ -90,6 +90,7 @@ class Admin_Form_Persona extends Zend_Form{
     $fecha_modificacion->setAttrib('class', 'form-control');
 
     $fecha_nacimiento= new Zend_Form_Element_Text('fecha_nacimiento');
+    $fecha_nacimiento->removeDecorator('HtmlTag')->setRequired(true)->addErrorMessage('Es necesario que ingrese la fecha de nacimiento');    
     $fecha_nacimiento->removeDecorator('Label')->removeDecorator("HtmlTag");
     $fecha_nacimiento->setAttrib("maxlength", "50");
     $fecha_nacimiento->setAttrib('class', 'form-control');

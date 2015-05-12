@@ -606,7 +606,7 @@ $formdata1['fecha_envio']=$fecha_transmitta = $this->_getParam('fecha_transmitta
 
 
     public function impresiontransmittalAction(){
-
+        $this->_helper->layout()->disableLayout();
         $propuestaid = $this->_getParam('propuestaid');
         $revision = $this->_getParam('revision');
         $transmittaid = $this->_getParam('transmittaid');
