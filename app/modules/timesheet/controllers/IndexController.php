@@ -16,8 +16,6 @@ class Timesheet_IndexController extends Zend_Controller_Action {
     }
     
     public function indexAction() {
- print_r($this->sesion);
-
         
     }
 

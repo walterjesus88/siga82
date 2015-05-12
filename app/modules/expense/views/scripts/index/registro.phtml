@@ -1,0 +1,109 @@
+<section class="panel">
+    <header class="panel-heading" style="padding-bottom : 22px">
+        Expense
+        <span class="pull-right">
+            <a id = "agregar_gasto" class="btn btn-success pull-right btn-sm" data-toggle="modal" href="#add_gasto" style="margin-right : 10px">
+                <i class="fa fa-check-square-o"></i> Agregar
+            </a>
+        </span>
+    </header>
+    <div class="modal fade" id="add_gasto" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header" style="padding: 10px; ">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">Agregar Actividades</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="chat-room">
+                        <aside class="left-side" style="width:15%">
+                            <div class="user-head">
+                                <h5>Proyecto</h5>
+                            </div>
+                            <ul class="chat-list">
+                                <?php 
+                                $equipo = $this->equipo;
+                                foreach ($equipo as $data_equipo) { ?>
+                                    <li >
+                                        <a style="padding:5px 5px;" class="proyecto" codigo-prop-proy="<?php echo $data_equipo['codigo_prop_proy'] ?>" proyectoid="<?php echo $data_equipo['proyectoid'] ?>" categoriaid="<?php echo $data_equipo['categoriaid'] ?>" href="##">
+                                            <i class="fa fa-rocket"></i>
+                                            <span><?php echo $data_equipo['proyectoid']. ' - ' .$data_equipo['nombre_proyecto'] ?></span>
+                                        </a>
+                                    </li>
+                                    <script type="text/javascript">
+                                        $(".proyecto").click(function(){
+                                            $("#disciplina").html('');
+                                            $("#actividades_padres").html('');
+                                            $("#tareas").html('');
+                                            var proyectoid = $(this).attr('proyectoid');
+                                            var codigo_prop_proy = $(this).attr('codigo-prop-proy');
+                                            var categoriaid = $(this).attr('categoriaid');
+                                            $("#disciplina").load("/expense/index/disciplina/proyectoid/"+proyectoid+"/codigo_prop_proy/"+codigo_prop_proy+"/categoriaid/"+categoriaid);
+                                             
+                                        });
+                                    </script>
+                                    <?php
+                                }
+                                 ?>
+                            </ul>
+                        </aside>
+
+                        <aside style="width:20%; " class="right-side">
+                            <div id="disciplina"></div>
+                        </aside>
+                        <aside style="width:20%; " class="right-side">
+                            <div id="actividades_padres"></div>
+                        </aside>
+                        <aside style="width:20%; " class="right-side">
+                            <div id="tareas"></div>
+                        </aside>
+                    </div>
+                </div>
+                <div class="modal-footer " style="padding: 7px">
+                    <button data-dismiss="modal" class="btn btn-default" type="button">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<div id="ingreso"></div>
+
+<script type="text/javascript">
+    $("#agregar_gasto").click(function(){
+        $("#disciplina").html('');
+        $("#actividades_padres").html('');
+        $("#tareas").html('');
+    });
+
+    var dateObj = new Date();
+    var dateFrom = $.datepicker.formatDate('mm/dd/yy', dateObj);
+    var weekfrom = $.datepicker.iso8601Week(new Date(dateFrom));
+    var diasSemana = new Array("Domingo","Lunes","Martes","Miércoles","Jueves","Viernes","Sábado");
+    var day_select = diasSemana[dateObj.getDay()];
+    for (i = 0; i < diasSemana.length; i++) {
+        if (diasSemana[i] == day_select) {
+            if (i == 0) {
+                var num_day = 6;
+            } else {
+                var num_day = i - 1;
+            };
+        };
+    };
+    fecha_inicio = mostrarFecha(dateObj,-num_day);
+    $("#ingreso").load("/expense/index/ingreso/fecha/" + fecha_inicio);
+
+    function mostrarFecha(fecha,days){
+        milisegundos=parseInt(35*24*60*60*1000);
+        //Obtenemos los milisegundos desde media noche del 1/1/1970
+        tiempo=fecha.getTime();
+        //Calculamos los milisegundos sobre la fecha que hay que sumar o restar...
+        milisegundos=parseInt(days*24*60*60*1000);
+        //Modificamos la fecha actual
+        total=fecha.setTime(tiempo+milisegundos);
+        day=fecha.getDate();
+        month=fecha.getMonth()+1;
+        year=fecha.getFullYear();
+     
+        return(year+"-"+month+"-"+day);
+    }
+</script>

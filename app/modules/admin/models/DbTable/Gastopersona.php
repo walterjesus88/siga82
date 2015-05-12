@@ -15,6 +15,16 @@ class Admin_Model_DbTable_Gastopersona extends Zend_Db_Table_Abstract
         }
     }
 
+    public function _save($data)
+    {
+        try{
+            if ($data['proyectoid']=='' ||  $data['codigo_prop_proy']=='' ||  $data['uid']=='' ||  $data['dni']=='' ||  $data['categoriaid']=='') return false;
+            return $this->insert($data);
+            return false;
+        }catch (Exception $e){
+                print "Error: Registration ".$e->getMessage();
+        }
+    }
 
     public function _getFilter($where=null,$attrib=null,$orders=null){
         try{            
@@ -43,6 +53,17 @@ class Admin_Model_DbTable_Gastopersona extends Zend_Db_Table_Abstract
         try{
             if ($where['codigo_prop_proy']=='' || $where['proyectoid']=='' || $where['revision']=='' || $where['ucategoriaid']=='' || $where['gastoid']=='' || $where['asignado']=='' || $where['fecha_gasto']=='' ) return false;
             $wherestr="clienteid = '".$where['clienteid']."' ";
+            $row = $this->fetchRow($wherestr);
+            if($row) return $row->toArray();
+            return false;
+        }catch (Exception $e){
+            print "Error: Read One Add_reportacad_adm ".$e->getMessage();
+        }
+    }
+
+    public function _getgastoXfecha($where=array()){
+        try{
+            $wherestr="fecha_gasto = '".$where['fecha_gasto']."' ";
             $row = $this->fetchRow($wherestr);
             if($row) return $row->toArray();
             return false;

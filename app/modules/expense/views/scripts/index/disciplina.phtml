@@ -1,0 +1,78 @@
+<?php 
+    $actividades = $this->actividades;
+    if ($actividades) { ?>
+    <div class="chat-room-head">
+        <h5>Actividad</h5>
+    </div>
+    <ul class="nav nav-pills nav-stacked">
+        <?php
+        foreach ($actividades as $data_actividad) { ?>
+            <li>
+                <a style="padding:7px 7px;"  class = "actividad" codigo-prop-proy="<?php echo $this->codigo_prop_proy ?>" proyectoid="<?php echo $this->proyectoid ?>" categoriaid="<?php echo $this->categoriaid ?>" actividadid = "<?php echo $data_actividad['actividadid'] ?>" revision = "<?php echo $data_actividad['revision'] ?>" propuestaid = "<?php echo $data_actividad['propuestaid'] ?>" href="##">
+                    <i class="fa fa-rocket"></i>
+                    <span><?php echo $data_actividad['nombre'] ?></span>
+                </a>
+            </li>
+            <script type="text/javascript">
+                $(".actividad").click(function(){
+
+                     $("#actividades_hijos").html('');
+                     $("#actividades_tareas").html('');
+
+                    var actividadid = $(this).attr('actividadid');
+                    var proyectoid = $(this).attr('proyectoid');
+                    var codigo_prop_proy = $(this).attr('codigo-prop-proy');
+                    var categoriaid = $(this).attr('categoriaid');
+                    var revision = $(this).attr('revision');
+                    var propuestaid = $(this).attr('propuestaid');
+                    $("#actividades_padres").load("/expense/index/actividadespadres/proyectoid/"+proyectoid+"/codigo_prop_proy/"+codigo_prop_proy+"/categoriaid/"+categoriaid+"/actividadid/"+actividadid+"/revision/"+revision+"/propuestaid/"+propuestaid);
+                });
+            </script>
+            <?php
+        } ?>
+    </ul>
+    <?php    
+    } else { ?>
+        <div class="chat-room-head">
+            <h5>Proyecto</h5>
+        </div>
+        <ul class="nav nav-pills nav-stacked">
+        <?php 
+        $proyecto = $this->equipo;
+        foreach ($proyecto as $data_proyecto) { ?>
+            <li>
+                <a style="padding:7px 7px;" href="##">
+                    <span><?php echo $data_proyecto['proyectoid']. ' - ' .$data_proyecto['nombre_proyecto'] ?></span>
+                <input class="pull-right proyecto_check" type = "checkbox" codigo-prop-proy="<?php echo $data_proyecto['codigo_prop_proy'] ?>" proyectoid="<?php echo $data_proyecto['proyectoid'] ?>" categoriaid="<?php echo $data_proyecto['categoriaid'] ?>" areaid = "<?php echo $data_proyecto['areaid'] ?>" cargo = "<?php echo $data_proyecto['cargo'] ?>"  revision = "<?php echo $data_proyecto['revision'] ?>">
+                </a>
+            </li>
+            <?php
+        }
+         ?>
+            <li>
+                <div class="alert alert-info fade in">
+                    <button data-dismiss="alert" class="close close-sm" type="button">
+                        <i class="fa fa-times"></i>
+                    </button>
+                    <strong>Info!</strong> El proyecto no tiene actividades asignadas a gastos, elija un proyecto para rendir su gasto.
+                </div>
+            </li>
+        </ul>
+        <script type="text/javascript">
+            $('.proyecto_check').click(function(event) {
+                if ($(this).is(":checked")) {
+                    var proyectoid = $(this).attr('proyectoid');
+                    var codigo_prop_proy = $(this).attr('codigo-prop-proy');
+                    var categoriaid = $(this).attr('categoriaid');
+                    var areaid = $(this).attr('areaid');
+                    var cargo = $(this).attr('cargo');
+                    var revision = $(this).attr('revision');
+                    url="/expense/index/guardargastopersona/codigo-prop-proy/"+codigo_prop_proy+"/proyectoid/"+proyectoid+"/categoriaid/"+categoriaid+"/areaid/"+areaid+"/cargo/"+cargo+"/revision/"+revision;
+                    $("#loadguardar").load(url);
+                }
+            });
+        </script>
+     <?php 
+     } ?>
+
+<div id="loadguardar"></div>

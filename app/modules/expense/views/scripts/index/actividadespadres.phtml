@@ -1,0 +1,43 @@
+<div class="chat-room-head">
+    <h5>Diciplina / Tarea</h5>
+</div>
+<ul class="nav nav-pills nav-stacked">
+<?php 
+if ($this->actividadid != 1) {
+    $actividades_hijos = $this->datos_disciplina;
+    foreach ($actividades_hijos as $data_tareo_hijos) { ?>
+        <li>
+            <a style="padding:7px 7px;"  class = "actividad_hijas" codigo-prop-proy="<?php echo $this->codigo_prop_proy ?>" proyectoid="<?php echo $this->proyectoid ?>" categoriaid="<?php echo $this->categoriaid ?>" actividadid = "<?php echo $data_tareo_hijos['actividadid'] ?>" revision = "<?php echo $data_tareo_hijos['revision'] ?>" propuestaid = "<?php echo $data_tareo_hijos['propuestaid'] ?>" href="##">
+                <i class="fa fa-rocket"></i>
+                <span><?php echo $data_tareo_hijos['nombre'] ?></span>
+            </a>
+        </li>
+        <script type="text/javascript">
+            $(".actividad_hijas").click(function(){
+                var actividadid = $(this).attr('actividadid');
+                var proyectoid = $(this).attr('proyectoid');
+                var codigo_prop_proy = $(this).attr('codigo-prop-proy');
+                var categoriaid = $(this).attr('categoriaid');
+                var revision = $(this).attr('revision');
+                var propuestaid = $(this).attr('propuestaid');
+                $("#tareas").load("/expense/index/tareas/proyectoid/"+proyectoid+"/codigo_prop_proy/"+codigo_prop_proy+"/categoriaid/"+categoriaid+"/actividadid/"+actividadid+"/revision/"+revision+"/propuestaid/"+propuestaid);
+            });
+        </script>
+        <?php
+    } ?>
+
+<?php  
+} else { 
+    $actividades_hijos = $this->datos_tarea;
+    foreach ($actividades_hijos as $data_tareo_hijos) { ?>
+        <li>
+            <a style="padding:5px 5px;"   class = "actividad_hijas"  href="##">
+                <span><?php echo $data_tareo_hijos['nombre'] ?></span>
+            <input id="tarea_<?php echo $i;?>" type = "checkbox" class = "pull-right" value="" codigo-prop-proy="<?php echo $this->codigo_prop_proy ?>" proyectoid="<?php echo $this->proyectoid ?>" categoriaid="<?php echo $this->categoriaid ?>" actividadid = "<?php echo $data_tareo_hijos['actividadid'] ?>" revision = "<?php echo $data_tareo_hijos['revision'] ?>" propuestaid = "<?php echo $data_tareo_hijos['propuestaid'] ?>">
+            </a>
+        </li>
+        <?php
+    } ?>
+    
+<?php } ?>
+</ul>
