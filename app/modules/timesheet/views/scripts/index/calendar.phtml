@@ -1,18 +1,26 @@
 <section class="panel">
     <header class="panel-heading" style="padding-bottom : 22px">
-        Timesheet
-        <a class="btn btn-danger pull-right" data-toggle="modal" href="#calendar">
+
+        <h5> Time Sheet Semana <?php echo $this->semanalabor; echo ": ";?></h5><?php
+         print_r($this->diassemana[7]); echo "-"; print_r($this->diassemana[13]);?>
+        
+          
+
+        <span class="pull-right">
+
+        <a class="btn btn-danger pull-right btn-xs" data-toggle="modal" href="#calendar">
             <i class="fa fa-calendar"></i> Calendario
         </a>
-        <a id = "add_work" class="btn btn-success pull-right" data-toggle="modal" href="#agregar" style="margin-right : 10px">
+        <a id = "add_work" class="btn btn-success pull-right btn-xs" data-toggle="modal" href="#agregar" style="margin-right : 10px">
             <i class="fa fa-check-square-o"></i> Agregar
         </a>
+        </span>
     </header>
     
     <div class="modal fade" id="agregar" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
-                <div class="modal-header">
+                <div class="modal-header" style="padding: 5px; ">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                     <h4 class="modal-title">Agregar Actividades</h4>
                 </div>
@@ -23,21 +31,32 @@
                                 <h5>Proyecto</h5>
                             </div>
                             <ul class="chat-list">
+                        <aside  style="width:20%; text-align: center;">
+                         
+                                <span style="font-weight:bold;">Proyecto</span>
+                            
+                            <ul class="nav nav-pills nav-stacked" >
                                 <?php 
                                 $equipo = $this->equipo;
                                 foreach ($equipo as $data_equipo) { ?>
-                                    <li>
-                                        <a class="proyecto" codigo-prop-proy="<?php echo $data_equipo['codigo_prop_proy'] ?>" proyectoid="<?php echo $data_equipo['proyectoid'] ?>" categoriaid="<?php echo $data_equipo['categoriaid'] ?>" href="##">
+                                    <li >
+                                        <a style="padding:5px 5px;" class="proyecto" codigo-prop-proy="<?php echo $data_equipo['codigo_prop_proy'] ?>" proyectoid="<?php echo $data_equipo['proyectoid'] ?>" categoriaid="<?php echo $data_equipo['categoriaid'] ?>" href="##">
                                             <i class="fa fa-rocket"></i>
                                             <span><?php echo $data_equipo['proyectoid']. ' - ' .$data_equipo['nombre_proyecto'] ?></span>
                                         </a>
                                     </li>
                                     <script type="text/javascript">
                                     $(".proyecto").click(function(){
+
+                                        $("#actividades").html('');
+                                        $("#actividades_hijos").html('');
+                                        $("#actividades_tareas").html('');
                                         var proyectoid = $(this).attr('proyectoid');
                                         var codigo_prop_proy = $(this).attr('codigo-prop-proy');
                                         var categoriaid = $(this).attr('categoriaid');
                                         $("#actividades").load("/timesheet/index/actividades/proyectoid/"+proyectoid+"/codigo_prop_proy/"+codigo_prop_proy+"/categoriaid/"+categoriaid);
+
+                                         
                                     });
                                     </script>
                                     <?php
@@ -45,20 +64,20 @@
                                  ?>
                             </ul>
                         </aside>
-                        <aside class="right-side">
+                        <aside style="width:20%; " class="right-side">
                             <div id="actividades"></div>
                         </aside>
-                        <aside class="right-side">
+                        <aside style="width:20%; " class="right-side">
                             <div id="actividades_hijos"></div>
                         </aside>
-                        <aside class="right-side">
+                        <aside style="width:20%; " class="right-side">
                             <div id="actividades_tareas"></div>
                         </aside>
                     </div>
                 </div>
-                <div class="modal-footer">
-                    <button class="btn btn-warning" type="button">Agregar</button>
-                    <button data-dismiss="modal" class="btn btn-default" type="button">Cancelar</button>
+                <div class="modal-footer " style="padding: 5px; ">
+                    <!--<button class="btn btn-warning" type="button">Agregar</button>-->
+                    <button data-dismiss="modal" class="btn btn-default" type="button">Cerrar</button>
                 </div>
             </div>
         </div>
@@ -96,6 +115,8 @@
         $("#actividades_hijos").html('');
         $("#actividades_tareas").html('');
     });
+
+
 
     $.datepicker.setDefaults($.datepicker.regional["es"]);
     $("#datepicker").datepicker({

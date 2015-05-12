@@ -61,8 +61,13 @@ class IndexController extends Zend_Controller_Action {
 
                         // Seleccionamos y seteamos los datos de sesion de una persona
                         $persona = new Admin_Model_DbTable_Persona();
+                        $dbucat= new Admin_Model_DbTable_Usuariocategoria();
+                        $datosucat = $dbucat->_getUsuarioxPersona($data->uid,$data->dni);
+                        
+
                         $rp = $persona->_getPersona($data->dni);
                         if ($rp){
+
                             $data->personal = new stdClass();
                             $data->personal->full_name = $rp['ape_paterno']." ".$rp['ape_materno'].", ".$rp['nombres'];
                             $data->personal->ape_paterno = $rp['ape_paterno'];
@@ -73,7 +78,14 @@ class IndexController extends Zend_Controller_Action {
                             $data->personal->isanddes = $rp['isanddes'];
                             $data->personal->sexo= $rp['sexo']; 
                             $data->personal->alias= $rp['alias']; 
-                                                   
+                                if ($datosucat) {
+                                $data->personal->ucatid= $datosucat[0]['categoriaid']; 
+                                $data->personal->ucatareaid= $datosucat[0]['areaid']; 
+                                $data->personal->ucatcargo= $datosucat[0]['cargo'];
+                                 
+                                
+                            } 
+                                   
                         }
                         $auth->getStorage()->write($data);
                         // Registrando el Acceso en la BD

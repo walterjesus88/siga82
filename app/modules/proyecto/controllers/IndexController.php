@@ -581,6 +581,8 @@ public function subiractividadesAction(){
     $data->read('./upload/proyecto/'.$proyectoid.'-HH.xls');
     $columnas=$data->sheets[0]['numCols'];
     $filas=$data->sheets[0]['numRows'];
+
+
     //migrar actividades
     for ($i = 2; $i <= $data->sheets[0]['numRows']; $i++) {
       $colsuma=$columnas-1;
@@ -591,14 +593,14 @@ public function subiractividadesAction(){
 
       $actividadint=$actividadid;
       if (ctype_digit(trim($actividadint))) {
-        $datosactividadpadre["actividadid"]=$actividadid;
+        $datosactividadpadre["actividadid"]=$actividadint;
         $datosactividadpadre["codigo_actividad"]=$areaid."-".$actividadid;
         $datosactividadpadre["codigo_prop_proy"]=$codigo;
         $datosactividadpadre["revision"]=$revision;
         $datosactividadpadre["areaid"]=$areaid;
         $datosactividadpadre["proyectoid"]=$proyectoid;
         $datosactividadpadre["propuestaid"]=$propuestaid;
-        $datosactividadpadre["actividad_padre"]='';
+        $datosactividadpadre["actividad_padre"]=null;
 
         $datosactividadpadre["nombre"]=utf8_encode($nombre);
         $datosactividadpadre["fecha_creacion"]=date("Y-m-d");
@@ -611,9 +613,10 @@ public function subiractividadesAction(){
         $datosactividadpadre["isproyecto"]='S';
         $datosactividadpadre["moneda"]=$moneda;
         $bdactividad = new Admin_Model_DbTable_Actividad();
+
         if($bdactividad->_save($datosactividadpadre))
-          {
-          echo "guardo bien";   }
+          {echo $actividadint;
+          echo ": guardo bien actividad padre";  echo "<br>"; }
         
         } 
         else {
@@ -640,8 +643,8 @@ public function subiractividadesAction(){
             $datosactividadhija["moneda"]=$moneda;
             $bdactividad = new Admin_Model_DbTable_Actividad();
           if($bdactividad->_save($datosactividadhija))
-            {
-              echo "guardo bien";
+            { echo $actividadint;
+              echo "guardo bien actividad disciplina"; echo "<br>";
             }
             }
 
@@ -668,10 +671,10 @@ public function subiractividadesAction(){
             $bdactividad = new Admin_Model_DbTable_Actividad();
            
             if($bdactividad->_save($datosactividadnieta))
-            {
-              echo "guardo bien";
+            {echo $actividadint;
+              echo "guardo bien tarea";echo "<br>";
             }
-            print_r($datosactividadnieta);
+           
 
             }
       }

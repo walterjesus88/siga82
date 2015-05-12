@@ -21,16 +21,15 @@ class Rrhh_IndexController extends Zend_Controller_Action {
 
     }
 
-
     public function buscaAction() {
         // $this->_helper->redirector('index','index','admin');
         $this->_helper->layout()->disableLayout();
         $busqueda = $this->_getParam('b');
         //echo $busqueda;
-        //$busqueda=strtoupper($busqueda);
+        $busqueda=strtoupper($busqueda);
         //$where=array('busca'=>$busqueda);
         //print_r($where);
-
+        $busqueda = strtoupper($busqueda);
         $listapersonas = new Admin_Model_DbTable_Persona();
         $lista=$listapersonas->_getBuscarPersonas($busqueda);
         $this->view->lista_personas=$lista;

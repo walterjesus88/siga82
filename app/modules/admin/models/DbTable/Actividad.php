@@ -77,6 +77,23 @@ class Admin_Model_DbTable_Actividad extends Zend_Db_Table_Abstract
         }
     }
 
+        public function _getActividadesxActividadid($proyectoid,$codigo,$actividadid)
+     {
+        try{
+            $sql=$this->_db->query("
+               select * from actividad 
+               where proyectoid='$proyectoid' and codigo_prop_proy='$codigo' 
+               and actividadid='$actividadid'
+            ");
+            $row=$sql->fetchAll();
+            return $row;           
+            }  
+            
+           catch (Exception $ex){
+            print $ex->getMessage();
+        }
+    }
+
     public function _getActividadesPadresXproyectoXcodigo($proyectoid,$codigo)
      {
         try{
@@ -93,6 +110,30 @@ class Admin_Model_DbTable_Actividad extends Zend_Db_Table_Abstract
             print $ex->getMessage();
         }
     }
+
+
+    public function _getActividadesPadresXProyectoXCategoria($proyectoid,$categoriaid,$codigo)
+     {
+        try{
+            $sql=$this->_db->query("
+                select distinct(left(tar.actividad_padre,1)) as padre from tareo as tar
+inner join actividad as act on
+tar.codigo_prop_proy=act.codigo_prop_proy and  tar.codigo_actividad=act.codigo_actividad and 
+tar.actividadid=act.actividadid and  tar.revision=act.revision
+    where tar.proyectoid='$proyectoid' and tar.categoriaid='$categoriaid' 
+    and tar.codigo_prop_proy='$codigo' 
+    order by left(tar.actividad_padre,1)
+            ");
+            $row=$sql->fetchAll();
+            return $row;           
+            }  
+            
+           catch (Exception $ex){
+            print $ex->getMessage();
+        }
+    }
+
+
 
     public function _getActividadesPadres($proyectoid,$codigo,$propuestaid,$revision)
      {
@@ -118,6 +159,97 @@ class Admin_Model_DbTable_Actividad extends Zend_Db_Table_Abstract
                select * from actividad 
                where proyectoid='$proyectoid' and codigo_prop_proy='$codigo' 
                and propuestaid='$propuestaid' and revision='$revision' and actividad_padre='$actividadid' order by orden asc;
+            ");
+            $row=$sql->fetchAll();
+            return $row;           
+            }  
+            
+           catch (Exception $ex){
+            print $ex->getMessage();
+        }
+    }
+
+    public function _getActividadesHijasxCategoriaxActividadPadreUnica($proyectoid,$codigo,$propuestaid,$revision,$actividadid,$categoriaid)
+     {
+        try{
+            $sql=$this->_db->query("
+                select * from tareo as tar
+                inner join actividad as act on
+                tar.codigo_prop_proy=act.codigo_prop_proy and  tar.codigo_actividad=act.codigo_actividad and 
+                tar.actividadid=act.actividadid and  tar.revision=act.revision
+                where tar.proyectoid='$proyectoid' and tar.categoriaid='$categoriaid' 
+                and tar.propuestaid='$propuestaid' and tar.revision='$revision' and tar.codigo_prop_proy='$codigo'
+                and left(tar.actividad_padre,1)='$actividadid' order by tar.actividad_padre
+            ");
+            $row=$sql->fetchAll();
+            return $row;           
+            }  
+            
+           catch (Exception $ex){
+            print $ex->getMessage();
+        }
+    }
+
+    public function _getActividadesHijasxCategoriaxActividadTareas($proyectoid,$codigo,$propuestaid,$revision,$actividadid,$categoriaid)
+     {
+        try{
+            $sql=$this->_db->query("
+                select * from tareo as tar
+                inner join actividad as act on
+                tar.codigo_prop_proy=act.codigo_prop_proy and  tar.codigo_actividad=act.codigo_actividad and 
+                tar.actividadid=act.actividadid and  tar.revision=act.revision
+                where tar.proyectoid='$proyectoid' and tar.categoriaid='$categoriaid' 
+                and act.propuestaid='$propuestaid' and act.revision='$revision' and tar.codigo_prop_proy='$codigo'
+                and left(tar.actividad_padre,1)='$actividadid' order by tar.actividad_padre
+            ");
+            $row=$sql->fetchAll();
+            return $row;           
+            }  
+            
+           catch (Exception $ex){
+            print $ex->getMessage();
+        }
+    }
+
+
+public function _getActividadesHijasxActividadesPadresXCategoria($proyectoid,$codigo,$propuestaid,$revision,$actividadid,$categoriaid)
+     {
+        try{
+            $sql=$this->_db->query("
+                select distinct tar.actividad_padre from tareo as tar
+                inner join actividad as act on
+                tar.codigo_prop_proy=act.codigo_prop_proy and  tar.codigo_actividad=act.codigo_actividad and 
+                tar.actividadid=act.actividadid and  tar.revision=act.revision
+                
+                where tar.proyectoid='$proyectoid' and tar.categoriaid='$categoriaid' 
+                and act.propuestaid='$propuestaid' and act.revision='$revision' and tar.codigo_prop_proy='$codigo'
+
+
+                
+            ");
+            $row=$sql->fetchAll();
+            return $row;           
+            }  
+            
+           catch (Exception $ex){
+            print $ex->getMessage();
+        }
+    }
+
+public function _getTareasxActividadPadrexCategoria($proyectoid,$codigo,$propuestaid,$revision,$actividadid,$categoriaid)
+     {
+        try{
+            $sql=$this->_db->query("
+                select * from tareo as tar
+                inner join actividad as act on
+                tar.codigo_prop_proy=act.codigo_prop_proy and  tar.codigo_actividad=act.codigo_actividad and 
+                tar.actividadid=act.actividadid and  tar.revision=act.revision
+                
+                where tar.proyectoid='$proyectoid' and tar.categoriaid='$categoriaid' 
+                and act.propuestaid='$propuestaid' and act.revision='$revision' and tar.codigo_prop_proy='$codigo'
+                and tar.actividad_padre='$actividadid'
+
+                
             ");
             $row=$sql->fetchAll();
             return $row;           

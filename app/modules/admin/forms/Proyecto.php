@@ -28,7 +28,7 @@ class Admin_Form_Proyecto extends Zend_Form{
     $fecha_inicio->removeDecorator('Label')->removeDecorator("HtmlTag");
     $fecha_inicio->setAttrib("maxlength", "100");
     $fecha_inicio->setAttrib('class', 'form-control');
-$fecha_inicio->setAttrib('class', 'default-date-picker');
+    $fecha_inicio->setAttrib('class', 'default-date-picker');
     
 
 

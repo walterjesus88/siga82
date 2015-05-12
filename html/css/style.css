@@ -2343,7 +2343,7 @@ ul.inbox-pagination li {
 /*profile*/
 
 .profile-nav .user-heading {
-    background: #ff766c;
+    background: rgba(7, 35, 108, 0.92);
     color: #fff;
     border-radius: 4px 4px 0 0;
     -webkit-border-radius: 4px 4px 0 0;
@@ -2352,17 +2352,18 @@ ul.inbox-pagination li {
 }
 
 .profile-nav .user-heading.round a  {
-    border-radius: 50%;
-    -webkit-border-radius: 50%;
-    border: 10px solid rgba(255,255,255,0.3);
+    border-radius: 10px;
+    -webkit-border-radius: 10px; 
+    border: 5px solid rgba(255,255,255,0.3);
     display: inline-block;
+    
 }
 
 .profile-nav .user-heading a img {
-    width: 112px;
-    height: 112px;
-    border-radius: 50%;
-    -webkit-border-radius: 50%;
+    width: 180px;
+    height: 200px;
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
 }
 
 .profile-nav .user-heading h1 {
@@ -2441,7 +2442,7 @@ ul.inbox-pagination li {
     color: #fff;
     text-align: center;
     font-style: italic;
-    padding: 40px 110px;
+    padding: 20px 110px;
     border-radius: 4px 4px 0 0;
     -webkit-border-radius: 4px 4px 0 0;
     font-size: 16px;
@@ -3250,10 +3251,11 @@ table.sliders tr td {
 }
 
 .ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default {
-    background: #fff !important;
-    border: 3px solid #22bacf !important;
-    border-radius: 50% !important;
-    -webkit-border-radius: 50% !important;
+    /*borde del calendario*/
+    /*background: #fff !important;*/
+    /*border: 3px solid #22bacf !important;*/
+    /*border-radius: 50% !important;*/
+    /*-webkit-border-radius: 50% !important;*/
 }
 
 .ui-slider-vertical {

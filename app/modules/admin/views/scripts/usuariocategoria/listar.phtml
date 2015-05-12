@@ -1,19 +1,19 @@
-  			 <?php if($this->lista_personas) {?>
+  			 <?php if($this->lucategoria) {?>
 
               <div class="directory-info-row">
               <div class="row">
 
-              <?php foreach ($this->lista_personas as $personas) { ?>
+              <?php foreach ($this->lucategoria as $personas) { ?>
                 
               <div class="col-md-6 col-sm-6">
                   <div class="panel">
                       <div class="panel-body">
                           <div class="media">
-                              <a class="pull-left" href="/rrhh/perfil/curriculum/dni/<?php echo $personas['dni'];?>">
+                              <a class="pull-left" href="#">
                                   <img class="thumb media-object" src="/img/fotos-anddes/<?php echo $personas['dni'];?>.jpg" style="width : 50px ; height : 50px">
                               </a>
                               <div class="media-body">
-                              <h4><?php echo $personas['nombres']; echo " "; echo $personas['ape_paterno'];echo " ";echo $personas['ape_materno']   ?><span class="text-muted small"> - UI Engineer</span></h4>
+                              <h4><?php echo $personas['uid']; echo " "; echo $personas['dni'];echo " ";echo $personas['categoriaid']   ?><span class="text-muted small"> </span></h4>
                    
 
                               </div>
