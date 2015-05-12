@@ -6,6 +6,14 @@ class Rrhh_PerfilController extends Zend_Controller_Action {
             'layout' => 'layout',
         );
         Zend_Layout::startMvc($options);
+        $auth = Zend_Auth::getInstance();
+
+        if ($auth->hasIdentity()) { 
+          $sesion = $auth->getStorage()->read();
+          $this->sesion=$sesion;
+         // print_r($sesion);
+       
+        }
 
     }
     
@@ -131,6 +139,9 @@ class Rrhh_PerfilController extends Zend_Controller_Action {
 
     public function curriculumAction(){
 
+        $dn=$this->sesion->dni;
+
+
         $dni = $this->_getParam('dni');        
         $dbper=new Admin_Model_DbTable_Persona();
         $where=array('dni'=>$dni);
@@ -181,7 +192,10 @@ class Rrhh_PerfilController extends Zend_Controller_Action {
 
         if ($this->getRequest()->isPost()) {
              $formdata = $this->getRequest()->getPost();                    
-                     unset($formdata['submit']);
+                    unset($formdata['submit']);
+                    $formdata['uid_registro']=$dn;
+                    $formdata['fecha_registro']=date('Y-m-d H:m:s');;
+
                      $pk = array('dni'    => $dni   );                                     
                      print_r($formdata);
                      $updperson=new Admin_Model_DbTable_Persona();               
