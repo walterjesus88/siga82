@@ -3,17 +3,25 @@
   <ul class="nav nav-pills nav-stacked">
 <?php $i=1;
     $tareas = $this->tareas;
-  //  print_r($tareas);
-    foreach ($tareas as $data_tareas) { ?>
-        <li>
-            <?php 
-               // if ()
-            ?>
-            <a style="padding:5px 5px;" class = "actividad_hijas"  href="">
-                <span><?php echo $data_tareas['nombre'] ?></span>
-            <input name="tarea_<?php echo $i;?>" id="tarea_<?php echo $i;?>" type = "checkbox" class = "pull-right" value="" codigo-prop-proy="<?php echo $this->codigo_prop_proy ?>" proyectoid="<?php echo $this->proyectoid ?>" categoriaid="<?php echo $this->categoriaid ?>" actividadid = "<?php echo $data_tareas['actividadid'] ?>" revision = "<?php echo $data_tareas['revision'] ?>" propuestaid = "<?php echo $data_tareas['propuestaid'] ?>">
-            </a>
-        </li>
+   
+    foreach ($tareas as $data_tareas) { 
+        $tareopersona = new Admin_Model_DbTable_Tareopersona();
+        $buscar_tarea=$tareopersona->_getTareoxPersonaxSemanaxActividadid($this->uid,$this->dni,$this->semanaid,$data_tareas['actividad_padre'],$data_tareas['actividadid'],$data_tareas['codigo_actividad']);
+        if ($buscar_tarea){ ?>
+            <li>
+                <a style="padding:5px 5px;"   class = "actividad_hijas"  href="">
+                    <span><?php echo $data_tareas['nombre'] ?></span>
+                    <input  name="" id="" type = "checkbox" class = "pull-right" value="" checked="true">
+                </a>
+            </li>
+        <?php } else {?>
+            <li>
+                <a style="padding:5px 5px;" class = "actividad_hijas"  href="">
+                    <span><?php echo $data_tareas['nombre'] ?></span>
+                    <input name="tarea_<?php echo $i;?>" id="tarea_<?php echo $i;?>" type = "checkbox" class = "pull-right" value="" codigo-prop-proy="<?php echo $this->codigo_prop_proy ?>" proyectoid="<?php echo $this->proyectoid ?>" categoriaid="<?php echo $this->categoriaid ?>" actividadid = "<?php echo $data_tareas['actividadid'] ?>" revision = "<?php echo $data_tareas['revision'] ?>" propuestaid = "<?php echo $data_tareas['propuestaid'] ?>">
+                </a>
+            </li>
+        <?php }?>
         <script type="text/javascript">
             $(document).ready(function(){
                 $('[name^="tarea_<?php echo $i;?>"]').click(function(event) {
@@ -25,11 +33,12 @@
                         var propuestaid="<?php echo $data_tareas['propuestaid']; ?>";
                         var actividadid="<?php echo $data_tareas['actividadid']; ?>";
                         var codigo_actividad="<?php echo $data_tareas['codigo_actividad']; ?>";
-                        var etapa="<?php echo $data_tareas['etapa']; ?>";
+                       
                         var actividad_padre="<?php echo $data_tareas['actividad_padre']; ?>";
                         var h_propuesta="<?php echo $data_tareas['h_propuesta']; ?>";
-                        url="/timesheet/index/guardartareopersona/codigo/"+codigo+"/proyectoid/"+proyectoid+"/revision/"+revision+"/categoriaid/"+categoriaid+"/propuestaid/"+propuestaid+"/actividadid/"+actividadid+"/codigo_actividad/"+codigo_actividad+"/actividad_padre/"+actividad_padre+"/h_propuesta/"+h_propuesta+"/etapa/"+etapa;
+                        url="/timesheet/index/guardartareopersona/codigo/"+codigo+"/proyectoid/"+proyectoid+"/revision/"+revision+"/categoriaid/"+categoriaid+"/propuestaid/"+propuestaid+"/actividadid/"+actividadid+"/codigo_actividad/"+codigo_actividad+"/actividad_padre/"+actividad_padre+"/h_propuesta/"+h_propuesta;
                         $("#cargar").load(url);
+                        
                  
                 
             }

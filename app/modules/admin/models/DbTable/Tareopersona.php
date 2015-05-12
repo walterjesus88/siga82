@@ -88,6 +88,32 @@ class Admin_Model_DbTable_Tareopersona extends Zend_Db_Table_Abstract
         }
     }
 
+    public function _getTareoxPersonaxSemanaxActividadid($uid,$dni,$semanaid,$actividad_padre,$actividadid,$codigo_actividad)
+     {
+        try{
+            $sql=$this->_db->query("
+                select * from tareo_persona as tareo 
+                inner join actividad as act
+                on tareo.actividadid=act.actividadid and tareo.codigo_actividad=act.codigo_actividad 
+                    and tareo.codigo_prop_proy=act.codigo_prop_proy
+                    and tareo.revision=act.revision
+                inner join proyecto as pro on tareo.codigo_prop_proy=pro.codigo_prop_proy
+                    and tareo.revision=pro.revision and tareo.proyectoid=pro.proyectoid 
+                where tareo.uid='$uid' and tareo.dni='$dni' and tareo.semanaid='$semanaid' 
+                and tareo.actividadid='$actividadid' and tareo.actividad_padre='$actividad_padre'
+                and tareo.codigo_actividad='$codigo_actividad'
+                and tareo.etapa like 'INICIO%'  order by tareo.proyectoid,tareo.actividadid,tipo_actividad desc 
+            ");
+            $row=$sql->fetchAll();
+            return $row;           
+            }  
+            
+           catch (Exception $ex){
+            print $ex->getMessage();
+        }
+    }
+
+
     public function _getTareoxPersonaxSemanaxNB($uid,$dni,$semanaid)
      {
         try{
@@ -185,8 +211,89 @@ class Admin_Model_DbTable_Tareopersona extends Zend_Db_Table_Abstract
             return $this->insert($data);
             return false;
         }catch (Exception $e){
-                print "Error: Registration ".$e->getMessage();
+                //print "Error: Registration ".$e->getMessage();
         }
     }
 
+     public function _delete($pk=null)
+    {
+        try{
+            if ($pk['codigo_prop_proy']=='' ||  $pk['codigo_actividad']=='' ) return false;
+
+            $where = "codigo_prop_proy = '".$pk['codigo_prop_proy']."' and codigo_actividad='".$pk['codigo_actividad']."' 
+            and actividadid='".$pk['actividadid']."' 
+            and revision='".$pk['revision']."' 
+            and actividad_padre='".$pk['actividad_padre']."' 
+            and proyectoid='".$pk['proyectoid']."' 
+            and semanaid='".$pk['semanaid']."' 
+            and fecha_tarea='".$pk['fecha_tarea']."' 
+            and uid='".$pk['uid']."' 
+            and cargo='".$pk['cargo']."' 
+            and etapa='".$pk['etapa']."' 
+            and fecha_planificacion='".$pk['fecha_planificacion']."' 
+            and tipo_actividad='".$pk['tipo_actividad']."' 
+            ";
+            return $this->delete( $where);
+            return false;
+        }catch (Exception $e){
+            print "Error: Update Distribution".$e->getMessage();
+        }
+    }
+
+    public function _deleteTareasEtapaEjecucion($pk=null)
+    {
+        try{
+            if ($pk['codigo_prop_proy']=='' ||  $pk['codigo_actividad']=='' ) return false;
+
+            $where = "codigo_prop_proy = '".$pk['codigo_prop_proy']."' and codigo_actividad='".$pk['codigo_actividad']."' 
+            and actividadid='".$pk['actividadid']."' 
+            and revision='".$pk['revision']."' 
+            and actividad_padre='".$pk['actividad_padre']."' 
+            and proyectoid='".$pk['proyectoid']."' 
+            and semanaid='".$pk['semanaid']."' 
+              and uid='".$pk['uid']."' 
+            and cargo='".$pk['cargo']."' 
+            and etapa='".$pk['etapa']."' 
+                   and tipo_actividad='".$pk['tipo_actividad']."' 
+            ";
+            return $this->delete( $where);
+            return false;
+        }catch (Exception $e){
+            print "Error: Update Distribution".$e->getMessage();
+        }
+    }
+
+
+    public function _getHorasRealxDiaXWalter($data = null){
+       try {
+           if ($data['escid'] == '' || $data['uid'] == '' || $data['curid'] == '') return false;
+           $Registrationults = $this->_db->query("
+               select * from courses_pending_wjrs('".$data['escid']."', '".$data['uid']."', '".$data['curid']."')");
+           $rows = $results->fetchAll();
+           if ($rows) return $rows;
+           return false;
+       } catch (Exception $e) {
+           print "Error: Read Courses per Curriculum... ".$e->getMessage();
+       }
+   }
+
+   public function _getHorasRealxDia($semanaid,$fecha_tarea,$uid,$dni,$cargoid)
+     {
+        try{
+            $sql=$this->_db->query("
+              select * from tareo_persona_horas_reales('$semanaid','$fecha_tarea','$uid','$dni','$cargoid')
+            ");
+            $row=$sql->fetchAll();
+            return $row;           
+            }  
+            
+           catch (Exception $ex){
+            print $ex->getMessage();
+        }
+    }
+
+
 }
+
+
+

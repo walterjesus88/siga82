@@ -1,161 +1,194 @@
 <div class="row">
-    <div class="col-sm-12">
-        <section class="panel">
-            <header class="panel-heading">
-                  Actividades
-                <span class="tools pull-right">
-                    <a href="javascript:;" class="fa fa-chevron-down"></a>
-                </span>
-            </header>
-            <div class="panel-body">
-                <div class="adv-table">
-                    <table  class="display table table-bordered table-striped">
-                        <thead>
-                            <tr >
-                              
-                                <th>  
-                                    B/NB 
-                                </th>
+  <div class="col-sm-12">
+    <section class="panel">
+      <div class="panel-body">
+        <div class="adv-table">
+          <table  class="display table table-bordered table-striped">
+          <thead>
+            <tr >
+            <th style="width: 5%;">  </th>
+            <th style="width: 25%;" >Proyecto + Tarea</th>
+            <th style="width: 10%;">Billing</th>
+            <th style="width: 15%;">Actividad</th>
+            <?php 
+              $fecha = $this->fecha;
+              $fecha_mostrar = $this->fecha_mostrar;
+              $days_name = array("lun","mar","mié","jue","vie","sáb","dom");
+              for ($i=0; $i < 7; $i++) { ?>
+              <th style="width: 100px;"><center>
+                <?php print $days_name[$i] ?> <br><?php 
+                  list($dia, $mes, $anio) = split('[/.-]', $fecha);
+                  print $dia ?></center></th>
+                <?php
+                  $newDate = date("Y-m-d", strtotime($fecha));
+                  $nuevafecha = strtotime ( '+1 day' , strtotime ( $newDate ) ) ;
+                  $fecha = date ( 'd-m-Y' , $nuevafecha );
+                }?>
+            </tr>
+          </thead>
+          <tbody>
+          <?php 
+            $fechaactual = $this->fecha;
+            $fechaactual = date("Y-m-d", strtotime($fechaactual));
+            $actividades = $this->actividades;
+            $j=1;
+            foreach ($actividades as $data_tareo) 
+            { ?>
+            <tr class="gradeX" id ="tr_tareo_<?php echo $j?>">
+              <td> 
+                <?php if ($data_tareo['tipo_actividad']=='G') {?>
+                  <a ><i class="fa fa-plus-square-o"></i></a>
+                  <a title="Eliminar" id ="eliminar_tareo_<?php echo $j?>" ><i class="fa fa-minus-square-o"></i></a><?php }
+                else{ ?>
+                  <a onClick="window.open('/timesheet/index/actividadgeneral/codigo/<?php echo $data_tareo['codigo_prop_proy']?>/codigo_actividad/<?php echo $data_tareo['codigo_actividad']?>/actividadid/<?php echo $data_tareo['actividadid']?>/revision/<?php echo $data_tareo['revision']?>/actividad_padre/<?php echo $data_tareo['actividad_padre'] ?>/proyectoid/<?php echo $data_tareo['proyectoid']?>/semanaid/<?php echo $data_tareo['semanaid']?>/fecha_tarea/<?php echo $fechaactual ?>/asignado/<?php echo $data_tareo['asignado']?>/areaid/<?php echo $data_tareo['areaid']?>/categoriaid/<?php echo $data_tareo['categoriaid']?>/dni/<?php echo $data_tareo['dni']?>/cargo/<?php echo $data_tareo['cargo']?>/tipo_actividad/<?php echo $data_tareo['tipo_actividad']?>','mywindow','width=400,height=400,left=0,top=100,screenX=0,screenY=100')" >
+                  <i class="fa fa-plus-square-o"></i>
+                  </a>
+                  <a title="Eliminar" id ="eliminar_tareo_<?php echo $j?>" ><i class="fa fa-minus-square-o"></i></a>                                   
+                <?php }?>
+              </td>
+              <td>
+                <?php echo $data_tareo['nombre_proyecto'];  echo " / "; echo $data_tareo['actividadid']; echo ": ";echo $data_tareo['nombre'] ?>
+              </td>
+              <td>
+                <?php if ($data_tareo['tipo_actividad']=='G') {?>
+                  <a class="btn btn-danger btn-xs">Non-billable</a>
+                <?php }else{ ?>
+                  <a class="btn btn-success btn-xs ">Billable</a>
+                <?php }?>
+              </td>
+              <td> 
+                <?php if ($data_tareo['tipo_actividad']=='G') {
+                  $dbactividadgeneral= new Admin_Model_DbTable_Actividadgeneral();
+                  $datosactgeneral = $dbactividadgeneral->_getActividadgeneralxId($data_tareo['actividad_generalid']);
+                  print_r($datosactgeneral[0]['nombre']) ?>
+                  <?php }else{ echo "< None >";}?>
+              </td>
+              <?php  $fecha = $this->fecha; 
+              $fecha = date("Y-m-d", strtotime($fecha));
+              for ($i=0; $i < 7; $i++) {
+                $proyectoid=$data_tareo['proyectoid'];
+                //  echo $proyectoid;echo "<br>";
+                $codigo=$data_tareo['codigo_prop_proy'];
+                // echo $codigo;echo "<br>";
+                $revision=$data_tareo['revision'];
+                //   echo $revision;echo "<br>";
+                $actividadid=$data_tareo['actividadid'];
+                //  echo $actividadid;echo "<br>";
+                $actividad_padre=$data_tareo['actividad_padre'];
+                //   echo $actividad_padre;echo "<br>";
+                $semanaid=$data_tareo['semanaid'];
+                $cadena=$data_tareo['etapa'];
+                $resultado = str_replace("INICIO", "EJECUCION", $cadena);
+                //  echo $semanaid;echo "<br>";
+                $fecha_tarea=$fecha;
+                // echo $fecha_tarea;echo "<br>";
+                $fecha_planificacion=$fecha;
+                // echo $fecha_planificacion;echo "<br>";
+                $uid=$this->uid;
+                // echo $uid;echo "<br>";
+                $dni=$this->dni;
+                //  echo $dni;echo "<br>";
+                $cargo=$this->cargo;
+                // echo $cargo; echo "<br>";
+                $tareopersona = new Admin_Model_DbTable_Tareopersona();
+                $buscar_tarea=$tareopersona->_getTareoxProyectoxTareaxDia($proyectoid,$codigo,$revision,$actividadid,$actividad_padre,$semanaid,$fecha_tarea,$fecha_planificacion,$uid,$dni,$cargo,$resultado);
+                //print_r($buscar_tarea);
+                ?>
+              <td><center>
+                <input class="form-control" onBlur="fnc(event)" style="text-align: center;height: 26px; width: 40px; padding-right: 4px; padding-left: 4px;" maxlength="2" editable=true id="<?php echo $data_tareo['codigo_prop_proy']."!".$data_tareo['codigo_actividad']."!".$data_tareo['actividadid']."!".$data_tareo['revision']."!".$data_tareo['actividad_padre']."!".$data_tareo['proyectoid']."!".$data_tareo['semanaid']."!".$fecha."!".$data_tareo['asignado']."!".$data_tareo['areaid']."!".$data_tareo['categoriaid']."!".$data_tareo['dni']."!".$data_tareo['cargo']."!".$data_tareo['tipo_actividad']."!".$data_tareo['etapa'];?>"  type="text" name="horario"  value="<?php if ($buscar_tarea) {print_r($buscar_tarea[0]['h_real']);}?>"  >                               
+              </center></td>
+                <?php 
+                  $newDate = date("Y-m-d", strtotime($fecha));
+                  $nuevafecha = strtotime ( '+1 day' , strtotime ( $newDate ) ) ;
+                  $fecha = date ( 'Y-m-d' , $nuevafecha );?>
+                <?php }?>
+            </tr>
 
-                                <th>Proyecto / Actividades</th>
-                                <?php 
-                                $fecha = $this->fecha;
-                                $fecha_mostrar = $this->fecha_mostrar;
-                                $days_name = array("lun","mar","mié","jue","vie","sáb","dom");
-                                for ($i=0; $i < 7; $i++) { ?>
-                                    <th style="width: 100px;"><center>
-                                        <?php print $days_name[$i] ?> <br><?php 
-                                        list($dia, $mes, $anio) = split('[/.-]', $fecha);
+              <script type="text/javascript">
+                $(document).ready(function(){
+                  $("#eliminar_tareo_<?php echo $j?>").click(function(){
+                    $("#tr_tareo_<?php echo $j?>").hide();
+                    var codigo_prop_proy= '<?php echo $data_tareo['codigo_prop_proy']?>';
+                    var codigo_actividad='<?php echo $data_tareo['codigo_actividad']?>';
+                    var actividadid="<?php echo $data_tareo['actividadid']?>";
+                    var revision="<?php echo $data_tareo['revision']?>";
+                    var actividad_padre="<?php echo $data_tareo['actividad_padre'] ?>";
+                    var proyectoid="<?php echo $data_tareo['proyectoid']?>";
+                    var semanaid="<?php echo $data_tareo['semanaid']?>";
+                    var fecha_tarea="<?php echo $data_tareo['fecha_tarea'] ?>";
+                    var asignado="<?php echo $data_tareo['asignado']?>";
+                    var areaid="<?php echo $data_tareo['areaid']?>";
+                    var categoriaid="<?php echo $data_tareo['categoriaid']?>";
+                    var dni="<?php echo $data_tareo['dni']?>";
+                    var cargo="<?php echo $data_tareo['cargo']?>";
+                    var etapa="<?php echo $data_tareo['etapa']?>";
+                    var tipo_actividad="<?php echo $data_tareo['tipo_actividad']?>";
+                    var fecha_planificacion="<?php echo $data_tareo['fecha_planificacion']?>";
+                    var url="/timesheet/index/eliminartareo/codigo/"+codigo_prop_proy+"/codigo_actividad/"+codigo_actividad+"/actividadid/"+actividadid+"/revision/"+revision+"/actividad_padre/"+actividad_padre+"/proyectoid/"+proyectoid+"/semanaid/"+semanaid+"/fecha_tarea/"+fecha_tarea+"/asignado/"+asignado+"/areaid/"+areaid+"/categoriaid/"+categoriaid+"/dni/"+dni+"/cargo/"+cargo+"/tipo_actividad/"+tipo_actividad+"/etapa/"+etapa+"/fecha_planificacion/"+fecha_planificacion;
+                    // alert(url);
+                    $("#carga").load(url);
+                    var dateObj = new Date();
+                    var dateFrom = $.datepicker.formatDate('mm/dd/yy', dateObj);
+                    var weekfrom = $.datepicker.iso8601Week(new Date(dateFrom));
+                    var diasSemana = new Array("Domingo","Lunes","Martes","Miércoles","Jueves","Viernes","Sábado");
+                    var day_select = diasSemana[dateObj.getDay()];
+                    for (i = 0; i < diasSemana.length; i++) { 
+                      if (diasSemana[i] == day_select) {
+                        if (i == 0) {
+                          var num_day = 6;
+                        } else {
+                          var num_day = i - 1;
+                        };
+                      };
+                    };
+                    fecha_inicio = mostrarFecha(dateObj,-num_day);
+                    $("#registro").load("/timesheet/index/registro/fecha/" + fecha_inicio); 
+                  });
+                });
+              </script>
 
-                                        print $dia ?></center>
-                                    </th>
-                                    <?php
-                                    $newDate = date("Y-m-d", strtotime($fecha));
-                                    $nuevafecha = strtotime ( '+1 day' , strtotime ( $newDate ) ) ;
-                                    $fecha = date ( 'd-m-Y' , $nuevafecha );
-                                }
-                                 ?>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php 
-                             $fechaactual = $this->fecha;
-                                $fechaactual = date("Y-m-d", strtotime($fechaactual));
-                            $actividades = $this->actividades;
+            <?php $j++;}?>
+           </tbody>
+           <thead>
+            <tr >
+            <th style="width: 5%;">  </th>
+            <th style="width: 25%;" ></th>
+            <th style="width: 10%;"></th>
+            <th style="width: 15%;"></th>
+            <?php $fecha = $this->fecha; 
+              
+              for ($i=0; $i < 7; $i++) { ?>
+              <th style="width: 100px;"><center>
+                <?php 
+                  $fecha = date("Y-m-d", strtotime($fecha));
+                  $semanaid=$data_tareo['semanaid'] ;
+                  $uid=$this->uid;
+                  $dni=$this->dni;
+                  $cargoid=$this->cargo;
+                  $tareopersona = new Admin_Model_DbTable_Tareopersona();
+                  $sumar=$tareopersona-> _getHorasRealxDia($semanaid,$fecha,$uid,$dni,$cargoid);
+                  print_r($sumar[0]['tareo_persona_horas_reales']);
+                ?>
 
-                            foreach ($actividades as $data_tareo) 
+              </center></th>
+                   <?php
+                  $newDate = date("Y-m-d", strtotime($fecha));
+                  $nuevafecha = strtotime ( '+1 day' , strtotime ( $newDate ) ) ;
+                  $fecha = date ( 'Y-m-d' , $nuevafecha );
+                
+                }?>
+            </tr>
+          </thead>
 
-                                { ?>
-                                <tr class="gradeX">
-                                    <td> <center>
-
-                                    <?php if ($data_tareo['tipo_actividad']=='G') {?>
-                                      
-                                      <a class="btn btn-danger btn-xs">
-                                      NB
-                                      </a>
-
-                                      <?php }else{ ?>
-                                     <a class="btn btn-success btn-xs ">
-                                      B
-                                      </a>
-
-                                     
-                                      <?php }?>
-
-                                      </center>
-                                    </td>
-
-                     
-
-                                    <td>
-                                        
-
-                                        <a title="Eliminar" onclick="return confirm('Esta Seguro que desea eliminar el registro?');"  href="/timesheet/index/eliminartareo/codigo/<?php echo $data_tareo['codigo_prop_proy']?>/codigo_actividad/<?php echo $data_tareo['codigo_actividad']?>/actividadid/<?php echo $data_tareo['actividadid']?>/revision/<?php echo $data_tareo['revision']?>/actividad_padre/<?php echo $data_tareo['actividad_padre'] ?>/proyectoid/<?php echo $data_tareo['proyectoid']?>/semanaid/<?php echo $data_tareo['semanaid']?>/fecha_tarea/<?php echo $fechaactual ?>/asignado/<?php echo $data_tareo['asignado']?>/areaid/<?php echo $data_tareo['areaid']?>/categoriaid/<?php echo $data_tareo['categoriaid']?>/dni/<?php echo $data_tareo['dni']?>/cargo/<?php echo $data_tareo['cargo']?>/tipo_actividad/<?php echo $data_tareo['tipo_actividad']?>'" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i>
-                                      </a>           
-                                    
-
-                                     <?php if ($data_tareo['tipo_actividad']=='G') {?>
-                                      
-                                    <?php 
-                                    $dbactividadgeneral= new Admin_Model_DbTable_Actividadgeneral();
-                                    $datosactgeneral = $dbactividadgeneral->_getActividadgeneralxId($data_tareo['actividad_generalid']);
-                                    echo $data_tareo['nombre_proyecto'];  echo " / "; echo $data_tareo['actividadid']; echo ": ";echo $data_tareo['nombre']; echo " / "; print_r($datosactgeneral[0]['nombre']) ?>
-
-
-                                      <?php }else{ ?>
-                                       <a onClick="window.open('/timesheet/index/actividadgeneral/codigo/<?php echo $data_tareo['codigo_prop_proy']?>/codigo_actividad/<?php echo $data_tareo['codigo_actividad']?>/actividadid/<?php echo $data_tareo['actividadid']?>/revision/<?php echo $data_tareo['revision']?>/actividad_padre/<?php echo $data_tareo['actividad_padre'] ?>/proyectoid/<?php echo $data_tareo['proyectoid']?>/semanaid/<?php echo $data_tareo['semanaid']?>/fecha_tarea/<?php echo $fechaactual ?>/asignado/<?php echo $data_tareo['asignado']?>/areaid/<?php echo $data_tareo['areaid']?>/categoriaid/<?php echo $data_tareo['categoriaid']?>/dni/<?php echo $data_tareo['dni']?>/cargo/<?php echo $data_tareo['cargo']?>/tipo_actividad/<?php echo $data_tareo['tipo_actividad']?>','mywindow','width=400,height=400,left=0,top=100,screenX=0,screenY=100')" class="btn btn-info btn-xs ">
-                                      <i class="fa fa-asterisk"></i>
-                                      </a>
-
-                                       <?php echo $data_tareo['nombre_proyecto'];  echo " / "; echo $data_tareo['actividadid']; echo ": ";echo $data_tareo['nombre'] ?>
-
-                                     
-                                      <?php }?>
-
-                                        
-
-                                 </td>
-                                    
-                                    <?php  $fecha = $this->fecha; 
-                                     $fecha = date("Y-m-d", strtotime($fecha));
-                                    for ($i=0; $i < 7; $i++) {
-                                        $proyectoid=$data_tareo['proyectoid'];
-                                        //  echo $proyectoid;echo "<br>";
-                                        $codigo=$data_tareo['codigo_prop_proy'];
-                                        // echo $codigo;echo "<br>";
-                                        $revision=$data_tareo['revision'];
-                                        //   echo $revision;echo "<br>";
-                                        $actividadid=$data_tareo['actividadid'];
-                                        //  echo $actividadid;echo "<br>";
-                                        $actividad_padre=$data_tareo['actividad_padre'];
-                                        //   echo $actividad_padre;echo "<br>";
-                                        $semanaid=$data_tareo['semanaid'];
-                                        $cadena=$data_tareo['etapa'];
-                                        $resultado = str_replace("INICIO", "EJECUCION", $cadena);
-                                        //  echo $semanaid;echo "<br>";
-                                        $fecha_tarea=$fecha;
-                                        // echo $fecha_tarea;echo "<br>";
-                                        $fecha_planificacion=$fecha;
-                                        // echo $fecha_planificacion;echo "<br>";
-                                        $uid=$this->uid;
-                                        // echo $uid;echo "<br>";
-                                        $dni=$this->dni;
-                                        //  echo $dni;echo "<br>";
-                                        $cargo=$this->cargo;
-                                         // echo $cargo; echo "<br>";
-                                       $tareopersona = new Admin_Model_DbTable_Tareopersona();
-                                       $buscar_tarea=$tareopersona->_getTareoxProyectoxTareaxDia($proyectoid,$codigo,$revision,$actividadid,$actividad_padre,$semanaid,$fecha_tarea,$fecha_planificacion,$uid,$dni,$cargo,$resultado);
-                                       //print_r($buscar_tarea);
-                                      ?>
-                                    <td>
-                                      <center>
-                                        <input class="form-control" onBlur="fnc(event)" style="height: 26px; width: 60px;" maxlength="2" editable=true id="<?php echo $data_tareo['codigo_prop_proy']."!".$data_tareo['codigo_actividad']."!".$data_tareo['actividadid']."!".$data_tareo['revision']."!".$data_tareo['actividad_padre']."!".$data_tareo['proyectoid']."!".$data_tareo['semanaid']."!".$fecha."!".$data_tareo['asignado']."!".$data_tareo['areaid']."!".$data_tareo['categoriaid']."!".$data_tareo['dni']."!".$data_tareo['cargo']."!".$data_tareo['tipo_actividad']."!".$data_tareo['etapa'];?>"  type="text" name="horario"  value="<?php if ($buscar_tarea) {print_r($buscar_tarea[0]['h_real']);}
-
-                                        ?>"  > 
-                                        
-                                      </center>
-                                    </td>
-                                    <?php 
-                                        $newDate = date("Y-m-d", strtotime($fecha));
-                                        $nuevafecha = strtotime ( '+1 day' , strtotime ( $newDate ) ) ;
-                                        $fecha = date ( 'Y-m-d' , $nuevafecha );
-                                        }?>
-                                </tr>
-                                <?php
-                            }
-                             ?>
-                        </tbody>
-
-
-                    </table>
-                </div>
-            </div>
-        </section>
-    </div>
+          </table>
+        </div>
+      </div>
+    </section>
+  </div>
 </div>
 <div id="horaregistrada"></div>
 <div id="carga"></div>
+
 <script type="text/javascript">
 function fnc(evt) {
     var evt = evt.target ? evt : window.event;
@@ -193,6 +226,23 @@ function fnc(evt) {
     //alert(url);
   $("#carga").load(url);  
     }
+  var dateObj = new Date();
+  //var dateObj = $('#datepicker').datepicker('getDate');
+  var dateFrom = $.datepicker.formatDate('mm/dd/yy', dateObj);
+  var weekfrom = $.datepicker.iso8601Week(new Date(dateFrom));
+  var diasSemana = new Array("Domingo","Lunes","Martes","Miércoles","Jueves","Viernes","Sábado");
+  var day_select = diasSemana[dateObj.getDay()];
+  for (i = 0; i < diasSemana.length; i++) { 
+    if (diasSemana[i] == day_select) {
+      if (i == 0) {
+        var num_day = 6;
+      } else {
+        var num_day = i - 1;
+      };
+    };
+  };
+  fecha_inicio = mostrarFecha(dateObj,-num_day);
+  $("#registro").load("/timesheet/index/registro/fecha/" + fecha_inicio); 
 }
 
 $( "input" )

@@ -1,5 +1,7 @@
 body, html{
-	font-family: Arial, Helvetica, sans-serif;
+
+	/*font-family: Arial, Helvetica, sans-serif;
+	font-family: 'Indie Flower', cursive;*/
 	font-size:12px;
 	color: #000;
 }
@@ -8,13 +10,15 @@ table, th, td
 {
 	border-collapse:collapse;
 	font-size:11px;
-	border: 1px solid #555;
+	/*border: 1px solid #555;*/
 	padding: 2px;
 	vertical-align:bottom;
+	font-family: Indie Flower, cursive;
+
 }
 
 th {
-	text-align: center;
+	/*text-align: center;*/
 }
 
 .center {
