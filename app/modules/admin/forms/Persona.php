@@ -83,6 +83,8 @@ class Admin_Form_Persona extends Zend_Form{
     $fecha_registro->removeDecorator('Label')->removeDecorator("HtmlTag");
     $fecha_registro->setAttrib("maxlength", "50");
     $fecha_registro->setAttrib('class', 'form-control');
+    $fecha_registro->setAttrib('class', 'default-date-picker');
+    
 
     $fecha_modificacion= new Zend_Form_Element_Text('fecha_modificacion');
     $fecha_modificacion->removeDecorator('Label')->removeDecorator("HtmlTag");
@@ -94,6 +96,7 @@ class Admin_Form_Persona extends Zend_Form{
     $fecha_nacimiento->removeDecorator('Label')->removeDecorator("HtmlTag");
     $fecha_nacimiento->setAttrib("maxlength", "50");
     $fecha_nacimiento->setAttrib('class', 'form-control');
+    $fecha_nacimiento->setAttrib('class', 'default-date-picker');
 
     $uid_registro= new Zend_Form_Element_Text('uid_registro');
     $uid_registro->removeDecorator('Label')->removeDecorator("HtmlTag");
