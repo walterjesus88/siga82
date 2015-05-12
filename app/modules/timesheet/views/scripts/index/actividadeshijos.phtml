@@ -8,7 +8,7 @@ if ($this->actividadid != 1) {
         <li>
             <a style="padding:5px 5px;"  class = "actividad_hijas" codigo-prop-proy="<?php echo $this->codigo_prop_proy ?>" proyectoid="<?php echo $this->proyectoid ?>" categoriaid="<?php echo $this->categoriaid ?>" actividadid = "<?php echo $data_tareo_hijos['actividadid'] ?>" revision = "<?php echo $data_tareo_hijos['revision'] ?>" propuestaid = "<?php echo $data_tareo_hijos['propuestaid'] ?>" href="##">
                 <i class="fa fa-rocket"></i>
-                <span><?php echo $data_tareo_hijos['nombre'] ?></span>
+                <span><?php  echo $data_tareo_hijos['nombre'] ?></span>
             </a>
         </li>
         <script type="text/javascript">
@@ -32,7 +32,7 @@ if ($this->actividadid != 1) {
 
     foreach ($actividades_hijos as $data_tareo_hijos) { 
         $tareopersona = new Admin_Model_DbTable_Tareopersona();
-        $buscar_tarea=$tareopersona->_getTareoxPersonaxSemanaxActividadid($this->uid,$this->dni,$this->semanaid,$data_tareo_hijos['actividad_padre'],$data_tareo_hijos['actividadid'],$data_tareo_hijos['codigo_actividad']);
+        $buscar_tarea=$tareopersona->_getTareoxPersonaxSemanaxActividadid($this->uid,$this->dni,$this->semanaid,$data_tareo_hijos['actividad_padre'],$data_tareo_hijos['actividadid'],$data_tareo_hijos['codigo_actividad'],$this->codigo_prop_proy,$this->proyectoid,$data_tareo_hijos['revision']);
         if ($buscar_tarea){?>
             <li>
                 <a style="padding:5px 5px;"   class = "actividad_hijas"  href="">

@@ -83,7 +83,7 @@ class Admin_Model_DbTable_Actividad extends Zend_Db_Table_Abstract
             $sql=$this->_db->query("
                select * from actividad 
                where proyectoid='$proyectoid' and codigo_prop_proy='$codigo' 
-               and actividadid='$actividadid'
+               and actividadid='$actividadid' order by orden
             ");
             $row=$sql->fetchAll();
             return $row;           
@@ -224,7 +224,7 @@ public function _getActividadesHijasxActividadesPadresXCategoria($proyectoid,$co
                 where tar.proyectoid='$proyectoid' and tar.categoriaid='$categoriaid' 
                 and act.propuestaid='$propuestaid' and act.revision='$revision' and tar.codigo_prop_proy='$codigo'
 
-
+                order by tar.actividad_padre
                 
             ");
             $row=$sql->fetchAll();
@@ -248,7 +248,7 @@ public function _getTareasxActividadPadrexCategoria($proyectoid,$codigo,$propues
                 where tar.proyectoid='$proyectoid' and tar.categoriaid='$categoriaid' 
                 and act.propuestaid='$propuestaid' and act.revision='$revision' and tar.codigo_prop_proy='$codigo'
                 and tar.actividad_padre='$actividadid' 
-
+                order by tar.actividadid desc
                 
             ");
             $row=$sql->fetchAll();

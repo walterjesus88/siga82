@@ -394,23 +394,16 @@ class Timesheet_IndexController extends Zend_Controller_Action {
         //print_r($datosucat);
         $cargo = $datosucat[0]['cargo'];
         $areaid = $datosucat[0]['areaid']; 
-           $diaactual=date("Y-m-d");
-
+        $diaactual=date("Y-m-d");
         $data['proyectoid']=$proyectoid = $this->_getParam('proyectoid');
         $data['codigo_prop_proy']=$codigo_prop_proy = $this->_getParam('codigo');
         $data['categoriaid']=$categoriaid = $this->_getParam('categoriaid');
         $data['revision']=$revision = $this->_getParam('revision');
-
         $data['actividadid']=$actividadid = $this->_getParam('actividadid');
         $data['codigo_actividad']=$codigo_actividad = $this->_getParam('codigo_actividad');
         $data['actividad_padre']=$actividad_padre = $this->_getParam('actividad_padre');
-
-
-$data['actividad_generalid']=$actividad_generalid = $this->_getParam('actividad_generalid');
-
-$data['area_generalid']=$area_generalid = $this->_getParam('area_generalid');
-
-        
+        $data['actividad_generalid']=$actividad_generalid = $this->_getParam('actividad_generalid');
+        $data['area_generalid']=$area_generalid = $this->_getParam('area_generalid');
         $data['uid']=$uid;
         $data['asignado']= $dni;
         $data['dni']=$dni;
@@ -428,9 +421,7 @@ $data['area_generalid']=$area_generalid = $this->_getParam('area_generalid');
         $data['cargo']=$cargo;
         $data['areaid']=$areaid;
         //datos para ctualizar
-            
         $datos['h_real']="";
-   
         //$updatetareopersona = new Admin_Model_DbTable_Tareopersona();    
         /*$str="codigo_prop_proy='$codigo_prop_proy' and proyectoid='$proyectoid' and 
         categoriaid='$categoriaid' and actividadid='$actividadid' and 
@@ -443,10 +434,13 @@ $data['area_generalid']=$area_generalid = $this->_getParam('area_generalid');
         if ($data_tareopersona){
         ?>
           <script>                  
-            alert("Se guardo satisfactoriamente");
+            //alert("Se guardo satisfactoriamente");
+           // document.location.href="/timesheet/index/calendar";
+             
           </script>
         <?php
-        }else
+            
+        } else
         {
         
                 /*$str="codigo_prop_proy='$codigo_prop_proy' and proyectoid='$proyectoid' and 
@@ -526,16 +520,16 @@ public function eliminartareoAction(){
             'tipo_actividad'   =>$tipo_actividad,
         ); 
 
-       
+       $tareopersona->_deleteTareasEtapaEjecucion($pk1);
         if ($tareopersona->_delete($pk)){
             ?>
               <script>      
-             alert("eliminado");
+           //  alert("eliminado");
               </script>
             <?php
 
           
-            $tareopersona->_deleteTareasEtapaEjecucion($pk1);
+            
 
         }else
         {
@@ -550,7 +544,29 @@ public function eliminartareoAction(){
             print "Error: ".$e->getMessage();
         }
     }
-    
+
+
+public function sumatareorealAction(){
+    try {
+        $this->_helper->layout()->disableLayout();
+        $uid = $this->sesion->uid;
+        $dni = $this->sesion->dni;
+        $dbucat= new Admin_Model_DbTable_Usuariocategoria();
+        $datosucat = $dbucat->_getUsuarioxPersona($uid,$dni);
+        $cargo = $datosucat[0]['cargo'];
+        $areaid = $datosucat[0]['areaid']; 
+        $semanaid=$this->_getParam('semanaid');
+        $fecha_tarea=$this->_getParam('fecha_tarea');
+        $cargoid=$this->_getParam('cargo');
+        $tareopersona = new Admin_Model_DbTable_Tareopersona();
+        $sumar=$tareopersona-> _getHorasRealxDia($semanaid,$fecha_tarea,$uid,$dni,$cargoid);
+        print_r($sumar[0]['tareo_persona_horas_reales']);
+
+        
+        } catch (Exception $e) {
+            print "Error: ".$e->getMessage();
+        }
+    }
 
 
 }

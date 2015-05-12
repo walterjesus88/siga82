@@ -111,10 +111,10 @@ class IndexController extends Zend_Controller_Action {
 
                         /* Provisional */
                         if ($data->rid=='PROYECTO') {
-                            $this->_helper->redirector('index','index','proyecto');
+                            $this->_helper->redirector('index','index','admin');
                         }
                         elseif ($data->rid=='PROPUESTA') {
-                            $this->_helper->redirector('index','index','propuesta');
+                            $this->_helper->redirector('index','index','admin');
                         }
                     } else {
                         // datos incorrectos, podríamos mostrar un mensaje de error
