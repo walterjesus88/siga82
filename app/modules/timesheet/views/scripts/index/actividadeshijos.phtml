@@ -27,28 +27,34 @@ if ($this->actividadid != 1) {
 
 <?php  
 } else { 
+    $i=1;
     $actividades_hijos = $this->datos_tarea;
-    foreach ($actividades_hijos as $data_tareo_hijos) { ?>
-        <li>
-            <a style="padding:5px 5px;"   class = "actividad_hijas"  href="##">
-                <span><?php echo $data_tareo_hijos['nombre'] ?></span>
-            <input id="tarea_<?php echo $i;?>" type = "checkbox" class = "pull-right" value="" codigo-prop-proy="<?php echo $this->codigo_prop_proy ?>" proyectoid="<?php echo $this->proyectoid ?>" categoriaid="<?php echo $this->categoriaid ?>" actividadid = "<?php echo $data_tareo_hijos['actividadid'] ?>" revision = "<?php echo $data_tareo_hijos['revision'] ?>" propuestaid = "<?php echo $data_tareo_hijos['propuestaid'] ?>">
-            </a>
-        </li>
-        <script type="text/javascript">
-            /*$(".actividad_hijas").click(function(){
-                var actividadid = $(this).attr('actividadid');
-                var proyectoid = $(this).attr('proyectoid');
-                var codigo_prop_proy = $(this).attr('codigo-prop-proy');
-                var categoriaid = $(this).attr('categoriaid');
-                var revision = $(this).attr('revision');
-                var propuestaid = $(this).attr('propuestaid');
-                $("#actividades_hijos").load("/timesheet/index/actividadestarea/proyectoid/"+proyectoid+"/codigo_prop_proy/"+codigo_prop_proy+"/categoriaid/"+categoriaid+"/actividadid/"+actividadid+"/revision/"+revision+"/propuestaid/"+propuestaid);
-            });*/
 
-                $(document).ready(function(){
-                $('[name^="tarea_<?php echo $i;?>"]').click(function(event) {
+    foreach ($actividades_hijos as $data_tareo_hijos) { 
+        $tareopersona = new Admin_Model_DbTable_Tareopersona();
+        $buscar_tarea=$tareopersona->_getTareoxPersonaxSemanaxActividadid($this->uid,$this->dni,$this->semanaid,$data_tareo_hijos['actividad_padre'],$data_tareo_hijos['actividadid'],$data_tareo_hijos['codigo_actividad']);
+        if ($buscar_tarea){?>
+            <li>
+                <a style="padding:5px 5px;"   class = "actividad_hijas"  href="">
+                    <span><?php echo $data_tareo_hijos['nombre'] ?></span>
+                    <input  name="" id="" type = "checkbox" class = "pull-right" value="" checked="true">
+                </a>
+            </li>
+        <?php
+        } else {
+        ?>
+            <li>
+                <a style="padding:5px 5px;"   class = "actividad_hijas"  href="">
+                    <span><?php echo $data_tareo_hijos['nombre'] ?></span>
+                    <input  name="tarea_h_<?php echo $i;?>" id="tarea_h_<?php echo $i;?>" type = "checkbox" class = "pull-right" value="" codigo-prop-proy="<?php echo $this->codigo_prop_proy ?>" proyectoid="<?php echo $this->proyectoid ?>" categoriaid="<?php echo $this->categoriaid ?>" actividadid = "<?php echo $data_tareo_hijos['actividadid'] ?>" revision = "<?php echo $data_tareo_hijos['revision'] ?>" propuestaid = "<?php echo $data_tareo_hijos['propuestaid'] ?>">
+                </a>
+            </li>
+        <?php }?>
+        <script type="text/javascript">
+            $(document).ready(function(){
+                $('[name^="tarea_h_<?php echo $i;?>"]').click(function(event) {
                     if ($(this).is(":checked")) {
+                    
                         var codigo = '<?php echo $this->codigo_prop_proy; ?>';
                         var proyectoid='<?php echo $this->proyectoid; ?>';
                         var categoriaid='<?php echo $this->categoriaid; ?>';
@@ -59,8 +65,8 @@ if ($this->actividadid != 1) {
                         var actividad_padre="<?php echo $data_tareo_hijos['actividad_padre']; ?>";
                         var h_propuesta="<?php echo $data_tareo_hijos['h_propuesta']; ?>";
                         url="/timesheet/index/guardartareopersona/codigo/"+codigo+"/proyectoid/"+proyectoid+"/revision/"+revision+"/categoriaid/"+categoriaid+"/propuestaid/"+propuestaid+"/actividadid/"+actividadid+"/codigo_actividad/"+codigo_actividad+"/actividad_padre/"+actividad_padre+"/h_propuesta/"+h_propuesta;
-                        alert(url);
-                        //$("#cargar").load(url);
+                        //alert(url);
+                        $("#cargar").load(url);
                  
                 
             }
@@ -71,7 +77,7 @@ if ($this->actividadid != 1) {
 
         </script>
         <?php
-    } ?>
+   $i++; } ?>
     
 <?php } ?>
 </ul>

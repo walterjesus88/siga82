@@ -81,6 +81,13 @@ class Timesheet_IndexController extends Zend_Controller_Action {
 
     public function actividadeshijosAction(){
         try {
+        $uid = $this->sesion->uid;
+        $dni = $this->sesion->dni;
+        $semana=date("W");
+        $this->view->uid = $uid;
+        $this->view->dni = $dni;
+        $this->view->semanaid = $semana;
+
         $this->_helper->layout()->disableLayout();
         $uid = $this->sesion->uid;
         $dni = $this->sesion->dni;
@@ -125,6 +132,12 @@ class Timesheet_IndexController extends Zend_Controller_Action {
         $this->_helper->layout()->disableLayout();
         $uid = $this->sesion->uid;
         $dni = $this->sesion->dni;
+        
+        $semana=date("W");
+        $this->view->uid = $uid;
+        $this->view->dni = $dni;
+        $this->view->semanaid = $semana;
+
         $proyectoid = $this->_getParam('proyectoid');
         $codigo_prop_proy = $this->_getParam('codigo_prop_proy');
         $categoriaid = $this->_getParam('categoriaid');
@@ -287,14 +300,14 @@ class Timesheet_IndexController extends Zend_Controller_Action {
         if ($data_tareopersona){
         ?>
           <script>                  
-            alert("Se guardo satisfactoriamente");
+          //  alert("Se guardo satisfactoriamente");
           </script>
         <?php
         }else
         {
         ?>
           <script>                  
-            alert("Se actualizo satisfactoriamente");
+            //alert("Se actualizo satisfactoriamente");
           </script>
         <?php
             $str="codigo_prop_proy='$codigo_prop_proy' and proyectoid='$proyectoid' and 
@@ -471,6 +484,9 @@ public function eliminartareoAction(){
         $codigo_actividad = $this->_getParam('codigo_actividad');
         $actividad_padre = $this->_getParam('actividad_padre');
         $etapa= $this->_getParam('etapa');
+        
+        $resultado = str_replace("INICIO", "EJECUCION", $etapa);
+
         $fecha_tarea= $this->_getParam('fecha_tarea');
         $fecha_planificacion= $this->_getParam('fecha_planificacion');
         $cargo= $this->_getParam('cargo');
@@ -494,48 +510,33 @@ public function eliminartareoAction(){
             'fecha_planificacion'   =>$fecha_planificacion,
             'tipo_actividad'   =>$tipo_actividad,
         );
-        //print_r($pk);
+        
+         $pk1  =   array(                        
+            'codigo_prop_proy'   =>$codigo_prop_proy,
+            'codigo_actividad'   =>$codigo_actividad,
+            'actividadid'   =>$actividadid,
+            'revision'   =>$revision,
+            'actividad_padre'   =>$actividad_padre,
+            'proyectoid'   =>$proyectoid,
+            'semanaid'   =>$semanaid,
+            'uid'   =>$uid,
+            'dni'   =>$dni,
+            'cargo'   =>$cargo,
+            'etapa'   =>$resultado,
+            'tipo_actividad'   =>$tipo_actividad,
+        ); 
+
        
         if ($tareopersona->_delete($pk)){
             ?>
               <script>      
-              function mostrarFecha(fecha,days){
-        milisegundos=parseInt(35*24*60*60*1000);
-        //Obtenemos los milisegundos desde media noche del 1/1/1970
-        tiempo=fecha.getTime();
-        //Calculamos los milisegundos sobre la fecha que hay que sumar o restar...
-        milisegundos=parseInt(days*24*60*60*1000);
-        //Modificamos la fecha actual
-        total=fecha.setTime(tiempo+milisegundos);
-        day=fecha.getDate();
-        month=fecha.getMonth()+1;
-        year=fecha.getFullYear();
-     
-        return(day+"-"+month+"-"+year);
-    }
-                
-                     var dateObj = new Date();
-    //var dateObj = $('#datepicker').datepicker('getDate');
-            var dateFrom = $.datepicker.formatDate('mm/dd/yy', dateObj);
-            var weekfrom = $.datepicker.iso8601Week(new Date(dateFrom));
-            var diasSemana = new Array("Domingo","Lunes","Martes","Miércoles","Jueves","Viernes","Sábado");
-            var day_select = diasSemana[dateObj.getDay()];
-            for (i = 0; i < diasSemana.length; i++) { 
-                if (diasSemana[i] == day_select) {
-                    if (i == 0) {
-                        var num_day = 6;
-                        
-                    } else {
-                        var num_day = i - 1;
-                    };
-                };
-            };
-            fecha_inicio = mostrarFecha(dateObj,-num_day);
-            document.location.href="/timesheet/index/registro/fecha/"+ fecha_inicio; 
-
-           
+             alert("eliminado");
               </script>
             <?php
+
+          
+            $tareopersona->_deleteTareasEtapaEjecucion($pk1);
+
         }else
         {
             ?>
