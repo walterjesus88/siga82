@@ -28,7 +28,7 @@ class Admin_Model_DbTable_Gastopersona extends Zend_Db_Table_Abstract
 
     public function _getFilter($where=null,$attrib=null,$orders=null){
         try{            
-            if($where['codigo_prop_proy']=='' || $where['proyectoid']=='' || $where['ucategoriaid']=='' ) return false;
+            if($where['proyectoid']=='') return false;
                 $select = $this->_db->select();
                 if ($attrib=='') $select->from("gasto_persona");
                 else $select->from("gasto_persona",$attrib);
@@ -61,16 +61,33 @@ class Admin_Model_DbTable_Gastopersona extends Zend_Db_Table_Abstract
         }
     }
 
-    public function _getgastoXfecha($where=array()){
+    public function _getgastoProyectosXfecha($fecha_gasto, $uid, $dni){
         try{
-            $wherestr="fecha_gasto = '".$where['fecha_gasto']."' ";
+            if ($fecha_gasto=='' || $uid=='' || $dni=='') return false;
+            $sql=$this->_db->query("
+               select proyectoid from gasto_persona 
+               where fecha_gasto='$fecha_gasto' and uid='$uid' and dni='$dni' 
+               group by proyectoid;
+            ");
+            $row=$sql->fetchAll();
+            return $row;
+            return false;
+        }catch (Exception $e){
+            print "Error: Read One Add ".$e->getMessage();
+        }
+    }
+
+    public function _getgastoProyectoXfechaXactividad($where=array()){
+        try{
+            if ($where['fecha_gasto']=='' || $where['uid']=='' || $where['dni']=='' || $where['proyectoid']=='') return false;
+            $wherestr = "fecha_gasto = '".$where['fecha_gasto']."' and uid = '".$where['uid'].
+                        "' and dni = '".$where['dni']."' and proyectoid = '".$where['proyectoid'].
+                        "' and actividadid IS NOT NULL";
             $row = $this->fetchAll($wherestr);
             if($row) return $row->toArray();
             return false;
         }catch (Exception $e){
-            print "Error: Read One Add_reportacad_adm ".$e->getMessage();
+            print "Error: Read One Add ".$e->getMessage();
         }
     }
-
-
 }
