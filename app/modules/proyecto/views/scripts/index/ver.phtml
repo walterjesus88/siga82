@@ -267,18 +267,22 @@ foreach ($actividades as $lista) {
 Descripcion Proyecto
 </header>
 
+
+
+
 <div class="panel-body">
-<a href="#"><img src="/img/email-img/vector-lab.jpg" alt=""/></a>
+<center>
+<a href="" class="logo"><img width="250" src="/img/cliente/<?php print_r($this->buscapropuesta[0]['clienteid']);?>.jpg"></a></center>
+<!--<a href="#"><img src="/img/cliente/<?php print_r($this->buscapropuesta[0]['clienteid'])?>.jpg" alt="20px"/></a>-->
 
-<p>
+
+
 <?php print_r($this->proyecto['descripcion']); ?>
-</p>
-<br/>
 
 
-<br/>
+<br>
 
-<br/>
+<br>
 
 <?php 
 $bdequipoarea = new Admin_Model_DbTable_Equipoarea();
