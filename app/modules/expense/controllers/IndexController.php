@@ -143,9 +143,32 @@ class Expense_IndexController extends Zend_Controller_Action {
         $this->_helper->layout()->disableLayout();
         $uid = $this->sesion->uid;
         $dni = $this->sesion->dni;
-        $where ['fecha_gasto'] = date("Y-m-d");
         $gasto = new Admin_Model_DbTable_Gastopersona();
-        $data_gasto = $gasto->_getgastoXfecha($where);
+        $data_gasto = $gasto->_getgastoProyectosXfecha(date("Y-m-d"), $uid, $dni);
+        for ($i=0; $i < count($data_gasto); $i++) { 
+            $wheretmp ['uid'] = $uid;
+            $wheretmp ['dni'] = $dni;
+            $wheretmp ['fecha_gasto'] = date("Y-m-d");
+            $wheretmp ['proyectoid'] = $data_gasto[$i]['proyectoid'];
+            $data_gasto_final = $gasto->_getFilter($wheretmp,$attrib=null,$orders=null);
+            
+            $pk ['proyectoid'] = $data_gasto[$i]['proyectoid'];
+            $pk ['codigo_prop_proy'] = $data_gasto_final[0]['codigo_prop_proy'];
+            $proyecto = new Admin_Model_DbTable_Proyecto();
+            $data_proyecto = $proyecto->_getOne($pk);
+            $data_gasto_final[0]['nombre_proyecto'] = $data_proyecto['nombre_proyecto'];
+            $data_gasto[$i] = $data_gasto_final[0];
+
+            $temp_gasto = $gasto->_getgastoProyectoXfechaXactividad($wheretmp);
+            if ($temp_gasto) {
+                $actividad = new Admin_Model_DbTable_Actividad();
+                for ($j=0; $j < count($temp_gasto); $j++) { 
+                    $data_actividad = $actividad->_getActividadesxActividadid($data_gasto[$i]['proyectoid'],$data_gasto_final[0]['codigo_prop_proy'],$temp_gasto[$j]['actividadid']);
+                    $temp_gasto[$j]['nombre'] = $data_actividad[0]['nombre'];
+                }
+            }
+            $data_gasto[$i]['actividades'] = ($temp_gasto)? $temp_gasto : $data_gasto_final;
+        }
         $this->view->gasto = $data_gasto;
         } catch (Exception $e) {
             print "Error: ".$e->getMessage();

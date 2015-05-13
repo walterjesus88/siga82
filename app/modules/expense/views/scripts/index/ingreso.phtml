@@ -1,46 +1,53 @@
 <div class="row">
     <div class="col-sm-12">
-        <section class="panel">
-            <header class="panel-heading">
-                  Actividades
-                <span class="tools pull-right">
-                    <a href="javascript:;" class="fa fa-chevron-down"></a>
-                </span>
-            </header>
-            <div class="panel-body">
-                <div class="adv-table">
-                    <table  class="display table table-bordered table-striped">
-                        <thead>
-                            <tr >
-                                <th>Proyecto / Actividades</th>
-                                <th>Fecha</th>
-                                <th>Descripción</th>
-                                <th>Tipo de Gasto</th>
-                                <th>Monto Neto</th>
-                                <th>IGV</th>
-                                <th>Monto Total</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                        <?php 
-                        $gasto = $this->gasto;
-                        foreach ($gasto as $data_gasto) { ?>
-                            <tr class="gradeX">
-                                <td><?php echo ($data_gasto['actividadid'])? $data_gasto['actividadid']: $data_gasto['proyectoid']; ?></td>
-                                <td><?php echo $data_gasto['fecha_gasto'] ?></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                        <?php
-                        }
-                         ?>
-                        </tbody>
-                    </table>
+    <?php 
+    $gasto = $this->gasto;
+    if ($gasto) {
+        foreach ($gasto as $data_gasto) { ?>
+            <section class="panel">
+                <header class="panel-heading modal-header">
+                      <?php echo $data_gasto['proyectoid']. ' - ' .$data_gasto['nombre_proyecto'] ?>
+                </header>
+                <div class="panel-body">
+                    <div class="adv-table">
+                        <table  class="display table table-bordered table-striped">
+                            <thead>
+                                <tr >
+                                    <th>Proyecto / Actividades</th>
+                                    <th>Fecha</th>
+                                    <th>Descripción</th>
+                                    <th>Tipo de Gasto</th>
+                                    <th>Monto Neto</th>
+                                    <th>IGV</th>
+                                    <th>Monto Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            <?php 
+                            foreach ($data_gasto['actividades'] as $data_actividades) { ?>
+                                <tr class="gradeX">
+                                    <td><?php 
+                                        echo ($data_actividades['actividadid'])? $data_actividades['actividadid']. ' - ' .$data_actividades['nombre']: $data_actividades['proyectoid']. ' - ' .$data_actividades['nombre_proyecto']; ?></td>
+                                    <td><?php echo $data_actividades['fecha_gasto'] ?></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                            <?php
+                            }
+                             ?>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
-            </div>
-        </section>
+            </section>
+            
+            <?php
+        }
+    }
+     ?>
+
     </div>
 </div>
