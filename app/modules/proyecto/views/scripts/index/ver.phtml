@@ -271,18 +271,20 @@ Descripcion Proyecto
 
 
 <div class="panel-body">
-<center>
-<a href="" class="logo"><img width="250" src="/img/cliente/<?php print_r($this->buscapropuesta[0]['clienteid']);?>.jpg"></a></center>
+<div class="panel-body">
+<a href="" class="logo"><img width="150" src="/img/cliente/<?php print_r($this->buscapropuesta[0]['clienteid']);?>.jpg"></a>                  
+                </div>
+
+
+
 <!--<a href="#"><img src="/img/cliente/<?php print_r($this->buscapropuesta[0]['clienteid'])?>.jpg" alt="20px"/></a>-->
 
 
-
-<?php print_r($this->proyecto['descripcion']); ?>
-
-
-<br>
-
-<br>
+<div class="panel-body">
+                      <h4><?php print_r($this->proyecto['nombre_proyecto'])?></h4>
+                      <p>
+  <?php print_r($this->proyecto['descripcion']); ?></p>
+                      </div>
 
 <?php 
 $bdequipoarea = new Admin_Model_DbTable_Equipoarea();
@@ -292,6 +294,9 @@ $i=1;
 
 if ($area){
   ?>
+  <div class="row">
+  
+  </div>
 <h5 class="bold">Lista de Disciplinas</h5>
 
 <div class="panel-group m-bot20" id="accordion">
