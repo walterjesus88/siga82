@@ -6,7 +6,7 @@
    
     foreach ($tareas as $data_tareas) { 
         $tareopersona = new Admin_Model_DbTable_Tareopersona();
-        $buscar_tarea=$tareopersona->_getTareoxPersonaxSemanaxActividadid($this->uid,$this->dni,$this->semanaid,$data_tareas['actividad_padre'],$data_tareas['actividadid'],$data_tareas['codigo_actividad']);
+        $buscar_tarea=$tareopersona->_getTareoxPersonaxSemanaxActividadid($this->uid,$this->dni,$this->semanaid,$data_tareas['actividad_padre'],$data_tareas['actividadid'],$data_tareas['codigo_actividad'],$this->codigo_prop_proy,$this->proyectoid,$data_tareas['revision']);
         if ($buscar_tarea){ ?>
             <li>
                 <a style="padding:5px 5px;"   class = "actividad_hijas"  href="">

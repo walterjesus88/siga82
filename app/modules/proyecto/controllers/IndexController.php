@@ -701,6 +701,14 @@ public function verAction() {
     );
     $edit = $editproyect->_getOne($where);
     $this->view->proyecto = $edit;
+   /// print_r($edit);
+
+        $codigo=$this->_getParam('codigo_prop_proy');
+        $propuestaid=$edit['propuestaid'];
+        $revision=$edit['revision'];
+        $buscapropuesta = new Admin_Model_DbTable_Propuesta();
+        $busca=$buscapropuesta->_getPropuestaxIndices($codigo,$propuestaid,$revision);
+        $this->view->buscapropuesta = $busca; 
 
   
 }   
