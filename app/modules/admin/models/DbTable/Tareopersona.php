@@ -237,7 +237,7 @@ class Admin_Model_DbTable_Tareopersona extends Zend_Db_Table_Abstract
             return $this->delete( $where);
             return false;
         }catch (Exception $e){
-            print "Error: Update Distribution".$e->getMessage();
+            //print "Error: Update Distribution".$e->getMessage();
         }
     }
 
@@ -260,7 +260,7 @@ class Admin_Model_DbTable_Tareopersona extends Zend_Db_Table_Abstract
             return $this->delete( $where);
             return false;
         }catch (Exception $e){
-            print "Error: Update Distribution".$e->getMessage();
+          //  print "Error: Update Distribution".$e->getMessage();
         }
     }
 

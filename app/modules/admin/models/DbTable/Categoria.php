@@ -32,6 +32,24 @@ class Admin_Model_DbTable_Categoria extends Zend_Db_Table_Abstract
         }
     }
 
+    public function _getCategoriaxCategoriaid($categoriaid)
+     {
+        try{
+            $sql=$this->_db->query("
+               select * from categoria
+               where categoriaid='$categoriaid' 
+
+            ");
+            $row=$sql->fetchAll();
+            return $row;           
+            }  
+            
+           catch (Exception $ex){
+            print $ex->getMessage();
+        }
+    }
+
+
 
     public function _buscarCategoriaxTag($categoria)
      {

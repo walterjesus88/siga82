@@ -164,7 +164,9 @@
                 //print_r($buscar_tarea);
                 ?>
               <td><center>
-                <input class="form-control" onBlur="fnc(event)" style="text-align: center;height: 26px; width: 40px; padding-right: 4px; padding-left: 4px;" maxlength="2" editable=true id="<?php echo $data_tareo['codigo_prop_proy']."!".$data_tareo['codigo_actividad']."!".$data_tareo['actividadid']."!".$data_tareo['revision']."!".$data_tareo['actividad_padre']."!".$data_tareo['proyectoid']."!".$data_tareo['semanaid']."!".$fecha."!".$data_tareo['asignado']."!".$data_tareo['areaid']."!".$data_tareo['categoriaid']."!".$data_tareo['dni']."!".$data_tareo['cargo']."!".$data_tareo['tipo_actividad']."!".$data_tareo['etapa']."!".$i;?>"  type="text" name="horario"  value="<?php if ($buscar_tarea) {print_r($buscar_tarea[0]['h_real']);}?>"  >                               
+                <input class="form-control" onBlur="fnc(event)" style="text-align: center;height: 26px; width: 40px; padding-right: 4px; padding-left: 4px;" maxlength="2" editable=true id="<?php echo $data_tareo['codigo_prop_proy']."!".$data_tareo['codigo_actividad']."!".$data_tareo['actividadid']."!".$data_tareo['revision']."!".$data_tareo['actividad_padre']."!".$data_tareo['proyectoid']."!".$data_tareo['semanaid']."!".$fecha."!".$data_tareo['asignado']."!".$data_tareo['areaid']."!".$data_tareo['categoriaid']."!".$data_tareo['dni']."!".$data_tareo['cargo']."!".$data_tareo['tipo_actividad']."!".$data_tareo['etapa']."!".$i;?>"  type="text" name="horario"  value="<?php if ($buscar_tarea) {
+                  if($buscar_tarea[0]['h_real']=='0') { echo "";} else { print_r($buscar_tarea[0]['h_real']);}
+                  }?>"  >                               
               </center></td>
                 <?php 
                   $newDate = date("Y-m-d", strtotime($fecha));
@@ -196,7 +198,7 @@
                     var fecha_planificacion="<?php echo $data_tareo['fecha_planificacion']?>";
                     var url="/timesheet/index/updateetapanb/codigo/"+codigo_prop_proy+"/codigo_actividad/"+codigo_actividad+"/actividadid/"+actividadid+"/revision/"+revision+"/actividad_padre/"+actividad_padre+"/proyectoid/"+proyectoid+"/semanaid/"+semanaid+"/fecha_tarea/"+fecha_tarea+"/asignado/"+asignado+"/areaid/"+areaid+"/categoriaid/"+categoriaid+"/dni/"+dni+"/cargo/"+cargo+"/tipo_actividad/"+tipo_actividad+"/etapa/"+etapa+"/fecha_planificacion/"+fecha_planificacion+"/tarea_general/"+tarea_general;
                     // alert(url);
-                    $("#carga").load(url);
+                    //$("#carga").load(url);
                      var dateObj = new Date();
                     var dateFrom = $.datepicker.formatDate('mm/dd/yy', dateObj);
                     var weekfrom = $.datepicker.iso8601Week(new Date(dateFrom));
@@ -212,7 +214,9 @@
                       };
                     };
                     fecha_inicio = mostrarFecha(dateObj,-num_day);
-                    $("#registros").load("/timesheet/index/registro/fecha/" + fecha_inicio); 
+                    //$("#registros").load("/timesheet/index/registro/fecha/" + fecha_inicio); 
+                       document.location.href="/timesheet/index/calendar";
+                    $("#carga").load(url);
 
                 });
 
@@ -237,7 +241,7 @@
                     var fecha_planificacion="<?php echo $data_tareo['fecha_planificacion']?>";
                     var url="/timesheet/index/updateetapanb/codigo/"+codigo_prop_proy+"/codigo_actividad/"+codigo_actividad+"/actividadid/"+actividadid+"/revision/"+revision+"/actividad_padre/"+actividad_padre+"/proyectoid/"+proyectoid+"/semanaid/"+semanaid+"/fecha_tarea/"+fecha_tarea+"/asignado/"+asignado+"/areaid/"+areaid+"/categoriaid/"+categoriaid+"/dni/"+dni+"/cargo/"+cargo+"/tipo_actividad/"+tipo_actividad+"/etapa/"+etapa+"/fecha_planificacion/"+fecha_planificacion+"/tarea_general/"+tarea_general;
                     // alert(url);
-                    $("#carga").load(url);
+                    
                      var dateObj = new Date();
                     var dateFrom = $.datepicker.formatDate('mm/dd/yy', dateObj);
                     var weekfrom = $.datepicker.iso8601Week(new Date(dateFrom));
@@ -253,9 +257,9 @@
                       };
                     };
                     fecha_inicio = mostrarFecha(dateObj,-num_day);
-                    $("#registros").load("/timesheet/index/registro/fecha/" + fecha_inicio); 
-
-
+                  //  $("#registros").load("/timesheet/index/registro/fecha/" + fecha_inicio); 
+   document.location.href="/timesheet/index/calendar";
+                    $("#carga").load(url);
                 }); 
 
 
@@ -369,7 +373,6 @@
 
                  $(document).ready(function(){
                   $("#crear_tareag_<?php echo $j?>").click(function(){
-                    //$("#tr_tareo_<?php echo $j?>").show();
                     var codigo_prop_proy= '<?php echo $data_tareo['codigo_prop_proy']?>';
                     var codigo_actividad='<?php echo $data_tareo['codigo_actividad']?>';
                     var actividadid="<?php echo $data_tareo['actividadid']?>";
@@ -431,9 +434,11 @@
                     var etapa="<?php echo $data_tareo['etapa']?>";
                     var tipo_actividad="<?php echo $data_tareo['tipo_actividad']?>";
                     var fecha_planificacion="<?php echo $data_tareo['fecha_planificacion']?>";
+                    
+                    
                     var url="/timesheet/index/eliminartareo/codigo/"+codigo_prop_proy+"/codigo_actividad/"+codigo_actividad+"/actividadid/"+actividadid+"/revision/"+revision+"/actividad_padre/"+actividad_padre+"/proyectoid/"+proyectoid+"/semanaid/"+semanaid+"/fecha_tarea/"+fecha_tarea+"/asignado/"+asignado+"/areaid/"+areaid+"/categoriaid/"+categoriaid+"/dni/"+dni+"/cargo/"+cargo+"/tipo_actividad/"+tipo_actividad+"/etapa/"+etapa+"/fecha_planificacion/"+fecha_planificacion;
-                    // alert(url);
-                    $("#carga").load(url);
+                   //  alert(url);
+                   
                     var dateObj = new Date();
                     var dateFrom = $.datepicker.formatDate('mm/dd/yy', dateObj);
                     var weekfrom = $.datepicker.iso8601Week(new Date(dateFrom));
@@ -449,8 +454,11 @@
                       };
                     };
                     fecha_inicio = mostrarFecha(dateObj,-num_day);
-                   // document.location.href="/timesheet/index/calendar";
-                    //$("#registro").load("/timesheet/index/registro/fecha/" + fecha_inicio); 
+
+
+                    document.location.href="/timesheet/index/calendar";
+                 //  $("#registro").load("/timesheet/index/registro/fecha/" + fecha_inicio); 
+                     $("#carga").load(url);
                   });
                 });
               </script>
@@ -506,6 +514,7 @@ function fnc(evt) {
     values="-";
     $("#horaregistrada").text( values ); 
     var variables_input=evt.target.id;
+    //alert(variables_input);
     var hora_real = parseInt(hora);
     var array_variables = variables_input.split("!");  
     var codigo_prop_proy=array_variables[0];
@@ -524,75 +533,51 @@ function fnc(evt) {
     var tipo_actividad=array_variables[13];
     var etapa=array_variables[14];
     var fecha_imprimir=array_variables[15];
+     
+
+    
     if (isNaN(hora_real)) {
+    var hora_real='0';
+    }
+    //else{
+    //var horasumanew=parseInt(horasuma);
+    //}
+
+    if (isNaN(hora_real)) {
+
 
     }
     else
     {
       var url="/timesheet/index/updatetareoreal/codigo_prop_proy/"+codigo_prop_proy+"/codigo_actividad/"+codigo_actividad+"/actividadid/"+actividadid+"/revision/"+revision+"/actividad_padre/"+actividad_padre+"/proyectoid/"+proyectoid+"/semanaid/"+semanaid+"/fecha_tarea/"+fecha_tarea+"/asignado/"+asignado+"/areaid/"+areaid+"/categoriaid/"+categoriaid+"/dni/"+dni+"/cargo/"+cargo+"/horareal/"+hora_real+"/tipo_actividad/"+tipo_actividad+"/etapa/"+etapa;
+      //alert(url);
       $("#carga").load(url);
-      if (fecha_imprimir==0){
-
-         var urlsuma="/timesheet/index/sumatareoreal/codigo_prop_proy/"+codigo_prop_proy+"/codigo_actividad/"+codigo_actividad+"/actividadid/"+actividadid+"/revision/"+revision+"/actividad_padre/"+actividad_padre+"/proyectoid/"+proyectoid+"/semanaid/"+semanaid+"/fecha_tarea/"+fecha_tarea+"/asignado/"+asignado+"/areaid/"+areaid+"/categoriaid/"+categoriaid+"/dni/"+dni+"/cargo/"+cargo+"/horareal/"+hora_real+"/tipo_actividad/"+tipo_actividad+"/etapa/"+etapa;
-
-
-        $("#fecha_0").load(urlsuma);
-      }
-
-      if (fecha_imprimir==1){
-
-         var urlsuma="/timesheet/index/sumatareoreal/codigo_prop_proy/"+codigo_prop_proy+"/codigo_actividad/"+codigo_actividad+"/actividadid/"+actividadid+"/revision/"+revision+"/actividad_padre/"+actividad_padre+"/proyectoid/"+proyectoid+"/semanaid/"+semanaid+"/fecha_tarea/"+fecha_tarea+"/asignado/"+asignado+"/areaid/"+areaid+"/categoriaid/"+categoriaid+"/dni/"+dni+"/cargo/"+cargo+"/horareal/"+hora_real+"/tipo_actividad/"+tipo_actividad+"/etapa/"+etapa;
-
-
-        $("#fecha_1").load(urlsuma);
-      }
-
-           if (fecha_imprimir==2){
-
-         var urlsuma="/timesheet/index/sumatareoreal/codigo_prop_proy/"+codigo_prop_proy+"/codigo_actividad/"+codigo_actividad+"/actividadid/"+actividadid+"/revision/"+revision+"/actividad_padre/"+actividad_padre+"/proyectoid/"+proyectoid+"/semanaid/"+semanaid+"/fecha_tarea/"+fecha_tarea+"/asignado/"+asignado+"/areaid/"+areaid+"/categoriaid/"+categoriaid+"/dni/"+dni+"/cargo/"+cargo+"/horareal/"+hora_real+"/tipo_actividad/"+tipo_actividad+"/etapa/"+etapa;
+    
+     var dateObj = new Date();
+                    var dateFrom = $.datepicker.formatDate('mm/dd/yy', dateObj);
+                    var weekfrom = $.datepicker.iso8601Week(new Date(dateFrom));
+                    var diasSemana = new Array("Domingo","Lunes","Martes","Miércoles","Jueves","Viernes","Sábado");
+                    var day_select = diasSemana[dateObj.getDay()];
+                    for (i = 0; i < diasSemana.length; i++) { 
+                      if (diasSemana[i] == day_select) {
+                        if (i == 0) {
+                          var num_day = 6;
+                        } else {
+                          var num_day = i - 1;
+                        };
+                      };
+                    };
+                    fecha_inicio = mostrarFecha(dateObj,-num_day);
 
 
-        $("#fecha_2").load(urlsuma);
-      }
-
-      if (fecha_imprimir==3){
-
-         var urlsuma="/timesheet/index/sumatareoreal/codigo_prop_proy/"+codigo_prop_proy+"/codigo_actividad/"+codigo_actividad+"/actividadid/"+actividadid+"/revision/"+revision+"/actividad_padre/"+actividad_padre+"/proyectoid/"+proyectoid+"/semanaid/"+semanaid+"/fecha_tarea/"+fecha_tarea+"/asignado/"+asignado+"/areaid/"+areaid+"/categoriaid/"+categoriaid+"/dni/"+dni+"/cargo/"+cargo+"/horareal/"+hora_real+"/tipo_actividad/"+tipo_actividad+"/etapa/"+etapa;
-
-
-        $("#fecha_3").load(urlsuma);
-      }
-
-
-           if (fecha_imprimir==4){
-
-         var urlsuma="/timesheet/index/sumatareoreal/codigo_prop_proy/"+codigo_prop_proy+"/codigo_actividad/"+codigo_actividad+"/actividadid/"+actividadid+"/revision/"+revision+"/actividad_padre/"+actividad_padre+"/proyectoid/"+proyectoid+"/semanaid/"+semanaid+"/fecha_tarea/"+fecha_tarea+"/asignado/"+asignado+"/areaid/"+areaid+"/categoriaid/"+categoriaid+"/dni/"+dni+"/cargo/"+cargo+"/horareal/"+hora_real+"/tipo_actividad/"+tipo_actividad+"/etapa/"+etapa;
-
-
-        $("#fecha_4").load(urlsuma);
-      }
-
-      if (fecha_imprimir==5){
-
-         var urlsuma="/timesheet/index/sumatareoreal/codigo_prop_proy/"+codigo_prop_proy+"/codigo_actividad/"+codigo_actividad+"/actividadid/"+actividadid+"/revision/"+revision+"/actividad_padre/"+actividad_padre+"/proyectoid/"+proyectoid+"/semanaid/"+semanaid+"/fecha_tarea/"+fecha_tarea+"/asignado/"+asignado+"/areaid/"+areaid+"/categoriaid/"+categoriaid+"/dni/"+dni+"/cargo/"+cargo+"/horareal/"+hora_real+"/tipo_actividad/"+tipo_actividad+"/etapa/"+etapa;
-
-
-        $("#fecha_5").load(urlsuma);
-      }
-
-           if (fecha_imprimir==6){
-
-         var urlsuma="/timesheet/index/sumatareoreal/codigo_prop_proy/"+codigo_prop_proy+"/codigo_actividad/"+codigo_actividad+"/actividadid/"+actividadid+"/revision/"+revision+"/actividad_padre/"+actividad_padre+"/proyectoid/"+proyectoid+"/semanaid/"+semanaid+"/fecha_tarea/"+fecha_tarea+"/asignado/"+asignado+"/areaid/"+areaid+"/categoriaid/"+categoriaid+"/dni/"+dni+"/cargo/"+cargo+"/horareal/"+hora_real+"/tipo_actividad/"+tipo_actividad+"/etapa/"+etapa;
-
-
-        $("#fecha_6").load(urlsuma);
-      }
-
-
-
-       
+                    document.location.href="/timesheet/index/calendar";
 
     }
+
+
+                   
+
+
 }
 
 $( "input" )

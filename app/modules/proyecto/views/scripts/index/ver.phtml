@@ -9,7 +9,8 @@
 <div class="row">
   <div class="col-md-8">
     <section class="panel">
-      <div class="bio-graph-heading project-heading">
+      <div class="bio-graph-heading project-heading" style="
+    background: rgba(0, 105, 173, 1);">
         <strong>  Projecto: <?php print_r($this->proyecto['proyectoid']); echo "<br>";
         print_r($this->proyecto['nombre_proyecto'])?></strong>
       </div>
@@ -35,9 +36,11 @@
       $nombre_fichero = './upload/proyecto/'.$proyectoid.'-HH.xls';
       if (file_exists($nombre_fichero)) {?>
         <header class="panel-heading">
-          Lista Actividades <a href="/proyecto/index/subiractividades/codigo_prop_proy/<?php  print_r($this->proyecto['codigo_prop_proy'])?>/proyectoid/<?php print_r($this->proyecto['proyectoid']);?>"  id="btn_cargar_actividades" class="btn btn-sm btn-warning">Cargar Actividades</a>
-          <a href="/proyecto/index/subirareacategoria/codigo_prop_proy/<?php  print_r($this->proyecto['codigo_prop_proy'])?>/proyectoid/<?php print_r($this->proyecto['proyectoid']);?>"  id="btn_cargar_area_categoria" class="btn btn-sm btn-warning">Cargar Areas x Categoria</a>
-          <a href="/proyecto/index/subirtareo/codigo_prop_proy/<?php  print_r($this->proyecto['codigo_prop_proy'])?>/proyectoid/<?php print_r($this->proyecto['proyectoid']);?>"  id="btn_cargar_hh" class="btn btn-sm btn-warning">Cargar HH</a>
+          Lista Actividades y Gastos del Proyecto
+<span class="pull-right">
+          <a href="/proyecto/index/subiractividades/codigo_prop_proy/<?php  print_r($this->proyecto['codigo_prop_proy'])?>/proyectoid/<?php print_r($this->proyecto['proyectoid']);?>"  id="btn_cargar_actividades" class="btn btn-sm btn-primary">Cargar Actividades</a>
+          <a href="/proyecto/index/subirareacategoria/codigo_prop_proy/<?php  print_r($this->proyecto['codigo_prop_proy'])?>/proyectoid/<?php print_r($this->proyecto['proyectoid']);?>"  id="btn_cargar_area_categoria" class="btn btn-sm btn-primary">Cargar Areas x Categoria</a>
+          <a href="/proyecto/index/subirtareo/codigo_prop_proy/<?php  print_r($this->proyecto['codigo_prop_proy'])?>/proyectoid/<?php print_r($this->proyecto['proyectoid']);?>"  id="btn_cargar_hh" class="btn btn-sm btn-primary">Cargar HH</a> </span>
         </header>
         <header class="panel-heading tab-bg-dark-navy-blue ">
           <ul class="nav nav-tabs">
@@ -64,7 +67,7 @@
         
         <div class="panel-body">
           <div class="tab-content">
-            <div id="resumen" class="tab-pane active">
+            <div id="resumen" class="tab-pane">
               <div class="panel-body">
                   resumen horas     
               </div>
@@ -82,7 +85,7 @@
             <?php $actividadpadre= new Admin_Model_DbTable_Actividad();
             $list=$actividadpadre->_getActividadesPadres($this->proyecto['proyectoid'],$this->proyecto['codigo_prop_proy'],$this->proyecto['propuestaid'],$this->proyecto['revision']); $j=1;
             foreach ($list as $lista) { ?>
-              <div id="actividad_<?php echo $lista['actividadid'] ?>" class="tab-pane">
+              <div id="actividad_<?php echo $lista['actividadid'] ?>" class="tab-pane  active">
                 <div class="panel-body">
                   <?php
                     $actividadpadre= new Admin_Model_DbTable_Actividad();
@@ -220,8 +223,7 @@ foreach ($actividades as $lista) {
 <section class="panel">
   <?php $proyectoid=$this->proyecto['proyectoid'];
   $nombre_fichero = './upload/proyecto/'.$proyectoid.'-GG.xls';
-  if (file_exists($nombre_fichero)) {
-}else {
+  if (file_exists($nombre_fichero))  {
     ?>
   
   <form enctype="multipart/form-data" action="/../cargar_gastos.php" method="post">
@@ -239,8 +241,7 @@ foreach ($actividades as $lista) {
 <section class="panel">
   <?php $proyectoid=$this->proyecto['proyectoid'];
   $nombre_fichero = './upload/proyecto/'.$proyectoid.'-GL.xls';
-  if (file_exists($nombre_fichero)) {
-}else {
+  if (file_exists($nombre_fichero))  {
     ?>
   
   <form enctype="multipart/form-data" action="/../cargar_laboratorio.php" method="post">
@@ -303,14 +304,13 @@ if ($area){
 <?php
 foreach ($area as $lista) { ?>
 <div class="panel panel-default">
-<div class="panel-heading">
-<h4 class="panel-title">
-<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#<?php echo $i;?>">
-<?php print_r($lista['areaid']); 
-echo "-";
-print_r($lista['nombre']); ?>
-
-</a>
+  <div class="panel-heading">
+    <h4 class="panel-title">
+      <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#<?php echo $i;?>">
+        <?php print_r($lista['areaid']); 
+        echo "-";
+        print_r($lista['nombre']); ?>
+      </a>
 <span class="pull-right">
 
 
@@ -325,15 +325,61 @@ Añadir
 <div class="panel-body">
 <?php 
 $bdequipo = new Admin_Model_DbTable_Equipo();
-$equipo=$bdequipo->_buscarEquipoxProyectoxArea($this->proyecto['codigo_prop_proy'],$this->proyecto['proyectoid'],$lista['areaid']);
+$equipo=$bdequipo->_buscarEquipoxProyectoxArea($this->proyecto['codigo_prop_proy'],$this->proyecto['proyectoid'],$lista['areaid']);?>
 
-foreach ($equipo as $lista) { 
-echo $lista['uid'];
-echo $lista['dni'];
-echo "<br>";
+ <table class="table table-hover p-table">
+          <thead>
+            <tr>  
+              <th style="width: 40%;">Nombre</th>
+              <th style="width: 20%;">Categoria</th>
+              <th style="width: 20;">Rate</th>
+              <th style="width: 20%;">Rate Proy.</th>
+              
+            </tr>
+          </thead>
+<?php
+foreach ($equipo as $lista) { ?>
+  <tr>
+    <td class="p-name">
+     
+      <a href="#"><?php 
+         $dbpersona = new Admin_Model_DbTable_Persona();
+         $bucarnom=$dbpersona->_getPersona($lista['dni']);
+         print_r($bucarnom['alias']);
+       ?></a>  
 
+    </td>
+    <td><?php
+         $dbcat= new Admin_Model_DbTable_Categoria();
+         $bucarcat=$dbcat->_getCategoriaxCategoriaid($lista['categoriaid']);
+        print_r($bucarcat[0]['nombre_categoria']);
+        
+?>
+    </td>
+    <td>
+      <?php
+         $dbcat= new Admin_Model_DbTable_Categoria();
+         $bucarcat=$dbcat->_getCategoriaxCategoriaid($lista['categoriaid']);
+        print_r($bucarcat[0]['rate_externo']);
+        
+?>
+
+
+    </td>
+    <td>
+ <?php
+         $dbcat= new Admin_Model_DbTable_Categoria();
+         $bucarcat=$dbcat->_getCategoriaxCategoriaid($lista['categoriaid']);
+        print_r($bucarcat[0]['rate_interno']);
+        
+?>      
+
+    </td>
+  </tr>
+
+<?php
 }?>
-
+</table>
 </div>
 </div>
 </div>

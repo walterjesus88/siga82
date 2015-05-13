@@ -270,6 +270,8 @@ class Timesheet_IndexController extends Zend_Controller_Action {
         $etapa= $this->_getParam('etapa');
         $resultado = str_replace("INICIO", "EJECUCION", $etapa);
 
+
+
         $data['etapa']=$resultado;
         $data['h_real']=$h_real= $this->_getParam('horareal');
         $data['fecha_tarea']=$fecha_tarea= $this->_getParam('fecha_tarea');
@@ -313,7 +315,7 @@ class Timesheet_IndexController extends Zend_Controller_Action {
             revision='$revision' and codigo_actividad='$codigo_actividad'
             and actividad_padre='$actividad_padre' and cargo='$cargo'
             and semanaid='$semanaid' and areaid='$areaid' and fecha_tarea='$fecha_tarea' 
-            and fecha_planificacion='$fecha_tarea' and etapa='EJECUCION' and tipo_actividad='$tipo_actividad' and etapa='$resultado'
+            and fecha_planificacion='$fecha_tarea' and etapa='$resultado' and tipo_actividad='$tipo_actividad' 
             and estado='A'
             ";
           //  echo $str;
@@ -559,7 +561,11 @@ public function sumatareorealAction(){
         $tareopersona = new Admin_Model_DbTable_Tareopersona();
         $sumar=$tareopersona-> _getHorasRealxDia($semanaid,$fecha_tarea,$uid,$dni,$cargoid);
         print_r($sumar[0]['tareo_persona_horas_reales']);
-
+          ?>
+              <script>                  
+                alert("No se elimino");
+              </script>
+            <?php
         
         } catch (Exception $e) {
             print "Error: ".$e->getMessage();
@@ -644,14 +650,14 @@ $datos1['tipo_actividad']='G';
             and  etapa='$resultado_ejecucion' and tipo_actividad='$tipo_actividad' 
             and estado='A'
             ";
-        echo $str; echo "<br>";
-        echo $str1;echo "<br>";
+       // echo $str; echo "<br>";
+       // echo $str1;echo "<br>";
 
-        print_r($datos);echo "<br>";
-        print_r($datos1);echo "<br>";
+        //print_r($datos);echo "<br>";
+        //print_r($datos1);echo "<br>";
             $update=$tareopersona -> _update($datos,$str);
             $update2=$tareopersona -> _update($datos1,$str1);
-            if ($update || $update2) { echo "guardo";
+            if ($update || $update2) { //echo "guardo";
         }
                 else
                     { 
