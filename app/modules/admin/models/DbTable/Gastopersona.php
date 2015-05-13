@@ -64,7 +64,7 @@ class Admin_Model_DbTable_Gastopersona extends Zend_Db_Table_Abstract
     public function _getgastoXfecha($where=array()){
         try{
             $wherestr="fecha_gasto = '".$where['fecha_gasto']."' ";
-            $row = $this->fetchRow($wherestr);
+            $row = $this->fetchAll($wherestr);
             if($row) return $row->toArray();
             return false;
         }catch (Exception $e){

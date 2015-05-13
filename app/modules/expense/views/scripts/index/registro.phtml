@@ -25,7 +25,7 @@
                                 $equipo = $this->equipo;
                                 foreach ($equipo as $data_equipo) { ?>
                                     <li >
-                                        <a style="padding:5px 5px;" class="proyecto" codigo-prop-proy="<?php echo $data_equipo['codigo_prop_proy'] ?>" proyectoid="<?php echo $data_equipo['proyectoid'] ?>" categoriaid="<?php echo $data_equipo['categoriaid'] ?>" href="##">
+                                        <a style="padding:5px 5px;" class="proyecto" codigo-prop-proy="<?php echo $data_equipo['codigo_prop_proy'] ?>" proyectoid="<?php echo $data_equipo['proyectoid'] ?>" categoriaid="<?php echo $data_equipo['categoriaid'] ?>" cargo = "<?php echo $data_equipo['cargo'] ?>" href="##">
                                             <i class="fa fa-rocket"></i>
                                             <span><?php echo $data_equipo['proyectoid']. ' - ' .$data_equipo['nombre_proyecto'] ?></span>
                                         </a>
@@ -38,7 +38,8 @@
                                             var proyectoid = $(this).attr('proyectoid');
                                             var codigo_prop_proy = $(this).attr('codigo-prop-proy');
                                             var categoriaid = $(this).attr('categoriaid');
-                                            $("#disciplina").load("/expense/index/disciplina/proyectoid/"+proyectoid+"/codigo_prop_proy/"+codigo_prop_proy+"/categoriaid/"+categoriaid);
+                                            var cargo = $(this).attr('cargo');
+                                            $("#disciplina").load("/expense/index/disciplina/proyectoid/"+proyectoid+"/codigo_prop_proy/"+codigo_prop_proy+"/categoriaid/"+categoriaid+"/cargo/"+cargo);
                                              
                                         });
                                     </script>
@@ -74,36 +75,5 @@
         $("#actividades_padres").html('');
         $("#tareas").html('');
     });
-
-    var dateObj = new Date();
-    var dateFrom = $.datepicker.formatDate('mm/dd/yy', dateObj);
-    var weekfrom = $.datepicker.iso8601Week(new Date(dateFrom));
-    var diasSemana = new Array("Domingo","Lunes","Martes","Miércoles","Jueves","Viernes","Sábado");
-    var day_select = diasSemana[dateObj.getDay()];
-    for (i = 0; i < diasSemana.length; i++) {
-        if (diasSemana[i] == day_select) {
-            if (i == 0) {
-                var num_day = 6;
-            } else {
-                var num_day = i - 1;
-            };
-        };
-    };
-    fecha_inicio = mostrarFecha(dateObj,-num_day);
-    $("#ingreso").load("/expense/index/ingreso/fecha/" + fecha_inicio);
-
-    function mostrarFecha(fecha,days){
-        milisegundos=parseInt(35*24*60*60*1000);
-        //Obtenemos los milisegundos desde media noche del 1/1/1970
-        tiempo=fecha.getTime();
-        //Calculamos los milisegundos sobre la fecha que hay que sumar o restar...
-        milisegundos=parseInt(days*24*60*60*1000);
-        //Modificamos la fecha actual
-        total=fecha.setTime(tiempo+milisegundos);
-        day=fecha.getDate();
-        month=fecha.getMonth()+1;
-        year=fecha.getFullYear();
-     
-        return(year+"-"+month+"-"+day);
-    }
+    $("#ingreso").load("/expense/index/ingreso/");
 </script>
