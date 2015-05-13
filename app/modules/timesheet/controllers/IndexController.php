@@ -62,6 +62,7 @@ class Timesheet_IndexController extends Zend_Controller_Action {
         /*actividades por categoria habilitadas para el usuario*/
         $actividades_padre=$actividad->_getActividadesPadresXProyectoXCategoria($proyectoid,$categoriaid,$codigo_prop_proy);
         $i=0;
+        //print_r($actividades_padre);
         foreach ($actividades_padre as $act_padre) {
         $dato_padre=$actividad->_getActividadesxActividadid($proyectoid,$codigo_prop_proy,$act_padre['padre']);
         $array[$i]=$dato_padre[0];
