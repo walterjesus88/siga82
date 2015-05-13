@@ -117,9 +117,9 @@ class Admin_Form_Proyecto extends Zend_Form{
     $tipo_proyecto->setLabel("Ingrese el Tipo de Documento: ");
     $tipo_proyecto->removeDecorator('Label');
     $tipo_proyecto->setAttrib('class','form-control');
-    $tipo_proyecto->addMultiOption('ING',"Ingenieria");
-    $tipo_proyecto->addMultiOption('GEO',"Geotecnia");
-    $tipo_proyecto->addMultiOption('CON',"Construccion");
+    $tipo_proyecto->addMultiOption('ING',"Ingeniería");
+    $tipo_proyecto->addMultiOption('GEO',"Geotécnia");
+    $tipo_proyecto->addMultiOption('CON',"Construcción");
     $tipo_proyecto->addMultiOption('OTR',"Otros");
     $tipo_proyecto->setAttrib('class', 'form-control');
 
