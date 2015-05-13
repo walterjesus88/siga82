@@ -1,4 +1,3 @@
-<script src="js/jquery-1.8.3.min.js"></script>
 
 <section id="container" >
 
@@ -13,9 +12,6 @@
                 <p><?php echo $this->lista_persona['email_anddes'];?></p>
             </div> 
             <ul class="nav nav-pills nav-stacked "  style="position:absoute">
-<!--                 <li><a href="/rrhh/perfil/ver/dni/<?php //echo $this->lista_persona['dni'];?>"> <i class="fa fa-user"></i> Perfil</a></li>                
-                <li  class="active"><a href="/rrhh/perfil/editar/dni/<?php //echo $this->lista_persona['dni'];?>"> <i class="fa fa-edit"></i> Editar perfil</a></li> -->
-
                 <li  class="active"><a id="vverperfil" href="#verperfil"> <i class="fa fa-edit"></i> Ver Perfil</a></li>
                 <li  class="active"><a id="veditar" href="#editarperfil"> <i class="fa fa-edit"></i> Editar Perfil</a></li>
                 <li  class="active"><a id="vpassword" href="#password"> <i class="fa fa-edit"></i> Cambio Contrasena</a></li>
@@ -25,13 +21,10 @@
                 <li  class="active"><a id="vcapacitaciones" href="#capacitaciones"> <i class="fa fa-edit"></i> Capacitaciones</a></li>
                 <!-- <li  class="active"><a id="vproyecto" href="#proyecto"> <i class="fa fa-edit"></i> Proyectos</a></li> -->
             </ul>
-
-        </section>
-                   
+        </section>                   
     </aside>
  
-    <aside class="profile-info col-lg-9">
-
+    <aside class="profile-info col-lg-9 ">
         <!--curriculum-->
         <div id="curriculum">
             <section class="panel" >
@@ -39,76 +32,128 @@
                     Curriculum Vitae
                 </div>
                 <div class="room-box">
-                    <h5 class="text-primary"><a href="chat_room.html">Resumen</a></h5>                
-                        <?php echo $this->lista_curriculum['resumen']; ?>
+                   
+                </div>
+                <div class="tabbable panel-heading tab-bg-dark-navy-blue">
+                    <ul class="nav nav-tabs ">
+                            <li class="active">
+                                <a data-toggle="tab" id="vresumen" href="#resumen">
+                                    Resumen                       
+                                </a>
+                            </li>
+                            <li>
+                                <a data-toggle="tab"  id="vcursos" href="#cursos">
+                                   Cursos y capacitaciones
+                                </a>
+                            </li>
+                            <li>
+                                <a data-toggle="tab"  id="vproyectos" href="#proyectos">
+                                   Proyectos
+                                </a>
+                            </li>
+                            <li>
+                    </ul>     
                 </div>
             </section>        
             <section class="panel"  >
-                <header class="panel-heading tab-bg-dark-navy-blue">
-                        <ul class="nav nav-tabs ">
-                            <li class="active">
-                                <a data-toggle="tab" id="vexperiencia" href="#experiencia">
-                                    Experiencia                       
-                                </a>
-                            </li>
-                            <li>
-                                <a data-toggle="tab"  id="vestudios" href="#estudios">
-                                   Estudios 
-                                </a>
-                            </li>
-                            <li>
-                                <a data-toggle="tab"  id="vperfeccionamiento" href="#perfeccionamiento">
-                                   Perfeccionamiento
-                                </a>
-                            </li>
-                            <li>
-                                <a data-toggle="tab"  id="vconocimientos" href="#conocimientos">
-                                   Conocimientos 
-                                </a>
-                            </li>
-                            <li>
-                                <a data-toggle="tab"  id="vcertificaciones" href="#certificaciones">
-                                   Certificaciones
-                                </a>
-                            </li>
-                            <li>
-                                <a data-toggle="tab"  id="vidiomas" href="#idiomas">
-                                   Idiomas
-                                </a>
-                            </li>
-                        </ul>
-                </header>
-                <div class="panel-body">
-                    <div class="tab-content tasi-tab">
-                            <div id="experiencia" class="tab-pane active">
-                                <p><span class="text-muted">Experiencia :</span><i class="fa fa-time"></i><?php echo $this->lista_curriculum['experiencia']; ?> . </p>                                
-                            </div>
-                            <div id="estudios" class="tab-pane">              
-                                <article class="media">                                 
-                                        <div class="media-body">
-                                            <a href="#" class="cmt-head"></a>
-                                            <p><span class="text-muted">Estudios :</span><i class="fa fa-time"></i><?php echo $this->lista_curriculum['estudios']; ?></p>                                         
+                  <div class="panel-body">
+
+                        <div class="tab-content tasi-tab">
+                                <div class="tab-pane active" id="resumen">
+                                   
+                                        <div class="tabbable  ">
+                                            <header class="panel-heading tab-bg-dark-navy-blue">
+                                            <ul class="nav nav-tabs">
+                                                <li><a id="vexperiencia" href="#experiencia" data-toggle="tab">Experiencia</a></li>
+                                                <li><a id="veducacion" href="#educacion" data-toggle="tab">Educacion</a></li>
+                                                <li><a id="vregistros" href="#registros" data-toggle="tab">Registros y Afilicaciones</a></li>
+                                                <li><a id="vaniosexp" href="#aniosexp" data-toggle="tab">Anios de Experiencia</a></li>
+                                                <li ><a id="vidiom" href="#idiom" data-toggle="tab">Idiomas</a></li>
+                                            </ul>
+                                            </header>
+                                            <div class="tab-content">
+                                                <div class="tab-pane active" id="experiencia">
+                                                    <br>
+                                                    
+                                                    <p><span class="text-muted">Experiencia :<br></span><i class="fa fa-time"></i><?php echo $this->lista_curriculum['experiencia']; ?> . </p>  
+                                                </div>
+                                                <div class="tab-pane" id="educacion">
+                                                    <br>
+                                                    
+                                                    <p><span class="text-muted">Estudios :<br></span><i class="fa fa-time"></i><?php echo $this->lista_curriculum['estudios']; ?></p> 
+                                                </div>
+                                                <div class="tab-pane"  id="registros">
+                                                    <br>
+                                                    
+                                                    <p><span class="text-muted">Registro de Afiliacion :<br></span><i class="fa fa-time"></i><?php echo $this->lista_curriculum['reg_afiliacion']; ?></p> 
+                                                    
+                                                </div>
+                                                <div class="tab-pane"  id="aniosexp">
+                                                    <br>
+                                                    
+                                                    <p><span class="text-muted">Anios de Experiencia :<br></span><i class="fa fa-time"></i><?php echo $this->lista_curriculum['aniosexp']; ?></p> 
+                                                </div>
+                                                <div class="tab-pane"  id="idiom">
+                                                    <br>
+                                                    
+                                                    <p> <?php echo $this->lista_curriculum['idiomas']; ?> . </p>  
+                                                </div>
+                                            </div>
                                         </div>
-                                </article>                      
-                            </div>
-                            <div id="perfeccionamiento" class="tab-pane active">                                
-                                <p><span class="text-muted">Estudios :</span><i class="fa fa-time"></i><?php echo $this->lista_curriculum['perfeccionamiento']; ?> . </p>                                
-                            </div>
+                                </div>                              
+                                <div class="tab-pane" id="cursos">
+                                        <div class="tabbable ">
+                                            <header class="panel-heading tab-bg-dark-navy-blue">
+                                            <ul class="nav nav-tabs ">
+                                                <li class="active"><a id="vtecnicos" href="#tecnicos" data-toggle="tab">Tecnicos</a></li>
+                                                <li><a id="vcalidad" href="#calidad" data-toggle="tab">Calidad</a></li>
+                                                <li><a id="vssa" href="#ssa" data-toggle="tab">SSA</a></li>
+                                            </ul>
+                                            </header>
+                                            <div class="tab-content">
+                                                <div class="tab-pane active" id="tecnicos">
+                                                    <br>                                                    
+                                                    <p><span class="text-muted"></span><i class="fa fa-time"></i><?php echo $this->lista_curriculum['tecnicos']; ?></p>
+                                                </div>
+                                                <div class="tab-pane" id="calidad">
+                                                    <br>                                                   
+                                                    <p><span class="text-muted"></span><i class="fa fa-time"></i><?php echo $this->lista_curriculum['calidad']; ?></p>
+                                                </div>
+                                                <div class="tab-pane" id="ssa">
+                                                    <br>
+                                                    <p><span class="text-muted"></span><i class="fa fa-time"></i><?php echo $this->lista_curriculum['ssa']; ?></p>
+                                                </div>
+                                            </div>
+                                        </div>  
+                                </div>
+                                <div class="tab-pane" id="proyectos">
+                                        <div class="tabbable ">
+                                            <header class="panel-heading tab-bg-dark-navy-blue">                                            
+                                            <ul class="nav nav-tabs ">
+                                                <li class="active"><a id="vexpprof" href="#expprof" data-toggle="tab">Experiencia profesional</a></li>
+                                                <li><a id="vprinproyect" href="#prinproyect" data-toggle="tab">Principales proyectos</a></li>                                     
+                                            </ul>
+                                            </header>
+                                            <div class="tab-content">
+                                                <div class="tab-pane active" id="expprof">
+                                                    <br>
+                                                    
+                                                    <p><span class="text-muted"></span><i class="fa fa-time"></i><?php echo $this->lista_curriculum['experiencia_profesional']; ?></p>
+                                                </div>
+                                                <div class="tab-pane" id="prinproyect">
+                                                    <br>
 
-                            <div id="conocimientos" class="tab-pane active">                             
-                                <p> <?php echo $this->lista_curriculum['conocimientos']; ?> . </p>                                
-                            </div>
+                                                    <p><span class="text-muted"></span><i class="fa fa-time"></i><?php echo $this->lista_curriculum['princ_proyectos']; ?></p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                </div>
+                        </div>    
+                        
 
-                            <div id="certificaciones" class="tab-pane active">                                
-                                <p> <?php echo $this->lista_curriculum['certificaciones']; ?> . </p>                                
-                            </div>
-
-                            <div id="idiomas" class="tab-pane active">
-                                <p> <?php echo $this->lista_curriculum['idiomas']; ?> . </p>                                
-                            </div>
-                    </div>
                 </div>
             </section>
+
         </div>
         <!--Funciones Responsabilidades-->
         <div id="funciones">  
@@ -230,10 +275,10 @@
             <section>
             <div class="panel ">
                     <!--  -->
-                    <form action="/rrhh/perfil/cambiarpass/dni/<?php echo $this->lista_persona['dni'];?>" method="post" id="formu" role="form">
+                    <form action="/rrhh/perfil/cambiarpass/dni/<?php echo $this->lista_persona['dni'];?>" method="post" id="formupass" >
                     <div class="bio-graph-heading"> Cambiar Nueva Contraseña
                         <span class="pull-right">
-                            <button id="pass" type="submit" class="btn btn-info">Guardar</button>
+                            <button id="pass"  type="submit" class="btn btn-info">Guardar</button>
                             <a type="button" href="/rrhh/perfil/curriculum/dni/<?php echo $this->lista_persona['dni'];?>" class="btn btn-default">Cancelar</a>
                         </span>
                      
@@ -374,7 +419,7 @@
 
                                       <div class="form-group">
                                           <div class="col-lg-offset-2 col-lg-10">
-                                              <button type="submit" id="editarguardaxx" class="btn btn-success">Guardar</button>
+                                              <button type="submit" id="editarguarda" class="btn btn-success">Guardar</button>
                                               <a type="button" href="/rrhh/perfil/curriculum/dni/<?php echo $this->lista_persona['dni'];?>" class="btn btn-default">Cancelar</a>
                                           </div>
                                       </div>
@@ -382,7 +427,6 @@
                 </div>
             </section>
         </div>
-
 
         <div id="verperfil">
             <section class="panel">
@@ -494,167 +538,10 @@
                               </div>
             </section>
         </div>
-        <!--timeline start-->
-        <!--<section class="panel" id="proyecto" >
-                                  <div class="text-center mbot30">
-                                      <h3 class="timeline-title">Timeline</h3>
-                                      <p class="t-info">Este es una linea de tiempo de los proyectos</p>
-                                  </div>
+    
 
-                                  <div class="timeline">
-                                      <article class="timeline-item">
-                                          <div class="timeline-desk">
-                                              <div class="panel">
-                                                  <div class="panel-body">
-                                                      <span class="arrow"></span>
-                                                      <span class="timeline-icon red"></span>
-                                                      <span class="timeline-date">08:25 am</span>
-                                                      <h1 class="red">12 July | Sunday</h1>
-                                                      <p>Lorem ipsum dolor sit amet consiquest dio</p>
-                                                  </div>
-                                              </div>
-                                          </div>
-                                      </article>
-                                      <article class="timeline-item alt">
-                                          <div class="timeline-desk">
-                                              <div class="panel">
-                                                  <div class="panel-body">
-                                                      <span class="arrow-alt"></span>
-                                                      <span class="timeline-icon green"></span>
-                                                      <span class="timeline-date">10:00 am</span>
-                                                      <h1 class="green">10 July | Wednesday</h1>
-                                                      <p><a href="#">Jonathan Smith</a> added new milestone <span><a href="#" class="green">ERP</a></span></p>
-                                                  </div>
-                                              </div>
-                                          </div>
-                                      </article>
-                                      <article class="timeline-item">
-                                          <div class="timeline-desk">
-                                              <div class="panel">
-                                                  <div class="panel-body">
-                                                      <span class="arrow"></span>
-                                                      <span class="timeline-icon blue"></span>
-                                                      <span class="timeline-date">11:35 am</span>
-                                                      <h1 class="blue">05 July | Monday</h1>
-                                                      <p><a href="#">Anjelina Joli</a> added new album <span><a href="#" class="blue">PARTY TIME</a></span></p>
-                                                      <div class="album">
-                                                          <a href="#">
-                                                              <img alt="" src="img/sm-img-1.jpg">
-                                                          </a>
-                                                          <a href="#">
-                                                              <img alt="" src="img/sm-img-2.jpg">
-                                                          </a>
-                                                          <a href="#">
-                                                              <img alt="" src="img/sm-img-3.jpg">
-                                                          </a>
-                                                          <a href="#">
-                                                              <img alt="" src="img/sm-img-1.jpg">
-                                                          </a>
-                                                          <a href="#">
-                                                              <img alt="" src="img/sm-img-2.jpg">
-                                                          </a>
-                                                      </div>
-                                                  </div>
-                                              </div>
-                                          </div>
-                                      </article>
-                                      <article class="timeline-item alt">
-                                          <div class="timeline-desk">
-                                              <div class="panel">
-                                                  <div class="panel-body">
-                                                      <span class="arrow-alt"></span>
-                                                      <span class="timeline-icon purple"></span>
-                                                      <span class="timeline-date">3:20 pm</span>
-                                                      <h1 class="purple">29 June | Saturday</h1>
-                                                      <p>Lorem ipsum dolor sit amet consiquest dio</p>
-                                                      <div class="notification">
-                                                          <i class=" fa fa-exclamation-sign"></i> New task added for <a href="#">Denial Collins</a>
-                                                      </div>
-                                                  </div>
-                                              </div>
-                                          </div>
-                                      </article>
-                                      <article class="timeline-item alt">
-                                          <div class="timeline-desk">
-                                              <div class="panel">
-                                                  <div class="panel-body">
-                                                      <span class="arrow-alt"></span>
-                                                      <span class="timeline-icon purple"></span>
-                                                      <span class="timeline-date">3:20 pm</span>
-                                                      <h1 class="purple">29 June | Saturday</h1>
-                                                      <p>Lorem ipsum dolor sit amet consiquest dio</p>
-                                                      <div class="notification">
-                                                          <i class=" fa fa-exclamation-sign"></i> New task added for <a href="#">Denial Collins</a>
-                                                      </div>
-                                                  </div>
-                                              </div>
-                                          </div>
-                                      </article>
-                                      <article class="timeline-item alt">
-                                          <div class="timeline-desk">
-                                              <div class="panel">
-                                                  <div class="panel-body">
-                                                      <span class="arrow-alt"></span>
-                                                      <span class="timeline-icon purple"></span>
-                                                      <span class="timeline-date">3:20 pm</span>
-                                                      <h1 class="purple">29 June | Saturday</h1>
-                                                      <p>Lorem ipsum dolor sit amet consiquest dio</p>
-                                                      <div class="notification">
-                                                          <i class=" fa fa-exclamation-sign"></i> New task added for <a href="#">Denial Collins</a>
-                                                      </div>
-                                                  </div>
-                                              </div>
-                                          </div>
-                                      </article>
-                                      <article class="timeline-item alt">
-                                          <div class="timeline-desk">
-                                              <div class="panel">
-                                                  <div class="panel-body">
-                                                      <span class="arrow-alt"></span>
-                                                      <span class="timeline-icon purple"></span>
-                                                      <span class="timeline-date">3:20 pm</span>
-                                                      <h1 class="purple">29 June | Saturday</h1>
-                                                      <p>Lorem ipsum dolor sit amet consiquest dio</p>
-                                                      <div class="notification">
-                                                          <i class=" fa fa-exclamation-sign"></i> New task added for <a href="#">Denial Collins</a>
-                                                      </div>
-                                                  </div>
-                                              </div>
-                                          </div>
-                                      </article>
-                                      <article class="timeline-item alt">
-                                          <div class="timeline-desk">
-                                              <div class="panel">
-                                                  <div class="panel-body">
-                                                      <span class="arrow-alt"></span>
-                                                      <span class="timeline-icon purple"></span>
-                                                      <span class="timeline-date">3:20 pm</span>
-                                                      <h1 class="purple">29 June | Saturday</h1>
-                                                      <p>Lorem ipsum dolor sit amet consiquest dio</p>
-                                                      <div class="notification">
-                                                          <i class=" fa fa-exclamation-sign"></i> New task added for <a href="#">Denial Collins</a>
-                                                      </div>
-                                                  </div>
-                                              </div>
-                                          </div>
-                                      </article>
-                                      <article class="timeline-item">
-                                          <div class="timeline-desk">
-                                              <div class="panel">
-                                                  <div class="panel-body">
-                                                      <span class="arrow"></span>
-                                                      <span class="timeline-icon light-green"></span>
-                                                      <span class="timeline-date">07:49 pm</span>
-                                                      <h1 class="light-green">10 June | Friday</h1>
-                                                      <p><a href="#">Jonatha Smith</a> added new milestone <span><a href="#" class="light-green">prank</a></span> Lorem ipsum dolor sit amet consiquest dio</p>
-                                                  </div>
-                                              </div>
-                                          </div>
-                                      </article>
-                                  </div>
-        </section> -->       
-        <!--timeline end-->
-    <div id="updateperfil">fff</div>
+    <div id="updateperfil"></div>
+    <div id="updatepass"></div>
     </aside>
 
 </div>
@@ -685,67 +572,6 @@
 </div>
 
 
-
-
-<script type="text/javascript">
-    $(document).ready(function(){       
-        $("#estudios").hide();
-        $("#conocimientos").hide();
-        $("#perfeccionamiento").hide();
-        $("#certificaciones").hide();
-        $("#idiomas").hide();    
-        $("#experiencia").show();
-        $("#vestudios").click(function(){
-            $("#estudios").show();
-            $("#conocimientos").hide();
-            $("#perfeccionamiento").hide();
-            $("#certificaciones").hide();
-            $("#idiomas").hide();
-            $("#experiencia").hide();
-        });
-        $("#vconocimientos").click(function(){
-            $("#estudios").hide();
-            $("#conocimientos").show();
-            $("#perfeccionamiento").hide();
-            $("#certificaciones").hide();
-            $("#idiomas").hide();
-            $("#experiencia").hide();
-        });
-        $("#vperfeccionamiento").click(function(){
-            $("#estudios").hide();
-            $("#conocimientos").hide();
-            $("#perfeccionamiento").show();
-            $("#certificaciones").hide();
-            $("#idiomas").hide();
-            $("#experiencia").hide();
-        });
-        $("#vcertificaciones").click(function(){
-            $("#estudios").hide();
-            $("#conocimientos").hide();
-            $("#perfeccionamiento").hide();
-            $("#certificaciones").show();
-            $("#idiomas").hide();
-            $("#experiencia").hide();
-        });
-        $("#vidiomas").click(function(){
-            $("#estudios").hide();
-            $("#conocimientos").hide();
-            $("#perfeccionamiento").hide();
-            $("#certificaciones").hide();
-            $("#idiomas").show();
-            $("#experiencia").hide();
-        });
-        $("#vexperiencia").click(function(){
-            $("#estudios").hide();
-            $("#conocimientos").hide();
-            $("#perfeccionamiento").hide();
-            $("#certificaciones").hide();
-            $("#idiomas").hide();
-            $("#experiencia").show();
-        });
- 
-    });
-</script>
 
 <script type="text/javascript">
 $(document).ready(function(){
@@ -866,6 +692,89 @@ $('#editarguarda').click(function(e) {
 </script>
 
 
+<script type="text/javascript">
+// $(document).ready(function(){
+
+//     $('#pass').click(function(){
+//         var dni="<?php echo $this->lista_persona['dni'];?>";
+//         var newpassword=$("#newpassword").val();
+//         var renewpassword=$("#renewpassword").val();
+//         //params = { 'dni': dni,'newpassword':newpassword,'renewpassword':renewpassword }
+
+//         //alert(params);
+//         alert(newpassword);
+//         alert(renewpassword);
+//         alert(dni);
+//         url1= '/rrhh/perfil/cambiarpass/dni/'+dni+'/newpassword/'+newpassword+'/renewpassword/'+renewpassword;  
+//         alert(url);      
+//         $.ajax({
+//             type: 'POST',
+//             url1: url;            
+//             data: $(this).serialize(),
+//             dataType: "html",
+//            //action="/rrhh/perfil/cambiarpass/dni/<?php echo $this->lista_persona['dni'];?>"
+//             //data: params,
+//            //alert(data);
+//             success: function(data) {             
+//             //$("#updatepass").html(data);  
+//             console.log('mmmm');                    
+//             $("#updatepass").empty();
+//             $("#updatepass").append(data);
+
+//             }
+//         }); 
+
+//     });
+// });
+</script>
+
+
+<script type="text/javascript">
+// $(document).ready(function(){
+                                
+//         var consulta;                 
+//          //hacemos focus al campo de búsqueda
+//         $("#busqueda").focus();
+                                                                                                    
+//         //comprobamos si se pulsa una tecla
+//         $("#busqueda").keyup(function(e){
+                                     
+//               //obtenemos el texto introducido en el campo de búsqueda
+//               consulta = $("#busqueda").val();
+
+//               //alert(consulta);
+//               //hace la búsqueda                                                    
+//               $.ajax({
+//                     type: "POST",
+//                     url: "/rrhh/index/busca/",
+//                     data: "b="+consulta,
+//                     dataType: "html",
+//                     beforeSend: function()
+//                     {
+//                           $("#resultado").html("<p align='center'><img src='ajax-loader.gif'/></p>");
+//                           //location.reload();
+//                     },                    
+//                     error: function(){
+//                           alert("error petición ajax");
+//                     },
+//                     success: function(data){                                                    
+//                           $("#resultado").empty();
+//                           $("#resultado").append(data);                                     
+//                           $("#res").hide();
+//                           $("#mensaje").hide();
+
+//                     }
+//               });
+                                                                                  
+                                                                           
+//         });
+                                                                   
+// });
+</script>
+
+
+
+
 
 
 
@@ -899,3 +808,4 @@ $('#editarguarda').click(function(e) {
 //});
 
 </script>
+<!-- <script type="text/javascript" src="http://code.jquery.com/jquery-1.10.1.min.js"></script> -->
