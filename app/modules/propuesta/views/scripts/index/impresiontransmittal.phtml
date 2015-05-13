@@ -152,5 +152,5 @@
     /*$mpdf->SetFooter(' {DATE j/m/Y}|Página {PAGENO}|Sistema Anddes');*/
     ob_end_clean();
     $mpdf -> WriteHTML($html);
-    $mpdf->Output('ASIGNATURAS -'.$this->perid.'.pdf','D');
+    $mpdf->Output('TRANSMITTAL -'. $this->transmitta['transmittaid'].'.pdf','D');
 ?>    

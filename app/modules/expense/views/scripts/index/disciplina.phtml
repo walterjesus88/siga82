@@ -8,7 +8,7 @@
         <?php
         foreach ($actividades as $data_actividad) { ?>
             <li>
-                <a style="padding:7px 7px;"  class = "actividad" codigo-prop-proy="<?php echo $this->codigo_prop_proy ?>" proyectoid="<?php echo $this->proyectoid ?>" categoriaid="<?php echo $this->categoriaid ?>" actividadid = "<?php echo $data_actividad['actividadid'] ?>" revision = "<?php echo $data_actividad['revision'] ?>" propuestaid = "<?php echo $data_actividad['propuestaid'] ?>" href="##">
+                <a style="padding:7px 7px;"  class = "actividad" codigo-prop-proy="<?php echo $this->codigo_prop_proy ?>" proyectoid="<?php echo $this->proyectoid ?>" categoriaid="<?php echo $this->categoriaid ?>" actividadid = "<?php echo $data_actividad['actividadid'] ?>" revision = "<?php echo $data_actividad['revision'] ?>" propuestaid = "<?php echo $data_actividad['propuestaid'] ?>" cargo = "<?php echo $this->cargo ?>" href="##">
                     <i class="fa fa-rocket"></i>
                     <span><?php echo $data_actividad['nombre'] ?></span>
                 </a>
@@ -25,7 +25,8 @@
                     var categoriaid = $(this).attr('categoriaid');
                     var revision = $(this).attr('revision');
                     var propuestaid = $(this).attr('propuestaid');
-                    $("#actividades_padres").load("/expense/index/actividadespadres/proyectoid/"+proyectoid+"/codigo_prop_proy/"+codigo_prop_proy+"/categoriaid/"+categoriaid+"/actividadid/"+actividadid+"/revision/"+revision+"/propuestaid/"+propuestaid);
+                    var cargo = $(this).attr('cargo');
+                    $("#actividades_padres").load("/expense/index/actividadespadres/proyectoid/"+proyectoid+"/codigo_prop_proy/"+codigo_prop_proy+"/categoriaid/"+categoriaid+"/actividadid/"+actividadid+"/revision/"+revision+"/propuestaid/"+propuestaid+"/cargo/"+cargo);
                 });
             </script>
             <?php

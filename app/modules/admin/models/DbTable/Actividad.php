@@ -260,7 +260,29 @@ public function _getTareasxActividadPadrexCategoria($proyectoid,$codigo,$propues
         }
     }
 
+    public function _getTareasxActividadPadrexCategoriaXisgasto($proyectoid,$codigo,$propuestaid,$revision,$actividadid,$categoriaid)
+     {
+        try{
+            $sql=$this->_db->query("
+                select * from tareo as tar
+                inner join actividad as act on
+                tar.codigo_prop_proy = act.codigo_prop_proy and tar.codigo_actividad=act.codigo_actividad and 
+                tar.actividadid=act.actividadid and tar.revision=act.revision and tar.proyectoid=act.proyectoid
+                
+                where tar.proyectoid='$proyectoid' and tar.categoriaid='$categoriaid' 
+                and act.propuestaid='$propuestaid' and act.revision='$revision' and tar.codigo_prop_proy='$codigo'
+                and tar.actividad_padre='$actividadid' and act.isgasto='S' 
 
+                
+            ");
+            $row=$sql->fetchAll();
+            return $row;           
+            }  
+            
+           catch (Exception $ex){
+            print $ex->getMessage();
+        }
+    }
   
     
 }

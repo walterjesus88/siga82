@@ -40,6 +40,7 @@ class Expense_IndexController extends Zend_Controller_Action {
         $proyectoid = $this->_getParam('proyectoid');
         $codigo_prop_proy = $this->_getParam('codigo_prop_proy');
         $categoriaid = $this->_getParam('categoriaid');
+        $cargo = $this->_getParam('cargo');
         $actividad = new Admin_Model_DbTable_Actividad();
         $data_actividad = $actividad->_getActividadesPadresXproyectoXcodigo($proyectoid, $codigo_prop_proy);
         $actividades_padre=$actividad->_getActividadesPadresXProyectoXCategoria($proyectoid,$categoriaid,$codigo_prop_proy);
@@ -62,6 +63,7 @@ class Expense_IndexController extends Zend_Controller_Action {
         $this->view->proyectoid = $proyectoid;
         $this->view->codigo_prop_proy = $codigo_prop_proy;
         $this->view->categoriaid = $categoriaid;
+        $this->view->cargo = $cargo;
         } catch (Exception $e) {
             print "Error: ".$e->getMessage();
         } 
@@ -78,10 +80,12 @@ class Expense_IndexController extends Zend_Controller_Action {
         $actividadid = $this->_getParam('actividadid');
         $revision = $this->_getParam('revision');
         $propuestaid = $this->_getParam('propuestaid');
+        $cargo = $this->_getParam('cargo');
         $tareo = new Admin_Model_DbTable_Actividad();
         $data_tareo_hijos = $tareo->_getActividadesHijas($proyectoid,$codigo_prop_proy,$propuestaid,$revision,$actividadid);
         $codigo_act_padres_hijas = $tareo->_getActividadesHijasxActividadesPadresXCategoria($proyectoid,$codigo_prop_proy,$propuestaid,$revision,$actividadid,$categoriaid);
-        $j=0;    
+        $j=0;
+        $array = [];
         foreach ($codigo_act_padres_hijas as $act_padre) {
             $actividadespadres = explode(".",$act_padre['actividad_padre']);
             if (count($actividadespadres)=='1'){
@@ -102,6 +106,7 @@ class Expense_IndexController extends Zend_Controller_Action {
         $this->view->codigo_prop_proy = $codigo_prop_proy;
         $this->view->categoriaid = $categoriaid;
         $this->view->actividadid = $actividadid;
+        $this->view->cargo = $cargo;
         } catch (Exception $e) {
             print "Error: ".$e->getMessage();
         }
@@ -118,14 +123,16 @@ class Expense_IndexController extends Zend_Controller_Action {
         $actividadid = $this->_getParam('actividadid');
         $revision = $this->_getParam('revision');
         $propuestaid = $this->_getParam('propuestaid');
+        $cargo = $this->_getParam('cargo');
         $tareo = new Admin_Model_DbTable_Actividad();
         $data_tareas = $tareo->_getActividadesHijas($proyectoid,$codigo_prop_proy,$propuestaid,$revision,$actividadid);
-        $dato_tarea=$tareo->_getTareasxActividadPadrexCategoria($proyectoid,$codigo_prop_proy,$propuestaid,$revision,$actividadid,$categoriaid);
+        $dato_tarea=$tareo->_getTareasxActividadPadrexCategoriaXisgasto($proyectoid,$codigo_prop_proy,$propuestaid,$revision,$actividadid,$categoriaid);
         $this->view->tareas = $dato_tarea;
         $this->view->proyectoid = $proyectoid;
         $this->view->codigo_prop_proy = $codigo_prop_proy;
         $this->view->categoriaid = $categoriaid;
         $this->view->actividadid = $actividadid;
+        $this->view->cargo = $cargo;
         } catch (Exception $e) {
             print "Error: ".$e->getMessage();
         }
@@ -136,12 +143,10 @@ class Expense_IndexController extends Zend_Controller_Action {
         $this->_helper->layout()->disableLayout();
         $uid = $this->sesion->uid;
         $dni = $this->sesion->dni;
-        $fecha = $this->_getParam('fecha');
-        $where ['fecha_gasto'] = $fecha;
+        $where ['fecha_gasto'] = date("Y-m-d");
         $gasto = new Admin_Model_DbTable_Gastopersona();
         $data_gasto = $gasto->_getgastoXfecha($where);
         $this->view->gasto = $data_gasto;
-        $this->view->fecha = $fecha;
         } catch (Exception $e) {
             print "Error: ".$e->getMessage();
         }
@@ -158,6 +163,7 @@ class Expense_IndexController extends Zend_Controller_Action {
             $areaid = $this->_getParam('areaid');
             $cargo = $this->_getParam('cargo');
             $revision = $this->_getParam('revision');
+            $actividadid = $this->_getParam('actividadid');
             $data ['proyectoid'] = $proyectoid;
             $data ['codigo_prop_proy'] = $codigo_prop_proy;
             $data ['categoriaid'] = $categoriaid;
@@ -167,9 +173,12 @@ class Expense_IndexController extends Zend_Controller_Action {
             $data ['cargo'] = $cargo;
             $data ['uid_ingreso'] = $uid;
             $data ['asignado'] = $uid;
-            $data ['fecha_gasto'] = date("Y-m-d"); ;
+            $data ['fecha_gasto'] = date("Y-m-d");
             $data ['gastoid'] = 1;
             $data ['revision'] = $revision;
+            if ($actividadid) {
+                $data ['actividadid'] = $actividadid;
+            }
             $gasto = new Admin_Model_DbTable_Gastopersona();
             $gasto->_save($data);
         } catch (Exception $e) {

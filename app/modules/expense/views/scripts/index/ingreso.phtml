@@ -22,15 +22,21 @@
                             </tr>
                         </thead>
                         <tbody>
+                        <?php 
+                        $gasto = $this->gasto;
+                        foreach ($gasto as $data_gasto) { ?>
                             <tr class="gradeX">
-                                <td></td>
-                                <td></td>
+                                <td><?php echo ($data_gasto['actividadid'])? $data_gasto['actividadid']: $data_gasto['proyectoid']; ?></td>
+                                <td><?php echo $data_gasto['fecha_gasto'] ?></td>
                                 <td></td>
                                 <td></td>
                                 <td></td>
                                 <td></td>
                                 <td></td>
                             </tr>
+                        <?php
+                        }
+                         ?>
                         </tbody>
                     </table>
                 </div>
