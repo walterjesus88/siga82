@@ -108,7 +108,7 @@ class Rrhh_PerfilController extends Zend_Controller_Action {
                                     //echo "La contrasena ha sido cambiada correctamente";  
                                     ?>
                                     <script>
-                                        //document.location.href="/rrhh/perfil/curriculum/dni/<?php echo $dni?>";                                                            
+                                        document.location.href="/rrhh/perfil/curriculum/dni/<?php echo $dni?>#password";                                                            
                                     </script>
                                     <?php
                                 }
@@ -194,7 +194,13 @@ class Rrhh_PerfilController extends Zend_Controller_Action {
                      $pk = array('dni'    => $dni   );                                     
                      //print_r($formdata);
                      $updperson=new Admin_Model_DbTable_Persona();               
-                     $updperson->_updateX($formdata,$pk);
+                     if($updperson->_updateX($formdata,$pk))
+                     { ?>
+                        <script type="text/javascript">
+                            document.location.href="/rrhh/perfil/curriculum/dni/<?php echo $dni?>";                                                            
+                            
+                        </script>
+                     <?php } 
             
         }
         /*----------------*/

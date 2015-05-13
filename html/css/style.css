@@ -2343,7 +2343,7 @@ ul.inbox-pagination li {
 /*profile*/
 
 .profile-nav .user-heading {
-    background: rgba(7, 35, 108, 0.92);
+    background: rgba(0, 105, 173, 1);
     color: #fff;
     border-radius: 4px 4px 0 0;
     -webkit-border-radius: 4px 4px 0 0;
@@ -2963,7 +2963,7 @@ ul.amounts li {
 }
 
 .tab-bg-dark-navy-blue {
-    background: #7087A3;
+    background: rgba(0, 105, 173, 1);
     border-radius: 5px 5px 0 0;
     -webkit-border-radius: 5px 5px 0 0;
     border-bottom: none;
@@ -6217,4 +6217,10 @@ header.blue-bg .search:focus {
 .note-editor .note-statusbar {
     background: #fff;
     border-radius:4px;
+}
+
+.sombra {
+-moz-box-shadow:inset 0px 4px 4px rgba(0, 105, 173, 1);
+-webkit-box-shadow:inset 0px 4px 4px rgba(0, 105, 173, 1);
+box-shadow:inset 0px 4px 4px rgba(0, 105, 173, 1);
 }

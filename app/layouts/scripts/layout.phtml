@@ -309,7 +309,8 @@ $(document).ready(function(){
                     error: function(){
                           alert("error petición ajax");
                     },
-                    success: function(data){                                                    
+                    success: function(data){      
+                          console.log('ff');                                              
                           $("#resultado").empty();
                           $("#resultado").append(data);                                     
                           $("#res").hide();
