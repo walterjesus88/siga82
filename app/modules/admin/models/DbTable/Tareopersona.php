@@ -199,7 +199,7 @@ class Admin_Model_DbTable_Tareopersona extends Zend_Db_Table_Abstract
             if ($str=="") return false;
             return $this->update($data,$str);
         }catch (Exception $ex){
-            print "Error: Actualizando un registro de Propuesta".$ex->getMessage();
+           // print "Error: Actualizando un registro de Propuesta".$ex->getMessage();
         }
     }
 
@@ -309,6 +309,9 @@ class Admin_Model_DbTable_Tareopersona extends Zend_Db_Table_Abstract
             print $ex->getMessage();
         }
     }
+
+
+    
 
 
 
