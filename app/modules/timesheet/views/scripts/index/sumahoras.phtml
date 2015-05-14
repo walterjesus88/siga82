@@ -1,0 +1,32 @@
+   
+   $this->view->semanaid = $semanaid;
+        $this->view->fecha = $fecha;
+        $this->view->act = $act;
+        $this->view->uid = $uid;
+        $this->view->dni = $dni;
+
+
+
+    <?php if ( $this->act) {?>
+       
+            <?php 
+              $uid=$this->uid;
+                // echo $uid;echo "<br>";
+              $dni=$this->dni;
+              $fecha = $this->fecha;
+              $semanaid = $this->semanaid;
+              $cargo = $this->cargo;
+              $fecha = date("Y-m-d", strtotime($fecha));
+              //for ($i=0; $i < 7; $i++) { ?>          
+              
+                <?php  $tareopersona = new Admin_Model_DbTable_Tareopersona();
+                $sumar=$tareopersona-> _getHorasRealxDia($semanaid,$fecha,$uid,$dni,$cargo);
+                print_r($sumar[0]['tareo_persona_horas_reales']); ?></center>
+                <div id="sumahoras">ddd</div>
+
+             
+                <?php
+                  $newDate = date("Y-m-d", strtotime($fecha));
+                  $nuevafecha = strtotime ( '+1 day' , strtotime ( $newDate ) ) ;
+                  $fecha = date ( 'Y-m-d' , $nuevafecha );
+                //}?>
