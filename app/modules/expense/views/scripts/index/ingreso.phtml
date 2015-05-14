@@ -12,9 +12,9 @@
                     <div class="adv-table">
                         <table  class="display table table-bordered table-striped">
                             <thead>
-                                <tr >
+                                <tr>
+                                    <th style="width : 70px"></th>
                                     <th>Proyecto / Actividades</th>
-                                    <th>Fecha</th>
                                     <th>Descripción</th>
                                     <th>Tipo de Gasto</th>
                                     <th>Monto Neto</th>
@@ -26,14 +26,35 @@
                             <?php 
                             foreach ($data_gasto['actividades'] as $data_actividades) { ?>
                                 <tr class="gradeX">
-                                    <td><?php 
-                                        echo ($data_actividades['actividadid'])? $data_actividades['actividadid']. ' - ' .$data_actividades['nombre']: $data_actividades['proyectoid']. ' - ' .$data_actividades['nombre_proyecto']; ?></td>
-                                    <td><?php echo $data_actividades['fecha_gasto'] ?></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
+                                    <td>
+                                        <a href="##" class="btn btn-warning btn-xs duplicar_actividad" title="Duplicar" codigo-prop-proy="<?php echo $data_actividades['codigo_prop_proy'] ?>" proyectoid="<?php echo $data_actividades['proyectoid'] ?>" categoriaid="<?php echo $data_actividades['categoriaid'] ?>" areaid = "<?php echo $data_actividades['areaid'] ?>" revision = "<?php echo $data_actividades['revision'] ?>" actividadid = "<?php echo $data_actividades['actividadid'] ?>" cargo = "<?php echo $data_actividades['cargo'] ?>">
+                                            <i class="fa fa-plus-square"></i>
+                                        </a>
+                                        
+                                        <a href="##" class="btn btn-danger btn-xs delete_actividad" title="Eliminar" gasto-persona-id = "<?php echo $data_actividades['gasto_persona_id'] ?>">
+                                            <i class="fa fa-minus-square"></i>
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <?php 
+                                        echo ($data_actividades['actividadid'])? $data_actividades['actividadid']. ' - ' .$data_actividades['nombre']: $data_actividades['proyectoid']. ' - ' .$data_actividades['nombre_proyecto'];
+                                        ?>
+                                    </td>
+                                    <td><input name="description" type="text" class="form-control"/></td>
+                                    <td>
+                                        <select name="tipo_gasto" class="form-control">
+                                            <option value="">- Seleccione -</option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <center><input name="monto" type="text" class="form-control" style="width : 70px"></center>
+                                    </td>
+                                    <td>
+                                        <center><input name="igv" type="text" class="form-control" style="width : 50px"></center>
+                                    </td>
+                                    <td>
+                                        <center><input name="monto_total" type="text" class="form-control" style="width : 70px"></center>
+                                    </td>
                                 </tr>
                             <?php
                             }
@@ -51,3 +72,26 @@
 
     </div>
 </div>
+<div id="load_duplicidad"></div>
+
+<script type="text/javascript">
+    $(".duplicar_actividad").click(function(){
+        var proyectoid = $(this).attr('proyectoid');
+        var codigo_prop_proy = $(this).attr('codigo-prop-proy');
+        var categoriaid = $(this).attr('categoriaid');
+        var areaid = $(this).attr('areaid');
+        var cargo = $(this).attr('cargo');
+        var revision = $(this).attr('revision');
+        var actividadid = $(this).attr('actividadid');
+        url = "/expense/index/guardargastopersona/codigo-prop-proy/"+codigo_prop_proy+"/proyectoid/"+proyectoid+"/categoriaid/"+categoriaid+"/areaid/"+areaid+"/cargo/"+cargo+"/revision/"+revision+"/actividadid/"+actividadid;
+        $("#load_duplicidad").load(url);
+        $("#ingreso").load("/expense/index/ingreso/");
+    });
+
+    $(".delete_actividad").click(function(){
+        var gasto_persona_id = $(this).attr('gasto-persona-id');
+        url = "/expense/index/eliminargastopersona/gasto_persona_id/"+gasto_persona_id;
+        $("#load_duplicidad").load(url);
+        $("#ingreso").load("/expense/index/ingreso/");
+    });
+</script>

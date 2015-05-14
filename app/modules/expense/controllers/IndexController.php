@@ -208,4 +208,15 @@ class Expense_IndexController extends Zend_Controller_Action {
             print "Error: ".$e->getMessage();
         }
     }
+
+    public function eliminargastopersonaAction(){
+        try {
+            $this->_helper->layout()->disableLayout();
+            $gasto_persona_id = $this->_getParam('gasto_persona_id');
+            $gasto = new Admin_Model_DbTable_Gastopersona();
+            $gasto->_delete($gasto_persona_id);
+        } catch (Exception $e) {
+            print "Error: ".$e->getMessage();
+        }
+    }
 }
