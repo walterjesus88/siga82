@@ -1,25 +1,39 @@
 <body onload="cargar()"> 
 <section class="panel">
-    <header class="panel-heading" style="padding-bottom : 22px">
 
-        <h5> Hoja de Tiempo Semana <?php echo $this->semanalabor; echo ": ";?></h5><?php
-         print_r($this->diassemana[7]); echo "-"; print_r($this->diassemana[13]);?>
-        
-          
-
-        <span class="pull-right">
-
+<header class="panel-heading" style="padding-bottom : 10px">
        
-
-        <a class="btn btn-danger pull-right btn-xs" data-toggle="modal" href="#calendar">
+ Hoja de Tiempo 
+       
+  <a class="btn btn-danger pull-right btn-xs" data-toggle="modal" href="#calendar">
             <i class="fa fa-calendar"></i> Calendario
         </a>
+        
+           
+         <a id = "" class="btn btn-primary pull-right btn-xs"  href="" style="margin-right : 10px">
+            <i class="fa fa-print"></i> 
+        </a>
+         <a id = "" class="btn btn-default pull-right btn-xs" href="#" style="margin-right : 10px">
+            <i class="fa fa-check-square"></i> Enviar
+        </a>
+        <a id = "" class="btn btn-info pull-right btn-xs"  href="#" style="margin-right : 10px">
+            <i class="fa fa-save"></i> Guardar
+        </a>
+
         <a id = "add_work" class="btn btn-success pull-right btn-xs" data-toggle="modal" href="#agregar" style="margin-right : 10px">
             <i class="fa fa-check-square-o"></i> Agregar
         </a>
         </span>
     </header>
+
+  
+   
     
+
+    
+
+
+        
     <div class="modal fade" id="agregar" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content" style="width: 1250px; 
@@ -31,8 +45,7 @@
                 </div>
                 <div class="modal-body" style="padding: 1px; ">
                     <div class="chat-room">
-                        <aside class="left-side" style="width:15%">
-                                                    <ul class="chat-list">
+                       
                         <aside  style="width:10%; text-align: left;">
                          
                                 <span style="font-weight:bold;">Cliente</span>
@@ -114,6 +127,7 @@
 </section>
 
 <div id="registro"></div>
+<div id="fechasemana"></div>
 </body> 
 <script type="text/javascript">
     $("#add_work").click(function(){
@@ -140,7 +154,10 @@
                 };
             };
             fecha_inicio = mostrarFecha(dateObj,-num_day);
+           
             $("#registro").load("/timesheet/index/registro/fecha/" + fecha_inicio); 
+           
+
       
     });
 
@@ -166,8 +183,10 @@
                     };
                 };
             };
-            fecha_inicio = mostrarFecha(dateObj,-num_day);
+            fecha_inicio = mostrarFecha(dateObj,-num_day);  
             $("#registro").load("/timesheet/index/registro/fecha/" + fecha_inicio);
+            
+
         },
     });
 
@@ -204,8 +223,10 @@ function cargar(){
                     };
                 };
             };
-            fecha_inicio = mostrarFecha(dateObj,-num_day);
+            fecha_inicio = mostrarFecha(dateObj,-num_day);  
+        
             $("#registro").load("/timesheet/index/registro/fecha/" + fecha_inicio); 
+         
 } 
 
 </script>

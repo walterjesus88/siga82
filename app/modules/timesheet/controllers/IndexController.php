@@ -28,6 +28,7 @@ class Timesheet_IndexController extends Zend_Controller_Action {
         $data_clientes = $equipo ->_getClienteXuidXEstado($uid,'A');
         $this->view->datoscliente = $data_clientes;
         $this->view->equipo = $data_equipo;
+
        
         /*IMPRESION INTERVALO FECHAS */
         $ano=date("Y");
@@ -186,6 +187,7 @@ class Timesheet_IndexController extends Zend_Controller_Action {
         $fecha_inicio_mod = date("Y-m-d", strtotime($fecha_inicio));
         $fecha_inicio = date("d-m-Y", strtotime($fecha_inicio));
         $fecha_mostrar = date("d", strtotime($fecha_inicio));
+
         $this->view->fecha = $fecha_inicio;
         $this->view->fecha_mostrar = $fecha_mostrar;
         $uid = $this->sesion->uid;
@@ -201,6 +203,7 @@ class Timesheet_IndexController extends Zend_Controller_Action {
         $this->view->areaid=$areaid;
         $tareo_persona = new Admin_Model_DbTable_Tareopersona();
         $semana=date('W', strtotime($fecha_inicio_mod)); 
+        $this->view->semana = $semana;
         $datos_tareopersona=$tareo_persona->_getTareoxPersonaxSemana($uid,$dni,$semana);
         $datos_tareopersona_NB=$tareo_persona->_getTareoxPersonaxSemanaxNB($uid,$dni,$semana);
         //$data_tareo = $tareo->_getTareoXUid($where);
