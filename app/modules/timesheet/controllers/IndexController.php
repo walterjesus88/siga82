@@ -83,11 +83,13 @@ class Timesheet_IndexController extends Zend_Controller_Action {
         /*actividades por categoria habilitadas para el usuario*/
         $actividades_padre=$actividad->_getActividadesPadresXProyectoXCategoria($proyectoid,$categoriaid,$codigo_prop_proy);
         $i=0;
+        //print_r($actividades_padre);
         foreach ($actividades_padre as $act_padre) {
         $dato_padre=$actividad->_getActividadesxActividadid($proyectoid,$codigo_prop_proy,$act_padre['padre']);
         $array[$i]=$dato_padre[0];
         $i++;
         }
+        //print_r($array);
         $this->view->actividades = $array;
         $this->view->proyectoid = $proyectoid;
         $this->view->codigo_prop_proy = $codigo_prop_proy;
@@ -284,6 +286,8 @@ class Timesheet_IndexController extends Zend_Controller_Action {
         $data['codigo_actividad']=$codigo_actividad = $this->_getParam('codigo_actividad');
         $data['actividad_padre']=$actividad_padre = $this->_getParam('actividad_padre');
         $data['h_propuesta']=$h_propuesta = $this->_getParam('h_propuesta');
+        $data['actividad_generalid']=$actividad_generalid = $this->_getParam('actividad_generalid');
+
         $data['uid']=$uid;
         $data['asignado']= $dni;
         $data['estado']= 'A';
@@ -339,7 +343,7 @@ class Timesheet_IndexController extends Zend_Controller_Action {
             and actividad_padre='$actividad_padre' and cargo='$cargo'
             and semanaid='$semanaid' and areaid='$areaid' and fecha_tarea='$fecha_tarea' 
             and fecha_planificacion='$fecha_tarea' and etapa='$resultado' and tipo_actividad='$tipo_actividad' 
-            and estado='A'
+            and  estado='A' 
             ";
           //  echo $str;
             $update=$tareopersona -> _update($datos,$str);
