@@ -31,6 +31,59 @@ class Admin_Model_DbTable_Equipo extends Zend_Db_Table_Abstract
         }
     }
 
+
+public function _getProyectosxUidXEstadoxCliente($uid,$estado,$clienteid,$unidad_mineraid)
+     {
+        try{
+            $sql=$this->_db->query("
+                select p.codigo_prop_proy, p.proyectoid, e.estado, e.categoriaid, e.areaid, pro.propuestaid, pro.revision, p.nombre_proyecto, 
+                p.tipo_proyecto, pro.moneda, pro.descripcion  
+                from equipo e inner join proyecto p
+                on e.codigo_prop_proy = p.codigo_prop_proy
+                inner join propuesta pro on
+                p.codigo_prop_proy=pro.codigo_prop_proy
+                where e.uid = '$uid' and e.estado = '$estado' and pro.clienteid='$clienteid' and pro.unidad_mineraid='$unidad_mineraid'
+
+
+                ");
+            $row=$sql->fetchAll();
+            return $row;           
+            }  
+            
+           catch (Exception $ex){
+            print $ex->getMessage();
+        }
+    }
+
+
+
+
+
+    public function _getClienteXuidXEstado($uid,$estado)
+     {
+        try{
+            $sql=$this->_db->query("
+select 
+               c.clienteid,c.nombre_comercial,c.nombre as nombre_cliente,u.unidad_mineraid,
+               u.nombre as nombre_unidad, p.nombre_propuesta, p.tipo_servicio   
+               from equipo e inner join propuesta p
+               on e.codigo_prop_proy = p.codigo_prop_proy
+               inner join unidad_minera u on
+               p.clienteid=u.clienteid and p.unidad_mineraid=u.unidad_mineraid
+               inner join cliente c on
+               u.clienteid=c.clienteid
+               where e.uid = '$uid' and e.estado = '$estado'");
+            $row=$sql->fetchAll();
+            return $row;           
+            }  
+            
+           catch (Exception $ex){
+            print $ex->getMessage();
+        }
+    }
+
+
+
     public function _getFilter($where=null,$attrib=null,$orders=null){
         try{
             //if($where['codigo_prop_proy']=='' || $where['proyectoid']=='' || $where['categoriaid']=='') return false;

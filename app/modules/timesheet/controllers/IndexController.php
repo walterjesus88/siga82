@@ -25,6 +25,8 @@ class Timesheet_IndexController extends Zend_Controller_Action {
         $dni = $this->sesion->dni;
         $equipo = new Admin_Model_DbTable_Equipo();
         $data_equipo = $equipo->_getProyectosXuidXEstado($uid,'A');
+        $data_clientes = $equipo ->_getClienteXuidXEstado($uid,'A');
+        $this->view->datoscliente = $data_clientes;
         $this->view->equipo = $data_equipo;
        
         /*IMPRESION INTERVALO FECHAS */
@@ -48,6 +50,24 @@ class Timesheet_IndexController extends Zend_Controller_Action {
         } 
 
     }
+
+    public function proyectosAction(){
+        try {
+        $this->_helper->layout()->disableLayout();
+        $uid = $this->sesion->uid;
+        $dni = $this->sesion->dni;
+        $clienteid = $this->_getParam('clienteid');
+        $unidadid = $this->_getParam('unidadid');
+
+        $equipo = new Admin_Model_DbTable_Equipo();
+        $data_equipo = $equipo->_getProyectosxUidXEstadoxCliente($uid,'A',$clienteid,$unidadid);
+             
+        $this->view->equipo = $data_equipo;
+
+        } catch (Exception $e) {
+            print "Error: ".$e->getMessage();
+        } 
+    }    
 
     public function actividadesAction(){
         try {

@@ -1,0 +1,32 @@
+                      <span style="font-weight:bold;">Proyecto</span>
+                            
+                            <ul class="nav nav-pills nav-stacked" >
+                                <?php 
+                                $equipo = $this->equipo;
+                                foreach ($equipo as $data_equipo) { ?>
+                                    <li >
+                                        <a class="proyecto" codigo-prop-proy="<?php echo $data_equipo['codigo_prop_proy'] ?>" proyectoid="<?php echo $data_equipo['proyectoid'] ?>" categoriaid="<?php echo $data_equipo['categoriaid'] ?>" href="##">
+                                            
+                                            <?php echo $data_equipo['proyectoid']. ' - ' .$data_equipo['nombre_proyecto'] ?>
+                                        </a>
+                                    </li>
+                                    <script type="text/javascript">
+                                    $(".proyecto").click(function(){
+
+                                        $("#actividades").html('');
+                                        $("#actividades_hijos").html('');
+                                        $("#actividades_tareas").html('');
+                                        var proyectoid = $(this).attr('proyectoid');
+                                        var codigo_prop_proy = $(this).attr('codigo-prop-proy');
+                                        var categoriaid = $(this).attr('categoriaid');
+                                        $("#actividades").load("/timesheet/index/actividades/proyectoid/"+proyectoid+"/codigo_prop_proy/"+codigo_prop_proy+"/categoriaid/"+categoriaid);
+
+                                         
+                                    });
+                                    </script>
+                                    <?php
+                                }
+                                 ?>
+                            </ul>
+                       
+                       
