@@ -1,4 +1,79 @@
 <body onload="cargar()"> 
+
+    <div class="row">
+                  <div class="col-lg-3">
+                      <section class="panel">
+                            <div class="panel-body">  
+                                <p>Semana <?php echo $this->semana; echo ": ";?>
+
+                                <?php
+                                $fecha = $this->fecha;
+                                $newDate = date("Y-m-d", strtotime($fecha));
+                                $fechainicio = date ( 'd/m/Y' , strtotime($fecha) );
+                                $nuevafecha = strtotime ( '+6 day' , strtotime ( $newDate ) ) ;
+                                $fechafinal = date ( 'd/m/Y' , $nuevafecha );
+
+                                echo $fechainicio; echo " al "; echo $fechafinal;?></p>
+                            </div>
+                      </section>
+                  </div>
+                  <div class="col-lg-4">
+                      <section class="panel">
+                          <div class="panel-body" style="
+    padding-bottom: 10px;
+    padding-top: 12px;
+">
+                               
+
+                               <button data-toggle="button" class="btn btn-white">
+                                  <i class="fa fa-thumbs-up text-info" style="color: #78CD51;"></i>
+                                   <?php 
+
+                                    $tareopersona = new Admin_Model_DbTable_Tareopersona();
+                                    $sumar=$tareopersona-> _getHorasRealxTipo($this->semana,$this->uid,$this->dni,$this->cargo,'P');
+                                    print_r($sumar[0]['tareo_persona_horas_reales_tipoactividad']); 
+
+
+                                   ?>
+                              </button>
+
+                                        <button data-toggle="button" class="btn btn-white">
+                                  <i class="fa fa-thumbs-down text-info" style="color: #FF6C60;"></i>
+                                   <?php 
+
+                                    $tareopersona = new Admin_Model_DbTable_Tareopersona();
+                                    $sumar=$tareopersona-> _getHorasRealxTipo($this->semana,$this->uid,$this->dni,$this->cargo,'G');
+                                    print_r($sumar[0]['tareo_persona_horas_reales_tipoactividad']); 
+
+
+                                   ?>
+                              </button>
+
+                                        <button data-toggle="button" class="btn btn-white">
+                                  <i class="fa fa-square text-info" style="color: #5bc0de;"></i>
+                                   <?php 
+
+                                    $tareopersona = new Admin_Model_DbTable_Tareopersona();
+                                    $sumar=$tareopersona-> _getHorasRealxTipo($this->semana,$this->uid,$this->dni,$this->cargo,'');
+                                    print_r($sumar[0]['tareo_persona_horas_reales_tipoactividad']); 
+
+
+                                   ?>
+                              </button>
+
+                          </div>
+                      </section>
+                  </div>
+                  <div class="col-lg-5">
+                      <section class="panel">
+                          <div class="panel-body" style="
+    padding-top: 10px;
+    padding-bottom: 10px;
+">
+                                Aprobado por: Omar Mori <br>
+                                Aprobado Gerente General
+                               </div></section></div></div>
+
 <div class="row" id="registros">
   <div class="col-sm-12">
     <section class="panel">
@@ -591,3 +666,4 @@ $( "input" )
 
 </script>
 
+;

@@ -8,18 +8,18 @@
         $tareopersona = new Admin_Model_DbTable_Tareopersona();
         $buscar_tarea=$tareopersona->_getTareoxPersonaxSemanaxActividadid($this->uid,$this->dni,$this->semanaid,$data_tareas['actividad_padre'],$data_tareas['actividadid'],$data_tareas['codigo_actividad'],$this->codigo_prop_proy,$this->proyectoid,$data_tareas['revision']);
         if ($buscar_tarea){ ?>
-            <li>
-                <a style="padding:5px 5px;"   class = "actividad_hijas"  href="">
-                    <span><?php echo $data_tareas['nombre'] ?></span>
-                    <input  name="" id="" type = "checkbox" class = "pull-right" value="" checked="true">
-                </a>
+             <li style="padding:5px 5px;color: #667fa0;"  >
+                
+                    <?php echo $data_tareas['nombre'] ?>
+                    <input  disabled name="" id="" type = "checkbox" class = "pull-right" value="" checked="true">
+                
             </li>
         <?php } else {?>
-            <li>
-                <a style="padding:5px 5px;" class = "actividad_hijas"  href="">
-                    <span><?php echo $data_tareas['nombre'] ?></span>
+             <li style="padding:5px 5px;color: #667fa0;"  >
+               
+                    <?php echo $data_tareas['nombre'] ?>
                     <input name="tarea_<?php echo $i;?>" id="tarea_<?php echo $i;?>" type = "checkbox" class = "pull-right" value="" codigo-prop-proy="<?php echo $this->codigo_prop_proy ?>" proyectoid="<?php echo $this->proyectoid ?>" categoriaid="<?php echo $this->categoriaid ?>" actividadid = "<?php echo $data_tareas['actividadid'] ?>" revision = "<?php echo $data_tareas['revision'] ?>" propuestaid = "<?php echo $data_tareas['propuestaid'] ?>">
-                </a>
+                
             </li>
         <?php }?>
         <script type="text/javascript">
