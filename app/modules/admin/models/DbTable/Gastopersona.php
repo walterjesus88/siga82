@@ -2,7 +2,7 @@
 class Admin_Model_DbTable_Gastopersona extends Zend_Db_Table_Abstract
 {
     protected $_name = 'gasto_persona';
-    protected $_primary = array("codigo_prop_proy", "proyectoid", "revision", "ucategoriaid", "gastoid", "asignado", "fecha_gasto");
+    protected $_primary = array("codigo_prop_proy", "proyectoid", "revision", "categoriaid", "gastoid", "uid", "dni", "gasto_persona_id");
 
      /* Lista toda las Personas */    
     public function _getGastopersonaAll(){
@@ -23,6 +23,15 @@ class Admin_Model_DbTable_Gastopersona extends Zend_Db_Table_Abstract
             return false;
         }catch (Exception $e){
                 print "Error: Registration ".$e->getMessage();
+        }
+    }
+
+    public function _delete($gasto_persona_id){
+        try{
+            if ($gasto_persona_id=='') return false;
+            return $this->delete("gasto_persona_id='$gasto_persona_id'");
+        }catch (Exception $ex){
+            print "Error: Eliminando un registro ".$ex->getMessage();
         }
     }
 
