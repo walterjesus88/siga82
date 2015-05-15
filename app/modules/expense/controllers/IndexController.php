@@ -151,12 +151,14 @@ class Expense_IndexController extends Zend_Controller_Action {
             $wheretmp ['fecha_gasto'] = date("Y-m-d");
             $wheretmp ['proyectoid'] = $data_gasto[$i]['proyectoid'];
             $data_gasto_final = $gasto->_getFilter($wheretmp,$attrib=null,$orders=null);
-            
+
             $pk ['proyectoid'] = $data_gasto[$i]['proyectoid'];
             $pk ['codigo_prop_proy'] = $data_gasto_final[0]['codigo_prop_proy'];
             $proyecto = new Admin_Model_DbTable_Proyecto();
             $data_proyecto = $proyecto->_getOne($pk);
-            $data_gasto_final[0]['nombre_proyecto'] = $data_proyecto['nombre_proyecto'];
+            for ($n=0; $n < count($data_gasto_final); $n++) { 
+                $data_gasto_final[$n]['nombre_proyecto'] = $data_proyecto['nombre_proyecto'];
+            }
             $data_gasto[$i] = $data_gasto_final[0];
 
             $temp_gasto = $gasto->_getgastoProyectoXfechaXactividad($wheretmp);
@@ -222,9 +224,12 @@ class Expense_IndexController extends Zend_Controller_Action {
             $codigo_prop_proy = $this->_getParam('codigo_prop_proy');
             $description = $this->_getParam('description');
             $tipo_gasto = $this->_getParam('tipo_gasto');
+            $lab_cantidad = $this->_getParam('lab_cantidad');
+            $lab_pu = $this->_getParam('lab_pu');
             $cliente = $this->_getParam('cliente');
             $reembolsable = $this->_getParam('reembolsable');
             $documento = $this->_getParam('documento');
+            $fecha = $this->_getParam('fecha');
             $proveedor = $this->_getParam('proveedor');
             $monto = $this->_getParam('monto');
             $otro_impuesto = $this->_getParam('otro_impuesto');
@@ -240,8 +245,11 @@ class Expense_IndexController extends Zend_Controller_Action {
                 $data = array();
                 $data['descripcion'] = $description[$i];
                 $data['gastoid'] = $tipo_gasto[$i];
+                $data['laboratorio_cantidad'] = $lab_cantidad[$i];
+                $data['laboratorio_PU'] = $lab_pu[$i];
                 $data['bill_cliente'] = $cliente[$i];
                 $data['reembolsable'] = $reembolsable[$i];
+                $data['fecha_factura'] = $fecha[$i];
                 $data['num_factura'] = $documento[$i];
                 $data['proveedor'] = $proveedor[$i];
                 $data['monto_igv'] = $monto[$i];

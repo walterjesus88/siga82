@@ -21,6 +21,7 @@ class Timesheet_IndexController extends Zend_Controller_Action {
 
     public function calendarAction(){
         try {
+            
         $uid = $this->sesion->uid;
         $dni = $this->sesion->dni;
         $equipo = new Admin_Model_DbTable_Equipo();
@@ -458,15 +459,14 @@ class Timesheet_IndexController extends Zend_Controller_Action {
         $data['h_real']="";
         $data['fecha_tarea']=$fecha_tarea= $this->_getParam('fecha_tarea');
         $data['fecha_modificacion']=$diaactual;
-        $semanaid=$this->_getParam('semanaid');
         $data['semanaid']=$semanaid= $this->_getParam('semanaid');
         $data['fecha_planificacion']=$fecha_tarea;
-        $data['tipo_actividad']=$tipo_actividad= 'G';
+        $data['tipo_actividad']='G';
         $data['fecha_creacion']=$fecha_tarea;
         $data['cargo']=$cargo;
         $data['areaid']=$areaid;
         //datos para ctualizar
-        $datos['h_real']="";
+    
         //$updatetareopersona = new Admin_Model_DbTable_Tareopersona();    
         /*$str="codigo_prop_proy='$codigo_prop_proy' and proyectoid='$proyectoid' and 
         categoriaid='$categoriaid' and actividadid='$actividadid' and 
@@ -477,9 +477,11 @@ class Timesheet_IndexController extends Zend_Controller_Action {
         $tareopersona = new Admin_Model_DbTable_Tareopersona();
         $data_tareopersona = $tareopersona->_save($data);
         if ($data_tareopersona){
+
         ?>
+
           <script>                  
-            //alert("Se guardo satisfactoriamente");
+           //alert("Se guardo satisfactoriamente");
            // document.location.href="/timesheet/index/calendar";
              
           </script>
@@ -487,6 +489,14 @@ class Timesheet_IndexController extends Zend_Controller_Action {
             
         } else
         {
+            ?>
+
+          <script>                  
+           //alert("No Se guardo satisfactoriamente");
+           // document.location.href="/timesheet/index/calendar";
+             
+          </script>
+        <?php
         
                 /*$str="codigo_prop_proy='$codigo_prop_proy' and proyectoid='$proyectoid' and 
             categoriaid='$categoriaid' and actividadid='$actividadid' and 
@@ -565,25 +575,8 @@ public function eliminartareoAction(){
             'tipo_actividad'   =>$tipo_actividad,
         ); 
 
-       $tareopersona->_deleteTareasEtapaEjecucion($pk1);
-        if ($tareopersona->_delete($pk)){
-            ?>
-              <script>      
-           //  alert("eliminado");
-              </script>
-            <?php
-
-          
-            
-
-        }else
-        {
-            ?>
-              <script>                  
-                alert("No se elimino");
-              </script>
-            <?php
-        }
+        $tareopersona->_deleteTareasEtapaEjecucion($pk1);
+        $tareopersona->_delete($pk);
        
         } catch (Exception $e) {
             print "Error: ".$e->getMessage();
