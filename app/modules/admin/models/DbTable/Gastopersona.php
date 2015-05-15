@@ -26,6 +26,16 @@ class Admin_Model_DbTable_Gastopersona extends Zend_Db_Table_Abstract
         }
     }
 
+    public function _update($data,$str){
+        try{
+            if ($str['codigo_prop_proy']=='' ||  $str['proyectoid']=='' || $str['gasto_persona_id']=='') return false;
+            $where = "codigo_prop_proy = '".$str['codigo_prop_proy']."' and proyectoid='".$str['proyectoid']."' and gasto_persona_id='".$str['gasto_persona_id']."'";
+            return $this->update($data,$where);
+        }catch (Exception $ex){
+            print "Error: Actualizando un registro ".$ex->getMessage();
+        }
+    }
+
     public function _delete($gasto_persona_id){
         try{
             if ($gasto_persona_id=='') return false;
