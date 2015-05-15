@@ -1,50 +1,24 @@
+<section class="panel">
+    <header class="panel-heading" style="padding-bottom : 17px">
+        Lista de Proyectos / Actividades
+        <span class="pull-right">
+            <a id = "guardar_gastos" class="btn btn-success pull-right btn-sm" href="##">
+                <i class="fa fa-save"></i> Guardar
+            </a>
+            <a id = "enviar_gasto" class="btn btn-warning pull-right btn-sm" href="##" style="margin-right : 10px">
+                <i class="fa fa-chevron-circle-right"></i> Enviar
+            </a>
+        </span>
+    </header>
+</section>
+
 <div class="row">
     <div class="col-sm-12">
-<<<<<<< HEAD
-        <section class="panel">
-            <header class="panel-heading">
-                  Actividades
-                <span class="tools pull-right">
-                    <a href="javascript:;" class="fa fa-chevron-down"></a>
-                </span>
-            </header>
-            <div class="panel-body">
-                <div class="adv-table">
-                    <table  class="display table table-bordered table-striped">
-                        <thead>
-                            <tr >
-                                <th>Proyecto / Actividades</th>
-                                <th>Fecha</th>
-                                <th>Descripción</th>
-                                <th>Tipo de Gasto</th>
-                                <th>Monto Neto</th>
-                                <th>IGV</th>
-                                <th>Monto Total</th>
-                            </tr>
-                        </thead>
-                        <!--
-                        <tbody>
-                        <?php 
-                        $gasto = $this->gasto;
-                        foreach ($gasto as $data_gasto) { ?>
-                            <tr class="gradeX">
-                                <td><?php echo ($data_gasto['actividadid'])? $data_gasto['actividadid']: $data_gasto['proyectoid']; ?></td>
-                                <td><?php echo $data_gasto['fecha_gasto'] ?></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                        <?php
-                        }
-                         ?>
-                        </tbody>-->
-                    </table>
-=======
+    <form action="" id="form_gastos">
     <?php 
     $gasto = $this->gasto;
     if ($gasto) {
+        $j = 0;
         foreach ($gasto as $data_gasto) { ?>
             <section class="panel">
                 <header class="panel-heading modal-header">
@@ -59,7 +33,12 @@
                                     <th>Proyecto / Actividades</th>
                                     <th>Descripción</th>
                                     <th>Tipo de Gasto</th>
+                                    <th>Cliente</th>
+                                    <th>Reembol.</th>
+                                    <th>N° Documento</th>
+                                    <th>Proveedor</th>
                                     <th>Monto Neto</th>
+                                    <th>Otro Impuesto</th>
                                     <th>IGV</th>
                                     <th>Monto Total</th>
                                 </tr>
@@ -82,29 +61,56 @@
                                         echo ($data_actividades['actividadid'])? $data_actividades['actividadid']. ' - ' .$data_actividades['nombre']: $data_actividades['proyectoid']. ' - ' .$data_actividades['nombre_proyecto'];
                                         ?>
                                     </td>
-                                    <td><input name="description" type="text" class="form-control"/></td>
+                                    <td><input name="description[]" type="text" class="form-control" value="<?php echo ($data_actividades['descripcion'])? $data_actividades['descripcion'] : ''; ?>" /></td>
                                     <td>
-                                        <select name="tipo_gasto" class="form-control">
-                                            <option value="">- Seleccione -</option>
+                                        <select name="tipo_gasto[]" class="list_gasto form-control">
+                                            <?php if ($this->list_gastos): ?>
+                                                <option value="">Seleccione</option>
+                                                <?php foreach ($this->list_gastos as $list_gastos): ?>
+                                                    <option value="<?php echo $list_gastos['gastoid'] ?>" <?php print ($data_actividades['gastoid']==$list_gastos['gastoid'])? 'selected' : ''; ?>><?php echo $list_gastos['gastoid'].' - '.$list_gastos['nombre_gasto'] ?></option>
+                                                <?php endforeach ?>
+                                            <?php else: ?>
+                                                <option value="">No Existen Gastos</option>
+                                            <?php endif ?>
                                         </select>
                                     </td>
                                     <td>
-                                        <center><input name="monto" type="text" class="form-control" style="width : 70px"></center>
+                                        <center>
+                                            <input name="cliente[<?php echo $j?>]" type="checkbox" class="form-control" style="width : 15px" value="TRUE" <?php print ($data_actividades['bill_cliente']=='TRUE')? 'checked' : ''; ?>/>
+                                        </center>
                                     </td>
                                     <td>
-                                        <center><input name="igv" type="text" class="form-control" style="width : 50px"></center>
+                                        <center><input name="reembolsable[<?php echo $j?>]" type="checkbox" class="form-control"   style="width : 15px" value="TRUE" <?php print ($data_actividades['reembolsable']=='TRUE')? 'checked' : ''; ?>/></center>
                                     </td>
                                     <td>
-                                        <center><input name="monto_total" type="text" class="form-control" style="width : 70px"></center>
+                                        <center><input name="documento[]" type="text" class="form-control" style="width : 70px"></center>
                                     </td>
+                                    <td>
+                                        <center><input name="proveedor[]" type="text" class="form-control" style="width : 70px"></center>
+                                    </td>
+                                    <td>
+                                        <center><input name="monto[]" type="text" class="form-control" style="width : 70px"></center>
+                                    </td>
+                                    <td>
+                                        <center><input name="otro_impuesto[]" type="text" class="form-control" style="width : 50px"></center>
+                                    </td>
+                                    <td>
+                                        <center><input name="igv[]" type="text" class="form-control" style="width : 50px"></center>
+                                    </td>
+                                    <td>
+                                        <center><input name="monto_total[]" type="text" class="form-control" style="width : 70px"></center>
+                                    </td>
+                                    <input type="hidden" name="gasto_persona_id[]" value="<?php echo $data_actividades['gasto_persona_id'] ?>"/>
+                                    <input type="hidden" name="codigo_prop_proy[]" value="<?php echo $data_actividades['codigo_prop_proy'] ?>"/>
+                                    <input type="hidden" name="proyectoid[]" value="<?php echo $data_actividades['proyectoid'] ?>"/>
                                 </tr>
                             <?php
+                            $j++;
                             }
                              ?>
                             </tbody>
                         </table>
                     </div>
->>>>>>> 6d571bf1dca49c3eced9a9b346a81ef683463e06
                 </div>
             </section>
             
@@ -112,7 +118,7 @@
         }
     }
      ?>
-
+    </form>
     </div>
 </div>
 <div id="load_duplicidad"></div>
@@ -136,5 +142,27 @@
         url = "/expense/index/eliminargastopersona/gasto_persona_id/"+gasto_persona_id;
         $("#load_duplicidad").load(url);
         $("#ingreso").load("/expense/index/ingreso/");
+    });
+
+    $('#guardar_gastos').click(function(){
+        $.ajax({
+            type   : 'post',
+            url    : '/expense/index/updategastopersona/',
+            data   : $('#form_gastos').serialize(),
+            success: function(data){
+                alert("El gasto fue registrado.");
+            }
+        });
+    });
+
+    $('#enviar_gasto').click(function(){
+        $.ajax({
+            type   : 'post',
+            url    : '/expense/index/updateenviargastopersona/',
+            data   : $('#form_gastos').serialize(),
+            success: function(data){
+                alert("El gasto fue enviado.");
+            }
+        });
     });
 </script>

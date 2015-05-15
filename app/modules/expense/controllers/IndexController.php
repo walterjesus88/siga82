@@ -170,6 +170,10 @@ class Expense_IndexController extends Zend_Controller_Action {
             $data_gasto[$i]['actividades'] = ($temp_gasto)? $temp_gasto : $data_gasto_final;
         }
         $this->view->gasto = $data_gasto;
+
+        $gastos = new Admin_Model_DbTable_Listagasto();
+        $data_list_gastos = $gastos->_getGastosAll();
+        $this->view->list_gastos = $data_list_gastos;
         } catch (Exception $e) {
             print "Error: ".$e->getMessage();
         }
@@ -199,11 +203,75 @@ class Expense_IndexController extends Zend_Controller_Action {
             $data ['fecha_gasto'] = date("Y-m-d");
             $data ['gastoid'] = 1;
             $data ['revision'] = $revision;
+            $data ['estado_rendicion'] = 'B';
             if ($actividadid) {
                 $data ['actividadid'] = $actividadid;
             }
             $gasto = new Admin_Model_DbTable_Gastopersona();
             $gasto->_save($data);
+        } catch (Exception $e) {
+            print "Error: ".$e->getMessage();
+        }
+    }
+
+    public function updategastopersonaAction(){
+        try {
+            $this->_helper->layout()->disableLayout();
+            $gasto_persona_id = $this->_getParam('gasto_persona_id');
+            $proyectoid = $this->_getParam('proyectoid');
+            $codigo_prop_proy = $this->_getParam('codigo_prop_proy');
+            $description = $this->_getParam('description');
+            $tipo_gasto = $this->_getParam('tipo_gasto');
+            $cliente = $this->_getParam('cliente');
+            $reembolsable = $this->_getParam('reembolsable');
+            $documento = $this->_getParam('documento');
+            $proveedor = $this->_getParam('proveedor');
+            $monto = $this->_getParam('monto');
+            $otro_impuesto = $this->_getParam('otro_impuesto');
+            $igv = $this->_getParam('igv');
+            $monto_total = $this->_getParam('monto_total');
+            $gasto = new Admin_Model_DbTable_Gastopersona();
+            for ($i=0; $i < count($gasto_persona_id); $i++) { 
+                $pk = array();
+                $pk = array(
+                    'gasto_persona_id'=>$gasto_persona_id[$i],
+                    'proyectoid'=>$proyectoid[$i],
+                    'codigo_prop_proy'=>$codigo_prop_proy[$i]);
+                $data = array();
+                $data['descripcion'] = $description[$i];
+                $data['gastoid'] = $tipo_gasto[$i];
+                $data['bill_cliente'] = $cliente[$i];
+                $data['reembolsable'] = $reembolsable[$i];
+                $data['num_factura'] = $documento[$i];
+                $data['proveedor'] = $proveedor[$i];
+                $data['monto_igv'] = $monto[$i];
+                $data['otro_impuesto'] = $otro_impuesto[$i];
+                $data['igv'] = $igv[$i];
+                $data['monto_total'] = $monto_total[$i];
+                $gasto->_update($data, $pk);
+            }
+        } catch (Exception $e) {
+            print "Error: ".$e->getMessage();
+        }
+    }
+
+    public function updateenviargastopersonaAction(){
+        try {
+            $this->_helper->layout()->disableLayout();
+            $gasto_persona_id = $this->_getParam('gasto_persona_id');
+            $proyectoid = $this->_getParam('proyectoid');
+            $codigo_prop_proy = $this->_getParam('codigo_prop_proy');
+            $gasto = new Admin_Model_DbTable_Gastopersona();
+            for ($i=0; $i < count($gasto_persona_id); $i++) { 
+                $pk = array();
+                $pk = array(
+                    'gasto_persona_id'=>$gasto_persona_id[$i],
+                    'proyectoid'=>$proyectoid[$i],
+                    'codigo_prop_proy'=>$codigo_prop_proy[$i]);
+                $data = array();
+                $data['estado_rendicion'] ='E';
+                $gasto->_update($data, $pk);
+            }
         } catch (Exception $e) {
             print "Error: ".$e->getMessage();
         }
