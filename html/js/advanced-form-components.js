@@ -110,7 +110,7 @@ $(".form_datetime-meridian").datetimepicker({
 //datetime picker end
 
 //timepicker start
-$('.timepicker-default').timepicker();
+/*$('.timepicker-default').timepicker();
 
 
 $('.timepicker-24').timepicker({
@@ -118,23 +118,23 @@ $('.timepicker-24').timepicker({
     minuteStep: 1,
     showSeconds: true,
     showMeridian: false
-});
+});*/
 
 //timepicker end
 
 //colorpicker start
 
-$('.colorpicker-default').colorpicker({
+/*$('.colorpicker-default').colorpicker({
     format: 'hex'
 });
-$('.colorpicker-rgba').colorpicker();
+$('.colorpicker-rgba').colorpicker();*/
 
 //colorpicker end
 
 //multiselect start
 
 
-    $('#my_multi_select1').multiSelect();
+/*    $('#my_multi_select1').multiSelect();
     $('#my_multi_select2').multiSelect({
         selectableOptgroup: true
     });
@@ -173,7 +173,7 @@ $('.colorpicker-rgba').colorpicker();
             this.qs1.cache();
             this.qs2.cache();
         }
-    });
+    });*/
 
 
 //multiselect end
@@ -190,6 +190,6 @@ $('#spinner4').spinner({value:0, step: 5, min: 0, max: 200});
 
 //wysihtml5 start
 
-$('.wysihtml5').wysihtml5();
+//$('.wysihtml5').wysihtml5();
 
 //wysihtml5 end
