@@ -277,13 +277,19 @@
                         var uid="<?php echo $this->uid ?>";
                         var dni_="<?php echo $this->dni ?>";
                         var fechainiciomod="<?php echo $this->fecha_inicio_mod ?>";
+                        var fecha="<?php echo $this->fecha ?>";
+                        var fechaz="<?php echo $data_tareo['fecha_tarea'] ?>";
                         
-                              
-
                         var url="/timesheet/index/updatetareoreal/codigo_prop_proy/"+codigo_prop_proy+"/codigo_actividad/"+codigo_actividad+"/actividadid/"+actividadid+"/revision/"+revision+"/actividad_padre/"+actividad_padre+"/proyectoid/"+proyectoid+"/semanaid/"+semanaid+"/fecha_tarea/"+fecha_tarea+"/asignado/"+asignado+"/areaid/"+areaid+"/categoriaid/"+categoriaid+"/dni/"+dni+"/cargo/"+cargo+"/horareal/"+hora_real+"/tipo_actividad/"+tipo_actividad+"/etapa/"+etapa+"/actividad_generalid/"+actividad_generalid;    
+                              
+                        if($("#carga").load(url)) {
 
-                        $("#carga").load(url);
-                   
+                          var url2='/timesheet/index/sumahoras/semanaid/'+semanaid+'/fecha/'+fecha_tarea+'/fechainiciomod/'+fecha_tarea+'/uid/'+uid+'/dni/'+dni_+'/cargo/'+cargo;  
+                          //alert(url2);
+                          $("#sumahoras<?php echo $i ?>").load(url2);
+                          $("#fecha_<?php echo $i?>").hide();
+                          
+                        }                     
 
                       });
                     });
@@ -298,7 +304,7 @@
                   $nuevafecha = strtotime ( '+1 day' , strtotime ( $newDate ) ) ;
                   $fecha = date ( 'Y-m-d' , $nuevafecha );?>
                 <?php }
-                ?>          sumahoras 
+                ?>         
             </tr>
 
               <script type="text/javascript">
@@ -602,12 +608,16 @@
               $fecha = $this->fecha;
               $fecha = date("Y-m-d", strtotime($fecha));
               for ($i=0; $i < 7; $i++) { ?>
-              <th style="width: 100px;"><center>
-                <div id="fecha_<?php echo $i?>">
-                <?php  $tareopersona = new Admin_Model_DbTable_Tareopersona();
-                $sumar=$tareopersona-> _getHorasRealxDia($data_tareo['semanaid'],$fecha,$uid,$dni,$data_tareo['cargo']);
-                //print_r($sumar[0]['tareo_persona_horas_reales']); ?></center>
-                <div id="sumahoras">ddd</div>
+              <th style="width: 100px;">
+                <center>
+                  <div id="fecha_<?php echo $i?>">
+                    <?php  $tareopersona = new Admin_Model_DbTable_Tareopersona();
+                    $sumar=$tareopersona-> _getHorasRealxDia($data_tareo['semanaid'],$fecha,$uid,$dni,$data_tareo['cargo']);
+                    print_r($sumar[0]['tareo_persona_horas_reales']); ?>
+                  </div>
+                </center>
+
+                <center><div id="sumahoras<?php echo $i ?>"></div></center>
 
               </th>
                 <?php

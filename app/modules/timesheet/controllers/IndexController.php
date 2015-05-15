@@ -208,6 +208,8 @@ class Timesheet_IndexController extends Zend_Controller_Action {
         $datos_tareopersona_NB=$tareo_persona->_getTareoxPersonaxSemanaxNB($uid,$dni,$semana);
         //$data_tareo = $tareo->_getTareoXUid($where);
         $this->view->actividades= $datos_tareopersona;
+
+        //print_r($datos_tareopersona);
         $this->view->actividades_NB = $datos_tareopersona_NB;
         } catch (Exception $e) {
             print "Error: ".$e->getMessage();
@@ -818,24 +820,26 @@ $datos['tipo_actividad']='P';
     public function sumahorasAction(){
         try {
 
-            //semanaid/'+semanaid+/'fecha'/+fet+/'act'/+act+/'uid'/+uid+/'dni'/+dni_+/'cargo'/+cargo;
+    // '/timesheet/index/sumahoras/semanaid/'+semanaid+/'fecha'/+fecha+/'fechainiciomod'/+fechainiciomod+/'uid'/+uid+/'dni'/+dni_+/'cargo'/+cargo;  
+        $this->_helper->layout()->disableLayout();
+
         $semanaid = $this->_getParam('semanaid');
         $fecha = $this->_getParam('fecha');
-        $act = $this->_getParam('act');
+        $fecha_inicio_mod = $this->_getParam('fechainiciomod');    
         $uid = $this->_getParam('uid');
         $dni = $this->_getParam('dni');
         $cargo = $this->_getParam('cargo');
 
         $tareo_persona = new Admin_Model_DbTable_Tareopersona();
         $semana=date('W', strtotime($fecha_inicio_mod)); 
-        // $datos_tareopersona=$tareo_persona->_getTareoxPersonaxSemana($uid,$dni,$semana);
+        $datos_tareopersona=$tareo_persona->_getTareoxPersonaxSemana($uid,$dni,$semana);
       
-        // $this->view->actividades= $datos_tareopersona;
+        $this->view->actividades= $datos_tareopersona;
       
 
         $this->view->semanaid = $semanaid;
         $this->view->fecha = $fecha;
-        $this->view->act = $act;
+  
         $this->view->uid = $uid;
         $this->view->dni = $dni;
         $this->view->cargo = $cargo;

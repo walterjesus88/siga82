@@ -1,13 +1,8 @@
-   
-   $this->view->semanaid = $semanaid;
-        $this->view->fecha = $fecha;
-        $this->view->act = $act;
-        $this->view->uid = $uid;
-        $this->view->dni = $dni;
 
 
 
-    <?php if ( $this->act) {?>
+
+      <?php if ( $this->actividades) {?>
        
             <?php 
               $uid=$this->uid;
@@ -21,12 +16,11 @@
               
                 <?php  $tareopersona = new Admin_Model_DbTable_Tareopersona();
                 $sumar=$tareopersona-> _getHorasRealxDia($semanaid,$fecha,$uid,$dni,$cargo);
-                print_r($sumar[0]['tareo_persona_horas_reales']); ?></center>
-                <div id="sumahoras">ddd</div>
-
+                print_r($sumar[0]['tareo_persona_horas_reales']); ?>
              
                 <?php
-                  $newDate = date("Y-m-d", strtotime($fecha));
-                  $nuevafecha = strtotime ( '+1 day' , strtotime ( $newDate ) ) ;
-                  $fecha = date ( 'Y-m-d' , $nuevafecha );
-                //}?>
+                  // $newDate = date("Y-m-d", strtotime($fecha));
+                  // $nuevafecha = strtotime ( '+1 day' , strtotime ( $newDate ) ) ;
+                  // $fecha = date ( 'Y-m-d' , $nuevafecha );
+               // }
+              }?>
