@@ -21,6 +21,7 @@ class Timesheet_IndexController extends Zend_Controller_Action {
 
     public function calendarAction(){
         try {
+            
         $uid = $this->sesion->uid;
         $dni = $this->sesion->dni;
         $equipo = new Admin_Model_DbTable_Equipo();
@@ -480,7 +481,7 @@ class Timesheet_IndexController extends Zend_Controller_Action {
         ?>
 
           <script>                  
-           alert("Se guardo satisfactoriamente");
+           //alert("Se guardo satisfactoriamente");
            // document.location.href="/timesheet/index/calendar";
              
           </script>
@@ -491,7 +492,7 @@ class Timesheet_IndexController extends Zend_Controller_Action {
             ?>
 
           <script>                  
-           alert("No Se guardo satisfactoriamente");
+           //alert("No Se guardo satisfactoriamente");
            // document.location.href="/timesheet/index/calendar";
              
           </script>
@@ -574,25 +575,8 @@ public function eliminartareoAction(){
             'tipo_actividad'   =>$tipo_actividad,
         ); 
 
-       $tareopersona->_deleteTareasEtapaEjecucion($pk1);
-        if ($tareopersona->_delete($pk)){
-            ?>
-              <script>      
-           //  alert("eliminado");
-              </script>
-            <?php
-
-          
-            
-
-        }else
-        {
-            ?>
-              <script>                  
-                alert("No se elimino");
-              </script>
-            <?php
-        }
+        $tareopersona->_deleteTareasEtapaEjecucion($pk1);
+        $tareopersona->_delete($pk);
        
         } catch (Exception $e) {
             print "Error: ".$e->getMessage();
