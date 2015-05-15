@@ -1,16 +1,35 @@
-<section class="panel">
-    <header class="panel-heading" style="padding-bottom : 17px">
-        Lista de Proyectos / Actividades
-        <span class="pull-right">
-            <a id = "guardar_gastos" class="btn btn-success pull-right btn-sm" href="##">
-                <i class="fa fa-save"></i> Guardar
-            </a>
-            <a id = "enviar_gasto" class="btn btn-warning pull-right btn-sm" href="##" style="margin-right : 10px">
-                <i class="fa fa-chevron-circle-right"></i> Enviar
-            </a>
-        </span>
-    </header>
-</section>
+<?php 
+if ($this->gasto) { ?>
+<div class="row">
+    <div class="col-lg-4">
+        <section class="panel">
+            <div class="panel-body">
+            <p>N° Rendición</p>
+            <p>Título Rendición</p>
+            </div>
+        </section>
+    </div>
+    <div class="col-lg-4">
+        <section class="panel">
+            <div class="panel-body" style="padding : 10x 10px">
+            <p>Fecha : <?php echo date("d-m-Y")?></p>
+            <p>Total Reembolso</p>
+            </div>
+        </section>
+    </div>
+    <div class="col-lg-4">
+        <section class="panel">
+            <div class="panel-body" style="padding : 28px 15px 28px 15px">
+                <a id="guardar_gastos" class="btn btn-success pull-right btn-sm" href="##">
+                    <i class="fa fa-save"></i> Guardar
+                </a>
+                <a id="enviar_gasto" class="btn btn-warning pull-right btn-sm" href="##" style="margin-right : 10px">
+                    <i class="fa fa-chevron-circle-right"></i> Enviar
+                </a>
+            </div>
+        </section>
+    </div>
+</div>
 
 <div class="row">
     <div class="col-sm-12">
@@ -21,20 +40,23 @@
         $j = 0;
         foreach ($gasto as $data_gasto) { ?>
             <section class="panel">
-                <header class="panel-heading modal-header">
+                <header class="panel-heading modal-header" style="padding : 7px">
                       <?php echo $data_gasto['proyectoid']. ' - ' .$data_gasto['nombre_proyecto'] ?>
                 </header>
                 <div class="panel-body">
                     <div class="adv-table">
-                        <table  class="display table table-bordered table-striped">
+                        <table class="display table table-bordered table-striped table-condensed" style="font-size:11px">
                             <thead>
                                 <tr>
-                                    <th style="width : 70px"></th>
+                                    <th style="width : 30px"></th>
                                     <th>Proyecto / Actividades</th>
                                     <th>Descripción</th>
-                                    <th>Tipo de Gasto</th>
+                                    <th>Gasto</th>
+                                    <th>Cantidad</th>
+                                    <th>PU</th>
                                     <th>Cliente</th>
                                     <th>Reembol.</th>
+                                    <th>Fecha</th>
                                     <th>N° Documento</th>
                                     <th>Proveedor</th>
                                     <th>Monto Neto</th>
@@ -49,11 +71,11 @@
                                 <tr class="gradeX">
                                     <td>
                                         <a href="##" class="btn btn-warning btn-xs duplicar_actividad" title="Duplicar" codigo-prop-proy="<?php echo $data_actividades['codigo_prop_proy'] ?>" proyectoid="<?php echo $data_actividades['proyectoid'] ?>" categoriaid="<?php echo $data_actividades['categoriaid'] ?>" areaid = "<?php echo $data_actividades['areaid'] ?>" revision = "<?php echo $data_actividades['revision'] ?>" actividadid = "<?php echo $data_actividades['actividadid'] ?>" cargo = "<?php echo $data_actividades['cargo'] ?>">
-                                            <i class="fa fa-plus-square"></i>
+                                            <strong>+</strong>
                                         </a>
                                         
-                                        <a href="##" class="btn btn-danger btn-xs delete_actividad" title="Eliminar" gasto-persona-id = "<?php echo $data_actividades['gasto_persona_id'] ?>">
-                                            <i class="fa fa-minus-square"></i>
+                                        <a href="##" class="btn btn-danger btn-xs delete_actividad" title="Eliminar" gasto-persona-id = "<?php echo $data_actividades['gasto_persona_id'] ?>" style="margin-top: 2px">
+                                            <strong>-</strong>
                                         </a>
                                     </td>
                                     <td>
@@ -75,12 +97,21 @@
                                         </select>
                                     </td>
                                     <td>
+                                        <center><input name="lab_cantidad[]" type="text" class="form-control" style="width : 50px" value="<?php echo ($data_actividades['laboratorio_cantidad'])? $data_actividades['laboratorio_cantidad'] : ''; ?>"></center>
+                                    </td>
+                                    <td>
+                                        <center><input name="lab_pu[]" type="text" class="form-control" style="width : 50px" value="<?php echo ($data_actividades['laboratorio_PU'])? $data_actividades['laboratorio_PU'] : ''; ?>" <?php echo ($data_actividades['gastoid'] == '')? readonly: '';?>></center>
+                                    </td>
+                                    <td>
                                         <center>
                                             <input name="cliente[<?php echo $j?>]" type="checkbox" class="form-control" style="width : 15px" value="TRUE" <?php print ($data_actividades['bill_cliente']=='TRUE')? 'checked' : ''; ?>/>
                                         </center>
                                     </td>
                                     <td>
                                         <center><input name="reembolsable[<?php echo $j?>]" type="checkbox" class="form-control"   style="width : 15px" value="TRUE" <?php print ($data_actividades['reembolsable']=='TRUE')? 'checked' : ''; ?>/></center>
+                                    </td>
+                                    <td>
+                                        <center><input name="fecha[]" type="text" class="form-control datefactura" style="width : 70px" value="<?php echo ($data_actividades['fecha_factura'])? $data_actividades['fecha_factura'] : ''; ?>"></center>
                                     </td>
                                     <td>
                                         <center><input name="documento[]" type="text" class="form-control" style="width : 70px" value="<?php echo ($data_actividades['num_factura'])? $data_actividades['num_factura'] : ''; ?>"></center>
@@ -124,6 +155,8 @@
 <div id="load_duplicidad"></div>
 
 <script type="text/javascript">
+    $(".datefactura").datepicker();
+
     $(".duplicar_actividad").click(function(){
         var proyectoid = $(this).attr('proyectoid');
         var codigo_prop_proy = $(this).attr('codigo-prop-proy');
@@ -166,3 +199,6 @@
         });
     });
 </script>
+
+<?php 
+} ?>
