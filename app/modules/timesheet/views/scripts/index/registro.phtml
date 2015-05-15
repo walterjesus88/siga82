@@ -224,8 +224,6 @@
                 <!-- editable=true type="text" -->
                 <!--             "<?php //echo $data_tareo['codigo_prop_proy']."!".$data_tareo['codigo_actividad']."!".$data_tareo['actividadid']."!".$data_tareo['revision']."!".$data_tareo['actividad_padre']."!".$data_tareo['proyectoid']."!".$data_tareo['semanaid']."!".$fecha."!".$data_tareo['asignado']."!".$data_tareo['areaid']."!".$data_tareo['categoriaid']."!".$data_tareo['dni']."!".$data_tareo['cargo']."!".$data_tareo['tipo_actividad']."!".$data_tareo['etapa']."!".$i."!".$data_tareo['actividad_generalid'];?>" -->
 
-
-
                 <input  class="form-control" id="valor<?php echo $i?><?php echo $j?>" style="text-align: center;height: 26px; width: 40px; padding-right: 4px; padding-left: 4px;" maxlength="2" value="<?php if ($buscar_tarea) {
                     if($buscar_tarea[0]['h_real']=='0') { echo "";} else { print_r($buscar_tarea[0]['h_real']);}
                     }?>" >
@@ -234,11 +232,10 @@
 
                 <script type="text/javascript">
                   $(document).ready(function(){
-                    $("#valor<?php echo $i ?><?php echo $j?>").keyup(function(e){                                          
-                        var hora_real=$("#valor<?php echo $i?><?php echo $j?>").val();    
-                        //var hora_real = parseInt(hora);
-                        //var array_variables = variables_input.split("!"); 
+                    $("#valor<?php echo $i ?><?php echo $j?>").keyup(function(e){ 
+                        $("#valor<?php echo $i ?><?php echo $j?>").focus();
 
+                        var hora_real=$("#valor<?php echo $i?><?php echo $j?>").val(); 
                         var codigo_prop_proy="<?php echo $data_tareo['codigo_prop_proy'] ?>";
                         var codigo_actividad="<?php echo $data_tareo['codigo_actividad'] ?>";
                         var actividadid="<?php echo $data_tareo['actividadid'] ?>";
@@ -262,24 +259,71 @@
                         var fecha="<?php echo $this->fecha ?>";
                         var fechaz="<?php echo $data_tareo['fecha_tarea'] ?>";
 
-                        //if (isNaN(hora_real)) {
+
+                        if (isNaN(hora_real)) {
                            //entonces (no es numero) devuelvo el valor cadena vacia 
-                           //alert('la hora no puede ser una letra');
+                           alert('la hora no puede ser una letra');
                            //e.preventDefault();
-                        //}else{ 
+                        }else{ 
                            //En caso contrario (Si era un número) devuelvo el valor 
-                          var url="/timesheet/index/updatetareoreal/codigo_prop_proy/"+codigo_prop_proy+"/codigo_actividad/"+codigo_actividad+"/actividadid/"+actividadid+"/revision/"+revision+"/actividad_padre/"+actividad_padre+"/proyectoid/"+proyectoid+"/semanaid/"+semanaid+"/fecha_tarea/"+fecha_tarea+"/asignado/"+asignado+"/areaid/"+areaid+"/categoriaid/"+categoriaid+"/dni/"+dni+"/cargo/"+cargo+"/horareal/"+hora_real+"/tipo_actividad/"+tipo_actividad+"/etapa/"+etapa+"/actividad_generalid/"+actividad_generalid;    
+                          var url="/timesheet/index/updatetareoreal/codigo_prop_proy/"+codigo_prop_proy+"/codigo_actividad/"+codigo_actividad+"/actividadid/"+actividadid+"/revision/"+revision+"/actividad_padre/"+actividad_padre+"/proyectoid/"+proyectoid+"/semanaid/"+semanaid+"/fecha_tarea/"+fecha_tarea+"/asignado/"+asignado+"/areaid/"+areaid+"/categoriaid/"+categoriaid+"/dni/"+dni+"/cargo/"+cargo+"/horareal/"+hora_real+"/tipo_actividad/"+tipo_actividad+"/etapa/"+etapa+"/actividad_generalid/"+actividad_generalid;  
 
-                          //alert(url);
-                              
-                          if($("#carga").load(url)) {
+                          var url2='/timesheet/index/traersumahoras/semanaid/'+semanaid+'/fecha/'+fecha_tarea+'/fechainiciomod/'+fecha_tarea+'/uid/'+uid+'/dni/'+dni_+'/cargo/'+cargo;   
+                          //alert(url);            
 
-                            var url2='/timesheet/index/traersumahoras/semanaid/'+semanaid+'/fecha/'+fecha_tarea+'/fechainiciomod/'+fecha_tarea+'/uid/'+uid+'/dni/'+dni_+'/cargo/'+cargo;  
+                           $.ajax({
+                                    type: "POST",
+                                    url: url,
+                                    data: $(this).serialize(),
+                                    dataType: "html",                                                 
+                                    error: function(){
+                                          alert("error petición ajax load");
+                                    },
+                                    success: function(data){      
+                                          //console.log('agg');                                              
+                                          $("#carga").empty();
+                                          $("#carga").append(data); 
+                                          //if (data.status==true) {
+
+                                              $.ajax({
+                                                    type: "POST",
+                                                    url: url2,
+                                                    data: $(this).serialize(),
+                                                    dataType: "html",                                                 
+                                                    error: function(){
+                                                      alert("error petición ajax load");
+                                                    },
+                                                    success: function(data){      
+                                                      //console.log('agg');                                              
+                                                      $("#sumahoras<?php echo $i ?>").empty();
+                                                      $("#sumahoras<?php echo $i ?>").append(data);                                     
+                                                      $("#fecha_<?php echo $i?>").hide();
+                 
+                                                    }
+                                              });
+                                          
+                                          //}
+                                                                         
+                                        
+                                    }
+                            });
+
+
+
+                          //if($("#carga").load(url))
+                         // {
+
+                            //console.log("#valor<?php echo $i ?><?php echo $j?>");
+
+                          
                             //alert(url2);
-                            $("#sumahoras<?php echo $i ?>").load(url2);
-                            $("#fecha_<?php echo $i?>").hide();
-                          } 
-                        //}             
+
+                     
+
+                            //$("#sumahoras<?php echo $i ?>").load(url2);
+                            //$("#fecha_<?php echo $i?>").hide();
+                          //} 
+                        }             
 
                       });
                     });
@@ -601,11 +645,22 @@
               for ($i=0; $i < 7; $i++) { ?>
               <th style="width: 100px;">
                 <center>
-                  <div id="fecha_<?php echo $i?>">
+
+                    <div id="fecha_<?php echo $i?>">
                     <?php  $tareopersona = new Admin_Model_DbTable_Tareopersona();
                     $sumar=$tareopersona-> _getHorasRealxDia($data_tareo['semanaid'],$fecha,$uid,$dni,$data_tareo['cargo']);
                     print_r($sumar[0]['tareo_persona_horas_reales']); ?>
-                  </div>
+                    </div>
+
+                  <!-- <div id="fecha_<?php //echo $i?>"> -->
+                  <?php                
+                  // $wheres=array('dni'=>$dni,'uid'=>$uid,'cargo'=>$data_tareo['cargo'],'semanaid'=>$data_tareo['semanaid'],'fecha_tarea'=>$fecha);
+                  // $sumhora=  new  Admin_Model_DbTable_Sumahora();
+                  // $sh=$sumhora->_getOne($wheres);
+                  // print_r($sh['h_totaldia']);
+                  ?>
+                  <!-- </div> -->
+
                 </center>
 
                 <center><div id="sumahoras<?php echo $i ?>"></div></center>
