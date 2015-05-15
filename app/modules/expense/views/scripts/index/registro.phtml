@@ -1,8 +1,8 @@
 <section class="panel">
-    <header class="panel-heading" style="padding-bottom : 22px">
+    <header class="panel-heading" style="padding-bottom : 17px">
         Rendición Gastos
         <span class="pull-right">
-            <a id = "agregar_gasto" class="btn btn-success pull-right btn-sm" data-toggle="modal" href="#add_gasto" style="margin-right : 10px">
+            <a id = "agregar_gasto" class="btn btn-primary pull-right btn-sm" data-toggle="modal" href="#add_gasto">
                 <i class="fa fa-check-square-o"></i> Agregar
             </a>
         </span>
@@ -24,7 +24,7 @@
                                 <?php 
                                 $equipo = $this->equipo;
                                 foreach ($equipo as $data_equipo) { ?>
-                                    <li >
+                                    <li>
                                         <a style="padding:5px 5px;" class="proyecto" codigo-prop-proy="<?php echo $data_equipo['codigo_prop_proy'] ?>" proyectoid="<?php echo $data_equipo['proyectoid'] ?>" categoriaid="<?php echo $data_equipo['categoriaid'] ?>" cargo = "<?php echo $data_equipo['cargo'] ?>" href="##">
                                             <i class="fa fa-rocket"></i>
                                             <span><?php echo $data_equipo['proyectoid']. ' - ' .$data_equipo['nombre_proyecto'] ?></span>
