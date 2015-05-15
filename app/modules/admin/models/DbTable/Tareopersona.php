@@ -289,7 +289,7 @@ class Admin_Model_DbTable_Tareopersona extends Zend_Db_Table_Abstract
             }  
             
            catch (Exception $ex){
-            print $ex->getMessage();
+           // print $ex->getMessage();
         }
     }
 
@@ -306,7 +306,7 @@ class Admin_Model_DbTable_Tareopersona extends Zend_Db_Table_Abstract
             }  
             
            catch (Exception $ex){
-            print $ex->getMessage();
+           // print $ex->getMessage();
         }
     }
 

@@ -28,24 +28,6 @@ class Timesheet_IndexController extends Zend_Controller_Action {
         $data_clientes = $equipo ->_getClienteXuidXEstado($uid,'A');
         $this->view->datoscliente = $data_clientes;
         $this->view->equipo = $data_equipo;
-
-       
-        /*IMPRESION INTERVALO FECHAS */
-        $ano=date("Y");
-        $semana=date("W");
-        $dias = array('lunes', 'martes', 'miercoles', 
-        'jueves', 'viernes', 'sabado','domingo');
-        $enero = mktime(1,1,1,1,1,$ano); 
-        $mos = (11-date('w',$enero))%7-3;
-        $inicios = strtotime(($semana-1) . ' weeks '.$mos.' days', $enero); 
-        for ($x=0; $x<=6; $x++) {
-        $dias[] = date('d/m/Y', strtotime("+ $x day", $inicios));
-        $dia[] = date('w', strtotime("+ $x day", $inicios));
-        }
-        $this->view->diassemana=$dias;
-        $this->view->semanalabor=$semana;
-        /*IMPRESION INTERVALO FECHAS */
-
          } catch (Exception $e) {
             print "Error: ".$e->getMessage();
         } 
