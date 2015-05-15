@@ -83,22 +83,22 @@
                                         <center><input name="reembolsable[<?php echo $j?>]" type="checkbox" class="form-control"   style="width : 15px" value="TRUE" <?php print ($data_actividades['reembolsable']=='TRUE')? 'checked' : ''; ?>/></center>
                                     </td>
                                     <td>
-                                        <center><input name="documento[]" type="text" class="form-control" style="width : 70px"></center>
+                                        <center><input name="documento[]" type="text" class="form-control" style="width : 70px" value="<?php echo ($data_actividades['num_factura'])? $data_actividades['num_factura'] : ''; ?>"></center>
                                     </td>
                                     <td>
-                                        <center><input name="proveedor[]" type="text" class="form-control" style="width : 70px"></center>
+                                        <center><input name="proveedor[]" type="text" class="form-control" style="width : 70px" value="<?php echo ($data_actividades['proveedor'])? $data_actividades['proveedor'] : ''; ?>"></center>
                                     </td>
                                     <td>
-                                        <center><input name="monto[]" type="text" class="form-control" style="width : 70px"></center>
+                                        <center><input name="monto[]" type="text" class="form-control" style="width : 70px" value="<?php echo ($data_actividades['monto_igv'])? $data_actividades['monto_igv'] : ''; ?>"></center>
                                     </td>
                                     <td>
-                                        <center><input name="otro_impuesto[]" type="text" class="form-control" style="width : 50px"></center>
+                                        <center><input name="otro_impuesto[]" type="text" class="form-control" style="width : 50px" value="<?php echo ($data_actividades['otro_impuesto'])? $data_actividades['otro_impuesto'] : ''; ?>"></center>
                                     </td>
                                     <td>
-                                        <center><input name="igv[]" type="text" class="form-control" style="width : 50px"></center>
+                                        <center><input name="igv[]" type="text" class="form-control" style="width : 50px" value="<?php echo ($data_actividades['igv'])? $data_actividades['igv'] : ''; ?>"></center>
                                     </td>
                                     <td>
-                                        <center><input name="monto_total[]" type="text" class="form-control" style="width : 70px"></center>
+                                        <center><input name="monto_total[]" type="text" class="form-control" style="width : 70px" value="<?php echo ($data_actividades['monto_total'])? $data_actividades['monto_total'] : ''; ?>"></center>
                                     </td>
                                     <input type="hidden" name="gasto_persona_id[]" value="<?php echo $data_actividades['gasto_persona_id'] ?>"/>
                                     <input type="hidden" name="codigo_prop_proy[]" value="<?php echo $data_actividades['codigo_prop_proy'] ?>"/>
