@@ -239,6 +239,18 @@ class Timesheet_IndexController extends Zend_Controller_Action {
         $tareopersona = new Admin_Model_DbTable_Tareopersona();
         $data_tareopersona = $tareopersona->_save($data);
 
+        // $data1['cargo']=$cargo;
+        // $data1['semanaid']=$semana;
+        // $data1['uid']=$uid;
+        // $data1['dni']=$dni;
+        // $data1['fecha_tarea']=$diaactual;
+
+        // $sumahora = new Admin_Model_DbTable_Sumahora();
+        // $data_sumahora = $sumahora->_save($data1);
+
+
+
+
         //$this->view->tareas = $data_tareas;
         $this->view->proyectoid = $proyectoid;
         $this->view->codigo_prop_proy = $codigo_prop_proy;
@@ -310,6 +322,26 @@ class Timesheet_IndexController extends Zend_Controller_Action {
         $tareopersona = new Admin_Model_DbTable_Tareopersona();
         $data_tareopersona = $tareopersona->_save($data);
         if ($data_tareopersona){
+
+            $data1['cargo']=$cargo;
+            $data1['semanaid']=$semana;
+            $data1['uid']=$uid;
+            $data1['dni']=$dni;
+            $data1['fecha_tarea']=$fecha_tarea= $this->_getParam('fecha_tarea');
+            $data1['h_totaldia']=$h_real= $this->_getParam('horareal');
+
+            $wheres=array('dni'=>$dni,'uid'=>$uid,'cargo'=>$cargo,'semanaid'=>$semana,'fecha_tarea'=>$fecha_tarea);
+
+            $sumahora = new Admin_Model_DbTable_Sumahora();
+            if($versum=$sumahora->_getOne($wheres))
+            {
+            }
+            else
+            {
+                $data_sumahora = $sumahora->_save($data1);                
+
+            }
+
         ?>
           <script>                  
           //  alert("Se guardo satisfactoriamente");
@@ -331,6 +363,7 @@ class Timesheet_IndexController extends Zend_Controller_Action {
             and  estado='A' 
             ";
           //  echo $str;
+
             $update=$tareopersona -> _update($datos,$str);
         }
        
@@ -840,5 +873,44 @@ $datos['tipo_actividad']='P';
             print "Error: ".$e->getMessage();
         }
     }
+
+
+    public function traersumahorasAction(){
+        try {
+
+    // '/timesheet/index/sumahoras/semanaid/'+semanaid+/'fecha'/+fecha+/'fechainiciomod'/+fechainiciomod+/'uid'/+uid+/'dni'/+dni_+/'cargo'/+cargo;  
+        $this->_helper->layout()->disableLayout();
+
+        $semanaid = $this->_getParam('semanaid');
+        $fecha = $this->_getParam('fecha');
+        $fecha_inicio_mod = $this->_getParam('fechainiciomod');    
+        $uid = $this->_getParam('uid');
+        $dni = $this->_getParam('dni');
+        $cargo = $this->_getParam('cargo');
+
+        $wheres=array('dni'=>$dni,'uid'=>$uid,'cargo'=>$cargo,'semanaid'=>$semanaid,'fecha_tarea'=>$fecha);
+
+        $sumahora = new Admin_Model_DbTable_Sumahora();
+        $versum=$sumahora->_getOne($wheres);
+
+        //print_r($versum);
+        //echo $this->versum['h_totaldia'];
+      
+        $this->view->versum= $versum;
+      
+
+        $this->view->semanaid = $semanaid;
+        $this->view->fecha = $fecha;
+  
+        $this->view->uid = $uid;
+        $this->view->dni = $dni;
+        $this->view->cargo = $cargo;
+
+        }
+        catch (Exception $e) {
+            print "Error: ".$e->getMessage();
+        }
+    }
+
 
 }
