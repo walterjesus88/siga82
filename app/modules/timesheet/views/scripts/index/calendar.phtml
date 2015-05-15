@@ -1,60 +1,76 @@
 <body onload="cargar()"> 
 <section class="panel">
-    <header class="panel-heading" style="padding-bottom : 22px">
 
-        <h5> Hoja de Tiempo Semana <?php echo $this->semanalabor; echo ": ";?></h5><?php
-         print_r($this->diassemana[7]); echo "-"; print_r($this->diassemana[13]);?>
-        
-          
-
-        <span class="pull-right">
-
+<header class="panel-heading" style="padding-bottom : 10px">
        
-
-        <a class="btn btn-danger pull-right btn-xs" data-toggle="modal" href="#calendar">
+ Hoja de Tiempo 
+       
+  <a class="btn btn-danger pull-right btn-xs" data-toggle="modal" href="#calendar">
             <i class="fa fa-calendar"></i> Calendario
         </a>
+        
+           
+         <a id = "" class="btn btn-primary pull-right btn-xs"  href="" style="margin-right : 10px">
+            <i class="fa fa-print"></i> 
+        </a>
+         <a id = "" class="btn btn-default pull-right btn-xs" href="#" style="margin-right : 10px">
+            <i class="fa fa-check-square"></i> Enviar
+        </a>
+        <a id = "" class="btn btn-info pull-right btn-xs"  href="#" style="margin-right : 10px">
+            <i class="fa fa-save"></i> Guardar
+        </a>
+
         <a id = "add_work" class="btn btn-success pull-right btn-xs" data-toggle="modal" href="#agregar" style="margin-right : 10px">
             <i class="fa fa-check-square-o"></i> Agregar
         </a>
         </span>
     </header>
+
+  
+   
     
+
+    
+
+
+        
     <div class="modal fade" id="agregar" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
-            <div class="modal-content">
+            <div class="modal-content" style="width: 1250px; 
+    top: 100%; margin-left: -180px;
+   " >
                 <div class="modal-header" style="padding: 5px; background: rgba(7, 35, 108, 0.92);">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                     <h4 class="modal-title">Agregar Actividades</h4>
                 </div>
-                <div class="modal-body">
+                <div class="modal-body" style="padding: 1px; ">
                     <div class="chat-room">
-                        <aside class="left-side" style="width:15%">
-                                                    <ul class="chat-list">
-                        <aside  style="width:20%; text-align: left;">
+                       
+                        <aside  style="width:10%; text-align: left;">
                          
-                                <span style="font-weight:bold;">Proyecto</span>
+                                <span style="font-weight:bold;">Cliente</span>
                             
-                            <ul class="nav nav-pills nav-stacked" >
+                            <ul class="nav nav-pills nav-stacked">
                                 <?php 
-                                $equipo = $this->equipo;
+                                $equipo = $this->datoscliente;
+                                //print_r($equipo);
                                 foreach ($equipo as $data_equipo) { ?>
                                     <li >
-                                        <a style="padding:5px 5px;" class="proyecto" codigo-prop-proy="<?php echo $data_equipo['codigo_prop_proy'] ?>" proyectoid="<?php echo $data_equipo['proyectoid'] ?>" categoriaid="<?php echo $data_equipo['categoriaid'] ?>" href="##">
-                                            <i class="fa fa-rocket"></i>
-                                            <span><?php echo $data_equipo['proyectoid']. ' - ' .$data_equipo['nombre_proyecto'] ?></span>
+                                        <a style="padding:5px 5px;" class="cliente" clienteid="<?php echo $data_equipo['clienteid'] ?>" unidadid="<?php echo $data_equipo['unidad_mineraid'] ?>" href="##">
+                                            <?php echo $data_equipo['nombre_cliente'] ?>
                                         </a>
                                     </li>
                                     <script type="text/javascript">
-                                    $(".proyecto").click(function(){
+                                    $(".cliente").click(function(){
 
+                                        $("#proyectos").html('');
                                         $("#actividades").html('');
                                         $("#actividades_hijos").html('');
                                         $("#actividades_tareas").html('');
-                                        var proyectoid = $(this).attr('proyectoid');
-                                        var codigo_prop_proy = $(this).attr('codigo-prop-proy');
-                                        var categoriaid = $(this).attr('categoriaid');
-                                        $("#actividades").load("/timesheet/index/actividades/proyectoid/"+proyectoid+"/codigo_prop_proy/"+codigo_prop_proy+"/categoriaid/"+categoriaid);
+                                        var clienteid = $(this).attr('clienteid');
+                                        var unidadid = $(this).attr('unidadid');
+
+                                        $("#proyectos").load("/timesheet/index/proyectos/clienteid/"+clienteid+"/unidadid/"+unidadid);
 
                                          
                                     });
@@ -63,6 +79,9 @@
                                 }
                                  ?>
                             </ul>
+                        </aside>
+                        <aside style="width:20%; " class="right-side">
+                            <div id="proyectos"></div>
                         </aside>
                         <aside style="width:20%; " class="right-side">
                             <div id="actividades"></div>
@@ -108,6 +127,7 @@
 </section>
 
 <div id="registro"></div>
+<div id="fechasemana"></div>
 </body> 
 <script type="text/javascript">
     $("#add_work").click(function(){
@@ -134,7 +154,10 @@
                 };
             };
             fecha_inicio = mostrarFecha(dateObj,-num_day);
+           
             $("#registro").load("/timesheet/index/registro/fecha/" + fecha_inicio); 
+           
+
       
     });
 
@@ -160,8 +183,10 @@
                     };
                 };
             };
-            fecha_inicio = mostrarFecha(dateObj,-num_day);
+            fecha_inicio = mostrarFecha(dateObj,-num_day);  
             $("#registro").load("/timesheet/index/registro/fecha/" + fecha_inicio);
+            
+
         },
     });
 
@@ -198,8 +223,10 @@ function cargar(){
                     };
                 };
             };
-            fecha_inicio = mostrarFecha(dateObj,-num_day);
+            fecha_inicio = mostrarFecha(dateObj,-num_day);  
+        
             $("#registro").load("/timesheet/index/registro/fecha/" + fecha_inicio); 
+         
 } 
 
 </script>

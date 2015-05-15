@@ -1,4 +1,79 @@
 <body onload="cargar()"> 
+
+    <div class="row">
+                  <div class="col-lg-3">
+                      <section class="panel">
+                            <div class="panel-body">  
+                                <p>Semana <?php echo $this->semana; echo ": ";?>
+
+                                <?php
+                                $fecha = $this->fecha;
+                                $newDate = date("Y-m-d", strtotime($fecha));
+                                $fechainicio = date ( 'd/m/Y' , strtotime($fecha) );
+                                $nuevafecha = strtotime ( '+6 day' , strtotime ( $newDate ) ) ;
+                                $fechafinal = date ( 'd/m/Y' , $nuevafecha );
+
+                                echo $fechainicio; echo " al "; echo $fechafinal;?></p>
+                            </div>
+                      </section>
+                  </div>
+                  <div class="col-lg-4">
+                      <section class="panel">
+                          <div class="panel-body" style="
+    padding-bottom: 10px;
+    padding-top: 12px;
+">
+                               
+
+                               <button data-toggle="button" class="btn btn-white">
+                                  <i class="fa fa-thumbs-up text-info" style="color: #78CD51;"></i>
+                                   <?php 
+
+                                    $tareopersona = new Admin_Model_DbTable_Tareopersona();
+                                    $sumar=$tareopersona-> _getHorasRealxTipo($this->semana,$this->uid,$this->dni,$this->cargo,'P');
+                                    print_r($sumar[0]['tareo_persona_horas_reales_tipoactividad']); 
+
+
+                                   ?>
+                              </button>
+
+                                        <button data-toggle="button" class="btn btn-white">
+                                  <i class="fa fa-thumbs-down text-info" style="color: #FF6C60;"></i>
+                                   <?php 
+
+                                    $tareopersona = new Admin_Model_DbTable_Tareopersona();
+                                    $sumar=$tareopersona-> _getHorasRealxTipo($this->semana,$this->uid,$this->dni,$this->cargo,'G');
+                                    print_r($sumar[0]['tareo_persona_horas_reales_tipoactividad']); 
+
+
+                                   ?>
+                              </button>
+
+                                        <button data-toggle="button" class="btn btn-white">
+                                  <i class="fa fa-square text-info" style="color: #5bc0de;"></i>
+                                   <?php 
+
+                                    $tareopersona = new Admin_Model_DbTable_Tareopersona();
+                                    $sumar=$tareopersona-> _getHorasRealxTipo($this->semana,$this->uid,$this->dni,$this->cargo,'');
+                                    print_r($sumar[0]['tareo_persona_horas_reales_tipoactividad']); 
+
+
+                                   ?>
+                              </button>
+
+                          </div>
+                      </section>
+                  </div>
+                  <div class="col-lg-5">
+                      <section class="panel">
+                          <div class="panel-body" style="
+    padding-top: 10px;
+    padding-bottom: 10px;
+">
+                                Aprobado por: Omar Mori <br>
+                                Aprobado Gerente General
+                               </div></section></div></div>
+
 <div class="row" id="registros">
   <div class="col-sm-12">
     <section class="panel">
@@ -9,9 +84,9 @@
           <thead>
             <tr >
             <th style="width: 5%;">  </th>
-            <th style="width: 22%;" >Proyecto / Actividad: Tarea</th>
-            <th style="width: 13%;">Facturable</th>
-            <th style="width: 27%;">Tarea No Facturable</th>
+            <th style="width: 40%;" >Proyecto / Actividad: Tarea</th>
+            <th style="width: 7%;">Facturable</th>
+            <th style="width: 12%;">Tarea No Facturable</th>
             <?php 
               $fecha = $this->fecha;
               $fecha_mostrar = $this->fecha_mostrar;
@@ -34,6 +109,7 @@
             $fechaactual = date("Y-m-d", strtotime($fechaactual));
             $actividades = $this->actividades;
             $j=1;
+            //for ($k=0; $k < 7; $k++){
             foreach ($actividades as $data_tareo) 
             { ?>
             <tr class="gradeX" id ="tr_tareo_<?php echo $j?>">
@@ -51,8 +127,7 @@
              
               <td>
                 <?php echo $data_tareo['nombre_proyecto'];  echo " / "; echo $data_tareo['actividadid']; echo ": ";echo $data_tareo['nombre'] ?>
-              </td>
-             
+              </td>            
 
               <td>
                 <?php if ($data_tareo['tipo_actividad']=='G') {?>
@@ -62,8 +137,7 @@
                 <a id ="nofacturable_tareo_<?php echo $j?>" class="btn btn-danger btn-xs" style="display:none">No Facturable</a>
 
                 <?php }?>
-              </td>
-             
+              </td>            
 
               <td> 
                 <?php if ($data_tareo['tipo_actividad']=='G') {
@@ -85,7 +159,7 @@
 
 
                         </select>
-<?php
+                  <?php
 
                   } else{
 
@@ -129,12 +203,10 @@
 
                   <?php }?>
               </td>
-             
-
 
               <?php  $fecha = $this->fecha; 
               $fecha = date("Y-m-d", strtotime($fecha));
-              for ($i=0; $i < 7; $i++) {
+                for ($i=0; $i < 7; $i++) {
                 $proyectoid=$data_tareo['proyectoid'];
                 //  echo $proyectoid;echo "<br>";
                 $codigo=$data_tareo['codigo_prop_proy'];
@@ -162,18 +234,78 @@
                 $tareopersona = new Admin_Model_DbTable_Tareopersona();
                 $buscar_tarea=$tareopersona->_getTareoxProyectoxTareaxDia($proyectoid,$codigo,$revision,$actividadid,$actividad_padre,$semanaid,$fecha_tarea,$fecha_planificacion,$uid,$dni,$cargo,$resultado);
                 //print_r($buscar_tarea);
+                //$k=$a[$i][$j];
                 ?>
-              <td><center>
-                <input class="form-control" onBlur="fnc(event)" style="text-align: center;height: 26px; width: 40px; padding-right: 4px; padding-left: 4px;" maxlength="2" editable=true id="<?php echo $data_tareo['codigo_prop_proy']."!".$data_tareo['codigo_actividad']."!".$data_tareo['actividadid']."!".$data_tareo['revision']."!".$data_tareo['actividad_padre']."!".$data_tareo['proyectoid']."!".$data_tareo['semanaid']."!".$fecha."!".$data_tareo['asignado']."!".$data_tareo['areaid']."!".$data_tareo['categoriaid']."!".$data_tareo['dni']."!".$data_tareo['cargo']."!".$data_tareo['tipo_actividad']."!".$data_tareo['etapa']."!".$i;?>"  type="text" name="horario"  value="<?php if ($buscar_tarea) {
-                  if($buscar_tarea[0]['h_real']=='0') { echo "";} else { print_r($buscar_tarea[0]['h_real']);}
-                  }?>"  >                               
-              </center></td>
+              <td>
+                <center>
+                <!-- onBlur="fnc(event)" -->
+                <!-- _<?php //echo $j?> -->            
+                <!-- editable=true type="text" -->
+
+
+
+                <input class="form-control" id="valor<?php echo $i?><?php echo $j?>" style="text-align: center;height: 26px; width: 40px; padding-right: 4px; padding-left: 4px;" maxlength="2" value="<?php if ($buscar_tarea) {
+                    if($buscar_tarea[0]['h_real']=='0') { echo "";} else { print_r($buscar_tarea[0]['h_real']);}
+                    }?>">
+
+                </center>
+
+
+    <!--             "<?php //echo $data_tareo['codigo_prop_proy']."!".$data_tareo['codigo_actividad']."!".$data_tareo['actividadid']."!".$data_tareo['revision']."!".$data_tareo['actividad_padre']."!".$data_tareo['proyectoid']."!".$data_tareo['semanaid']."!".$fecha."!".$data_tareo['asignado']."!".$data_tareo['areaid']."!".$data_tareo['categoriaid']."!".$data_tareo['dni']."!".$data_tareo['cargo']."!".$data_tareo['tipo_actividad']."!".$data_tareo['etapa']."!".$i."!".$data_tareo['actividad_generalid'];?>" -->
+
+                <script type="text/javascript">
+                  $(document).ready(function(){
+                    $("#valor<?php echo $i ?><?php echo $j?>").keyup(function(e){                                          
+                        var hora_real=$("#valor<?php echo $i?><?php echo $j?>").val();    
+                        //var hora_real = parseInt(hora);
+                        //var array_variables = variables_input.split("!");  
+                        var codigo_prop_proy="<?php echo $data_tareo['codigo_prop_proy'] ?>";
+                        var codigo_actividad="<?php echo $data_tareo['codigo_actividad'] ?>";
+                        var actividadid="<?php echo $data_tareo['actividadid'] ?>";
+                        var revision="<?php echo $data_tareo['revision'] ?>";
+                        var actividad_padre="<?php echo $data_tareo['actividad_padre'] ?>";
+                        var proyectoid="<?php echo $data_tareo['proyectoid'] ?>";
+                        var semanaid="<?php echo $data_tareo['semanaid'] ?>";
+                        var fecha_tarea ="<?php echo $fecha ?>";
+                        var asignado="<?php echo $data_tareo['asignado'] ?>";
+                        var areaid="<?php echo $data_tareo['areaid'] ?>";
+                        var categoriaid ="<?php echo $data_tareo['categoriaid'] ?>";
+                        var dni="<?php echo $data_tareo['dni'] ?>";
+                        var cargo="<?php echo $data_tareo['cargo'] ?>";
+                        var tipo_actividad="<?php echo $data_tareo['tipo_actividad'] ?>";
+                        var etapa="<?php echo $data_tareo['etapa'] ?>";
+                        
+                        var actividad_generalid="<?php echo $data_tareo['actividad_generalid'] ?>";                    
+                        
+
+
+                        var url="/timesheet/index/updatetareoreal/codigo_prop_proy/"+codigo_prop_proy+"/codigo_actividad/"+codigo_actividad+"/actividadid/"+actividadid+"/revision/"+revision+"/actividad_padre/"+actividad_padre+"/proyectoid/"+proyectoid+"/semanaid/"+semanaid+"/fecha_tarea/"+fecha_tarea+"/asignado/"+asignado+"/areaid/"+areaid+"/categoriaid/"+categoriaid+"/dni/"+dni+"/cargo/"+cargo+"/horareal/"+hora_real+"/tipo_actividad/"+tipo_actividad+"/etapa/"+etapa+"/actividad_generalid/"+actividad_generalid;
+
+                        
+                        $("#carga").load(url);
+
+
+                        //alert(value);
+                      });
+                    });
+                </script> 
+
+              </td>
+
+
+
                 <?php 
                   $newDate = date("Y-m-d", strtotime($fecha));
                   $nuevafecha = strtotime ( '+1 day' , strtotime ( $newDate ) ) ;
                   $fecha = date ( 'Y-m-d' , $nuevafecha );?>
-                <?php }?>
+                <?php }
+                ?>
+
+           
             </tr>
+
+
+
 
 
               <script type="text/javascript">
@@ -199,7 +331,7 @@
                     var url="/timesheet/index/updateetapanb/codigo/"+codigo_prop_proy+"/codigo_actividad/"+codigo_actividad+"/actividadid/"+actividadid+"/revision/"+revision+"/actividad_padre/"+actividad_padre+"/proyectoid/"+proyectoid+"/semanaid/"+semanaid+"/fecha_tarea/"+fecha_tarea+"/asignado/"+asignado+"/areaid/"+areaid+"/categoriaid/"+categoriaid+"/dni/"+dni+"/cargo/"+cargo+"/tipo_actividad/"+tipo_actividad+"/etapa/"+etapa+"/fecha_planificacion/"+fecha_planificacion+"/tarea_general/"+tarea_general;
                     // alert(url);
                     //$("#carga").load(url);
-                     var dateObj = new Date();
+                    var dateObj = new Date();
                     var dateFrom = $.datepicker.formatDate('mm/dd/yy', dateObj);
                     var weekfrom = $.datepicker.iso8601Week(new Date(dateFrom));
                     var diasSemana = new Array("Domingo","Lunes","Martes","Miércoles","Jueves","Viernes","Sábado");
@@ -215,7 +347,7 @@
                     };
                     fecha_inicio = mostrarFecha(dateObj,-num_day);
                     //$("#registros").load("/timesheet/index/registro/fecha/" + fecha_inicio); 
-                       document.location.href="/timesheet/index/calendar";
+                       //document.location.href="/timesheet/index/calendar";
                     $("#carga").load(url);
 
                 });
@@ -258,12 +390,10 @@
                     };
                     fecha_inicio = mostrarFecha(dateObj,-num_day);
                   //  $("#registros").load("/timesheet/index/registro/fecha/" + fecha_inicio); 
-   document.location.href="/timesheet/index/calendar";
+                    //document.location.href="/timesheet/index/calendar";
                     $("#carga").load(url);
                 }); 
-
-
-                  
+                
 
                 $(document).ready(function(){
                   $("#nofacturable_cambio_<?php echo $j?>").click(function(){
@@ -271,9 +401,7 @@
                     //$("#tarea_general_<?php echo $j?>").show();
                     //$("#facturable_tareo_<?php echo $j?>").hide();
                     //$("#nofacturable_tareo_<?php echo $j?>").show();
-                    //$("#tarea_proyecto_<?php echo $j?>").hide();
-
-                    
+                    //$("#tarea_proyecto_<?php echo $j?>").hide();                   
                     var codigo_prop_proy= "<?php echo $data_tareo['codigo_prop_proy']?>";
                     var codigo_actividad="<?php echo $data_tareo['codigo_actividad']?>";
                     var actividadid="<?php echo $data_tareo['actividadid']?>";
@@ -343,7 +471,7 @@
                   });
                 });
 
-             $(document).ready(function(){
+                $(document).ready(function(){
                   $("#nofacturable_tareo_<?php echo $j?>").click(function(){
 
                     $("#facturable_tareo_<?php echo $j?>").show();
@@ -457,13 +585,15 @@
 
 
                     document.location.href="/timesheet/index/calendar";
-                 //  $("#registro").load("/timesheet/index/registro/fecha/" + fecha_inicio); 
+                    //$("#registro").load("/timesheet/index/registro/fecha/" + fecha_inicio); 
                      $("#carga").load(url);
                   });
                 });
               </script>
 
-            <?php $j++;}?>
+            <?php $j++;
+             //}
+            }?>
            </tbody>
           
            <?php if ( $this->actividades) {?>
@@ -475,15 +605,15 @@
             <?php 
              $uid=$this->uid;
                 // echo $uid;echo "<br>";
-                $dni=$this->dni;
+              $dni=$this->dni;
               $fecha = $this->fecha;
               $fecha = date("Y-m-d", strtotime($fecha));
               for ($i=0; $i < 7; $i++) { ?>
               <th style="width: 100px;"><center>
                 <div id="fecha_<?php echo $i?>">
                 <?php  $tareopersona = new Admin_Model_DbTable_Tareopersona();
-        $sumar=$tareopersona-> _getHorasRealxDia( $data_tareo['semanaid'],$fecha,$uid,$dni, $data_tareo['cargo']);
-        print_r($sumar[0]['tareo_persona_horas_reales']); ?></center>
+                $sumar=$tareopersona-> _getHorasRealxDia( $data_tareo['semanaid'],$fecha,$uid,$dni, $data_tareo['cargo']);
+                print_r($sumar[0]['tareo_persona_horas_reales']); ?></center>
 
               </th>
                 <?php
@@ -496,6 +626,7 @@
            
 
 <?php }?>
+
           </table>
         
         </div>
@@ -505,7 +636,15 @@
 </div>
 <div id="horaregistrada"></div>
 <div id="carga"></div>
+
+
 </body>
+
+
+
+
+
+
 <script type="text/javascript">
 function fnc(evt) {
     var evt = evt.target ? evt : window.event;
@@ -533,6 +672,8 @@ function fnc(evt) {
     var tipo_actividad=array_variables[13];
     var etapa=array_variables[14];
     var fecha_imprimir=array_variables[15];
+    var actividad_generalid=array_variables[16];
+
      
 
     
@@ -549,9 +690,9 @@ function fnc(evt) {
     }
     else
     {
-      var url="/timesheet/index/updatetareoreal/codigo_prop_proy/"+codigo_prop_proy+"/codigo_actividad/"+codigo_actividad+"/actividadid/"+actividadid+"/revision/"+revision+"/actividad_padre/"+actividad_padre+"/proyectoid/"+proyectoid+"/semanaid/"+semanaid+"/fecha_tarea/"+fecha_tarea+"/asignado/"+asignado+"/areaid/"+areaid+"/categoriaid/"+categoriaid+"/dni/"+dni+"/cargo/"+cargo+"/horareal/"+hora_real+"/tipo_actividad/"+tipo_actividad+"/etapa/"+etapa;
+      var url="/timesheet/index/updatetareoreal/codigo_prop_proy/"+codigo_prop_proy+"/codigo_actividad/"+codigo_actividad+"/actividadid/"+actividadid+"/revision/"+revision+"/actividad_padre/"+actividad_padre+"/proyectoid/"+proyectoid+"/semanaid/"+semanaid+"/fecha_tarea/"+fecha_tarea+"/asignado/"+asignado+"/areaid/"+areaid+"/categoriaid/"+categoriaid+"/dni/"+dni+"/cargo/"+cargo+"/horareal/"+hora_real+"/tipo_actividad/"+tipo_actividad+"/etapa/"+etapa+"/actividad_generalid/"+actividad_generalid;
       //alert(url);
-      $("#carga").load(url);
+      //$("#carga").load(url);
     
      var dateObj = new Date();
                     var dateFrom = $.datepicker.formatDate('mm/dd/yy', dateObj);
@@ -570,7 +711,7 @@ function fnc(evt) {
                     fecha_inicio = mostrarFecha(dateObj,-num_day);
 
 
-                    document.location.href="/timesheet/index/calendar";
+                    //document.location.href="/timesheet/index/calendar";
 
     }
 
@@ -591,3 +732,4 @@ $( "input" )
 
 </script>
 
+;
