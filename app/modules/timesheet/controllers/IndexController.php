@@ -897,4 +897,16 @@ $datos['tipo_actividad']='P';
     }
 
 
+    public function historialaprobadoAction(){
+        try {
+
+
+        }
+         catch (Exception $e) {
+            print "Error: ".$e->getMessage();
+        }
+    }
+
+
+
 }
