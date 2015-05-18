@@ -29,8 +29,6 @@ class Timesheet_IndexController extends Zend_Controller_Action {
         $data_clientes = $equipo ->_getClienteXuidXEstado($uid,'A');
         $this->view->datoscliente = $data_clientes;
         $this->view->equipo = $data_equipo;
-
-        $semana=date("W");
         
          } catch (Exception $e) {
             print "Error: ".$e->getMessage();
@@ -45,11 +43,13 @@ class Timesheet_IndexController extends Zend_Controller_Action {
         $dni = $this->sesion->dni;
         $clienteid = $this->_getParam('clienteid');
         $unidadid = $this->_getParam('unidadid');
+        $fecha_consulta = $this->_getParam('fecha');
 
         $equipo = new Admin_Model_DbTable_Equipo();
         $data_equipo = $equipo->_getProyectosxUidXEstadoxCliente($uid,'A',$clienteid,$unidadid);
              
         $this->view->equipo = $data_equipo;
+        $this->view->fecha_consulta = $fecha_consulta;
 
         } catch (Exception $e) {
             print "Error: ".$e->getMessage();
@@ -64,6 +64,8 @@ class Timesheet_IndexController extends Zend_Controller_Action {
         $proyectoid = $this->_getParam('proyectoid');
         $codigo_prop_proy = $this->_getParam('codigo_prop_proy');
         $categoriaid = $this->_getParam('categoriaid');
+        $fecha_consulta = $this->_getParam('fecha');
+
         $actividad = new Admin_Model_DbTable_Actividad();
         $data_actividad = $actividad->_getActividadesPadresXproyectoXcodigo($proyectoid, $codigo_prop_proy);
         /*actividades por categoria habilitadas para el usuario*/
@@ -80,6 +82,7 @@ class Timesheet_IndexController extends Zend_Controller_Action {
         $this->view->proyectoid = $proyectoid;
         $this->view->codigo_prop_proy = $codigo_prop_proy;
         $this->view->categoriaid = $categoriaid;
+        $this->view->fecha_consulta = $fecha_consulta;
         } catch (Exception $e) {
             print "Error: ".$e->getMessage();
         } 
@@ -90,9 +93,12 @@ class Timesheet_IndexController extends Zend_Controller_Action {
         try {
         $uid = $this->sesion->uid;
         $dni = $this->sesion->dni;
-        $semana=date("W");
         $this->view->uid = $uid;
         $this->view->dni = $dni;
+        $fecha_consulta = $this->_getParam('fecha');
+        $fecha_inicio_semana = date("Y-m-d", strtotime($fecha_consulta));
+           
+        $semana=date('W', strtotime($fecha_inicio_semana)); 
         $this->view->semanaid = $semana;
 
         $this->_helper->layout()->disableLayout();
@@ -139,11 +145,13 @@ class Timesheet_IndexController extends Zend_Controller_Action {
         $this->_helper->layout()->disableLayout();
         $uid = $this->sesion->uid;
         $dni = $this->sesion->dni;
-        
-        $semana=date("W");
+        $fecha_consulta = $this->_getParam('fecha');
+        $fecha_inicio_semana = date("Y-m-d", strtotime($fecha_consulta));
+        $semana=date('W', strtotime($fecha_inicio_semana)); 
+        $this->view->semanaid = $semana;
         $this->view->uid = $uid;
         $this->view->dni = $dni;
-        $this->view->semanaid = $semana;
+ 
 
         $proyectoid = $this->_getParam('proyectoid');
         $codigo_prop_proy = $this->_getParam('codigo_prop_proy');
@@ -181,11 +189,11 @@ class Timesheet_IndexController extends Zend_Controller_Action {
         $this->view->fecha_inicio_mod = $fecha_inicio_mod;
         $this->view->uid = $uid;
         $this->view->dni = $dni;
-        $dbucat= new Admin_Model_DbTable_Usuariocategoria();
-        $datosucat = $dbucat->_getUsuarioxPersona($uid,$dni);
-        $cargo = $datosucat[0]['cargo'];
+        $categoriaid=$this->sesion->personal->ucatid;
+        $areaid=$this->sesion->personal->ucatareaid;
+        $cargo=$this->sesion->personal->ucatcargo;
+
         $this->view->cargo=$cargo;
-        $areaid = $datosucat[0]['areaid']; 
         $this->view->areaid=$areaid;
         $tareo_persona = new Admin_Model_DbTable_Tareopersona();
         $semana=date('W', strtotime($fecha_inicio_mod)); 
@@ -208,54 +216,40 @@ class Timesheet_IndexController extends Zend_Controller_Action {
         $this->_helper->layout()->disableLayout();
         $uid = $this->sesion->uid;
         $dni = $this->sesion->dni;
-        $dbucat= new Admin_Model_DbTable_Usuariocategoria();
-        $datosucat = $dbucat->_getUsuarioxPersona($uid,$dni);
-        $cargo = $datosucat[0]['cargo'];
-        $areaid = $datosucat[0]['areaid']; 
+        $categoriaid=$this->sesion->personal->ucatid;
+        $areaid=$this->sesion->personal->ucatareaid;
+        $cargo=$this->sesion->personal->ucatcargo;
         
+             
         $data['proyectoid']=$proyectoid = $this->_getParam('proyectoid');
         $data['codigo_prop_proy']=$codigo_prop_proy = $this->_getParam('codigo');
-        $data['categoriaid']=$categoriaid = $this->_getParam('categoriaid');
         $data['actividadid']=$actividadid = $this->_getParam('actividadid');
         $data['revision']=$revision = $this->_getParam('revision');
-        //$data['propuestaid']=$propuestaid = $this->_getParam('propuestaid');
         $data['codigo_actividad']=$codigo_actividad = $this->_getParam('codigo_actividad');
         $data['actividad_padre']=$actividad_padre = $this->_getParam('actividad_padre');
         $data['h_propuesta']=$h_propuesta = $this->_getParam('h_propuesta');
         $data['uid']=$uid;
         $data['asignado']= $dni;
         $data['dni']=$dni;
-        $data['h_propuesta']=$h_propuesta = $this->_getParam('h_propuesta');
         $data['etapa']='INICIO';
-        $semana=date("W");
-        $diaactual=date("Y-m-d");
-   
+        
+        $fecha_inicio = $this->_getParam('fecha');
+        $fecha_inicio_mod = date("Y-m-d", strtotime($fecha_inicio));
+        $semana=date('W', strtotime($fecha_inicio_mod)); 
+
         $data['semanaid']=$semana;
-        $data['fecha_tarea']=$diaactual;
-        $data['fecha_creacion']=$diaactual;
-        $data['fecha_planificacion']=$diaactual;
+        $data['fecha_tarea']=$fecha_inicio_mod;
+        $data['fecha_creacion']=$fecha_inicio_mod;
+        $data['fecha_planificacion']=$fecha_inicio_mod;
         $data['tipo_actividad']='P';
         $data['estado']='A';
         $data['cargo']=$cargo;
         $data['areaid']=$areaid;
-
+        $data['categoriaid']=$categoriaid;
 
         $tareopersona = new Admin_Model_DbTable_Tareopersona();
         $data_tareopersona = $tareopersona->_save($data);
 
-        // $data1['cargo']=$cargo;
-        // $data1['semanaid']=$semana;
-        // $data1['uid']=$uid;
-        // $data1['dni']=$dni;
-        // $data1['fecha_tarea']=$diaactual;
-
-        // $sumahora = new Admin_Model_DbTable_Sumahora();
-        // $data_sumahora = $sumahora->_save($data1);
-
-
-
-
-        //$this->view->tareas = $data_tareas;
         $this->view->proyectoid = $proyectoid;
         $this->view->codigo_prop_proy = $codigo_prop_proy;
         $this->view->categoriaid = $categoriaid;
@@ -271,64 +265,75 @@ class Timesheet_IndexController extends Zend_Controller_Action {
         $this->_helper->layout()->disableLayout();
         $uid = $this->sesion->uid;
         $dni = $this->sesion->dni;
-        $dbucat= new Admin_Model_DbTable_Usuariocategoria();
-        $datosucat = $dbucat->_getUsuarioxPersona($uid,$dni);
-        //print_r($datosucat);
-        $cargo = $datosucat[0]['cargo'];
-        $areaid = $datosucat[0]['areaid']; 
-        $diaactual=date("Y-m-d");
-        $semana=date("W");
-  
+         $categoriaid=$this->sesion->personal->ucatid;
+        $areaid=$this->sesion->personal->ucatareaid;
+        $cargo=$this->sesion->personal->ucatcargo;
+      
+        $fecha_inicio = $this->_getParam('fecha_calendario');
+        $fecha_inicio_mod = date("Y-m-d", strtotime($fecha_inicio));
+        $semanaid=date('W', strtotime($fecha_inicio_mod)); 
+        $tipo_actividad_actualizar= $this->_getParam('tipo_actividad');
+        $etapa_origen= $this->_getParam('etapa');
+        $etapa_actualizar = str_replace("INICIO", "EJECUCION", $etapa_origen);
+        
+
+        $datos_actualizar['fecha_modificacion']=$fecha_inicio_mod;
+        $datos_actualizar['h_real']=$h_real= $this->_getParam('horareal');
+
+        //$semanaid=$this->_getParam('semanaid');
         $data['proyectoid']=$proyectoid = $this->_getParam('proyectoid');
         $data['codigo_prop_proy']=$codigo_prop_proy = $this->_getParam('codigo_prop_proy');
-        $data['categoriaid']=$categoriaid = $this->_getParam('categoriaid');
         $data['actividadid']=$actividadid = $this->_getParam('actividadid');
         $data['revision']=$revision = $this->_getParam('revision');
         $data['codigo_actividad']=$codigo_actividad = $this->_getParam('codigo_actividad');
         $data['actividad_padre']=$actividad_padre = $this->_getParam('actividad_padre');
         $data['h_propuesta']=$h_propuesta = $this->_getParam('h_propuesta');
-        $data['actividad_generalid']=$actividad_generalid = $this->_getParam('actividad_generalid');
+        $data['fecha_tarea']=$fecha_tarea= $this->_getParam('fecha_tarea');
+        $data['fecha_planificacion']=$fecha_tarea;
+        $data['fecha_modificacion']=$fecha_inicio_mod;
+        $data['fecha_creacion']=$fecha_inicio_mod;
+        $data['h_real']=$h_real= $this->_getParam('horareal');
+        $data['semanaid']=$semanaid;
 
+         $actividad_generalid = $this->_getParam('actividad_generalid');
+        if($actividad_generalid=='')
+        {
+            $data['actividad_generalid']=null;
+            $data['tipo_actividad']='P';
+            $etapa= $this->_getParam('etapa');
+            $resultado = str_replace("INICIO", "EJECUCION", $etapa);
+            $data['etapa']=$resultado;    
+        }
+        else
+        {
+            $data['actividad_generalid']=$actividad_generalid;
+            $data['tipo_actividad']='G';
+            $etapa= $this->_getParam('etapa');
+            $resultado = str_replace("INICIO", "EJECUCION", $etapa);
+            $data['etapa']=$resultado;
+        }
+
+        $data['categoriaid']=$categoriaid;
         $data['uid']=$uid;
         $data['asignado']= $dni;
         $data['estado']= 'A';
         $data['dni']=$dni;
-        $data['h_propuesta']=$h_propuesta = $this->_getParam('h_propuesta');
-        
-        $etapa= $this->_getParam('etapa');
-        $resultado = str_replace("INICIO", "EJECUCION", $etapa);
-
-
-
-        $data['etapa']=$resultado;
-        $data['h_real']=$h_real= $this->_getParam('horareal');
-        $data['fecha_tarea']=$fecha_tarea= $this->_getParam('fecha_tarea');
-        $cargo= $this->_getParam('cargo');
-        $data['fecha_modificacion']=$diaactual;
-        $semanaid=$this->_getParam('semanaid');
-        $data['semanaid']=$semana;
-        $data['fecha_planificacion']=$fecha_tarea;
-        $data['tipo_actividad']=$tipo_actividad= $this->_getParam('tipo_actividad');
-        $data['fecha_creacion']=$fecha_tarea;
         $data['cargo']=$cargo;
         $data['areaid']=$areaid;
-        //datos para ctualizar
-        
-        $datos['h_real']=$h_real= $this->_getParam('horareal');
-        $datos['fecha_modificacion']=$diaactual;
-        //$updatetareopersona = new Admin_Model_DbTable_Tareopersona();    
-        /*$str="codigo_prop_proy='$codigo_prop_proy' and proyectoid='$proyectoid' and 
-        categoriaid='$categoriaid' and actividadid='$actividadid' and 
-        revision='$revision' and codigo_actividad='$codigo_actividad'
-        and actividad_padre='$actividad_padre' and cargo='$cargo'
-        and semanaid='$semanaid' and areaid='$areaid'     ";*/
-        //$update=$updatetareopersona -> _update($data,$str);
+
+
         $tareopersona = new Admin_Model_DbTable_Tareopersona();
-        $data_tareopersona = $tareopersona->_save($data);
+      
+         if ($h_real=='')
+            {   echo "h_real vacio";
+
+            }else
+        {
+            $data_tareopersona = $tareopersona->_save($data);
         if ($data_tareopersona){
 
             $data1['cargo']=$cargo;
-            $data1['semanaid']=$semana;
+            $data1['semanaid']=$semanaid;
             $data1['uid']=$uid;
             $data1['dni']=$dni;
             $data1['fecha_tarea']=$fecha_tarea= $this->_getParam('fecha_tarea');
@@ -344,12 +349,12 @@ class Timesheet_IndexController extends Zend_Controller_Action {
             }
 
             $data2['cargo']=$cargo;
-            $data2['semanaid']=$semana;
+            $data2['semanaid']=$semanaid;
             $data2['uid']=$uid;
             $data2['dni']=$dni;  
 
-            $wheres=array('dni'=>$dni,'uid'=>$uid,'cargo'=>$cargo,'semanaid'=>$semana,'fecha_tarea'=>$fecha_tarea);
-            $wheres2=array('dni'=>$dni,'uid'=>$uid,'cargo'=>$cargo,'semanaid'=>$semana);
+            $wheres=array('dni'=>$dni,'uid'=>$uid,'cargo'=>$cargo,'semanaid'=>$semanaid,'fecha_tarea'=>$fecha_tarea);
+            $wheres2=array('dni'=>$dni,'uid'=>$uid,'cargo'=>$cargo,'semanaid'=>$semanaid);
 
             $sumahora = new Admin_Model_DbTable_Sumahora();
             if($versum=$sumahora->_getOne($wheres))
@@ -384,18 +389,17 @@ class Timesheet_IndexController extends Zend_Controller_Action {
             //alert("Se actualizo satisfactoriamente");
           </script>
         <?php
-            $str="codigo_prop_proy='$codigo_prop_proy' and proyectoid='$proyectoid' and 
-            categoriaid='$categoriaid' and actividadid='$actividadid' and 
-            revision='$revision' and codigo_actividad='$codigo_actividad'
-            and actividad_padre='$actividad_padre' and cargo='$cargo'
-            and semanaid='$semanaid' and areaid='$areaid' and fecha_tarea='$fecha_tarea' 
-            and fecha_planificacion='$fecha_tarea' and etapa='$resultado' and tipo_actividad='$tipo_actividad' 
-            and  estado='A' 
-            ";
-          //  echo $str;
+              $str_actualizar="codigo_prop_proy='$codigo_prop_proy' and proyectoid='$proyectoid' and 
+                categoriaid='$categoriaid' and actividadid='$actividadid' and 
+                revision='$revision' and codigo_actividad='$codigo_actividad'
+                and actividad_padre='$actividad_padre' and cargo='$cargo'
+                and semanaid='$semanaid' and areaid='$areaid' and fecha_tarea='$fecha_tarea' 
+                and etapa='$etapa_actualizar' and tipo_actividad='$tipo_actividad_actualizar' 
+                and  estado='A' 
+                ";
+            $update=$tareopersona -> _update($datos_actualizar,$str_actualizar);
 
-            $update=$tareopersona -> _update($datos,$str);
-        }
+        } }
        
         } catch (Exception $e) {
             print "Error: ".$e->getMessage();
@@ -464,34 +468,44 @@ class Timesheet_IndexController extends Zend_Controller_Action {
         $this->_helper->layout()->disableLayout();
         $uid = $this->sesion->uid;
         $dni = $this->sesion->dni;
-        $dbucat= new Admin_Model_DbTable_Usuariocategoria();
-        $datosucat = $dbucat->_getUsuarioxPersona($uid,$dni);
-        //print_r($datosucat);
-        $cargo = $datosucat[0]['cargo'];
-        $areaid = $datosucat[0]['areaid']; 
-        $diaactual=date("Y-m-d");
+        $categoriaid=$this->sesion->personal->ucatid;
+        $areaid=$this->sesion->personal->ucatareaid;
+        $cargo=$this->sesion->personal->ucatcargo;
+        $fecha_inicio = $this->_getParam('fecha');
+        $fecha_inicio_mod = date("Y-m-d", strtotime($fecha_inicio));
+    
+
+
+       
+        $data['fecha_tarea']=$fecha_inicio_mod;
+        $data['fecha_creacion']=$fecha_inicio_mod;
+        $data['fecha_planificacion']=$fecha_inicio_mod;
+
+
+        
         $data['proyectoid']=$proyectoid = $this->_getParam('proyectoid');
         $data['codigo_prop_proy']=$codigo_prop_proy = $this->_getParam('codigo');
-        $data['categoriaid']=$categoriaid = $this->_getParam('categoriaid');
+        $data['categoriaid']=$categoriaid;
         $data['revision']=$revision = $this->_getParam('revision');
         $data['actividadid']=$actividadid = $this->_getParam('actividadid');
         $data['codigo_actividad']=$codigo_actividad = $this->_getParam('codigo_actividad');
         $data['actividad_padre']=$actividad_padre = $this->_getParam('actividad_padre');
-        $data['actividad_generalid']=$actividad_generalid = $this->_getParam('actividad_generalid');
-        $data['area_generalid']=$area_generalid = $this->_getParam('area_generalid');
+//        $data['actividad_generalid']=$actividad_generalid = $this->_getParam('actividad_generalid');
+//        $data['area_generalid']=$area_generalid = $this->_getParam('area_generalid');
+        
         $data['uid']=$uid;
         $data['asignado']= $dni;
         $data['dni']=$dni;
         $data['h_propuesta']="0";
-        $data['etapa']="INICIO-NB"."-".$actividad_generalid;
+        $data['etapa']="INICIO-NB"."-";
         $data['estado']='A';
-        $data['h_real']="";
-        $data['fecha_tarea']=$fecha_tarea= $this->_getParam('fecha_tarea');
-        $data['fecha_modificacion']=$diaactual;
+        $data['h_real']=null;
+        
+        $data['fecha_modificacion']=$fecha_inicio_mod;
         $data['semanaid']=$semanaid= $this->_getParam('semanaid');
-        $data['fecha_planificacion']=$fecha_tarea;
+
         $data['tipo_actividad']='G';
-        $data['fecha_creacion']=$fecha_tarea;
+     
         $data['cargo']=$cargo;
         $data['areaid']=$areaid;
         //datos para ctualizar
@@ -545,33 +559,23 @@ class Timesheet_IndexController extends Zend_Controller_Action {
 
 public function eliminartareoAction(){
     try {
-        $this->_helper->layout()->disableLayout();
+       $this->_helper->layout()->disableLayout();
         $uid = $this->sesion->uid;
         $dni = $this->sesion->dni;
-        $dbucat= new Admin_Model_DbTable_Usuariocategoria();
-        $datosucat = $dbucat->_getUsuarioxPersona($uid,$dni);
-        $cargo = $datosucat[0]['cargo'];
-        $areaid = $datosucat[0]['areaid']; 
+        $categoriaid=$this->sesion->personal->ucatid;
+        $areaid=$this->sesion->personal->ucatareaid;
+        $cargo=$this->sesion->personal->ucatcargo;
         $tareopersona = new Admin_Model_DbTable_Tareopersona();
-    
         $proyectoid = $this->_getParam('proyectoid');
         $codigo_prop_proy = $this->_getParam('codigo');
-        $categoriaid = $this->_getParam('categoriaid');
         $actividadid = $this->_getParam('actividadid');
         $revision = $this->_getParam('revision');
         $codigo_actividad = $this->_getParam('codigo_actividad');
         $actividad_padre = $this->_getParam('actividad_padre');
-        $etapa= $this->_getParam('etapa');
-        
-        $resultado = str_replace("INICIO", "EJECUCION", $etapa);
-
         $fecha_tarea= $this->_getParam('fecha_tarea');
-        $fecha_planificacion= $this->_getParam('fecha_planificacion');
-        $cargo= $this->_getParam('cargo');
         $semanaid=$this->_getParam('semanaid');
         $tipo_actividad=$this->_getParam('tipo_actividad');
 
-                
         $pk  =   array(                        
             'codigo_prop_proy'   =>$codigo_prop_proy,
             'codigo_actividad'   =>$codigo_actividad,
@@ -580,32 +584,19 @@ public function eliminartareoAction(){
             'actividad_padre'   =>$actividad_padre,
             'proyectoid'   =>$proyectoid,
             'semanaid'   =>$semanaid,
-            'fecha_tarea'   =>$fecha_tarea,
             'uid'   =>$uid,
             'dni'   =>$dni,
-            'cargo'   =>$cargo,
-            'etapa'   =>$etapa,
-            'fecha_planificacion'   =>$fecha_planificacion,
             'tipo_actividad'   =>$tipo_actividad,
         );
         
-         $pk1  =   array(                        
-            'codigo_prop_proy'   =>$codigo_prop_proy,
-            'codigo_actividad'   =>$codigo_actividad,
-            'actividadid'   =>$actividadid,
-            'revision'   =>$revision,
-            'actividad_padre'   =>$actividad_padre,
-            'proyectoid'   =>$proyectoid,
-            'semanaid'   =>$semanaid,
-            'uid'   =>$uid,
-            'dni'   =>$dni,
-            'cargo'   =>$cargo,
-            'etapa'   =>$resultado,
-            'tipo_actividad'   =>$tipo_actividad,
-        ); 
-
-        $tareopersona->_deleteTareasEtapaEjecucion($pk1);
-        $tareopersona->_delete($pk);
+        if ($tareopersona->_deleteTareasxSemana($pk))
+        {
+            //echo "borro";print_r($pk);
+        }
+        else
+        {
+            //echo "no borro";  print_r($pk);
+        }
        
         } catch (Exception $e) {
             print "Error: ".$e->getMessage();
@@ -644,99 +635,66 @@ public function sumatareorealAction(){
         $this->_helper->layout()->disableLayout();
         $uid = $this->sesion->uid;
         $dni = $this->sesion->dni;
-        $dbucat= new Admin_Model_DbTable_Usuariocategoria();
-        $datosucat = $dbucat->_getUsuarioxPersona($uid,$dni);
-        //print_r($datosucat);
-        $cargo = $datosucat[0]['cargo'];
-        $areaid = $datosucat[0]['areaid']; 
-        $diaactual=date("Y-m-d");
-        $semana=date("W");
-  
-        $data['proyectoid']=$proyectoid = $this->_getParam('proyectoid');
-        $data['codigo_prop_proy']=$codigo_prop_proy = $this->_getParam('codigo');
-        $data['categoriaid']=$categoriaid = $this->_getParam('categoriaid');
-        $data['actividadid']=$actividadid = $this->_getParam('actividadid');
-        $data['revision']=$revision = $this->_getParam('revision');
-        $data['codigo_actividad']=$codigo_actividad = $this->_getParam('codigo_actividad');
-        $data['actividad_padre']=$actividad_padre = $this->_getParam('actividad_padre');
-        $data['h_propuesta']=$h_propuesta = $this->_getParam('h_propuesta');
-        $data['uid']=$uid;
-        $data['asignado']= $dni;
-        $data['estado']= 'A';
-        $data['dni']=$dni;
-        $data['h_propuesta']=$h_propuesta = $this->_getParam('h_propuesta');
-        $etapa = $this->_getParam('etapa');
-        $etapa_ejecucion = $this->_getParam('etapa');
-        $resultado_ejecucion = str_replace("INICIO", "EJECUCION", $etapa_ejecucion);
-        
-        $datos['actividad_generalid']=$actividad_generalid = $this->_getParam('tarea_general');
+        $categoriaid=$this->sesion->personal->ucatid;
+        $areaid=$this->sesion->personal->ucatareaid;
+        $cargo=$this->sesion->personal->ucatcargo;
 
-        $datos1['actividad_generalid']= $this->_getParam('tarea_general');
+        $fecha_inicio = $this->_getParam('fecha');
+        $fecha_inicio_mod = date("Y-m-d", strtotime($fecha_inicio));
         
-$datos['tipo_actividad']='G';
-$datos1['tipo_actividad']='G';
-        $datos['etapa']='INICIO-NB-'.$actividad_generalid;
-        $datos1['etapa']='EJECUCION-NB-'.$actividad_generalid;
-        $data['h_real']=$h_real= $this->_getParam('horareal');
-        $data['fecha_tarea']=$fecha_tarea= $this->_getParam('fecha_tarea');
-        $cargo= $this->_getParam('cargo');
-        $data['fecha_modificacion']=$diaactual;
+        $proyectoid = $this->_getParam('proyectoid');
+        $codigo_prop_proy = $this->_getParam('codigo');
+        $actividadid = $this->_getParam('actividadid');
+        $revision = $this->_getParam('revision');
+        $codigo_actividad = $this->_getParam('codigo_actividad');
+        $actividad_padre = $this->_getParam('actividad_padre');
+        $actividad_generalid = $this->_getParam('tarea_general');
         $semanaid=$this->_getParam('semanaid');
-        $data['semanaid']=$semana;
-        $data['fecha_planificacion']=$fecha_planificacion=$this->_getParam('fecha_planificacion');
-        $data['tipo_actividad']=$tipo_actividad= $this->_getParam('tipo_actividad');
-        $data['fecha_creacion']=$fecha_tarea;
-        $data['cargo']=$cargo;
-        $data['areaid']=$areaid;
-        //datos para ctualizar
+        $tipo_actividad= $this->_getParam('tipo_actividad');
+
+        $etapa_inicio = $this->_getParam('etapa');
+        $etapa_ejecucion = str_replace("INICIO", "EJECUCION", $etapa_inicio);
         
-        //$datos['h_real']=$h_real= $this->_getParam('horareal');
-        $datos['fecha_modificacion']=$diaactual;
-        $datos1['fecha_modificacion']=$diaactual;
-        //$updatetareopersona = new Admin_Model_DbTable_Tareopersona();    
-        /*$str="codigo_prop_proy='$codigo_prop_proy' and proyectoid='$proyectoid' and 
-        categoriaid='$categoriaid' and actividadid='$actividadid' and 
-        revision='$revision' and codigo_actividad='$codigo_actividad'
-        and actividad_padre='$actividad_padre' and cargo='$cargo'
-        and semanaid='$semanaid' and areaid='$areaid'     ";*/
-        //$update=$updatetareopersona -> _update($data,$str);
+        $datos_inicio['actividad_generalid']=$this->_getParam('tarea_general');
+        $datos_ejecucion['actividad_generalid']= $this->_getParam('tarea_general');
+        
+        $datos_inicio['tipo_actividad']='G';
+        $datos_ejecucion['tipo_actividad']='G';
+
+        $datos_inicio['etapa']='INICIO-NB-'.$actividad_generalid;
+        $datos_ejecucion['etapa']='EJECUCION-NB-'.$actividad_generalid;
+
+        
+        $datos_inicio['fecha_modificacion']=$fecha_inicio_mod;
+        $datos_ejecucion['fecha_modificacion']=$fecha_inicio_mod;
+     
         $tareopersona = new Admin_Model_DbTable_Tareopersona();
-        $str="codigo_prop_proy='$codigo_prop_proy' and proyectoid='$proyectoid' and 
+        $str_inicio="codigo_prop_proy='$codigo_prop_proy' and proyectoid='$proyectoid' and 
             categoriaid='$categoriaid' and actividadid='$actividadid' and 
             revision='$revision' and codigo_actividad='$codigo_actividad'
             and actividad_padre='$actividad_padre'   and semanaid='$semanaid' and areaid='$areaid' 
-            and fecha_tarea='$fecha_tarea' 
-            and fecha_planificacion='$fecha_planificacion' and etapa='$etapa' and tipo_actividad='$tipo_actividad' 
-            and estado='A'
+            and etapa='$etapa_inicio' and tipo_actividad='$tipo_actividad' 
+            and estado='A' and uid='$uid' and dni='$dni'
             ";
 
-               $str1="codigo_prop_proy='$codigo_prop_proy' and proyectoid='$proyectoid' and 
+        $str_ejecucion="codigo_prop_proy='$codigo_prop_proy' and proyectoid='$proyectoid' and 
             categoriaid='$categoriaid' and actividadid='$actividadid' and 
             revision='$revision' and codigo_actividad='$codigo_actividad'
             and actividad_padre='$actividad_padre'   and semanaid='$semanaid' and areaid='$areaid' 
-            and  etapa='$resultado_ejecucion' and tipo_actividad='$tipo_actividad' 
-            and estado='A'
+            and  etapa='$etapa_ejecucion' and tipo_actividad='$tipo_actividad' 
+            and estado='A' and uid='$uid' and dni='$dni'
             ";
-       // echo $str; echo "<br>";
-       // echo $str1;echo "<br>";
-
-        //print_r($datos);echo "<br>";
-        //print_r($datos1);echo "<br>";
-            $update=$tareopersona -> _update($datos,$str);
-            $update2=$tareopersona -> _update($datos1,$str1);
-            if ($update || $update2) { //echo "guardo";
-        }
-                else
-                    { 
-
-                         ?>
-              <script>                  
-                alert("No se guardo cargue nuevamente la pagina");
-              </script>
-            <?php
-//            echo "no guardo";
-//print_r($update);
+            $update_inicio=$tareopersona -> _update($datos_inicio,$str_inicio);
+            $update_ejecucion=$tareopersona -> _update($datos_ejecucion,$str_ejecucion);
+            if ($update_inicio || $update_ejecucion) { //echo "guardo";
             }
+            else
+            {?>
+                <script>                  
+                    alert("No se guardo cargue nuevamente la pagina o ya tiene una tarea facturable creada.");
+                </script>
+            <?php
+        }
        
         } catch (Exception $e) {
             print "Error: ".$e->getMessage();
@@ -748,105 +706,67 @@ $datos1['tipo_actividad']='G';
         $this->_helper->layout()->disableLayout();
         $uid = $this->sesion->uid;
         $dni = $this->sesion->dni;
-        $dbucat= new Admin_Model_DbTable_Usuariocategoria();
-        $datosucat = $dbucat->_getUsuarioxPersona($uid,$dni);
-        //print_r($datosucat);
-        $cargo = $datosucat[0]['cargo'];
-        $areaid = $datosucat[0]['areaid']; 
-        $diaactual=date("Y-m-d");
-        $semana=date("W");
-        echo $semana;
-  
-        $data['proyectoid']=$proyectoid = $this->_getParam('proyectoid');
-        $data['codigo_prop_proy']=$codigo_prop_proy = $this->_getParam('codigo');
-        $data['categoriaid']=$categoriaid = $this->_getParam('categoriaid');
-        $data['actividadid']=$actividadid = $this->_getParam('actividadid');
-        $data['revision']=$revision = $this->_getParam('revision');
-        $data['codigo_actividad']=$codigo_actividad = $this->_getParam('codigo_actividad');
-        $data['actividad_padre']=$actividad_padre = $this->_getParam('actividad_padre');
-        $data['h_propuesta']=$h_propuesta = $this->_getParam('h_propuesta');
-        $data['uid']=$uid;
-        $data['asignado']= $dni;
-        $data['estado']= 'A';
-        $data['dni']=$dni;
-        $data['h_propuesta']=$h_propuesta = $this->_getParam('h_propuesta');
-        $etapa = $this->_getParam('etapa');
+        $categoriaid=$this->sesion->personal->ucatid;
+        $areaid=$this->sesion->personal->ucatareaid;
+        $cargo=$this->sesion->personal->ucatcargo;
+
+        $fecha_inicio = $this->_getParam('fecha');
+        $fecha_inicio_mod = date("Y-m-d", strtotime($fecha_inicio));
         
-        $datos['actividad_generalid']=null;
 
-        $etapa_ejecucion = $this->_getParam('etapa');
-
-        $resultado_ejecucion = str_replace("INICIO", "EJECUCION", $etapa_ejecucion);
-
-        $datos1['actividad_generalid']= null;
-
-$datos1['tipo_actividad']='P';
-
-        $datos1['etapa']='EJECUCION';
-
-        $datos1['fecha_modificacion']=$diaactual;
-        
-        
-$datos['tipo_actividad']='P';
-        $datos['etapa']='INICIO';
-        $data['h_real']=$h_real= $this->_getParam('horareal');
-        $data['fecha_tarea']=$fecha_tarea= $this->_getParam('fecha_tarea');
-        $cargo= $this->_getParam('cargo');
-        $data['fecha_modificacion']=$diaactual;
+        $proyectoid = $this->_getParam('proyectoid');
+        $codigo_prop_proy = $this->_getParam('codigo');
+        $actividadid = $this->_getParam('actividadid');
+        $revision = $this->_getParam('revision');
+        $codigo_actividad = $this->_getParam('codigo_actividad');
+        $actividad_padre = $this->_getParam('actividad_padre');
+        $actividad_generalid = $this->_getParam('tarea_general');
         $semanaid=$this->_getParam('semanaid');
-        $data['semanaid']=$semana;
-        $data['fecha_planificacion']=$fecha_planificacion=$this->_getParam('fecha_planificacion');
-        $data['tipo_actividad']=$tipo_actividad= $this->_getParam('tipo_actividad');
-        $data['fecha_creacion']=$fecha_tarea;
-        $data['cargo']=$cargo;
-        $data['areaid']=$areaid;
-        //datos para ctualizar
+        $tipo_actividad= $this->_getParam('tipo_actividad');
+
+        $etapa_inicio = $this->_getParam('etapa');
+        $etapa_ejecucion = str_replace("INICIO", "EJECUCION", $etapa_inicio);
         
-        //$datos['h_real']=$h_real= $this->_getParam('horareal');
-        $datos['fecha_modificacion']=$diaactual;
-        //$updatetareopersona = new Admin_Model_DbTable_Tareopersona();    
-        /*$str="codigo_prop_proy='$codigo_prop_proy' and proyectoid='$proyectoid' and 
-        categoriaid='$categoriaid' and actividadid='$actividadid' and 
-        revision='$revision' and codigo_actividad='$codigo_actividad'
-        and actividad_padre='$actividad_padre' and cargo='$cargo'
-        and semanaid='$semanaid' and areaid='$areaid'     ";*/
-        //$update=$updatetareopersona -> _update($data,$str);
+        $datos_inicio['actividad_generalid']=null;;
+        $datos_ejecucion['actividad_generalid']= null;;
+        
+        $datos_inicio['tipo_actividad']='P';
+        $datos_ejecucion['tipo_actividad']='P';
+
+        $datos_inicio['etapa']='INICIO';
+        $datos_ejecucion['etapa']='EJECUCION';
+
+        
+        $datos_inicio['fecha_modificacion']=$fecha_inicio_mod;
+        $datos_ejecucion['fecha_modificacion']=$fecha_inicio_mod;
+     
         $tareopersona = new Admin_Model_DbTable_Tareopersona();
-        $str="codigo_prop_proy='$codigo_prop_proy' and proyectoid='$proyectoid' and 
+        $str_inicio="codigo_prop_proy='$codigo_prop_proy' and proyectoid='$proyectoid' and 
             categoriaid='$categoriaid' and actividadid='$actividadid' and 
             revision='$revision' and codigo_actividad='$codigo_actividad'
             and actividad_padre='$actividad_padre'   and semanaid='$semanaid' and areaid='$areaid' 
-            and fecha_tarea='$fecha_tarea' 
-            and fecha_planificacion='$fecha_planificacion' and etapa='$etapa' and tipo_actividad='$tipo_actividad' 
-            and estado='A'
+            and etapa='$etapa_inicio' and tipo_actividad='$tipo_actividad' 
+            and estado='A' and uid='$uid' and dni='$dni'
             ";
 
-
-               $str1="codigo_prop_proy='$codigo_prop_proy' and proyectoid='$proyectoid' and 
+        $str_ejecucion="codigo_prop_proy='$codigo_prop_proy' and proyectoid='$proyectoid' and 
             categoriaid='$categoriaid' and actividadid='$actividadid' and 
             revision='$revision' and codigo_actividad='$codigo_actividad'
             and actividad_padre='$actividad_padre'   and semanaid='$semanaid' and areaid='$areaid' 
-            and  etapa='$resultado_ejecucion' and tipo_actividad='$tipo_actividad' 
-            and estado='A'
+            and  etapa='$etapa_ejecucion' and tipo_actividad='$tipo_actividad' 
+            and estado='A' and uid='$uid' and dni='$dni'
             ";
-
-
-  //      echo $str;
-    //    print_r($datos);
-            $update=$tareopersona -> _update($datos,$str);
-            $update=$tareopersona -> _update($datos1,$str1);
-            if ($update) { //echo "guardo";
-        }
-                else
-                    { 
-                         ?>
-              <script>                  
-                alert("No se guardo cargue nuevamente la pagina");
-              </script>
-            <?php
-            //echo "no guardo";
-//print_r($update);
+            $update_inicio=$tareopersona -> _update($datos_inicio,$str_inicio);
+            $update_ejecucion=$tareopersona -> _update($datos_ejecucion,$str_ejecucion);
+            if ($update_inicio || $update_ejecucion) { //echo "guardo";
             }
+            else
+            {?>
+                <script>                  
+                    alert("No se guardo cargue nuevamente la pagina o ya tiene una tarea facturable creada.");
+                </script>
+            <?php
+        }
        
         } catch (Exception $e) {
             print "Error: ".$e->getMessage();

@@ -312,7 +312,29 @@ class Admin_Model_DbTable_Tareopersona extends Zend_Db_Table_Abstract
 
 
     
+ public function _deleteTareasxSemana($pk=null)
+    {
+        try{
+            if ($pk['codigo_prop_proy']=='' ||  $pk['codigo_actividad']=='' ) return false;
 
+            $where = "
+            codigo_prop_proy = '".$pk['codigo_prop_proy']."' 
+            and codigo_actividad='".$pk['codigo_actividad']."' 
+            and actividadid='".$pk['actividadid']."' 
+            and revision='".$pk['revision']."' 
+            and actividad_padre='".$pk['actividad_padre']."' 
+            and proyectoid='".$pk['proyectoid']."' 
+            and semanaid='".$pk['semanaid']."' 
+            and uid='".$pk['uid']."' 
+            and dni='".$pk['dni']."' 
+            and tipo_actividad='".$pk['tipo_actividad']."' 
+            ";
+            return $this->delete( $where);
+            return false;
+        }catch (Exception $e){
+            print "Error: Update Distribution".$e->getMessage();
+        }
+    }
 
 
 }
