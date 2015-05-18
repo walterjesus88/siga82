@@ -2,9 +2,12 @@
     <header class="panel-heading">
       Lista de Clientes
       <span class="pull-right">
-            <a id="mostrar_enelaboracion" class=" btn btn-success btn-xs"> Proyecto</a>
-            <!--<a id="mostrar_enviada" class=" btn btn-warning  btn-xs"> Proveedores</a>
-            <a id="mostrar_ganada" class=" btn btn-primary  btn-xs" style="background-color: #59ace2;color: #fff;"> Propuesta</a>-->
+            <a id="mostrar_cliente" class=" btn btn-success btn-xs"> Proyecto</a>
+            <a id="mostrar_laboratorio" class=" btn btn-warning  btn-xs">Laboratorio</a>
+            <a id="mostrar_socio" class=" btn btn-primary  btn-xs" style="background-color: #59ace2;color: #fff;">Socio Estrategico</a>
+            <a id="mostrar_contratista" class=" btn btn-primary  btn-xs" style="background-color: #59ace2;color: #fff;">Contratista</a>
+            <a id="mostrar_potencial" class=" btn btn-primary  btn-xs" style="background-color: #59ace2;color: #fff;">Potencial</a>
+            <a id="mostrar_proveedores" class=" btn btn-primary  btn-xs" style="background-color: #59ace2;color: #fff;">Proveedores</a>
       </span>
     </header>
     <div class="panel-body">
@@ -12,9 +15,9 @@
             <div class="col-md-12">
                 <div class="input-group"><input id="buscar_cliente" type="text" placeholder="Buscar Cliente" class="input-sm form-control"> <span class="input-group-btn">
                 <button id="btn_buscar_cliente" type="button" class="btn btn-sm btn-success"> Buscar</button> 
-                <a href="/propuesta/index/nuevo" class=" btn btn-primary btn-sm" > Crear</a>
-                <!--/propuesta/index/reporteexcel-->
-                <a href="#" class=" btn btn-danger btn-sm " > Exportar</a>
+                <!--<a href="/propuesta/index/nuevo" class=" btn btn-primary btn-sm" > Crear</a>
+                /propuesta/index/reporteexcel
+                <a href="#" class=" btn btn-danger btn-sm " > Exportar</a>-->
               </span></div>
           </div>
       </div>
@@ -27,8 +30,8 @@
           <th style="width: 10%;">RUC</th>
           <th style="width: 40%;"> Razón Social</th>
           <th style="width: 30%;">Logo</th>
-          <th style="width: 20%;">Subir Logo</th>
-          <th style="width: 10%;">Acciones</th>
+          <th style="width: 10%;">Subir Logo</th>
+          <th style="width: 10%;">  Acciones </th>
       </tr>
       </thead>
         <tbody>
@@ -60,12 +63,225 @@
         </tbody>
   </table>
   </div>
+
+
+<div id="laboratorio"  style="display: none;">
+  <table class="table table-hover p-table">
+      <thead>
+      <tr>  
+          <th style="width: 10%;">RUC</th>
+          <th style="width: 40%;"> Razón Social</th>
+          <th style="width: 30%;">Logo</th>
+          <th style="width: 10%;">Subir Logo</th>
+          <th style="width: 10%;">  Acciones </th>
+      </tr>
+      </thead>
+        <tbody>
+
+  <?php
+        $c=1;
+       foreach ($this->lista_laboratorio as $lista) {
+        ?>  
+
+        <tr>
+            <td class="p-name">
+                <a class="control-label"> <?php echo $lista['clienteid'];?> </a>
+            </td>
+            <td class="p-name">
+                <?php echo $lista['nombre_comercial'];?>  
+            </td>
+            <td class="p-name">
+               <a href="/comercial/index/upload" class="logo"><img width="150" src="/img/cliente/<?php echo $lista['clienteid'];?>.jpg"></a>
+            </td>
+         <td style="width: 15%"> <input type="button" class=" icon-folder-close-alt" value="Subir Logo" onClick="window.open('/comercial/index/upload/ruc/<?php echo $lista['clienteid'];?>','mywindow','width=400,height=400,left=0,top=100,screenX=0,screenY=100')">  </td> 
+            <td>
+                <a href="/propuesta/index/ver/propuestaid/<?php echo $lista['propuestaid']?>/revision/<?php echo $lista['revision']?>/codigo/<?php echo $lista['codigo_prop_proy']?>"
+               class="btn btn-primary btn-xs"><i class="fa fa-folder"></i></a>
+                <a href="/propuesta/index/ver" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i></a>
+                <a href="/propuesta/index/ver" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i></a>
+            </td>
+        </tr>
+        <?php  }?>
+        </tbody>
+  </table>
+  </div>
+
+
+<div id="potencial"  style="display: none;">
+  <table class="table table-hover p-table">
+      <thead>
+      <tr>  
+          <th style="width: 10%;">RUC</th>
+          <th style="width: 40%;"> Razón Social</th>
+          <th style="width: 30%;">Logo</th>
+          <th style="width: 10%;">Subir Logo</th>
+          <th style="width: 10%;">  Acciones </th>
+      </tr>
+      </thead>
+        <tbody>
+
+  <?php
+        $c=1;
+       foreach ($this->lista_potencial as $lista) {
+        ?>  
+
+        <tr>
+            <td class="p-name">
+                <a class="control-label"> <?php echo $lista['clienteid'];?> </a>
+            </td>
+            <td class="p-name">
+                <?php echo $lista['nombre_comercial'];?>  
+            </td>
+            <td class="p-name">
+               <a href="/comercial/index/upload" class="logo"><img width="150" src="/img/cliente/<?php echo $lista['clienteid'];?>.jpg"></a>
+            </td>
+         <td style="width: 15%"> <input type="button" class=" icon-folder-close-alt" value="Subir Logo" onClick="window.open('/comercial/index/upload/ruc/<?php echo $lista['clienteid'];?>','mywindow','width=400,height=400,left=0,top=100,screenX=0,screenY=100')">  </td> 
+            <td>
+                <a href="/propuesta/index/ver/propuestaid/<?php echo $lista['propuestaid']?>/revision/<?php echo $lista['revision']?>/codigo/<?php echo $lista['codigo_prop_proy']?>"
+               class="btn btn-primary btn-xs"><i class="fa fa-folder"></i></a>
+                <a href="/propuesta/index/ver" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i></a>
+                <a href="/propuesta/index/ver" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i></a>
+            </td>
+        </tr>
+        <?php  }?>
+        </tbody>
+  </table>
+  </div>
+
+
+<div id="contratista"  style="display: none;">
+  <table class="table table-hover p-table">
+      <thead>
+      <tr>  
+          <th style="width: 10%;">RUC</th>
+          <th style="width: 40%;"> Razón Social</th>
+          <th style="width: 30%;">Logo</th>
+          <th style="width: 10%;">Subir Logo</th>
+          <th style="width: 10%;">  Acciones </th>
+      </tr>
+      </thead>
+        <tbody>
+
+  <?php
+        $c=1;
+       foreach ($this->lista_contratista as $lista) {
+        ?>  
+
+        <tr>
+            <td class="p-name">
+                <a class="control-label"> <?php echo $lista['clienteid'];?> </a>
+            </td>
+            <td class="p-name">
+                <?php echo $lista['nombre_comercial'];?>  
+            </td>
+            <td class="p-name">
+               <a href="/comercial/index/upload" class="logo"><img width="150" src="/img/cliente/<?php echo $lista['clienteid'];?>.jpg"></a>
+            </td>
+         <td style="width: 15%"> <input type="button" class=" icon-folder-close-alt" value="Subir Logo" onClick="window.open('/comercial/index/upload/ruc/<?php echo $lista['clienteid'];?>','mywindow','width=400,height=400,left=0,top=100,screenX=0,screenY=100')">  </td> 
+            <td>
+                <a href="/propuesta/index/ver/propuestaid/<?php echo $lista['propuestaid']?>/revision/<?php echo $lista['revision']?>/codigo/<?php echo $lista['codigo_prop_proy']?>"
+               class="btn btn-primary btn-xs"><i class="fa fa-folder"></i></a>
+                <a href="/propuesta/index/ver" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i></a>
+                <a href="/propuesta/index/ver" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i></a>
+            </td>
+        </tr>
+        <?php  }?>
+        </tbody>
+  </table>
+  </div>
+
+
+
+<div id="socio"  style="display: none;">
+  <table class="table table-hover p-table">
+      <thead>
+      <tr>  
+          <th style="width: 10%;">RUC</th>
+          <th style="width: 40%;"> Razón Social</th>
+          <th style="width: 30%;">Logo</th>
+          <th style="width: 10%;">Subir Logo</th>
+          <th style="width: 10%;">  Acciones </th>
+      </tr>
+      </thead>
+        <tbody>
+
+  <?php
+        $c=1;
+       foreach ($this->lista_socio as $lista) {
+        ?>  
+
+        <tr>
+            <td class="p-name">
+                <a class="control-label"> <?php echo $lista['clienteid'];?> </a>
+            </td>
+            <td class="p-name">
+                <?php echo $lista['nombre_comercial'];?>  
+            </td>
+            <td class="p-name">
+               <a href="/comercial/index/upload" class="logo"><img width="150" src="/img/cliente/<?php echo $lista['clienteid'];?>.jpg"></a>
+            </td>
+         <td style="width: 15%"> <input type="button" class=" icon-folder-close-alt" value="Subir Logo" onClick="window.open('/comercial/index/upload/ruc/<?php echo $lista['clienteid'];?>','mywindow','width=400,height=400,left=0,top=100,screenX=0,screenY=100')">  </td> 
+            <td>
+                <a href="/propuesta/index/ver/propuestaid/<?php echo $lista['propuestaid']?>/revision/<?php echo $lista['revision']?>/codigo/<?php echo $lista['codigo_prop_proy']?>"
+               class="btn btn-primary btn-xs"><i class="fa fa-folder"></i></a>
+                <a href="/propuesta/index/ver" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i></a>
+                <a href="/propuesta/index/ver" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i></a>
+            </td>
+        </tr>
+        <?php  }?>
+        </tbody>
+  </table>
+  </div>
+
+
 <div id="resultado_busqueda">     
   </div>
 </section>
 <!-- page end-->
 
 <script>
+$(document).ready(function(){
+
+$("#mostrar_cliente").click(function(){
+   
+        $("#laboratorio").hide();
+        $("#cliente").show();
+        $("#potencial").hide();
+        $("#contratista").hide();
+        $("#socio").hide();
+    });
+    $("#mostrar_laboratorio").click(function(){
+           $("#laboratorio").show();
+        $("#cliente").hide();
+        $("#potencial").hide();
+        $("#contratista").hide();
+        $("#socio").hide();
+    });
+    $("#mostrar_potencial").click(function(){
+                  $("#laboratorio").hide();
+        $("#cliente").hide();
+        $("#potencial").show();
+        $("#contratista").hide();
+        $("#socio").hide();
+    });
+
+    $("#mostrar_contratista").click(function(){
+        $("#laboratorio").hide();
+        $("#cliente").hide();
+        $("#potencial").hide();
+        $("#contratista").show();
+        $("#socio").hide();
+    });
+
+    $("#mostrar_socio").click(function(){
+              $("#laboratorio").hide();
+        $("#cliente").hide();
+        $("#potencial").hide();
+        $("#contratista").hide();
+        $("#socio").show();
+    });
+});
+    
 $(document).ready(function(){
     $("#btn_buscar_cliente").click(function(){
         var buscar_cliente = $("#buscar_cliente").val();

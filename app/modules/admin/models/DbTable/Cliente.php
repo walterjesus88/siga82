@@ -51,6 +51,40 @@ class Admin_Model_DbTable_Cliente extends Zend_Db_Table_Abstract
     }
 
 
+     public function _getClientexTipo($tipo)
+     {
+        try{
+            $sql=$this->_db->query("
+               select * from cliente 
+               where tipo_cliente='$tipo' order by nombre_comercial
+
+            ");
+            $row=$sql->fetchAll();
+            return $row;           
+            }  
+            
+           catch (Exception $ex){
+            print $ex->getMessage();
+        }
+    }
+    
+    public function _getClientexTipoxSocio()
+     {
+        try{
+            $sql=$this->_db->query("
+               select * from cliente 
+               where tipo_cliente='cliente' and issocio='S' order by nombre_comercial
+
+            ");
+            $row=$sql->fetchAll();
+            return $row;           
+            }  
+            
+           catch (Exception $ex){
+            print $ex->getMessage();
+        }
+    }
+
     public function _getClienteAllOrdenado()     
     {
         try{

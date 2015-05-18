@@ -147,7 +147,7 @@
 
                          <select id="select_generalg_<?php echo $j?>" class="form-control input-sm m-bot15 col-lg-10">
                         
-                            <option value="">Tarea No Facturable</option>
+                            <option value="">Elija Tarea No Facturable</option>
                                 <?php 
                                     $areaid='90';
                                     $actividad_generales = new Admin_Model_DbTable_Actividadgeneral();
@@ -410,9 +410,15 @@
                     var fecha = $("#fechasemana").text();
 
                     var url="/timesheet/index/updateetapanb/codigo/"+codigo_prop_proy+"/codigo_actividad/"+codigo_actividad+"/actividadid/"+actividadid+"/revision/"+revision+"/actividad_padre/"+actividad_padre+"/proyectoid/"+proyectoid+"/semanaid/"+semanaid+"/fecha_tarea/"+fecha_tarea+"/asignado/"+asignado+"/areaid/"+areaid+"/categoriaid/"+categoriaid+"/dni/"+dni+"/cargo/"+cargo+"/tipo_actividad/"+tipo_actividad+"/etapa/"+etapa+"/fecha_planificacion/"+fecha_planificacion+"/tarea_general/"+tarea_general+"/fecha/"+fecha;
-                    // alert(url);
-                    
-                     var dateObj = new Date();
+                     alert(url);
+                   
+                    if (isNaN(tarea_general)) {
+                           //entonces (no es numero) devuelvo el valor cadena vacia 
+                           alert('la actividad esta duplicada, cargue nuevamente la pagina');
+                           //e.preventDefault();
+                    }else{ 
+
+                    var dateObj = new Date();
                     var dateFrom = $.datepicker.formatDate('mm/dd/yy', dateObj);
                     var weekfrom = $.datepicker.iso8601Week(new Date(dateFrom));
                     var diasSemana = new Array("Domingo","Lunes","Martes","Miércoles","Jueves","Viernes","Sábado");
@@ -430,7 +436,7 @@
                   //  $("#registros").load("/timesheet/index/registro/fecha/" + fecha_inicio); 
                     //document.location.href="/timesheet/index/calendar";
                     $("#carga").load(url);
-                    $("#registro").load("/timesheet/index/registro/fecha/" + fecha_inicio); 
+                    $("#registro").load("/timesheet/index/registro/fecha/" + fecha_inicio); }
                 }); 
                 
 
@@ -611,9 +617,7 @@
                     
                     
                     var url="/timesheet/index/eliminartareo/codigo/"+codigo_prop_proy+"/codigo_actividad/"+codigo_actividad+"/actividadid/"+actividadid+"/revision/"+revision+"/actividad_padre/"+actividad_padre+"/proyectoid/"+proyectoid+"/semanaid/"+semanaid+"/fecha_tarea/"+fecha_tarea+"/asignado/"+asignado+"/areaid/"+areaid+"/categoriaid/"+categoriaid+"/dni/"+dni+"/cargo/"+cargo+"/tipo_actividad/"+tipo_actividad+"/etapa/"+etapa+"/fecha_planificacion/"+fecha_planificacion;
-                     alert(url);
-                   
-                             var r = confirm("Desea Eliminar esta tarea!");
+                    var r = confirm("Desea Eliminar esta tarea!");
                     if (r == true) {
                      // $("#tr_tareo_<?php echo $j?>").hide();
                     $("#carga_nueva").load(url);
@@ -632,12 +636,8 @@
                       };
                     };
                     fecha_inicio = mostrarFecha(dateObj,-num_day);
- 
-
-                    //document.location.href="/timesheet/index/calendar";
+                     //document.location.href="/timesheet/index/calendar";
                     $("#registro").load("/timesheet/index/registro/fecha/" + fecha_inicio); 
-
-                    
                     }
                   });
                 });
