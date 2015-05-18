@@ -35,5 +35,16 @@ class Admin_Model_DbTable_Usuario extends Zend_Db_Table_Abstract
         }
     }
 
+    public function _getUsuarioAll(){
+        try{
+            $f = $this->fetchAll();
+            if ($f) return $f->toArray ();
+            return false;
+        }catch (Exception $e){
+            print "Error: Al momento de leer todas los usuarios".$e->getMessage();
+        }
+    }
+
+
 }
 

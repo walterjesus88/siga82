@@ -29,6 +29,9 @@ class Timesheet_IndexController extends Zend_Controller_Action {
         $data_clientes = $equipo ->_getClienteXuidXEstado($uid,'A');
         $this->view->datoscliente = $data_clientes;
         $this->view->equipo = $data_equipo;
+
+        $semana=date("W");
+        
          } catch (Exception $e) {
             print "Error: ".$e->getMessage();
         } 
@@ -330,8 +333,23 @@ class Timesheet_IndexController extends Zend_Controller_Action {
             $data1['dni']=$dni;
             $data1['fecha_tarea']=$fecha_tarea= $this->_getParam('fecha_tarea');
             $data1['h_totaldia']=$h_real= $this->_getParam('horareal');
+            if($tipo_actividad=='G')
+            {
+                $data1['nonbillable']=$h_real= $this->_getParam('horareal');
+                //$data2['nonbillable']=$h_real= $this->_getParam('horareal');
+            }
+            elseif ($tipo_actividad=='P') {
+                $data1['billable']=$h_real= $this->_getParam('horareal');                
+                //$data2['billable']=$h_real= $this->_getParam('horareal');                
+            }
+
+            $data2['cargo']=$cargo;
+            $data2['semanaid']=$semana;
+            $data2['uid']=$uid;
+            $data2['dni']=$dni;  
 
             $wheres=array('dni'=>$dni,'uid'=>$uid,'cargo'=>$cargo,'semanaid'=>$semana,'fecha_tarea'=>$fecha_tarea);
+            $wheres2=array('dni'=>$dni,'uid'=>$uid,'cargo'=>$cargo,'semanaid'=>$semana);
 
             $sumahora = new Admin_Model_DbTable_Sumahora();
             if($versum=$sumahora->_getOne($wheres))
@@ -339,9 +357,20 @@ class Timesheet_IndexController extends Zend_Controller_Action {
             }
             else
             {
-                $data_sumahora = $sumahora->_save($data1);                
+                $data_sumahora = $sumahora->_save($data1);
+            }
+
+            /*inserta en la tabla suma_controsemana un registro*/
+            $suma_control= new Admin_Model_DbTable_Sumahorasemana();
+            if($versumcontrol=$suma_control->_getOne($wheres2))
+            {
 
             }
+            else
+            {
+                $data_sumahora = $suma_control->_save($data2); 
+            }
+
 
         ?>
           <script>                  
@@ -726,6 +755,7 @@ $datos1['tipo_actividad']='G';
         $areaid = $datosucat[0]['areaid']; 
         $diaactual=date("Y-m-d");
         $semana=date("W");
+        echo $semana;
   
         $data['proyectoid']=$proyectoid = $this->_getParam('proyectoid');
         $data['codigo_prop_proy']=$codigo_prop_proy = $this->_getParam('codigo');
@@ -900,12 +930,52 @@ $datos['tipo_actividad']='P';
     public function historialaprobadoAction(){
         try {
 
+        $user= new Admin_Model_DbTable_Usuario();
+        $vuser=$user->_getUsuarioAll();
+        $this->view->usuarios=$vuser;
+        //print_r($vuser);
+  
+       // if()
+
+
+        $suma_hora = new Admin_Model_DbTable_Sumahora();
+        $versuma=$suma_hora->_getSumahoraAll();
+        $this->view->listasuma=$versuma;
+        //print_r($versuma);
+
 
         }
          catch (Exception $e) {
             print "Error: ".$e->getMessage();
         }
     }
+
+    public function filtrosAction(){
+        try {
+            
+            $usuario = $this->_getParam('usuario');
+            //$dateinicio = $this->_getParam('dateinicio');
+            $dateinicio = '2015-05-12';
+            $datefin = $this->_getParam('datefin');    
+            $estado = $this->_getParam('estado');   
+
+            $wheresumhora = array( 'uid' => $usuario, 'estado' => $estado, 'fecha_tarea' => $dateinicio);
+            //$attrib = array('dni', 'uid');
+            $order = array('dni ASC');
+            $suma_hora = new Admin_Model_DbTable_Sumahora();
+            $versuma=$suma_hora->_getFilter($wheresumhora,$attrib=null,$order);
+            $this->view->listasuma=$versuma;
+
+            print_r($versuma);
+
+
+
+            }
+         catch (Exception $e) {
+            print "Error: ".$e->getMessage();
+        }
+    }
+
 
 
 

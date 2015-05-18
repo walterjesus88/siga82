@@ -12,6 +12,7 @@ class Admin_Model_DbTable_Sumahora extends Zend_Db_Table_Abstract
                 $select = $this->_db->select();
                 if ($attrib=='') $select->from("suma_hora");
                 else $select->from("suma_hora",$attrib);
+                //print_r($where);
                 foreach ($where as $atri=>$value){
                     $select->where("$atri = ?", $value);                    
                 }
@@ -25,9 +26,10 @@ class Admin_Model_DbTable_Sumahora extends Zend_Db_Table_Abstract
                 if ($rows) return $rows;
                 return false;
         }catch (Exception $e){
-            print "Error: Read Filter Course ".$e->getMessage();
+            print "Error: Read Filter competencia ".$e->getMessage();
         }
     }
+ 
 
     public function _save($data)
     {
@@ -57,4 +59,14 @@ class Admin_Model_DbTable_Sumahora extends Zend_Db_Table_Abstract
         }
     }
 
+
+    public function _getSumahoraAll(){
+        try{
+            $f = $this->fetchAll();
+            if ($f) return $f->toArray ();
+            return false;
+        }catch (Exception $e){
+            print "Error: Al momento de leer todos los gastos persona".$e->getMessage();
+        }
+    }
 }
