@@ -877,11 +877,14 @@ public function sumatareorealAction(){
             $dateinicio = $this->_getParam('dateinicio');
             //$dateinicio = '2015-05-12';
             $semana=date('W', strtotime($dateinicio)); 
-            $fechavista = date("Y-m-d", strtotime($dateinicio));
-            $this->view->fecharecuperada=$fechavista;
+            // $fechavista = date("Y-m-d", strtotime($dateinicio));
+            // $this->view->fecharecuperada=$fechavista;
+            
+            $this->view->fecharecuperada=$dateinicio;
 
             $datefin = $this->_getParam('datefin');    
             $estado = $this->_getParam('estado');
+
 
             if ($usuario=='T') {
 
@@ -892,13 +895,17 @@ public function sumatareorealAction(){
                 {
                     $wheresumsemana = array( 'estado' => $estado, 'semanaid' => $semana);
                 }
-
             
             }
             else
             {
-
-            $wheresumsemana = array( 'uid' => $usuario, 'estado' => $estado, 'semanaid' => $semana);
+                if ($estado=='T') {
+                    $wheresumsemana = array( 'uid' => $usuario, 'semanaid' => $semana);
+                }
+                else
+                {
+                    $wheresumsemana = array( 'uid' => $usuario, 'estado' => $estado, 'semanaid' => $semana);                    
+                }
             }
 
 
@@ -918,6 +925,80 @@ public function sumatareorealAction(){
     }
 
 
+    public function timesheetsemanaAction(){
+        try {
+            $this->_helper->layout()->disableLayout();
+            $uid = $this->_getParam('uid');
+            $dni = $this->_getParam('dni');
+            $cargo = $this->_getParam('cargo');
+            $semana = $this->_getParam('semanaid');
 
+            // $uid = $this->sesion->uid;
+            // $dni = $this->sesion->dni;
+            // $equipo = new Admin_Model_DbTable_Equipo();
+            // $data_equipo = $equipo->_getProyectosXuidXEstado($uid,'A');
+            // $data_clientes = $equipo ->_getClienteXuidXEstado($uid,'A');
+            // $this->view->datoscliente = $data_clientes;
+            // $this->view->equipo = $data_equipo;
+
+
+          $ano=date("Y");
+//$semanax=date("W");
+  /*echo "semana nro: ".(date("W"));
+
+  echo "dia del mes nro: ".(date("j"));
+  echo "# dias de la semana".(date("N"));*/
+  $dias = array('lunes', 'martes', 'miercoles', 
+    'jueves', 'viernes', 'sabado','domingo');
+  $enero = mktime(1,1,1,1,1,$ano); 
+  //$mos = (11-date('w',1))%7-3; 
+  $mos = (11-date('w',$enero))%7-3;
+  $inicios = strtotime(($semana-1) . ' weeks '.$mos.' days', $enero); 
+  for ($x=0; $x<=6; $x++) {
+    $dias[] = date('d-m-Y', strtotime("+ $x day", $inicios));
+    $dia[] = date('w', strtotime("+ $x day", $inicios));
+  }
+
+    print_r($dias);
+    echo "--";
+    print_r($dia);
+
+
+ echo "SEMANA NRO ";
+   echo $this->semanalabor;
+   echo " DEL ";
+   print_r($this->diassemana[7]);
+   echo " AL "; 
+   print_r($this->diassemana[13]);
+
+  print_r($dia);
+  $this->view->diassemana=$dias;
+
+  echo $ano;
+  echo "--";
+  echo $semanax;
+
+
+
+
+
+
+
+
+            $tareo_persona = new Admin_Model_DbTable_Tareopersona();
+            //$semana=date('W', strtotime($fecha_inicio_mod)); 
+
+
+            $this->view->semana = $semana;
+            $datos_tareopersona=$tareo_persona->_getTareoxPersonaxSemana($uid,$dni,$semana);
+            $datos_tareopersona_NB=$tareo_persona->_getTareoxPersonaxSemanaxNB($uid,$dni,$semana);
+            //$data_tareo = $tareo->_getTareoXUid($where);
+            $this->view->actividades= $datos_tareopersona;
+
+        }    
+         catch (Exception $e) {
+            print "Error: ".$e->getMessage();
+        }
+    }
 
 }
