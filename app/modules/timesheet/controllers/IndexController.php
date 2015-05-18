@@ -858,10 +858,10 @@ public function sumatareorealAction(){
        // if()
 
 
-        $suma_hora = new Admin_Model_DbTable_Sumahora();
-        $versuma=$suma_hora->_getSumahoraAll();
+        $suma_hora = new Admin_Model_DbTable_Sumahorasemana();
+        $versuma=$suma_hora->_getSumahorasemanaAll();
         $this->view->listasuma=$versuma;
-        //print_r($versuma);
+        print_r($versuma);
 
 
         }
@@ -872,21 +872,42 @@ public function sumatareorealAction(){
 
     public function filtrosAction(){
         try {
-            
+            $this->_helper->layout()->disableLayout();            
             $usuario = $this->_getParam('usuario');
-            //$dateinicio = $this->_getParam('dateinicio');
-            $dateinicio = '2015-05-12';
-            $datefin = $this->_getParam('datefin');    
-            $estado = $this->_getParam('estado');   
+            $dateinicio = $this->_getParam('dateinicio');
+            //$dateinicio = '2015-05-12';
+            $semana=date('W', strtotime($dateinicio)); 
+            $fechavista = date("Y-m-d", strtotime($dateinicio));
+            $this->view->fecharecuperada=$fechavista;
 
-            $wheresumhora = array( 'uid' => $usuario, 'estado' => $estado, 'fecha_tarea' => $dateinicio);
+            $datefin = $this->_getParam('datefin');    
+            $estado = $this->_getParam('estado');
+
+            if ($usuario=='T') {
+
+                if ($estado=='T') {
+                    $wheresumsemana = array( 'semanaid' => $semana);                    
+                }
+                else
+                {
+                    $wheresumsemana = array( 'estado' => $estado, 'semanaid' => $semana);
+                }
+
+            
+            }
+            else
+            {
+
+            $wheresumsemana = array( 'uid' => $usuario, 'estado' => $estado, 'semanaid' => $semana);
+            }
+
+
             //$attrib = array('dni', 'uid');
             $order = array('dni ASC');
-            $suma_hora = new Admin_Model_DbTable_Sumahora();
-            $versuma=$suma_hora->_getFilter($wheresumhora,$attrib=null,$order);
-            $this->view->listasuma=$versuma;
-
-            print_r($versuma);
+            $suma_horasemana = new Admin_Model_DbTable_Sumahorasemana();
+            $versumasemana=$suma_horasemana->_getFilter($wheresumsemana,$attrib=null,$order);
+            $this->view->listasuma=$versumasemana;
+            //print_r($versumasemana);
 
 
 

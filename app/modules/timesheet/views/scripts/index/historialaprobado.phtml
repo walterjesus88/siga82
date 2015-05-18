@@ -10,7 +10,7 @@
                                    <div class="btn-group" > 
                                     <select  id="user" name="user" class="form-control " data-toggle="dropdown">
                                         <ul class="dropdown-menu">                                        
-                                        <li><option  value="">All</option></li>
+                                        <li><option value="T" selected>All</option></li>
                                         <li class="divider"></li>
                                         <?php
                                         foreach ($this->usuarios as $value){
@@ -43,12 +43,10 @@
                                          <i class="fa fa-angle-down "></i>
                                      </a> -->
                                     <select id="estado" class="form-control" >
-                                         <option value="all"><a href="#"> All</a></option>
+                                         <option value="T" selected><a href="#"> All</a></option>
                                          <li class="divider"></li>
-                                         <option value="A"><a href="#"> Activo</a></option>
-                                         <option value="C"><a href="#"> Cerrado</a></option>
-                                         <option value="O"><a href="#">   Observado</a></option>                              
-                                         <option value="R"><a href="#">rechazado</a></option>
+                                         <option value="B"><a href="#"> Aprobado</a></option>                                                         
+                                         <option value="R"><a href="#">Rechazado</a></option>
                                     </select>
                                  </div>
                              </div>
@@ -81,7 +79,7 @@
                           <table class="table table-inbox table-hover" id="myTable" >
                             <thead>
                               <tr>  
-                                <th >Menu</th>
+                                <th >#</th>
                                 <th >Menu</th>
                                 <th >Status</th>
                                 <th >Name</th>
@@ -89,8 +87,8 @@
                                 <th >Periodo</th>
                                 <th >Billable</th>
                                 <th >Non-Billable</th>
-                                <th >Semana</th>
                                 <th >Total</th>
+                                <th >Comentario</th>
                               </tr>
                             </thead>
                             <tbody>
@@ -100,19 +98,35 @@
                                 ?>    
                                 <tr name="oculus" id="xx" class="unread">
                                     <td class="view-message  text-right"><?php echo $c ?></td>
-                                    <td class="inbox-small-cells">
+                           <!--          <td class="inbox-small-cells">
                                         <input type="checkbox" class="mail-checkbox">
+                                    </td> -->
+
+                                    <td>   
+                                        <a id="detalletimes" class="btn mini tooltips" href="#" data-toggle="dropdown" data-placement="top" data-original-title="hoja semanal">
+                                        <i class=" fa fa-desktop"></i></a>
+
+                                        <a id="detalletime" class="btn btn-warning" data-toggle="modal" href="#modalsemana" uid=<?php echo $valorsuma['uid']?> dni=<?php echo $valorsuma['dni']?> semanaid=<?php echo $valorsuma['semanaid']?> cargo=<?php echo $valorsuma['cargo']?>
+                                        >
+                                            ver detalle
+                                        </a>            
+                                        <!--<span class="label label-success label-mini">Activo</span>
+                                        <div class="btn-group">
+                                            <button data-toggle="dropdown" class="btn btn-info dropdown-toggle btn-xs" type="button" aria-expanded="false">Modificar<span class="caret"></span></button>
+                                            <ul role="menu" class="dropdown-menu">
+                                                <li><a href="/proyecto/index/>">Activo</a></li>
+                                                <li><a href="/proyecto/index/">Cerrado</a></li>                                                
+                                            </ul>
+                                        </div> -->
                                     </td>
-                                    <td class="view-message  text-right "><?php echo $valorsuma['estado']?></td>
-                                    <td class="view-message  text-right"><?php echo $valorsuma['dni']?></td>
-                                    <td class="view-message  text-right"><?php echo $valorsuma['uid']?></td>
-                                    <!-- <td class="inbox-small-cells"><i class="fa fa-star"></i></td>
-                                    <td class="view-message  dont-show">Vector Lab</td>
-                                    <td class="view-message ">Lorem ipsum dolor imit set.</td>
-                                    <td class="view-message  inbox-small-cells"><i class="fa fa-paperclip"></i></td> -->
-                                    <td class="view-message  text-right"><?php echo $valorsuma['fecha_tarea']?></td>
-                                    <td class="view-message  text-right"><?php echo $valorsuma['semanaid']?></td>                               
-                                    <td class="view-message  text-right"><?php echo $valorsuma['h_totaldia']?></td>
+                                    <td class="view-message "><?php echo $valorsuma['estado']?></td>
+                                    <td class="view-message "><?php echo $valorsuma['dni']?></td>
+                                    <td class="view-message "><?php echo $valorsuma['uid']?></td>                            
+                                    <td class="view-message "><?php echo $valorsuma['semanaid']?></td>                               
+                                    <td class="view-message "><?php echo $valorsuma['billable']?></td>
+                                    <td class="view-message "><?php echo $valorsuma['nonbillable']?></td>
+                                    <td class="view-message "><?php echo $valorsuma['h_total']?></td>
+                                    <td class="view-message "><?php echo $valorsuma['comentario']?></td>
                                 </tr>              
                               <?php
                               $c++; }  ?>
@@ -120,10 +134,30 @@
                           </tbody>
                           </table>
                           </div>
+                          
+                          <div id="ver"></div>
+                          <div class="modal fade" id="modalsemana" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-lg">
+                              <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                    <h4 class="modal-title">Modal Tittle</h4>
+                                </div>
+                                <div class="modal-body">
+                                    Body goes here...
+                                </div>
+                                <div class="modal-footer">
+                                      <button data-dismiss="modal" class="btn btn-default" type="button">Close</button>
+                                      <button class="btn btn-warning" type="button"> Confirm</button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
+
                       </div>
 
 
-<div id="ver">gggggggggggggggggg</div>
 
 
 
@@ -135,13 +169,12 @@ $(document).ready(function(){
     var usuario= $("#user").val(); 
     var dateinicio = $("#fechainicio").val(); 
     var datefin= $("#fechafin").val(); 
-    var estado= $("#estado").val(); 
+    var estado= $("#estado").val();
 
-    alert(usuario);
-    alert(dateinicio);
-    alert(datefin);
-    alert(estado);
-
+    //alert(usuario);
+    //alert(dateinicio);
+    //alert(datefin);
+    //alert(estado);
     url="/timesheet/index/filtros/usuario/"+usuario+'/dateinicio/'+dateinicio+'/datefin/'+datefin+'/estado/'+estado;
     alert(url);
 
@@ -154,13 +187,60 @@ $(document).ready(function(){
       alert("error petición ajax load");
       },
       success: function(data){                                                                                      
-        $("#ver").append(data);                                            
+        $("#ver").html(data);                                            
+        $("#uno").hide();                                            
       }
     });    
   });
 
 });
 </script>
+
+<script type="text/javascript">
+$(document).ready(function(){
+
+  $("#detalletime").on("click",function(){
+      alert('kkkkk');
+
+      var cargo=$(this).attr('cargo');
+      var uid=$(this).attr('uid');
+      var dni=$(this).attr('dni');
+      var semanaid=$(this).attr('semanaid');
+     
+      alert(cargo);
+      // var facid = $("#facid").val();
+      // var tescid = $("#escid").val(); 
+      // var espec = $("#especialidad").val();
+      // var subid1 = "";
+      //   if (espec) {
+      //       espec= espec.split("--");
+      //       subid1=espec[0];
+      //       espec=espec[1];
+      //   };
+
+      //   var xx=tescid.split(";--;");
+      //   var escid=xx[0];
+      //   var subid=xx[1];
+
+      //   var $url = '/report/consolidated/countregisterxcourse/perid/'+ perid+'/escid/'+escid+'/espec/'+espec+'/facid/'+facid+'/subid/'+subid+'/tipo/'+tipo+"/subid1/"+subid1;
+        
+      $("#modal").modal('show');
+      $(".modal-body").html('<center><img src="/img/spinner.gif" /> Cargando...</center>');
+      $(".modal-body").load($url);
+
+  });
+});
+</script>
+
+
+
+
+
+
+
+
+
+
 
 
 <!-- 
