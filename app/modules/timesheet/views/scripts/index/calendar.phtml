@@ -1,4 +1,4 @@
-<body onload="cargar()"> 
+<body onload="cargardatos()"> 
 <section class="panel">
 
 <header class="panel-heading" style="padding-bottom : 10px">
@@ -67,10 +67,12 @@
                                         $("#actividades").html('');
                                         $("#actividades_hijos").html('');
                                         $("#actividades_tareas").html('');
+                                         var fecha = $("#fechasemana").text();
+                                         
                                         var clienteid = $(this).attr('clienteid');
                                         var unidadid = $(this).attr('unidadid');
 
-                                        $("#proyectos").load("/timesheet/index/proyectos/clienteid/"+clienteid+"/unidadid/"+unidadid);
+                                        $("#proyectos").load("/timesheet/index/proyectos/clienteid/"+clienteid+"/unidadid/"+unidadid+"/fecha/"+fecha);
 
                                          
                                     });
@@ -127,106 +129,119 @@
 </section>
 
 <div id="registro"></div>
-<div id="fechasemana"></div>
+<div  style="display:none" id="fechasemana"></div>
 </body> 
 <script type="text/javascript">
-    $("#add_work").click(function(){
-        $("#actividades").html('');
-        $("#actividades_hijos").html('');
-        $("#actividades_tareas").html('');
-    });
 
-       $("#guardar_act").click(function(){
-       var dateObj = new Date();
-    //var dateObj = $('#datepicker').datepicker('getDate');
-            var dateFrom = $.datepicker.formatDate('mm/dd/yy', dateObj);
-            var weekfrom = $.datepicker.iso8601Week(new Date(dateFrom));
-            var diasSemana = new Array("Domingo","Lunes","Martes","Miércoles","Jueves","Viernes","Sábado");
-            var day_select = diasSemana[dateObj.getDay()];
-            for (i = 0; i < diasSemana.length; i++) { 
-                if (diasSemana[i] == day_select) {
-                    if (i == 0) {
-                        var num_day = 6;
-                        
-                    } else {
-                        var num_day = i - 1;
-                    };
+$("#add_work").click(function(){
+    $("#actividades").html('');
+    $("#actividades_hijos").html('');
+    $("#actividades_tareas").html('');
+});
+
+$("#guardar_act").click(function(){
+   var dateObj = new Date();
+//var dateObj = $('#datepicker').datepicker('getDate');
+        var dateFrom = $.datepicker.formatDate('mm/dd/yy', dateObj);
+        var weekfrom = $.datepicker.iso8601Week(new Date(dateFrom));
+        var diasSemana = new Array("Domingo","Lunes","Martes","Miércoles","Jueves","Viernes","Sábado");
+        var day_select = diasSemana[dateObj.getDay()];
+        for (i = 0; i < diasSemana.length; i++) { 
+            if (diasSemana[i] == day_select) {
+                if (i == 0) {
+                    var num_day = 6;
+                    
+                } else {
+                    var num_day = i - 1;
                 };
             };
-            fecha_inicio = mostrarFecha(dateObj,-num_day);
-           
-            $("#registro").load("/timesheet/index/registro/fecha/" + fecha_inicio); 
-           
+        };
+        fecha_inicio = mostrarFecha(dateObj,-num_day);
+       var f = new Date(); 
+    var fech=f.getFullYear()+"-"+(f.getMonth()+1) +"-"+f.getDate() ;
+         $("#fechasemana").text( fech );
+        $("#registro").load("/timesheet/index/registro/fecha/" + fecha_inicio); 
+       
 
-      
-    });
+  
+});
 
 
 
-    $.datepicker.setDefaults($.datepicker.regional["es"]);
-    $("#datepicker").datepicker({
-        firstDay: 1,
+$.datepicker.setDefaults($.datepicker.regional["es"]);
+$("#datepicker").datepicker({
+    firstDay: 1,
 
-        onSelect: function (date, inst) {
-            var dateObj = $('#datepicker').datepicker('getDate');
-            var dateFrom = $.datepicker.formatDate('mm/dd/yy', dateObj);
-            var weekfrom = $.datepicker.iso8601Week(new Date(dateFrom));
-            var diasSemana = new Array("Domingo","Lunes","Martes","Miércoles","Jueves","Viernes","Sábado");
-            var day_select = diasSemana[dateObj.getDay()];
-            for (i = 0; i < diasSemana.length; i++) { 
-                if (diasSemana[i] == day_select) {
-                    if (i == 0) {
-                        var num_day = 6;
-                        
-                    } else {
-                        var num_day = i - 1;
-                    };
+    onSelect: function (date, inst) {
+        var dateObj = $('#datepicker').datepicker('getDate');
+        var dateFrom = $.datepicker.formatDate('mm/dd/yy', dateObj);
+        var weekfrom = $.datepicker.iso8601Week(new Date(dateFrom));
+        var diasSemana = new Array("Domingo","Lunes","Martes","Miércoles","Jueves","Viernes","Sábado");
+        var day_select = diasSemana[dateObj.getDay()];
+        for (i = 0; i < diasSemana.length; i++) { 
+            if (diasSemana[i] == day_select) {
+                if (i == 0) {
+                    var num_day = 6;
+                    
+                } else {
+                    var num_day = i - 1;
                 };
             };
-            fecha_inicio = mostrarFecha(dateObj,-num_day);  
-            $("#registro").load("/timesheet/index/registro/fecha/" + fecha_inicio);
-            
-
-        },
-    });
+        };
+       
 
 
-    function mostrarFecha(fecha,days){
-        milisegundos=parseInt(35*24*60*60*1000);
-        //Obtenemos los milisegundos desde media noche del 1/1/1970
-        tiempo=fecha.getTime();
-        //Calculamos los milisegundos sobre la fecha que hay que sumar o restar...
-        milisegundos=parseInt(days*24*60*60*1000);
-        //Modificamos la fecha actual
-        total=fecha.setTime(tiempo+milisegundos);
-        day=fecha.getDate();
-        month=fecha.getMonth()+1;
-        year=fecha.getFullYear();
-     
-        return(day+"-"+month+"-"+year);
-    }
-
-function cargar(){ 
-            var dateObj = new Date();
-    //var dateObj = $('#datepicker').datepicker('getDate');
-            var dateFrom = $.datepicker.formatDate('mm/dd/yy', dateObj);
-            var weekfrom = $.datepicker.iso8601Week(new Date(dateFrom));
-            var diasSemana = new Array("Domingo","Lunes","Martes","Miércoles","Jueves","Viernes","Sábado");
-            var day_select = diasSemana[dateObj.getDay()];
-            for (i = 0; i < diasSemana.length; i++) { 
-                if (diasSemana[i] == day_select) {
-                    if (i == 0) {
-                        var num_day = 6;
-                        
-                    } else {
-                        var num_day = i - 1;
-                    };
-                };
-            };
-            fecha_inicio = mostrarFecha(dateObj,-num_day);  
+        fecha_inicio = mostrarFecha(dateObj,-num_day);  
+      // var f = new Date(); 
+    //var fech=f.getFullYear()+"-"+(f.getMonth()+1) +"-"+f.getDate() ;
+         $("#fechasemana").text( fecha_inicio );
+        $("#registro").load("/timesheet/index/registro/fecha/" + fecha_inicio);
         
-            $("#registro").load("/timesheet/index/registro/fecha/" + fecha_inicio); 
-         
-} 
 
+    },
+});
+
+
+function mostrarFecha(fecha,days){
+    milisegundos=parseInt(35*24*60*60*1000);
+    //Obtenemos los milisegundos desde media noche del 1/1/1970
+    tiempo=fecha.getTime();
+    //Calculamos los milisegundos sobre la fecha que hay que sumar o restar...
+    milisegundos=parseInt(days*24*60*60*1000);
+    //Modificamos la fecha actual
+    total=fecha.setTime(tiempo+milisegundos);
+    day=fecha.getDate();
+    month=fecha.getMonth()+1;
+    year=fecha.getFullYear();
+ 
+    return(day+"-"+month+"-"+year);
+}
+
+function cargardatos(){ 
+    var dateObj = new Date();
+    //var dateObj = $('#datepicker').datepicker('getDate');
+    var dateFrom = $.datepicker.formatDate('mm/dd/yy', dateObj);
+    var weekfrom = $.datepicker.iso8601Week(new Date(dateFrom));
+    var diasSemana = new Array("Domingo","Lunes","Martes","Miércoles","Jueves","Viernes","Sábado");
+    var day_select = diasSemana[dateObj.getDay()];
+    for (i = 0; i < diasSemana.length; i++) { 
+        if (diasSemana[i] == day_select) {
+            if (i == 0) {
+                var num_day = 6;
+                
+            } else {
+                var num_day = i - 1;
+            };
+        };
+    };
+    var f = new Date(); 
+    var fech=f.getFullYear()+"-"+(f.getMonth()+1) +"-"+f.getDate() ;
+         $("#fechasemana").text( fech );
+      
+    fecha_inicio = mostrarFecha(dateObj,-num_day);  
+
+
+       
+    $("#registro").load("/timesheet/index/registro/fecha/" + fecha_inicio); 
+} 
 </script>

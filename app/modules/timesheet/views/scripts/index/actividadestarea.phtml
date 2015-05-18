@@ -36,8 +36,11 @@
                        
                         var actividad_padre="<?php echo $data_tareas['actividad_padre']; ?>";
                         var h_propuesta="<?php echo $data_tareas['h_propuesta']; ?>";
-                        url="/timesheet/index/guardartareopersona/codigo/"+codigo+"/proyectoid/"+proyectoid+"/revision/"+revision+"/categoriaid/"+categoriaid+"/propuestaid/"+propuestaid+"/actividadid/"+actividadid+"/codigo_actividad/"+codigo_actividad+"/actividad_padre/"+actividad_padre+"/h_propuesta/"+h_propuesta;
-                        $("#cargar").load(url);
+                        var fecha = $("#fechasemana").text();
+
+                        url="/timesheet/index/guardartareopersona/codigo/"+codigo+"/proyectoid/"+proyectoid+"/revision/"+revision+"/categoriaid/"+categoriaid+"/propuestaid/"+propuestaid+"/actividadid/"+actividadid+"/codigo_actividad/"+codigo_actividad+"/actividad_padre/"+actividad_padre+"/h_propuesta/"+h_propuesta+"/fecha/"+fecha;
+                        //alert(url);
+                        $("#cargar_tareas").load(url);
                         
                  
                 
@@ -60,4 +63,4 @@
     $i++;}?>
 </ul>
 
-<div id="cargar"> </div>
+<div id="cargar_tareas"> </div>

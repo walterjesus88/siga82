@@ -16,10 +16,12 @@
                                         $("#actividades").html('');
                                         $("#actividades_hijos").html('');
                                         $("#actividades_tareas").html('');
+                                        var fecha="<?php echo $this->fecha_consulta;?>";
                                         var proyectoid = $(this).attr('proyectoid');
                                         var codigo_prop_proy = $(this).attr('codigo-prop-proy');
+                              
                                         var categoriaid = $(this).attr('categoriaid');
-                                        $("#actividades").load("/timesheet/index/actividades/proyectoid/"+proyectoid+"/codigo_prop_proy/"+codigo_prop_proy+"/categoriaid/"+categoriaid);
+                                        $("#actividades").load("/timesheet/index/actividades/proyectoid/"+proyectoid+"/codigo_prop_proy/"+codigo_prop_proy+"/categoriaid/"+categoriaid+"/fecha/"+fecha);
 
                                          
                                     });

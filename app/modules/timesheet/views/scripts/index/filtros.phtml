@@ -1,0 +1,44 @@
+<h3>ddddd</h3>
+                        <div id="uno">
+                          <table class="table table-inbox table-hover" id="myTable" >
+                            <thead>
+                              <tr>  
+                                <th >Menu</th>
+                                <th >Menu</th>
+                                <th >Status</th>
+                                <th >Name</th>
+                                <th >Login</th>
+                                <th >Periodo</th>
+                                <th >Billable</th>
+                                <th >Non-Billable</th>
+                                <th >Semana</th>
+                                <th >Total</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                             <?php
+                                $c=1;
+                                foreach ($this->listasuma as $valorsuma){
+                                ?>    
+                                <tr name="oculus" id="xx" class="unread">
+                                    <td class="view-message  text-right"><?php echo $c ?></td>
+                                    <td class="inbox-small-cells">
+                                        <input type="checkbox" class="mail-checkbox">
+                                    </td>
+                                    <td class="view-message  text-right "><?php echo $valorsuma['estado']?></td>
+                                    <td class="view-message  text-right"><?php echo $valorsuma['dni']?></td>
+                                    <td class="view-message  text-right"><?php echo $valorsuma['uid']?></td>
+                                    <!-- <td class="inbox-small-cells"><i class="fa fa-star"></i></td>
+                                    <td class="view-message  dont-show">Vector Lab</td>
+                                    <td class="view-message ">Lorem ipsum dolor imit set.</td>
+                                    <td class="view-message  inbox-small-cells"><i class="fa fa-paperclip"></i></td> -->
+                                    <td class="view-message  text-right"><?php echo $valorsuma['fecha_tarea']?></td>
+                                    <td class="view-message  text-right"><?php echo $valorsuma['semanaid']?></td>                               
+                                    <td class="view-message  text-right"><?php echo $valorsuma['h_totaldia']?></td>
+                                </tr>              
+                              <?php
+                              $c++; }  ?>
+              
+                          </tbody>
+                          </table>
+                          </div>
