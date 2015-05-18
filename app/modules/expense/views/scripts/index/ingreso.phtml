@@ -1,22 +1,26 @@
 <?php 
 if ($this->gasto) { ?>
 <div class="row">
+<form action="" id="form_rendicion">
     <div class="col-lg-4">
         <section class="panel">
             <div class="panel-body">
-            <p>N° Rendición</p>
-            <p>Título Rendición</p>
+                <p>N° Rendición : <input name="numero" type="text"/></p>
+                <p>Título Rendición : <input name="nombre" type="text"/></p>
+                <p>Fecha : <input name="fecha" type="text"/></p>
             </div>
         </section>
     </div>
     <div class="col-lg-4">
         <section class="panel">
             <div class="panel-body" style="padding : 10x 10px">
-            <p>Fecha : <?php echo date("d-m-Y")?></p>
-            <p>Total Reembolso</p>
+            <p>Total Monto : <input name="monto_total" type="text"/></p>
+            <p>Total Reembolso : <input name="monto_reembolso" type="text"/></p>
+            <p>Total Cliente : <input name="monto_cliente" type="text"/></p>
             </div>
         </section>
     </div>
+</form>
     <div class="col-lg-4">
         <section class="panel">
             <div class="panel-body" style="padding : 28px 15px 28px 15px">
