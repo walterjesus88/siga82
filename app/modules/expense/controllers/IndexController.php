@@ -209,8 +209,22 @@ class Expense_IndexController extends Zend_Controller_Action {
             if ($actividadid) {
                 $data ['actividadid'] = $actividadid;
             }
+            $where = array();
+            $where['fecha'] = date("Y-m-d");
+            $where['uid'] = $uid;
+            $where['dni'] = $dni;
+            $rendicion = new Admin_Model_DbTable_Gastorendicion();
+            $data_exist = $rendicion->_getOneXfecha($where);
+            if (!$data_exist) {
+                $where['estado'] = 'B';
+                $rendicion->_save($where);
+                exit();
+            }
+            print_r($data_guard = $rendicion->_getOneXfecha($where));
+
             $gasto = new Admin_Model_DbTable_Gastopersona();
             $gasto->_save($data);
+
         } catch (Exception $e) {
             print "Error: ".$e->getMessage();
         }
