@@ -4,6 +4,16 @@
       <div class="col-lg-6">
         Lista de Contactos 
       </div>
+            <span class="pull-right">
+            <a id="mostrar_cliente" class=" btn btn-success btn-xs"> Proyecto</a>
+            <a id="mostrar_laboratorio" class=" btn btn-warning  btn-xs">Laboratorio</a>
+            <a id="mostrar_socio" class=" btn btn-primary  btn-xs" style="background-color: #59ace2;color: #fff;">Socio Estrategico</a>
+            <a id="mostrar_contratista" class=" btn btn-primary  btn-xs" style="background-color: #59ace2;color: #fff;">Contratista</a>
+            <a id="mostrar_potencial" class=" btn btn-primary  btn-xs" style="background-color: #59ace2;color: #fff;">Potencial</a>
+            <a id="mostrar_proveedores" class=" btn btn-primary  btn-xs" style="background-color: #59ace2;color: #fff;">Proveedores</a>
+      </span>
+
+      <!--
       <div class="col-lg-3">
         <select class="form-control m-bot4 col-lg-10">
           <option>Cliente</option>
@@ -24,7 +34,7 @@
             <option value="<?php echo $area['areaid']?>"><?php echo strtoupper($area['nombre'])?></option>
           <?php }?>
         </select></div>
-    </div>
+    </div>-->
   </header>
   <div class="panel-body">
         <div class="row">
@@ -44,7 +54,7 @@
       </div>
   </div>
   
-  <div id="lista_contactos" >
+  <div id="cliente" >
   <table class="table table-hover p-table">
       <thead>
       <tr>  
@@ -77,24 +87,21 @@
             </td>
 
             <td class="p-name">
-                <?php
-                  $bdarea = new Admin_Model_DbTable_Area();
-                  $listarea=$bdarea->_getAreaxIndice($lista['areaid']);
-                 print_r(strtoupper($listarea[0]['nombre'])) ;?>  
-
+                
+            <?php echo $lista['puesto_trabajo']; ?>  
                 
             </td>
 
        
             <td class="p-name">
-                <?php echo $lista['nombre']; ?>  
+                <?php echo $lista['nombre1']; echo " "; echo $lista['ape_paterno'] ?>  
             </td>
              <td class="p-name">
-                <?php echo $lista['numero']; ?>  
+                <?php echo $lista['correo']; ?>  
             </td>
 
     <td class="p-name">
-                <?php echo $lista['correo']; ?>  
+                <?php echo $lista['numero1']; ?>  
             </td>                     
             
           <td>

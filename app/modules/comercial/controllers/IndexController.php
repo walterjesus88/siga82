@@ -16,8 +16,20 @@ class Comercial_IndexController extends Zend_Controller_Action {
 
     public function listarAction() {
         $listacliente = new Admin_Model_DbTable_Cliente();
-        $lista_cliente=$listacliente->_getClienteAllOrdenado();
+        $lista_cliente=$listacliente->_getClientexTipo('cliente');
         $this->view->lista_cliente = $lista_cliente; 
+
+        $lista_laboratorio=$listacliente->_getClientexTipo('cliente laboratorio');
+        $lista_potencial=$listacliente->_getClientexTipo('potencial cliente');
+        $lista_contratista=$listacliente->_getClientexTipo('contratistas');
+        $lista_socio=$listacliente->_getClientexTipoxSocio();
+
+        $this->view->lista_laboratorio = $lista_laboratorio; 
+        $this->view->lista_potencial = $lista_potencial; 
+        $this->view->lista_contratista = $lista_contratista; 
+        $this->view->lista_socio = $lista_socio; 
+       
+
     }
 
     public function uploadAction(){
@@ -41,7 +53,11 @@ class Comercial_IndexController extends Zend_Controller_Action {
 
     public function contactoAction() {
         $dbcontacto = new Admin_Model_DbTable_Contacto();
-        $this->view->lista_contactos = $dbcontacto->_getContactoAll(); 
+        $this->view->lista_contactos = $dbcontacto-> _getConstactoxTipo('cliente'); 
+        $this->view->lista_laboratorio = $dbcontacto-> _getConstactoxTipo('laboratorio'); 
+
+
+
 
         
     }  

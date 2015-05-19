@@ -51,6 +51,25 @@ class Admin_Model_DbTable_Contacto extends Zend_Db_Table_Abstract
     }
 
 
+    public function _getConstactoxTipo($tipo_cliente)
+     {
+        try{
+            $sql=$this->_db->query("
+               select * from contacto
+               where tipo_cliente='$tipo_cliente' and estado='A'  
+
+            ");
+            $row=$sql->fetchAll();
+            return $row;           
+            }  
+            
+           catch (Exception $ex){
+            print $ex->getMessage();
+        }
+    }
+
+
+
      public function _getConstactoxPropuesta($clienteid)
      {
         try{
