@@ -1,0 +1,49 @@
+<?php 
+$equipo = $this->equipo;
+if ($equipo) { ?>
+    <div class="chat-room-head">
+        <h5>Proyectos</h5>
+    </div>
+    <ul class="nav nav-pills nav-stacked">
+        <?php
+        foreach ($equipo as $data_equipo) { ?>
+            <li>
+                <a style="padding:5px 5px;" class="proyecto" codigo-prop-proy="<?php echo $data_equipo['codigo_prop_proy'] ?>" proyectoid="<?php echo $data_equipo['proyectoid'] ?>" categoriaid="<?php echo $data_equipo['categoriaid'] ?>" cargo = "<?php echo $data_equipo['cargo'] ?>" href="##">
+                    <i class="fa fa-rocket"></i>
+                    <span><?php echo $data_equipo['proyectoid']. ' - ' .$data_equipo['nombre_proyecto'] ?></span>
+                </a>
+            </li>
+            <script type="text/javascript">
+                $(".proyecto").click(function(){
+                    $("#disciplina").html('');
+                    $("#actividades_padres").html('');
+                    $("#tareas").html('');
+                    var proyectoid = $(this).attr('proyectoid');
+                    var codigo_prop_proy = $(this).attr('codigo-prop-proy');
+                    var categoriaid = $(this).attr('categoriaid');
+                    var cargo = $(this).attr('cargo');
+                    var clienteid = "<?php echo $this->clienteid ?>";
+                    var unidad_mineraid = "<?php echo $this->unidad_mineraid ?>";
+                    $("#disciplina").load("/expense/index/disciplina/proyectoid/"+proyectoid+"/codigo_prop_proy/"+codigo_prop_proy+"/categoriaid/"+categoriaid+"/cargo/"+cargo+"/clienteid/"+clienteid+"/unidad_mineraid/"+unidad_mineraid);
+                });
+            </script>
+            <?php
+        } ?>
+    </ul>
+    <?php    
+} else { ?>
+        <div class="chat-room-head">
+            <h5>Proyectos</h5>
+        </div>
+        <ul class="nav nav-pills nav-stacked">
+            <li>
+                <div class="alert alert-info fade in">
+                    <button data-dismiss="alert" class="close close-sm" type="button">
+                        <i class="fa fa-times"></i>
+                    </button>
+                    <strong>Info!</strong> El cliente no tiene proyectos asignados.
+                </div>
+            </li>
+        </ul>
+     <?php 
+} ?>

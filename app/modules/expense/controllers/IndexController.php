@@ -26,10 +26,29 @@ class Expense_IndexController extends Zend_Controller_Action {
         $dni = $this->sesion->dni;
         $equipo = new Admin_Model_DbTable_Equipo();
         $data_equipo = $equipo->_getProyectosXuidXEstado($uid,'A');
+        $data_clientes = $equipo ->_getClienteXuidXEstado($uid,'A');
+        $this->view->clientes = $data_clientes;
         $this->view->equipo = $data_equipo;
     } catch (Exception $e) {
         print "Error: ".$e->getMessage();
     }
+    }
+
+    public function proyectosAction(){
+        try {
+            $this->_helper->layout()->disableLayout();
+            $uid = $this->sesion->uid;
+            $dni = $this->sesion->dni;
+            $clienteid = $this->_getParam('clienteid');
+            $unidadid = $this->_getParam('unidad_mineraid');
+            $equipo = new Admin_Model_DbTable_Equipo();
+            $data_equipo = $equipo->_getProyectosxUidXEstadoxCliente($uid,'A',$clienteid,$unidadid);
+            $this->view->equipo = $data_equipo;
+            $this->view->clienteid = $clienteid;
+            $this->view->unidad_mineraid = $unidadid;
+        } catch (Exception $e) {
+            print "Error: ".$e->getMessage();
+        }
     }
 
     public function disciplinaAction(){
@@ -41,6 +60,8 @@ class Expense_IndexController extends Zend_Controller_Action {
         $codigo_prop_proy = $this->_getParam('codigo_prop_proy');
         $categoriaid = $this->_getParam('categoriaid');
         $cargo = $this->_getParam('cargo');
+        $clienteid = $this->_getParam('clienteid');
+        $unidadid = $this->_getParam('unidad_mineraid');
         $actividad = new Admin_Model_DbTable_Actividad();
         $data_actividad = $actividad->_getActividadesPadresXproyectoXcodigo($proyectoid, $codigo_prop_proy);
         $actividades_padre=$actividad->_getActividadesPadresXProyectoXCategoria($proyectoid,$categoriaid,$codigo_prop_proy);
@@ -57,7 +78,7 @@ class Expense_IndexController extends Zend_Controller_Action {
             $this->view->actividades = $array;
         } else {
             $equipo = new Admin_Model_DbTable_Equipo();
-            $data_equipo = $equipo->_getProyectosXuidXEstado($uid,'A');
+            $data_equipo = $equipo->_getProyectosxUidXEstadoxCliente($uid,'A',$clienteid,$unidadid);
             $this->view->equipo = $data_equipo;
         }
         $this->view->proyectoid = $proyectoid;

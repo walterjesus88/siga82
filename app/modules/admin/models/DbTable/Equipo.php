@@ -36,7 +36,7 @@ public function _getProyectosxUidXEstadoxCliente($uid,$estado,$clienteid,$unidad
      {
         try{
             $sql=$this->_db->query("
-                select p.codigo_prop_proy, p.proyectoid, e.estado, e.categoriaid, e.areaid, pro.propuestaid, pro.revision, p.nombre_proyecto, 
+                select p.codigo_prop_proy, p.proyectoid, e.estado, e.categoriaid, e.cargo, e.areaid, pro.propuestaid, pro.revision, p.nombre_proyecto, 
                 p.tipo_proyecto, pro.moneda, pro.descripcion  
                 from equipo e inner join proyecto p
                 on e.codigo_prop_proy = p.codigo_prop_proy
