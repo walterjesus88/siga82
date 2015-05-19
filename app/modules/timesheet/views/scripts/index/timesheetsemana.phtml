@@ -1,3 +1,7 @@
+<script src="/js/jquery-ui-1.9.2.custom.min.js"></script>
+<script src="/js/jquery.js"></script>
+
+
 <div class="row">
   <div class="col-sm-12">
     <section class="panel">
@@ -12,25 +16,38 @@
             <th style="width: 7%;">Facturable</th>
             <th style="width: 12%;">Tarea No Facturable</th>
             <?php 
-              $fecha = $this->fecha;
+              //$fecha = $this->fecha;
               //echo $fecha;
 
               //$fecha_mostrar = $this->fecha_mostrar;
               $days_name = array("lun","mar","mié","jue","vie","sáb","dom");
+
+              $inicios = strtotime(($this->semana-1) . ' weeks '.$this->mos.' days', $this->enero); 
+
               for ($i=0; $i < 7; $i++) { ?>
               <th style="width: 100px;"><center>
                 <?php print $days_name[$i] ?> <br><?php 
-                  list($dia, $mes, $anio) = split('[/.-]', $fecha);
-                  print $dia ?></center></th>
+                  //list($dia, $mes, $anio) = split('[/.-]', $fecha);
+                  //print $dia
+
+                $dias[] = date('Y-m-d', strtotime("+ $i day", $inicios));
+                $dia[] = date('d', strtotime("+ $i day", $inicios));
+
+                echo $dias[$i];
+
+                ?></center></th>
+
                 <?php
-                  $newDate = date("Y-m-d", strtotime($fecha));
-                  $nuevafecha = strtotime ( '+1 day' , strtotime ( $newDate ) ) ;
-                  $fecha = date ( 'd-m-Y' , $nuevafecha );
+                  // $newDate = date("Y-m-d", strtotime($fecha));
+                  // $nuevafecha = strtotime ( '+1 day' , strtotime ( $newDate ) ) ;
+                  // $fecha = date ( 'd-m-Y' , $nuevafecha );
                 }?>
             </tr>
           </thead>
           <tbody>
           <?php 
+            $fecha_= $dias[0];
+
             $fechaactual = $this->fecha;
             $fechaactual = date("Y-m-d", strtotime($fechaactual));
             $actividades = $this->actividades;
@@ -130,8 +147,13 @@
                   <?php }?>
               </td>
 
-              <?php  $fecha = $this->fecha; 
-              $fecha = date("Y-m-d", strtotime($fecha));
+              <?php  
+              $fecha_x = $fecha_;
+              $fecha = $fecha_;
+             
+              //echo $fecha_x;
+              //echo $fecha;
+
                 for ($i=0; $i < 7; $i++) {
                 $proyectoid=$data_tareo['proyectoid'];
                 //  echo $proyectoid;echo "<br>";
@@ -165,13 +187,13 @@
               <td>
                 <center>
                 
-                <input  class="form-control" id="valor<?php echo $i?><?php echo $j?>" style="text-align: center;height: 26px; width: 40px; padding-right: 4px; padding-left: 4px;" maxlength="2" value="<?php if ($buscar_tarea) {
+                <input  class="form-control" id="valor<?php echo $i?><?php echo $j?>" style="text-align: center;height: 26px; width: 40px; padding-right: 4px; padding-left: 4px;" maxlength="2" values="valor<?php echo $i?><?php echo $j?>" value="<?php if ($buscar_tarea) {
                     if($buscar_tarea[0]['h_real']=='0') { echo "";} else { print_r($buscar_tarea[0]['h_real']);}
                     }?>" >
 
                 </center>
 
-                <script type="text/javascript">
+                 <script type="text/javascript">
                   $(document).ready(function(){
                     $("#valor<?php echo $i ?><?php echo $j?>").keyup(function(e){ 
                         $("#valor<?php echo $i ?><?php echo $j?>").focus();
@@ -194,13 +216,14 @@
                         var etapa="<?php echo $data_tareo['etapa'] ?>";                        
                         var actividad_generalid="<?php echo $data_tareo['actividad_generalid'] ?>";
                         var h_propuesta="<?php echo $data_tareo['h_propuesta'] ?>";
-                       var fecha_calendario = $("#fechasemana").text();
-                        
+                       //var fecha_calendario = $("#fechasemana").text();
+                        var fecha_calendario = "<?php echo $fecha_x ?>";
+
+                        //alert(fecha_calendario);
+                        //alert(fecha_tarea);
                         var uid="<?php echo $this->uid ?>";
                         var dni_="<?php echo $this->dni ?>";
-                        var fechainiciomod="<?php echo $this->fecha_inicio_mod ?>";
-                        var fecha="<?php echo $this->fecha ?>";
-                        var fechaz="<?php echo $data_tareo['fecha_tarea'] ?>";
+         
 
 
                         if (isNaN(hora_real)) {
@@ -211,8 +234,11 @@
                            //En caso contrario (Si era un número) devuelvo el valor 
                           var url="/timesheet/index/updatetareoreal/codigo_prop_proy/"+codigo_prop_proy+"/codigo_actividad/"+codigo_actividad+"/actividadid/"+actividadid+"/revision/"+revision+"/actividad_padre/"+actividad_padre+"/proyectoid/"+proyectoid+"/semanaid/"+semanaid+"/fecha_tarea/"+fecha_tarea+"/asignado/"+asignado+"/areaid/"+areaid+"/categoriaid/"+categoriaid+"/dni/"+dni+"/cargo/"+cargo+"/horareal/"+hora_real+"/tipo_actividad/"+tipo_actividad+"/etapa/"+etapa+"/actividad_generalid/"+actividad_generalid+"/fecha_calendario/"+fecha_calendario+"/h_propuesta/"+h_propuesta;   
 
-                          var url2='/timesheet/index/traersumahoras/semanaid/'+semanaid+'/fecha/'+fecha_tarea+'/fechainiciomod/'+fecha_tarea+'/uid/'+uid+'/dni/'+dni_+'/cargo/'+cargo;   
                           //alert(url);            
+
+                          var url2='/timesheet/index/traersumahoras/semanaid/'+semanaid+'/fecha/'+fecha_tarea+'/fechainiciomod/'+fecha_tarea+'/uid/'+uid+'/dni/'+dni_+'/cargo/'+cargo;   
+                          
+                          //alert(url2);            
 
                            $.ajax({
                                     type: "POST",
@@ -226,6 +252,7 @@
                                           //console.log('agg');                                              
                                           $("#carga").empty();
                                           $("#carga").append(data); 
+                                          //if (data.status==true) {
 
                                               $.ajax({
                                                     type: "POST",
@@ -243,17 +270,17 @@
                  
                                                     }
                                               });
-                                                                    
+                                                                  
                                         
                                     }
                             });
-
 
                         }             
 
                       });
                     });
                 </script>
+
 
 
               </td>
@@ -580,18 +607,25 @@
             <th style="width: 13%;"> </th>
             <th style="width: 27%;"> </th>
             <?php 
+
               $uid=$this->uid;
                 // echo $uid;echo "<br>";
               $dni=$this->dni;
-              $fecha = $this->fecha;
-              $fecha = date("Y-m-d", strtotime($fecha));
-              for ($i=0; $i < 7; $i++) { ?>
+              //$fecha = $this->fecha;
+              //$fecha = date("Y-m-d", strtotime($fecha));
+              for ($i=0; $i < 7; $i++) { 
+                //$dia[] = date('Y-m-d', strtotime("+ $i day", $inicios));
+                //$dia[] = date('Y-m-d', strtotime("+ $i day", $inicios));
+
+                $fecha_c=$dias[$i];              
+
+              ?>
               <th style="width: 100px;">
                 <center>
 
                     <div id="fecha_<?php echo $i?>">
                     <?php  $tareopersona = new Admin_Model_DbTable_Tareopersona();
-                    $sumar=$tareopersona-> _getHorasRealxDia($data_tareo['semanaid'],$fecha,$uid,$dni,$data_tareo['cargo']);
+                    $sumar=$tareopersona-> _getHorasRealxDia($data_tareo['semanaid'],$fecha_c,$uid,$dni,$data_tareo['cargo']);
                     print_r($sumar[0]['tareo_persona_horas_reales']); ?>
                     </div>
 
@@ -624,3 +658,5 @@
     </section>
   </div>
 </div>
+
+
