@@ -324,64 +324,59 @@ class Timesheet_IndexController extends Zend_Controller_Action {
 
         $tareopersona = new Admin_Model_DbTable_Tareopersona();
       
-         if ($h_real=='')
-            {   echo "h_real vacio";
+        //  if ($h_real=='')
+        //     {   echo "h_real vacio";
 
-            }else
-        {
+        //     }else
+        // {
             $data_tareopersona = $tareopersona->_save($data);
         if ($data_tareopersona){
 
-            $data1['cargo']=$cargo;
-            $data1['semanaid']=$semanaid;
-            $data1['uid']=$uid;
-            $data1['dni']=$dni;
-            $data1['fecha_tarea']=$fecha_tarea= $this->_getParam('fecha_tarea');
-            $data1['h_totaldia']=$h_real= $this->_getParam('horareal');
-            if($tipo_actividad=='G')
-            {
-                $data1['nonbillable']=$h_real= $this->_getParam('horareal');
-                //$data2['nonbillable']=$h_real= $this->_getParam('horareal');
-            }
-            elseif ($tipo_actividad=='P') {
-                $data1['billable']=$h_real= $this->_getParam('horareal');                
-                //$data2['billable']=$h_real= $this->_getParam('horareal');                
-            }
+                $data1['cargo']=$cargo;
+                $data1['semanaid']=$semanaid;
+                $data1['uid']=$uid;
+                $data1['dni']=$dni;
+                $data1['fecha_tarea']=$fecha_tarea= $this->_getParam('fecha_tarea');
+                $data1['h_totaldia']=$h_real= $this->_getParam('horareal');
+                if($tipo_actividad=='G')
+                {
+                    $data1['nonbillable']=$h_real= $this->_getParam('horareal');
+                    //$data2['nonbillable']=$h_real= $this->_getParam('horareal');
+                }
+                elseif ($tipo_actividad=='P') {
+                    $data1['billable']=$h_real= $this->_getParam('horareal');                
+                    //$data2['billable']=$h_real= $this->_getParam('horareal');                
+                }
 
-            $data2['cargo']=$cargo;
-            $data2['semanaid']=$semanaid;
-            $data2['uid']=$uid;
-            $data2['dni']=$dni;  
+                $data2['cargo']=$cargo;
+                $data2['semanaid']=$semanaid;
+                $data2['uid']=$uid;
+                $data2['dni']=$dni;  
 
-            $wheres=array('dni'=>$dni,'uid'=>$uid,'cargo'=>$cargo,'semanaid'=>$semanaid,'fecha_tarea'=>$fecha_tarea);
-            $wheres2=array('dni'=>$dni,'uid'=>$uid,'cargo'=>$cargo,'semanaid'=>$semanaid);
+                $wheres=array('dni'=>$dni,'uid'=>$uid,'cargo'=>$cargo,'semanaid'=>$semanaid,'fecha_tarea'=>$fecha_tarea);
+                $wheres2=array('dni'=>$dni,'uid'=>$uid,'cargo'=>$cargo,'semanaid'=>$semanaid);
 
-            $sumahora = new Admin_Model_DbTable_Sumahora();
-            if($versum=$sumahora->_getOne($wheres))
-            {
-            }
-            else
-            {
-                $data_sumahora = $sumahora->_save($data1);
-            }
+                $sumahora = new Admin_Model_DbTable_Sumahora();
+                if($versum=$sumahora->_getOne($wheres))
+                {
+                }
+                else
+                {
+                    $data_sumahora = $sumahora->_save($data1);
+                }
 
-            /*inserta en la tabla suma_controsemana un registro*/
-            $suma_control= new Admin_Model_DbTable_Sumahorasemana();
-            if($versumcontrol=$suma_control->_getOne($wheres2))
-            {
+                /*inserta en la tabla suma_controsemana un registro*/
+                $suma_control= new Admin_Model_DbTable_Sumahorasemana();
+                if($versumcontrol=$suma_control->_getOne($wheres2))
+                {
 
-            }
-            else
-            {
-                $data_sumahora = $suma_control->_save($data2); 
-            }
+                }
+                else
+                {
+                    $data_sumahora = $suma_control->_save($data2); 
+                }
 
 
-        ?>
-          <script>                  
-          //  alert("Se guardo satisfactoriamente");
-          </script>
-        <?php
         }else
         {
         ?>
@@ -399,7 +394,7 @@ class Timesheet_IndexController extends Zend_Controller_Action {
                 ";
             $update=$tareopersona -> _update($datos_actualizar,$str_actualizar);
 
-        } }
+        } //}
        
         } catch (Exception $e) {
             print "Error: ".$e->getMessage();
@@ -812,8 +807,7 @@ public function sumatareorealAction(){
     public function traersumahorasAction(){
         try {
 
-    // '/timesheet/index/sumahoras/semanaid/'+semanaid+/'fecha'/+fecha+/'fechainiciomod'/+fechainiciomod+/'uid'/+uid+/'dni'/+dni_+/'cargo'/+cargo;  
-        $this->_helper->layout()->disableLayout();
+    $this->_helper->layout()->disableLayout();
 
         $semanaid = $this->_getParam('semanaid');
         $fecha = $this->_getParam('fecha');
@@ -861,7 +855,7 @@ public function sumatareorealAction(){
         $suma_hora = new Admin_Model_DbTable_Sumahorasemana();
         $versuma=$suma_hora->_getSumahorasemanaAll();
         $this->view->listasuma=$versuma;
-        print_r($versuma);
+        //print_r($versuma);
 
 
         }
@@ -933,56 +927,19 @@ public function sumatareorealAction(){
             $cargo = $this->_getParam('cargo');
             $semana = $this->_getParam('semanaid');
 
-            // $uid = $this->sesion->uid;
-            // $dni = $this->sesion->dni;
-            // $equipo = new Admin_Model_DbTable_Equipo();
-            // $data_equipo = $equipo->_getProyectosXuidXEstado($uid,'A');
-            // $data_clientes = $equipo ->_getClienteXuidXEstado($uid,'A');
-            // $this->view->datoscliente = $data_clientes;
-            // $this->view->equipo = $data_equipo;
 
+            $this->view->cargo = $cargo;
+            $this->view->uid = $uid;
+            $this->view->dni = $dni;
 
-          $ano=date("Y");
-//$semanax=date("W");
-  /*echo "semana nro: ".(date("W"));
+            $ano=date("Y");/*ojo cambiar  con el tiempo --revisar */
+            $enero = mktime(1,1,1,1,1,$ano); 
+            //$mos = (11-date('w',1))%7-3; 
+            $mos = (11-date('w',$enero))%7-3;
 
-  echo "dia del mes nro: ".(date("j"));
-  echo "# dias de la semana".(date("N"));*/
-  $dias = array('lunes', 'martes', 'miercoles', 
-    'jueves', 'viernes', 'sabado','domingo');
-  $enero = mktime(1,1,1,1,1,$ano); 
-  //$mos = (11-date('w',1))%7-3; 
-  $mos = (11-date('w',$enero))%7-3;
-  $inicios = strtotime(($semana-1) . ' weeks '.$mos.' days', $enero); 
-  for ($x=0; $x<=6; $x++) {
-    $dias[] = date('d-m-Y', strtotime("+ $x day", $inicios));
-    $dia[] = date('w', strtotime("+ $x day", $inicios));
-  }
-
-    print_r($dias);
-    echo "--";
-    print_r($dia);
-
-
- echo "SEMANA NRO ";
-   echo $this->semanalabor;
-   echo " DEL ";
-   print_r($this->diassemana[7]);
-   echo " AL "; 
-   print_r($this->diassemana[13]);
-
-  print_r($dia);
-  $this->view->diassemana=$dias;
-
-  echo $ano;
-  echo "--";
-  echo $semanax;
-
-
-
-
-
-
+            $this->view->mos=$mos;
+            $this->view->enero=$enero;
+            $this->view->semana = $semana;
 
 
             $tareo_persona = new Admin_Model_DbTable_Tareopersona();
