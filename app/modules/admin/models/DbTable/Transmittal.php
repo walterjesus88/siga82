@@ -94,7 +94,7 @@ class Admin_Model_DbTable_Transmittal extends Zend_Db_Table_Abstract
         }
     }
 
-        public function _save($data)
+    public function _save($data)
     {
         try{
             if ($data['codigo_prop_proy']=='' ) return false;

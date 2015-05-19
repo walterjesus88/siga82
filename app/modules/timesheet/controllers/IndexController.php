@@ -958,4 +958,51 @@ public function sumatareorealAction(){
         }
     }
 
+    public function guardarcomentarioAction(){
+        try {
+            $this->_helper->layout()->disableLayout();            
+            $uid = $this->_getParam('uid');
+            $dni = $this->_getParam('dni');
+            $cargo = $this->_getParam('cargo');
+            $semana = $this->_getParam('semanaid');
+            $coment = $this->_getParam('coment');
+            $estado = $this->_getParam('estado');
+
+            $data['cargo']=$cargo;
+            $data['semanaid']=$semana;
+            $data['uid']=$uid;
+            $data['dni']=$dni;
+            $data['comentario']=$coment;
+            $data['estado_usuario']=$estado;
+
+            $where['uid']=$uid;
+            $where['dni']=$dni;
+            $where['cargo']=$cargo;
+            $where['semanaid']=$semana;
+
+            $vercoment= new Admin_Model_DbTable_Usuariovalidacion();
+            if($vcoment=$vercoment->_getOne($where))
+            {
+                $pk = array('dni' => $dni  ,'uid' => $uid,'cargo' => $cargo ,'semanaid' => $semana );
+                $data2['comentario']=$coment;
+                $data2['estado_usuario']=$estado;
+                $coment=new Admin_Model_DbTable_Usuariovalidacion();
+                $usecoment=$coment->_updateX($data2,$pk);
+                //echo "update";
+
+            }
+            else
+            {
+                $coment=new Admin_Model_DbTable_Usuariovalidacion();
+                $usercoment=$coment->_save($data);
+                //echo "save";
+
+            }
+
+        }
+        catch (Exception $e) {
+                print "Error: ".$e->getMessage();
+        }
+    }
+    
 }

@@ -1,13 +1,10 @@
 <div class="inbox-body">
                         <div class="panel-body">
                          <div class="mail-option">
-                            
-                   
-
                             <label class="control-label col-md-1"> Usuario</label>                                  
                             <div class="col-md-2"> 
                       
-                                   <div class="btn-group" > 
+                                  <div class="btn-group" > 
                                     <select  id="user" name="user" class="form-control " data-toggle="dropdown">
                                         <ul class="dropdown-menu">                                        
                                         <li><option value="T" selected>All</option></li>
@@ -19,10 +16,8 @@
                                             <?php
                                         }?>
                                     </select>
-                            </div> 
-                        
-                        </div> 
-
+                                  </div>                        
+                            </div>
 
                             <label class="control-label col-md-1"> Timesheet Period</label>
                             <div class="col-md-2">                                                       
@@ -33,15 +28,10 @@
                                   </div>
                             </div>
 
-                      
                             <label class="control-label col-md-1"> Estados</label>                          
                             <div class="col-md-2">
                                                            
-                                 <div class="btn-group" >
-                                    <!--  <a class="btn mini all" href="#" data-toggle="dropdown">
-                                         Estados aprobados
-                                         <i class="fa fa-angle-down "></i>
-                                     </a> -->
+                                 <div class="btn-group" >                                   
                                     <select id="estado" class="form-control" >
                                          <option value="T" selected><a href="#"> All</a></option>
                                          <li class="divider"></li>
@@ -50,13 +40,10 @@
                                     </select>
                                  </div>
                        
-                             </div>
-                              
-        
-               
+                             </div>   
                     
                              <div class="btn-group">
-                                 <a id="filtro" class="btn mini tooltips" href="#" data-toggle="dropdown" data-placement="top" data-original-title="Refresh">
+                                 <a id="filtro" class="btn mini tooltips" data-toggle="dropdown" data-placement="top" data-original-title="Refresh">
                                      <i class=" fa fa-refresh"></i>
                                  </a>
                              </div>
@@ -97,25 +84,12 @@
                                 foreach ($this->listasuma as $valorsuma){
                                 ?>    
                                 <tr name="oculus" id="xx" class="unread">
-                                    <td class="view-message  text-right"><?php echo $c ?></td>
-                           <!--          <td class="inbox-small-cells">
-                                        <input type="checkbox" class="mail-checkbox">
-                                    </td> -->
-
+                                    <td class="view-message  text-right"><?php echo $c ?></td>                  
                                     <td>   
-                                      <!--   <a id="detalletimes" class="btn mini tooltips" href="#" data-toggle="dropdown" data-placement="top" data-original-title="hoja semanal">
-                                        <i class=" fa fa-desktop"></i></a> -->
-                                        <a id="detalletime" class="btn btn-warning" data-toggle="modal"  uid=<?php echo $valorsuma['uid']?> dni=<?php echo $valorsuma['dni']?> semanaid=<?php echo $valorsuma['semanaid']?> cargo=<?php echo $valorsuma['cargo']?>  >
+                                  
+                                        <button id="detalletime_<?php echo $c?>" href="#modalsemana" class="btn btn-success" data-toggle="modal"  uid=<?php echo $valorsuma['uid']?> dni=<?php echo $valorsuma['dni']?> semanaid=<?php echo $valorsuma['semanaid']?> cargo=<?php echo $valorsuma['cargo']?>  >
                                             ver detalle
-                                        </a>            
-                                        <!--<span class="label label-success label-mini">Activo</span>
-                                        <div class="btn-group">
-                                            <button data-toggle="dropdown" class="btn btn-info dropdown-toggle btn-xs" type="button" aria-expanded="false">Modificar<span class="caret"></span></button>
-                                            <ul role="menu" class="dropdown-menu">
-                                                <li><a href="/proyecto/index/>">Activo</a></li>
-                                                <li><a href="/proyecto/index/">Cerrado</a></li>                                                
-                                            </ul>
-                                        </div> -->
+                                        </button>                                      
                                     </td>
                                     <td class="view-message "><?php echo $valorsuma['estado']?></td>
                                     <td class="view-message "><?php echo $valorsuma['dni']?></td>
@@ -125,11 +99,32 @@
                                     <td class="view-message "><?php echo $valorsuma['nonbillable']?></td>
                                     <td class="view-message "><?php echo $valorsuma['h_total']?></td>
                                     <td class="view-message "><?php echo $valorsuma['comentario']?></td>
-                                </tr>              
+                                </tr>
+                                <script type="text/javascript">
+                                  $(document).ready(function(){
+                                    $("#detalletime_<?php echo $c?>").click(function(){
+
+                                      var cargo=$(this).attr('cargo');
+                                      var uid=$(this).attr('uid');
+                                      var dni=$(this).attr('dni');
+                                      var semanaid=$(this).attr('semanaid');
+                                      // alert(cargo);
+                                      // alert(uid);
+                                      // alert(dni);
+                                      // alert(semanaid);
+                                      var url = "/timesheet/index/timesheetsemana/uid/"+ uid+"/dni/"+dni+"/cargo/"+cargo+"/semanaid/"+semanaid;                                              //alert(url);
+                                      $("#modaltimes").load(url);                                         
+                                      //$("#modalsemana").modal('show');
+                                      //$(".modal-body").html('<center><img src="/img/spinner.gif" /> Cargando...</center>');
+                                      });
+                                    });
+                                </script>              
                               <?php
                               $c++; }  ?>
               
-                          </tbody>
+                            </tbody>
+
+
                           </table>
                           </div>
                           
@@ -143,22 +138,18 @@
                                     <h4 class="modal-title">Modal Tittle</h4>
                                 </div>
                                 <div class="modal-body">
-                                    Body goes here...
+                                    
+                                    <div id="modaltimes"></div>
                                 </div>
                                 <div class="modal-footer">
-                                      <button data-dismiss="modal" class="btn btn-default" type="button">Close</button>
-                                      <button class="btn btn-warning" type="button"> Confirm</button>
+                                      <button  data-dismiss="modal" class="btn btn-default" type="button">Cerrar</button>
+                                      <button id="savecoment"class="btn btn-warning" type="button"> Confirm</button>
                                 </div>
                               </div>
                             </div>
                           </div>
 
-
-                    
-
-
                       </div>
-
 
 
 <div id="modali"></div>
@@ -171,8 +162,7 @@ $(document).ready(function(){
     var usuario= $("#user").val(); 
     var dateinicio = $("#fechainicio").val(); 
     var datefin= $("#fechafin").val(); 
-    var estado= $("#estado").val();
-    
+    var estado= $("#estado").val();    
     //alert(usuario);
     //alert(dateinicio);
     //alert(datefin);
@@ -198,33 +188,7 @@ $(document).ready(function(){
 });
 </script>
 
-<script type="text/javascript">
-$(document).ready(function(){
 
-  $("#detalletime").on("click",function(){
-      //alert('kkkkk');
-
-      var cargo=$(this).attr('cargo');
-      var uid=$(this).attr('uid');
-      var dni=$(this).attr('dni');
-      var semanaid=$(this).attr('semanaid');
-     
-      //alert(cargo);
-      //alert(uid);
-      //alert(dni);
-      //alert(semanaid);
-      //alert(url);
-
-
-      var url = "/timesheet/index/timesheetsemana/uid/"+ uid+"/dni/"+dni+"/cargo/"+cargo+"/semanaid/"+semanaid;
-       $("#modalsemana").modal('show');
-      // $(".modal-body").html('<center><img src="/img/spinner.gif" /> Cargando...</center>');
-      // $(".modal-body").load(url);
-      $(".modal-body").load(url);
-
-  });
-});
-</script>
 
 
 
