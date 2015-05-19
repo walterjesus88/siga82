@@ -172,6 +172,14 @@ class Expense_IndexController extends Zend_Controller_Action {
             $data_gasto[$i]['actividades'] = ($temp_gasto)? $temp_gasto : $data_gasto_final;
         }
         $this->view->gasto = $data_gasto;
+        
+        $where_tmp = array();
+        $where_tmp['uid'] = $uid;
+        $where_tmp['dni'] = $dni;
+        $where_tmp['fecha'] = date("Y-m-d");
+        $rendicion = new Admin_Model_DbTable_Gastorendicion();
+        $data_rendicion = $rendicion->_getOneXfecha($where_tmp);
+        $this->view->data_rendicion = $data_rendicion;
 
         $gastos = new Admin_Model_DbTable_Listagasto();
         $data_list_gastos = $gastos->_getGastosAll();
@@ -218,13 +226,41 @@ class Expense_IndexController extends Zend_Controller_Action {
             if (!$data_exist) {
                 $where['estado'] = 'B';
                 $rendicion->_save($where);
-                exit();
             }
-            print_r($data_guard = $rendicion->_getOneXfecha($where));
+            $data_guard = $rendicion->_getOneXfecha($where);
 
+            $data['numero_rendicion'] = $data_guard['numero'];
             $gasto = new Admin_Model_DbTable_Gastopersona();
             $gasto->_save($data);
 
+        } catch (Exception $e) {
+            print "Error: ".$e->getMessage();
+        }
+    }
+
+    public function updategastorendicionAction(){
+        try {
+            $this->_helper->layout()->disableLayout();
+            $uid = $this->sesion->uid;
+            $dni = $this->sesion->dni;
+            $numero = $this->_getParam('numero');
+            $nombre = $this->_getParam('nombre');
+            $monto_total = $this->_getParam('monto_total');
+            $monto_reembolso = $this->_getParam('monto_reembolso');
+            $monto_cliente = $this->_getParam('monto_cliente');
+            $pk = array();
+            $pk = array(
+                    'numero'=>$numero,
+                    'uid'=>$uid,
+                    'dni'=>$dni);
+            $data = array();
+            $data['numero'] = $numero;
+            $data['nombre'] = $nombre;
+            $data['monto_total'] = $monto_total;
+            $data['monto_reembolso'] = $monto_reembolso;
+            $data['monto_cliente'] = $monto_cliente;
+            $rendicion = new Admin_Model_DbTable_Gastorendicion();
+            $rendicion->_update($data,$pk);
         } catch (Exception $e) {
             print "Error: ".$e->getMessage();
         }
@@ -263,7 +299,7 @@ class Expense_IndexController extends Zend_Controller_Action {
                 $data['laboratorio_PU'] = $lab_pu[$i];
                 $data['bill_cliente'] = $cliente[$i];
                 $data['reembolsable'] = $reembolsable[$i];
-                $data['fecha_factura'] = $fecha[$i];
+                if ($fecha[$i]) $data['fecha_factura'] = $fecha[$i];
                 $data['num_factura'] = $documento[$i];
                 $data['proveedor'] = $proveedor[$i];
                 $data['monto_igv'] = $monto[$i];
@@ -294,6 +330,27 @@ class Expense_IndexController extends Zend_Controller_Action {
                 $data['estado_rendicion'] ='E';
                 $gasto->_update($data, $pk);
             }
+        } catch (Exception $e) {
+            print "Error: ".$e->getMessage();
+        }
+    }
+
+    public function updateenviargastorendicionAction(){
+        try {
+            $this->_helper->layout()->disableLayout();
+            $uid = $this->sesion->uid;
+            $dni = $this->sesion->dni;
+            $numero = $this->_getParam('numero');
+            $pk = array();
+            $pk = array(
+                    'numero'=>$numero,
+                    'uid'=>$uid,
+                    'uid'=>$uid,
+                    'dni'=>$dni);
+            $data = array();
+            $data['estado'] = 'E';
+            $rendicion = new Admin_Model_DbTable_Gastorendicion();
+            $rendicion->_update($data,$pk);
         } catch (Exception $e) {
             print "Error: ".$e->getMessage();
         }

@@ -19,8 +19,7 @@ class Admin_Model_DbTable_Gastorendicion extends Zend_Db_Table_Abstract
     public function _save($data)
     {
         try{
-            //if ($data['fecha']=='' ||  $data['uid']=='' ||  $data['dni']=='') return false;
-            print_r($data);
+            if ($data['fecha']=='' ||  $data['uid']=='' ||  $data['dni']=='') return false;
             return $this->insert($data);
             return false;
         }catch (Exception $e){
