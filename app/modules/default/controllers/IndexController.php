@@ -93,6 +93,8 @@ class IndexController extends Zend_Controller_Action {
 
                             if ($data_equipo) {
                                 $data->is_gerente = 'S';
+                            } else {
+                                $data->is_gerente = 'N';
                             }
                                    
                         }
