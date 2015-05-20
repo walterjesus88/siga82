@@ -1,0 +1,144 @@
+<?php 
+if ($this->equipo) { 
+        $data_equipo = $this->equipo[0];
+     ?>
+    <section class="panel">
+        <header class="panel-heading">
+          <?php echo $data_equipo['proyectoid']. ' - ' .$data_equipo['nombre_proyecto'] ?>
+          <span class="pull-right">
+                <a id="mostrar_enviada" class=" btn btn-success  btn-xs"> Enviada</a>
+                <a id="mostrar_declinada" class=" btn btn-primary  btn-xs"> Aprobada</a>
+                <a id="mostrar_perdida" class=" btn btn-danger  btn-xs"> Rechazada</a>
+          </span>
+        </header>
+        <div id="rendicion_enviados">
+        <table class="table table-hover p-table">
+            <thead>
+                <tr>  
+                    <th style="width: 3%;">Rendición</th>
+                    <th style="width: 30%;">Nombre</th>
+                    <th style="width: 30%;">Asigando</th>
+                    <th style="width: 20%;"><center>Monto Total</center></th>
+                    <th style="width: 20%;">Estado</th>
+                    <th style="width: 4%;">&nbsp;&nbsp;&nbsp;&nbsp;Acciones&nbsp;&nbsp;&nbsp;</th>
+                </tr>
+            </thead>
+            <tbody>
+
+            <?php
+            foreach ($this->data_enviados as $lista) { ?>
+                <tr>
+                    <td class="p-name">
+                        <center><?php echo $lista['numero'];?></center>
+                    </td>
+                    <td class="p-name">
+                        <?php echo $lista['nombre'];?>
+                    </td>
+                    <td class="p-name">
+                        <?php echo $lista['nombre_persona']; ?>
+                    </td>
+                    <td class="p-name">
+                        <?php echo $lista['monto_total']; ?>
+                    </td>
+                    <td>
+                        <?php
+                        if ($lista['estado']=='E') { ?>
+                            <span class="label label-success label-mini">Enviada</span>
+                            <?php
+                        } ?>
+                        <div class="btn-group">
+                            <button data-toggle="dropdown" class="btn btn-default dropdown-toggle btn-xs" type="button" aria-expanded="false">Modificar<span class="caret"></span></button>
+                            <ul role="menu" class="dropdown-menu">
+                                <li><a href="##" class="aprobado" uid="<?php echo $lista['uid']; ?>" dni="<?php echo $lista['dni']; ?>" numero="<?php echo $lista['numero']; ?>" estate="A">Aprobado</a></li>
+                                <li><a href="##" class="rechazado" uid="<?php echo $lista['uid']; ?>" dni="<?php echo $lista['dni']; ?>" numero="<?php echo $lista['numero']; ?>" estate="R">Rechazado</a></li>
+                            </ul>
+                        </div>
+                    </td>
+                    <td>
+                        <center>
+                            <a href="/propuesta/index/ver/propuestaid/<?php echo $lista['propuestaid']?>/revision/<?php echo $lista['revision']?>/codigo/<?php echo $lista['codigo_prop_proy']?>" class="btn btn-warning btn-xs"><i class="fa fa-folder"></i></a>
+                        </center>
+                    </td>
+                </tr>
+          <?php  }?>
+            </tbody>
+        </table>
+        </div>
+
+        <div id="rendicion_rechazados">
+        <table class="table table-hover p-table">
+            <thead>
+                <tr>  
+                    <th style="width: 3%;">Rendición</th>
+                    <th style="width: 30%;">Nombre</th>
+                    <th style="width: 30%;">Asigando</th>
+                    <th style="width: 20%;"><center>Monto Total</center></th>
+                    <th style="width: 20%;">Estado</th>
+                    <th style="width: 4%;">&nbsp;&nbsp;&nbsp;&nbsp;Acciones&nbsp;&nbsp;&nbsp;</th>
+                </tr>
+            </thead>
+            <tbody>
+
+            <?php
+            foreach ($this->data_rechazados as $lista) { ?>
+                <tr>
+                    <td class="p-name">
+                        <center><?php echo $lista['numero'];?></center>
+                    </td>
+                    <td class="p-name">
+                        <?php echo $lista['nombre'];?>
+                    </td>
+                    <td class="p-name">
+                        <?php echo $lista['nombre_persona']; ?>
+                    </td>
+                    <td class="p-name">
+                        <?php echo $lista['monto_total']; ?>
+                    </td>
+                    <td>
+                        <?php
+                        if ($lista['estado']=='R') { ?>
+                            <span class="label label-danger label-mini">Rechazados</span>
+                            <?php
+                        } ?>
+                        <div class="btn-group">
+                            <button data-toggle="dropdown" class="btn btn-default dropdown-toggle btn-xs" type="button" aria-expanded="false">Modificar<span class="caret"></span></button>
+                            <ul role="menu" class="dropdown-menu">
+                                <li><a href="##" class="aprobado" uid="<?php echo $lista['uid']; ?>" dni="<?php echo $lista['dni']; ?>" numero="<?php echo $lista['numero']; ?>" estate="A">Aprobado</a></li>
+                                <li><a href="##" class="rechazado" uid="<?php echo $lista['uid']; ?>" dni="<?php echo $lista['dni']; ?>" numero="<?php echo $lista['numero']; ?>" estate="R">Rechazado</a></li>
+                            </ul>
+                        </div>
+                    </td>
+                    <td>
+                        <center>
+                            <a href="/propuesta/index/ver/propuestaid/<?php echo $lista['propuestaid']?>/revision/<?php echo $lista['revision']?>/codigo/<?php echo $lista['codigo_prop_proy']?>" class="btn btn-warning btn-xs"><i class="fa fa-folder"></i></a>
+                        </center>
+                    </td>
+                </tr>
+          <?php  }?>
+            </tbody>
+        </table>
+        </div>
+    </section>
+    <div id="load_change"></div>
+
+    <script type="text/javascript">
+        $(".aprobado").click(function(){
+            var numero = $(this).attr('numero');
+            var uid = $(this).attr('uid');
+            var dni = $(this).attr('dni');
+            var estate = $(this).attr('estate');
+            $("#load_change").load("/expense/aprobacion/estado/numero/"+numero+"/uid/"+uid+"/dni/"+dni+"/estate/"+estate);
+            window.location.reload();
+        });
+
+        $(".rechazado").click(function(){
+            var numero = $(this).attr('numero');
+            var uid = $(this).attr('uid');
+            var dni = $(this).attr('dni');
+            var estate = $(this).attr('estate');
+            $("#load_change").load("/expense/aprobacion/estado/numero/"+numero+"/uid/"+uid+"/dni/"+dni+"/estate/"+estate);
+            window.location.reload();
+        });
+    </script>
+<?php 
+} ?>

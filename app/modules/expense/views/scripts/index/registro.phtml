@@ -5,6 +5,10 @@
             <a id = "agregar_gasto" class="btn btn-primary pull-right btn-sm" data-toggle="modal" href="#add_gasto">
                 <i class="fa fa-check-square-o"></i> Agregar
             </a>
+
+            <a id = "actualizar_gasto" class="btn btn-default pull-right btn-sm" href="##" style="margin-right : 10px">
+                <i class="fa fa-refresh"></i> Actualizar
+            </a>
         </span>
     </header>
     <div class="modal fade" id="add_gasto" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -18,7 +22,7 @@
                     <div class="chat-room">
                         <aside class="left-side" style="width:15%">
                             <div class="user-head">
-                                <h5>Proyecto</h5>
+                                <h5>Clientes</h5>
                             </div>
                             <ul class="chat-list">
                                 <?php 
@@ -27,7 +31,7 @@
                                     <li>
                                         <a style="padding:5px 5px;" class="cliente" clienteid="<?php echo $data_equipo['clienteid'] ?>" unidadid="<?php echo $data_equipo['unidad_mineraid'] ?>" href="##">
                                             <i class="fa fa-rocket"></i>
-                                            <span><?php echo $data_equipo['nombre_cliente'] ?></span>
+                                            <span><?php echo $data_equipo['nombre_comercial'] ?></span>
                                         </a>
                                     </li>
                                     <script type="text/javascript">
@@ -72,9 +76,14 @@
 
 <script type="text/javascript">
     $("#agregar_gasto").click(function(){
+        $("#proyectos").html('');
         $("#disciplina").html('');
         $("#actividades_padres").html('');
         $("#tareas").html('');
     });
     $("#ingreso").load("/expense/index/ingreso/");
+
+    $("#actualizar_gasto").click(function(){
+        $("#ingreso").load("/expense/index/ingreso/");
+    });
 </script>
