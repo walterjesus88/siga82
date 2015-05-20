@@ -18,25 +18,18 @@
             <?php 
               //$fecha = $this->fecha;
               //echo $fecha;
-
               //$fecha_mostrar = $this->fecha_mostrar;
               $days_name = array("lun","mar","mié","jue","vie","sáb","dom");
-
               $inicios = strtotime(($this->semana-1) . ' weeks '.$this->mos.' days', $this->enero); 
-
               for ($i=0; $i < 7; $i++) { ?>
               <th style="width: 100px;"><center>
                 <?php print $days_name[$i] ?> <br><?php 
                   //list($dia, $mes, $anio) = split('[/.-]', $fecha);
                   //print $dia
-
                 $dias[] = date('Y-m-d', strtotime("+ $i day", $inicios));
                 $dia[] = date('d', strtotime("+ $i day", $inicios));
-
-                echo $dias[$i];
-
+                echo $dia[$i];
                 ?></center></th>
-
                 <?php
                   // $newDate = date("Y-m-d", strtotime($fecha));
                   // $nuevafecha = strtotime ( '+1 day' , strtotime ( $newDate ) ) ;
@@ -52,7 +45,58 @@
             $fechaactual = date("Y-m-d", strtotime($fechaactual));
             $actividades = $this->actividades;
             $j=1;
-            //for ($k=0; $k < 7; $k++){
+            ?>
+            <label class="control-label col-md-2"> Ingrese Comentario: </label>
+            <div class="col-md-4">
+              <textarea name="comentario" id="comentario">Ingrese un comentario aqui...</textarea>
+            <!-- Ingrese Comentario: <input type="text" class="form-control" id="comentarioxx" name="lcomentario"><br> -->
+            </div>
+            <?php
+            $where['uid']=$this->uid;
+            $where['dni']=$this->dni;
+            $where['cargo']=$this->cargo;
+            $where['semanaid']=$this->semana;
+            $vercoment= new Admin_Model_DbTable_Usuariovalidacion();
+            //$vcoment=$vercoment->_getOne($where);
+            //print_r($vcoment);
+            ?>
+            <?php
+            if($vcoment=$vercoment->_getOne($where))
+            {              
+              if($vcoment['estado_usuario']=='B')
+              { ?>
+                <div class="col-md-3">
+                               
+                  <button id="observar" class="btn btn-warning" type="button">
+                    Observar Hoja 
+                  </button>   
+                </div>
+            <?php }
+              else {
+                ?>
+                <div class="col-md-3">
+                  <button id="aprobar" class="btn btn-success" type="button">
+                    Aprobar Hoja 
+                  </button>                
+                </div>
+                <?php
+              }
+            }
+            else
+            { ?>
+                <div class="col-md-3">
+                <button id="aprobar" class="btn btn-success apro" type="button">
+                  Aprobar Hoja
+                </button>
+                <button id="observar" class="btn btn-warning obs " type="button">
+                  Observar Hoja
+                </button>  
+                </div>
+            <?php }
+            ?>    
+           
+
+            <?php
             foreach ($actividades as $data_tareo) 
             { ?>
             <tr class="gradeX" id ="tr_tareo_<?php echo $j?>">
@@ -88,9 +132,7 @@
                   $datosactgeneral = $dbactividadgeneral->_getActividadgeneralxId($data_tareo['actividad_generalid']);
                  // print_r($datosactgeneral[0]['nombre']) 
                   if ($data_tareo['actividad_generalid']) { ?>
-
-                           <select id="select_generalg_<?php echo $j?>" class="form-control input-sm m-bot15 col-lg-10">
-                        
+                           <select disabled id="select_generalg_<?php echo $j?>" class="form-control input-sm m-bot15 col-lg-10">                        
                             <option value="<?php echo $data_tareo['actividad_generalid']?>"><?php print_r($datosactgeneral[0]['nombre']) ?></option>
                                 <?php 
                                     $areaid='90';
@@ -99,16 +141,11 @@
                                     foreach ($data_generales as $data_tareas) {?>
                                     <option value="<?php echo $data_tareas['actividad_generalid']?>"><?php  echo strtoupper($data_tareas['nombre'])?></option>
                                 <?php }?>
-
-
                         </select>
                   <?php
-
                   } else{
-
                   ?>
-
-                         <select id="select_generalg_<?php echo $j?>" class="form-control input-sm m-bot15 col-lg-10">
+                         <select disabled id="select_generalg_<?php echo $j?>" class="form-control input-sm m-bot15 col-lg-10">
                         
                             <option value="">Tarea No Facturable</option>
                                 <?php 
@@ -118,8 +155,6 @@
                                     foreach ($data_generales as $data_tareas) {?>
                                     <option value="<?php echo $data_tareas['actividad_generalid']?>"><?php  echo strtoupper($data_tareas['nombre'])?></option>
                                 <?php }?>
-
-
                         </select>
                         <?php }?>
 
@@ -130,7 +165,7 @@
                    </div>
                   <div id="tarea_general_<?php echo $j?>" style="display:none">
 
-                  <select id="select_generalp_<?php echo $j?>" class="form-control input-sm m-bot15 col-lg-10">
+                  <select disabled id="select_generalp_<?php echo $j?>" class="form-control input-sm m-bot15 col-lg-10">
                         
                             <option value="">Seleccione Cliente</option>
                                 <?php 
@@ -149,10 +184,7 @@
 
               <?php  
               $fecha_x = $fecha_;
-              $fecha = $fecha_;
-             
-              //echo $fecha_x;
-              //echo $fecha;
+              $fecha = $fecha_;            
 
                 for ($i=0; $i < 7; $i++) {
                 $proyectoid=$data_tareo['proyectoid'];
@@ -180,14 +212,12 @@
                 $cargo=$this->cargo;
                 // echo $cargo; echo "<br>";
                 $tareopersona = new Admin_Model_DbTable_Tareopersona();
-                $buscar_tarea=$tareopersona->_getTareoxProyectoxTareaxDia($proyectoid,$codigo,$revision,$actividadid,$actividad_padre,$semanaid,$fecha_tarea,$fecha_planificacion,$uid,$dni,$cargo,$resultado);
-                //print_r($buscar_tarea);
-                //$k=$a[$i][$j];
+                $buscar_tarea=$tareopersona->_getTareoxProyectoxTareaxDia($proyectoid,$codigo,$revision,$actividadid,$actividad_padre,$semanaid,$fecha_tarea,$fecha_planificacion,$uid,$dni,$cargo,$resultado);           
                 ?>
               <td>
                 <center>
                 
-                <input  class="form-control" id="valor<?php echo $i?><?php echo $j?>" style="text-align: center;height: 26px; width: 40px; padding-right: 4px; padding-left: 4px;" maxlength="2" values="valor<?php echo $i?><?php echo $j?>" value="<?php if ($buscar_tarea) {
+                <input  disabled class="form-control" id="valor<?php echo $i?><?php echo $j?>" style="text-align: center;height: 26px; width: 40px; padding-right: 4px; padding-left: 4px;" maxlength="2" values="valor<?php echo $i?><?php echo $j?>" value="<?php if ($buscar_tarea) {
                     if($buscar_tarea[0]['h_real']=='0') { echo "";} else { print_r($buscar_tarea[0]['h_real']);}
                     }?>" >
 
@@ -197,7 +227,6 @@
                   $(document).ready(function(){
                     $("#valor<?php echo $i ?><?php echo $j?>").keyup(function(e){ 
                         $("#valor<?php echo $i ?><?php echo $j?>").focus();
-
                         var hora_real=$("#valor<?php echo $i?><?php echo $j?>").val(); 
                         var codigo_prop_proy="<?php echo $data_tareo['codigo_prop_proy'] ?>";
                         var codigo_actividad="<?php echo $data_tareo['codigo_actividad'] ?>";
@@ -219,13 +248,9 @@
                        //var fecha_calendario = $("#fechasemana").text();
                         var fecha_calendario = "<?php echo $fecha_x ?>";
 
-                        //alert(fecha_calendario);
-                        //alert(fecha_tarea);
                         var uid="<?php echo $this->uid ?>";
                         var dni_="<?php echo $this->dni ?>";
          
-
-
                         if (isNaN(hora_real)) {
                            //entonces (no es numero) devuelvo el valor cadena vacia 
                            alert('la hora no puede ser una letra');
@@ -234,12 +259,8 @@
                            //En caso contrario (Si era un número) devuelvo el valor 
                           var url="/timesheet/index/updatetareoreal/codigo_prop_proy/"+codigo_prop_proy+"/codigo_actividad/"+codigo_actividad+"/actividadid/"+actividadid+"/revision/"+revision+"/actividad_padre/"+actividad_padre+"/proyectoid/"+proyectoid+"/semanaid/"+semanaid+"/fecha_tarea/"+fecha_tarea+"/asignado/"+asignado+"/areaid/"+areaid+"/categoriaid/"+categoriaid+"/dni/"+dni+"/cargo/"+cargo+"/horareal/"+hora_real+"/tipo_actividad/"+tipo_actividad+"/etapa/"+etapa+"/actividad_generalid/"+actividad_generalid+"/fecha_calendario/"+fecha_calendario+"/h_propuesta/"+h_propuesta;   
 
-                          //alert(url);            
-
                           var url2='/timesheet/index/traersumahoras/semanaid/'+semanaid+'/fecha/'+fecha_tarea+'/fechainiciomod/'+fecha_tarea+'/uid/'+uid+'/dni/'+dni_+'/cargo/'+cargo;   
                           
-                          //alert(url2);            
-
                            $.ajax({
                                     type: "POST",
                                     url: url,
@@ -248,12 +269,9 @@
                                     error: function(){
                                           alert("error petición ajax load");
                                     },
-                                    success: function(data){      
-                                          //console.log('agg');                                              
+                                    success: function(data){                                                
                                           $("#carga").empty();
-                                          $("#carga").append(data); 
-                                          //if (data.status==true) {
-
+                                          $("#carga").append(data);
                                               $.ajax({
                                                     type: "POST",
                                                     url: url2,
@@ -266,23 +284,15 @@
                                                       //console.log('agg');                                              
                                                       $("#sumahoras<?php echo $i ?>").empty();
                                                       $("#sumahoras<?php echo $i ?>").append(data);                                     
-                                                      $("#fecha_<?php echo $i?>").hide();
-                 
+                                                      $("#fecha_<?php echo $i?>").hide();                 
                                                     }
                                               });
-                                                                  
-                                        
                                     }
                             });
-
-                        }             
-
+                        }           
                       });
                     });
                 </script>
-
-
-
               </td>
                 <?php 
                   $newDate = date("Y-m-d", strtotime($fecha));
@@ -290,9 +300,7 @@
                   $fecha = date ( 'Y-m-d' , $nuevafecha );?>
                 <?php }
                 ?>
-
-
-            </tr>
+            </tr>    
 
               <script type="text/javascript">
                 $("#select_generalp_<?php echo $j?>").change(function(){
@@ -599,6 +607,67 @@
              //}
             }?>
            </tbody>
+           <div id="comentariousers"></div>
+           <script type="text/javascript">        
+                $(document).ready(function(){
+                  $("#aprobar").on("click",function(){
+                  //alert('ku');
+                  var coment=$("#comentario").val();
+                  var uid="<?php echo $this->uid ?>";
+                  var dni="<?php echo $this->dni ?>";
+                  var semanaid="<?php echo $data_tareo['semanaid'] ?>";
+                  var cargo="<?php echo $data_tareo['cargo'] ?>";
+                
+                  url="/timesheet/index/guardarcomentario/estado/B/uid/"+uid+'/dni/'+dni+'/semanaid/'+semanaid+'/cargo/'+cargo+'/coment/'+coment;
+                  alert(url);
+                      $.ajax({
+                          type: "POST",
+                          url: url,
+                          data: $(this).serialize(),
+                          dataType: "html",                                                 
+                          error: function(){
+                              alert("error petición ajax load");
+                          },
+                          success: function(data){      
+                              $("#comentariousers").empty();
+                              $("#comentariousers").html(data);
+                              $("#aprobar").hide();
+                              $("#observar").show();
+                             
+                          }
+                      });
+                  });
+                });
+           </script>
+           <script type="text/javascript">
+                $(document).ready(function(){
+                  $("#observar").on("click",function(){
+                  //alert('ku');
+                  var coment=$("#comentario").val();
+                  var uid="<?php echo $this->uid ?>";
+                  var dni="<?php echo $this->dni ?>";
+                  var semanaid="<?php echo $data_tareo['semanaid'] ?>";
+                  var cargo="<?php echo $data_tareo['cargo'] ?>";              
+                  url="/timesheet/index/guardarcomentario/estado/R/uid/"+uid+'/dni/'+dni+'/semanaid/'+semanaid+'/cargo/'+cargo+'/coment/'+coment;
+                  //alert(url);
+                      $.ajax({
+                          type: "POST",
+                          url: url,
+                          data: $(this).serialize(),
+                          dataType: "html",                                                 
+                          error: function(){
+                              alert("error petición ajax load");
+                          },
+                          success: function(data){      
+                              $("#comentariousers").empty();
+                              $("#comentariousers").html(data);
+                              $("#observar").hide();
+                              $("#aprobar").show();
+                          }
+                      });
+                  });
+                });
+           </script>
           
            <?php if ( $this->actividades) {?>
           <tr >
