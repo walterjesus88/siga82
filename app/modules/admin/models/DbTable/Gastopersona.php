@@ -46,8 +46,7 @@ class Admin_Model_DbTable_Gastopersona extends Zend_Db_Table_Abstract
     }
 
     public function _getFilter($where=null,$attrib=null,$orders=null){
-        try{            
-            if($where['proyectoid']=='') return false;
+        try{
                 $select = $this->_db->select();
                 if ($attrib=='') $select->from("gasto_persona");
                 else $select->from("gasto_persona",$attrib);
