@@ -63,7 +63,7 @@
           <table  class="display table table-bordered table-striped">
           <thead>
             <tr >
-            <th style="width: 5%;"> DDD </th>
+            <th style="width: 5%;">  </th>
             <th style="width: 40%;" >Proyecto / Actividad: TareaSS</th>
             <th style="width: 7%;">Facturable</th>
             <th style="width: 12%;">Tarea No Facturable</th>
@@ -95,10 +95,10 @@
             <tr class="gradeX" id ="tr_tareo_<?php echo $j?>">
               <td> 
                 <?php if ($data_tareo['tipo_actividad']=='G') {?>
-                  <a id ="crear_tareag_<?php echo $j?>"><i class="fa fa-plus-square-o"></i>VBBB</a>
+                  <a id ="crear_tareag_<?php echo $j?>"><i class="fa fa-plus-square-o"></i></a>
                   <a title="Eliminar" id ="eliminar_tareo_<?php echo $j?>" ><i class="fa fa-minus-square-o"></i></a><?php }
                 if ($data_tareo['tipo_actividad']=='P') { ?>
-                  <a id ="crear_tareag_<?php echo $j?>" ><i class="fa fa-plus-square-o"></i>XXXX</a>
+                  <a id ="crear_tareag_<?php echo $j?>" ><i class="fa fa-plus-square-o"></i></a>
                   <a title="Eliminar" id ="eliminar_tareo_<?php echo $j?>" ><i class="fa fa-minus-square-o"></i></a>                                   
                 <?php }?>
               </td>
@@ -109,7 +109,7 @@
 
               <td>
                 <?php if ($data_tareo['tipo_actividad']=='G') {?>
-                  <a id ="nofacturable_cambio_<?php echo $j?>" class="btn btn-danger btn-xs ">No Facturable</a>
+                  <a id ="nofacturable_cambio_<?php echo $j?>" class="btn btn-danger btn-xs ">No Facturable.</a>
                 <?php }else{ ?>
                 <a id ="facturable_tareo_<?php echo $j?>" class="btn btn-success btn-xs">Facturable</a>
                 <a id ="nofacturable_tareo_<?php echo $j?>" class="btn btn-danger btn-xs" style="display:none">No Facturable</a>
@@ -315,7 +315,7 @@
                 $("#select_generalp_<?php echo $j?>").change(function(){
                   var tarea_general = $(this).val(); 
                   //alert(tarea_general);
-                  alert('1');
+                  //alert('1');
                    var codigo_prop_proy= '<?php echo $data_tareo['codigo_prop_proy']?>';
                     var codigo_actividad='<?php echo $data_tareo['codigo_actividad']?>';
                     var actividadid="<?php echo $data_tareo['actividadid']?>";
@@ -335,7 +335,9 @@
                     var fecha = $("#fechasemana").text();
 
                     var url="/timesheet/index/updateetapanb/codigo/"+codigo_prop_proy+"/codigo_actividad/"+codigo_actividad+"/actividadid/"+actividadid+"/revision/"+revision+"/actividad_padre/"+actividad_padre+"/proyectoid/"+proyectoid+"/semanaid/"+semanaid+"/fecha_tarea/"+fecha_tarea+"/asignado/"+asignado+"/areaid/"+areaid+"/categoriaid/"+categoriaid+"/dni/"+dni+"/cargo/"+cargo+"/tipo_actividad/"+tipo_actividad+"/etapa/"+etapa+"/fecha_planificacion/"+fecha_planificacion+"/tarea_general/"+tarea_general+"/fecha/"+fecha;
-                    alert(url);
+
+
+                    //alert(url);
                     //$("#carga").load(url);
                     var dateObj = new Date();
                     var dateFrom = $.datepicker.formatDate('mm/dd/yy', dateObj);
@@ -373,7 +375,7 @@
                 $("#select_generalg_<?php echo $j?>").change(function(){
                   var tarea_general = $(this).val(); 
                   //alert(tarea_general);
-                  alert("2");
+                 //alert("2");
                   var codigo_prop_proy= '<?php echo $data_tareo['codigo_prop_proy']?>';
                     var codigo_actividad='<?php echo $data_tareo['codigo_actividad']?>';
                     var actividadid="<?php echo $data_tareo['actividadid']?>";
@@ -393,7 +395,7 @@
                     var fecha = $("#fechasemana").text();
 
                     var url="/timesheet/index/updateetapanb/codigo/"+codigo_prop_proy+"/codigo_actividad/"+codigo_actividad+"/actividadid/"+actividadid+"/revision/"+revision+"/actividad_padre/"+actividad_padre+"/proyectoid/"+proyectoid+"/semanaid/"+semanaid+"/fecha_tarea/"+fecha_tarea+"/asignado/"+asignado+"/areaid/"+areaid+"/categoriaid/"+categoriaid+"/dni/"+dni+"/cargo/"+cargo+"/tipo_actividad/"+tipo_actividad+"/etapa/"+etapa+"/fecha_planificacion/"+fecha_planificacion+"/tarea_general/"+tarea_general+"/fecha/"+fecha;
-                    // alert(url);
+                     //alert(url);
                    
                     if (isNaN(tarea_general)) {
                            //entonces (no es numero) devuelvo el valor cadena vacia 
@@ -532,12 +534,82 @@
 
                 $(document).ready(function(){
                   $("#facturable_tareo_<?php echo $j?>").click(function(){
-                    $("#tarea_general_<?php echo $j?>").show();
-                    $("#facturable_tareo_<?php echo $j?>").hide();
-                    $("#nofacturable_tareo_<?php echo $j?>").show();
-                    $("#tarea_proyecto_<?php echo $j?>").hide();
 
-                    
+
+                    var codigo_prop_proy= "<?php echo $data_tareo['codigo_prop_proy']?>";
+                    var codigo_actividad="<?php echo $data_tareo['codigo_actividad']?>";
+                    var actividadid="<?php echo $data_tareo['actividadid']?>";
+                    var revision="<?php echo $data_tareo['revision']?>";
+                    var actividad_padre="<?php echo $data_tareo['actividad_padre'] ?>";
+                    var proyectoid="<?php echo $data_tareo['proyectoid']?>";
+                    var semanaid="<?php echo $data_tareo['semanaid']?>";
+                    var fecha_tarea="<?php echo $data_tareo['fecha_tarea'] ?>";
+                    var asignado="<?php echo $data_tareo['asignado']?>";
+                    var areaid="<?php echo $data_tareo['areaid']?>";
+                    var categoriaid="<?php echo $data_tareo['categoriaid']?>";
+                    var dni="<?php echo $data_tareo['dni']?>";
+                    var cargo="<?php echo $data_tareo['cargo']?>";
+                    var etapa="<?php echo $data_tareo['etapa']?>";
+                    var tipo_actividad="<?php echo $data_tareo['tipo_actividad']?>";
+                    var fecha_planificacion="<?php echo $data_tareo['fecha_planificacion']?>";
+                    var fecha = $("#fechasemana").text();
+
+                    var url="/timesheet/index/updateetapanb/codigo/"+codigo_prop_proy+"/codigo_actividad/"+codigo_actividad+"/actividadid/"+actividadid+"/revision/"+revision+"/actividad_padre/"+actividad_padre+"/proyectoid/"+proyectoid+"/semanaid/"+semanaid+"/fecha_tarea/"+fecha_tarea+"/asignado/"+asignado+"/areaid/"+areaid+"/categoriaid/"+categoriaid+"/dni/"+dni+"/cargo/"+cargo+"/tipo_actividad/"+tipo_actividad+"/etapa/"+etapa+"/fecha_planificacion/"+fecha_planificacion+"/fecha/"+fecha;
+
+                    // var url="/timesheet/index/guardaractividadgeneral/codigo/"+codigo_prop_proy+"/codigo_actividad/"+codigo_actividad+"/actividadid/"+actividadid+"/revision/"+revision+"/actividad_padre/"+actividad_padre+"/proyectoid/"+proyectoid+"/semanaid/"+semanaid+"/fecha_tarea/"+fecha_tarea+"/asignado/"+asignado+"/areaid/"+areaid+"/categoriaid/"+categoriaid+"/dni/"+dni+"/cargo/"+cargo+"/tipo_actividad/"+tipo_actividad+"/etapa/"+etapa+"/fecha_planificacion/"+fecha_planificacion+"/fecha/"+fecha;
+
+                    //alert(" facturable tareo k kambie ");
+                    //alert(url);
+
+                    $.ajax({
+                        type: "POST",
+                        url: url,
+                        data: $(this).serialize(),
+                        dataType: "html",                                                 
+                        error: function(){
+                              alert("error petición ajax load");
+                        },
+                        success: function(data){      
+                              $("#carga").html(data);
+                          
+                        }
+                    });
+
+                    var dateObj = new Date();
+                    var dateFrom = $.datepicker.formatDate('mm/dd/yy', dateObj);
+                    var weekfrom = $.datepicker.iso8601Week(new Date(dateFrom));
+                    var diasSemana = new Array("Domingo","Lunes","Martes","Miércoles","Jueves","Viernes","Sábado");
+                    var day_select = diasSemana[dateObj.getDay()];
+                    for (i = 0; i < diasSemana.length; i++) { 
+                      if (diasSemana[i] == day_select) {
+                        if (i == 0) {
+                          var num_day = 6;
+                        } else {
+                          var num_day = i - 1;
+                        };
+                      };
+                    };
+                    fecha_inicio = mostrarFecha(dateObj,-num_day);
+
+                    urlfecha="/timesheet/index/registro/fecha/" + fecha_inicio;
+
+                    $.ajax({
+                        type: "POST",
+                        url: urlfecha,
+                        data: $(this).serialize(),
+                        dataType: "html",                                                 
+                        error: function(){
+                              alert("error petición ajax load");
+                        },
+                        success: function(data){      
+                                $("#registro").html(data);
+                              
+                        }
+                    });  
+
+                      $("#facturable_tareo_<?php echo $j?>").hide();
+                      $("#tarea_general_<?php echo $j?>").show();
+                      $("#nofacturable_tareo_<?php echo $j?>").show();                 
                     // var codigo_prop_proy= '<?php echo $data_tareo['codigo_prop_proy']?>';
                     // var codigo_actividad='<?php echo $data_tareo['codigo_actividad']?>';
                     // var actividadid="<?php echo $data_tareo['actividadid']?>";
@@ -565,7 +637,8 @@
 
                     $("#facturable_tareo_<?php echo $j?>").show();
                     $("#tarea_general_<?php echo $j?>").hide();
-                    $("#nofacturable_tareo_<?php echo $j?>").hide();
+                    $("#nofacturable_tareo_<?php echo $j?>").hide();  
+
                     // var codigo_prop_proy= '<?php echo $data_tareo['codigo_prop_proy']?>';
                     // var codigo_actividad='<?php echo $data_tareo['codigo_actividad']?>';
                     // var actividadid="<?php echo $data_tareo['actividadid']?>";
@@ -585,6 +658,79 @@
                     // var url="/timesheet/index/guardaractividadgeneral/codigo/"+codigo_prop_proy+"/codigo_actividad/"+codigo_actividad+"/actividadid/"+actividadid+"/revision/"+revision+"/actividad_padre/"+actividad_padre+"/proyectoid/"+proyectoid+"/semanaid/"+semanaid+"/fecha_tarea/"+fecha_tarea+"/asignado/"+asignado+"/areaid/"+areaid+"/categoriaid/"+categoriaid+"/dni/"+dni+"/cargo/"+cargo+"/tipo_actividad/"+tipo_actividad+"/etapa/"+etapa+"/fecha_planificacion/"+fecha_planificacion;
                     // alert(url);
                     //$("#carga").load(url);
+
+
+                    /*codigo wwalter
+                    var codigo_prop_proy= "<?php echo $data_tareo['codigo_prop_proy']?>";
+                    var codigo_actividad="<?php echo $data_tareo['codigo_actividad']?>";
+                    var actividadid="<?php echo $data_tareo['actividadid']?>";
+                    var revision="<?php echo $data_tareo['revision']?>";
+                    var actividad_padre="<?php echo $data_tareo['actividad_padre'] ?>";
+                    var proyectoid="<?php echo $data_tareo['proyectoid']?>";
+                    var semanaid="<?php echo $data_tareo['semanaid']?>";
+                    var fecha_tarea="<?php echo $data_tareo['fecha_tarea'] ?>";
+                    var asignado="<?php echo $data_tareo['asignado']?>";
+                    var areaid="<?php echo $data_tareo['areaid']?>";
+                    var categoriaid="<?php echo $data_tareo['categoriaid']?>";
+                    var dni="<?php echo $data_tareo['dni']?>";
+                    var cargo="<?php echo $data_tareo['cargo']?>";
+                    var etapa="<?php echo $data_tareo['etapa']?>";
+                    var tipo_actividad="<?php echo $data_tareo['tipo_actividad']?>";
+                    var fecha_planificacion="<?php echo $data_tareo['fecha_planificacion']?>";
+                    var fecha = $("#fechasemana").text();
+
+                    var url="/timesheet/index/updateetapab/codigo/"+codigo_prop_proy+"/codigo_actividad/"+codigo_actividad+"/actividadid/"+actividadid+"/revision/"+revision+"/actividad_padre/"+actividad_padre+"/proyectoid/"+proyectoid+"/semanaid/"+semanaid+"/fecha_tarea/"+fecha_tarea+"/asignado/"+asignado+"/areaid/"+areaid+"/categoriaid/"+categoriaid+"/dni/"+dni+"/cargo/"+cargo+"/tipo_actividad/"+tipo_actividad+"/etapa/"+etapa+"/fecha_planificacion/"+fecha_planificacion+"/fecha/"+fecha;
+
+                    alert(" no facturable tareo ");
+                    alert(url);
+
+                    $.ajax({
+                        type: "POST",
+                        url: url,
+                        data: $(this).serialize(),
+                        dataType: "html",                                                 
+                        error: function(){
+                              alert("error petición ajax load");
+                        },
+                        success: function(data){      
+                              $("#carga").html(data);
+                                
+                        }
+                    });
+
+                    var dateObj = new Date();
+                    var dateFrom = $.datepicker.formatDate('mm/dd/yy', dateObj);
+                    var weekfrom = $.datepicker.iso8601Week(new Date(dateFrom));
+                    var diasSemana = new Array("Domingo","Lunes","Martes","Miércoles","Jueves","Viernes","Sábado");
+                    var day_select = diasSemana[dateObj.getDay()];
+                    for (i = 0; i < diasSemana.length; i++) { 
+                      if (diasSemana[i] == day_select) {
+                        if (i == 0) {
+                          var num_day = 6;
+                        } else {
+                          var num_day = i - 1;
+                        };
+                      };
+                    };
+                    fecha_inicio = mostrarFecha(dateObj,-num_day);
+
+                    urlfecha="/timesheet/index/registro/fecha/" + fecha_inicio;
+
+                    $.ajax({
+                        type: "POST",
+                        url: urlfecha,
+                        data: $(this).serialize(),
+                        dataType: "html",                                                 
+                        error: function(){
+                              alert("error petición ajax load");
+                        },
+                        success: function(data){      
+                                $("#registro").html(data);     
+                        }
+                    });  
+                    
+*/
+
                   });
                 });
 
@@ -612,7 +758,7 @@
 
                     var url="/timesheet/index/guardaractividadgeneral/codigo/"+codigo_prop_proy+"/codigo_actividad/"+codigo_actividad+"/actividadid/"+actividadid+"/revision/"+revision+"/actividad_padre/"+actividad_padre+"/proyectoid/"+proyectoid+"/semanaid/"+semanaid+"/fecha_tarea/"+fecha_tarea+"/asignado/"+asignado+"/areaid/"+areaid+"/categoriaid/"+categoriaid+"/dni/"+dni+"/cargo/"+cargo+"/tipo_actividad/"+tipo_actividad+"/etapa/"+etapa+"/fecha_planificacion/"+fecha_planificacion+"/fecha/"+fecha;
                      //alert(url);
-                      //$("#carga_nueva").load(url);
+                     //$("#carga_nueva").load(url);
                       $.ajax({
                         type: "POST",
                         url: url,
