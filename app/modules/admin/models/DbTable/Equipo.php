@@ -31,6 +31,18 @@ class Admin_Model_DbTable_Equipo extends Zend_Db_Table_Abstract
         }
     }
 
+    public function _getProyectosXuidXEstadoXnivel($where=null){
+        try{
+            if ($where['uid']=='' || $where['dni']=='' || $where['estado']=='' || $where['nivel']=='') return false;
+            $wherestr="uid = '".$where['uid']."' and dni = '".$where['dni']."' and estado = '".$where['estado']."' and nivel = '".$where['nivel']."'";
+            $row = $this->fetchRow($wherestr);
+            if($row) return $row->toArray();
+            return false;         
+            } catch (Exception $ex){
+            print $ex->getMessage();
+        }
+    }
+
 
 public function _getProyectosxUidXEstadoxCliente($uid,$estado,$clienteid,$unidad_mineraid)
      {

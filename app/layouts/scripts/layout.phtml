@@ -10,6 +10,7 @@
     $name = $sesion -> personal->alias;
     $rol = $sesion -> rid;
     $dni = $sesion -> dni;
+    $is_gerente = $sesion->is_gerente;
 ?>
 <html lang="es">
     <head>
@@ -179,12 +180,28 @@
                             <span>Hoja de Tiempo</span>
                         </a>
                     </li>
-                    <li>
-                        <a href="/expense/index/registro">
-                            <i class="fa fa-money"></i>
-                            <span>Rendición Gastos</span>
-                        </a>
-                    </li>
+                    <?php 
+                    if ($is_gerente) { ?>
+                        <li class="sub-menu">
+                            <a href="##" >
+                                <i class="fa fa-suitcase"></i>
+                                <span>Rendición Gastos</span>
+                            </a>
+                            <ul class="sub">
+                                <li><a  href="/expense/aprobacion/index">Aprobación</a></li>
+                                <li><a  href="/expense/index/registro">Rendición</a></li>
+                            </ul>
+                        </li>
+                    <?php     
+                     } else { ?>
+                        <li>
+                            <a href="/expense/index/registro">
+                                <i class="fa fa-money"></i>
+                                <span>Rendición Gastos</span>
+                            </a>
+                        </li>
+                    <?php 
+                    } ?>
                     <li class="sub-menu">
                         <a href="/admin">
                             <i class="fa fa-group"></i>
