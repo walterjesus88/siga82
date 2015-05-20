@@ -212,7 +212,7 @@ class Admin_Model_DbTable_Tareopersona extends Zend_Db_Table_Abstract
             return $this->insert($data);
             return false;
         }catch (Exception $e){
-                //print "Error: Registration ".$e->getMessage();
+                print "Error: Registration ".$e->getMessage();
         }
     }
 

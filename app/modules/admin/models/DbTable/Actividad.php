@@ -94,6 +94,26 @@ class Admin_Model_DbTable_Actividad extends Zend_Db_Table_Abstract
         }
     }
 
+
+public function _getRepliconActividades($proyectoid,$codigo)
+     {
+        try{
+            $sql=$this->_db->query("
+               select * from actividad 
+               where proyectoid='$proyectoid' and codigo_prop_proy='$codigo' 
+                order by orden
+            ");
+            $row=$sql->fetchAll();
+            return $row;           
+            }  
+            
+           catch (Exception $ex){
+            print $ex->getMessage();
+        }
+    }
+
+
+
     public function _getActividadesPadresXproyectoXcodigo($proyectoid,$codigo)
      {
         try{
@@ -283,6 +303,52 @@ public function _getTareasxActividadPadrexCategoria($proyectoid,$codigo,$propues
             print $ex->getMessage();
         }
     }
+
+
+    public function _existeactividad($nombre,$proyectoid,$codigo,$revision,$propuestaid)
+     {
+        try{
+            $sql=$this->_db->query("
+                select * from actividad
+                
+                
+                where proyectoid='$proyectoid' and revision='$revision' 
+                and propuestaid='$propuestaid' and codigo_prop_proy='$codigo'
+                and nombre like '%$nombre' 
+
+                
+            ");
+            $row=$sql->fetchAll();
+            return $row;           
+            }  
+            
+           catch (Exception $ex){
+            print $ex->getMessage();
+        }
+    }
+
+    public function _existeactividadhija($nombre,$proyectoid,$codigo,$revision,$propuestaid,$actividadid_padre)
+     {
+        try{
+            $sql=$this->_db->query("
+                select * from actividad
+                
+                
+                where proyectoid='$proyectoid' and revision='$revision' 
+                and propuestaid='$propuestaid' and codigo_prop_proy='$codigo'
+                and nombre like '%$nombre' and actividad_padre='$actividadid_padre'
+
+                
+            ");
+            $row=$sql->fetchAll();
+            return $row;           
+            }  
+            
+           catch (Exception $ex){
+            print $ex->getMessage();
+        }
+    }    
+  
   
     
 }
