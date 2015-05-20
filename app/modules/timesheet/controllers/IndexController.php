@@ -570,8 +570,11 @@ public function eliminartareoAction(){
         $fecha_tarea= $this->_getParam('fecha_tarea');
         $semanaid=$this->_getParam('semanaid');
         $tipo_actividad=$this->_getParam('tipo_actividad');
+        $actividad_generalid=$this->_getParam('actividad_generalid');
 
-        $pk  =   array(                        
+         if($actividad_generalid=='')
+         {
+            $pk1  =   array(                        
             'codigo_prop_proy'   =>$codigo_prop_proy,
             'codigo_actividad'   =>$codigo_actividad,
             'actividadid'   =>$actividadid,
@@ -582,16 +585,32 @@ public function eliminartareoAction(){
             'uid'   =>$uid,
             'dni'   =>$dni,
             'tipo_actividad'   =>$tipo_actividad,
-        );
-        
-        if ($tareopersona->_deleteTareasxSemana($pk))
-        {
-            //echo "borro";print_r($pk);
-        }
-        else
-        {
-            //echo "no borro";  print_r($pk);
-        }
+            'etapa'  => 'INICIO-NB-',
+            );
+            $tareopersona->_deleteTareasxSemanaX($pk1);
+
+         }
+         else
+         {
+            $pk  =   array(                        
+            'codigo_prop_proy'   =>$codigo_prop_proy,
+            'codigo_actividad'   =>$codigo_actividad,
+            'actividadid'   =>$actividadid,
+            'revision'   =>$revision,
+            'actividad_padre'   =>$actividad_padre,
+            'proyectoid'   =>$proyectoid,
+            'semanaid'   =>$semanaid,
+            'uid'   =>$uid,
+            'dni'   =>$dni,
+            'tipo_actividad'   =>$tipo_actividad,
+            'actividad_generalid'  => $actividad_generalid,
+             );
+            $tareopersona->_deleteTareasxSemana($pk);
+         }
+
+
+         
+   
        
         } catch (Exception $e) {
             print "Error: ".$e->getMessage();
