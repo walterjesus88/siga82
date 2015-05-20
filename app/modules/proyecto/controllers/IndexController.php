@@ -326,6 +326,8 @@ class Proyecto_IndexController extends Zend_Controller_Action {
 
         echo "ssssssssss";
 $fila=$data->sheets[0]['numRows'];
+
+for ($j = 8; $j <= $data->sheets[0]['numCols']-1; $j++) {
         for ($i = 2; $i <= $fila; $i++) {
      // for ($j = 1; $j <= $data->sheets[0]['numCols']-1; $j++) {
        
@@ -348,7 +350,7 @@ $fila=$data->sheets[0]['numRows'];
        
       //}
     }
-
+}
 
 
 
