@@ -7,8 +7,8 @@ if ($this->equipo) {
           <?php echo $data_equipo['proyectoid']. ' - ' .$data_equipo['nombre_proyecto'] ?>
           <span class="pull-right">
                 <a id="mostrar_enviada" class=" btn btn-success  btn-xs"> Enviada</a>
-                <a id="mostrar_declinada" class=" btn btn-primary  btn-xs"> Aprobada</a>
-                <a id="mostrar_perdida" class=" btn btn-danger  btn-xs"> Rechazada</a>
+                <a id="mostrar_aprobada" class=" btn btn-primary  btn-xs"> Aprobada</a>
+                <a id="mostrar_rechazada" class=" btn btn-danger  btn-xs"> Rechazada</a>
           </span>
         </header>
         <div id="rendicion_enviados">
@@ -26,6 +26,7 @@ if ($this->equipo) {
             <tbody>
 
             <?php
+            if ($this->data_enviados) {
             foreach ($this->data_enviados as $lista) { ?>
                 <tr>
                     <td class="p-name">
@@ -60,12 +61,13 @@ if ($this->equipo) {
                         </center>
                     </td>
                 </tr>
-          <?php  }?>
+          <?php  }
+            }?>
             </tbody>
         </table>
         </div>
 
-        <div id="rendicion_rechazados">
+        <div id="rendicion_rechazados" style="display: none;">
         <table class="table table-hover p-table">
             <thead>
                 <tr>  
@@ -80,6 +82,7 @@ if ($this->equipo) {
             <tbody>
 
             <?php
+            if ($this->data_rechazados) {
             foreach ($this->data_rechazados as $lista) { ?>
                 <tr>
                     <td class="p-name">
@@ -104,7 +107,7 @@ if ($this->equipo) {
                             <button data-toggle="dropdown" class="btn btn-default dropdown-toggle btn-xs" type="button" aria-expanded="false">Modificar<span class="caret"></span></button>
                             <ul role="menu" class="dropdown-menu">
                                 <li><a href="##" class="aprobado" uid="<?php echo $lista['uid']; ?>" dni="<?php echo $lista['dni']; ?>" numero="<?php echo $lista['numero']; ?>" estate="A">Aprobado</a></li>
-                                <li><a href="##" class="rechazado" uid="<?php echo $lista['uid']; ?>" dni="<?php echo $lista['dni']; ?>" numero="<?php echo $lista['numero']; ?>" estate="R">Rechazado</a></li>
+                                <!-- <li><a href="##" class="rechazado" uid="<?php echo $lista['uid']; ?>" dni="<?php echo $lista['dni']; ?>" numero="<?php echo $lista['numero']; ?>" estate="R">Rechazado</a></li> -->
                             </ul>
                         </div>
                     </td>
@@ -114,7 +117,64 @@ if ($this->equipo) {
                         </center>
                     </td>
                 </tr>
-          <?php  }?>
+          <?php  }
+            }?>
+            </tbody>
+        </table>
+        </div>
+
+        <div id="rendicion_aprobados" style="display: none;">
+        <table class="table table-hover p-table">
+            <thead>
+                <tr>  
+                    <th style="width: 3%;">Rendición</th>
+                    <th style="width: 30%;">Nombre</th>
+                    <th style="width: 30%;">Asigando</th>
+                    <th style="width: 20%;"><center>Monto Total</center></th>
+                    <th style="width: 20%;">Estado</th>
+                    <th style="width: 4%;">&nbsp;&nbsp;&nbsp;&nbsp;Acciones&nbsp;&nbsp;&nbsp;</th>
+                </tr>
+            </thead>
+            <tbody>
+
+            <?php
+            if ($this->data_aprobados) {
+            foreach ($this->data_aprobados as $lista) { ?>
+                <tr>
+                    <td class="p-name">
+                        <center><?php echo $lista['numero'];?></center>
+                    </td>
+                    <td class="p-name">
+                        <?php echo $lista['nombre'];?>
+                    </td>
+                    <td class="p-name">
+                        <?php echo $lista['nombre_persona']; ?>
+                    </td>
+                    <td class="p-name">
+                        <?php echo $lista['monto_total']; ?>
+                    </td>
+                    <td>
+                        <?php
+                        if ($lista['estado']=='A') { ?>
+                            <span class="label label-primary label-mini">Aprobados</span>
+                            <?php
+                        } ?>
+                        <!-- <div class="btn-group">
+                            <button data-toggle="dropdown" class="btn btn-default dropdown-toggle btn-xs" type="button" aria-expanded="false">Modificar<span class="caret"></span></button>
+                            <ul role="menu" class="dropdown-menu">
+                                <li><a href="##" class="aprobado" uid="<?php echo $lista['uid']; ?>" dni="<?php echo $lista['dni']; ?>" numero="<?php echo $lista['numero']; ?>" estate="A">Aprobado</a></li>
+                                <li><a href="##" class="rechazado" uid="<?php echo $lista['uid']; ?>" dni="<?php echo $lista['dni']; ?>" numero="<?php echo $lista['numero']; ?>" estate="R">Rechazado</a></li>
+                            </ul>
+                        </div> -->
+                    </td>
+                    <td>
+                        <center>
+                            <a href="/propuesta/index/ver/propuestaid/<?php echo $lista['propuestaid']?>/revision/<?php echo $lista['revision']?>/codigo/<?php echo $lista['codigo_prop_proy']?>" class="btn btn-warning btn-xs"><i class="fa fa-folder"></i></a>
+                        </center>
+                    </td>
+                </tr>
+          <?php  }
+            }?>
             </tbody>
         </table>
         </div>
@@ -138,6 +198,24 @@ if ($this->equipo) {
             var estate = $(this).attr('estate');
             $("#load_change").load("/expense/aprobacion/estado/numero/"+numero+"/uid/"+uid+"/dni/"+dni+"/estate/"+estate);
             window.location.reload();
+        });
+
+        $("#mostrar_enviada").click(function(){
+            $("#rendicion_enviados").show();
+            $("#rendicion_rechazados").hide();
+            $("#rendicion_aprobados").hide();
+        });
+
+        $("#mostrar_aprobada").click(function(){
+            $("#rendicion_enviados").hide();
+            $("#rendicion_rechazados").hide();
+            $("#rendicion_aprobados").show();
+        });
+
+        $("#mostrar_rechazada").click(function(){
+            $("#rendicion_enviados").hide();
+            $("#rendicion_rechazados").show();
+            $("#rendicion_aprobados").hide();
         });
     </script>
 <?php 

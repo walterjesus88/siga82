@@ -43,7 +43,7 @@ class Expense_AprobacionController extends Zend_Controller_Action {
             $this->view->data_enviados = $data_rendicion;
 
 
-            /*print_r($data_rendicion = $rendicion->_getrendicionXestadoXproyecto('R', $codigo_prop_proy, $proyectoid));
+            $data_rendicion = $rendicion->_getrendicionXestadoXproyecto('R', $codigo_prop_proy, $proyectoid);
             $persona = new Admin_Model_DbTable_Persona();
             for ($i=0; $i < count($data_rendicion); $i++) { 
                 $where['numero'] = $data_rendicion[$i]['numero'];
@@ -53,7 +53,19 @@ class Expense_AprobacionController extends Zend_Controller_Action {
                 $data_persona = $persona->_getPersona($data_rendicion[$i]['dni']);
                 $data_rendicion[$i]['nombre_persona'] = $data_persona['ape_paterno']. ' ' .$data_persona['ape_materno']. ', ' .$data_persona['nombres']. ' ' .$data_persona['segundo_nombre'];
             }
-            $this->view->data_rechazados = $data_rendicion;*/
+            $this->view->data_rechazados = $data_rendicion;
+
+            $data_rendicion = $rendicion->_getrendicionXestadoXproyecto('A', $codigo_prop_proy, $proyectoid);
+            $persona = new Admin_Model_DbTable_Persona();
+            for ($i=0; $i < count($data_rendicion); $i++) { 
+                $where['numero'] = $data_rendicion[$i]['numero'];
+                $data_one = $rendicion->_getOne($where);
+                $data_rendicion[$i] = $data_one;
+
+                $data_persona = $persona->_getPersona($data_rendicion[$i]['dni']);
+                $data_rendicion[$i]['nombre_persona'] = $data_persona['ape_paterno']. ' ' .$data_persona['ape_materno']. ', ' .$data_persona['nombres']. ' ' .$data_persona['segundo_nombre'];
+            }
+            $this->view->data_aprobados = $data_rendicion;
         } catch (Exception $e) {
             print "Error: ".$e->getMessage();
         }
@@ -75,6 +87,23 @@ class Expense_AprobacionController extends Zend_Controller_Action {
             $data = array();
             $data['estado'] = $state;
             $rendicion->_update($data,$pk);
+
+            $wheretmp = array();
+            $wheretmp['numero_rendicion'] = $numero;
+            $wheretmp['dni'] = $dni;
+            $wheretmp['uid'] = $uid;
+            $gastos = new Admin_Model_DbTable_Gastopersona();
+            $data_gastos = $gastos->_getFilter($wheretmp,$attrib=null,$orders=null);
+            foreach ($data_gastos as $datatmp) {
+                $pk = array();
+                $pk = array(
+                        'codigo_prop_proy'=>$datatmp['codigo_prop_proy'],
+                        'proyectoid'=>$datatmp['proyectoid'],
+                        'gasto_persona_id'=>$datatmp['gasto_persona_id']);
+                $data = array();
+                $data['estado_rendicion'] = $state;
+                $gastos->_update($data,$pk);
+            }
         } catch (Exception $e) {
             print "Error: ".$e->getMessage();
         }
