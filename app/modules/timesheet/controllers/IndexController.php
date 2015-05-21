@@ -882,36 +882,64 @@ public function sumatareorealAction(){
         $proyectoid='1214.10.20';
         $uid='walter.melgarejo';
         $dni='43362864';
-        $nivel='3';
         //codigo_prop_proy, proyectoid, uid, dni, categoriaid, areaid, cargo
+               
 
 
-        for ($i=0; $i <=3 ; $i++) { 
-            //echo "dadada";
+        $nivel='0';
+        $this->view->ni=$nivel;
+                                    
+        $verequipo = new Admin_Model_DbTable_Equipo();
+        $where['codigo_prop_proy']='PROP-2015-20100079501-1416-15.10.042-A';
+        $where['proyectoid']='1214.10.20';
+        $where['estado']='A';
 
-             if($i==4)
-             {
+        if($nivel=='0')
+          {
+          $nive=array();
+          for ($i=1; $i <=4 ; $i++) 
+            {
+            $where['nivel']=(string)$i;
+            $nive[]=$verequipo->_getFilter($where);
+            }
 
-             }
-          
-            // else
-            // {
-                $where['codigo_prop_proy']=$codigo_prop_proy;
-                $where['proyectoid']=$proyectoid;
-                $where['estado']='A';
-                $where['nivel']=(string)$i;
-                $verequipo = new Admin_Model_DbTable_Equipo();
-                $vnivel=$verequipo->_getFilter($where);
-                print_r($vnivel);
-
-            //}       
-
+           
         }
-        // if($nivel=='3'){
+
+        if($nivel=='1')
+            {            
+            $where['nivel']='2';            
+            $nive=$verequipo->_getFilter($where);
+                                        
+            print_r($nive);
+            }        
+
+        if($nivel=='2')
+            {
+            $nive=array();
+            for ($i=3; $i <=4 ; $i++) 
+            {       
+            $where['nivel']=(string)$i;                
+            $nive[]=$verequipo->_getFilter($where);
+                                                                                     
+            }                                            
+        }
+                                    
+        if($nivel=='3')
+        {                       
+        $where['nivel']='4';                
+        $nive=$verequipo->_getFilter($where);
+                                       
+        }
+
+        //print_r($nive);
 
 
-        // }
+        $this->view->nivel=$nive;
+        //print_r($nive);         
+        //echo $nive['uid'];
 
+  
 
 
         $suma_hora = new Admin_Model_DbTable_Sumahorasemana();
