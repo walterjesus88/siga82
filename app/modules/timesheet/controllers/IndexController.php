@@ -872,6 +872,7 @@ public function sumatareorealAction(){
 
     public function historialaprobadoAction(){
         try {
+       // print_r($this->sesion);
 
         $user= new Admin_Model_DbTable_Usuario();
         $vuser=$user->_getUsuarioAll();
