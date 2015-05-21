@@ -14,4 +14,31 @@ class Admin_Model_DbTable_Listagasto extends Zend_Db_Table_Abstract
             print "Error: Al momento de leer todos los gastos".$e->getMessage();
         }
     }
+
+    public function _getGastosPadres(){
+        try{
+            $sql=$this->_db->query("
+               select * from lista_gasto where gasto_padre='' and estado='A' 
+               order by tipo_gasto, cast(gastoid as integer)
+            ");
+            $row=$sql->fetchAll();
+            return $row;           
+            }  
+            catch (Exception $ex){
+            print $ex->getMessage();
+        }
+    }
+
+    public function _getGastosXgastopadre($gastoid, $tipo_gasto){
+        try{
+            $sql=$this->_db->query("
+               select * from lista_gasto where gasto_padre = '$gastoid' and tipo_gasto = '$tipo_gasto' and estado='A' 
+            ");
+            $row=$sql->fetchAll();
+            return $row;           
+            }  
+            catch (Exception $ex){
+            print $ex->getMessage();
+        }
+    }
 }

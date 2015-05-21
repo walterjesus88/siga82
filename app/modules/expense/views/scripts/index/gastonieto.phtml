@@ -1,0 +1,13 @@
+<?php 
+if ($this->nietos) { ?>
+ 	<option value="">Seleccione</option>
+ 	<?php 
+ 	foreach ($this->nietos as $nietos) { ?>
+ 	 	<option value="<?php echo $nietos['gastoid']. '-' .$nietos['tipo_gasto'] ?>"><?php echo $nietos['gastoid'].' - '.$nietos['nombre_gasto'] ?></option>
+ 	 	<?php
+ 	 } ?>
+ 	<?php
+ } else { ?>
+ 	<option value="">No tienen gastos.</option>
+ <?php 
+ } ?>

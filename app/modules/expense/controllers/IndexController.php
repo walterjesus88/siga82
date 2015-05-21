@@ -203,8 +203,34 @@ class Expense_IndexController extends Zend_Controller_Action {
         $this->view->data_rendicion = $data_rendicion;
 
         $gastos = new Admin_Model_DbTable_Listagasto();
-        $data_list_gastos = $gastos->_getGastosAll();
+        $data_list_gastos = $gastos->_getGastosPadres();
         $this->view->list_gastos = $data_list_gastos;
+        } catch (Exception $e) {
+            print "Error: ".$e->getMessage();
+        }
+    }
+
+    public function gastohijoAction(){
+        try {
+            $this->_helper->layout()->disableLayout();
+            $tmp = $this->_getParam('gastoid');
+            list($gastoid, $tipo_gasto) = split('[-]', $tmp);
+            $gastos = new Admin_Model_DbTable_Listagasto();
+            $data_hijos = $gastos->_getGastosXgastopadre($gastoid, $tipo_gasto);
+            $this->view->hijos = $data_hijos;
+        } catch (Exception $e) {
+            print "Error: ".$e->getMessage();
+        }
+    }
+
+    public function gastonietoAction(){
+        try {
+            $this->_helper->layout()->disableLayout();
+            $tmp = $this->_getParam('gastoid');
+            list($gastoid, $tipo_gasto) = split('[-]', $tmp);
+            $gastos = new Admin_Model_DbTable_Listagasto();
+            $data_nietos = $gastos->_getGastosXgastopadre($gastoid, $tipo_gasto);
+            $this->view->nietos = $data_nietos;
         } catch (Exception $e) {
             print "Error: ".$e->getMessage();
         }
@@ -294,7 +320,9 @@ class Expense_IndexController extends Zend_Controller_Action {
             $proyectoid = $this->_getParam('proyectoid');
             $codigo_prop_proy = $this->_getParam('codigo_prop_proy');
             $description = $this->_getParam('description');
-            $tipo_gasto = $this->_getParam('tipo_gasto');
+            $gasto_padre = $this->_getParam('gasto_padre');
+            $gasto_hijo = $this->_getParam('gasto_hijo');
+            $gasto_nieto = $this->_getParam('gasto_nieto');
             $lab_cantidad = $this->_getParam('lab_cantidad');
             $lab_pu = $this->_getParam('lab_pu');
             $cliente = $this->_getParam('cliente');
@@ -315,7 +343,15 @@ class Expense_IndexController extends Zend_Controller_Action {
                     'codigo_prop_proy'=>$codigo_prop_proy[$i]);
                 $data = array();
                 $data['descripcion'] = $description[$i];
-                $data['gastoid'] = $tipo_gasto[$i];
+                if ($gasto_nieto[$i]!='') {
+                    $data['gastoid'] = $gasto_nieto[$i];
+                } else {
+                    if ($gasto_hijo[$i]!='') {
+                        $data['gastoid'] = $gasto_hijo[$i];
+                    } else {
+                        $data['gastoid'] = $gasto_padre[$i];
+                    }
+                }
                 $data['laboratorio_cantidad'] = $lab_cantidad[$i];
                 $data['laboratorio_PU'] = $lab_pu[$i];
                 $data['bill_cliente'] = $cliente[$i];
