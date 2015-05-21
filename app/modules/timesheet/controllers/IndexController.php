@@ -360,10 +360,23 @@ class Timesheet_IndexController extends Zend_Controller_Action {
                 $data2['cargo']=$cargo;
                 $data2['semanaid']=$semanaid;
                 $data2['uid']=$uid;
-                $data2['dni']=$dni;  
+                $data2['dni']=$dni; 
+
+                $data3['cargo']=$cargo;
+                $data3['semanaid']=$semanaid;
+                $data3['uid']=$uid;
+                $data3['dni']=$dni;
+                $data3['categoriaid']=$categoriaid;
+                $data3['areaid']=$areaid;
+                $data3['proyectoid']=$proyectoid;
+                $data3['codigo_prop_proy']=$codigo_prop_proy;
 
                 $wheres=array('dni'=>$dni,'uid'=>$uid,'cargo'=>$cargo,'semanaid'=>$semanaid,'fecha_tarea'=>$fecha_tarea);
                 $wheres2=array('dni'=>$dni,'uid'=>$uid,'cargo'=>$cargo,'semanaid'=>$semanaid);
+                $wheres3=array('dni'=>$dni,'uid'=>$uid,'cargo'=>$cargo,'semanaid'=>$semanaid,
+                               'categoriaid'=>$categoriaid,'areaid'=>$areaid,'proyectoid'=>$proyectoid,'codigo_prop_proy'=>$codigo_prop_proy);
+
+          
 
                 $sumahora = new Admin_Model_DbTable_Sumahora();
                 if($versum=$sumahora->_getOne($wheres))
@@ -385,6 +398,18 @@ class Timesheet_IndexController extends Zend_Controller_Action {
                     $data_sumahora = $suma_control->_save($data2); 
                 }
 
+
+
+                $suma_planificacion= new Admin_Model_DbTable_Planificacion();
+                if($versumcontrol=$suma_planificacion->_getOne($wheres3))
+                {
+
+                }
+                else
+                {
+                    echo "plani";
+                    $data_sumahora = $suma_planificacion->_save($data3); 
+                }
 
         }else
         {
@@ -582,7 +607,7 @@ public function eliminartareoAction(){
         $actividad_generalid=$this->_getParam('actividad_generalid');
         $etapa=$this->_getParam('etapa');
 
-        if($etapa=='INICIO')
+        if($etapa=='INICIO' or $etaoa='EJECUCION-NB-')
         {
             $pk1  =   array(                        
             'codigo_prop_proy'   =>$codigo_prop_proy,
@@ -901,8 +926,11 @@ public function sumatareorealAction(){
 
         $codigo_prop_proy='PROP-2015-20100079501-1416-15.10.042-A';
         $proyectoid='1214.10.20';
-        $uid='walter.melgarejo';
-        $dni='43362864';
+        
+        $uid = $this->sesion->uid;
+        $dni = $this->sesion->dni;
+        //$uid='walter.melgarejo';
+        //$dni='43362864';
         //codigo_prop_proy, proyectoid, uid, dni, categoriaid, areaid, cargo
                
 
@@ -911,8 +939,8 @@ public function sumatareorealAction(){
         $this->view->ni=$nivel;
                                     
         $verequipo = new Admin_Model_DbTable_Equipo();
-        $where['codigo_prop_proy']='PROP-2015-20100079501-1416-15.10.042-A';
-        $where['proyectoid']='1214.10.20';
+        $where['codigo_prop_proy']=$codigo_prop_proy;
+        $where['proyectoid']=$proyectoid;
         $where['estado']='A';
 
         if($nivel=='0')
@@ -922,9 +950,7 @@ public function sumatareorealAction(){
             {
             $where['nivel']=(string)$i;
             $nive[]=$verequipo->_getFilter($where);
-            }
-
-           
+            }           
         }
 
         if($nivel=='1')
@@ -932,7 +958,7 @@ public function sumatareorealAction(){
             $where['nivel']='2';            
             $nive=$verequipo->_getFilter($where);
                                         
-            print_r($nive);
+            //print_r($nive);
             }        
 
         if($nivel=='2')
@@ -956,11 +982,9 @@ public function sumatareorealAction(){
         //print_r($nive);
 
 
-        $this->view->nivel=$nive;
-        //print_r($nive);         
-        //echo $nive['uid'];
-
-  
+        $this->view->nive=$nive;
+        print_r($nive);         
+        //echo $nive['uid'];  
 
 
         $suma_hora = new Admin_Model_DbTable_Sumahorasemana();
