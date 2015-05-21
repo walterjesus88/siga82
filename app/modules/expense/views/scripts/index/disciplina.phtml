@@ -1,40 +1,57 @@
 <?php 
     $actividades = $this->actividades;
     if ($actividades) { ?>
-    <div class="chat-room-head">
+    <div class="user-head">
         <h5>Actividad</h5>
     </div>
     <ul class="nav nav-pills nav-stacked">
         <?php
         foreach ($actividades as $data_actividad) { ?>
             <li>
-                <a style="padding:7px 7px;"  class = "actividad" codigo-prop-proy="<?php echo $this->codigo_prop_proy ?>" proyectoid="<?php echo $this->proyectoid ?>" categoriaid="<?php echo $this->categoriaid ?>" actividadid = "<?php echo $data_actividad['actividadid'] ?>" revision = "<?php echo $data_actividad['revision'] ?>" propuestaid = "<?php echo $data_actividad['propuestaid'] ?>" cargo = "<?php echo $this->cargo ?>" href="##">
+                <!-- <a style="padding:7px 7px;"  class = "actividad" codigo-prop-proy="<?php echo $this->codigo_prop_proy ?>" proyectoid="<?php echo $this->proyectoid ?>" categoriaid="<?php echo $this->categoriaid ?>" actividadid = "<?php echo $data_actividad['actividadid'] ?>" revision = "<?php echo $data_actividad['revision'] ?>" propuestaid = "<?php echo $data_actividad['propuestaid'] ?>" cargo = "<?php echo $this->cargo ?>" href="##">
                     <i class="fa fa-rocket"></i>
                     <span><?php echo $data_actividad['nombre'] ?></span>
+                </a> -->
+                <a style="padding:10px 10px;" href="##">
+                    <span><?php echo $data_actividad['nombre'] ?></span>
+                    <input class="pull-right actividad" type = "checkbox" codigo-prop-proy="<?php echo $data_actividad['codigo_prop_proy'] ?>" proyectoid="<?php echo $data_actividad['proyectoid'] ?>" categoriaid="<?php echo $data_actividad['categoriaid'] ?>" areaid = "<?php echo $data_actividad['areaid'] ?>" revision = "<?php echo $data_actividad['revision'] ?>" actividadid = "<?php echo $data_actividad['actividadid'] ?>" cargo = "<?php echo $this->cargo ?>">
                 </a>
             </li>
-            <script type="text/javascript">
-                $(".actividad").click(function(){
-
-                     $("#actividades_hijos").html('');
-                     $("#actividades_tareas").html('');
-
-                    var actividadid = $(this).attr('actividadid');
+            <?php
+        } ?>
+        <script type="text/javascript">
+            $('.actividad').click(function(event) {
+                if ($(this).is(":checked")) {
                     var proyectoid = $(this).attr('proyectoid');
                     var codigo_prop_proy = $(this).attr('codigo-prop-proy');
                     var categoriaid = $(this).attr('categoriaid');
-                    var revision = $(this).attr('revision');
-                    var propuestaid = $(this).attr('propuestaid');
+                    var areaid = $(this).attr('areaid');
                     var cargo = $(this).attr('cargo');
-                    $("#actividades_padres").load("/expense/index/actividadespadres/proyectoid/"+proyectoid+"/codigo_prop_proy/"+codigo_prop_proy+"/categoriaid/"+categoriaid+"/actividadid/"+actividadid+"/revision/"+revision+"/propuestaid/"+propuestaid+"/cargo/"+cargo);
-                });
-            </script>
-            <?php
-        } ?>
+                    var revision = $(this).attr('revision');
+                    var actividadid = $(this).attr('actividadid');
+                    url="/expense/index/guardargastopersona/codigo-prop-proy/"+codigo_prop_proy+"/proyectoid/"+proyectoid+"/categoriaid/"+categoriaid+"/areaid/"+areaid+"/cargo/"+cargo+"/revision/"+revision+"/actividadid/"+actividadid;
+                    $("#loadguardar").load(url);
+                    $("#ingreso").load("/expense/index/ingreso/");
+                }
+            });
+
+            /*$(".actividad").click(function(){
+                $("#actividades_hijos").html('');
+                $("#actividades_tareas").html('');
+                var actividadid = $(this).attr('actividadid');
+                var proyectoid = $(this).attr('proyectoid');
+                var codigo_prop_proy = $(this).attr('codigo-prop-proy');
+                var categoriaid = $(this).attr('categoriaid');
+                var revision = $(this).attr('revision');
+                var propuestaid = $(this).attr('propuestaid');
+                var cargo = $(this).attr('cargo');
+                $("#actividades_padres").load("/expense/index/actividadespadres/proyectoid/"+proyectoid+"/codigo_prop_proy/"+codigo_prop_proy+"/categoriaid/"+categoriaid+"/actividadid/"+actividadid+"/revision/"+revision+"/propuestaid/"+propuestaid+"/cargo/"+cargo);
+            });*/
+        </script>
     </ul>
     <?php    
     } else { ?>
-        <div class="chat-room-head">
+        <div class="user-head">
             <h5>Proyecto</h5>
         </div>
         <ul class="nav nav-pills nav-stacked">
