@@ -149,7 +149,7 @@ $data_rendicion = $this->data_rendicion;
                                 <tr class="gradeX">
                                     <?php if ($data_rendicion['estado'] != "E") { ?>
                                     <td>
-                                        <a href="##" class="btn btn-warning btn-xs duplicar_actividad" title="Duplicar" codigo-prop-proy="<?php echo $data_actividades['codigo_prop_proy'] ?>" proyectoid="<?php echo $data_actividades['proyectoid'] ?>" categoriaid="<?php echo $data_actividades['categoriaid'] ?>" areaid = "<?php echo $data_actividades['areaid'] ?>" revision = "<?php echo $data_actividades['revision'] ?>" actividadid = "<?php echo $data_actividades['actividadid'] ?>" cargo = "<?php echo $data_actividades['cargo'] ?>">
+                                        <a href="##" class="btn btn-warning btn-xs duplicar_actividad" title="Duplicar" gasto-persona-id="<?php echo $data_actividades['gasto_persona_id'] ?>" proyectoid="<?php echo $data_actividades['proyectoid']?>" codigo-prop-proy="<?php echo $data_actividades['codigo_prop_proy']?>">
                                                 <strong>+</strong>
                                         </a>
                                             
@@ -374,7 +374,29 @@ $data_rendicion = $this->data_rendicion;
     $(".datefactura").datepicker();
 
     $(".duplicar_actividad").click(function(){
+        var gasto_persona_id = $(this).attr('gasto-persona-id');
         var proyectoid = $(this).attr('proyectoid');
+        var codigo_prop_proy = $(this).attr('codigo-prop-proy');
+
+        $.ajax({
+            type   : 'post',
+            url    : '/expense/index/updategastorendicion/',
+            data   : $('#form_rendicion').serialize(),
+            success: function(data){
+                $.ajax({
+                    type   : 'post',
+                    url    : '/expense/index/updategastopersona/',
+                    data   : $('#form_gastos').serialize(),
+                    success: function(data){
+                        var url2 = "/expense/index/duplicargastopersona/gasto_persona_id/"+gasto_persona_id+"/proyectoid/"+proyectoid+"/codigo_prop_proy/"+codigo_prop_proy;
+                        $("#load_duplicidad").load(url2);
+                        $("#ingreso").load("/expense/index/ingreso/");
+                    }
+                });
+            }
+        });
+
+        /*var proyectoid = $(this).attr('proyectoid');
         var codigo_prop_proy = $(this).attr('codigo-prop-proy');
         var categoriaid = $(this).attr('categoriaid');
         var areaid = $(this).attr('areaid');
@@ -383,7 +405,7 @@ $data_rendicion = $this->data_rendicion;
         var actividadid = $(this).attr('actividadid');
         url = "/expense/index/guardargastopersona/codigo-prop-proy/"+codigo_prop_proy+"/proyectoid/"+proyectoid+"/categoriaid/"+categoriaid+"/areaid/"+areaid+"/cargo/"+cargo+"/revision/"+revision+"/actividadid/"+actividadid;
         $("#load_duplicidad").load(url);
-        $("#ingreso").load("/expense/index/ingreso/");
+        $("#ingreso").load("/expense/index/ingreso/");*/
     });
 
     $(".delete_actividad").click(function(){

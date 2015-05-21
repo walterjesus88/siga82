@@ -285,6 +285,34 @@ class Expense_IndexController extends Zend_Controller_Action {
         }
     }
 
+    public function duplicargastopersonaAction(){
+        try {
+            $this->_helper->layout()->disableLayout();
+            $uid = $this->sesion->uid;
+            $dni = $this->sesion->dni;
+            $proyectoid = $this->_getParam('proyectoid');
+            $codigo_prop_proy = $this->_getParam('codigo_prop_proy');
+            $gasto_persona_id = $this->_getParam('gasto_persona_id');
+            $where = array();
+            $where['proyectoid'] = $proyectoid;
+            $where['codigo_prop_proy'] = $codigo_prop_proy;
+            $where['gasto_persona_id'] = $gasto_persona_id;
+            $where['uid'] = $uid;
+            $where['dni'] = $dni;
+
+            $gasto = new Admin_Model_DbTable_Gastopersona();
+            $data_dupli = $gasto->_getFilter($where,$attrib=null,$orders=null);
+            
+            $data = array();
+            $data = $data_dupli[0];
+            unset($data['gasto_persona_id']);
+            $gasto->_save($data);
+
+        } catch (Exception $e) {
+            print "Error: ".$e->getMessage();
+        }
+    }
+
     public function updategastorendicionAction(){
         try {
             $this->_helper->layout()->disableLayout();
