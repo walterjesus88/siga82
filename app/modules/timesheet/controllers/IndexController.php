@@ -893,7 +893,7 @@ public function sumatareorealAction(){
              {
 
              }
-             if()
+          
             // else
             // {
                 $where['codigo_prop_proy']=$codigo_prop_proy;
