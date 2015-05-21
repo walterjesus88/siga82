@@ -135,6 +135,7 @@ $data_rendicion = $this->data_rendicion;
                                     <th>Clien.</th>
                                     <th>Reemb.</th>
                                     <th>Fecha</th>
+                                    <th>Moneda</th>
                                     <th>N° Documento</th>
                                     <th>Proveedor</th>
                                     <th>Neto</th>
@@ -249,6 +250,21 @@ $data_rendicion = $this->data_rendicion;
                                             <?php
                                         } else { ?>
                                             <center><input name="fecha[]" type="text" class="form-control datefactura" style="width : 70px" value="<?php echo ($data_actividades['fecha_factura'])? $data_actividades['fecha_factura'] : ''; ?>"></center>
+                                        <?php
+                                        } ?>
+                                    </td>
+                                    <td>
+                                        <?php if ($data_rendicion['estado'] == "E") { ?>
+                                            <span><?php echo $data_actividades['moneda']; ?></span>
+                                            <?php
+                                        } else { ?>
+                                            <select name="moneda[]" class="form-control">
+                                                <option value="">Seleccione</option>
+                                                <option value="Soles" <?php echo ($data_actividades['moneda']=='Soles')? 'selected':'';?>>Soles</option>
+                                                <option value="Dolar" <?php echo ($data_actividades['moneda']=='Dolar')? 'selected':'';?>>Dolar</option>
+                                                <option value="Real" <?php echo ($data_actividades['moneda']=='Real')? 'selected':'';?>>Real</option>
+                                                <option value="Peso" <?php echo ($data_actividades['moneda']=='Peso')? 'selected':'';?>>Peso</option>
+                                            </select>
                                         <?php
                                         } ?>
                                     </td>

@@ -67,6 +67,7 @@ class Expense_IndexController extends Zend_Controller_Action {
         $actividades_padre=$actividad->_getActividadesPadresXProyectoXCategoria($proyectoid,$categoriaid,$codigo_prop_proy);
         $i=0;
         $array = [];
+        print_r($actividades_padre);
         foreach ($actividades_padre as $act_padre) {
             $dato_padre=$actividad->_getActividadesxActividadid($proyectoid,$codigo_prop_proy,$act_padre['padre']);
             if ($dato_padre[0]['isgasto'] == 'S') {
@@ -357,6 +358,7 @@ class Expense_IndexController extends Zend_Controller_Action {
             $reembolsable = $this->_getParam('reembolsable');
             $documento = $this->_getParam('documento');
             $fecha = $this->_getParam('fecha');
+            $moneda = $this->_getParam('moneda');
             $proveedor = $this->_getParam('proveedor');
             $monto = $this->_getParam('monto');
             $otro_impuesto = $this->_getParam('otro_impuesto');
@@ -385,6 +387,7 @@ class Expense_IndexController extends Zend_Controller_Action {
                 $data['bill_cliente'] = $cliente[$i];
                 $data['reembolsable'] = $reembolsable[$i];
                 if ($fecha[$i]) $data['fecha_factura'] = $fecha[$i];
+                $data['moneda'] = $moneda[$i];
                 $data['num_factura'] = $documento[$i];
                 $data['proveedor'] = $proveedor[$i];
                 $data['monto_igv'] = $monto[$i];
