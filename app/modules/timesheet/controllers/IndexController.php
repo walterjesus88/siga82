@@ -47,7 +47,7 @@ class Timesheet_IndexController extends Zend_Controller_Action {
 
         $equipo = new Admin_Model_DbTable_Equipo();
         $data_equipo = $equipo->_getProyectosxUidXEstadoxCliente($uid,'A',$clienteid,$unidadid);
-             
+       // print_r($data_equipo);
         $this->view->equipo = $data_equipo;
         $this->view->fecha_consulta = $fecha_consulta;
 
@@ -67,22 +67,30 @@ class Timesheet_IndexController extends Zend_Controller_Action {
         $fecha_consulta = $this->_getParam('fecha');
 
         $actividad = new Admin_Model_DbTable_Actividad();
-        $data_actividad = $actividad->_getActividadesPadresXproyectoXcodigo($proyectoid, $codigo_prop_proy);
+        $actividades_padre = $actividad->_getActividadesPadresXproyectoXcodigo($proyectoid, $codigo_prop_proy);
+
         /*actividades por categoria habilitadas para el usuario*/
-        $actividades_padre=$actividad->_getActividadesPadresXProyectoXCategoria($proyectoid,$categoriaid,$codigo_prop_proy);
+        //$actividades_padre=$actividad->_getActividadesPadresXProyectoXCategoria($proyectoid,$categoriaid,$codigo_prop_proy);
         $i=0;
         //print_r($actividades_padre);
-        foreach ($actividades_padre as $act_padre) {
+       /* foreach ($actividades_padre as $act_padre) {
         $dato_padre=$actividad->_getActividadesxActividadid($proyectoid,$codigo_prop_proy,$act_padre['padre']);
         $array[$i]=$dato_padre[0];
         $i++;
-        }
+        }*/
+
         //print_r($array);
-        $this->view->actividades = $array;
+
+        $dato_padre=$actividad->_getRepliconActividades($proyectoid,$codigo_prop_proy);
+
+
+        //$this->view->actividades = $array;
+        $this->view->actividades = $dato_padre;
         $this->view->proyectoid = $proyectoid;
         $this->view->codigo_prop_proy = $codigo_prop_proy;
         $this->view->categoriaid = $categoriaid;
         $this->view->fecha_consulta = $fecha_consulta;
+
         } catch (Exception $e) {
             print "Error: ".$e->getMessage();
         } 
@@ -226,7 +234,8 @@ class Timesheet_IndexController extends Zend_Controller_Action {
         $data['actividadid']=$actividadid = $this->_getParam('actividadid');
         $data['revision']=$revision = $this->_getParam('revision');
         $data['codigo_actividad']=$codigo_actividad = $this->_getParam('codigo_actividad');
-        $data['actividad_padre']=$actividad_padre = $this->_getParam('actividad_padre');
+        //$data['actividad_padre']=$actividad_padre = $this->_getParam('actividad_padre');
+        $data['actividad_padre']='0';
         $data['h_propuesta']=$h_propuesta = $this->_getParam('h_propuesta');
         $data['uid']=$uid;
         $data['asignado']= $dni;
@@ -409,7 +418,7 @@ class Timesheet_IndexController extends Zend_Controller_Action {
         $this->_helper->layout()->disableLayout();
         $uid = $this->sesion->uid;
         $dni = $this->sesion->dni;
-        $areaid='90';
+        $areaid='25';
         $actividad_generales = new Admin_Model_DbTable_Actividadgeneral();
         $data_generales = $actividad_generales->_getActividadgeneralxArea($areaid);
         $this->view->lista = $data_generales;
@@ -868,8 +877,69 @@ public function sumatareorealAction(){
         $vuser=$user->_getUsuarioAll();
         $this->view->usuarios=$vuser;
         //print_r($vuser);
+
+        $codigo_prop_proy='PROP-2015-20100079501-1416-15.10.042-A';
+        $proyectoid='1214.10.20';
+        $uid='walter.melgarejo';
+        $dni='43362864';
+        //codigo_prop_proy, proyectoid, uid, dni, categoriaid, areaid, cargo
+               
+
+
+        $nivel='0';
+        $this->view->ni=$nivel;
+                                    
+        $verequipo = new Admin_Model_DbTable_Equipo();
+        $where['codigo_prop_proy']='PROP-2015-20100079501-1416-15.10.042-A';
+        $where['proyectoid']='1214.10.20';
+        $where['estado']='A';
+
+        if($nivel=='0')
+          {
+          $nive=array();
+          for ($i=1; $i <=4 ; $i++) 
+            {
+            $where['nivel']=(string)$i;
+            $nive[]=$verequipo->_getFilter($where);
+            }
+
+           
+        }
+
+        if($nivel=='1')
+            {            
+            $where['nivel']='2';            
+            $nive=$verequipo->_getFilter($where);
+                                        
+            print_r($nive);
+            }        
+
+        if($nivel=='2')
+            {
+            $nive=array();
+            for ($i=3; $i <=4 ; $i++) 
+            {       
+            $where['nivel']=(string)$i;                
+            $nive[]=$verequipo->_getFilter($where);
+                                                                                     
+            }                                            
+        }
+                                    
+        if($nivel=='3')
+        {                       
+        $where['nivel']='4';                
+        $nive=$verequipo->_getFilter($where);
+                                       
+        }
+
+        //print_r($nive);
+
+
+        $this->view->nivel=$nive;
+        //print_r($nive);         
+        //echo $nive['uid'];
+
   
-       // if()
 
 
         $suma_hora = new Admin_Model_DbTable_Sumahorasemana();

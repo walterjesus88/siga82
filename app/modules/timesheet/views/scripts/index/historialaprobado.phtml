@@ -80,9 +80,80 @@
                             </thead>
                             <tbody>
                              <?php
-                                $c=1;
+                                
+
+                                $ni=$this->ni;
+                                echo $ni;
+
+                                if($ni=='1' or $ni=='3')
+                                {
+                                  
+                                  echo "sss";
+                                  $c=0;
+                                  foreach ($this->nivel as $nivel){  
+                                    foreach ($this->listasuma as $valorsuma){                         
+
+                                    if($nivel['uid']==$valorsuma['uid']){
+                                      ?>    
+
+                                      <tr name="oculus" id="xx" class="unread">
+                                          <td class="view-message  text-right"><?php echo $c ?></td>                  
+                                          <td>   
+                                        
+                                              <button id="detalletime_<?php echo $c?>" href="#modalsemana" class="btn btn-success" data-toggle="modal"  uid=<?php echo $valorsuma['uid']?> dni=<?php echo $valorsuma['dni']?> semanaid=<?php echo $valorsuma['semanaid']?> cargo=<?php echo $valorsuma['cargo']?>  >
+                                                  ver detalle
+                                              </button>                                      
+                                          </td>
+                                          <td class="view-message "><?php echo $valorsuma['estado']?></td>
+                                          <td class="view-message "><?php echo $valorsuma['dni']?></td>
+                                          <td class="view-message "><?php echo $valorsuma['uid']?></td>                            
+                                          <td class="view-message "><?php echo $valorsuma['semanaid']?></td>                               
+                                          <td class="view-message "><?php echo $valorsuma['billable']?></td>
+                                          <td class="view-message "><?php echo $valorsuma['nonbillable']?></td>
+                                          <td class="view-message "><?php echo $valorsuma['h_total']?></td>
+                                      </tr>
+                                      <script type="text/javascript">
+                                        $(document).ready(function(){
+                                          $("#detalletime_<?php echo $c?>").click(function(){
+
+                                            var cargo=$(this).attr('cargo');
+                                            var uid=$(this).attr('uid');
+                                            var dni=$(this).attr('dni');
+                                            var semanaid=$(this).attr('semanaid');
+                                            // alert(cargo);
+                                            // alert(uid);
+                                            // alert(dni);
+                                            // alert(semanaid);
+                                            var url = "/timesheet/index/timesheetsemana/uid/"+ uid+"/dni/"+dni+"/cargo/"+cargo+"/semanaid/"+semanaid;                                              //alert(url);
+                                            $("#modaltimes").load(url);                                         
+                                            //$("#modalsemana").modal('show');
+                                            //$(".modal-body").html('<center><img src="/img/spinner.gif" /> Cargando...</center>');
+                                            });
+                                          });
+                                      </script>              
+                                    <?php
+                                      } 
+                                    }
+                                    }
+                                    $c++;
+
+
+                                }
+                                else
+                                {
+                                  $c=0;
+
+                                foreach ($this->nivel as $nivel){  
+
+                                foreach ($nivel as $key) {
+
                                 foreach ($this->listasuma as $valorsuma){
+
+                           
+
+                                    if($key['uid']==$valorsuma['uid']){
                                 ?>    
+
                                 <tr name="oculus" id="xx" class="unread">
                                     <td class="view-message  text-right"><?php echo $c ?></td>                  
                                     <td>   
@@ -119,7 +190,16 @@
                                     });
                                 </script>              
                               <?php
-                              $c++; }  ?>
+                                } 
+                                }
+                                }
+                                } 
+                              $c++; 
+                               
+
+                                }
+                           
+                                ?>
               
                             </tbody>
 
