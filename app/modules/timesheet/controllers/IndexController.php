@@ -582,6 +582,26 @@ public function eliminartareoAction(){
         $actividad_generalid=$this->_getParam('actividad_generalid');
         $etapa=$this->_getParam('etapa');
 
+        if($etapa=='INICIO')
+        {
+            $pk1  =   array(                        
+            'codigo_prop_proy'   =>$codigo_prop_proy,
+            'codigo_actividad'   =>$codigo_actividad,
+            'actividadid'   =>$actividadid,
+            'revision'   =>$revision,
+            'actividad_padre'   =>$actividad_padre,
+            'proyectoid'   =>$proyectoid,
+            'semanaid'   =>$semanaid,
+            'uid'   =>$uid,
+            'dni'   =>$dni,
+            'tipo_actividad'   =>$tipo_actividad,
+            'etapa'  => 'EJECUCION',
+            );
+            $tareopersona->_deleteTareasxSemanaX($pk1);
+
+        }
+
+
          if($actividad_generalid=='')
          {
             $pk1  =   array(                        
@@ -872,6 +892,7 @@ public function sumatareorealAction(){
 
     public function historialaprobadoAction(){
         try {
+       // print_r($this->sesion);
 
         $user= new Admin_Model_DbTable_Usuario();
         $vuser=$user->_getUsuarioAll();

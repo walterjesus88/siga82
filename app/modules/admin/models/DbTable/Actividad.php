@@ -327,7 +327,7 @@ public function _getTareasxActividadPadrexCategoria($proyectoid,$codigo,$propues
         }
     }
 
-    public function _existeactividadhija($nombre,$proyectoid,$codigo,$revision,$propuestaid,$actividadid_padre)
+    public function _existeactividadhija($nombre,$proyectoid,$codigo,$revision,$propuestaid)
      {
         try{
             $sql=$this->_db->query("
@@ -336,7 +336,7 @@ public function _getTareasxActividadPadrexCategoria($proyectoid,$codigo,$propues
                 
                 where proyectoid='$proyectoid' and revision='$revision' 
                 and propuestaid='$propuestaid' and codigo_prop_proy='$codigo'
-                and nombre like '%$nombre' and actividad_padre='$actividadid_padre'
+                and nombre like '%$nombre' 
 
                 
             ");

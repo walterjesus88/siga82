@@ -438,7 +438,8 @@ class Proyecto_IndexController extends Zend_Controller_Action {
                 $datosactividadpadre["actividad_padre"]=$existeactividad[0]['actividadid'];
                 $datosactividadpadre["actividadid"]=$existeactividad[0]['actividadid']."-".$numero;
                 $guardaractividad=$bdactividad->_save($datosactividadpadre);
-                if ($guardaractividad)
+                print_r($guardaractividad);
+               /* if ($guardaractividad)
                   {
                     echo "---------SE GUARDO LA ACTIVIDAD ------";
                     echo "<br>";
@@ -449,7 +450,7 @@ class Proyecto_IndexController extends Zend_Controller_Action {
                     echo "------ ERROR NO SE GUARADO REVISARLO ---- ";
                     echo "<br>";
 
-                  }
+                  }*/
                 
               }
               else {
@@ -797,7 +798,7 @@ class Proyecto_IndexController extends Zend_Controller_Action {
                       $bdtareo = new Admin_Model_DbTable_Tareopersona();
                       $fecha=$data->sheets[0]['cells'][1][$j];
                       $bdactividad = new Admin_Model_DbTable_Actividad();
-                      $existeactividadhija=$bdactividad->_existeactividadhija(utf8_encode(trim($actividadeshijas[2])),$proyecto,$edit['codigo_prop_proy'],$edit['revision'],$edit['propuestaid'],$existeactividad[0]['actividadid']);
+                      $existeactividadhija=$bdactividad->_existeactividadhija(utf8_encode(trim($actividadeshijas[2])),$proyecto,$edit['codigo_prop_proy'],$edit['revision'],$edit['propuestaid']);
                       if ($existeactividadhija)
                       {
                         
@@ -881,7 +882,8 @@ class Proyecto_IndexController extends Zend_Controller_Action {
                         }
                         else
                         {
-                          echo "-----------NO EXISTE LA ACTIVIDAD HIJA ------";
+                          echo "-----------NO EXISTE LA ACTIVIDAD HIJA ------"; echo $actividadeshijas[2];
+                          echo "-----actividadddddd----"; echo $existeactividad[0]['actividadid'];
                           echo "<br>";
                        
                         }

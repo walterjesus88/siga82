@@ -127,7 +127,7 @@
                         <select id="select_generalg_<?php echo $j?>" class="form-control input-sm m-bot15 col-lg-10">                        
                               <option value="<?php echo $data_tareo['actividad_generalid']?>"><?php print_r($datosactgeneral[0]['nombre']) ?></option>
                                   <?php 
-                                      $areaid='90';
+                                      $areaid='25';
                                       $actividad_generales = new Admin_Model_DbTable_Actividadgeneral();
                                       $data_generales = $actividad_generales->_getActividadgeneralxArea($areaid);
                                       foreach ($data_generales as $data_tareas)
@@ -143,7 +143,7 @@
                         <select id="select_generalg_<?php echo $j?>" class="form-control input-sm m-bot15 col-lg-10">                        
                           <option value="">Elija Tarea No Facturable</option>
                                       <?php 
-                                          $areaid='90';
+                                          $areaid='25';
                                           $actividad_generales = new Admin_Model_DbTable_Actividadgeneral();
                                           $data_generales = $actividad_generales->_getActividadgeneralxArea($areaid);
                                           foreach ($data_generales as $data_tareas) {?>
@@ -165,7 +165,7 @@
                     <select id="select_generalp_<?php echo $j?>" class="form-control input-sm m-bot15 col-lg-10">                        
                               <option value="">Seleccione Cliente</option>
                                   <?php 
-                                      $areaid='90';
+                                      $areaid='25';
                                       $actividad_generales = new Admin_Model_DbTable_Actividadgeneral();
                                       $data_generales = $actividad_generales->_getActividadgeneralxArea($areaid);
                                       foreach ($data_generales as $data_tareas) {?>
