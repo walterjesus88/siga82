@@ -47,7 +47,7 @@ class Timesheet_IndexController extends Zend_Controller_Action {
 
         $equipo = new Admin_Model_DbTable_Equipo();
         $data_equipo = $equipo->_getProyectosxUidXEstadoxCliente($uid,'A',$clienteid,$unidadid);
-             
+       // print_r($data_equipo);
         $this->view->equipo = $data_equipo;
         $this->view->fecha_consulta = $fecha_consulta;
 
@@ -67,22 +67,30 @@ class Timesheet_IndexController extends Zend_Controller_Action {
         $fecha_consulta = $this->_getParam('fecha');
 
         $actividad = new Admin_Model_DbTable_Actividad();
-        $data_actividad = $actividad->_getActividadesPadresXproyectoXcodigo($proyectoid, $codigo_prop_proy);
+        $actividades_padre = $actividad->_getActividadesPadresXproyectoXcodigo($proyectoid, $codigo_prop_proy);
+
         /*actividades por categoria habilitadas para el usuario*/
-        $actividades_padre=$actividad->_getActividadesPadresXProyectoXCategoria($proyectoid,$categoriaid,$codigo_prop_proy);
+        //$actividades_padre=$actividad->_getActividadesPadresXProyectoXCategoria($proyectoid,$categoriaid,$codigo_prop_proy);
         $i=0;
         //print_r($actividades_padre);
-        foreach ($actividades_padre as $act_padre) {
+       /* foreach ($actividades_padre as $act_padre) {
         $dato_padre=$actividad->_getActividadesxActividadid($proyectoid,$codigo_prop_proy,$act_padre['padre']);
         $array[$i]=$dato_padre[0];
         $i++;
-        }
+        }*/
+
         //print_r($array);
-        $this->view->actividades = $array;
+
+        $dato_padre=$actividad->_getRepliconActividades($proyectoid,$codigo_prop_proy);
+
+
+        //$this->view->actividades = $array;
+        $this->view->actividades = $dato_padre;
         $this->view->proyectoid = $proyectoid;
         $this->view->codigo_prop_proy = $codigo_prop_proy;
         $this->view->categoriaid = $categoriaid;
         $this->view->fecha_consulta = $fecha_consulta;
+
         } catch (Exception $e) {
             print "Error: ".$e->getMessage();
         } 
@@ -226,7 +234,8 @@ class Timesheet_IndexController extends Zend_Controller_Action {
         $data['actividadid']=$actividadid = $this->_getParam('actividadid');
         $data['revision']=$revision = $this->_getParam('revision');
         $data['codigo_actividad']=$codigo_actividad = $this->_getParam('codigo_actividad');
-        $data['actividad_padre']=$actividad_padre = $this->_getParam('actividad_padre');
+        //$data['actividad_padre']=$actividad_padre = $this->_getParam('actividad_padre');
+        $data['actividad_padre']='0';
         $data['h_propuesta']=$h_propuesta = $this->_getParam('h_propuesta');
         $data['uid']=$uid;
         $data['asignado']= $dni;

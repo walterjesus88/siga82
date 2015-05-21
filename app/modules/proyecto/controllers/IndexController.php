@@ -288,57 +288,647 @@ class Proyecto_IndexController extends Zend_Controller_Action {
 
   public function leerexcelAction(){
     try {
-      /*$fecha = $this->_getParam("fecha");
-      $ano=date("Y");
-      $semana=date('W', strtotime($fecha));  
-      $dias = array('lunes', 'martes', 'miercoles', 
-      'jueves', 'viernes', 'sabado','domingo');
-      $enero = mktime(1,1,1,1,1,$ano); 
-      $mos = (11-date('w',$enero))%7-3;
-      $inicios = strtotime(($semana-1) . ' weeks '.$mos.' days', $enero); 
-      for ($x=0; $x<=6; $x++) {
-        $dias[] = date('d-m-Y', strtotime("+ $x day", $inicios));
-        $dia[] = date('w', strtotime("+ $x day", $inicios));
-      }
-      $this->view->semana=$semana;
-      $proyectoid = $this->_getParam("proyectoid");
-      $responsable = $this->_getParam("responsable");*/
       $dir = APPLICATION_LIBRARY . "/excel/excel/reader.php";
       include ($dir);
       $data = new Spreadsheet_Excel_Reader();
       $data->setOutputEncoding('CP1251');
-      //$data->read($proyectoid.'.xls');
       $data->read('replicon1.xls');
-      //echo ($data->sheets[0]['numRows']);
-      /*  */
+      $numero=1;
+      for ($i = 1; $i <= $data->sheets[0]['numRows']; $i++) {
+          $actividad=$data->sheets[0]['cells'][$i][7];
+          $proyecto=$data->sheets[0]['cells'][$i][5];
+          $moneda=$data->sheets[0]['cells'][$i][3];
+          $rate=$data->sheets[0]['cells'][$i][4];
+          $tipo_actividada=$data->sheets[0]['cells'][$i][6];
+          $actividadeshijas = explode("/",$actividad);
 
-      //fechas//
-      for ($j = 8; $j <= $data->sheets[0]['numCols']-1; $j++) {
-        if (isset( $data->sheets[0]['cells'][1][$j] ))
-          { 
-            //revisor, revisor principal, gerente
-            $categoria=$data->sheets[0]['cells'][1][$j];
-            echo $categoria; echo "<br>";
+          if (count($actividadeshijas)=='1'){
           }
+
+          if (count($actividadeshijas)=='2'){
+            //echo utf8_encode($actividadeshijas[1]); echo "<br>"; 
+            $datosactividadpadre["actividadid"]=$numero;
+            $datosactividadpadre["codigo_actividad"]=$proyecto."-".$numero;
+
+            
+            $editproyect= new Admin_Model_DbTable_Proyecto();
+            $where = array(
+            'proyectoid'    => $proyecto,
+            );
+            $edit = $editproyect->_getOnexcodigoproyecto($where);
+            if ($edit)
+            {
+              //print_r($edit['codigo_prop_proy']); echo "<br>";
+              $datosactividadpadre["codigo_prop_proy"]=$edit['codigo_prop_proy'];
+              $datosactividadpadre["revision"]=$edit['revision'];
+              $datosactividadpadre["areaid"]='00';
+              $datosactividadpadre["proyectoid"]=$proyecto;
+              $datosactividadpadre["propuestaid"]=$edit['propuestaid'];
+              $datosactividadpadre["actividad_padre"]=null;
+              $datosactividadpadre["nombre"]= utf8_encode(trim($actividadeshijas[1]));
+              $datosactividadpadre["fecha_creacion"]=date("Y-m-d");
+              $datosactividadpadre["estado"]='P';
+              $datosactividadpadre["duracion_total"]='0';
+              $datosactividadpadre["h_propuesta"]='0';
+              $datosactividadpadre["h_extra"]='0';
+              $datosactividadpadre["h_planificada"]='0';
+              $datosactividadpadre["orden"]=$numero;
+              $datosactividadpadre["isproyecto"]='S';
+              $datosactividadpadre["moneda"]=$moneda;
+             // print_r($datosactividadpadre);echo "<br>";
+              
+              $bdactividad = new Admin_Model_DbTable_Actividad();
+              $existeactividad=$bdactividad->_existeactividad(utf8_encode(trim($actividadeshijas[1])),$proyecto,$edit['codigo_prop_proy'],$edit['revision'],$edit['propuestaid']);
+              if ($existeactividad)
+              {
+                echo "----------------EXISTE LA ACTIVIDAD----------";
+                print_r($existeactividad);  
+                echo "<br>";
+              }
+              else {
+                $guardaractividad=$bdactividad->_save($datosactividadpadre);
+                if ($guardaractividad)
+                  {
+                    echo "---------SE GUARDO LA ACTIVIDAD ------";
+                    echo "<br>";
+                    $numero++;
+                  }
+                else
+                  {
+                    echo "------ ERROR NO SE GUARADO REVISARLO ---- ";
+                    echo "<br>";
+
+                  }
+              }
+            }
+            else
+            {
+              echo "no existe proyecto";
+            }
+          }
+
+
+        
       }
 
-      //proyectos//
+    }
+    catch (Exception $e) {
+        print "Error: ".$e->getMessage();
+    }
+  }
 
-        echo "ssssssssss";
+
+
+
+  public function leerexcel2Action(){
+    try {
+      $dir = APPLICATION_LIBRARY . "/excel/excel/reader.php";
+      include ($dir);
+      $data = new Spreadsheet_Excel_Reader();
+      $data->setOutputEncoding('CP1251');
+      $data->read('replicon1.xls');
+      $numero=1;
+      for ($i = 1; $i <= $data->sheets[0]['numRows']; $i++) {
+          $actividad=$data->sheets[0]['cells'][$i][7];
+          $proyecto=$data->sheets[0]['cells'][$i][5];
+          $moneda=$data->sheets[0]['cells'][$i][3];
+          $rate=$data->sheets[0]['cells'][$i][4];
+          $tipo_actividada=$data->sheets[0]['cells'][$i][6];
+          $actividadeshijas = explode("/",$actividad);
+
+          if (count($actividadeshijas)=='1'){
+          }
+
+          if (count($actividadeshijas)=='3'){
+            //echo utf8_encode($actividadeshijas[1]); echo "<br>"; 
+           
+            $datosactividadpadre["codigo_actividad"]=$proyecto."-".$numero;
+
+            
+            $editproyect= new Admin_Model_DbTable_Proyecto();
+            $where = array(
+            'proyectoid'    => $proyecto,
+            );
+            $edit = $editproyect->_getOnexcodigoproyecto($where);
+            if ($edit)
+            {
+              //print_r($edit['codigo_prop_proy']); echo "<br>";
+              $datosactividadpadre["codigo_prop_proy"]=$edit['codigo_prop_proy'];
+              $datosactividadpadre["revision"]=$edit['revision'];
+              $datosactividadpadre["areaid"]='00';
+              $datosactividadpadre["proyectoid"]=$proyecto;
+              $datosactividadpadre["propuestaid"]=$edit['propuestaid'];
+              
+              $datosactividadpadre["nombre"]= utf8_encode(trim($actividadeshijas[2]));
+              $datosactividadpadre["fecha_creacion"]=date("Y-m-d");
+              $datosactividadpadre["estado"]='P';
+              $datosactividadpadre["duracion_total"]='0';
+              $datosactividadpadre["h_propuesta"]='0';
+              $datosactividadpadre["h_extra"]='0';
+              $datosactividadpadre["h_planificada"]='0';
+              $datosactividadpadre["orden"]=$numero;
+              $datosactividadpadre["isproyecto"]='S';
+              $datosactividadpadre["moneda"]=$moneda;
+             // print_r($datosactividadpadre);echo "<br>";
+              
+              $bdactividad = new Admin_Model_DbTable_Actividad();
+              $existeactividad=$bdactividad->_existeactividad(utf8_encode(trim($actividadeshijas[1])),$proyecto,$edit['codigo_prop_proy'],$edit['revision'],$edit['propuestaid']);
+              if ($existeactividad)
+              {
+                $datosactividadpadre["actividad_padre"]=$existeactividad[0]['actividadid'];
+                $datosactividadpadre["actividadid"]=$existeactividad[0]['actividadid']."-".$numero;
+                $guardaractividad=$bdactividad->_save($datosactividadpadre);
+                if ($guardaractividad)
+                  {
+                    echo "---------SE GUARDO LA ACTIVIDAD ------";
+                    echo "<br>";
+                    $numero++;
+                  }
+                else
+                  {
+                    echo "------ ERROR NO SE GUARADO REVISARLO ---- ";
+                    echo "<br>";
+
+                  }
+                
+              }
+              else {
+
+              echo "-----------no existe l actividad padre revisar------------------";                 }
+            }
+            else
+            {
+              echo "no existe proyecto";
+            }
+          }
+
+
+        
+      }
+
+    }
+    catch (Exception $e) {
+        print "Error: ".$e->getMessage();
+    }
+  }
+
+
+
+
+  public function leerexceltareoAction(){
+    try {
+      $dir = APPLICATION_LIBRARY . "/excel/excel/reader.php";
+      include ($dir);
+      $data = new Spreadsheet_Excel_Reader();
+      $data->setOutputEncoding('CP1251');
+      $data->read('replicon1.xls');
+      $numero=1;
+
+    $columnas=$data->sheets[0]['numCols'];
+        
+
+      for ($i = 1; $i <= $data->sheets[0]['numRows']; $i++) {
+          $actividad=$data->sheets[0]['cells'][$i][7];
+          $proyecto=$data->sheets[0]['cells'][$i][5];
+          $moneda=$data->sheets[0]['cells'][$i][3];
+          $rate=$data->sheets[0]['cells'][$i][4];
+          $tipo_actividada=$data->sheets[0]['cells'][$i][6];
+          $actividadeshijas = explode("/",$actividad);
+
+          if (count($actividadeshijas)=='1'){
+          }
+
+          if (count($actividadeshijas)=='2'){
+            //echo utf8_encode($actividadeshijas[1]); echo "<br>"; 
+            $datosactividadpadre["actividadid"]=$numero;
+            $datosactividadpadre["codigo_actividad"]=$proyecto."-".$numero;
+
+            
+            $editproyect= new Admin_Model_DbTable_Proyecto();
+            $where = array(
+            'proyectoid'    => $proyecto,
+            );
+            $edit = $editproyect->_getOnexcodigoproyecto($where);
+            if ($edit)
+            {
+                  //print_r($edit['codigo_prop_proy']); echo "<br>";
+                  $datosactividadpadre["codigo_prop_proy"]=$edit['codigo_prop_proy'];
+                  $datosactividadpadre["revision"]=$edit['revision'];
+                  $datosactividadpadre["areaid"]='00';
+                  $datosactividadpadre["proyectoid"]=$proyecto;
+                  $datosactividadpadre["propuestaid"]=$edit['propuestaid'];
+                  $datosactividadpadre["actividad_padre"]=null;
+                  $datosactividadpadre["nombre"]= utf8_encode(trim($actividadeshijas[1]));
+                  $datosactividadpadre["fecha_creacion"]=date("Y-m-d");
+                  $datosactividadpadre["estado"]='P';
+                  $datosactividadpadre["duracion_total"]='0';
+                  $datosactividadpadre["h_propuesta"]='0';
+                  $datosactividadpadre["h_extra"]='0';
+                  $datosactividadpadre["h_planificada"]='0';
+                  $datosactividadpadre["orden"]=$numero;
+                  $datosactividadpadre["isproyecto"]='S';
+                  $datosactividadpadre["moneda"]=$moneda;
+                 // print_r($datosactividadpadre);echo "<br>";
+                  ///// ACTIVIDAD   ////
+                  /*$bdactividad = new Admin_Model_DbTable_Actividad();
+                  $existeactividad=$bdactividad->_existeactividad(utf8_encode(trim($actividadeshijas[1])),$proyecto,$edit['codigo_prop_proy'],$edit['revision'],$edit['propuestaid']);
+                  if ($existeactividad)
+                  {
+                    echo "----------------EXISTE LA ACTIVIDAD----------";
+                    print_r($existeactividad);  
+                    echo "<br>";
+                  }
+                  else {
+                    $guardaractividad=$bdactividad->_save($datosactividadpadre);
+                    if ($guardaractividad)
+                      {
+                        echo "---------SE GUARDO LA ACTIVIDAD ------";
+                        echo "<br>";
+                        $numero++;
+                      }
+                    else
+                      {
+                        echo "------ ERROR NO SE GUARADO REVISARLO ---- ";
+                        echo "<br>";
+
+                      }
+                  }*/
+                  ///// ACTIVIDAD   ////
+                
+                $dni=$data->sheets[0]['cells'][$i][1];
+                $moneda=$data->sheets[0]['cells'][$i][3];
+                $rate=$data->sheets[0]['cells'][$i][4];
+                $codigoproyecto=$data->sheets[0]['cells'][$i][5];
+                $tipo_actividad=$data->sheets[0]['cells'][$i][6];
+                $actividad=$data->sheets[0]['cells'][$i][7];
+                for ($j = 8; $j <= $columnas ; $j++) {
+                  $horarealexiste=$data->sheets[0]['cells'][$i][$j];
+                  $horaexiste=trim($horarealexiste);
+                  
+
+                 if (isset($horaexiste) )
+                    {
+                      //echo $data->sheets[0]['cells'][$i][$j];
+                      //$hora=$horaexiste;
+
+                      $bdtareo = new Admin_Model_DbTable_Tareopersona();
+                      $fecha=$data->sheets[0]['cells'][1][$j];
+                      $bdactividad = new Admin_Model_DbTable_Actividad();
+                      $existeactividad=$bdactividad->_existeactividad(utf8_encode(trim($actividadeshijas[1])),$proyecto,$edit['codigo_prop_proy'],$edit['revision'],$edit['propuestaid']);
+                      if ($existeactividad)
+                      {
+                        //print_r($existeactividad);
+
+                            $datostareo["actividadid"]=$existeactividad[0]['actividadid'];
+                            $datostareo["codigo_actividad"]=$existeactividad[0]['codigo_actividad'];
+                            $datostareo["codigo_prop_proy"]=$existeactividad[0]['codigo_prop_proy'];
+                            $datostareo["revision"]=$existeactividad[0]['revision'];
+                            //$datostareo["areaid"]='00';
+                            $datostareo["proyectoid"]=$proyecto;
+                            $datostareo["actividad_padre"]='0';
+
+                            $datostareo["fecha_tarea"]=$fecha;
+                            $datostareo["fecha_creacion"]='2015-05-20';
+                            $datostareo["semanaid"]=date('W', strtotime($fecha)); 
+                            $datostareo["fecha_planificacion"]=$fecha;
+                            $datostareo["asignado"]=$dni;
+                            $datostareo["estado"]='C';
+                            $datostareo["h_real"]=$horaexiste;
+                            $datostareo["etapa"]='CIERRE';
+                            $bdpersona = new Admin_Model_DbTable_Usuario();
+                            
+                            $where = array(
+                            'dni'    => $dni,
+                            );
+                            $existepersona=$bdpersona->_getOne($where);
+                            //print_r($existepersona);
+                            if ($existepersona)
+                            {
+                              $datostareo["asignado"]=$dni;
+                              $datostareo["dni"]=$dni;
+                              $datostareo["uid"]=$existepersona['uid'];
+                              $datostareo["areaid"]=$existepersona['areaid'];
+                              $datostareo["categoriaid"]=$existepersona['categoriaid'];
+                              $datostareo["cargo"]=$rate."-MONEDA-".$moneda;
+                              $datostareo["tipo_actividad"]=$tipo_actividad;
+                              //print_r($datostareo);echo  "<br>";
+                              
+                              if($bdtareo->_save($datostareo)){
+                                $equipo = new Admin_Model_DbTable_Usuario();
+
+                                  $dataequipo['areaid']=$existepersona['areaid'];
+                                  $dataequipo['categoriaid']=$existepersona['categoriaid'];
+                                  $dataequipo['proyectoid']=$proyecto;
+                                  $dataequipo['codigo_prop_proy']=$existeactividad[0]['codigo_prop_proy'];
+                                  $dataequipo['dni']=$dni;
+                                  $dataequipo['uid']=$existepersona['uid'];
+                                  $dataequipo['cargo']='EQUIPO';
+                                  $dataequipo['fecha_ingreso']=date("Y-m-d");
+                                  $dataequipo['estado']='A';
+                                  $dataequipo['nivel']='4';
+                                  $dataequipo['rate_proyecto']=$rate;
+                                  $dataequipo['moneda']=$moneda;
+                                 // print_r($dataequipo);
+
+                                  $dbequipo = new Admin_Model_DbTable_Equipo();
+                                  $dbequipo->_save($dataequipo);
+
+
+                              echo "----------guardado -------";echo $dni;
+                              echo  "<br>";
+                              }
+                              else
+                              {
+                                echo "---------ERROR NO GUARDO -----------"; echo $dni;
+                              echo  "<br>";
+                              }
+
+
+
+                            }
+                            else
+                            { 
+                              echo "---------ERROR NO EXISTE DNI -----------"; echo $dni;
+                              echo  "<br>";
+
+                            }
+                           
+                        }
+                        else
+                        {
+                          echo "-----------NO EXISTE LA ACTIVIDAD ------";
+                          echo "<br>";
+                          /*if ($tipo_actividad='NB')
+                          {
+                              $datostareonofacturable["codigo_prop_proy"]=$edit['codigo_prop_proy'];
+                              $datostareonofacturable["revision"]=$edit['revision'];
+                              $datostareonofacturable["areaid"]='00';
+                              $datostareonofacturable["proyectoid"]=$proyecto;
+                              $datostareonofacturable["propuestaid"]=$edit['propuestaid'];
+                              $datostareonofacturable["actividadid"]=;
+                              $datostareonofacturable["codigo_actividad"]=$proyecto."-".$numero;
+
+
+                   
+                          }*/
+                        }
+                      
+                      }
+                  } 
+              }
+
+            else
+            {
+              echo "no existe proyecto";
+            }
+
+          }
+        
+      }
+
+
+    }
+    catch (Exception $e) {
+        print "Error: ".$e->getMessage();
+    }
+  }
+
+
+
+
+  public function leerexceltareo2Action(){
+    try {
+      $dir = APPLICATION_LIBRARY . "/excel/excel/reader.php";
+      include ($dir);
+      $data = new Spreadsheet_Excel_Reader();
+      $data->setOutputEncoding('CP1251');
+      $data->read('replicon1.xls');
+      $numero=1;
+
+    $columnas=$data->sheets[0]['numCols'];
+        
+
+      for ($i = 1; $i <= $data->sheets[0]['numRows']; $i++) {
+          $actividad=$data->sheets[0]['cells'][$i][7];
+          $proyecto=$data->sheets[0]['cells'][$i][5];
+          $moneda=$data->sheets[0]['cells'][$i][3];
+          $rate=$data->sheets[0]['cells'][$i][4];
+          $tipo_actividada=$data->sheets[0]['cells'][$i][6];
+          $actividadeshijas = explode("/",$actividad);
+
+          if (count($actividadeshijas)=='1'){
+          }
+
+          if (count($actividadeshijas)=='3'){
+            //echo utf8_encode($actividadeshijas[1]); echo "<br>"; 
+            $datosactividadpadre["actividadid"]=$numero;
+            $datosactividadpadre["codigo_actividad"]=$proyecto."-".$numero;
+
+            
+            $editproyect= new Admin_Model_DbTable_Proyecto();
+            $where = array(
+            'proyectoid'    => $proyecto,
+            );
+            $edit = $editproyect->_getOnexcodigoproyecto($where);
+            if ($edit)
+            {
+                  //print_r($edit['codigo_prop_proy']); echo "<br>";
+                 
+                  $datosactividadpadre["codigo_prop_proy"]=$edit['codigo_prop_proy'];
+                  $datosactividadpadre["revision"]=$edit['revision'];
+                  $datosactividadpadre["areaid"]='00';
+                  $datosactividadpadre["proyectoid"]=$proyecto;
+                  $datosactividadpadre["propuestaid"]=$edit['propuestaid'];
+                  $datosactividadpadre["actividad_padre"]=null;
+                  $datosactividadpadre["nombre"]= utf8_encode(trim($actividadeshijas[1]));
+                  $datosactividadpadre["fecha_creacion"]=date("Y-m-d");
+                  $datosactividadpadre["estado"]='P';
+                  $datosactividadpadre["duracion_total"]='0';
+                  $datosactividadpadre["h_propuesta"]='0';
+                  $datosactividadpadre["h_extra"]='0';
+                  $datosactividadpadre["h_planificada"]='0';
+                  $datosactividadpadre["orden"]=$numero;
+                  $datosactividadpadre["isproyecto"]='S';
+                  $datosactividadpadre["moneda"]=$moneda;
+                 // print_r($datosactividadpadre);echo "<br>";
+                  ///// ACTIVIDAD   ////
+                  $bdactividad = new Admin_Model_DbTable_Actividad();
+                  $existeactividad=$bdactividad->_existeactividad(utf8_encode(trim($actividadeshijas[1])),$proyecto,$edit['codigo_prop_proy'],$edit['revision'],$edit['propuestaid']);
+                  /*if ($existeactividad)
+                  {
+                    echo "----------------EXISTE LA ACTIVIDAD----------";
+                    print_r($existeactividad);  
+                    echo "<br>";
+                  }
+                  else {
+                    $guardaractividad=$bdactividad->_save($datosactividadpadre);
+                    if ($guardaractividad)
+                      {
+                        echo "---------SE GUARDO LA ACTIVIDAD ------";
+                        echo "<br>";
+                        $numero++;
+                      }
+                    else
+                      {
+                        echo "------ ERROR NO SE GUARADO REVISARLO ---- ";
+                        echo "<br>";
+
+                      }
+                  }*/
+                  ///// ACTIVIDAD   ////
+                
+                $dni=$data->sheets[0]['cells'][$i][1];
+                $moneda=$data->sheets[0]['cells'][$i][3];
+                $rate=$data->sheets[0]['cells'][$i][4];
+                $codigoproyecto=$data->sheets[0]['cells'][$i][5];
+                $tipo_actividad=$data->sheets[0]['cells'][$i][6];
+                $actividad=$data->sheets[0]['cells'][$i][7];
+
+                for ($j = 8; $j <= $columnas ; $j++) {
+                  $horarealexiste=$data->sheets[0]['cells'][$i][$j];
+                  $horaexiste=trim($horarealexiste);
+                  
+
+                 if (isset($horaexiste) )
+                    {
+                      //echo $data->sheets[0]['cells'][$i][$j];
+                      //$hora=$horaexiste;
+
+                      $bdtareo = new Admin_Model_DbTable_Tareopersona();
+                      $fecha=$data->sheets[0]['cells'][1][$j];
+                      $bdactividad = new Admin_Model_DbTable_Actividad();
+                      $existeactividadhija=$bdactividad->_existeactividadhija(utf8_encode(trim($actividadeshijas[2])),$proyecto,$edit['codigo_prop_proy'],$edit['revision'],$edit['propuestaid'],$existeactividad[0]['actividadid']);
+                      if ($existeactividadhija)
+                      {
+                        
+
+                        
+
+                            $datostareo["actividadid"]=$existeactividadhija[0]['actividadid'];
+                            $datostareo["codigo_actividad"]=$existeactividadhija[0]['codigo_actividad'];
+                            $datostareo["codigo_prop_proy"]=$existeactividadhija[0]['codigo_prop_proy'];
+                            $datostareo["revision"]=$existeactividadhija[0]['revision'];
+                            //$datostareo["areaid"]='00';
+                            $datostareo["proyectoid"]=$proyecto;
+                            $datostareo["actividad_padre"]=$existeactividad[0]['actividadid'];
+
+                            $datostareo["fecha_tarea"]=$fecha;
+                            $datostareo["fecha_creacion"]='2015-05-20';
+                            $datostareo["semanaid"]=date('W', strtotime($fecha)); 
+                            $datostareo["fecha_planificacion"]=$fecha;
+                            $datostareo["asignado"]=$dni;
+                            $datostareo["estado"]='C';
+                            $datostareo["h_real"]=$horaexiste;
+                            $datostareo["etapa"]='CIERRE';
+                            $bdpersona = new Admin_Model_DbTable_Usuario();
+                            
+                            $where = array(
+                            'dni'    => $dni,
+                            );
+                            $existepersona=$bdpersona->_getOne($where);
+                            //print_r($existepersona);
+                            if ($existepersona)
+                            {
+                              $datostareo["asignado"]=$dni;
+                              $datostareo["dni"]=$dni;
+                              $datostareo["uid"]=$existepersona['uid'];
+                              $datostareo["areaid"]=$existepersona['areaid'];
+                              $datostareo["categoriaid"]=$existepersona['categoriaid'];
+                              $datostareo["cargo"]=$rate."-MONEDA-".$moneda;
+                              $datostareo["tipo_actividad"]=$tipo_actividad;
+                             //print_r($datostareo);echo  "<br>";
+                              
+                              if($bdtareo->_save($datostareo)){
+                                $equipo = new Admin_Model_DbTable_Usuario();
+
+                                  $dataequipo['areaid']=$existepersona['areaid'];
+                                  $dataequipo['categoriaid']=$existepersona['categoriaid'];
+                                  $dataequipo['proyectoid']=$proyecto;
+                                  $dataequipo['codigo_prop_proy']=$existeactividad[0]['codigo_prop_proy'];
+                                  $dataequipo['dni']=$dni;
+                                  $dataequipo['uid']=$existepersona['uid'];
+                                  $dataequipo['cargo']='EQUIPO';
+                                  $dataequipo['fecha_ingreso']=date("Y-m-d");
+                                  $dataequipo['estado']='A';
+                                  $dataequipo['nivel']='4';
+                                  $dataequipo['rate_proyecto']=$rate;
+                                  $dataequipo['moneda']=$moneda;
+                                 // print_r($dataequipo);
+
+                                  $dbequipo = new Admin_Model_DbTable_Equipo();
+                                  $dbequipo->_save($dataequipo);
+
+
+                              echo "----------guardado -------";echo $dni;
+                              echo  "<br>";
+                              }
+                              else
+                              {
+                                echo "---------ERROR NO GUARDO -----------"; echo $dni;
+                              echo  "<br>";
+                              }
+
+
+
+                            }
+                            else
+                            { 
+                              echo "---------ERROR NO EXISTE DNI -----------"; echo $dni;
+                              echo  "<br>";
+
+                            }
+                           
+                        }
+                        else
+                        {
+                          echo "-----------NO EXISTE LA ACTIVIDAD HIJA ------";
+                          echo "<br>";
+                       
+                        }
+                      
+                      }
+                  } 
+              }
+
+            else
+            {
+              echo "no existe proyecto";
+            }
+
+          }
+        
+      }
+
+
+    }
+    catch (Exception $e) {
+        print "Error: ".$e->getMessage();
+    }
+  }
+
+
+
+  public function leerfechasAction(){
+    try {
+      $dir = APPLICATION_LIBRARY . "/excel/excel/reader.php";
+      include ($dir);
+      $data = new Spreadsheet_Excel_Reader();
+      $data->setOutputEncoding('CP1251');
+      $data->read('replicon1.xls');
+      $numero=1;
+    
 $fila=$data->sheets[0]['numRows'];
 
 for ($j = 8; $j <= $data->sheets[0]['numCols']-1; $j++) {
-        for ($i = 2; $i <= $fila; $i++) {
-     // for ($j = 1; $j <= $data->sheets[0]['numCols']-1; $j++) {
-       
+        for ($i = 2; $i <= $fila; $i++) {    
             $dni=$data->sheets[0]['cells'][$i][1];
             $moneda=$data->sheets[0]['cells'][$i][3];
             $rate=$data->sheets[0]['cells'][$i][4];
             $codigoproyecto=$data->sheets[0]['cells'][$i][5];
             $tipo_actividad=$data->sheets[0]['cells'][$i][6];
             $actividad=$data->sheets[0]['cells'][$i][7];
-            $fecha1=$data->sheets[0]['cells'][$i][8];
-            //$categorias=$data->sheets[0]['cells'][2][$j];
+            $fecha1=$data->sheets[0]['cells'][1][$j];
+
             echo $dni; echo "-----";
             echo $moneda; echo "-----";
             echo $rate; echo "-----";
@@ -347,56 +937,34 @@ for ($j = 8; $j <= $data->sheets[0]['numCols']-1; $j++) {
             echo utf8_encode($actividad); echo "-----";
              echo $fecha1; echo "-----";
              echo "<br>";
-       
-      //}
+
+              $bdpersona = new Admin_Model_DbTable_Usuario();
+                            
+                            $where = array(
+                            'dni'    => $dni,
+                            );
+                            $existepersona=$bdpersona->_getOne($where);
+                            //print_r($existepersona);
+                            if ($existepersona)
+                            {
+                              
+                              
+                                echo "---------existe -----------"; echo $dni;
+                              echo  "<br>";
+
+
+
+
+                            }
+                            else
+                            { 
+                              echo "---------ERROR NOE EXISTE DNI -----------"; echo $dni;
+                              echo  "<br>";
+
+                            }
+
     }
 }
-
-
-
-      /*
-
-      $fila=$data->sheets[0]['numRows'];
-        for ($i = 2; $i <= $fila; $i++) {
-          $columnas=$data->sheets[0]['numCols'];
-          for ($j = 3; $j <= $columnas-1 ; $j++) {
-            $actividad=$data->sheets[0]['cells'][$i][1];
-            $categoria=$data->sheets[0]['cells'][1][$j];
-            if (isset( $data->sheets[0]['cells'][$i][$j] ))
-            {
-
-         //     echo("<td>".utf8_encode($data->sheets[0]['cells'][$i][$j]) ."</td>");
-              $duracion=utf8_encode($data->sheets[0]['cells'][$i][$j]);
-            //  echo $actividad;
-            //  echo $categoria;
-            //  echo $duracion;
-
-              
-              $datostarea["asignado"]=$responsable;
-              $datostarea["semana"]=$semana;
-              $datostarea["actividadid"]=$actividad;
-              $datostarea["proyectoid"]=$proyectoid;
-              $datostarea["fecha_tarea"]=$fecha;
-              $datostarea["estado"]='I';
-              $datostarea["etapa"]='INICIO';
-              $datostarea["horas_propuesta"]=$duracion;
-              $datostarea["horas_efectivas"]='0';
-              $datostarea["horas_planeadas"]='0';
-              $datostarea["categoriaid"]=$categoria;
-          //    print_r($datostarea);
-              //guardar datos de las horas
-              $bdtarea = new Proyectos_Model_DbTable_Proyecto();
-              //$datostarea = $bdtarea->_guardar($datostarea);
-            }
-            else
-            {
-              //echo("<td>"."</td>");
-            }
-          }
-          
-        }*/
-
-      
 
 
     }

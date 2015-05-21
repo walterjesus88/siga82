@@ -57,7 +57,7 @@ if ($this->equipo) {
                     </td>
                     <td>
                         <center>
-                            <a href="/propuesta/index/ver/propuestaid/<?php echo $lista['propuestaid']?>/revision/<?php echo $lista['revision']?>/codigo/<?php echo $lista['codigo_prop_proy']?>" class="btn btn-warning btn-xs"><i class="fa fa-folder"></i></a>
+                            <a data-toggle="modal" href="#myModalDetail" class="btn btn-warning btn-xs showdetails" title="Detalles"  uid="<?php echo $lista['uid']; ?>" dni="<?php echo $lista['dni']; ?>" numero="<?php echo $lista['numero']; ?>" proyectoid="<?php echo $data_equipo['proyectoid']?>" codigo-prop-proy="<?php echo $data_equipo['codigo_prop_proy']?>"><i class="fa fa-folder"></i></a>
                         </center>
                     </td>
                 </tr>
@@ -113,7 +113,7 @@ if ($this->equipo) {
                     </td>
                     <td>
                         <center>
-                            <a href="/propuesta/index/ver/propuestaid/<?php echo $lista['propuestaid']?>/revision/<?php echo $lista['revision']?>/codigo/<?php echo $lista['codigo_prop_proy']?>" class="btn btn-warning btn-xs"><i class="fa fa-folder"></i></a>
+                            <a data-toggle="modal" href="#myModalDetail" class="btn btn-warning btn-xs showdetails" title="Detalles"  uid="<?php echo $lista['uid']; ?>" dni="<?php echo $lista['dni']; ?>" numero="<?php echo $lista['numero']; ?>" proyectoid="<?php echo $data_equipo['proyectoid']?>" codigo-prop-proy="<?php echo $data_equipo['codigo_prop_proy']?>"><i class="fa fa-folder"></i></a>
                         </center>
                     </td>
                 </tr>
@@ -169,7 +169,7 @@ if ($this->equipo) {
                     </td>
                     <td>
                         <center>
-                            <a href="/propuesta/index/ver/propuestaid/<?php echo $lista['propuestaid']?>/revision/<?php echo $lista['revision']?>/codigo/<?php echo $lista['codigo_prop_proy']?>" class="btn btn-warning btn-xs"><i class="fa fa-folder"></i></a>
+                            <a data-toggle="modal" href="#myModalDetail" class="btn btn-warning btn-xs showdetails" title="Detalles"  uid="<?php echo $lista['uid']; ?>" dni="<?php echo $lista['dni']; ?>" numero="<?php echo $lista['numero']; ?>" proyectoid="<?php echo $data_equipo['proyectoid']?>" codigo-prop-proy="<?php echo $data_equipo['codigo_prop_proy']?>"><i class="fa fa-folder"></i></a>
                         </center>
                     </td>
                 </tr>
@@ -179,6 +179,24 @@ if ($this->equipo) {
         </table>
         </div>
     </section>
+
+    <div class="modal fade" id="myModalDetail" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content" style="width: 1250px; top: 100%; margin-left: -180px;">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">Detalles</h4>
+                </div>
+                <div class="modal-body">
+                    <div id="load_data_detail"></div>
+                </div>
+                <div class="modal-footer">
+                    <button data-dismiss="modal" class="btn btn-default" type="button">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div id="load_change"></div>
 
     <script type="text/javascript">
@@ -198,6 +216,16 @@ if ($this->equipo) {
             var estate = $(this).attr('estate');
             $("#load_change").load("/expense/aprobacion/estado/numero/"+numero+"/uid/"+uid+"/dni/"+dni+"/estate/"+estate);
             window.location.reload();
+        });
+
+        $(".showdetails").click(function(){
+            var numero = $(this).attr('numero');
+            var uid = $(this).attr('uid');
+            var dni = $(this).attr('dni');
+            var proyectoid = $(this).attr('proyectoid');
+            var codigo_prop_proy = $(this).attr('codigo-prop-proy');
+            var url = "/expense/aprobacion/detalles/numero/"+numero+"/uid/"+uid+"/dni/"+dni+"/codigo_prop_proy/"+codigo_prop_proy+"/proyectoid/"+proyectoid;
+            $("#load_data_detail").load(url);
         });
 
         $("#mostrar_enviada").click(function(){

@@ -49,11 +49,11 @@
                             <ul class="nav nav-pills nav-stacked">
                                 <?php 
                                 $equipo = $this->datoscliente;
-                                //print_r($equipo);
+                               // print_r($equipo);
                                 foreach ($equipo as $data_equipo) { ?>
                                     <li >
                                         <a style="padding:5px 5px;" class="cliente" clienteid="<?php echo $data_equipo['clienteid'] ?>" unidadid="<?php echo $data_equipo['unidad_mineraid'] ?>" href="##">
-                                            <?php echo $data_equipo['nombre_cliente'] ?>
+                                            <?php echo $data_equipo['nombre_comercial'] ?>
                                         </a>
                                     </li>
                                     <script type="text/javascript">
@@ -67,7 +67,9 @@
                                          
                                         var clienteid = $(this).attr('clienteid');
                                         var unidadid = $(this).attr('unidadid');
-
+                                      //  alert(clienteid);
+                                      //  alert(unidadid);
+                                       // alert(fecha);
                                         $("#proyectos").load("/timesheet/index/proyectos/clienteid/"+clienteid+"/unidadid/"+unidadid+"/fecha/"+fecha);
 
                                          
