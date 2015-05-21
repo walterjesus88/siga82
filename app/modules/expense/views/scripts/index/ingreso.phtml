@@ -132,7 +132,7 @@ $data_rendicion = $this->data_rendicion;
                                     <th colspan="3"><center>Gasto</center></th>
                                     <th>Cant.</th>
                                     <th>PU</th>
-                                    <th>Cliente</th>
+                                    <th>Clien.</th>
                                     <th>Reemb.</th>
                                     <th>Fecha</th>
                                     <th>N° Documento</th>
@@ -217,9 +217,9 @@ $data_rendicion = $this->data_rendicion;
                                     <td>
                                         <?php if ($data_rendicion['estado'] == "E") { ?>
                                             <span><?php echo $data_actividades['laboratorio_PU']; ?></span>
-                                            <?php<?php echo $data_actividades['gasto_persona_id'] ?>
-                                        } else { ?>
-                                            <center><input name="lab_pu[]" type="text" class="form-control" style="width : 50px" value="<?php echo ($data_actividades['laboratorio_PU'])? $data_actividades['laboratorio_PU'] : ''; ?>" <?php echo ($data_actividades['gastoid'] == '')? readonly: '';?>></center>
+                                            <?php
+                                            } else { ?>
+                                            <center><input name="lab_pu[]" type="text" class="form-control" style="width : 50px" value="<?php echo ($data_actividades['laboratorio_PU'])? $data_actividades['laboratorio_PU'] : ''; ?>"/></center>
                                         <?php
                                         } ?>
                                     </td>
@@ -395,17 +395,6 @@ $data_rendicion = $this->data_rendicion;
                 });
             }
         });
-
-        /*var proyectoid = $(this).attr('proyectoid');
-        var codigo_prop_proy = $(this).attr('codigo-prop-proy');
-        var categoriaid = $(this).attr('categoriaid');
-        var areaid = $(this).attr('areaid');
-        var cargo = $(this).attr('cargo');
-        var revision = $(this).attr('revision');
-        var actividadid = $(this).attr('actividadid');
-        url = "/expense/index/guardargastopersona/codigo-prop-proy/"+codigo_prop_proy+"/proyectoid/"+proyectoid+"/categoriaid/"+categoriaid+"/areaid/"+areaid+"/cargo/"+cargo+"/revision/"+revision+"/actividadid/"+actividadid;
-        $("#load_duplicidad").load(url);
-        $("#ingreso").load("/expense/index/ingreso/");*/
     });
 
     $(".delete_actividad").click(function(){
