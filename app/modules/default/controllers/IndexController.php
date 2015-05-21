@@ -61,13 +61,20 @@ class IndexController extends Zend_Controller_Action {
 
                         // Seleccionamos y seteamos los datos de sesion de una persona
                         $persona = new Admin_Model_DbTable_Persona();
+                        $rp = $persona->_getPersona($data->dni);
+
                         $dbucat= new Admin_Model_DbTable_Usuariocategoria();
                         $datosucat = $dbucat->_getUsuarioxPersona($data->uid,$data->dni);
                         
+                        $where = array();
+                        $where['uid'] = $data->uid;
+                        $where['dni'] = $data->dni;
+                        $where['estado'] = 'A';
+                        $where['nivel'] = '0';
+                        $equipo = new Admin_Model_DbTable_Equipo();
+                        $data_equipo = $equipo->_getProyectosXuidXEstadoXnivel($where);
 
-                        $rp = $persona->_getPersona($data->dni);
                         if ($rp){
-
                             $data->personal = new stdClass();
                             $data->personal->full_name = $rp['ape_paterno']." ".$rp['ape_materno'].", ".$rp['nombres'];
                             $data->personal->ape_paterno = $rp['ape_paterno'];
@@ -78,13 +85,17 @@ class IndexController extends Zend_Controller_Action {
                             $data->personal->isanddes = $rp['isanddes'];
                             $data->personal->sexo= $rp['sexo']; 
                             $data->personal->alias= $rp['alias']; 
-                                if ($datosucat) {
+                            if ($datosucat) {
                                 $data->personal->ucatid= $datosucat[0]['categoriaid']; 
                                 $data->personal->ucatareaid= $datosucat[0]['areaid']; 
-                                $data->personal->ucatcargo= $datosucat[0]['cargo'];
-                                 
-                                
-                            } 
+                                $data->personal->ucatcargo= $datosucat[0]['cargo'];                                
+                            }
+
+                            if ($data_equipo) {
+                                $data->is_gerente = 'S';
+                            } else {
+                                $data->is_gerente = 'N';
+                            }
                                    
                         }
                         $auth->getStorage()->write($data);

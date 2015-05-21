@@ -30,6 +30,7 @@ class Admin_Model_DbTable_Equipo extends Zend_Db_Table_Abstract
             print $ex->getMessage();
         }
     }
+
 /*
 select p.codigo_prop_proy, p.proyectoid, e.estado, e.categoriaid, e.cargo, e.areaid, pro.propuestaid, pro.revision, p.nombre_proyecto, 
                 p.tipo_proyecto, pro.moneda, pro.descripcion  
@@ -40,6 +41,21 @@ select p.codigo_prop_proy, p.proyectoid, e.estado, e.categoriaid, e.cargo, e.are
                 where e.uid = '$uid' and e.estado = '$estado' and pro.clienteid='$clienteid' and pro.unidad_mineraid='$unidad_mineraid'
 */
  
+
+
+    public function _getProyectosXuidXEstadoXnivel($where=null){
+        try{
+            if ($where['uid']=='' || $where['dni']=='' || $where['estado']=='' || $where['nivel']=='') return false;
+            $wherestr="uid = '".$where['uid']."' and dni = '".$where['dni']."' and estado = '".$where['estado']."' and nivel = '".$where['nivel']."'";
+            $row = $this->fetchRow($wherestr);
+            if($row) return $row->toArray();
+            return false;         
+            } catch (Exception $ex){
+            print $ex->getMessage();
+        }
+    }
+
+
 
 public function _getProyectosxUidXEstadoxCliente($uid,$estado,$clienteid,$unidad_mineraid)
      {

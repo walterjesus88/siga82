@@ -580,6 +580,7 @@ public function eliminartareoAction(){
         $semanaid=$this->_getParam('semanaid');
         $tipo_actividad=$this->_getParam('tipo_actividad');
         $actividad_generalid=$this->_getParam('actividad_generalid');
+        $etapa=$this->_getParam('etapa');
 
          if($actividad_generalid=='')
          {
@@ -594,7 +595,7 @@ public function eliminartareoAction(){
             'uid'   =>$uid,
             'dni'   =>$dni,
             'tipo_actividad'   =>$tipo_actividad,
-            'etapa'  => 'INICIO-NB-',
+            'etapa'  => $etapa,
             );
             $tareopersona->_deleteTareasxSemanaX($pk1);
 
