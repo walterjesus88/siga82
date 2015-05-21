@@ -409,7 +409,7 @@ class Timesheet_IndexController extends Zend_Controller_Action {
         $this->_helper->layout()->disableLayout();
         $uid = $this->sesion->uid;
         $dni = $this->sesion->dni;
-        $areaid='90';
+        $areaid='25';
         $actividad_generales = new Admin_Model_DbTable_Actividadgeneral();
         $data_generales = $actividad_generales->_getActividadgeneralxArea($areaid);
         $this->view->lista = $data_generales;
@@ -868,8 +868,41 @@ public function sumatareorealAction(){
         $vuser=$user->_getUsuarioAll();
         $this->view->usuarios=$vuser;
         //print_r($vuser);
-  
-       // if()
+
+        $codigo_prop_proy='PROP-2015-20100079501-1416-15.10.042-A';
+        $proyectoid='1214.10.20';
+        $uid='walter.melgarejo';
+        $dni='43362864';
+        $nivel='3';
+        //codigo_prop_proy, proyectoid, uid, dni, categoriaid, areaid, cargo
+
+
+        for ($i=0; $i <=3 ; $i++) { 
+            //echo "dadada";
+
+             if($i==4)
+             {
+
+             }
+             if()
+            // else
+            // {
+                $where['codigo_prop_proy']=$codigo_prop_proy;
+                $where['proyectoid']=$proyectoid;
+                $where['estado']='A';
+                $where['nivel']=(string)$i;
+                $verequipo = new Admin_Model_DbTable_Equipo();
+                $vnivel=$verequipo->_getFilter($where);
+                print_r($vnivel);
+
+            //}       
+
+        }
+        // if($nivel=='3'){
+
+
+        // }
+
 
 
         $suma_hora = new Admin_Model_DbTable_Sumahorasemana();
