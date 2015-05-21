@@ -16,7 +16,7 @@
          <a id = "" class="btn btn-default pull-right btn-xs" href="#" style="margin-right : 10px">
             <i class="fa fa-check-square"></i> Enviar
         </a>
-        <a id = "" class="btn btn-info pull-right btn-xs"  href="#" style="margin-right : 10px">
+        <a id = "save_work" class="btn btn-info pull-right btn-xs"  style="margin-right : 10px">
             <i class="fa fa-save"></i> Guardar
         </a>
 
@@ -137,6 +137,43 @@ $("#add_work").click(function(){
     $("#actividades_tareas").html('');
 });
 
+
+$("#save_work").click(function(){
+
+
+    var dateObj = new Date();
+    //var dateObj = $('#datepicker').datepicker('getDate');
+    var dateFrom = $.datepicker.formatDate('mm/dd/yy', dateObj);
+    var weekfrom = $.datepicker.iso8601Week(new Date(dateFrom));
+    var diasSemana = new Array("Domingo","Lunes","Martes","Miércoles","Jueves","Viernes","Sábado");
+    var day_select = diasSemana[dateObj.getDay()];
+    for (i = 0; i < diasSemana.length; i++) { 
+        if (diasSemana[i] == day_select) {
+            if (i == 0) {
+                var num_day = 6;
+                
+            } else {
+                var num_day = i - 1;
+            };
+        };
+    };
+    var f = new Date(); 
+    var fech=f.getFullYear()+"-"+(f.getMonth()+1) +"-"+f.getDate() ;
+         $("#fechasemana").text( fech );
+      
+    fecha_inicio = mostrarFecha(dateObj,-num_day);  
+
+
+       
+    $("#registro").load("/timesheet/index/registro/fecha/" + fecha_inicio); 
+
+
+});
+
+
+
+
+
 $("#guardar_act").click(function(){
    var dateObj = new Date();
 //var dateObj = $('#datepicker').datepicker('getDate');
@@ -214,6 +251,35 @@ function mostrarFecha(fecha,days){
  
     return(day+"-"+month+"-"+year);
 }
+
+function cargardatos(){ 
+    var dateObj = new Date();
+    //var dateObj = $('#datepicker').datepicker('getDate');
+    var dateFrom = $.datepicker.formatDate('mm/dd/yy', dateObj);
+    var weekfrom = $.datepicker.iso8601Week(new Date(dateFrom));
+    var diasSemana = new Array("Domingo","Lunes","Martes","Miércoles","Jueves","Viernes","Sábado");
+    var day_select = diasSemana[dateObj.getDay()];
+    for (i = 0; i < diasSemana.length; i++) { 
+        if (diasSemana[i] == day_select) {
+            if (i == 0) {
+                var num_day = 6;
+                
+            } else {
+                var num_day = i - 1;
+            };
+        };
+    };
+    var f = new Date(); 
+    var fech=f.getFullYear()+"-"+(f.getMonth()+1) +"-"+f.getDate() ;
+         $("#fechasemana").text( fech );
+      
+    fecha_inicio = mostrarFecha(dateObj,-num_day);  
+
+
+       
+    $("#registro").load("/timesheet/index/registro/fecha/" + fecha_inicio); 
+} 
+
 
 function cargardatos(){ 
     var dateObj = new Date();
