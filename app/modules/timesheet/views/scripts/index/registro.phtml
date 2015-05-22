@@ -175,7 +175,7 @@
 
                     <?php
                   }?>
-              </td>
+              </td >
 
               <?php  $fecha = $this->fecha; 
               $fecha = date("Y-m-d", strtotime($fecha));
@@ -217,24 +217,35 @@
                 $buscar_tarea=$tareopersona->_getTareoxProyectoxTareaxDia($proyectoid,$codigo,$revision,$actividadid,$actividad_padre,$semanaid,$fecha_tarea,$fecha_planificacion,$uid,$dni,$cargo,$resultado);
                 //print_r($buscar_tarea);
                 //$k=$a[$i][$j];
+                if ($data_tareo['tipo_actividad']=='G' and $data_tareo['actividad_generalid']=='')
+                {
+                ?>
+                <td>
+                <center>        
+        
+
+                   <input disabled  class="form-control" id="valor<?php echo $i?><?php echo $j?>" style="text-align: center;height: 26px; width: 40px; padding-right: 4px; padding-left: 4px;" maxlength="2" values= "<?php  print_r($buscar_tarea[0]['tipo_actividad']) ?>" value="<?php 
+                 if ($buscar_tarea) {
+                    if($buscar_tarea[0]['h_real']=='0') { echo "";} else { print_r($buscar_tarea[0]['h_real']);}
+                    }?>" 
+                    <?php if ($data_tareo['estado_tareopersona']=='C') {?> disabled <?php } ?> > 
+
+               
+                 </center> 
+                <?php } else {
+
                 ?>
               <td>
-                <center>
-                <!-- onBlur="fnc(event)" -->
-                <!-- _<?php //echo $j?> -->            
-                <!-- editable=true type="text" -->
-                <!--             "<?php //echo $data_tareo['codigo_prop_proy']."!".$data_tareo['codigo_actividad']."!".$data_tareo['actividadid']."!".$data_tareo['revision']."!".$data_tareo['actividad_padre']."!".$data_tareo['proyectoid']."!".$data_tareo['semanaid']."!".$fecha."!".$data_tareo['asignado']."!".$data_tareo['areaid']."!".$data_tareo['categoriaid']."!".$data_tareo['dni']."!".$data_tareo['cargo']."!".$data_tareo['tipo_actividad']."!".$data_tareo['etapa']."!".$i."!".$data_tareo['actividad_generalid'];?>" -->
+                <center>        
+        
 
-                <input  class="form-control" id="valor<?php echo $i?><?php echo $j?>" style="text-align: center;height: 26px; width: 40px; padding-right: 4px; padding-left: 4px;" maxlength="2" value="<?php 
-                if ($buscar_tarea) {
+                   <input class="form-control" id="valor<?php echo $i?><?php echo $j?>" style="text-align: center;height: 26px; width: 40px; padding-right: 4px; padding-left: 4px;" maxlength="2" values= "<?php  print_r($buscar_tarea[0]['tipo_actividad']) ?>" value="<?php 
+                 if ($buscar_tarea) {
                     if($buscar_tarea[0]['h_real']=='0') { echo "";} else { print_r($buscar_tarea[0]['h_real']);}
-                    }?>" <?php if ($data_tareo['estado_tareopersona']=='C') {?> disabled <?php } ?> >
+                    }?>" 
+                    <?php if ($data_tareo['estado_tareopersona']=='C') {?> disabled <?php } ?> >
 
-
-                        
-
-
-
+               
                 </center>
 
                 <script type="text/javascript">
@@ -318,8 +329,9 @@
                 </script>
 
 
-              </td>
+              </td> 
                 <?php 
+              }
                   $newDate = date("Y-m-d", strtotime($fecha));
                   $nuevafecha = strtotime ( '+1 day' , strtotime ( $newDate ) ) ;
                   $fecha = date ( 'Y-m-d' , $nuevafecha );?>
