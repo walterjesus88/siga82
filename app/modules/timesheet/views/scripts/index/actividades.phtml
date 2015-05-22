@@ -63,13 +63,13 @@
               <li style="padding:5px 5px;color: #667fa0;"  >
                 
                     <?php echo "- ".$data_tareo_hijos['nombre'] ?>
-                    <input  name="tarea_h_<?php echo $i;?>" id="tarea_h_<?php echo $i;?>" type = "checkbox" class = "pull-right" value="" codigo-prop-proy="<?php echo $this->codigo_prop_proy ?>" proyectoid="<?php echo $this->proyectoid ?>" categoriaid="<?php echo $this->categoriaid ?>" actividadid = "<?php echo $data_tareo_hijos['actividadid'] ?>" revision = "<?php echo $data_tareo_hijos['revision'] ?>" propuestaid = "<?php echo $data_tareo_hijos['propuestaid'] ?>">
+                    <input  name="tarea_h_<?php echo $data_tareo_hijos['actividadid'];?>" id="tarea_h_<?php echo $data_tareo_hijos['actividadid'];?>" type = "checkbox" class = "pull-right" value="" codigo-prop-proy="<?php echo $this->codigo_prop_proy ?>" proyectoid="<?php echo $this->proyectoid ?>" categoriaid="<?php echo $this->categoriaid ?>" actividadid = "<?php echo $data_tareo_hijos['actividadid'] ?>" revision = "<?php echo $data_tareo_hijos['revision'] ?>" propuestaid = "<?php echo $data_tareo_hijos['propuestaid'] ?>">
                 
             </li>
         <?php $i++;  }?>
         <script type="text/javascript">
             $(document).ready(function(){
-                $('[name^="tarea_h_<?php echo $i;?>"]').click(function(event) {
+                $('[name^="tarea_h_<?php echo $data_tareo_hijos['actividadid'];?>"]').click(function(event) {
                     if ($(this).is(":checked")) {
                     
                         var codigo = '<?php echo $this->codigo_prop_proy; ?>';

@@ -270,7 +270,22 @@ public function _getListarEquipoxProyectoxGerente($uid,$dni)
     }
 
 
-
+ public function _buscarGerentexProyecto($proyectoid)
+     {
+        try{
+            $sql=$this->_db->query("
+                select * from equipo
+               where proyectoid='$proyectoid' and nivel='0' and cargo='GER-PROY'
+               
+            ");
+            $row=$sql->fetchAll();
+            return $row;           
+            }  
+            
+           catch (Exception $ex){
+            print $ex->getMessage();
+        }
+    }
     
 
     
