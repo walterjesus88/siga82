@@ -37,7 +37,9 @@
         <?php
     } ?>
 </ul>-->
+<span style="font-weight:bold;">Actividad</span>
 
+  <ul class="nav nav-pills nav-stacked">
 <?php
   $i=1;
     $actividades_hijos = $this->actividades;
@@ -82,7 +84,7 @@
 
                         url="/timesheet/index/guardartareopersona/codigo/"+codigo+"/proyectoid/"+proyectoid+"/revision/"+revision+"/categoriaid/"+categoriaid+"/propuestaid/"+propuestaid+"/actividadid/"+actividadid+"/codigo_actividad/"+codigo_actividad+"/actividad_padre/"+actividad_padre+"/h_propuesta/"+h_propuesta+"/fecha/"+fecha;
 
-                      // alert(url);
+                        //alert(url);
                         $("#cargar").load(url);
                  
                 
@@ -95,5 +97,5 @@
         </script>
         <?php
    $i++; } ?>
-
+</ul>
    <div id="cargar"> </div>
