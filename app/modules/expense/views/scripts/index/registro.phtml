@@ -57,12 +57,12 @@
                         <aside style="width:20%; " class="right-side">
                             <div id="disciplina"></div>
                         </aside>
-                        <aside style="width:20%; " class="right-side">
+                        <!-- <aside style="width:20%; " class="right-side">
                             <div id="actividades_padres"></div>
                         </aside>
                         <aside style="width:20%; " class="right-side">
                             <div id="tareas"></div>
-                        </aside>
+                        </aside> -->
                     </div>
                 </div>
                 <div class="modal-footer " style="padding: 7px">
@@ -81,6 +81,7 @@
         $("#actividades_padres").html('');
         $("#tareas").html('');
     });
+    
     $("#ingreso").load("/expense/index/ingreso/");
 
     $("#actualizar_gasto").click(function(){

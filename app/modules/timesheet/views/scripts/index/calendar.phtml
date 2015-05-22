@@ -13,7 +13,7 @@
          <a id = "" class="btn btn-primary pull-right btn-xs"  href="" style="margin-right : 10px">
             <i class="fa fa-print"></i> Imprimir
         </a>
-         <a id = "" class="btn btn-default pull-right btn-xs" href="#" style="margin-right : 10px">
+         <a id = "submit_work" class="btn btn-default pull-right btn-xs" href="#" style="margin-right : 10px">
             <i class="fa fa-check-square"></i> Enviar
         </a>
         <a id = "save_work" class="btn btn-info pull-right btn-xs"  style="margin-right : 10px">
@@ -42,7 +42,7 @@
                 <div class="modal-body" style="padding: 1px; ">
                     <div class="chat-room">
                        
-                        <aside  style="width:10%; text-align: left;">
+                        <aside  style="width:30%; text-align: left;">
                          
                                 <span style="font-weight:bold;">Cliente</span>
                             
@@ -80,18 +80,18 @@
                                  ?>
                             </ul>
                         </aside>
-                        <aside style="width:20%; " class="right-side">
+                        <aside style="width:30%; " class="right-side">
                             <div id="proyectos"></div>
                         </aside>
-                        <aside style="width:20%; " class="right-side">
+                        <aside style="width:40%; " class="right-side">
                             <div id="actividades"></div>
                         </aside>
                         <aside style="width:20%; " class="right-side">
                             <div id="actividades_hijos"></div>
                         </aside>
-                        <aside style="width:30%; " class="right-side">
+                       <!-- <aside style="width:30%; " class="right-side">
                             <div id="actividades_tareas"></div>
-                        </aside>
+                        </aside>-->
                     </div>
                 </div>
                 <div class="modal-footer " style="padding: 5px; ">
@@ -140,7 +140,7 @@ $("#add_work").click(function(){
 
 $("#save_work").click(function(){
 
-
+    alert("guardando");
     var dateObj = new Date();
     //var dateObj = $('#datepicker').datepicker('getDate');
     var dateFrom = $.datepicker.formatDate('mm/dd/yy', dateObj);

@@ -1,8 +1,8 @@
 <?php 
-class Admin_Model_DbTable_Sumahora extends Zend_Db_Table_Abstract
+class Admin_Model_DbTable_Planificacion extends Zend_Db_Table_Abstract
 {
-    protected $_name = 'suma_hora';
-    protected $_primary = array("semanaid", "uid", "dni",  "fecha_tarea");   
+    protected $_name = 'planificacion';
+    protected $_primary = array("codigo_prop_proy","proyectoid","semanaid","uid","dni","categoriaid","areaid","cargo");   
 
      /* Lista toda las Personas */
 
@@ -10,8 +10,8 @@ class Admin_Model_DbTable_Sumahora extends Zend_Db_Table_Abstract
         try{
             //if($where['eid']=='' || $where['oid']=='') return false;
                 $select = $this->_db->select();
-                if ($attrib=='') $select->from("suma_hora");
-                else $select->from("suma_hora",$attrib);
+                if ($attrib=='') $select->from("planificacion");
+                else $select->from("planificacion",$attrib);
                 //print_r($where);
                 foreach ($where as $atri=>$value){
                     $select->where("$atri = ?", $value);                    
@@ -38,7 +38,7 @@ class Admin_Model_DbTable_Sumahora extends Zend_Db_Table_Abstract
             return $this->insert($data);
             return false;
         }catch (Exception $e){
-                print "Error: Registration ".$e->getMessage();
+                print "Error: Planificacion ".$e->getMessage();
         }
     }
  
@@ -46,9 +46,10 @@ class Admin_Model_DbTable_Sumahora extends Zend_Db_Table_Abstract
     public function _getOne($where=array()){
         try {
             //if ($where["dni"]=='') return false;
-                
-                
-                $wherestr="semanaid = '".$where['semanaid']."' and uid = '".$where['uid']."' and dni = '".$where['dni']."'  and fecha_tarea = '".$where['fecha_tarea']."'  ";
+                                
+                $wherestr="semanaid = '".$where['semanaid']."' and uid = '".$where['uid']."' and dni = '".$where['dni']."' and cargo = '".$where['cargo']."' 
+                 and categoriaid = '".$where['categoriaid']."' and areaid = '".$where['areaid']."' and codigo_prop_proy = '".$where['codigo_prop_proy']."'
+                 and proyectoid = '".$where['proyectoid']."' ";
 
 
                 $row = $this->fetchRow($wherestr);
@@ -60,7 +61,7 @@ class Admin_Model_DbTable_Sumahora extends Zend_Db_Table_Abstract
     }
 
 
-    public function _getSumahoraAll(){
+    public function _getPlanificacionAll(){
         try{
             $f = $this->fetchAll();
             if ($f) return $f->toArray ();

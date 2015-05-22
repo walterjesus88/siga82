@@ -61,16 +61,16 @@ public function _getProyectosxUidXEstadoxCliente($uid,$estado,$clienteid,$unidad
      {
         try{
             $sql=$this->_db->query("
-                select *
+         
+                select e.codigo_prop_proy, e.proyectoid,e.estado,e.uid,e.dni,e.categoriaid,e.areaid,e.cargo,e.nivel,p.propuestaid, p.revision, p.nombre_proyecto, p.gerente_proyecto, p.control_documentario, p.control_proyecto,
+                p.tipo_proyecto,p.clienteid,p.unidad_mineraid
+               
                 from equipo e inner join proyecto p
-                on e.codigo_prop_proy = p.codigo_prop_proy
-                
+                on e.codigo_prop_proy = p.codigo_prop_proy and e.proyectoid=p.proyectoid
                 where e.uid = '$uid' and e.estado = '$estado' and
                 p.clienteid='$clienteid' and
                 p.unidad_mineraid='$unidad_mineraid'
-
-
-                ");
+                    ");
             $row=$sql->fetchAll();
             return $row;           
             }  
@@ -208,5 +208,23 @@ public function _getProyectosxUidXEstadoxCliente($uid,$estado,$clienteid,$unidad
         }
     }
 
-
+public function _getDatosxProyectoxUidXEstadoxCliente($uid,$dni,$estado,$codigo_prop_proy,$proyectoid)
+     {
+        try{
+            $sql=$this->_db->query("
+         
+                select *
+                from equipo 
+                where uid = '$uid' and estado = '$estado' and
+                codigo_prop_proy='$codigo_prop_proy' and
+                proyectoid='$proyectoid' and dni='$dni'
+                    ");
+            $row=$sql->fetchAll();
+            return $row;           
+            }  
+            
+           catch (Exception $ex){
+            print $ex->getMessage();
+        }
+    }
 }

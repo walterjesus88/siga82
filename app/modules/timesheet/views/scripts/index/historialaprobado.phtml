@@ -143,13 +143,19 @@
                                 {
                                   $c=0;
 
-                                foreach ($this->nivel as $nivel){  
+                               //print_r($this->nive);
+
+                                foreach ($this->nive as $nivel){  
 
                                 foreach ($nivel as $key) {
 
                                 foreach ($this->listasuma as $valorsuma){
 
-                           
+                                    echo $key['uid'];
+
+                                    echo "---";
+
+                                    echo $valorsuma['uid'];
 
                                     if($key['uid']==$valorsuma['uid']){
                                 ?>    

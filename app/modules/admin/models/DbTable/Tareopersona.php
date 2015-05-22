@@ -52,7 +52,7 @@ class Admin_Model_DbTable_Tareopersona extends Zend_Db_Table_Abstract
                select * from tareo_persona
                where proyectoid='$proyectoid'  and codigo_prop_proy='$codigo' and revision='$revision'
                and actividadid='$actividadid' and actividad_padre='$actividad_padre' and semanaid='$semanaid' and fecha_tarea='$fecha_tarea' and fecha_planificacion='$fecha_planificacion'
-               and uid='$uid' and dni='$dni' and cargo='$cargo' and etapa='$etapas' and estado='A'
+               and uid='$uid' and dni='$dni' and cargo='$cargo' and etapa='$etapas' 
                
             ");
             $row=$sql->fetchAll();
@@ -69,7 +69,7 @@ class Admin_Model_DbTable_Tareopersona extends Zend_Db_Table_Abstract
      {
         try{
             $sql=$this->_db->query("
-                select * from tareo_persona as tareo 
+                select *,tareo.estado as estado_tareopersona   from tareo_persona as tareo 
                 inner join actividad as act
                 on tareo.actividadid=act.actividadid and tareo.codigo_actividad=act.codigo_actividad 
                     and tareo.codigo_prop_proy=act.codigo_prop_proy
@@ -363,6 +363,8 @@ class Admin_Model_DbTable_Tareopersona extends Zend_Db_Table_Abstract
             print "Error: Update Distribution".$e->getMessage();
         }
     }
+
+
 
 
 }

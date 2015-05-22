@@ -357,6 +357,7 @@ class Expense_IndexController extends Zend_Controller_Action {
             $reembolsable = $this->_getParam('reembolsable');
             $documento = $this->_getParam('documento');
             $fecha = $this->_getParam('fecha');
+            $moneda = $this->_getParam('moneda');
             $proveedor = $this->_getParam('proveedor');
             $monto = $this->_getParam('monto');
             $otro_impuesto = $this->_getParam('otro_impuesto');
@@ -385,6 +386,7 @@ class Expense_IndexController extends Zend_Controller_Action {
                 $data['bill_cliente'] = $cliente[$i];
                 $data['reembolsable'] = $reembolsable[$i];
                 if ($fecha[$i]) $data['fecha_factura'] = $fecha[$i];
+                $data['moneda'] = $moneda[$i];
                 $data['num_factura'] = $documento[$i];
                 $data['proveedor'] = $proveedor[$i];
                 $data['monto_igv'] = $monto[$i];

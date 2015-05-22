@@ -21,7 +21,7 @@ class Timesheet_IndexController extends Zend_Controller_Action {
 
     public function calendarAction(){
         try {
-            
+        //print_r($this->sesion);
         $uid = $this->sesion->uid;
         $dni = $this->sesion->dni;
         $equipo = new Admin_Model_DbTable_Equipo();
@@ -210,6 +210,7 @@ class Timesheet_IndexController extends Zend_Controller_Action {
         $datos_tareopersona_NB=$tareo_persona->_getTareoxPersonaxSemanaxNB($uid,$dni,$semana);
         //$data_tareo = $tareo->_getTareoXUid($where);
         $this->view->actividades= $datos_tareopersona;
+        //print_r($datos_tareopersona);
 
         //print_r($datos_tareopersona);
         $this->view->actividades_NB = $datos_tareopersona_NB;
@@ -224,9 +225,9 @@ class Timesheet_IndexController extends Zend_Controller_Action {
         $this->_helper->layout()->disableLayout();
         $uid = $this->sesion->uid;
         $dni = $this->sesion->dni;
-        $categoriaid=$this->sesion->personal->ucatid;
-        $areaid=$this->sesion->personal->ucatareaid;
-        $cargo=$this->sesion->personal->ucatcargo;
+        //$categoriaid=$this->sesion->personal->ucatid;
+        //$areaid=$this->sesion->personal->ucatareaid;
+        //$cargo=$this->sesion->personal->ucatcargo;
         
              
         $data['proyectoid']=$proyectoid = $this->_getParam('proyectoid');
@@ -234,14 +235,14 @@ class Timesheet_IndexController extends Zend_Controller_Action {
         $data['actividadid']=$actividadid = $this->_getParam('actividadid');
         $data['revision']=$revision = $this->_getParam('revision');
         $data['codigo_actividad']=$codigo_actividad = $this->_getParam('codigo_actividad');
-        //$data['actividad_padre']=$actividad_padre = $this->_getParam('actividad_padre');
-        $data['actividad_padre']='0';
+        $data['actividad_padre']=$actividad_padre = $this->_getParam('actividad_padre');
         $data['h_propuesta']=$h_propuesta = $this->_getParam('h_propuesta');
         $data['uid']=$uid;
         $data['asignado']= $dni;
         $data['dni']=$dni;
         $data['etapa']='INICIO';
         
+
         $fecha_inicio = $this->_getParam('fecha');
         $fecha_inicio_mod = date("Y-m-d", strtotime($fecha_inicio));
         $semana=date('W', strtotime($fecha_inicio_mod)); 
@@ -252,6 +253,13 @@ class Timesheet_IndexController extends Zend_Controller_Action {
         $data['fecha_planificacion']=$fecha_inicio_mod;
         $data['tipo_actividad']='P';
         $data['estado']='A';
+        
+        $equipo = new Admin_Model_DbTable_Equipo();
+        $estado_usuario='A';
+        $data_equipo = $equipo->_getDatosxProyectoxUidXEstadoxCliente($uid,$dni,$estado_usuario,$codigo_prop_proy,$proyectoid);
+        $categoriaid=$data_equipo[0]['categoriaid'];
+        $areaid=$data_equipo[0]['areaid'];
+        $cargo=$data_equipo[0]['cargo'];
         $data['cargo']=$cargo;
         $data['areaid']=$areaid;
         $data['categoriaid']=$categoriaid;
@@ -274,9 +282,14 @@ class Timesheet_IndexController extends Zend_Controller_Action {
         $this->_helper->layout()->disableLayout();
         $uid = $this->sesion->uid;
         $dni = $this->sesion->dni;
-         $categoriaid=$this->sesion->personal->ucatid;
-        $areaid=$this->sesion->personal->ucatareaid;
-        $cargo=$this->sesion->personal->ucatcargo;
+
+        // $categoriaid=$this->sesion->personal->ucatid;
+        //$areaid=$this->sesion->personal->ucatareaid;
+        //$cargo=$this->sesion->personal->ucatcargo;
+
+        $cargoreal= $this->_getParam('tipo_actividad');
+
+
       
         $fecha_inicio = $this->_getParam('fecha_calendario');
         $fecha_inicio_mod = date("Y-m-d", strtotime($fecha_inicio));
@@ -322,13 +335,23 @@ class Timesheet_IndexController extends Zend_Controller_Action {
             $data['etapa']=$resultado;
         }
 
+        $equipo = new Admin_Model_DbTable_Equipo();
+        $estado_usuario='A';
+        $data_equipo = $equipo->_getDatosxProyectoxUidXEstadoxCliente($uid,$dni,$estado_usuario,$codigo_prop_proy,$proyectoid);
+        $categoriaid=$data_equipo[0]['categoriaid'];
+        $areaid=$data_equipo[0]['areaid'];
+        $cargo=$data_equipo[0]['cargo'];
+        $data['cargo']=$cargo;
+        $data['areaid']=$areaid;
         $data['categoriaid']=$categoriaid;
+
+
+        
         $data['uid']=$uid;
         $data['asignado']= $dni;
         $data['estado']= 'A';
         $data['dni']=$dni;
-        $data['cargo']=$cargo;
-        $data['areaid']=$areaid;
+        
 
 
         $tareopersona = new Admin_Model_DbTable_Tareopersona();
@@ -338,33 +361,58 @@ class Timesheet_IndexController extends Zend_Controller_Action {
 
         //     }else
         // {
+
+        
             $data_tareopersona = $tareopersona->_save($data);
         if ($data_tareopersona){
 
-                $data1['cargo']=$cargo;
+                //$data1['cargo']=$cargo;
                 $data1['semanaid']=$semanaid;
                 $data1['uid']=$uid;
                 $data1['dni']=$dni;
                 $data1['fecha_tarea']=$fecha_tarea= $this->_getParam('fecha_tarea');
                 $data1['h_totaldia']=$h_real= $this->_getParam('horareal');
-                if($tipo_actividad=='G')
+                if($tipo_actividad='G')
                 {
                     $data1['nonbillable']=$h_real= $this->_getParam('horareal');
                     //$data2['nonbillable']=$h_real= $this->_getParam('horareal');
                 }
-                elseif ($tipo_actividad=='P') {
+                elseif ($tipo_actividad='P') {
                     $data1['billable']=$h_real= $this->_getParam('horareal');                
                     //$data2['billable']=$h_real= $this->_getParam('horareal');                
                 }
 
-                $data2['cargo']=$cargo;
+                //$data2['cargo']=$cargo;
                 $data2['semanaid']=$semanaid;
                 $data2['uid']=$uid;
-                $data2['dni']=$dni;  
+                $data2['dni']=$dni; 
 
-                $wheres=array('dni'=>$dni,'uid'=>$uid,'cargo'=>$cargo,'semanaid'=>$semanaid,'fecha_tarea'=>$fecha_tarea);
-                $wheres2=array('dni'=>$dni,'uid'=>$uid,'cargo'=>$cargo,'semanaid'=>$semanaid);
 
+                $codigo_prop_proy = $this->_getParam('codigo_prop_proy');
+                $proyectoid = $this->_getParam('proyectoid');
+
+                $data3['cargo']=$cargo;
+                $data3['semanaid']=$semanaid;
+                $data3['uid']=$uid;
+                $data3['dni']=$dni;
+                $data3['categoriaid']=$categoriaid;
+                $data3['areaid']=$areaid;
+                $data3['proyectoid']=$proyectoid;
+                $data3['codigo_prop_proy']=$codigo_prop_proy;
+                $data3['funcion']=$cargo;
+                $data3['fecha_creacion']=date("Y-m-d");
+                $data3['uid_modificacion']=$cargo;
+
+
+                $wheres=array('dni'=>$dni,'uid'=>$uid,'semanaid'=>$semanaid,'fecha_tarea'=>$fecha_tarea);
+                $wheres2=array('dni'=>$dni,'uid'=>$uid,'semanaid'=>$semanaid);
+                $wheres3=array('dni'=>$dni,'uid'=>$uid,'cargo'=>$cargo,'semanaid'=>$semanaid,
+                               'categoriaid'=>$categoriaid,'areaid'=>$areaid,'proyectoid'=>$codigo_prop_proy,
+                               'codigo_prop_proy'=>$codigo_prop_proy);
+
+                //print_r($wheres3);
+
+         
                 $sumahora = new Admin_Model_DbTable_Sumahora();
                 if($versum=$sumahora->_getOne($wheres))
                 {
@@ -385,6 +433,17 @@ class Timesheet_IndexController extends Zend_Controller_Action {
                     $data_sumahora = $suma_control->_save($data2); 
                 }
 
+
+                $suma_planificacion= new Admin_Model_DbTable_Planificacion();
+                if($versumcontrol=$suma_planificacion->_getOne($wheres3))
+                {
+
+                }
+                else
+                {
+                    //echo "plani";
+                    $data_sumahora = $suma_planificacion->_save($data3); 
+                }
 
         }else
         {
@@ -411,8 +470,7 @@ class Timesheet_IndexController extends Zend_Controller_Action {
     }
 
 
-
-
+ 
     public function actividadgeneralAction(){
         try {
         $this->_helper->layout()->disableLayout();
@@ -472,9 +530,9 @@ class Timesheet_IndexController extends Zend_Controller_Action {
         $this->_helper->layout()->disableLayout();
         $uid = $this->sesion->uid;
         $dni = $this->sesion->dni;
-        $categoriaid=$this->sesion->personal->ucatid;
-        $areaid=$this->sesion->personal->ucatareaid;
-        $cargo=$this->sesion->personal->ucatcargo;
+        //$categoriaid=$this->sesion->personal->ucatid;
+        //$areaid=$this->sesion->personal->ucatareaid;
+        //$cargo=$this->sesion->personal->ucatcargo;
         $fecha_inicio = $this->_getParam('fecha');
         $fecha_inicio_mod = date("Y-m-d", strtotime($fecha_inicio));
     
@@ -489,7 +547,7 @@ class Timesheet_IndexController extends Zend_Controller_Action {
         
         $data['proyectoid']=$proyectoid = $this->_getParam('proyectoid');
         $data['codigo_prop_proy']=$codigo_prop_proy = $this->_getParam('codigo');
-        $data['categoriaid']=$categoriaid;
+     
         $data['revision']=$revision = $this->_getParam('revision');
         $data['actividadid']=$actividadid = $this->_getParam('actividadid');
         $data['codigo_actividad']=$codigo_actividad = $this->_getParam('codigo_actividad');
@@ -509,9 +567,18 @@ class Timesheet_IndexController extends Zend_Controller_Action {
         $data['semanaid']=$semanaid= $this->_getParam('semanaid');
 
         $data['tipo_actividad']='G';
-     
+        
+        $equipo = new Admin_Model_DbTable_Equipo();
+        $estado_usuario='A';
+        $data_equipo = $equipo->_getDatosxProyectoxUidXEstadoxCliente($uid,$dni,$estado_usuario,$codigo_prop_proy,$proyectoid);
+        $categoriaid=$data_equipo[0]['categoriaid'];
+        $areaid=$data_equipo[0]['areaid'];
+        $cargo=$data_equipo[0]['cargo'];
         $data['cargo']=$cargo;
         $data['areaid']=$areaid;
+        $data['categoriaid']=$categoriaid;
+
+   
         //datos para ctualizar
     
         //$updatetareopersona = new Admin_Model_DbTable_Tareopersona();    
@@ -582,7 +649,7 @@ public function eliminartareoAction(){
         $actividad_generalid=$this->_getParam('actividad_generalid');
         $etapa=$this->_getParam('etapa');
 
-        if($etapa=='INICIO')
+        if($etapa=='INICIO' or $etaoa='EJECUCION-NB-')
         {
             $pk1  =   array(                        
             'codigo_prop_proy'   =>$codigo_prop_proy,
@@ -679,9 +746,9 @@ public function sumatareorealAction(){
         $this->_helper->layout()->disableLayout();
         $uid = $this->sesion->uid;
         $dni = $this->sesion->dni;
-        $categoriaid=$this->sesion->personal->ucatid;
-        $areaid=$this->sesion->personal->ucatareaid;
-        $cargo=$this->sesion->personal->ucatcargo;
+        //$categoriaid=$this->sesion->personal->ucatid;
+        //$areaid=$this->sesion->personal->ucatareaid;
+        //$cargo=$this->sesion->personal->ucatcargo;
 
         $fecha_inicio = $this->_getParam('fecha');
         $fecha_inicio_mod = date("Y-m-d", strtotime($fecha_inicio));
@@ -711,7 +778,17 @@ public function sumatareorealAction(){
         
         $datos_inicio['fecha_modificacion']=$fecha_inicio_mod;
         $datos_ejecucion['fecha_modificacion']=$fecha_inicio_mod;
-     
+        
+        $equipo = new Admin_Model_DbTable_Equipo();
+        $estado_usuario='A';
+        $data_equipo = $equipo->_getDatosxProyectoxUidXEstadoxCliente($uid,$dni,$estado_usuario,$codigo_prop_proy,$proyectoid);
+        $categoriaid=$data_equipo[0]['categoriaid'];
+        $areaid=$data_equipo[0]['areaid'];
+        $cargo=$data_equipo[0]['cargo'];
+        $data['cargo']=$cargo;
+        $data['areaid']=$areaid;
+        $data['categoriaid']=$categoriaid;
+
         $tareopersona = new Admin_Model_DbTable_Tareopersona();
         $str_inicio="codigo_prop_proy='$codigo_prop_proy' and proyectoid='$proyectoid' and 
             categoriaid='$categoriaid' and actividadid='$actividadid' and 
@@ -750,9 +827,9 @@ public function sumatareorealAction(){
         $this->_helper->layout()->disableLayout();
         $uid = $this->sesion->uid;
         $dni = $this->sesion->dni;
-        $categoriaid=$this->sesion->personal->ucatid;
-        $areaid=$this->sesion->personal->ucatareaid;
-        $cargo=$this->sesion->personal->ucatcargo;
+        //$categoriaid=$this->sesion->personal->ucatid;
+        //$areaid=$this->sesion->personal->ucatareaid;
+        //$cargo=$this->sesion->personal->ucatcargo;
 
         $fecha_inicio = $this->_getParam('fecha');
         $fecha_inicio_mod = date("Y-m-d", strtotime($fecha_inicio));
@@ -771,8 +848,8 @@ public function sumatareorealAction(){
         $etapa_inicio = $this->_getParam('etapa');
         $etapa_ejecucion = str_replace("INICIO", "EJECUCION", $etapa_inicio);
         
-        $datos_inicio['actividad_generalid']=null;;
-        $datos_ejecucion['actividad_generalid']= null;;
+        $datos_inicio['actividad_generalid']=null;
+        $datos_ejecucion['actividad_generalid']= null;
         
         $datos_inicio['tipo_actividad']='P';
         $datos_ejecucion['tipo_actividad']='P';
@@ -783,7 +860,17 @@ public function sumatareorealAction(){
         
         $datos_inicio['fecha_modificacion']=$fecha_inicio_mod;
         $datos_ejecucion['fecha_modificacion']=$fecha_inicio_mod;
-     
+        
+        $equipo = new Admin_Model_DbTable_Equipo();
+        $estado_usuario='A';
+        $data_equipo = $equipo->_getDatosxProyectoxUidXEstadoxCliente($uid,$dni,$estado_usuario,$codigo_prop_proy,$proyectoid);
+        $categoriaid=$data_equipo[0]['categoriaid'];
+        $areaid=$data_equipo[0]['areaid'];
+        $cargo=$data_equipo[0]['cargo'];
+        $data['cargo']=$cargo;
+        $data['areaid']=$areaid;
+        $data['categoriaid']=$categoriaid;
+
         $tareopersona = new Admin_Model_DbTable_Tareopersona();
         $str_inicio="codigo_prop_proy='$codigo_prop_proy' and proyectoid='$proyectoid' and 
             categoriaid='$categoriaid' and actividadid='$actividadid' and 
@@ -901,8 +988,11 @@ public function sumatareorealAction(){
 
         $codigo_prop_proy='PROP-2015-20100079501-1416-15.10.042-A';
         $proyectoid='1214.10.20';
-        $uid='walter.melgarejo';
-        $dni='43362864';
+        
+        $uid = $this->sesion->uid;
+        $dni = $this->sesion->dni;
+        //$uid='walter.melgarejo';
+        //$dni='43362864';
         //codigo_prop_proy, proyectoid, uid, dni, categoriaid, areaid, cargo
                
 
@@ -911,8 +1001,8 @@ public function sumatareorealAction(){
         $this->view->ni=$nivel;
                                     
         $verequipo = new Admin_Model_DbTable_Equipo();
-        $where['codigo_prop_proy']='PROP-2015-20100079501-1416-15.10.042-A';
-        $where['proyectoid']='1214.10.20';
+        $where['codigo_prop_proy']=$codigo_prop_proy;
+        $where['proyectoid']=$proyectoid;
         $where['estado']='A';
 
         if($nivel=='0')
@@ -922,9 +1012,7 @@ public function sumatareorealAction(){
             {
             $where['nivel']=(string)$i;
             $nive[]=$verequipo->_getFilter($where);
-            }
-
-           
+            }           
         }
 
         if($nivel=='1')
@@ -932,7 +1020,7 @@ public function sumatareorealAction(){
             $where['nivel']='2';            
             $nive=$verequipo->_getFilter($where);
                                         
-            print_r($nive);
+            //print_r($nive);
             }        
 
         if($nivel=='2')
@@ -956,11 +1044,9 @@ public function sumatareorealAction(){
         //print_r($nive);
 
 
-        $this->view->nivel=$nive;
-        //print_r($nive);         
-        //echo $nive['uid'];
-
-  
+        $this->view->nive=$nive;
+        print_r($nive);         
+        //echo $nive['uid'];  
 
 
         $suma_hora = new Admin_Model_DbTable_Sumahorasemana();
@@ -1115,5 +1201,80 @@ public function sumatareorealAction(){
                 print "Error: ".$e->getMessage();
         }
     }
+
+
+     public function timesheetaprobacionAction(){
+        try {
+            $this->_helper->layout()->disableLayout();            
+            $uid = $this->_getParam('uid');
+            $dni = $this->_getParam('dni');
+            $cargo = $this->_getParam('cargo');
+            $semana = $this->_getParam('semanaid');
+            $coment = $this->_getParam('coment');
+            $estado = $this->_getParam('estado');
+
+            $data['cargo']=$cargo;
+            $data['semanaid']=$semana;
+            $data['uid']=$uid;
+            $data['dni']=$dni;
+            $data['comentario']=$coment;
+            $data['estado_usuario']=$estado;
+
+            $where['uid']=$uid;
+            $where['dni']=$dni;
+            $where['cargo']=$cargo;
+            $where['semanaid']=$semana;
+
+            $vercoment= new Admin_Model_DbTable_Usuariovalidacion();
+            if($vcoment=$vercoment->_getOne($where))
+            {
+                $pk = array('dni' => $dni  ,'uid' => $uid,'cargo' => $cargo ,'semanaid' => $semana );
+                $data2['comentario']=$coment;
+                $data2['estado_usuario']=$estado;
+                $coment=new Admin_Model_DbTable_Usuariovalidacion();
+                $usecoment=$coment->_updateX($data2,$pk);
+                //echo "update";
+
+            }
+            else
+            {
+                $coment=new Admin_Model_DbTable_Usuariovalidacion();
+                $usercoment=$coment->_save($data);
+                //echo "save";
+
+            }
+
+        }
+        catch (Exception $e) {
+                print "Error: ".$e->getMessage();
+        }
+    }
+
+     public function enviartimesheetAction(){
+        try {
+            $uid = $this->sesion->uid;
+        $dni = $this->sesion->dni;
+            $this->_helper->layout()->disableLayout();            
+            $fecha_inicio = $this->_getParam('fecha_calendario');
+            $fecha_inicio_mod = date("Y-m-d", strtotime($fecha_inicio));
+            $semanaid=date('W', strtotime($fecha_inicio_mod)); 
+            $tareopersona = new Admin_Model_DbTable_Tareopersona();
+            $data_tareopersona = $tareopersona->_getTareoxPersonaxSemana($uid,$dni,$semanaid);
+            if ($data_tareopersona)
+            {
+                $datos_actualizar['estado']='C';
+                $str_actualizar="semanaid='$semanaid' and uid='$uid' and dni='$dni' and
+                estado='A' 
+                ";
+                $update=$tareopersona -> _update($datos_actualizar,$str_actualizar);
+           }
+
+        }
+        catch (Exception $e) {
+                print "Error: ".$e->getMessage();
+        }
+    }
+
+    
     
 }
