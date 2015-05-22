@@ -71,8 +71,27 @@ class IndexController extends Zend_Controller_Action {
                         $where['dni'] = $data->dni;
                         $where['estado'] = 'A';
                         $where['nivel'] = '0';
+
+                        $where1['uid'] = $data->uid;
+                        $where1['dni'] = $data->dni;
+                        $where1['estado'] = 'A';
+                        $where1['nivel'] = '2';
+
+                        $where2['uid'] = $data->uid;
+                        $where2['dni'] = $data->dni;
+                        $where2['estado'] = 'A';
+                        $where2['nivel'] = '3';
+
+                        $where3['uid'] = $data->uid;
+                        $where3['dni'] = $data->dni;
+                        $where3['estado'] = 'A';
+                        $where3['nivel'] = '1';
+
                         $equipo = new Admin_Model_DbTable_Equipo();
                         $data_equipo = $equipo->_getProyectosXuidXEstadoXnivel($where);
+                        $data_equipo_jefe = $equipo->_getProyectosXuidXEstadoXnivel($where1);
+                        $data_equipo_responsable = $equipo->_getProyectosXuidXEstadoXnivel($where2);
+                        $data_equipo_gerente = $equipo->_getProyectosXuidXEstadoXnivel($where3);
 
                         if ($rp){
                             $data->personal = new stdClass();
@@ -96,6 +115,25 @@ class IndexController extends Zend_Controller_Action {
                             } else {
                                 $data->is_gerente = 'N';
                             }
+
+                            if ($data_equipo_jefe) {
+                                $data->is_jefe = 'S';
+                            } else {
+                                $data->is_jefe = 'N';
+                            }
+
+                            if ($data_equipo_responsable) {
+                                $data->is_responsable = 'S';
+                            } else {
+                                $data->is_responsable = 'N';
+                            }
+
+                             if ($data_equipo_gerente) {
+                                $data->is_gerente_area = 'S';
+                            } else {
+                                $data->is_gerente_area = 'N';
+                            }
+
                                    
                         }
                         $auth->getStorage()->write($data);

@@ -41,22 +41,24 @@
 
   <ul class="nav nav-pills nav-stacked">
 <?php
-  $i=1;
+ 
     $actividades_hijos = $this->actividades;
-
+     $i=1;
     foreach ($actividades_hijos as $data_tareo_hijos) { 
         $tareopersona = new Admin_Model_DbTable_Tareopersona();
      
-        $buscar_tarea=$tareopersona->_getTareoxPersonaxSemanaxActividadid($this->uid,$this->dni,$this->semanaid,$data_tareo_hijos['actividad_padre'],$data_tareo_hijos['actividadid'],$data_tareo_hijos['codigo_actividad'],$this->codigo_prop_proy,$this->proyectoid,$data_tareo_hijos['revision']);
+        $buscar_tarea=$tareopersona->_getTareoxPersonaxSemanaxActividadidxReplicon($this->uid,$this->dni,$this->semanaid,$data_tareo_hijos['actividad_padre'],$data_tareo_hijos['actividadid'],$data_tareo_hijos['codigo_actividad'],$this->codigo_prop_proy,$this->proyectoid,$data_tareo_hijos['revision']);
+
         if ($buscar_tarea){?>
             <li style="padding:5px 5px;color: #667fa0;"  >
                 
-                    <?php echo "- ".$data_tareo_hijos['nombre'] ?>
+                    <?php echo "- gfgfgf".$data_tareo_hijos['nombre'] ?>
                     <input disabled name="" id="" type = "checkbox" class = "pull-right" value="" checked="true">
                 
             </li>
         <?php
         } else {
+
         ?>
               <li style="padding:5px 5px;color: #667fa0;"  >
                 
@@ -64,7 +66,7 @@
                     <input  name="tarea_h_<?php echo $i;?>" id="tarea_h_<?php echo $i;?>" type = "checkbox" class = "pull-right" value="" codigo-prop-proy="<?php echo $this->codigo_prop_proy ?>" proyectoid="<?php echo $this->proyectoid ?>" categoriaid="<?php echo $this->categoriaid ?>" actividadid = "<?php echo $data_tareo_hijos['actividadid'] ?>" revision = "<?php echo $data_tareo_hijos['revision'] ?>" propuestaid = "<?php echo $data_tareo_hijos['propuestaid'] ?>">
                 
             </li>
-        <?php }?>
+        <?php $i++;  }?>
         <script type="text/javascript">
             $(document).ready(function(){
                 $('[name^="tarea_h_<?php echo $i;?>"]').click(function(event) {
@@ -96,6 +98,7 @@
 
         </script>
         <?php
-   $i++; } ?>
+    
+    } ?>
 </ul>
    <div id="cargar"> </div>
