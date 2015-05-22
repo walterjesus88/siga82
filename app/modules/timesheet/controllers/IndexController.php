@@ -317,8 +317,7 @@ class Timesheet_IndexController extends Zend_Controller_Action {
         $data['h_real']=$h_real= $this->_getParam('horareal');
         $data['semanaid']=$semanaid;
 
-        echo $tipo_actividad_actualizar;
-        exit();
+      
 
          $actividad_generalid = $this->_getParam('actividad_generalid');
         if($actividad_generalid=='')

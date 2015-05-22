@@ -218,7 +218,8 @@
                 //print_r($buscar_tarea);
                 //$k=$a[$i][$j];
                 if ($data_tareo['tipo_actividad']=='G' and $data_tareo['actividad_generalid']=='')
-                { ?>
+                {
+                ?>
                 <td>
                 <center>        
         
@@ -227,10 +228,10 @@
                  if ($buscar_tarea) {
                     if($buscar_tarea[0]['h_real']=='0') { echo "";} else { print_r($buscar_tarea[0]['h_real']);}
                     }?>" 
-                    <?php if ($data_tareo['estado_tareopersona']=='C') {?> disabled <?php } ?> >
+                    <?php if ($data_tareo['estado_tareopersona']=='C') {?> disabled <?php } ?> > 
 
                
-                </center>
+                 </center> 
                 <?php } else {
 
                 ?>
