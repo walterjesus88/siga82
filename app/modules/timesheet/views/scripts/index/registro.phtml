@@ -202,7 +202,16 @@
                 // echo $uid;echo "<br>";
                 $dni=$this->dni;
                 //  echo $dni;echo "<br>";
-                $cargo=$this->cargo;
+               
+                
+                $equipo = new Admin_Model_DbTable_Equipo();
+                $estado_usuario='A';
+                $data_equipo = $equipo->_getDatosxProyectoxUidXEstadoxCliente($uid,$dni,$estado_usuario,$data_tareo['codigo_prop_proy'],$data_tareo['proyectoid']);
+                $categoriaid=$data_equipo[0]['categoriaid'];
+                $areaid=$data_equipo[0]['areaid'];
+                $cargo=$data_equipo[0]['cargo'];
+             
+
                 // echo $cargo; echo "<br>";
                 $tareopersona = new Admin_Model_DbTable_Tareopersona();
                 $buscar_tarea=$tareopersona->_getTareoxProyectoxTareaxDia($proyectoid,$codigo,$revision,$actividadid,$actividad_padre,$semanaid,$fecha_tarea,$fecha_planificacion,$uid,$dni,$cargo,$resultado);
@@ -240,7 +249,9 @@
                         var areaid="<?php echo $data_tareo['areaid'] ?>";
                         var categoriaid ="<?php echo $data_tareo['categoriaid'] ?>";
                         var dni="<?php echo $data_tareo['dni'] ?>";
-                        var cargo="<?php echo $data_tareo['cargo'] ?>";
+                        var cargo="<?php echo $cargo ?>";
+
+                        alert(cargo);
                         var tipo_actividad="<?php echo $data_tareo['tipo_actividad'] ?>";
                         var etapa="<?php echo $data_tareo['etapa'] ?>";                        
                         var actividad_generalid="<?php echo $data_tareo['actividad_generalid'] ?>";
