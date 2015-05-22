@@ -287,7 +287,7 @@ class Timesheet_IndexController extends Zend_Controller_Action {
         //$areaid=$this->sesion->personal->ucatareaid;
         //$cargo=$this->sesion->personal->ucatcargo;
 
-        $cargoreal= $this->_getParam('tipo_actividad');
+        //$cargoreal= $this->_getParam('tipo_actividad');
 
 
       
@@ -316,6 +316,9 @@ class Timesheet_IndexController extends Zend_Controller_Action {
         $data['fecha_creacion']=$fecha_inicio_mod;
         $data['h_real']=$h_real= $this->_getParam('horareal');
         $data['semanaid']=$semanaid;
+
+        echo $tipo_actividad_actualizar;
+        exit();
 
          $actividad_generalid = $this->_getParam('actividad_generalid');
         if($actividad_generalid=='')
@@ -372,13 +375,19 @@ class Timesheet_IndexController extends Zend_Controller_Action {
                 $data1['dni']=$dni;
                 $data1['fecha_tarea']=$fecha_tarea= $this->_getParam('fecha_tarea');
                 $data1['h_totaldia']=$h_real= $this->_getParam('horareal');
+                $tipo_actividad= $this->_getParam('tipo_actividad');
+
                 if($tipo_actividad='G')
                 {
-                    $data1['nonbillable']=$h_real= $this->_getParam('horareal');
-                    //$data2['nonbillable']=$h_real= $this->_getParam('horareal');
+                    $data1['nonbillable']= $this->_getParam('horareal');
+                    $data1['billable']=0;
+                   
                 }
-                elseif ($tipo_actividad='P') {
-                    $data1['billable']=$h_real= $this->_getParam('horareal');                
+                
+                if ($tipo_actividad='P') {
+                    $data1['billable']= $this->_getParam('horareal'); 
+                    $data1['nonbillable']=0;
+
                     //$data2['billable']=$h_real= $this->_getParam('horareal');                
                 }
 
