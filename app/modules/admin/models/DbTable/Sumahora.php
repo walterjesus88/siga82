@@ -2,7 +2,7 @@
 class Admin_Model_DbTable_Sumahora extends Zend_Db_Table_Abstract
 {
     protected $_name = 'suma_hora';
-    protected $_primary = array("semanaid", "uid", "dni", "cargo", "fecha_tarea");   
+    protected $_primary = array("semanaid", "uid", "dni",  "fecha_tarea");   
 
      /* Lista toda las Personas */
 
@@ -48,7 +48,7 @@ class Admin_Model_DbTable_Sumahora extends Zend_Db_Table_Abstract
             //if ($where["dni"]=='') return false;
                 
                 
-                $wherestr="semanaid = '".$where['semanaid']."' and uid = '".$where['uid']."' and dni = '".$where['dni']."' and cargo = '".$where['cargo']."'  and fecha_tarea = '".$where['fecha_tarea']."'  ";
+                $wherestr="semanaid = '".$where['semanaid']."' and uid = '".$where['uid']."' and dni = '".$where['dni']."'  and fecha_tarea = '".$where['fecha_tarea']."'  ";
 
 
                 $row = $this->fetchRow($wherestr);
