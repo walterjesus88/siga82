@@ -2,7 +2,7 @@
 class Admin_Model_DbTable_Sumahorasemana extends Zend_Db_Table_Abstract
 {
     protected $_name = 'suma_controlsemana';
-    protected $_primary = array("semanaid", "uid", "dni", "cargo");   
+    protected $_primary = array("semanaid", "uid", "dni");   
 
      /* Lista toda las Personas */
  
@@ -10,7 +10,7 @@ class Admin_Model_DbTable_Sumahorasemana extends Zend_Db_Table_Abstract
     public function _getOne($where=array()){
         try {
             //if ($where["dni"]=='') return false;
-                $wherestr="semanaid = '".$where['semanaid']."' and uid = '".$where['uid']."' and dni = '".$where['dni']."' and cargo = '".$where['cargo']."'  ";
+                $wherestr="semanaid = '".$where['semanaid']."' and uid = '".$where['uid']."' and dni = '".$where['dni']."'   ";
                 $row = $this->fetchRow($wherestr);
                 if($row) return $row->toArray();
                 return false;

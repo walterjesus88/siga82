@@ -364,7 +364,7 @@ class Timesheet_IndexController extends Zend_Controller_Action {
             $data_tareopersona = $tareopersona->_save($data);
         if ($data_tareopersona){
 
-                $data1['cargo']=$cargo;
+                //$data1['cargo']=$cargo;
                 $data1['semanaid']=$semanaid;
                 $data1['uid']=$uid;
                 $data1['dni']=$dni;
@@ -380,7 +380,7 @@ class Timesheet_IndexController extends Zend_Controller_Action {
                     //$data2['billable']=$h_real= $this->_getParam('horareal');                
                 }
 
-                $data2['cargo']=$cargo;
+                //$data2['cargo']=$cargo;
                 $data2['semanaid']=$semanaid;
                 $data2['uid']=$uid;
                 $data2['dni']=$dni; 
@@ -402,15 +402,11 @@ class Timesheet_IndexController extends Zend_Controller_Action {
                 $data3['uid_modificacion']=$cargo;
 
 
-
-                
-
-
-                $wheres=array('dni'=>$dni,'uid'=>$uid,'cargo'=>$cargo,'semanaid'=>$semanaid,'fecha_tarea'=>$fecha_tarea);
-                $wheres2=array('dni'=>$dni,'uid'=>$uid,'cargo'=>$cargo,'semanaid'=>$semanaid);
-                $wheres3=array('dni'=>$dni,'uid'=>$uid,'cargo'=>'EQUIPO','semanaid'=>'21',
-                               'categoriaid'=>'RP','areaid'=>'02','proyectoid'=>'1408.10.04',
-                               'codigo_prop_proy'=>'PROP-2015-20505792042-1408-14.10.188-B');
+                $wheres=array('dni'=>$dni,'uid'=>$uid,'semanaid'=>$semanaid,'fecha_tarea'=>$fecha_tarea);
+                $wheres2=array('dni'=>$dni,'uid'=>$uid,'semanaid'=>$semanaid);
+                $wheres3=array('dni'=>$dni,'uid'=>$uid,'cargo'=>$cargo,'semanaid'=>$semanaid,
+                               'categoriaid'=>$categoriaid,'areaid'=>$areaid,'proyectoid'=>$codigo_prop_proy,
+                               'codigo_prop_proy'=>$codigo_prop_proy);
 
                 //print_r($wheres3);
 
@@ -443,7 +439,7 @@ class Timesheet_IndexController extends Zend_Controller_Action {
                 }
                 else
                 {
-                    echo "plani";
+                    //echo "plani";
                     $data_sumahora = $suma_planificacion->_save($data3); 
                 }
 
