@@ -317,7 +317,7 @@ class Timesheet_IndexController extends Zend_Controller_Action {
         $data['h_real']=$h_real= $this->_getParam('horareal');
         $data['semanaid']=$semanaid;
 
-      
+
 
          $actividad_generalid = $this->_getParam('actividad_generalid');
         if($actividad_generalid=='')
@@ -376,14 +376,14 @@ class Timesheet_IndexController extends Zend_Controller_Action {
                 $data1['h_totaldia']=$h_real= $this->_getParam('horareal');
                 $tipo_actividad= $this->_getParam('tipo_actividad');
 
-                if($tipo_actividad='G')
+                if($tipo_actividad=='G')
                 {
                     $data1['nonbillable']= $this->_getParam('horareal');
                     $data1['billable']=0;
                    
                 }
                 
-                if ($tipo_actividad='P') {
+                if ($tipo_actividad=='P') {
                     $data1['billable']= $this->_getParam('horareal'); 
                     $data1['nonbillable']=0;
 
