@@ -15,12 +15,13 @@ if ($this->equipo) {
         <table class="table table-hover p-table">
             <thead>
                 <tr>  
-                    <th style="width: 3%;">Rendición</th>
-                    <th style="width: 30%;">Nombre</th>
-                    <th style="width: 30%;">Asigando</th>
-                    <th style="width: 20%;"><center>Monto Total</center></th>
+                    <th style="width: 2%;">Num</th>
+                    <th style="width: 20%;">Nombre</th>
+                    <th style="width: 20%;">Asigando</th>
+                    <th style="width: 10%;"><center>Total</center></th>
                     <th style="width: 20%;">Estado</th>
-                    <th style="width: 4%;">&nbsp;&nbsp;&nbsp;&nbsp;Acciones&nbsp;&nbsp;&nbsp;</th>
+                    <th style="width: 25%;">Comentario</th>
+                    <th style="width: 3%;">&nbsp;&nbsp;&nbsp;&nbsp;Acciones&nbsp;&nbsp;&nbsp;</th>
                 </tr>
             </thead>
             <tbody>
@@ -56,11 +57,35 @@ if ($this->equipo) {
                         </div>
                     </td>
                     <td>
+                        <input id="<?php echo $lista['numero'] ?>" type="text" class="form-control" value="<?php echo $lista['comentario']?>"/>
+                    </td>
+                    <td>
                         <center>
                             <a data-toggle="modal" href="#myModalDetail" class="btn btn-warning btn-xs showdetails" title="Detalles"  uid="<?php echo $lista['uid']; ?>" dni="<?php echo $lista['dni']; ?>" numero="<?php echo $lista['numero']; ?>" proyectoid="<?php echo $data_equipo['proyectoid']?>" codigo-prop-proy="<?php echo $data_equipo['codigo_prop_proy']?>"><i class="fa fa-folder"></i></a>
                         </center>
                     </td>
                 </tr>
+                <script type="text/javascript">
+                    $(".aprobado").click(function(){
+                        var numero = $(this).attr('numero');
+                        var uid = $(this).attr('uid');
+                        var dni = $(this).attr('dni');
+                        var estate = $(this).attr('estate');
+                        var comentario = $("#"+numero).val();
+                        $("#load_change").load("/expense/aprobacion/estado/numero/"+numero+"/uid/"+uid+"/dni/"+dni+"/estate/"+estate+"/comentario/"+comentario);
+                        window.location.reload();
+                    });
+
+                    $(".rechazado").click(function(){
+                        var numero = $(this).attr('numero');
+                        var uid = $(this).attr('uid');
+                        var dni = $(this).attr('dni');
+                        var estate = $(this).attr('estate');
+                        var comentario = $("#"+numero).val();
+                        $("#load_change").load("/expense/aprobacion/estado/numero/"+numero+"/uid/"+uid+"/dni/"+dni+"/estate/"+estate+"/comentario/"+comentario);
+                        window.location.reload();
+                    });
+                </script>
           <?php  }
             }?>
             </tbody>
@@ -71,12 +96,13 @@ if ($this->equipo) {
         <table class="table table-hover p-table">
             <thead>
                 <tr>  
-                    <th style="width: 3%;">Rendición</th>
-                    <th style="width: 30%;">Nombre</th>
-                    <th style="width: 30%;">Asigando</th>
-                    <th style="width: 20%;"><center>Monto Total</center></th>
+                    <th style="width: 2%;">Num</th>
+                    <th style="width: 20%;">Nombre</th>
+                    <th style="width: 20%;">Asigando</th>
+                    <th style="width: 10%;"><center>Total</center></th>
                     <th style="width: 20%;">Estado</th>
-                    <th style="width: 4%;">&nbsp;&nbsp;&nbsp;&nbsp;Acciones&nbsp;&nbsp;&nbsp;</th>
+                    <th style="width: 25%;">Comentario</th>
+                    <th style="width: 3%;">&nbsp;&nbsp;&nbsp;&nbsp;Acciones&nbsp;&nbsp;&nbsp;</th>
                 </tr>
             </thead>
             <tbody>
@@ -112,11 +138,35 @@ if ($this->equipo) {
                         </div>
                     </td>
                     <td>
+                        <input id="<?php echo $lista['numero'] ?>" type="text" class="form-control" value="<?php echo $lista['comentario']?>"/>
+                    </td>
+                    <td>
                         <center>
                             <a data-toggle="modal" href="#myModalDetail" class="btn btn-warning btn-xs showdetails" title="Detalles"  uid="<?php echo $lista['uid']; ?>" dni="<?php echo $lista['dni']; ?>" numero="<?php echo $lista['numero']; ?>" proyectoid="<?php echo $data_equipo['proyectoid']?>" codigo-prop-proy="<?php echo $data_equipo['codigo_prop_proy']?>"><i class="fa fa-folder"></i></a>
                         </center>
                     </td>
                 </tr>
+                <script type="text/javascript">
+                    $(".aprobado").click(function(){
+                        var numero = $(this).attr('numero');
+                        var uid = $(this).attr('uid');
+                        var dni = $(this).attr('dni');
+                        var estate = $(this).attr('estate');
+                        var comentario = $("#"+numero).val();
+                        $("#load_change").load("/expense/aprobacion/estado/numero/"+numero+"/uid/"+uid+"/dni/"+dni+"/estate/"+estate+"/comentario/"+comentario);
+                        window.location.reload();
+                    });
+
+                    $(".rechazado").click(function(){
+                        var numero = $(this).attr('numero');
+                        var uid = $(this).attr('uid');
+                        var dni = $(this).attr('dni');
+                        var estate = $(this).attr('estate');
+                        var comentario = $("#"+numero).val();
+                        $("#load_change").load("/expense/aprobacion/estado/numero/"+numero+"/uid/"+uid+"/dni/"+dni+"/estate/"+estate+"/comentario/"+comentario);
+                        window.location.reload();
+                    });
+                </script>
           <?php  }
             }?>
             </tbody>
@@ -127,12 +177,13 @@ if ($this->equipo) {
         <table class="table table-hover p-table">
             <thead>
                 <tr>  
-                    <th style="width: 3%;">Rendición</th>
-                    <th style="width: 30%;">Nombre</th>
-                    <th style="width: 30%;">Asigando</th>
-                    <th style="width: 20%;"><center>Monto Total</center></th>
+                    <th style="width: 2%;">Num</th>
+                    <th style="width: 20%;">Nombre</th>
+                    <th style="width: 20%;">Asigando</th>
+                    <th style="width: 10%;"><center>Total</center></th>
                     <th style="width: 20%;">Estado</th>
-                    <th style="width: 4%;">&nbsp;&nbsp;&nbsp;&nbsp;Acciones&nbsp;&nbsp;&nbsp;</th>
+                    <th style="width: 25%;">Comentario</th>
+                    <th style="width: 3%;">&nbsp;&nbsp;&nbsp;&nbsp;Acciones&nbsp;&nbsp;&nbsp;</th>
                 </tr>
             </thead>
             <tbody>
@@ -167,6 +218,9 @@ if ($this->equipo) {
                             </ul>
                         </div> -->
                     </td>
+                    <td class="p-name">
+                        <?php echo $lista['comentario']; ?>
+                    </td>
                     <td>
                         <center>
                             <a data-toggle="modal" href="#myModalDetail" class="btn btn-warning btn-xs showdetails" title="Detalles"  uid="<?php echo $lista['uid']; ?>" dni="<?php echo $lista['dni']; ?>" numero="<?php echo $lista['numero']; ?>" proyectoid="<?php echo $data_equipo['proyectoid']?>" codigo-prop-proy="<?php echo $data_equipo['codigo_prop_proy']?>"><i class="fa fa-folder"></i></a>
@@ -200,23 +254,23 @@ if ($this->equipo) {
     <div id="load_change"></div>
 
     <script type="text/javascript">
-        $(".aprobado").click(function(){
+        /*$(".aprobado").click(function(){
             var numero = $(this).attr('numero');
             var uid = $(this).attr('uid');
             var dni = $(this).attr('dni');
             var estate = $(this).attr('estate');
             $("#load_change").load("/expense/aprobacion/estado/numero/"+numero+"/uid/"+uid+"/dni/"+dni+"/estate/"+estate);
             window.location.reload();
-        });
+        });*/
 
-        $(".rechazado").click(function(){
+        /*$(".rechazado").click(function(){
             var numero = $(this).attr('numero');
             var uid = $(this).attr('uid');
             var dni = $(this).attr('dni');
             var estate = $(this).attr('estate');
             $("#load_change").load("/expense/aprobacion/estado/numero/"+numero+"/uid/"+uid+"/dni/"+dni+"/estate/"+estate);
             window.location.reload();
-        });
+        });*/
 
         $(".showdetails").click(function(){
             var numero = $(this).attr('numero');
