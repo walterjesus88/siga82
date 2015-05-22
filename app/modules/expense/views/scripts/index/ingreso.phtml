@@ -127,7 +127,6 @@ $data_rendicion = $this->data_rendicion;
                                         <th style="width : 30px"></th>
                                         <?php
                                     } ?>
-                                    <th>Proyecto / Actividades</th>
                                     <th>Descripción</th>
                                     <?php if ($data_rendicion['estado'] == "E") { ?>
                                         <th><center>Gasto</center></th>
@@ -166,11 +165,6 @@ $data_rendicion = $this->data_rendicion;
                                     </td>
                                         <?php
                                     } ?>
-                                    <td>
-                                        <?php 
-                                        echo ($data_actividades['actividadid'])? $data_actividades['actividadid']. ' - ' .$data_actividades['nombre']: $data_actividades['proyectoid']. ' - ' .$data_actividades['nombre_proyecto'];
-                                        ?>
-                                    </td>
                                     <td>
                                         <?php if ($data_rendicion['estado'] == "E") { ?>
                                             <span><?php echo $data_actividades['descripcion']; ?></span>
