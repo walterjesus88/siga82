@@ -8,13 +8,17 @@ if ($equipo) { ?>
         <?php
         foreach ($equipo as $data_equipo) { ?>
             <li>
-                <a style="padding:5px 5px;" class="proyecto" codigo-prop-proy="<?php echo $data_equipo['codigo_prop_proy'] ?>" proyectoid="<?php echo $data_equipo['proyectoid'] ?>" categoriaid="<?php echo $data_equipo['categoriaid'] ?>" cargo = "<?php echo $data_equipo['cargo'] ?>" href="##">
+                <!-- <a style="padding:5px 5px;" class="proyecto" codigo-prop-proy="<?php echo $data_equipo['codigo_prop_proy'] ?>" proyectoid="<?php echo $data_equipo['proyectoid'] ?>" categoriaid="<?php echo $data_equipo['categoriaid'] ?>" cargo = "<?php echo $data_equipo['cargo'] ?>" href="##">
                     <i class="fa fa-rocket"></i>
                     <span><?php echo $data_equipo['proyectoid']. ' - ' .$data_equipo['nombre_proyecto'] ?></span>
+                </a> -->
+                <a style="padding:7px 7px;" href="##">
+                    <span><?php echo $data_equipo['proyectoid']. ' - ' .$data_equipo['nombre_proyecto'] ?></span>
+                    <input class="pull-right proyecto_selected" type="checkbox" codigo-prop-proy="<?php echo $data_equipo['codigo_prop_proy'] ?>" proyectoid="<?php echo $data_equipo['proyectoid'] ?>" categoriaid="<?php echo $data_equipo['categoriaid'] ?>" areaid = "<?php echo $data_equipo['areaid'] ?>" cargo = "<?php echo $data_equipo['cargo'] ?>"  revision = "<?php echo $data_equipo['revision'] ?>">
                 </a>
             </li>
             <script type="text/javascript">
-                $(".proyecto").click(function(){
+                /*$(".proyecto").click(function(){
                     $("#disciplina").html('');
                     $("#actividades_padres").html('');
                     $("#tareas").html('');
@@ -25,11 +29,28 @@ if ($equipo) { ?>
                     var clienteid = "<?php echo $this->clienteid ?>";
                     var unidad_mineraid = "<?php echo $this->unidad_mineraid ?>";
                     $("#disciplina").load("/expense/index/disciplina/proyectoid/"+proyectoid+"/codigo_prop_proy/"+codigo_prop_proy+"/categoriaid/"+categoriaid+"/cargo/"+cargo+"/clienteid/"+clienteid+"/unidad_mineraid/"+unidad_mineraid);
-                });
+                });*/
             </script>
             <?php
         } ?>
     </ul>
+    <div id="saveproyect"></div>
+
+    <script type="text/javascript">
+        $('.proyecto_selected').click(function(event) {
+            if ($(this).is(":checked")) {
+                var proyectoid = $(this).attr('proyectoid');
+                var codigo_prop_proy = $(this).attr('codigo-prop-proy');
+                var categoriaid = $(this).attr('categoriaid');
+                var areaid = $(this).attr('areaid');
+                var cargo = $(this).attr('cargo');
+                var revision = $(this).attr('revision');
+                url="/expense/index/guardargastopersona/codigo-prop-proy/"+codigo_prop_proy+"/proyectoid/"+proyectoid+"/categoriaid/"+categoriaid+"/areaid/"+areaid+"/cargo/"+cargo+"/revision/"+revision;
+                $("#saveproyect").load(url);
+                $("#ingreso").load("/expense/index/ingreso/");
+            }
+        });
+    </script>
     <?php    
 } else { ?>
         <div class="chat-room-head">
