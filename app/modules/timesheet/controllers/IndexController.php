@@ -372,12 +372,12 @@ class Timesheet_IndexController extends Zend_Controller_Action {
                 $data1['dni']=$dni;
                 $data1['fecha_tarea']=$fecha_tarea= $this->_getParam('fecha_tarea');
                 $data1['h_totaldia']=$h_real= $this->_getParam('horareal');
-                if($tipo_actividad=='G')
+                if($tipo_actividad='G')
                 {
                     $data1['nonbillable']=$h_real= $this->_getParam('horareal');
                     //$data2['nonbillable']=$h_real= $this->_getParam('horareal');
                 }
-                elseif ($tipo_actividad=='P') {
+                elseif ($tipo_actividad='P') {
                     $data1['billable']=$h_real= $this->_getParam('horareal');                
                     //$data2['billable']=$h_real= $this->_getParam('horareal');                
                 }
