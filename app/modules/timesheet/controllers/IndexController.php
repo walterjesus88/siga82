@@ -283,9 +283,9 @@ class Timesheet_IndexController extends Zend_Controller_Action {
         $uid = $this->sesion->uid;
         $dni = $this->sesion->dni;
 
-         $categoriaid=$this->sesion->personal->ucatid;
-        $areaid=$this->sesion->personal->ucatareaid;
-        $cargo=$this->sesion->personal->ucatcargo;
+        // $categoriaid=$this->sesion->personal->ucatid;
+        //$areaid=$this->sesion->personal->ucatareaid;
+        //$cargo=$this->sesion->personal->ucatcargo;
 
         $cargoreal= $this->_getParam('tipo_actividad');
 

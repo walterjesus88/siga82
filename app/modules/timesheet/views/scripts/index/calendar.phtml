@@ -13,7 +13,7 @@
          <a id = "" class="btn btn-primary pull-right btn-xs"  href="" style="margin-right : 10px">
             <i class="fa fa-print"></i> Imprimir
         </a>
-         <a id = "" class="btn btn-default pull-right btn-xs" href="#" style="margin-right : 10px">
+         <a id = "submit_work" class="btn btn-default pull-right btn-xs" href="#" style="margin-right : 10px">
             <i class="fa fa-check-square"></i> Enviar
         </a>
         <a id = "save_work" class="btn btn-info pull-right btn-xs"  style="margin-right : 10px">
@@ -140,7 +140,7 @@ $("#add_work").click(function(){
 
 $("#save_work").click(function(){
 
-
+    alert("guardando");
     var dateObj = new Date();
     //var dateObj = $('#datepicker').datepicker('getDate');
     var dateFrom = $.datepicker.formatDate('mm/dd/yy', dateObj);
