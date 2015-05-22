@@ -78,6 +78,7 @@ class Expense_AprobacionController extends Zend_Controller_Action {
             $uid = $this->_getParam('uid');
             $dni = $this->_getParam('dni');
             $state = $this->_getParam('estate');
+            $comentario = $this->_getParam('comentario');
             $rendicion = new Admin_Model_DbTable_Gastorendicion();
             $pk = array();
             $pk = array(
@@ -86,6 +87,7 @@ class Expense_AprobacionController extends Zend_Controller_Action {
                     'dni'=>$dni);
             $data = array();
             $data['estado'] = $state;
+            $data['comentario'] = $comentario;
             $rendicion->_update($data,$pk);
 
             $wheretmp = array();

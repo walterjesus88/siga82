@@ -34,9 +34,10 @@
                             <span><?php echo $data_gasto['descripcion']; ?></span>
                         </td>
                         <td>
-                            <?php
+                        <?php
+                            list($gastoid, $tipo_gasto) = split('[-]', $data_gasto['gastoid']);
                             foreach ($this->list_gastos as $kvalue) {
-                                if ($data_gasto['gastoid'] == $kvalue['gastoid']) $nom_tmp = $kvalue['nombre_gasto'];
+                                if ($gastoid == $kvalue['gastoid'] && $tipo_gasto == $kvalue['tipo_gasto']) $nom_tmp = $kvalue['nombre_gasto'];
                             } ?>
                             <span><?php echo $nom_tmp; ?></span>
                         </td>

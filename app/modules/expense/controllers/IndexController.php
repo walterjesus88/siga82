@@ -205,6 +205,9 @@ class Expense_IndexController extends Zend_Controller_Action {
         $gastos = new Admin_Model_DbTable_Listagasto();
         $data_list_gastos = $gastos->_getGastosPadres();
         $this->view->list_gastos = $data_list_gastos;
+
+        $data_all_gastos = $gastos->_getGastosAll();
+        $this->view->all_gastos = $data_all_gastos;
         } catch (Exception $e) {
             print "Error: ".$e->getMessage();
         }

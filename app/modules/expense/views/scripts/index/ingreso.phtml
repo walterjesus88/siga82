@@ -129,7 +129,13 @@ $data_rendicion = $this->data_rendicion;
                                     } ?>
                                     <th>Proyecto / Actividades</th>
                                     <th>Descripción</th>
-                                    <th colspan="3"><center>Gasto</center></th>
+                                    <?php if ($data_rendicion['estado'] == "E") { ?>
+                                        <th><center>Gasto</center></th>
+                                    <?php 
+                                    } else { ?>
+                                        <th colspan="3"><center>Gasto</center></th>
+                                    <?php 
+                                    } ?>
                                     <th>Cant.</th>
                                     <th>PU</th>
                                     <th>Clien.</th>
@@ -174,27 +180,29 @@ $data_rendicion = $this->data_rendicion;
                                         <?php
                                         } ?>
                                     </td>
+                                    <?php if ($data_rendicion['estado'] == "E") { ?>
                                     <td>
-                                        <?php if ($data_rendicion['estado'] == "E") { 
-                                            foreach ($this->list_gastos as $kvalue) {
-                                                if ($data_actividades['gastoid'] == $kvalue['gastoid']) $nom_tmp = $kvalue['nombre_gasto'];
+                                    <?php
+                                        list($gastoid, $tipo_gasto) = split('[-]', $data_actividades['gastoid']);
+                                        foreach ($this->all_gastos as $kvalue) {
+                                            if ($gastoid == $kvalue['gastoid'] && $tipo_gasto == $kvalue['tipo_gasto']) $nom_tmp = $kvalue['nombre_gasto'];
                                             }
                                             ?>
-                                            <span><?php echo $nom_tmp; ?></span>
-                                            <?php
-                                        } else { ?>
-                                            <select name="gasto_padre[]" id="gasto_padre<?php echo $data_actividades['gasto_persona_id'] ?>" class="list_gasto form-control">
-                                                <?php if ($this->list_gastos): ?>
-                                                    <option value="">Seleccione</option>
-                                                    <?php foreach ($this->list_gastos as $list_gastos): ?>
-                                                        <option value="<?php echo $list_gastos['gastoid']. '-' .$list_gastos['tipo_gasto'] ?>" <?php print ($data_actividades['gastoid']==$list_gastos['gastoid'])? 'selected' : ''; ?>><?php echo $list_gastos['gastoid'].' - '.$list_gastos['nombre_gasto'] ?></option>
-                                                    <?php endforeach ?>
-                                                <?php else: ?>
-                                                    <option value="">No Existen Gastos</option>
-                                                <?php endif ?>
-                                            </select>
-                                        <?php
-                                        } ?>
+                                        <span><?php echo $nom_tmp; ?></span>
+                                    </td>
+                                    <?php 
+                                    } else { ?>
+                                    <td>
+                                        <select name="gasto_padre[]" id="gasto_padre<?php echo $data_actividades['gasto_persona_id'] ?>" class="list_gasto form-control">
+                                            <?php if ($this->list_gastos): ?>
+                                                <option value="">Seleccione</option>
+                                            <?php foreach ($this->list_gastos as $list_gastos): ?>
+                                                    <option value="<?php echo $list_gastos['gastoid']. '-' .$list_gastos['tipo_gasto'] ?>" <?php print ($data_actividades['gastoid']==$list_gastos['gastoid'])? 'selected' : ''; ?>><?php echo $list_gastos['gastoid'].' - '.$list_gastos['nombre_gasto'] ?></option>
+                                            <?php endforeach ?>
+                                            <?php else: ?>
+                                                <option value="">No Existen Gastos</option>
+                                            <?php endif ?>
+                                        </select>
                                     </td>
                                     <td>
                                         <select name="gasto_hijo[]" id="gasto_hijo<?php echo $data_actividades['gasto_persona_id'] ?>" class="list_gasto form-control">
@@ -206,6 +214,8 @@ $data_rendicion = $this->data_rendicion;
                                             <option value="">Seleccione</option>
                                         </select>
                                     </td>
+                                    <?php 
+                                    } ?>
                                     <td>
                                         <?php if ($data_rendicion['estado'] == "E") { ?>
                                             <span><?php echo $data_actividades['laboratorio_cantidad']; ?></span>
