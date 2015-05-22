@@ -950,7 +950,7 @@
 </div>
 <div style="display:none" id="horaregistrada"></div>
 <div style="display:none" id="carga"></div>
-<div style="display:none" id="carga_nueva"></div>
+<div id="carga_nueva"></div>
 <div style="display:none" id="carga_w1"></div>
 
 
@@ -1031,7 +1031,13 @@ $( "input" )
 })
 
 $("#submit_work").click(function(){
-   alert("aaaaa");
+  var fecha="<?php echo $this->fecha?>";
+  var semana="<?php echo $this->semana?>";
+  var fecha_calendario = $("#fechasemana").text();
+  
+  var url="/timesheet/index/enviartimesheet/fecha_calendario/"+fecha_calendario;
+  $("#carga_nueva").load(url);
+
 });
 
 </script>

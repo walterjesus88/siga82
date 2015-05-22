@@ -1201,5 +1201,81 @@ public function sumatareorealAction(){
                 print "Error: ".$e->getMessage();
         }
     }
+
+
+     public function timesheetaprobacionAction(){
+        try {
+            $this->_helper->layout()->disableLayout();            
+            $uid = $this->_getParam('uid');
+            $dni = $this->_getParam('dni');
+            $cargo = $this->_getParam('cargo');
+            $semana = $this->_getParam('semanaid');
+            $coment = $this->_getParam('coment');
+            $estado = $this->_getParam('estado');
+
+            $data['cargo']=$cargo;
+            $data['semanaid']=$semana;
+            $data['uid']=$uid;
+            $data['dni']=$dni;
+            $data['comentario']=$coment;
+            $data['estado_usuario']=$estado;
+
+            $where['uid']=$uid;
+            $where['dni']=$dni;
+            $where['cargo']=$cargo;
+            $where['semanaid']=$semana;
+
+            $vercoment= new Admin_Model_DbTable_Usuariovalidacion();
+            if($vcoment=$vercoment->_getOne($where))
+            {
+                $pk = array('dni' => $dni  ,'uid' => $uid,'cargo' => $cargo ,'semanaid' => $semana );
+                $data2['comentario']=$coment;
+                $data2['estado_usuario']=$estado;
+                $coment=new Admin_Model_DbTable_Usuariovalidacion();
+                $usecoment=$coment->_updateX($data2,$pk);
+                //echo "update";
+
+            }
+            else
+            {
+                $coment=new Admin_Model_DbTable_Usuariovalidacion();
+                $usercoment=$coment->_save($data);
+                //echo "save";
+
+            }
+
+        }
+        catch (Exception $e) {
+                print "Error: ".$e->getMessage();
+        }
+    }
+
+     public function enviartimesheetAction(){
+        try {
+            $uid = $this->sesion->uid;
+        $dni = $this->sesion->dni;
+            $this->_helper->layout()->disableLayout();            
+            $fecha_inicio = $this->_getParam('fecha_calendario');
+            $fecha_inicio_mod = date("Y-m-d", strtotime($fecha_inicio));
+            $semanaid=date('W', strtotime($fecha_inicio_mod)); 
+
+            $tareopersona = new Admin_Model_DbTable_Tareopersona();
+      
+            echo $fecha_inicio_mod;
+            echo "sssssssss";
+            echo $uid;
+            echo "sssssssss";
+            echo $dni;
+        
+            $data_tareopersona = $tareopersona->_getTareoxPersonaxSemana($uid,$dni,$semanaid);
+            print_r($data_tareopersona);
+
+        }
+        catch (Exception $e) {
+                print "Error: ".$e->getMessage();
+        }
+    }
+
+    
     
 }
