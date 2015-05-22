@@ -47,7 +47,9 @@ class Admin_Model_DbTable_Planificacion extends Zend_Db_Table_Abstract
         try {
             //if ($where["dni"]=='') return false;
                                 
-                $wherestr="semanaid = '".$where['semanaid']."' and uid = '".$where['uid']."' and dni = '".$where['dni']."' and cargo = '".$where['cargo']."'  and categoriaid = '".$where['categoriaid']."' and areaid = '".$where['areaid']."' and codigo_prop_proy = '".$where['codigo_prop_proy']."' and proyectoid = '".$where['proyectoid']."' ";
+                $wherestr="semanaid = '".$where['semanaid']."' and uid = '".$where['uid']."' and dni = '".$where['dni']."' and cargo = '".$where['cargo']."' 
+                 and categoriaid = '".$where['categoriaid']."' and areaid = '".$where['areaid']."' and codigo_prop_proy = '".$where['codigo_prop_proy']."'
+                 and proyectoid = '".$where['proyectoid']."' ";
 
 
                 $row = $this->fetchRow($wherestr);

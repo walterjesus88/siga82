@@ -21,7 +21,7 @@ class Timesheet_IndexController extends Zend_Controller_Action {
 
     public function calendarAction(){
         try {
-            
+        //print_r($this->sesion);
         $uid = $this->sesion->uid;
         $dni = $this->sesion->dni;
         $equipo = new Admin_Model_DbTable_Equipo();
@@ -210,6 +210,7 @@ class Timesheet_IndexController extends Zend_Controller_Action {
         $datos_tareopersona_NB=$tareo_persona->_getTareoxPersonaxSemanaxNB($uid,$dni,$semana);
         //$data_tareo = $tareo->_getTareoXUid($where);
         $this->view->actividades= $datos_tareopersona;
+        //print_r($datos_tareopersona);
 
         //print_r($datos_tareopersona);
         $this->view->actividades_NB = $datos_tareopersona_NB;
@@ -281,9 +282,14 @@ class Timesheet_IndexController extends Zend_Controller_Action {
         $this->_helper->layout()->disableLayout();
         $uid = $this->sesion->uid;
         $dni = $this->sesion->dni;
-        //$categoriaid=$this->sesion->personal->ucatid;
-        //$areaid=$this->sesion->personal->ucatareaid;
-        //$cargo=$this->sesion->personal->ucatcargo;
+
+         $categoriaid=$this->sesion->personal->ucatid;
+        $areaid=$this->sesion->personal->ucatareaid;
+        $cargo=$this->sesion->personal->ucatcargo;
+
+        $cargoreal= $this->_getParam('tipo_actividad');
+
+
       
         $fecha_inicio = $this->_getParam('fecha_calendario');
         $fecha_inicio_mod = date("Y-m-d", strtotime($fecha_inicio));
@@ -381,6 +387,10 @@ class Timesheet_IndexController extends Zend_Controller_Action {
                 $data2['uid']=$uid;
                 $data2['dni']=$dni; 
 
+
+                $codigo_prop_proy = $this->_getParam('codigo_prop_proy');
+                $proyectoid = $this->_getParam('proyectoid');
+
                 $data3['cargo']=$cargo;
                 $data3['semanaid']=$semanaid;
                 $data3['uid']=$uid;
@@ -389,14 +399,24 @@ class Timesheet_IndexController extends Zend_Controller_Action {
                 $data3['areaid']=$areaid;
                 $data3['proyectoid']=$proyectoid;
                 $data3['codigo_prop_proy']=$codigo_prop_proy;
+                $data3['funcion']=$cargo;
+                $data3['fecha_creacion']=date("Y-m-d");
+                $data3['uid_modificacion']=$cargo;
+
+
+
+                
+
 
                 $wheres=array('dni'=>$dni,'uid'=>$uid,'cargo'=>$cargo,'semanaid'=>$semanaid,'fecha_tarea'=>$fecha_tarea);
                 $wheres2=array('dni'=>$dni,'uid'=>$uid,'cargo'=>$cargo,'semanaid'=>$semanaid);
-                $wheres3=array('dni'=>$dni,'uid'=>$uid,'cargo'=>$cargo,'semanaid'=>$semanaid,
-                               'categoriaid'=>$categoriaid,'areaid'=>$areaid,'proyectoid'=>$proyectoid,'codigo_prop_proy'=>$codigo_prop_proy);
+                $wheres3=array('dni'=>$dni,'uid'=>$uid,'cargo'=>'EQUIPO','semanaid'=>'21',
+                               'categoriaid'=>'RP','areaid'=>'02','proyectoid'=>'1408.10.04',
+                               'codigo_prop_proy'=>'PROP-2015-20505792042-1408-14.10.188-B');
 
-          
+                //print_r($wheres3);
 
+         
                 $sumahora = new Admin_Model_DbTable_Sumahora();
                 if($versum=$sumahora->_getOne($wheres))
                 {
@@ -416,7 +436,6 @@ class Timesheet_IndexController extends Zend_Controller_Action {
                 {
                     $data_sumahora = $suma_control->_save($data2); 
                 }
-
 
 
                 $suma_planificacion= new Admin_Model_DbTable_Planificacion();
@@ -455,8 +474,7 @@ class Timesheet_IndexController extends Zend_Controller_Action {
     }
 
 
-
-
+ 
     public function actividadgeneralAction(){
         try {
         $this->_helper->layout()->disableLayout();

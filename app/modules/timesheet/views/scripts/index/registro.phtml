@@ -263,6 +263,7 @@
                         var fechainiciomod="<?php echo $this->fecha_inicio_mod ?>";
                         var fecha="<?php echo $this->fecha ?>";
                         var fechaz="<?php echo $data_tareo['fecha_tarea'] ?>";
+                        
 
 
                         if (isNaN(hora_real)) {
@@ -274,7 +275,7 @@
                           var url="/timesheet/index/updatetareoreal/codigo_prop_proy/"+codigo_prop_proy+"/codigo_actividad/"+codigo_actividad+"/actividadid/"+actividadid+"/revision/"+revision+"/actividad_padre/"+actividad_padre+"/proyectoid/"+proyectoid+"/semanaid/"+semanaid+"/fecha_tarea/"+fecha_tarea+"/asignado/"+asignado+"/areaid/"+areaid+"/categoriaid/"+categoriaid+"/dni/"+dni+"/cargo/"+cargo+"/horareal/"+hora_real+"/tipo_actividad/"+tipo_actividad+"/etapa/"+etapa+"/actividad_generalid/"+actividad_generalid+"/fecha_calendario/"+fecha_calendario+"/h_propuesta/"+h_propuesta;   
 
                           var url2='/timesheet/index/traersumahoras/semanaid/'+semanaid+'/fecha/'+fecha_tarea+'/fechainiciomod/'+fecha_tarea+'/uid/'+uid+'/dni/'+dni_+'/cargo/'+cargo;   
-                          //alert(url);            
+                          alert(url);            
 
                            $.ajax({
                                     type: "POST",
