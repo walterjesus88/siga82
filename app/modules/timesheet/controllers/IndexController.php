@@ -1258,17 +1258,16 @@ public function sumatareorealAction(){
             $fecha_inicio = $this->_getParam('fecha_calendario');
             $fecha_inicio_mod = date("Y-m-d", strtotime($fecha_inicio));
             $semanaid=date('W', strtotime($fecha_inicio_mod)); 
-
             $tareopersona = new Admin_Model_DbTable_Tareopersona();
-      
-            echo $fecha_inicio_mod;
-            echo "sssssssss";
-            echo $uid;
-            echo "sssssssss";
-            echo $dni;
-        
             $data_tareopersona = $tareopersona->_getTareoxPersonaxSemana($uid,$dni,$semanaid);
-            print_r($data_tareopersona);
+            if ($data_tareopersona)
+            {
+                $datos_actualizar['estado']='C';
+                $str_actualizar="semanaid='$semanaid' and uid='$uid' and dni='$dni' and
+                estado='A' 
+                ";
+                $update=$tareopersona -> _update($datos_actualizar,$str_actualizar);
+           }
 
         }
         catch (Exception $e) {
