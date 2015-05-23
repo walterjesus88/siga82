@@ -791,21 +791,20 @@ public function sumatareorealAction(){
         $tipo_actividad= $this->_getParam('tipo_actividad');
 
         $etapa_inicio = $this->_getParam('etapa');
-        
-        $datos_inicio['actividad_generalid']=$this->_getParam('tarea_general');
-        $datos_inicio['tipo_actividad']='G';
-        $datos_inicio['etapa']='INICIO-NB-'.$actividad_generalid;
-        $datos_inicio['fecha_modificacion']=$fecha_inicio_mod;
-
-
         $etapa_ejecucion = str_replace("INICIO", "EJECUCION", $etapa_inicio);
         
+        $datos_inicio['actividad_generalid']=$this->_getParam('tarea_general');
         $datos_ejecucion['actividad_generalid']= $this->_getParam('tarea_general');
+        
+        $datos_inicio['tipo_actividad']='G';
         $datos_ejecucion['tipo_actividad']='G';
+
+        $datos_inicio['etapa']='INICIO-NB-'.$actividad_generalid;
         $datos_ejecucion['etapa']='EJECUCION-NB-'.$actividad_generalid;
-        $datos_ejecucion['fecha_modificacion']=$fecha_inicio_mod;
 
         
+        $datos_inicio['fecha_modificacion']=$fecha_inicio_mod;
+        $datos_ejecucion['fecha_modificacion']=$fecha_inicio_mod;
         
         $equipo = new Admin_Model_DbTable_Equipo();
         $estado_usuario='A';
@@ -823,14 +822,14 @@ public function sumatareorealAction(){
             revision='$revision' and codigo_actividad='$codigo_actividad'
             and actividad_padre='$actividad_padre'   and semanaid='$semanaid' and areaid='$areaid' 
             and etapa='$etapa_inicio' and tipo_actividad='$tipo_actividad' 
-            and estado='A' and uid='$uid' and dni='$dni'";
+            and estado='A' and uid='$uid' and dni='$dni'
+            ";
 
         $str_ejecucion="codigo_prop_proy='$codigo_prop_proy' and proyectoid='$proyectoid' and 
             categoriaid='$categoriaid' and actividadid='$actividadid' and 
             revision='$revision' and codigo_actividad='$codigo_actividad'
             and actividad_padre='$actividad_padre'   and semanaid='$semanaid' and areaid='$areaid' 
             and  etapa='$etapa_ejecucion' and tipo_actividad='$tipo_actividad' 
-<<<<<<< HEAD
             and estado='A' and uid='$uid' and dni='$dni'
             ";
             
@@ -841,20 +840,8 @@ public function sumatareorealAction(){
          //   }
          //   else
          //   {?>
-=======
-            and estado='A' and uid='$uid' and dni='$dni'";
-
-            $update_inicio=$tareopersona -> _update($datos_inicio,$str_inicio);
-            $update_ejecucion=$tareopersona -> _update($datos_ejecucion,$str_ejecucion);
-            //$update_inicio ||
-            //update_ejecucion
-            if($update_inicio || $update_ejecucion) { //echo "guardo";
-            }
-            else
-            {?>
->>>>>>> b833b41a3fec13c53383df0703464f3c8169c61b
                 <script>                  
-                    alert("No se guardo cargue nuevamente la pagina o ya tiene una tarea facturable creada.");
+                    //alert("No se guardo cargue nuevamente la pagina o ya tiene una tarea facturable creada.");
                 </script>
             <?php
        // }
@@ -1275,7 +1262,7 @@ public function sumatareorealAction(){
             if ($isjefe=='S') 
             {
                 $equipo = new Admin_Model_DbTable_Equipo();
-                $equipo_aprobacion = $equipo->_getListarNivel4xNivel3($uid,$dni,'4','2',$areaid);
+                $equipo_aprobacion = $equipo-> _getListarEquipoxJefe('4',$areaid);
 
                 $this->view->equipos_horas_aprobar= $equipo_aprobacion;    
             }
