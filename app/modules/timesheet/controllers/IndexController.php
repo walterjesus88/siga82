@@ -50,8 +50,9 @@ class Timesheet_IndexController extends Zend_Controller_Action {
         if ($clienteid=='20451530535' && $unidadid=='10')
         {
             $equipo = new Admin_Model_DbTable_Equipo();
-            $data_equipo = $equipo->_getProyectosAnddes();    
-            $this->view->equipo = $data_equipo;
+            $data_equipoanddes = $equipo->_getProyectosAnddes();    
+            $this->view->equipoanddes = $data_equipoanddes;
+            $this->view->cliente = $clienteid;
             $this->view->fecha_consulta = $fecha_consulta;   
         }
         else
@@ -244,9 +245,9 @@ class Timesheet_IndexController extends Zend_Controller_Action {
         $this->_helper->layout()->disableLayout();
         $uid = $this->sesion->uid;
         $dni = $this->sesion->dni;
-        //$categoriaid=$this->sesion->personal->ucatid;
-        //$areaid=$this->sesion->personal->ucatareaid;
-        //$cargo=$this->sesion->personal->ucatcargo;
+        $categoriaid_usuario=$this->sesion->personal->ucatid;
+        $areaid_usuario=$this->sesion->personal->ucatareaid;
+        $cargo_usuario='EQUIPO';
         
              
         $data['proyectoid']=$proyectoid = $this->_getParam('proyectoid');
@@ -260,7 +261,7 @@ class Timesheet_IndexController extends Zend_Controller_Action {
         $data['asignado']= $dni;
         $data['dni']=$dni;
         $data['etapa']='INICIO';
-        
+        $data['estado']='A';
 
         $fecha_inicio = $this->_getParam('fecha');
         $fecha_inicio_mod = date("Y-m-d", strtotime($fecha_inicio));
@@ -270,9 +271,19 @@ class Timesheet_IndexController extends Zend_Controller_Action {
         $data['fecha_tarea']=$fecha_inicio_mod;
         $data['fecha_creacion']=$fecha_inicio_mod;
         $data['fecha_planificacion']=$fecha_inicio_mod;
+
+        if ($codigo_prop_proy=='2015')
+        {
+
+        $data['tipo_actividad']='G';
+
+        }
+        else{
+
         $data['tipo_actividad']='P';
-        $data['estado']='A';
         
+        }
+
         $equipo = new Admin_Model_DbTable_Equipo();
         $estado_usuario='A';
         $data_equipo = $equipo->_getDatosxProyectoxUidXEstadoxCliente($uid,$dni,$estado_usuario,$codigo_prop_proy,$proyectoid);
@@ -282,6 +293,7 @@ class Timesheet_IndexController extends Zend_Controller_Action {
         $data['cargo']=$cargo;
         $data['areaid']=$areaid;
         $data['categoriaid']=$categoriaid;
+
 
         $tareopersona = new Admin_Model_DbTable_Tareopersona();
         $data_tareopersona = $tareopersona->_save($data);
@@ -339,7 +351,7 @@ class Timesheet_IndexController extends Zend_Controller_Action {
 
 
          $actividad_generalid = $this->_getParam('actividad_generalid');
-        if($actividad_generalid=='')
+        if($actividad_generalid=='' and $codigo_prop_proy!='2015')
         {
             $data['actividad_generalid']=null;
             $data['tipo_actividad']='P';
@@ -349,7 +361,15 @@ class Timesheet_IndexController extends Zend_Controller_Action {
         }
         else
         {
-            $data['actividad_generalid']=$actividad_generalid;
+            if ($codigo_prop_proy!='2015')
+            {
+                $data['actividad_generalid']=$actividadid;
+            }
+            else
+            {
+                $data['actividad_generalid']=$actividad_generalid;    
+            }
+            
             $data['tipo_actividad']='G';
             $etapa= $this->_getParam('etapa');
             $resultado = str_replace("INICIO", "EJECUCION", $etapa);
@@ -676,7 +696,7 @@ public function eliminartareoAction(){
         $actividad_generalid=$this->_getParam('actividad_generalid');
         $etapa=$this->_getParam('etapa');
 
-        if($etapa=='INICIO' or $etaoa='EJECUCION-NB-')
+        if($etapa=='INICIO' or $etapa=='EJECUCION-NB-' or $etapa=='INICIO-NB-')
         {
             $pk1  =   array(                        
             'codigo_prop_proy'   =>$codigo_prop_proy,
@@ -696,7 +716,7 @@ public function eliminartareoAction(){
         }
 
 
-         if($actividad_generalid=='')
+         if($actividad_generalid=='' )
          {
             $pk1  =   array(                        
             'codigo_prop_proy'   =>$codigo_prop_proy,
@@ -833,18 +853,22 @@ public function sumatareorealAction(){
             and estado='A' and uid='$uid' and dni='$dni'
             ";
             
-           // $update_inicio=$tareopersona -> _update($datos_inicio,$str_inicio);
-           // $update_ejecucion=$tareopersona -> _update($datos_ejecucion,$str_ejecucion);
 
-       //     if ($update_inicio || $update_ejecucion) { //echo "guardo";
-         //   }
-         //   else
-         //   {?>
+
+            $update_inicio=$tareopersona -> _update($datos_inicio,$str_inicio);
+            $update_ejecucion=$tareopersona -> _update($datos_ejecucion,$str_ejecucion);
+            //$update_inicio ||
+            //update_ejecucion
+            if($update_inicio || $update_ejecucion) { //echo "guardo";
+            }
+            else
+            { ?>
+
                 <script>                  
                     //alert("No se guardo cargue nuevamente la pagina o ya tiene una tarea facturable creada.");
                 </script>
             <?php
-       // }
+            }
        
         } catch (Exception $e) {
             print "Error: ".$e->getMessage();

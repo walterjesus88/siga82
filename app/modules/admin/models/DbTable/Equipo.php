@@ -272,12 +272,9 @@ public function _getListarNivel4xNivel3($uid,$dni,$nivel_inferior,$nivel_superio
 public function _getListarEquipoxJefe($nivel,$areaid)
      {
         try{
-            $sql=$this->_db->query("
-                
+            $sql=$this->_db->query("                
                 select distinct uid, dni from equipo where areaid='$areaid' and nivel='$nivel'
-                
-
-                    ");
+            ");
             $row=$sql->fetchAll();
             return $row;           
             }  

@@ -43,6 +43,7 @@
 <?php
  
     $actividades_hijos = $this->actividades;
+
      $i=1;
     foreach ($actividades_hijos as $data_tareo_hijos) { 
         $tareopersona = new Admin_Model_DbTable_Tareopersona();
@@ -86,7 +87,7 @@
 
                         url="/timesheet/index/guardartareopersona/codigo/"+codigo+"/proyectoid/"+proyectoid+"/revision/"+revision+"/categoriaid/"+categoriaid+"/propuestaid/"+propuestaid+"/actividadid/"+actividadid+"/codigo_actividad/"+codigo_actividad+"/actividad_padre/"+actividad_padre+"/h_propuesta/"+h_propuesta+"/fecha/"+fecha;
 
-                        //alert(url);
+                        
                         $("#cargar").load(url);
                  
                 
@@ -101,4 +102,4 @@
     
     } ?>
 </ul>
-<div style="display:none" id="cargar"> </div>
+<div id="cargar"> </div>
