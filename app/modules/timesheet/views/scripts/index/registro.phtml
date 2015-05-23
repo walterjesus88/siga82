@@ -500,6 +500,7 @@
                       };
                     };
                     fecha_inicio = mostrarFecha(dateObj,-num_day);
+                    urlfecha="/timesheet/index/registro/fecha/" + fecha_inicio
                     //$("#registros").load("/timesheet/index/registro/fecha/" + fecha_inicio); 
                        //document.location.href="/timesheet/index/calendar";
                     $.ajax({
@@ -511,7 +512,19 @@
                               alert("error petición ajax load");
                         },
                         success: function(data){      
-                                $("#carga").html(data);     
+                                $("#carga").html(data);
+                                $.ajax({
+                                    type: "POST",
+                                    url: urlfecha,
+                                    data: $(this).serialize(),
+                                    dataType: "html",                                                 
+                                    error: function(){
+                                          alert("error petición ajax load");
+                                    },
+                                    success: function(data){      
+                                            $("#registro").html(data);     
+                                    }  
+                                });  
                         }
                     });    
                     //$("#carga").load(url);
@@ -544,7 +557,6 @@
 
 
                     //alert(url);
-
                    
                     if (isNaN(tarea_general)) {
                            //entonces (no es numero) devuelvo el valor cadena vacia 
@@ -628,7 +640,7 @@
                     var url="/timesheet/index/updateetapab/codigo/"+codigo_prop_proy+"/codigo_actividad/"+codigo_actividad+"/actividadid/"+actividadid+"/revision/"+revision+"/actividad_padre/"+actividad_padre+"/proyectoid/"+proyectoid+"/semanaid/"+semanaid+"/fecha_tarea/"+fecha_tarea+"/asignado/"+asignado+"/areaid/"+areaid+"/categoriaid/"+categoriaid+"/dni/"+dni+"/cargo/"+cargo+"/tipo_actividad/"+tipo_actividad+"/etapa/"+etapa+"/fecha_planificacion/"+fecha_planificacion+"/fecha/"+fecha;
                     // alert(url);
                    
-                     var dateObj = new Date();
+                    var dateObj = new Date();
                     var dateFrom = $.datepicker.formatDate('mm/dd/yy', dateObj);
                     var weekfrom = $.datepicker.iso8601Week(new Date(dateFrom));
                     var diasSemana = new Array("Domingo","Lunes","Martes","Miércoles","Jueves","Viernes","Sábado");
@@ -643,6 +655,7 @@
                       };
                     };
                     fecha_inicio = mostrarFecha(dateObj,-num_day);
+                    urlfecha="/timesheet/index/registro/fecha/" + fecha_inicio;
 
                     $.ajax({
                         type: "POST",
@@ -653,24 +666,21 @@
                               alert("error petición ajax load");
                         },
                         success: function(data){      
-                                $("#carga").html(data);     
+                                $("#carga").html(data);  
+                                $.ajax({
+                                    type: "POST",
+                                    url: urlfecha,
+                                    data: $(this).serialize(),
+                                    dataType: "html",                                                 
+                                    error: function(){
+                                          alert("error petición ajax load");
+                                    },
+                                    success: function(data){      
+                                            $("#registro").html(data);     
+                                    }
+                                });     
                         }
-                    });    
-
-                    urlfecha="/timesheet/index/registro/fecha/" + fecha_inicio;
-
-                    $.ajax({
-                        type: "POST",
-                        url: urlfecha,
-                        data: $(this).serialize(),
-                        dataType: "html",                                                 
-                        error: function(){
-                              alert("error petición ajax load");
-                        },
-                        success: function(data){      
-                                $("#registro").html(data);     
-                        }
-                    });  
+                    });                    
                     //$("#carga").load(url);
                     //$("#registro").load(); 
 
@@ -702,25 +712,6 @@
 
                     var url="/timesheet/index/updateetapanb/codigo/"+codigo_prop_proy+"/codigo_actividad/"+codigo_actividad+"/actividadid/"+actividadid+"/revision/"+revision+"/actividad_padre/"+actividad_padre+"/proyectoid/"+proyectoid+"/semanaid/"+semanaid+"/fecha_tarea/"+fecha_tarea+"/asignado/"+asignado+"/areaid/"+areaid+"/categoriaid/"+categoriaid+"/dni/"+dni+"/cargo/"+cargo+"/tipo_actividad/"+tipo_actividad+"/etapa/"+etapa+"/fecha_planificacion/"+fecha_planificacion+"/fecha/"+fecha;
 
-                    // var url="/timesheet/index/guardaractividadgeneral/codigo/"+codigo_prop_proy+"/codigo_actividad/"+codigo_actividad+"/actividadid/"+actividadid+"/revision/"+revision+"/actividad_padre/"+actividad_padre+"/proyectoid/"+proyectoid+"/semanaid/"+semanaid+"/fecha_tarea/"+fecha_tarea+"/asignado/"+asignado+"/areaid/"+areaid+"/categoriaid/"+categoriaid+"/dni/"+dni+"/cargo/"+cargo+"/tipo_actividad/"+tipo_actividad+"/etapa/"+etapa+"/fecha_planificacion/"+fecha_planificacion+"/fecha/"+fecha;
-
-                    //alert(" facturable tareo k kambie ");
-                    //alert(url);
-
-                    $.ajax({
-                        type: "POST",
-                        url: url,
-                        data: $(this).serialize(),
-                        dataType: "html",                                                 
-                        error: function(){
-                              alert("error petición ajax load");
-                        },
-                        success: function(data){      
-                              $("#carga").html(data);
-                          
-                        }
-                    });
-
                     var dateObj = new Date();
                     var dateFrom = $.datepicker.formatDate('mm/dd/yy', dateObj);
                     var weekfrom = $.datepicker.iso8601Week(new Date(dateFrom));
@@ -736,26 +727,41 @@
                       };
                     };
                     fecha_inicio = mostrarFecha(dateObj,-num_day);
-
                     urlfecha="/timesheet/index/registro/fecha/" + fecha_inicio;
+                    // var url="/timesheet/index/guardaractividadgeneral/codigo/"+codigo_prop_proy+"/codigo_actividad/"+codigo_actividad+"/actividadid/"+actividadid+"/revision/"+revision+"/actividad_padre/"+actividad_padre+"/proyectoid/"+proyectoid+"/semanaid/"+semanaid+"/fecha_tarea/"+fecha_tarea+"/asignado/"+asignado+"/areaid/"+areaid+"/categoriaid/"+categoriaid+"/dni/"+dni+"/cargo/"+cargo+"/tipo_actividad/"+tipo_actividad+"/etapa/"+etapa+"/fecha_planificacion/"+fecha_planificacion+"/fecha/"+fecha;
+
+                    //alert(" facturable tareo k kambie ");
+                    //alert(url);
 
                     $.ajax({
                         type: "POST",
-                        url: urlfecha,
+                        url: url,
                         data: $(this).serialize(),
                         dataType: "html",                                                 
                         error: function(){
                               alert("error petición ajax load");
                         },
                         success: function(data){      
-                                $("#registro").html(data);
-                              
+                              $("#carga").html(data);
+                              $.ajax({
+                                  type: "POST",
+                                  url: urlfecha,
+                                  data: $(this).serialize(),
+                                  dataType: "html",                                                 
+                                  error: function(){
+                                        alert("error petición ajax load");
+                                  },
+                                  success: function(data){      
+                                          $("#registro").html(data);
+                                          $("#facturable_tareo_<?php echo $j?>").hide();
+                                          $("#tarea_general_<?php echo $j?>").show();
+                                          $("#nofacturable_tareo_<?php echo $j?>").show();
+                                        
+                                  }
+                              }); 
+                          
                         }
-                    });  
-
-                      $("#facturable_tareo_<?php echo $j?>").hide();
-                      $("#tarea_general_<?php echo $j?>").show();
-                      $("#nofacturable_tareo_<?php echo $j?>").show();                 
+                    });                                        
                     // var codigo_prop_proy= '<?php echo $data_tareo['codigo_prop_proy']?>';
                     // var codigo_actividad='<?php echo $data_tareo['codigo_actividad']?>';
                     // var actividadid="<?php echo $data_tareo['actividadid']?>";

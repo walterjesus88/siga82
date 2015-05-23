@@ -768,6 +768,31 @@ public function sumatareorealAction(){
         }
     }
 
+    public function pruebaAction(){
+
+        $uid = $this->sesion->uid;
+        $dni = $this->sesion->dni;
+
+        
+        $proyectoid = '1416.10.07';
+        $codigo_prop_proy = 'PROP-2015-20100079501-1416-14.10.230-B';
+        $actividadid ='3';
+        $revision = 'B';
+        $codigo_actividad = '1416.10.07-3';
+        $actividad_generalid = '5';
+        $semanaid='21';
+        $tipo_actividad= 'G';
+
+        //echo $codigo_prop_proy;
+
+        $conteotareo =new Admin_Model_DbTable_Tareopersona();
+        $ctareo=$conteotareo->_getConteotareo($semanaid,$codigo_actividad,$actividad_generalid ,$tipo_actividad,$codigo_prop_proy,$proyectoid,$revision,$actividadid,$uid,$dni);
+        // print_r($ctareo);
+        echo $ctareo[0]['count'];
+
+    }
+
+
      public function updateetapanbAction(){
         try {
         $this->_helper->layout()->disableLayout();
@@ -790,13 +815,23 @@ public function sumatareorealAction(){
         $semanaid=$this->_getParam('semanaid');
         $tipo_actividad= $this->_getParam('tipo_actividad');
 
+
+
+        $conteotareo =new Admin_Model_DbTable_Tareopersona();
+        $ctareo=$conteotareo->_getConteotareo($semanaid,$codigo_actividad,$tipo_actividad,$codigo_prop_proy,$proyectoid,$revision,$actividadid,$uid,$dni);
+        // print_r($ctareo);
+        $count= $ctareo[0]['count'];
+
+
+
+
+
         $etapa_inicio = $this->_getParam('etapa');
         
         $datos_inicio['actividad_generalid']=$this->_getParam('tarea_general');
         $datos_inicio['tipo_actividad']='G';
         $datos_inicio['etapa']='INICIO-NB-'.$actividad_generalid;
         $datos_inicio['fecha_modificacion']=$fecha_inicio_mod;
-
 
         $etapa_ejecucion = str_replace("INICIO", "EJECUCION", $etapa_inicio);
         
@@ -833,20 +868,59 @@ public function sumatareorealAction(){
             and estado='A' and uid='$uid' and dni='$dni'
             ";
             
+        ?>
+        <script>                  
+            //alert("<?php echo $count ?>");
+        </script>
+        <?php
 
+        if($count>1)
+        {
             $update_inicio=$tareopersona -> _update($datos_inicio,$str_inicio);
             $update_ejecucion=$tareopersona -> _update($datos_ejecucion,$str_ejecucion);
-            //$update_inicio ||
-            //update_ejecucion
-            if($update_inicio || $update_ejecucion) { //echo "guardo";
+
+            if($update_inicio) { 
+                if($update_ejecucion)
+                {
+
+                }
+                 else
+                { ?>
+                     <script>                  
+                         alert("No se guardo cargue nuevamente la pagina o ya tiene una tarea facturable creada.1");
+                     </script>  <?php               
+                }
             }
             else
             { ?>
                 <script>                  
-                    alert("No se guardo cargue nuevamente la pagina o ya tiene una tarea facturable creada.");
+                    alert("No se guardo cargue nuevamente la pagina o ya tiene una tarea facturable creada.4");
                 </script>
             <?php
             }
+        }
+        else
+        {  
+            $update_inicio=$tareopersona -> _update($datos_inicio,$str_inicio);
+            if($update_inicio)
+            { 
+                
+            }
+            else
+            { ?>
+                <script>                  
+                    alert("No se guardo cargue nuevamente la pagina o ya tiene una tarea facturable creada.2");
+                </script>
+            <?php
+            }
+
+        }   
+            //$update_inicio ||
+            //update_ejecucion
+
+
+
+     
        
         } catch (Exception $e) {
             print "Error: ".$e->getMessage();
