@@ -391,6 +391,51 @@ class Admin_Model_DbTable_Tareopersona extends Zend_Db_Table_Abstract
         }
     }
 
+    public function _getConteotareo($semanaid,$codigo_actividad,$tipo_actividad,$codigo_prop_proy,$proyectoid,$revision,$actividadid,$uid,$dni)
+     {
+        try{
+            $sql=$this->_db->query("
+              select  count(*) from tareo_persona 
+              where  tipo_actividad='$tipo_actividad' and codigo_prop_proy='$codigo_prop_proy'
+              and proyectoid='$proyectoid' and revision='$revision' and actividadid='$actividadid' and uid='$uid' and dni='$dni' 
+              and codigo_actividad = '$codigo_actividad' and semanaid='$semanaid'
+
+            ");
+            // print_r($sql);
+            $row=$sql->fetchAll();
+            return $row;           
+            }  
+            
+           catch (Exception $ex){
+            print $ex->getMessage();
+        }
+    }
+
+
+
+    public function _getFilter($where=null,$attrib=null,$orders=null){
+        try{
+            //if($where['eid']=='' || $where['oid']=='') return false;
+                $select = $this->_db->select();
+                if ($attrib=='') $select->from("tareo_persona");
+                else $select->from("tareo_persona",$attrib);
+                //print_r($where);
+                foreach ($where as $atri=>$value){
+                    $select->where("$atri = ?", $value);                    
+                }
+                if ($orders<>null || $orders<>"") {
+                    if (is_array($orders))
+                        $select->order($orders);
+                }
+                $results = $select->query();
+                $rows = $results->fetchAll();
+                //print_r($results);
+                if ($rows) return $rows;
+                return false;
+        }catch (Exception $e){
+            print "Error: Read Filter competencia ".$e->getMessage();
+        }
+    }
 
 
 }
