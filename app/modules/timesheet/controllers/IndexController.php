@@ -45,11 +45,23 @@ class Timesheet_IndexController extends Zend_Controller_Action {
         $unidadid = $this->_getParam('unidadid');
         $fecha_consulta = $this->_getParam('fecha');
 
-        $equipo = new Admin_Model_DbTable_Equipo();
-        $data_equipo = $equipo->_getProyectosxUidXEstadoxCliente($uid,'A',$clienteid,$unidadid);
+        
        // print_r($data_equipo);
-        $this->view->equipo = $data_equipo;
-        $this->view->fecha_consulta = $fecha_consulta;
+        if ($clienteid=='20451530535' && $unidadid=='10')
+        {
+            $equipo = new Admin_Model_DbTable_Equipo();
+            $data_equipo = $equipo->_getProyectosAnddes();    
+            $this->view->equipo = $data_equipo;
+            $this->view->fecha_consulta = $fecha_consulta;   
+        }
+        else
+        {
+            $equipo = new Admin_Model_DbTable_Equipo();
+            $data_equipo = $equipo->_getProyectosxUidXEstadoxCliente($uid,'A',$clienteid,$unidadid);    
+            $this->view->equipo = $data_equipo;
+            $this->view->fecha_consulta = $fecha_consulta;
+        }
+        
 
         } catch (Exception $e) {
             print "Error: ".$e->getMessage();
@@ -820,17 +832,19 @@ public function sumatareorealAction(){
             and  etapa='$etapa_ejecucion' and tipo_actividad='$tipo_actividad' 
             and estado='A' and uid='$uid' and dni='$dni'
             ";
-            $update_inicio=$tareopersona -> _update($datos_inicio,$str_inicio);
-            $update_ejecucion=$tareopersona -> _update($datos_ejecucion,$str_ejecucion);
-            if ($update_inicio || $update_ejecucion) { //echo "guardo";
-            }
-            else
-            {?>
+            
+           // $update_inicio=$tareopersona -> _update($datos_inicio,$str_inicio);
+           // $update_ejecucion=$tareopersona -> _update($datos_ejecucion,$str_ejecucion);
+
+       //     if ($update_inicio || $update_ejecucion) { //echo "guardo";
+         //   }
+         //   else
+         //   {?>
                 <script>                  
                     //alert("No se guardo cargue nuevamente la pagina o ya tiene una tarea facturable creada.");
                 </script>
             <?php
-        }
+       // }
        
         } catch (Exception $e) {
             print "Error: ".$e->getMessage();

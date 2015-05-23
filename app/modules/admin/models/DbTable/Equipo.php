@@ -81,6 +81,26 @@ public function _getProyectosxUidXEstadoxCliente($uid,$estado,$clienteid,$unidad
     }
 
 
+public function _getProyectosAnddes()
+     {
+        try{
+            $sql=$this->_db->query("
+         
+                select *
+               
+                from  proyecto 
+                where clienteid='20451530535' and unidad_mineraid='10' 
+                    ");
+            $row=$sql->fetchAll();
+            return $row;           
+            }  
+            
+           catch (Exception $ex){
+            print $ex->getMessage();
+        }
+    }
+
+
 /*  consulta anterior de la muestra d eclientes 
             select 
                c.clienteid,c.nombre_comercial,c.nombre as nombre_cliente,u.unidad_mineraid,
