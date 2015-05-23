@@ -19,9 +19,16 @@
         <button data-toggle="button" class="btn btn-white">
           
           <?php 
-            $tareopersona = new Admin_Model_DbTable_Tareopersona();
-            $sumar=$tareopersona-> _getHorasRealxTipo($this->semana,$this->uid,$this->dni,$this->cargo,'P');
-            print_r($sumar[0]['tareo_persona_horas_reales_tipoactividad']);
+            // $tareopersona = new Admin_Model_DbTable_Tareopersona();
+            // $sumar=$tareopersona-> _getHorasRealxTipo($this->semana,$this->uid,$this->dni,$this->cargo,'P');
+            // print_r($sumar[0]['tareo_persona_horas_reales_tipoactividad']);
+
+            $tareopersona = new Admin_Model_DbTable_Sumahorasemana();
+            $wheres=array('dni'=>$this->dni,'uid'=>$this->uid,'semanaid'=>$this->semana);
+            $sumar=$tareopersona-> _getOne($wheres);
+            echo $sumar['billable'];
+            //print_r($sumar);
+
             echo "<br>"; 
             echo "HR Facturable";
           ?>
@@ -29,9 +36,10 @@
         <button data-toggle="button" class="btn btn-white">
           
           <?php 
-            $tareopersona = new Admin_Model_DbTable_Tareopersona();
-            $sumar=$tareopersona-> _getHorasRealxTipo($this->semana,$this->uid,$this->dni,$this->cargo,'G');
-            print_r($sumar[0]['tareo_persona_horas_reales_tipoactividad']); 
+            // $tareopersona = new Admin_Model_DbTable_Tareopersona();
+            // $sumar=$tareopersona-> _getHorasRealxTipo($this->semana,$this->uid,$this->dni,$this->cargo,'G');
+            // print_r($sumar[0]['tareo_persona_horas_reales_tipoactividad']);
+            echo $sumar['nonbillable'];             
             echo "<br>";
             echo "HR No Facturable";
           ?>
@@ -39,9 +47,10 @@
         <button data-toggle="button" class="btn btn-white">
           
           <?php 
-            $tareopersona = new Admin_Model_DbTable_Tareopersona();
-            $sumar=$tareopersona-> _getHorasRealxTipo($this->semana,$this->uid,$this->dni,$this->cargo,'');
-            print_r($sumar[0]['tareo_persona_horas_reales_tipoactividad']); 
+            // $tareopersona = new Admin_Model_DbTable_Tareopersona();
+            // $sumar=$tareopersona-> _getHorasRealxTipo($this->semana,$this->uid,$this->dni,$this->cargo,'');
+            // print_r($sumar[0]['tareo_persona_horas_reales_tipoactividad']);
+            echo $sumar['h_total'];             
             echo "<br>";
             echo "Total";
           ?>
