@@ -222,9 +222,15 @@ $data_rendicion = $this->data_rendicion;
                                     <td>
                                         <?php if ($data_rendicion['estado'] == "E") { ?>
                                             <span><?php echo $data_actividades['laboratorio_PU']; ?></span>
+<<<<<<< HEAD
+                                            <?php echo $data_actividades['gasto_persona_id'] ?>
+                                        } else { ?>
+                                            <center><input name="lab_pu[]" type="text" class="form-control" style="width : 50px" value="<?php echo ($data_actividades['laboratorio_PU'])? $data_actividades['laboratorio_PU'] : ''; ?>" <?php echo ($data_actividades['gastoid'] == '')? readonly: '';?>></center>
+=======
                                             <?php
                                             } else { ?>
                                             <center><input name="lab_pu[]" type="text" class="form-control" style="width : 50px" value="<?php echo ($data_actividades['laboratorio_PU'])? $data_actividades['laboratorio_PU'] : ''; ?>"/></center>
+>>>>>>> fc7e7dafcb591f5c5e278f5403ddad7bdca216b5
                                         <?php
                                         } ?>
                                     </td>

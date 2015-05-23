@@ -63,5 +63,16 @@ class Admin_Model_DbTable_Sumahorasemana extends Zend_Db_Table_Abstract
             print "Error: Read Filter competencia ".$e->getMessage();
         }
     }
+
+
+    public function _update($data,$str=''){
+        try{
+            if ($str=="") return false;
+            return $this->update($data,$str);
+        }catch (Exception $ex){
+           print "Error: Actualizando un registro de Propuesta".$ex->getMessage();
+        }
+    }
+
  
 }

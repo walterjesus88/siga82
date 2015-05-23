@@ -11,6 +11,10 @@
     $rol = $sesion -> rid;
     $dni = $sesion -> dni;
     $is_gerente = $sesion->is_gerente;
+    $is_jefe = $sesion->is_jefe;
+    $is_responsable = $sesion->is_responsable;
+    $is_gerente_area = $sesion->is_gerente_area;
+
 ?>
 <html lang="es">
     <head>
@@ -174,12 +178,55 @@
                             <span>Control Documentario</span>
                         </a>
                     </li>
-                    <li>
-                        <a href="/timesheet/index/calendar">
-                            <i class="fa fa-calendar-o"></i>
-                            <span>Hoja de Tiempo</span>
-                        </a>
-                    </li>
+                   
+
+                     <?php 
+                    if ($is_jefe == 'S') { ?>
+                        <li class="sub-menu">
+                            <a href="##" >
+                                <i class="fa fa-suitcase"></i>
+                              <span>Hoja de Tiempo</span>
+                            </a>
+                            <ul class="sub">
+                                <li><a  href="/timesheet/index/timesheetaprobacion">Aprobación</a></li>
+                                <li><a  href="/timesheet/index/calendar">Rendición</a></li>
+                            </ul>
+                        </li>
+                    <?php     
+                     } 
+
+                   if ($is_gerente == 'S') { ?>
+
+
+                      <li class="sub-menu">
+                            <a href="##" >
+                                <i class="fa fa-suitcase"></i>
+                              <span>Hoja de Tiempo</span>
+                            </a>
+                            <ul class="sub">
+                                <li><a  href="/timesheet/index/timesheetaprobaciongerente">Aprobación</a></li>
+                                <li><a  href="/timesheet/index/calendar">Rendición</a></li>
+                                <li><a  href="/timesheet/index/timesheethistorico">Historico</a></li>
+                            </ul>
+                        </li>
+
+
+                     <?
+                 }
+                      
+             if ($is_gerente == 'N' && $is_jefe == 'N' )  { 
+
+                      ?>
+
+
+                        <li>
+                            <a href="/timesheet/index/calendar">
+                                <i class="fa fa-money"></i>
+                                <span>Hoja de Tiempo</span>
+                            </a>
+                        </li>
+                  <?php }?>
+
                     <?php 
                     if ($is_gerente == 'S') { ?>
                         <li class="sub-menu">

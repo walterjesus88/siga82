@@ -365,6 +365,32 @@ class Admin_Model_DbTable_Tareopersona extends Zend_Db_Table_Abstract
     }
 
 
+    public function _getTareoxPersonaxSemanaxActividadidxReplicon($uid,$dni,$semanaid,$actividad_padre,$actividadid,$codigo_actividad,$codigo_prop_proy,$proyectoid,$revision)
+     {
+        try{
+            $sql=$this->_db->query("
+                select * from tareo_persona as tareo 
+                inner join actividad as act
+                on tareo.actividadid=act.actividadid and tareo.codigo_actividad=act.codigo_actividad 
+                    and tareo.codigo_prop_proy=act.codigo_prop_proy
+                    and tareo.revision=act.revision
+                inner join proyecto as pro on tareo.codigo_prop_proy=pro.codigo_prop_proy
+                    and tareo.revision=pro.revision and tareo.proyectoid=pro.proyectoid 
+                where tareo.uid='$uid' and tareo.dni='$dni' and tareo.semanaid='$semanaid' 
+                and tareo.actividadid='$actividadid' and tareo.actividad_padre='$actividad_padre'
+                and tareo.codigo_actividad='$codigo_actividad'
+                and tareo.proyectoid='$proyectoid' 
+                and tareo.etapa like 'INICIO%'  order by tareo.proyectoid,tareo.actividadid,tipo_actividad desc 
+            ");
+            $row=$sql->fetchAll();
+            return $row;           
+            }  
+            
+           catch (Exception $ex){
+            print $ex->getMessage();
+        }
+    }
+
 
 
 }
