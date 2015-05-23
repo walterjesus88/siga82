@@ -526,16 +526,9 @@
                     var fecha = $("#fechasemana").text();
 
                     var url="/timesheet/index/updateetapanb/codigo/"+codigo_prop_proy+"/codigo_actividad/"+codigo_actividad+"/actividadid/"+actividadid+"/revision/"+revision+"/actividad_padre/"+actividad_padre+"/proyectoid/"+proyectoid+"/semanaid/"+semanaid+"/fecha_tarea/"+fecha_tarea+"/asignado/"+asignado+"/areaid/"+areaid+"/categoriaid/"+categoriaid+"/dni/"+dni+"/cargo/"+cargo+"/tipo_actividad/"+tipo_actividad+"/etapa/"+etapa+"/fecha_planificacion/"+fecha_planificacion+"/tarea_general/"+tarea_general+"/fecha/"+fecha;
-<<<<<<< HEAD
-                     //alert(url);
-=======
-                     
-<<<<<<< HEAD
+
                     alert(url);
-=======
-                    //alert(url);
->>>>>>> 19e12f4a5c8c03df2fe544cfffdf9a6237fd8bce
->>>>>>> 9a5d4365c0d65a596a9a7cfa07d4715349491f0d
+
                    
                     if (isNaN(tarea_general)) {
                            //entonces (no es numero) devuelvo el valor cadena vacia 
@@ -897,20 +890,7 @@
                      var fecha = $("#fechasemana").text();
 
                     var url="/timesheet/index/guardaractividadgeneral/codigo/"+codigo_prop_proy+"/codigo_actividad/"+codigo_actividad+"/actividadid/"+actividadid+"/revision/"+revision+"/actividad_padre/"+actividad_padre+"/proyectoid/"+proyectoid+"/semanaid/"+semanaid+"/fecha_tarea/"+fecha_tarea+"/asignado/"+asignado+"/areaid/"+areaid+"/categoriaid/"+categoriaid+"/dni/"+dni+"/cargo/"+cargo+"/tipo_actividad/"+tipo_actividad+"/etapa/"+etapa+"/fecha_planificacion/"+fecha_planificacion+"/fecha/"+fecha;
-                     //alert(url);
-                     //$("#carga_nueva").load(url);
-                      $.ajax({
-                        type: "POST",
-                        url: url,
-                        data: $(this).serialize(),
-                        dataType: "html",                                                 
-                        error: function(){
-                              alert("error petición ajax load");
-                        },
-                        success: function(data){      
-                                $("#carga_nueva").html(data);     
-                        }
-                      });                
+                    
 
                     var dateObj = new Date();
                     var dateFrom = $.datepicker.formatDate('mm/dd/yy', dateObj);
@@ -929,22 +909,34 @@
 
                     fecha_inicio = mostrarFecha(dateObj,-num_day);
                     urlfecha="/timesheet/index/registro/fecha/" + fecha_inicio;
-                    //alert(urlfecha);
-                    //$("#registro").load(urlfecha);
-                        $.ajax({
+                     //alert(url);
+                     //$("#carga_nueva").load(url);
+                      $.ajax({
                         type: "POST",
-                        url: urlfecha,
+                        url: url,
                         data: $(this).serialize(),
                         dataType: "html",                                                 
                         error: function(){
                               alert("error petición ajax load");
                         },
                         success: function(data){      
-                                $("#registro").html(data);     
+                                $("#carga_nueva").html(data);
+                                $.ajax({
+                                  type: "POST",
+                                  url: urlfecha,
+                                  data: $(this).serialize(),
+                                  dataType: "html",                                                 
+                                  error: function(){
+                                        alert("error petición ajax load");
+                                  },
+                                  success: function(data){      
+                                          $("#registro").html(data);     
+                                  }
+                                });       
                         }
-                      });                
-
-
+                      });
+                    //alert(urlfecha);
+                    //$("#registro").load(urlfecha);
                   });
                 });
             
@@ -972,48 +964,53 @@
                     
                     
                     var url="/timesheet/index/eliminartareo/codigo/"+codigo_prop_proy+"/codigo_actividad/"+codigo_actividad+"/actividadid/"+actividadid+"/revision/"+revision+"/actividad_padre/"+actividad_padre+"/proyectoid/"+proyectoid+"/semanaid/"+semanaid+"/fecha_tarea/"+fecha_tarea+"/asignado/"+asignado+"/areaid/"+areaid+"/categoriaid/"+categoriaid+"/dni/"+dni+"/cargo/"+cargo+"/tipo_actividad/"+tipo_actividad+"/etapa/"+etapa+"/fecha_planificacion/"+fecha_planificacion+"/actividad_generalid/"+actividad_generalid;
-                    var r = confirm("Desea Eliminar esta tarea!");
-                    if (r == true) {
-                     // $("#tr_tareo_<?php echo $j?>").hide();
-                    //alert(url);
-                    //e.preventDefault;
-                    $.ajax({
-                        type: "POST",
-                        url: url,
-                        data: $(this).serialize(),
-                        dataType: "html",
-                        success: function(data){      
-                            $("#carga_nueva").html(data);     
-                        }
-                    });
 
-                    //$("#carga_nueva").load(url);
                     var dateObj = new Date();
                     var dateFrom = $.datepicker.formatDate('mm/dd/yy', dateObj);
                     var weekfrom = $.datepicker.iso8601Week(new Date(dateFrom));
                     var diasSemana = new Array("Domingo","Lunes","Martes","Miércoles","Jueves","Viernes","Sábado");
                     var day_select = diasSemana[dateObj.getDay()];
-                    for (i = 0; i < diasSemana.length; i++) { 
-                      if (diasSemana[i] == day_select) {
-                        if (i == 0) {
-                          var num_day = 6;
-                        } else {
-                          var num_day = i - 1;
+                      for (i = 0; i < diasSemana.length; i++) 
+                      { 
+                        if (diasSemana[i] == day_select) {
+                            if (i == 0) {
+                                  var num_day = 6;
+                            } else {
+                                  var num_day = i - 1;
+                            };
                         };
                       };
-                    };
+
                     fecha_inicio = mostrarFecha(dateObj,-num_day);
-                     //document.location.href="/timesheet/index/calendar";
+                    //document.location.href="/timesheet/index/calendar";
                     urlfecha="/timesheet/index/registro/fecha/" + fecha_inicio;
-                    $.ajax({
-                        type: "POST",
-                        url: urlfecha,
-                        data: $(this).serialize(),
-                        dataType: "html",
-                        success: function(data){      
-                            $("#registro").html(data);     
-                        }
-                    });
+                            
+
+                    var r = confirm("Desea Eliminar esta tarea!");
+                    if (r == true)
+                    {
+                     // $("#tr_tareo_<?php echo $j?>").hide();
+                    //alert(url);
+                    //e.preventDefault;
+                            $.ajax({
+                                type: "POST",
+                                url: url,
+                                data: $(this).serialize(),
+                                dataType: "html",
+                                success: function(data){      
+                                    $("#carga_nueva").html(data);
+                                    $.ajax({
+                                        type: "POST",
+                                        url: urlfecha,
+                                        data: $(this).serialize(),
+                                        dataType: "html",
+                                        success: function(data){      
+                                            $("#registro").html(data);     
+                                        }
+                                    });     
+                                }
+                            });
+                    //$("#carga_nueva").load(url);
                     //$("#registro").load();
                     }
                   });
