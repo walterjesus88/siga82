@@ -167,11 +167,12 @@ class Expense_IndexController extends Zend_Controller_Action {
         $gasto = new Admin_Model_DbTable_Gastopersona();
         $data_gasto = $gasto->_getgastoProyectosXfecha(date("Y-m-d"), $uid, $dni);
         for ($i=0; $i < count($data_gasto); $i++) { 
+            $order = array('gasto_persona_id ASC');
             $wheretmp ['uid'] = $uid;
             $wheretmp ['dni'] = $dni;
             $wheretmp ['fecha_gasto'] = date("Y-m-d");
             $wheretmp ['proyectoid'] = $data_gasto[$i]['proyectoid'];
-            $data_gasto_final = $gasto->_getFilter($wheretmp,$attrib=null,$orders=null);
+            $data_gasto_final = $gasto->_getFilter($wheretmp,$attrib=null,$order);
 
             $pk ['proyectoid'] = $data_gasto[$i]['proyectoid'];
             $pk ['codigo_prop_proy'] = $data_gasto_final[0]['codigo_prop_proy'];

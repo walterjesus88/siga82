@@ -50,7 +50,7 @@ $data_rendicion = $this->data_rendicion;
                     <span><?php echo $data_rendicion['monto_total']; ?></span>
                         <?php
                     } else { ?>
-                        <input name="monto_total" type="text" class="form-control" value="<?php echo ($data_rendicion['monto_total'])? $data_rendicion['monto_total']: '';?>"/>
+                        <input name="monto_total" type="text" class="form-control" value="<?php echo ($data_rendicion['monto_total'])? $data_rendicion['monto_total']: '';?>" readonly/>
                     <?php 
                     } ?>
                     </div>
@@ -62,7 +62,7 @@ $data_rendicion = $this->data_rendicion;
                     <span><?php echo $data_rendicion['monto_reembolso']; ?></span>
                         <?php
                     } else { ?>
-                        <input name="monto_reembolso" type="text" class="form-control" value="<?php echo ($data_rendicion['monto_reembolso'])? $data_rendicion['monto_reembolso']: '';?>"/>
+                        <input name="monto_reembolso" type="text" class="form-control" value="<?php echo ($data_rendicion['monto_reembolso'])? $data_rendicion['monto_reembolso']: '';?>" readonly/>
                     <?php 
                     } ?>
                     </div>
@@ -74,7 +74,7 @@ $data_rendicion = $this->data_rendicion;
                     <span><?php echo $data_rendicion['monto_cliente']; ?></span>
                         <?php
                     } else { ?>
-                        <input name="monto_cliente" type="text" class="form-control" value="<?php echo ($data_rendicion['monto_cliente'])? $data_rendicion['monto_cliente']: '';?>"/>
+                        <input name="monto_cliente" type="text" class="form-control" value="<?php echo ($data_rendicion['monto_cliente'])? $data_rendicion['monto_cliente']: '';?>" readonly/>
                     <?php 
                     } ?>
                     </div>
@@ -368,6 +368,26 @@ $data_rendicion = $this->data_rendicion;
                                         };
                                         var total = parseFloat(neto)+parseFloat(igv);
                                         $("#igv<?php echo $data_actividades['gasto_persona_id'] ?>").val(igv);
+                                        $("#total<?php echo $data_actividades['gasto_persona_id'] ?>").val(total);
+                                    });
+
+                                    $("#igv<?php echo $data_actividades['gasto_persona_id'] ?>").keyup(function(){
+                                        var neto = $("#neto<?php echo $data_actividades['gasto_persona_id'] ?>").val();
+                                        var otro = $("#otro_imp<?php echo $data_actividades['gasto_persona_id'] ?>").val();
+                                        var igv_tmp = $(this).val();
+                                        if (otro == '' || otro =='0') {
+                                            var igv = igv_tmp;
+                                        } else {
+                                            var other_igv = (neto *(otro/100))
+                                            var new_neto = parseFloat(neto)+parseFloat(other_igv);
+                                            var igv = igv_tmp;
+                                        };
+                                        if (igv == '' || igv =='0') {
+                                            new_igv = 0;
+                                        } else {
+                                            new_igv = igv;
+                                        };
+                                        var total = parseFloat(neto)+parseFloat(new_igv);
                                         $("#total<?php echo $data_actividades['gasto_persona_id'] ?>").val(total);
                                     });
 
