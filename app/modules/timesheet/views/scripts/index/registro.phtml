@@ -14,7 +14,7 @@
       </section>
     </div>
   <div class="col-lg-4">
-    <section class="panel">
+<section class="panel">
       <div class="panel-body" style="padding-bottom: 10px;padding-top: 12px;">
         <button data-toggle="button" class="btn btn-white">
           
@@ -22,7 +22,7 @@
             $tareopersona = new Admin_Model_DbTable_Tareopersona();
             $sumar=$tareopersona-> _getHorasRealxTipo($this->semana,$this->uid,$this->dni,$this->cargo,'P');
             print_r($sumar[0]['tareo_persona_horas_reales_tipoactividad']);
-            echo "<br>"; echo "aaaa";
+            echo "<br>"; 
             echo "HR Facturable";
           ?>
         </button>
@@ -80,7 +80,9 @@
         
       </div>
     </section>
+
   </div>
+  
 </div>
 
 
@@ -94,9 +96,9 @@
           <thead>
             <tr >
             <th style="width: 5%;">  </th>
-            <th style="width: 40%;" >Proyecto / Actividad</th>
+            <th style="width: 40%;" >Proyecto / Actividad: TareaSS</th>
             <th style="width: 7%;">Facturable</th>
-            <th style="width: 12%;"><center>Tarea No Facturable</center></th>
+            <th style="width: 12%;">Tarea No Facturable</th>
             <?php 
               $fecha = $this->fecha;
               $fecha_mostrar = $this->fecha_mostrar;
@@ -134,7 +136,7 @@
               </td>
              
               <td>
-                <?php echo $data_tareo['proyectoid'];  echo " "; echo $data_tareo['nombre_proyecto'];  echo " / "; echo $data_tareo['nombre'] ?>
+                <?php echo $data_tareo['nombre_proyecto'];  echo " / "; echo $data_tareo['actividadid']; echo ": ";echo $data_tareo['nombre'] ?>
               </td>            
 
               <td>
@@ -162,7 +164,7 @@
                                       $data_generales = $actividad_generales->_getActividadgeneralxArea($areaid);
                                       foreach ($data_generales as $data_tareas)
                                       { ?>
-                                      <option value="<?php echo $data_tareas['actividad_generalid']?>"><?php  echo strtoupper($data_tareas['nombre'])?></option>
+                                      <option value="<?php echo $data_tareas['actividad_generalid']?>"><?php  echo $data_tareas['nombre']?></option>
                                       <?php }?>
                         </select>
                       <?php
@@ -177,7 +179,7 @@
                                           $actividad_generales = new Admin_Model_DbTable_Actividadgeneral();
                                           $data_generales = $actividad_generales->_getActividadgeneralxArea($areaid);
                                           foreach ($data_generales as $data_tareas) {?>
-                                          <option value="<?php echo $data_tareas['actividad_generalid']?>"><?php  echo strtoupper($data_tareas['nombre'])?></option>
+                                          <option value="<?php echo $data_tareas['actividad_generalid']?>"><?php  echo $data_tareas['nombre']?></option>
                                       <?php }?>
                         </select>
                       <?php 
@@ -199,7 +201,7 @@
                                       $actividad_generales = new Admin_Model_DbTable_Actividadgeneral();
                                       $data_generales = $actividad_generales->_getActividadgeneralxArea($areaid);
                                       foreach ($data_generales as $data_tareas) {?>
-                                      <option value="<?php echo $data_tareas['actividad_generalid']?>"><?php  echo strtoupper($data_tareas['nombre'])?></option>
+                                      <option value="<?php echo $data_tareas['actividad_generalid']?>"><?php  echo $data_tareas['nombre']?></option>
                                   <?php }?>
                     </select>
 
