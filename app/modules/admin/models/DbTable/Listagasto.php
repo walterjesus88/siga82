@@ -29,6 +29,20 @@ class Admin_Model_DbTable_Listagasto extends Zend_Db_Table_Abstract
         }
     }
 
+    public function _getGastosHijos(){
+        try{
+            $sql=$this->_db->query("
+                select * from lista_gasto where length(gasto_padre) = 1 and estado = 'A' 
+                order by tipo_gasto, cast(gastoid as float)
+            ");
+            $row=$sql->fetchAll();
+            return $row;           
+            }  
+            catch (Exception $ex){
+            print $ex->getMessage();
+        }
+    }
+
     public function _getGastosXgastopadre($gastoid, $tipo_gasto){
         try{
             $sql=$this->_db->query("
