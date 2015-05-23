@@ -179,10 +179,11 @@ class Expense_IndexController extends Zend_Controller_Action {
             $data_proyecto = $proyecto->_getOne($pk);
             for ($n=0; $n < count($data_gasto_final); $n++) { 
                 $data_gasto_final[$n]['nombre_proyecto'] = $data_proyecto['nombre_proyecto'];
+                $data_gasto_final[$n]['tipo_proyecto'] = $data_proyecto['tipo_proyecto'];
             }
             $data_gasto[$i] = $data_gasto_final[0];
 
-            $temp_gasto = $gasto->_getgastoProyectoXfechaXactividad($wheretmp);
+            /*$temp_gasto = $gasto->_getgastoProyectoXfechaXactividad($wheretmp);
             if ($temp_gasto) {
                 $actividad = new Admin_Model_DbTable_Actividad();
                 for ($j=0; $j < count($temp_gasto); $j++) { 
@@ -190,7 +191,8 @@ class Expense_IndexController extends Zend_Controller_Action {
                     $temp_gasto[$j]['nombre'] = $data_actividad[0]['nombre'];
                 }
             }
-            $data_gasto[$i]['actividades'] = ($temp_gasto)? $temp_gasto : $data_gasto_final;
+            $data_gasto[$i]['actividades'] = ($temp_gasto)? $temp_gasto : $data_gasto_final;*/
+            $data_gasto[$i]['actividades'] = $data_gasto_final;
         }
         $this->view->gasto = $data_gasto;
         
@@ -203,7 +205,7 @@ class Expense_IndexController extends Zend_Controller_Action {
         $this->view->data_rendicion = $data_rendicion;
 
         $gastos = new Admin_Model_DbTable_Listagasto();
-        $data_list_gastos = $gastos->_getGastosPadres();
+        $data_list_gastos = $gastos->_getGastosHijos();
         $this->view->list_gastos = $data_list_gastos;
 
         $data_all_gastos = $gastos->_getGastosAll();
@@ -221,19 +223,6 @@ class Expense_IndexController extends Zend_Controller_Action {
             $gastos = new Admin_Model_DbTable_Listagasto();
             $data_hijos = $gastos->_getGastosXgastopadre($gastoid, $tipo_gasto);
             $this->view->hijos = $data_hijos;
-        } catch (Exception $e) {
-            print "Error: ".$e->getMessage();
-        }
-    }
-
-    public function gastonietoAction(){
-        try {
-            $this->_helper->layout()->disableLayout();
-            $tmp = $this->_getParam('gastoid');
-            list($gastoid, $tipo_gasto) = split('[-]', $tmp);
-            $gastos = new Admin_Model_DbTable_Listagasto();
-            $data_nietos = $gastos->_getGastosXgastopadre($gastoid, $tipo_gasto);
-            $this->view->nietos = $data_nietos;
         } catch (Exception $e) {
             print "Error: ".$e->getMessage();
         }
@@ -353,7 +342,6 @@ class Expense_IndexController extends Zend_Controller_Action {
             $description = $this->_getParam('description');
             $gasto_padre = $this->_getParam('gasto_padre');
             $gasto_hijo = $this->_getParam('gasto_hijo');
-            $gasto_nieto = $this->_getParam('gasto_nieto');
             $lab_cantidad = $this->_getParam('lab_cantidad');
             $lab_pu = $this->_getParam('lab_pu');
             $cliente = $this->_getParam('cliente');
@@ -375,14 +363,10 @@ class Expense_IndexController extends Zend_Controller_Action {
                     'codigo_prop_proy'=>$codigo_prop_proy[$i]);
                 $data = array();
                 $data['descripcion'] = $description[$i];
-                if ($gasto_nieto[$i]!='') {
-                    $data['gastoid'] = $gasto_nieto[$i];
+                if ($gasto_hijo[$i]!='') {
+                    $data['gastoid'] = $gasto_hijo[$i];
                 } else {
-                    if ($gasto_hijo[$i]!='') {
-                        $data['gastoid'] = $gasto_hijo[$i];
-                    } else {
-                        $data['gastoid'] = $gasto_padre[$i];
-                    }
+                    $data['gastoid'] = $gasto_padre[$i];
                 }
                 $data['laboratorio_cantidad'] = $lab_cantidad[$i];
                 $data['laboratorio_PU'] = $lab_pu[$i];
