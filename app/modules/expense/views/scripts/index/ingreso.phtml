@@ -10,13 +10,7 @@ $data_rendicion = $this->data_rendicion;
                 <div class="form-group">
                     <label class="col-lg-4 col-sm-4 control-label" style="font-size : 12px">N° Rendición</label>
                     <div class="col-lg-8">
-                    <?php if ($data_rendicion['estado'] == "E") { ?>
-                        <span><?php echo $data_rendicion['numero']; ?></span>
-                        <?php
-                    } else { ?>
-                        <input name="numero" type="text" class="form-control" value="<?php echo ($data_rendicion['numero'])? $data_rendicion['numero']: '';?>"/>
-                    <?php 
-                    } ?>
+                        <input name="nombre" type="text" class="form-control" value="<?php echo $data_rendicion['numero'];?>" readonly/>
                     </div>
                 </div>
                 <div class="form-group">
@@ -155,7 +149,7 @@ $data_rendicion = $this->data_rendicion;
                                 <tr class="gradeX">
                                     <?php if ($data_rendicion['estado'] != "E") { ?>
                                     <td>
-                                        <a href="##" class="btn btn-warning btn-xs duplicar_actividad" title="Duplicar" gasto-persona-id="<?php echo $data_actividades['gasto_persona_id'] ?>" proyectoid="<?php echo $data_actividades['proyectoid']?>" codigo-prop-proy="<?php echo $data_actividades['codigo_prop_proy']?>">
+                                        <a href="##" class="btn btn-warning btn-xs duplicar_actividad" title="Duplicar" gasto-persona-id="<?php echo $data_actividades['gasto_persona_id'] ?>" proyectoid="<?php echo $data_actividades['proyectoid']?>" codigo-prop-proy="<?php echo $data_actividades['codigo_prop_proy']?>" categoriaid="<?php echo $data_actividades['categoriaid']?>" areaid="<?php echo $data_actividades['areaid']?>" cargo="<?php echo $data_actividades['cargo']?>" revision="<?php echo $data_actividades['revision']?>" actividadid="<?php echo $data_actividades['actividadid']?>">
                                                 <strong>+</strong>
                                         </a>
                                             
@@ -408,8 +402,17 @@ $data_rendicion = $this->data_rendicion;
         var gasto_persona_id = $(this).attr('gasto-persona-id');
         var proyectoid = $(this).attr('proyectoid');
         var codigo_prop_proy = $(this).attr('codigo-prop-proy');
+        var categoriaid = $(this).attr('categoriaid');
+        var areaid = $(this).attr('areaid');
+        var cargo = $(this).attr('cargo');
+        var revision = $(this).attr('revision');
+        var actividadid = $(this).attr('actividadid');
+        var url2 = "/expense/index/guardargastopersona/proyectoid/"+proyectoid+"/codigo-prop-proy/"+codigo_prop_proy+"/categoriaid/"+categoriaid+"/areaid/"+areaid+"/cargo/"+cargo+"/revision/"+revision+"/actividadid/"+actividadid;
+        //alert(url2);
+        $("#load_duplicidad").load(url2);
+        $("#ingreso").load("/expense/index/ingreso/");
 
-        $.ajax({
+        /*$.ajax({
             type   : 'post',
             url    : '/expense/index/updategastorendicion/',
             data   : $('#form_rendicion').serialize(),
@@ -425,7 +428,7 @@ $data_rendicion = $this->data_rendicion;
                     }
                 });
             }
-        });
+        });*/
     });
 
     $(".delete_actividad").click(function(){
