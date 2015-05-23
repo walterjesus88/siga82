@@ -407,10 +407,24 @@ $data_rendicion = $this->data_rendicion;
         var cargo = $(this).attr('cargo');
         var revision = $(this).attr('revision');
         var actividadid = $(this).attr('actividadid');
-        var url2 = "/expense/index/guardargastopersona/proyectoid/"+proyectoid+"/codigo-prop-proy/"+codigo_prop_proy+"/categoriaid/"+categoriaid+"/areaid/"+areaid+"/cargo/"+cargo+"/revision/"+revision+"/actividadid/"+actividadid;
-        //alert(url2);
-        $("#load_duplicidad").load(url2);
-        $("#ingreso").load("/expense/index/ingreso/");
+
+        $.ajax({
+            type   : 'post',
+            url    : '/expense/index/updategastorendicion/',
+            data   : $('#form_rendicion').serialize(),
+            success: function(data){
+                $.ajax({
+                    type   : 'post',
+                    url    : '/expense/index/updategastopersona/',
+                    data   : $('#form_gastos').serialize(),
+                    success: function(data){
+                        var url2 = "/expense/index/guardargastopersona/proyectoid/"+proyectoid+"/codigo-prop-proy/"+codigo_prop_proy+"/categoriaid/"+categoriaid+"/areaid/"+areaid+"/cargo/"+cargo+"/revision/"+revision+"/actividadid/"+actividadid;
+                        $("#load_duplicidad").load(url2);
+                        $("#ingreso").load("/expense/index/ingreso/");
+                    }
+                });
+            }
+        });
 
         /*$.ajax({
             type   : 'post',
