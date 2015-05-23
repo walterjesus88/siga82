@@ -374,7 +374,7 @@
                         var etapa="<?php echo $data_tareo['etapa'] ?>";                        
                         var actividad_generalid="<?php echo $data_tareo['actividad_generalid'] ?>";
                         var h_propuesta="<?php echo $data_tareo['h_propuesta'] ?>";
-                       var fecha_calendario = $("#fechasemana").text();
+                        var fecha_calendario = $("#fechasemana").text();
                         
                         var uid="<?php echo $this->uid ?>";
                         var dni_="<?php echo $this->dni ?>";
@@ -889,9 +889,18 @@
                     var fecha_planificacion="<?php echo $data_tareo['fecha_planificacion']?>";
                      var fecha = $("#fechasemana").text();
 
+                        // var actividad_generalid="<?php echo $data_tareo['actividad_generalid'] ?>";
+                        // alert(actividad_generalid);
+                        // if(actividad_generalid==null){
+                        //   alert("no puedes duplicar ya que no tiene asignada una actividad general"):
+                        //   //preventDefault;                          
+                        // }
+                      
+
+
                     var url="/timesheet/index/guardaractividadgeneral/codigo/"+codigo_prop_proy+"/codigo_actividad/"+codigo_actividad+"/actividadid/"+actividadid+"/revision/"+revision+"/actividad_padre/"+actividad_padre+"/proyectoid/"+proyectoid+"/semanaid/"+semanaid+"/fecha_tarea/"+fecha_tarea+"/asignado/"+asignado+"/areaid/"+areaid+"/categoriaid/"+categoriaid+"/dni/"+dni+"/cargo/"+cargo+"/tipo_actividad/"+tipo_actividad+"/etapa/"+etapa+"/fecha_planificacion/"+fecha_planificacion+"/fecha/"+fecha;
                     
-
+                    alert(url);
                     var dateObj = new Date();
                     var dateFrom = $.datepicker.formatDate('mm/dd/yy', dateObj);
                     var weekfrom = $.datepicker.iso8601Week(new Date(dateFrom));
@@ -909,7 +918,7 @@
 
                     fecha_inicio = mostrarFecha(dateObj,-num_day);
                     urlfecha="/timesheet/index/registro/fecha/" + fecha_inicio;
-                     //alert(url);
+                     
                      //$("#carga_nueva").load(url);
                       $.ajax({
                         type: "POST",
@@ -964,6 +973,8 @@
                     
                     
                     var url="/timesheet/index/eliminartareo/codigo/"+codigo_prop_proy+"/codigo_actividad/"+codigo_actividad+"/actividadid/"+actividadid+"/revision/"+revision+"/actividad_padre/"+actividad_padre+"/proyectoid/"+proyectoid+"/semanaid/"+semanaid+"/fecha_tarea/"+fecha_tarea+"/asignado/"+asignado+"/areaid/"+areaid+"/categoriaid/"+categoriaid+"/dni/"+dni+"/cargo/"+cargo+"/tipo_actividad/"+tipo_actividad+"/etapa/"+etapa+"/fecha_planificacion/"+fecha_planificacion+"/actividad_generalid/"+actividad_generalid;
+
+                    alert(url);
 
                     var dateObj = new Date();
                     var dateFrom = $.datepicker.formatDate('mm/dd/yy', dateObj);

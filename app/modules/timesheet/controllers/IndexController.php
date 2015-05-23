@@ -664,7 +664,7 @@ public function eliminartareoAction(){
         $actividad_generalid=$this->_getParam('actividad_generalid');
         $etapa=$this->_getParam('etapa');
 
-        if($etapa=='INICIO' or $etaoa='EJECUCION-NB-')
+        if($etapa=='INICIO' or $etapa=='EJECUCION-NB-' or $etapa=='INICIO-NB-')
         {
             $pk1  =   array(                        
             'codigo_prop_proy'   =>$codigo_prop_proy,
@@ -684,7 +684,7 @@ public function eliminartareoAction(){
         }
 
 
-         if($actividad_generalid=='')
+         if($actividad_generalid=='' )
          {
             $pk1  =   array(                        
             'codigo_prop_proy'   =>$codigo_prop_proy,
