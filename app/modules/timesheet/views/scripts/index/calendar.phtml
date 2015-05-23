@@ -1,4 +1,25 @@
 <body onload="cargardatos()"> 
+
+<?php 
+ $sumahorassemana = new Admin_Model_DbTable_Sumahorasemana();
+            $wheres=array('dni'=>$this->dni,'uid'=>$this->uid,'semanaid'=>$this->semana);
+            $tareosemana=$sumahorassemana->_getOne($wheres);
+            $estado_horas=$tareosemana['estado'];
+            echo $estado_horas;
+
+
+
+ 
+$ancho = "<script> document.write(fecha_inicio) </script>";
+echo $ancho;
+
+ 
+
+
+
+?>
+
+
 <section class="panel">
 
 <header class="panel-heading" style="padding-bottom : 10px">
@@ -9,7 +30,7 @@
             <i class="fa fa-calendar"></i> Calendario
         </a>
         
-           
+   <!--        
          <a id = "" class="btn btn-primary pull-right btn-xs"  href="" style="margin-right : 10px">
             <i class="fa fa-print"></i> Imprimir
         </a>
@@ -22,8 +43,7 @@
 
         <a id = "add_work" class="btn btn-success pull-right btn-xs" data-toggle="modal" href="#agregar" style="margin-right : 10px">
             <i class="fa fa-check-square-o"></i> Agregar
-        </a>
-        </span>
+        </a>-->
     </header>
 
     
