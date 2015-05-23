@@ -830,19 +830,9 @@ public function sumatareorealAction(){
             revision='$revision' and codigo_actividad='$codigo_actividad'
             and actividad_padre='$actividad_padre'   and semanaid='$semanaid' and areaid='$areaid' 
             and  etapa='$etapa_ejecucion' and tipo_actividad='$tipo_actividad' 
-<<<<<<< HEAD
             and estado='A' and uid='$uid' and dni='$dni'
             ";
             
-           // $update_inicio=$tareopersona -> _update($datos_inicio,$str_inicio);
-           // $update_ejecucion=$tareopersona -> _update($datos_ejecucion,$str_ejecucion);
-
-       //     if ($update_inicio || $update_ejecucion) { //echo "guardo";
-         //   }
-         //   else
-         //   {?>
-=======
-            and estado='A' and uid='$uid' and dni='$dni'";
 
             $update_inicio=$tareopersona -> _update($datos_inicio,$str_inicio);
             $update_ejecucion=$tareopersona -> _update($datos_ejecucion,$str_ejecucion);
@@ -851,13 +841,12 @@ public function sumatareorealAction(){
             if($update_inicio || $update_ejecucion) { //echo "guardo";
             }
             else
-            {?>
->>>>>>> b833b41a3fec13c53383df0703464f3c8169c61b
+            { ?>
                 <script>                  
                     alert("No se guardo cargue nuevamente la pagina o ya tiene una tarea facturable creada.");
                 </script>
             <?php
-       // }
+            }
        
         } catch (Exception $e) {
             print "Error: ".$e->getMessage();

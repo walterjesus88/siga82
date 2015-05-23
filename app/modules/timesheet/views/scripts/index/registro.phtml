@@ -542,11 +542,9 @@
 
                     var url="/timesheet/index/updateetapanb/codigo/"+codigo_prop_proy+"/codigo_actividad/"+codigo_actividad+"/actividadid/"+actividadid+"/revision/"+revision+"/actividad_padre/"+actividad_padre+"/proyectoid/"+proyectoid+"/semanaid/"+semanaid+"/fecha_tarea/"+fecha_tarea+"/asignado/"+asignado+"/areaid/"+areaid+"/categoriaid/"+categoriaid+"/dni/"+dni+"/cargo/"+cargo+"/tipo_actividad/"+tipo_actividad+"/etapa/"+etapa+"/fecha_planificacion/"+fecha_planificacion+"/tarea_general/"+tarea_general+"/fecha/"+fecha;
 
-<<<<<<< HEAD
-=======
+
                     alert(url);
 
->>>>>>> b833b41a3fec13c53383df0703464f3c8169c61b
                    
                     if (isNaN(tarea_general)) {
                            //entonces (no es numero) devuelvo el valor cadena vacia 
@@ -569,6 +567,7 @@
                       };
                     };
                     fecha_inicio = mostrarFecha(dateObj,-num_day);
+                    urlfecha="/timesheet/index/registro/fecha/" + fecha_inicio
                   //  $("#registros").load("/timesheet/index/registro/fecha/" + fecha_inicio); 
                     //document.location.href="/timesheet/index/calendar";
                     $.ajax({
@@ -580,25 +579,21 @@
                               alert("error petición ajax load");
                         },
                         success: function(data){      
-                                $("#carga").html(data);     
+                                $("#carga").html(data);
+                                $.ajax({
+                                    type: "POST",
+                                    url: urlfecha,
+                                    data: $(this).serialize(),
+                                    dataType: "html",                                                 
+                                    error: function(){
+                                          alert("error petición ajax load");
+                                    },
+                                    success: function(data){      
+                                            $("#registro").html(data);     
+                                    }
+                                });     
                         }
                     });    
-
-                    urlfecha="/timesheet/index/registro/fecha/" + fecha_inicio
-
-                     $.ajax({
-                        type: "POST",
-                        url: urlfecha,
-                        data: $(this).serialize(),
-                        dataType: "html",                                                 
-                        error: function(){
-                              alert("error petición ajax load");
-                        },
-                        success: function(data){      
-                                $("#registro").html(data);     
-                        }
-                    });    
-
                     //$("#carga").load(url);
                     //$("#registro").load();
                   }
