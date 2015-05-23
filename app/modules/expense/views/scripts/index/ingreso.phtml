@@ -10,13 +10,7 @@ $data_rendicion = $this->data_rendicion;
                 <div class="form-group">
                     <label class="col-lg-4 col-sm-4 control-label" style="font-size : 12px">N° Rendición</label>
                     <div class="col-lg-8">
-                    <?php if ($data_rendicion['estado'] == "E") { ?>
-                        <span><?php echo $data_rendicion['numero']; ?></span>
-                        <?php
-                    } else { ?>
-                        <input name="numero" type="text" class="form-control" value="<?php echo ($data_rendicion['numero'])? $data_rendicion['numero']: '';?>"/>
-                    <?php 
-                    } ?>
+                        <input name="nombre" type="text" class="form-control" value="<?php echo $data_rendicion['numero'];?>" readonly/>
                     </div>
                 </div>
                 <div class="form-group">
@@ -56,7 +50,7 @@ $data_rendicion = $this->data_rendicion;
                     <span><?php echo $data_rendicion['monto_total']; ?></span>
                         <?php
                     } else { ?>
-                        <input name="monto_total" type="text" class="form-control" value="<?php echo ($data_rendicion['monto_total'])? $data_rendicion['monto_total']: '';?>"/>
+                        <input name="monto_total" type="text" class="form-control" value="<?php echo ($data_rendicion['monto_total'])? $data_rendicion['monto_total']: '';?>" readonly/>
                     <?php 
                     } ?>
                     </div>
@@ -68,7 +62,7 @@ $data_rendicion = $this->data_rendicion;
                     <span><?php echo $data_rendicion['monto_reembolso']; ?></span>
                         <?php
                     } else { ?>
-                        <input name="monto_reembolso" type="text" class="form-control" value="<?php echo ($data_rendicion['monto_reembolso'])? $data_rendicion['monto_reembolso']: '';?>"/>
+                        <input name="monto_reembolso" type="text" class="form-control" value="<?php echo ($data_rendicion['monto_reembolso'])? $data_rendicion['monto_reembolso']: '';?>" readonly/>
                     <?php 
                     } ?>
                     </div>
@@ -80,7 +74,7 @@ $data_rendicion = $this->data_rendicion;
                     <span><?php echo $data_rendicion['monto_cliente']; ?></span>
                         <?php
                     } else { ?>
-                        <input name="monto_cliente" type="text" class="form-control" value="<?php echo ($data_rendicion['monto_cliente'])? $data_rendicion['monto_cliente']: '';?>"/>
+                        <input name="monto_cliente" type="text" class="form-control" value="<?php echo ($data_rendicion['monto_cliente'])? $data_rendicion['monto_cliente']: '';?>" readonly/>
                     <?php 
                     } ?>
                     </div>
@@ -155,7 +149,7 @@ $data_rendicion = $this->data_rendicion;
                                 <tr class="gradeX">
                                     <?php if ($data_rendicion['estado'] != "E") { ?>
                                     <td>
-                                        <a href="##" class="btn btn-warning btn-xs duplicar_actividad" title="Duplicar" gasto-persona-id="<?php echo $data_actividades['gasto_persona_id'] ?>" proyectoid="<?php echo $data_actividades['proyectoid']?>" codigo-prop-proy="<?php echo $data_actividades['codigo_prop_proy']?>">
+                                        <a href="##" class="btn btn-warning btn-xs duplicar_actividad" title="Duplicar" gasto-persona-id="<?php echo $data_actividades['gasto_persona_id'] ?>" proyectoid="<?php echo $data_actividades['proyectoid']?>" codigo-prop-proy="<?php echo $data_actividades['codigo_prop_proy']?>" categoriaid="<?php echo $data_actividades['categoriaid']?>" areaid="<?php echo $data_actividades['areaid']?>" cargo="<?php echo $data_actividades['cargo']?>" revision="<?php echo $data_actividades['revision']?>" actividadid="<?php echo $data_actividades['actividadid']?>">
                                                 <strong>+</strong>
                                         </a>
                                             
@@ -377,6 +371,26 @@ $data_rendicion = $this->data_rendicion;
                                         $("#total<?php echo $data_actividades['gasto_persona_id'] ?>").val(total);
                                     });
 
+                                    $("#igv<?php echo $data_actividades['gasto_persona_id'] ?>").keyup(function(){
+                                        var neto = $("#neto<?php echo $data_actividades['gasto_persona_id'] ?>").val();
+                                        var otro = $("#otro_imp<?php echo $data_actividades['gasto_persona_id'] ?>").val();
+                                        var igv_tmp = $(this).val();
+                                        if (otro == '' || otro =='0') {
+                                            var igv = igv_tmp;
+                                        } else {
+                                            var other_igv = (neto *(otro/100))
+                                            var new_neto = parseFloat(neto)+parseFloat(other_igv);
+                                            var igv = igv_tmp;
+                                        };
+                                        if (igv == '' || igv =='0') {
+                                            new_igv = 0;
+                                        } else {
+                                            new_igv = igv;
+                                        };
+                                        var total = parseFloat(neto)+parseFloat(new_igv);
+                                        $("#total<?php echo $data_actividades['gasto_persona_id'] ?>").val(total);
+                                    });
+
                                     $("#gasto_padre<?php echo $data_actividades['gasto_persona_id'] ?>").change(function(){
                                         var gasto_padre = $(this).val();
                                         $("#gasto_hijo<?php echo $data_actividades['gasto_persona_id'] ?>").load("/expense/index/gastohijo/gastoid/"+gasto_padre);
@@ -408,8 +422,31 @@ $data_rendicion = $this->data_rendicion;
         var gasto_persona_id = $(this).attr('gasto-persona-id');
         var proyectoid = $(this).attr('proyectoid');
         var codigo_prop_proy = $(this).attr('codigo-prop-proy');
+        var categoriaid = $(this).attr('categoriaid');
+        var areaid = $(this).attr('areaid');
+        var cargo = $(this).attr('cargo');
+        var revision = $(this).attr('revision');
+        var actividadid = $(this).attr('actividadid');
 
         $.ajax({
+            type   : 'post',
+            url    : '/expense/index/updategastorendicion/',
+            data   : $('#form_rendicion').serialize(),
+            success: function(data){
+                $.ajax({
+                    type   : 'post',
+                    url    : '/expense/index/updategastopersona/',
+                    data   : $('#form_gastos').serialize(),
+                    success: function(data){
+                        var url2 = "/expense/index/guardargastopersona/proyectoid/"+proyectoid+"/codigo-prop-proy/"+codigo_prop_proy+"/categoriaid/"+categoriaid+"/areaid/"+areaid+"/cargo/"+cargo+"/revision/"+revision+"/actividadid/"+actividadid;
+                        $("#load_duplicidad").load(url2);
+                        $("#ingreso").load("/expense/index/ingreso/");
+                    }
+                });
+            }
+        });
+
+        /*$.ajax({
             type   : 'post',
             url    : '/expense/index/updategastorendicion/',
             data   : $('#form_rendicion').serialize(),
@@ -425,7 +462,7 @@ $data_rendicion = $this->data_rendicion;
                     }
                 });
             }
-        });
+        });*/
     });
 
     $(".delete_actividad").click(function(){

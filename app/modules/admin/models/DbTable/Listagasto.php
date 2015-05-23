@@ -33,7 +33,7 @@ class Admin_Model_DbTable_Listagasto extends Zend_Db_Table_Abstract
         try{
             $sql=$this->_db->query("
                 select * from lista_gasto where length(gasto_padre) = 1 and estado = 'A' 
-                order by tipo_gasto, cast(gastoid as float)
+                order by tipo_gasto desc, cast(gastoid as float)
             ");
             $row=$sql->fetchAll();
             return $row;           
