@@ -21,10 +21,13 @@
           
           <?php 
 
+<<<<<<< HEAD
+=======
             // $tareopersona = new Admin_Model_DbTable_Tareopersona();
             // $sumar=$tareopersona-> _getHorasRealxTipo($this->semana,$this->uid,$this->dni,$this->cargo,'P');
             // print_r($sumar[0]['tareo_persona_horas_reales_tipoactividad']);
 
+>>>>>>> b833b41a3fec13c53383df0703464f3c8169c61b
             // $tareopersona = new Admin_Model_DbTable_Tareopersona();
             // $sumar=$tareopersona-> _getHorasRealxTipo($this->semana,$this->uid,$this->dni,$this->cargo,'P');
             // print_r($sumar[0]['tareo_persona_horas_reales_tipoactividad']);
@@ -60,7 +63,7 @@
             echo $sumar['h_total'];
 
             echo "<br>";
-            echo "Total";
+            echo "HR Total";
           ?>
         </button>
       </div>
@@ -135,6 +138,19 @@
             <i class="fa fa-check-square-o"></i> Agregar
         </a><?php }?>
     </div></section></div>
+<div class="alert alert-success fade in">
+  <button data-dismiss="alert" class="close close-sm" type="button">
+    <i class="fa fa-times"></i>
+  </button>
+  <?php if ($estado_horas=='P') {?>
+  <strong>Hoja de Tiempo Espera de Aprobacion</strong> Actualmente esta enviada tu hoja de timepo a espera de aprobacion de tu Jefe de Area. Gracias.
+  <?php }?>
+
+  <?php if ($estado_horas!='P') {?>
+  <strong>Hoja de Tiempo Activa</strong> Puedes llenar tu Hoja de Tiempo. Gracias.
+  <?php }?>
+
+</div>
 
 <div class="row">
   <div class="col-sm-12">
@@ -203,7 +219,7 @@
              
               <td>
 
-                <?php echo $data_tareo['nombre_proyecto'];  echo " / "; echo $data_tareo['actividadid']; echo ": ";echo $data_tareo['nombre'] ?>
+                <?php  echo $data_tareo['proyectoid']; echo " "; echo $data_tareo['nombre_proyecto'];  echo " "; echo $data_tareo['actividadid']; echo " ";echo $data_tareo['nombre'] ?>
               </td>            
 
               <td>
@@ -505,7 +521,7 @@
 
                 $("#select_generalg_<?php echo $j?>").change(function(){
                   var tarea_general = $(this).val(); 
-                  //alert(tarea_general);
+                  alert(tarea_general);
                  //alert("2");
                   var codigo_prop_proy= '<?php echo $data_tareo['codigo_prop_proy']?>';
                     var codigo_actividad='<?php echo $data_tareo['codigo_actividad']?>';
@@ -527,8 +543,11 @@
 
                     var url="/timesheet/index/updateetapanb/codigo/"+codigo_prop_proy+"/codigo_actividad/"+codigo_actividad+"/actividadid/"+actividadid+"/revision/"+revision+"/actividad_padre/"+actividad_padre+"/proyectoid/"+proyectoid+"/semanaid/"+semanaid+"/fecha_tarea/"+fecha_tarea+"/asignado/"+asignado+"/areaid/"+areaid+"/categoriaid/"+categoriaid+"/dni/"+dni+"/cargo/"+cargo+"/tipo_actividad/"+tipo_actividad+"/etapa/"+etapa+"/fecha_planificacion/"+fecha_planificacion+"/tarea_general/"+tarea_general+"/fecha/"+fecha;
 
+<<<<<<< HEAD
+=======
                     alert(url);
 
+>>>>>>> b833b41a3fec13c53383df0703464f3c8169c61b
                    
                     if (isNaN(tarea_general)) {
                            //entonces (no es numero) devuelvo el valor cadena vacia 

@@ -1,25 +1,5 @@
 <body onload="cargardatos()"> 
 
-<?php 
- $sumahorassemana = new Admin_Model_DbTable_Sumahorasemana();
-            $wheres=array('dni'=>$this->dni,'uid'=>$this->uid,'semanaid'=>$this->semana);
-            $tareosemana=$sumahorassemana->_getOne($wheres);
-            $estado_horas=$tareosemana['estado'];
-            echo $estado_horas;
-
-
-
- 
-$ancho = "<script> document.write(fecha_inicio) </script>";
-echo $ancho;
-
- 
-
-
-
-?>
-
-
 <section class="panel">
 
 <header class="panel-heading" style="padding-bottom : 10px">
@@ -98,6 +78,26 @@ echo $ancho;
                                     <?php
                                 }
                                  ?>
+                                <li >
+                                    <a style="padding:5px 5px;" class="anddes"  href="##">
+                                            <?php echo "Anddes Asociados SAC" ?>
+                                    </a>
+                                </li>
+                                                                    <script type="text/javascript">
+                                    $(".anddes").click(function(){
+
+                                     
+                                         var fecha = $("#fechasemana").text();
+                                         
+                                        var clienteid = '20451530535';
+                                        var unidadid = '10';
+                                     
+                                        $("#proyectos").load("/timesheet/index/proyectos/clienteid/"+clienteid+"/unidadid/"+unidadid+"/fecha/"+fecha);
+
+                                         alert(clienteid);
+                                         alert(unidadid);
+                                    });
+                                    </script>
                             </ul>
                         </aside>
                         <aside style="width:30%; " class="right-side">

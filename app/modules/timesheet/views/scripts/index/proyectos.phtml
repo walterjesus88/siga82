@@ -11,7 +11,11 @@
                                             <?php echo $data_equipo['proyectoid']. ' - ' .$data_equipo['nombre_proyecto'] ?>
                                         </a>
                                     </li>
-                                    <script type="text/javascript">
+
+                                    <?php
+                                }
+                                 ?>
+                                  <script type="text/javascript">
                                     $(".proyecto").click(function(){
 
                                         $("#actividades").html('');
@@ -24,12 +28,10 @@
                                         var categoriaid = $(this).attr('categoriaid');
                                         $("#actividades").load("/timesheet/index/actividades/proyectoid/"+proyectoid+"/codigo_prop_proy/"+codigo_prop_proy+"/categoriaid/"+categoriaid+"/fecha/"+fecha);
 
-                                         
+                                         alert(proyectoid);
+                                         alert(codigo_prop_proy);
                                     });
                                     </script>
-                                    <?php
-                                }
-                                 ?>
                             </ul>
                        
                        
