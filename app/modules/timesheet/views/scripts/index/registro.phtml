@@ -1,3 +1,4 @@
+
  <div class="row">
     <div class="col-lg-3">
       <section class="panel">
@@ -19,16 +20,9 @@
         <button data-toggle="button" class="btn btn-white">
           
           <?php 
-            // $tareopersona = new Admin_Model_DbTable_Tareopersona();
-            // $sumar=$tareopersona-> _getHorasRealxTipo($this->semana,$this->uid,$this->dni,$this->cargo,'P');
-            // print_r($sumar[0]['tareo_persona_horas_reales_tipoactividad']);
-
-            $tareopersona = new Admin_Model_DbTable_Sumahorasemana();
-            $wheres=array('dni'=>$this->dni,'uid'=>$this->uid,'semanaid'=>$this->semana);
-            $sumar=$tareopersona-> _getOne($wheres);
-            echo $sumar['billable'];
-            //print_r($sumar);
-
+            $tareopersona = new Admin_Model_DbTable_Tareopersona();
+            $sumar=$tareopersona-> _getHorasRealxTipo($this->semana,$this->uid,$this->dni,$this->cargo,'P');
+            print_r($sumar[0]['tareo_persona_horas_reales_tipoactividad']);
             echo "<br>"; 
             echo "HR Facturable";
           ?>
@@ -36,10 +30,9 @@
         <button data-toggle="button" class="btn btn-white">
           
           <?php 
-            // $tareopersona = new Admin_Model_DbTable_Tareopersona();
-            // $sumar=$tareopersona-> _getHorasRealxTipo($this->semana,$this->uid,$this->dni,$this->cargo,'G');
-            // print_r($sumar[0]['tareo_persona_horas_reales_tipoactividad']);
-            echo $sumar['nonbillable'];             
+            $tareopersona = new Admin_Model_DbTable_Tareopersona();
+            $sumar=$tareopersona-> _getHorasRealxTipo($this->semana,$this->uid,$this->dni,$this->cargo,'G');
+            print_r($sumar[0]['tareo_persona_horas_reales_tipoactividad']); 
             echo "<br>";
             echo "HR No Facturable";
           ?>
@@ -47,10 +40,9 @@
         <button data-toggle="button" class="btn btn-white">
           
           <?php 
-            // $tareopersona = new Admin_Model_DbTable_Tareopersona();
-            // $sumar=$tareopersona-> _getHorasRealxTipo($this->semana,$this->uid,$this->dni,$this->cargo,'');
-            // print_r($sumar[0]['tareo_persona_horas_reales_tipoactividad']);
-            echo $sumar['h_total'];             
+            $tareopersona = new Admin_Model_DbTable_Tareopersona();
+            $sumar=$tareopersona-> _getHorasRealxTipo($this->semana,$this->uid,$this->dni,$this->cargo,'');
+            print_r($sumar[0]['tareo_persona_horas_reales_tipoactividad']); 
             echo "<br>";
             echo "Total";
           ?>
@@ -93,7 +85,40 @@
   </div>
   
 </div>
+<div class="row">
+    <section class="panel">
 
+    <?php 
+      $sumahorassemana = new Admin_Model_DbTable_Sumahorasemana();
+      $wheres=array('dni'=>$this->dni,'uid'=>$this->uid,'semanaid'=>$this->semana);
+      $tareosemana=$sumahorassemana->_getOne($wheres);
+      $estado_horas=$tareosemana['estado'];
+      echo $estado_horas;
+      ?>
+
+      <div class="panel-body" style="padding-top: 10px;padding-bottom: 10px;">
+
+      <?php if ($estado_horas=='P') {?>
+
+        <a id = "" class="btn btn-primary pull-right btn-xs"  href="" style="margin-right : 10px">
+            <i class="fa fa-print"></i> Imprimir
+            
+
+        </a><?php }?>
+<?php if ($estado_horas!='P') {?>
+
+         <a id = "submit_work" class="btn btn-default pull-right btn-xs" href="#" style="margin-right : 10px">
+            <i class="fa fa-check-square"></i> Enviar
+        </a><?php }?>
+<?php if ($estado_horas!='P') {?>
+        <a id = "save_work" class="btn btn-info pull-right btn-xs"  style="margin-right : 10px">
+            <i class="fa fa-save"></i> Guardar
+        </a><?php }?>
+<?php if ($estado_horas!='P') {?>
+        <a id = "add_work" class="btn btn-success pull-right btn-xs" data-toggle="modal" href="#agregar" style="margin-right : 10px">
+            <i class="fa fa-check-square-o"></i> Agregar
+        </a><?php }?>
+    </div></section></div>
 
 <div class="row">
   <div class="col-sm-12">
@@ -132,28 +157,47 @@
             $j=1;
             //for ($k=0; $k < 7; $k++){
             foreach ($actividades as $data_tareo) 
+
+
             { ?>
-            <tr class="gradeX" id ="tr_tareo_<?php echo $j?>">
-              <td> 
+         
+
+
+
+            <tr    class="gradeX" id ="tr_tareo_<?php echo $j?>">
+              
+              <?php if ($data_tareo['estado_tareopersona']!='C') { ?>  
+
+              <td > 
                 <?php if ($data_tareo['tipo_actividad']=='G') {?>
-                  <a id ="crear_tareag_<?php echo $j?>"><i class="fa fa-plus-square-o"></i></a>
+                  <a <?php if ($data_tareo['estado_tareopersona']=='C') { ?> disabled <?php }?> id ="crear_tareag_<?php echo $j?>"><i class="fa fa-plus-square-o"></i></a>
                   <a title="Eliminar" id ="eliminar_tareo_<?php echo $j?>" ><i class="fa fa-minus-square-o"></i></a><?php }
                 if ($data_tareo['tipo_actividad']=='P') { ?>
                   <a id ="crear_tareag_<?php echo $j?>" ><i class="fa fa-plus-square-o"></i></a>
-                  <a title="Eliminar" id ="eliminar_tareo_<?php echo $j?>" ><i class="fa fa-minus-square-o"></i></a>                                   
+                  <a <?php if ($data_tareo['estado_tareopersona']=='C') { ?> disabled <?php }?> title="Eliminar" id ="eliminar_tareo_<?php echo $j?>" ><i class="fa fa-minus-square-o"></i></a>                                   
                 <?php }?>
               </td>
+
+              <?php } else {?> 
+
+              <td></td>
+
+              <?php } ?>
+
              
               <td>
+
                 <?php echo $data_tareo['nombre_proyecto'];  echo " / "; echo $data_tareo['actividadid']; echo ": ";echo $data_tareo['nombre'] ?>
               </td>            
 
               <td>
                 <?php if ($data_tareo['tipo_actividad']=='G') {?>
-                  <a id ="nofacturable_cambio_<?php echo $j?>" class="btn btn-danger btn-xs ">No Facturable.</a>
+                  
+
+                  <a <?php if ($data_tareo['estado_tareopersona']=='C') { ?> disabled <?php }?> id ="nofacturable_cambio_<?php echo $j?>" class="btn btn-danger btn-xs ">No Facturable.</a>
                 <?php }else{ ?>
-                <a id ="facturable_tareo_<?php echo $j?>" class="btn btn-success btn-xs">Facturable</a>
-                <a id ="nofacturable_tareo_<?php echo $j?>" class="btn btn-danger btn-xs" style="display:none">No Facturable</a>
+                <a <?php if ($data_tareo['estado_tareopersona']=='C') { ?> disabled <?php }?> id ="facturable_tareo_<?php echo $j?>" class="btn btn-success btn-xs">Facturable</a>
+                <a <?php if ($data_tareo['estado_tareopersona']=='C') { ?> disabled <?php }?> id ="nofacturable_tareo_<?php echo $j?>" class="btn btn-danger btn-xs" style="display:none">No Facturable</a>
 
                 <?php }?>
               </td>            
@@ -165,7 +209,7 @@
                  // print_r($datosactgeneral[0]['nombre']) 
                     if ($data_tareo['actividad_generalid']) 
                     { ?>
-                        <select id="select_generalg_<?php echo $j?>" class="form-control input-sm m-bot15 col-lg-10">                        
+                        <select <?php if ($data_tareo['estado_tareopersona']=='C') { ?> disabled <?php }?> id="select_generalg_<?php echo $j?>" class="form-control input-sm m-bot15 col-lg-10">                        
                               <option value="<?php echo $data_tareo['actividad_generalid']?>"><?php print_r($datosactgeneral[0]['nombre']) ?></option>
                                   <?php 
                                       $areaid='25';
@@ -181,7 +225,7 @@
                     else
                     {
                       ?>
-                        <select id="select_generalg_<?php echo $j?>" class="form-control input-sm m-bot15 col-lg-10">                        
+                        <select <?php if ($data_tareo['estado_tareopersona']=='C') { ?> disabled <?php }?> id="select_generalg_<?php echo $j?>" class="form-control input-sm m-bot15 col-lg-10">                        
                           <option value="">Elija Tarea No Facturable</option>
                                       <?php 
                                           $areaid='25';
@@ -204,7 +248,7 @@
                     <div id="tarea_general_<?php echo $j?>" style="display:none">
 
                     <select id="select_generalp_<?php echo $j?>" class="form-control input-sm m-bot15 col-lg-10">                        
-                              <option value="">Seleccione Cliente</option>
+                              <option <?php if ($data_tareo['estado_tareopersona']=='C') { ?> disabled <?php }?> value="">Seleccione Cliente</option>
                                   <?php 
                                       $areaid='25';
                                       $actividad_generales = new Admin_Model_DbTable_Actividadgeneral();
@@ -466,8 +510,7 @@
                     var fecha = $("#fechasemana").text();
 
                     var url="/timesheet/index/updateetapanb/codigo/"+codigo_prop_proy+"/codigo_actividad/"+codigo_actividad+"/actividadid/"+actividadid+"/revision/"+revision+"/actividad_padre/"+actividad_padre+"/proyectoid/"+proyectoid+"/semanaid/"+semanaid+"/fecha_tarea/"+fecha_tarea+"/asignado/"+asignado+"/areaid/"+areaid+"/categoriaid/"+categoriaid+"/dni/"+dni+"/cargo/"+cargo+"/tipo_actividad/"+tipo_actividad+"/etapa/"+etapa+"/fecha_planificacion/"+fecha_planificacion+"/tarea_general/"+tarea_general+"/fecha/"+fecha;
-                     
-                    alert(url);
+                     //alert(url);
                    
                     if (isNaN(tarea_general)) {
                            //entonces (no es numero) devuelvo el valor cadena vacia 
