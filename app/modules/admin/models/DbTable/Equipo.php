@@ -227,4 +227,66 @@ public function _getDatosxProyectoxUidXEstadoxCliente($uid,$dni,$estado,$codigo_
             print $ex->getMessage();
         }
     }
+
+public function _getListarNivel4xNivel3($uid,$dni,$nivel_inferior,$nivel_superior,$areaid)
+     {
+        try{
+            $sql=$this->_db->query("
+                
+
+
+                select distinct uid, dni from equipo where proyectoid in  (select proyectoid from equipo  
+                where uid='$uid' and nivel='$nivel_superior' and areaid='$areaid') and nivel='$nivel_inferior' and areaid='$areaid'
+
+                    ");
+            $row=$sql->fetchAll();
+            return $row;           
+            }  
+            
+           catch (Exception $ex){
+            print $ex->getMessage();
+        }
+    }
+
+public function _getListarEquipoxProyectoxGerente($uid,$dni)
+     {
+        try{
+            $sql=$this->_db->query("
+                
+                select distinct uid,dni from equipo where proyectoid in  
+                (select distinct proyectoid from
+                 equipo  where uid='$uid' and dni='$dni' and nivel='0')
+                  and nivel in ('4','2') 
+
+
+                    ");
+            $row=$sql->fetchAll();
+            return $row;           
+            }  
+            
+           catch (Exception $ex){
+            print $ex->getMessage();
+        }
+    }
+
+
+ public function _buscarGerentexProyecto($proyectoid)
+     {
+        try{
+            $sql=$this->_db->query("
+                select * from equipo
+               where proyectoid='$proyectoid' and nivel='0' and cargo='GER-PROY'
+               
+            ");
+            $row=$sql->fetchAll();
+            return $row;           
+            }  
+            
+           catch (Exception $ex){
+            print $ex->getMessage();
+        }
+    }
+    
+
+    
 }

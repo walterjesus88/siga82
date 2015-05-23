@@ -60,6 +60,26 @@ class Admin_Model_DbTable_Planificacion extends Zend_Db_Table_Abstract
         }
     }
 
+    public function _getOnexSemana($semanaid,$uid,$dni,$areaid){
+        try {
+      
+
+
+
+ $sql=$this->_db->query("
+               select * from planificacion
+               where semanaid='$semanaid'  and uid='$uid' and dni='$dni' and areaid='$areaid'
+               
+            ");
+            $row=$sql->fetchAll();
+            return $row;     
+
+        } catch (Exception $e) {
+            print "Error: Read One Condition".$e->getMessage();
+        }
+    }
+
+
 
     public function _getPlanificacionAll(){
         try{

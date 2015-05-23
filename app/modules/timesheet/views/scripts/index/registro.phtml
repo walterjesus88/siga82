@@ -14,30 +14,45 @@
       </section>
     </div>
   <div class="col-lg-4">
-    <section class="panel">
+<section class="panel">
       <div class="panel-body" style="padding-bottom: 10px;padding-top: 12px;">
         <button data-toggle="button" class="btn btn-white">
-          <i class=d"fa fa-thumbs-up text-info" style="color: #78CD51;"></i>
+          
           <?php 
-            $tareopersona = new Admin_Model_DbTable_Tareopersona();
-            $sumar=$tareopersona-> _getHorasRealxTipo($this->semana,$this->uid,$this->dni,$this->cargo,'P');
-            print_r($sumar[0]['tareo_persona_horas_reales_tipoactividad']); 
+            // $tareopersona = new Admin_Model_DbTable_Tareopersona();
+            // $sumar=$tareopersona-> _getHorasRealxTipo($this->semana,$this->uid,$this->dni,$this->cargo,'P');
+            // print_r($sumar[0]['tareo_persona_horas_reales_tipoactividad']);
+
+            $tareopersona = new Admin_Model_DbTable_Sumahorasemana();
+            $wheres=array('dni'=>$this->dni,'uid'=>$this->uid,'semanaid'=>$this->semana);
+            $sumar=$tareopersona-> _getOne($wheres);
+            echo $sumar['billable'];
+            //print_r($sumar);
+
+            echo "<br>"; 
+            echo "HR Facturable";
           ?>
         </button>
         <button data-toggle="button" class="btn btn-white">
-          <i class="fa fa-thumbs-down text-info" style="color: #FF6C60;"></i>
+          
           <?php 
-            $tareopersona = new Admin_Model_DbTable_Tareopersona();
-            $sumar=$tareopersona-> _getHorasRealxTipo($this->semana,$this->uid,$this->dni,$this->cargo,'G');
-            print_r($sumar[0]['tareo_persona_horas_reales_tipoactividad']); 
+            // $tareopersona = new Admin_Model_DbTable_Tareopersona();
+            // $sumar=$tareopersona-> _getHorasRealxTipo($this->semana,$this->uid,$this->dni,$this->cargo,'G');
+            // print_r($sumar[0]['tareo_persona_horas_reales_tipoactividad']);
+            echo $sumar['nonbillable'];             
+            echo "<br>";
+            echo "HR No Facturable";
           ?>
         </button>
         <button data-toggle="button" class="btn btn-white">
-          <i class="fa fa-square text-info" style="color: #5bc0de;"></i>
+          
           <?php 
-            $tareopersona = new Admin_Model_DbTable_Tareopersona();
-            $sumar=$tareopersona-> _getHorasRealxTipo($this->semana,$this->uid,$this->dni,$this->cargo,'');
-            print_r($sumar[0]['tareo_persona_horas_reales_tipoactividad']); 
+            // $tareopersona = new Admin_Model_DbTable_Tareopersona();
+            // $sumar=$tareopersona-> _getHorasRealxTipo($this->semana,$this->uid,$this->dni,$this->cargo,'');
+            // print_r($sumar[0]['tareo_persona_horas_reales_tipoactividad']);
+            echo $sumar['h_total'];             
+            echo "<br>";
+            echo "Total";
           ?>
         </button>
       </div>
@@ -46,11 +61,37 @@
   <div class="col-lg-5">
     <section class="panel">
       <div class="panel-body" style="padding-top: 10px;padding-bottom: 10px;">
-        Aprobado por: Omar Morsss <br>
-        Aprobado Gerente Generalddd
+        Aprobado por: <br>
+         <?php 
+            $planificacion = new Admin_Model_DbTable_Planificacion();
+            
+              $proyectos=$planificacion->_getOnexSemana($this->semana,$this->uid,$this->dni,$this->areaid);
+              foreach ($proyectos as $datos) {
+
+                $proyectoid=$datos['proyectoid'];
+                $codigo=$datos['codigo_prop_proy'];
+                
+                $planificacion = new Admin_Model_DbTable_Planificacion();
+                $equipo = new Admin_Model_DbTable_Equipo();
+                $estado_usuario='A';
+                $data_equipo = $equipo->_buscarGerentexProyecto($proyectoid);
+                if ($data_equipo)
+                {
+                print_r($data_equipo[0]['uid']);
+                }
+
+
+              }
+            
+
+          ?>
+
+        
       </div>
     </section>
+
   </div>
+  
 </div>
 
 
@@ -132,7 +173,7 @@
                                       $data_generales = $actividad_generales->_getActividadgeneralxArea($areaid);
                                       foreach ($data_generales as $data_tareas)
                                       { ?>
-                                      <option value="<?php echo $data_tareas['actividad_generalid']?>"><?php  echo strtoupper($data_tareas['nombre'])?></option>
+                                      <option value="<?php echo $data_tareas['actividad_generalid']?>"><?php  echo $data_tareas['nombre']?></option>
                                       <?php }?>
                         </select>
                       <?php
@@ -147,7 +188,7 @@
                                           $actividad_generales = new Admin_Model_DbTable_Actividadgeneral();
                                           $data_generales = $actividad_generales->_getActividadgeneralxArea($areaid);
                                           foreach ($data_generales as $data_tareas) {?>
-                                          <option value="<?php echo $data_tareas['actividad_generalid']?>"><?php  echo strtoupper($data_tareas['nombre'])?></option>
+                                          <option value="<?php echo $data_tareas['actividad_generalid']?>"><?php  echo $data_tareas['nombre']?></option>
                                       <?php }?>
                         </select>
                       <?php 
@@ -169,7 +210,7 @@
                                       $actividad_generales = new Admin_Model_DbTable_Actividadgeneral();
                                       $data_generales = $actividad_generales->_getActividadgeneralxArea($areaid);
                                       foreach ($data_generales as $data_tareas) {?>
-                                      <option value="<?php echo $data_tareas['actividad_generalid']?>"><?php  echo strtoupper($data_tareas['nombre'])?></option>
+                                      <option value="<?php echo $data_tareas['actividad_generalid']?>"><?php  echo $data_tareas['nombre']?></option>
                                   <?php }?>
                     </select>
 
@@ -425,7 +466,8 @@
                     var fecha = $("#fechasemana").text();
 
                     var url="/timesheet/index/updateetapanb/codigo/"+codigo_prop_proy+"/codigo_actividad/"+codigo_actividad+"/actividadid/"+actividadid+"/revision/"+revision+"/actividad_padre/"+actividad_padre+"/proyectoid/"+proyectoid+"/semanaid/"+semanaid+"/fecha_tarea/"+fecha_tarea+"/asignado/"+asignado+"/areaid/"+areaid+"/categoriaid/"+categoriaid+"/dni/"+dni+"/cargo/"+cargo+"/tipo_actividad/"+tipo_actividad+"/etapa/"+etapa+"/fecha_planificacion/"+fecha_planificacion+"/tarea_general/"+tarea_general+"/fecha/"+fecha;
-                     //alert(url);
+                     
+                    alert(url);
                    
                     if (isNaN(tarea_general)) {
                            //entonces (no es numero) devuelvo el valor cadena vacia 

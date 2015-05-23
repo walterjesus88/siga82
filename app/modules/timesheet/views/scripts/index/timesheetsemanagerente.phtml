@@ -328,7 +328,7 @@
                   var semanaid="<?php echo $data_tareo['semanaid'] ?>";
                   var cargo="<?php echo $data_tareo['cargo'] ?>";
                 
-                  url="/timesheet/index/guardarcomentario/estado/B/uid/"+uid+'/dni/'+dni+'/semanaid/'+semanaid+'/cargo/'+cargo+'/coment/'+coment;
+                  url="/timesheet/index/guardarcomentariogerente/estado/B/uid/"+uid+'/dni/'+dni+'/semanaid/'+semanaid+'/cargo/'+cargo+'/coment/'+coment;
                   alert(url);
                       $.ajax({
                           type: "POST",
@@ -358,7 +358,7 @@
                   var dni="<?php echo $this->dni ?>";
                   var semanaid="<?php echo $data_tareo['semanaid'] ?>";
                   var cargo="<?php echo $data_tareo['cargo'] ?>";              
-                  url="/timesheet/index/guardarcomentario/estado/R/uid/"+uid+'/dni/'+dni+'/semanaid/'+semanaid+'/cargo/'+cargo+'/coment/'+coment;
+                  url="/timesheet/index/guardarcomentariogerente/estado/R/uid/"+uid+'/dni/'+dni+'/semanaid/'+semanaid+'/cargo/'+cargo+'/coment/'+coment;
                   //alert(url);
                       $.ajax({
                           type: "POST",

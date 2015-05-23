@@ -16,7 +16,7 @@ class Timesheet_IndexController extends Zend_Controller_Action {
     }
     
     public function indexAction() {
-        
+        print_r($this->sesion);
     }
 
     public function calendarAction(){
@@ -59,12 +59,19 @@ class Timesheet_IndexController extends Zend_Controller_Action {
     public function actividadesAction(){
         try {
         $this->_helper->layout()->disableLayout();
+
         $uid = $this->sesion->uid;
         $dni = $this->sesion->dni;
+        
+        $this->view->uid = $this->sesion->uid;
+        $this->view->dni = $this->sesion->dni;
+
         $proyectoid = $this->_getParam('proyectoid');
         $codigo_prop_proy = $this->_getParam('codigo_prop_proy');
         $categoriaid = $this->_getParam('categoriaid');
         $fecha_consulta = $this->_getParam('fecha');
+          $semana=date('W', strtotime($fecha_consulta)); 
+        $this->view->semanaid = $semana;
 
         $actividad = new Admin_Model_DbTable_Actividad();
         $actividades_padre = $actividad->_getActividadesPadresXproyectoXcodigo($proyectoid, $codigo_prop_proy);
@@ -317,7 +324,7 @@ class Timesheet_IndexController extends Zend_Controller_Action {
         $data['h_real']=$h_real= $this->_getParam('horareal');
         $data['semanaid']=$semanaid;
 
-      
+
 
          $actividad_generalid = $this->_getParam('actividad_generalid');
         if($actividad_generalid=='')
@@ -376,14 +383,14 @@ class Timesheet_IndexController extends Zend_Controller_Action {
                 $data1['h_totaldia']=$h_real= $this->_getParam('horareal');
                 $tipo_actividad= $this->_getParam('tipo_actividad');
 
-                if($tipo_actividad='G')
+                if($tipo_actividad=='G')
                 {
                     $data1['nonbillable']= $this->_getParam('horareal');
                     $data1['billable']=0;
                    
                 }
                 
-                if ($tipo_actividad='P') {
+                if ($tipo_actividad=='P') {
                     $data1['billable']= $this->_getParam('horareal'); 
                     $data1['nonbillable']=0;
 
@@ -1133,7 +1140,7 @@ public function sumatareorealAction(){
             $semana = $this->_getParam('semanaid');
 
 
-            $this->view->cargo = $cargo;
+            $this->view->cargo = 'EQUIPO';
             $this->view->uid = $uid;
             $this->view->dni = $dni;
 
@@ -1194,6 +1201,12 @@ public function sumatareorealAction(){
                 $coment=new Admin_Model_DbTable_Usuariovalidacion();
                 $usecoment=$coment->_updateX($data2,$pk);
                 //echo "update";
+                $sumahorassemana = new Admin_Model_DbTable_Sumahorasemana();
+                $datos_actualizar_sumahoras['estado']='1';
+                $str_actualizar_sumahoras="semanaid='$semana' and uid='$uid' and dni='$dni' 
+                ";
+                $update=$sumahorassemana -> _update($datos_actualizar_sumahoras,$str_actualizar_sumahoras);
+
 
             }
             else
@@ -1201,6 +1214,14 @@ public function sumatareorealAction(){
                 $coment=new Admin_Model_DbTable_Usuariovalidacion();
                 $usercoment=$coment->_save($data);
                 //echo "save";
+                $sumahorassemana = new Admin_Model_DbTable_Sumahorasemana();
+                $datos_actualizar_sumahoras['estado']='1';
+                $str_actualizar_sumahoras="semanaid='$semana' and uid='$uid' and dni='$dni' 
+                ";
+                $update=$sumahorassemana -> _update($datos_actualizar_sumahoras,$str_actualizar_sumahoras);
+                  
+            
+
 
             }
 
@@ -1212,6 +1233,146 @@ public function sumatareorealAction(){
 
 
      public function timesheetaprobacionAction(){
+        try {
+           // $this->_helper->layout()->disableLayout();       
+            $uid = $this->sesion->uid;
+            $dni = $this->sesion->dni;     
+            
+            $fecha = date("Y-m-d");
+            $semanaid=date('W', strtotime($fecha)); 
+            $this->view->semanaid= $semanaid;    
+
+            $areaid=$this->sesion->personal->ucatareaid;   
+            //$isresponsable=$this->sesion->is_responsable;    
+            $isjefe=$this->sesion->is_jefe;    
+            if ($isjefe=='S') 
+            {
+                $equipo = new Admin_Model_DbTable_Equipo();
+                $equipo_aprobacion = $equipo->_getListarNivel4xNivel3($uid,$dni,'4','2',$areaid);
+
+                $this->view->equipos_horas_aprobar= $equipo_aprobacion;    
+            }
+
+
+            
+
+        }
+        catch (Exception $e) {
+                print "Error: ".$e->getMessage();
+        }
+    }
+
+     public function enviartimesheetAction(){
+        try {
+            $uid = $this->sesion->uid;
+            $dni = $this->sesion->dni;
+            $this->_helper->layout()->disableLayout();            
+            $fecha_inicio = $this->_getParam('fecha_calendario');
+            $fecha_inicio_mod = date("Y-m-d", strtotime($fecha_inicio));
+            $semanaid=date('W', strtotime($fecha_inicio_mod)); 
+            $tareopersona = new Admin_Model_DbTable_Tareopersona();
+            $data_tareopersona = $tareopersona->_getTareoxPersonaxSemana($uid,$dni,$semanaid);
+            if ($data_tareopersona)
+            {
+                $datos_actualizar['estado']='C';
+                $str_actualizar="semanaid='$semanaid' and uid='$uid' and dni='$dni' and
+                estado='A' 
+                ";
+                $update=$tareopersona -> _update($datos_actualizar,$str_actualizar);
+           }
+
+            $sumahorassemana = new Admin_Model_DbTable_Sumahorasemana();
+            $wheres=array('dni'=>$dni,'uid'=>$uid,'semanaid'=>$semanaid);
+            $tareosemana=$sumahorassemana->_getOne($wheres);
+            //print_r($tareosemana);
+            if ($tareosemana)
+            {
+                $datos_actualizar_sumahoras['estado']='P';
+                $str_actualizar_sumahoras="semanaid='$semanaid' and uid='$uid' and dni='$dni' 
+                ";
+                $update=$sumahorassemana -> _update($datos_actualizar_sumahoras,$str_actualizar_sumahoras);
+                  
+            }
+
+        }
+        catch (Exception $e) {
+                print "Error: ".$e->getMessage();
+        }
+    }
+
+    
+    public function timesheetaprobaciongerenteAction(){
+        try {
+           // $this->_helper->layout()->disableLayout();       
+            $uid = $this->sesion->uid;
+            $dni = $this->sesion->dni;     
+            
+            $fecha = date("Y-m-d");
+            $semanaid=date('W', strtotime($fecha)); 
+            $this->view->semanaid= $semanaid;    
+
+            $areaid=$this->sesion->personal->ucatareaid;   
+            //$isresponsable=$this->sesion->is_responsable;    
+            $isgerente=$this->sesion->is_gerente;    
+            if ($isgerente=='S') 
+            {
+                $equipo = new Admin_Model_DbTable_Equipo();
+                $equipo_aprobacion = $equipo->_getListarEquipoxProyectoxGerente($uid,$dni);
+
+                $this->view->equipos_horas_aprobar= $equipo_aprobacion;    
+            }
+
+
+            
+
+        }
+        catch (Exception $e) {
+                print "Error: ".$e->getMessage();
+        }
+    }
+
+    public function timesheetsemanagerenteAction(){
+        try {
+            $this->_helper->layout()->disableLayout();
+            $uid = $this->_getParam('uid');
+            $dni = $this->_getParam('dni');
+            $cargo = $this->_getParam('cargo');
+            $semana = $this->_getParam('semanaid');
+
+
+            $this->view->cargo = 'EQUIPO';
+            $this->view->uid = $uid;
+            $this->view->dni = $dni;
+
+            $ano=date("Y");/*ojo cambiar  con el tiempo --revisar */
+            $enero = mktime(1,1,1,1,1,$ano); 
+            //$mos = (11-date('w',1))%7-3; 
+            $mos = (11-date('w',$enero))%7-3;
+
+            $this->view->mos=$mos;
+            $this->view->enero=$enero;
+            $this->view->semana = $semana;
+
+
+            $tareo_persona = new Admin_Model_DbTable_Tareopersona();
+            //$semana=date('W', strtotime($fecha_inicio_mod)); 
+
+
+            $this->view->semana = $semana;
+            $datos_tareopersona=$tareo_persona->_getTareoxPersonaxSemana($uid,$dni,$semana);
+            $datos_tareopersona_NB=$tareo_persona->_getTareoxPersonaxSemanaxNB($uid,$dni,$semana);
+            //$data_tareo = $tareo->_getTareoXUid($where);
+            $this->view->actividades= $datos_tareopersona;
+
+        }    
+         catch (Exception $e) {
+            print "Error: ".$e->getMessage();
+        }
+    }
+
+
+
+public function guardarcomentariogerenteAction(){
         try {
             $this->_helper->layout()->disableLayout();            
             $uid = $this->_getParam('uid');
@@ -1242,6 +1403,12 @@ public function sumatareorealAction(){
                 $coment=new Admin_Model_DbTable_Usuariovalidacion();
                 $usecoment=$coment->_updateX($data2,$pk);
                 //echo "update";
+                $sumahorassemana = new Admin_Model_DbTable_Sumahorasemana();
+                $datos_actualizar_sumahoras['estado']='2';
+                $str_actualizar_sumahoras="semanaid='$semana' and uid='$uid' and dni='$dni' 
+                ";
+                $update=$sumahorassemana -> _update($datos_actualizar_sumahoras,$str_actualizar_sumahoras);
+
 
             }
             else
@@ -1249,7 +1416,11 @@ public function sumatareorealAction(){
                 $coment=new Admin_Model_DbTable_Usuariovalidacion();
                 $usercoment=$coment->_save($data);
                 //echo "save";
-
+                $sumahorassemana = new Admin_Model_DbTable_Sumahorasemana();
+                $datos_actualizar_sumahoras['estado']='2';
+                $str_actualizar_sumahoras="semanaid='$semana' and uid='$uid' and dni='$dni' 
+                ";
+                $update=$sumahorassemana -> _update($datos_actualizar_sumahoras,$str_actualizar_sumahoras);
             }
 
         }
@@ -1258,24 +1429,29 @@ public function sumatareorealAction(){
         }
     }
 
-     public function enviartimesheetAction(){
+ public function timesheethistoricoAction(){
         try {
+           // $this->_helper->layout()->disableLayout();       
             $uid = $this->sesion->uid;
-        $dni = $this->sesion->dni;
-            $this->_helper->layout()->disableLayout();            
-            $fecha_inicio = $this->_getParam('fecha_calendario');
-            $fecha_inicio_mod = date("Y-m-d", strtotime($fecha_inicio));
-            $semanaid=date('W', strtotime($fecha_inicio_mod)); 
-            $tareopersona = new Admin_Model_DbTable_Tareopersona();
-            $data_tareopersona = $tareopersona->_getTareoxPersonaxSemana($uid,$dni,$semanaid);
-            if ($data_tareopersona)
+            $dni = $this->sesion->dni;     
+            
+            $fecha = date("Y-m-d");
+            $semanaid=date('W', strtotime($fecha)); 
+            $this->view->semanaid= $semanaid;    
+
+            $areaid=$this->sesion->personal->ucatareaid;   
+            //$isresponsable=$this->sesion->is_responsable;    
+            $isgerente=$this->sesion->is_gerente;    
+            if ($isgerente=='S') 
             {
-                $datos_actualizar['estado']='C';
-                $str_actualizar="semanaid='$semanaid' and uid='$uid' and dni='$dni' and
-                estado='A' 
-                ";
-                $update=$tareopersona -> _update($datos_actualizar,$str_actualizar);
-           }
+                $equipo = new Admin_Model_DbTable_Equipo();
+                $equipo_aprobacion = $equipo->_getListarEquipoxProyectoxGerente($uid,$dni);
+
+                $this->view->equipos_horas_aprobar= $equipo_aprobacion;    
+            }
+
+
+            
 
         }
         catch (Exception $e) {
@@ -1283,6 +1459,4 @@ public function sumatareorealAction(){
         }
     }
 
-    
-    
 }
