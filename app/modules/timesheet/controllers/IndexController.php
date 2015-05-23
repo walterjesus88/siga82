@@ -827,7 +827,7 @@ public function sumatareorealAction(){
             else
             {?>
                 <script>                  
-                    alert("No se guardo cargue nuevamente la pagina o ya tiene una tarea facturable creada.");
+                    //alert("No se guardo cargue nuevamente la pagina o ya tiene una tarea facturable creada.");
                 </script>
             <?php
         }
