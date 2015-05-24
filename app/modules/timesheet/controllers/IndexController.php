@@ -399,14 +399,20 @@ class Timesheet_IndexController extends Zend_Controller_Action {
                 {
                     $data1['nonbillable']= $this->_getParam('horareal');
                     $data1['billable']=0;
+                    $data1['adm']=0;
                    
                 }
                 
                 if ($tipo_actividad=='P') {
                     $data1['billable']= $this->_getParam('horareal'); 
                     $data1['nonbillable']=0;
+                    $data1['adm']=0;                              
+                }
 
-                    //$data2['billable']=$h_real= $this->_getParam('horareal');                
+                if ($tipo_actividad=='A') {
+                    $data1['billable']= 0;
+                    $data1['nonbillable']=0;
+                    $data1['adm']=$this->_getParam('horareal');                               
                 }
 
                 //$data2['cargo']=$cargo;
@@ -815,8 +821,14 @@ public function sumatareorealAction(){
         $semanaid=$this->_getParam('semanaid');
         $tipo_actividad= $this->_getParam('tipo_actividad');
         $actividad_gid= $this->_getParam('actividad_generalid');
+        $ban= $this->_getParam('ban');
 
-        if($actividad_gid=='')
+        // if($actividad_gid=='' and $tipo_actividad=='P')
+        // {
+        //     $count=2;
+        // }
+
+        if($actividad_gid=='' and $tipo_actividad=='G')
         {
             $conteotareo =new Admin_Model_DbTable_Tareopersona();
             $ctareo=$conteotareo->_getConteotareo2($semanaid,$codigo_actividad,$tipo_actividad,$codigo_prop_proy,$proyectoid,$revision,$actividadid,$uid,$dni);
@@ -824,13 +836,23 @@ public function sumatareorealAction(){
             $count= $ctareo[0]['count'];
             
         }
-        else
-        {  
-            $conteotareo =new Admin_Model_DbTable_Tareopersona();
-            $ctareo=$conteotareo->_getConteotareo($actividad_gid,$semanaid,$codigo_actividad,$tipo_actividad,$codigo_prop_proy,$proyectoid,$revision,$actividadid,$uid,$dni);
-            // print_r($ctareo);
-            $count= $ctareo[0]['count'];
-        }
+        elseif ($actividad_gid=='' and $tipo_actividad=='P' )
+
+            {
+                //$count=2;
+                $conteotareo =new Admin_Model_DbTable_Tareopersona();
+                $ctareo=$conteotareo->_getConteotareo2($semanaid,$codigo_actividad,$tipo_actividad,$codigo_prop_proy,$proyectoid,$revision,$actividadid,$uid,$dni);
+                // print_r($ctareo);
+                $count= $ctareo[0]['count'];
+            }
+            else
+            {  
+                $conteotareo =new Admin_Model_DbTable_Tareopersona();
+                $ctareo=$conteotareo->_getConteotareo($actividad_gid,$semanaid,$codigo_actividad,$tipo_actividad,$codigo_prop_proy,$proyectoid,$revision,$actividadid,$uid,$dni);
+                // print_r($ctareo);
+                $count= $ctareo[0]['count'];
+            }
+     
 
         
 
@@ -878,7 +900,7 @@ public function sumatareorealAction(){
             
         ?>
         <script>                  
-            //alert("<?php echo $count ?>");
+           // alert("<?php echo $count ?>");
         </script>
         <?php
 
@@ -934,6 +956,10 @@ public function sumatareorealAction(){
             print "Error: ".$e->getMessage();
         }
     }
+
+
+  
+
 
     public function updateetapabAction(){
         try {
