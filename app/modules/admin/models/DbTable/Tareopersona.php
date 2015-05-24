@@ -418,7 +418,9 @@ class Admin_Model_DbTable_Tareopersona extends Zend_Db_Table_Abstract
               select  count(*) from tareo_persona 
               where tipo_actividad='$tipo_actividad' and codigo_prop_proy='$codigo_prop_proy'
               and proyectoid='$proyectoid' and revision='$revision' and actividadid='$actividadid' and uid='$uid' and dni='$dni' 
+
               and codigo_actividad = '$codigo_actividad' and semanaid='$semanaid' and (etapa ='INICIO-NB-' or etapa ='INICIO' or etapa ='EJECUCION-NB-' or etapa ='EJECUCION')
+
 
             ");
             // print_r($sql);

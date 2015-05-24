@@ -821,6 +821,7 @@ public function sumatareorealAction(){
         $semanaid=$this->_getParam('semanaid');
         $tipo_actividad= $this->_getParam('tipo_actividad');
         $actividad_gid= $this->_getParam('actividad_generalid');
+<<<<<<< HEAD
         $ban= $this->_getParam('ban');
 
         // if($actividad_gid=='' and $tipo_actividad=='P')
@@ -854,6 +855,25 @@ public function sumatareorealAction(){
             }
      
 
+=======
+
+        if($actividad_gid=='')
+        {
+            $conteotareo =new Admin_Model_DbTable_Tareopersona();
+            $ctareo=$conteotareo->_getConteotareo2($semanaid,$codigo_actividad,$tipo_actividad,$codigo_prop_proy,$proyectoid,$revision,$actividadid,$uid,$dni);
+            // print_r($ctareo);
+            $count= $ctareo[0]['count'];
+            
+        }
+        else
+        {  
+            $conteotareo =new Admin_Model_DbTable_Tareopersona();
+            $ctareo=$conteotareo->_getConteotareo($actividad_gid,$semanaid,$codigo_actividad,$tipo_actividad,$codigo_prop_proy,$proyectoid,$revision,$actividadid,$uid,$dni);
+            // print_r($ctareo);
+            $count= $ctareo[0]['count'];
+        }
+
+>>>>>>> f29ae61d25df1ed6a48baa7da127fcb966be8100
         
 
         $etapa_inicio = $this->_getParam('etapa');
