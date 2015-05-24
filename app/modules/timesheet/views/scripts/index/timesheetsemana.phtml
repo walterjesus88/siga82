@@ -56,6 +56,11 @@
             $where['dni']=$this->dni;
             $where['cargo']=$this->cargo;
             $where['semanaid']=$this->semana;
+            //$where['uid_validacion']=$this->uid_validacion;
+            //$where['dni_validacion']=$this->dni_validacion;
+echo "usauio a validar:"; echo $this->uid;
+echo "validador: "; echo $this->uid_validacion;
+$this->uid_validacion;
             $vercoment= new Admin_Model_DbTable_Usuariovalidacion();
             $vcoment=$vercoment->_getOne($where); 
            
@@ -320,16 +325,19 @@
            <script type="text/javascript">        
                 $(document).ready(function(){
                   $("#aprobar").on("click",function(){
-                  //alert('ku');
+                  alert('Aprobando Hoja de Tiempo');
                   
                   var coment=$("#comentario").val();
                   var uid="<?php echo $this->uid ?>";
                   var dni="<?php echo $this->dni ?>";
+                  var uid_validacion="<?php echo $this->uid_validacion ?>";
+                  var dni_validacion="<?php echo $this->dni_validacion ?>";
+
                   var semanaid="<?php echo $data_tareo['semanaid'] ?>";
                   var cargo="<?php echo $data_tareo['cargo'] ?>";
                 
-                  url="/timesheet/index/guardarcomentario/estado/B/uid/"+uid+'/dni/'+dni+'/semanaid/'+semanaid+'/cargo/'+cargo+'/coment/'+coment;
-                  alert(url);
+                  url="/timesheet/index/guardarcomentario/estado/B/uid/"+uid+'/dni/'+dni+'/semanaid/'+semanaid+'/cargo/'+cargo+'/coment/'+coment+'/uid_validacion/'+uid_validacion+'/dni_validacion/'+dni_validacion;
+                  
                       $.ajax({
                           type: "POST",
                           url: url,

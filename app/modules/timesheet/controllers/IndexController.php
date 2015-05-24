@@ -1263,6 +1263,12 @@ public function sumatareorealAction(){
             $cargo = $this->_getParam('cargo');
             $semana = $this->_getParam('semanaid');
 
+            $uid_validacion = $this->sesion->uid;
+            $dni_validacion = $this->sesion->dni;
+            $this->view->uid_validacion=$uid_validacion;
+            $this->view->dni_validacion=$dni_validacion;
+
+
 
             $this->view->cargo = 'EQUIPO';
             $this->view->uid = $uid;
@@ -1303,23 +1309,31 @@ public function sumatareorealAction(){
             $semana = $this->_getParam('semanaid');
             $coment = $this->_getParam('coment');
             $estado = $this->_getParam('estado');
+            $uid_validacion=$this->_getParam('uid_validacion');
+            $dni_validacion=$this->_getParam('dni_validacion');
 
             $data['cargo']=$cargo;
             $data['semanaid']=$semana;
             $data['uid']=$uid;
             $data['dni']=$dni;
+            $data['uid_validacion']=$uid_validacion;
+            $data['dni_validacion']=$dni_validacion;
             $data['comentario']=$coment;
             $data['estado_usuario']=$estado;
 
             $where['uid']=$uid;
             $where['dni']=$dni;
+            $where['uid_validacion']=$uid_validacion;
+            $where['dni_validacion']=$dni_validacion;
             $where['cargo']=$cargo;
             $where['semanaid']=$semana;
+
+
 
             $vercoment= new Admin_Model_DbTable_Usuariovalidacion();
             if($vcoment=$vercoment->_getOne($where))
             {
-                $pk = array('dni' => $dni  ,'uid' => $uid,'cargo' => $cargo ,'semanaid' => $semana );
+                $pk = array('dni' => $dni  ,'uid' => $uid,'cargo' => $cargo ,'semanaid' => $semana,'dni_validacion' => $dni_validacion  ,'uid_validacion' => $uid_validacion, );
                 $data2['comentario']=$coment;
                 $data2['estado_usuario']=$estado;
                 $coment=new Admin_Model_DbTable_Usuariovalidacion();
