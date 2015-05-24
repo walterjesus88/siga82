@@ -391,12 +391,12 @@ class Admin_Model_DbTable_Tareopersona extends Zend_Db_Table_Abstract
         }
     }
 
-    public function _getConteotareo($semanaid,$codigo_actividad,$tipo_actividad,$codigo_prop_proy,$proyectoid,$revision,$actividadid,$uid,$dni)
+    public function _getConteotareo($actividad_generalid,$semanaid,$codigo_actividad,$tipo_actividad,$codigo_prop_proy,$proyectoid,$revision,$actividadid,$uid,$dni)
      {
         try{
             $sql=$this->_db->query("
               select  count(*) from tareo_persona 
-              where  tipo_actividad='$tipo_actividad' and codigo_prop_proy='$codigo_prop_proy'
+              where actividad_generalid='$actividad_generalid' and tipo_actividad='$tipo_actividad' and codigo_prop_proy='$codigo_prop_proy'
               and proyectoid='$proyectoid' and revision='$revision' and actividadid='$actividadid' and uid='$uid' and dni='$dni' 
               and codigo_actividad = '$codigo_actividad' and semanaid='$semanaid'
 
@@ -411,6 +411,25 @@ class Admin_Model_DbTable_Tareopersona extends Zend_Db_Table_Abstract
         }
     }
 
+    public function _getConteotareo2($semanaid,$codigo_actividad,$tipo_actividad,$codigo_prop_proy,$proyectoid,$revision,$actividadid,$uid,$dni)
+     {
+        try{
+            $sql=$this->_db->query("
+              select  count(*) from tareo_persona 
+              where tipo_actividad='$tipo_actividad' and codigo_prop_proy='$codigo_prop_proy'
+              and proyectoid='$proyectoid' and revision='$revision' and actividadid='$actividadid' and uid='$uid' and dni='$dni' 
+              and codigo_actividad = '$codigo_actividad' and semanaid='$semanaid' and (etapa ='INICIO-NB-' or etapa ='INICIO' or etapa ='EJECUCION-NB-' or etapa ='EJECUCION')
+
+            ");
+            // print_r($sql);
+            $row=$sql->fetchAll();
+            return $row;           
+            }  
+            
+           catch (Exception $ex){
+            print $ex->getMessage();
+        }
+    }
 
 
     public function _getFilter($where=null,$attrib=null,$orders=null){
