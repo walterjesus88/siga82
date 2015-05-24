@@ -50,9 +50,8 @@ class Timesheet_IndexController extends Zend_Controller_Action {
         if ($clienteid=='20451530535' && $unidadid=='10')
         {
             $equipo = new Admin_Model_DbTable_Equipo();
-            $data_equipoanddes = $equipo->_getProyectosAnddes();    
-            $this->view->equipoanddes = $data_equipoanddes;
-            $this->view->cliente = $clienteid;
+            $data_equipo = $equipo->_getProyectosAnddes();    
+            $this->view->equipo = $data_equipo;
             $this->view->fecha_consulta = $fecha_consulta;   
         }
         else
@@ -245,9 +244,9 @@ class Timesheet_IndexController extends Zend_Controller_Action {
         $this->_helper->layout()->disableLayout();
         $uid = $this->sesion->uid;
         $dni = $this->sesion->dni;
-        $categoriaid_usuario=$this->sesion->personal->ucatid;
-        $areaid_usuario=$this->sesion->personal->ucatareaid;
-        $cargo_usuario='EQUIPO';
+        //$categoriaid=$this->sesion->personal->ucatid;
+        //$areaid=$this->sesion->personal->ucatareaid;
+        //$cargo=$this->sesion->personal->ucatcargo;
         
              
         $data['proyectoid']=$proyectoid = $this->_getParam('proyectoid');
@@ -261,7 +260,7 @@ class Timesheet_IndexController extends Zend_Controller_Action {
         $data['asignado']= $dni;
         $data['dni']=$dni;
         $data['etapa']='INICIO';
-        $data['estado']='A';
+        
 
         $fecha_inicio = $this->_getParam('fecha');
         $fecha_inicio_mod = date("Y-m-d", strtotime($fecha_inicio));
@@ -271,19 +270,9 @@ class Timesheet_IndexController extends Zend_Controller_Action {
         $data['fecha_tarea']=$fecha_inicio_mod;
         $data['fecha_creacion']=$fecha_inicio_mod;
         $data['fecha_planificacion']=$fecha_inicio_mod;
-
-        if ($codigo_prop_proy=='2015')
-        {
-
-        $data['tipo_actividad']='G';
-
-        }
-        else{
-
         $data['tipo_actividad']='P';
+        $data['estado']='A';
         
-        }
-
         $equipo = new Admin_Model_DbTable_Equipo();
         $estado_usuario='A';
         $data_equipo = $equipo->_getDatosxProyectoxUidXEstadoxCliente($uid,$dni,$estado_usuario,$codigo_prop_proy,$proyectoid);
@@ -293,7 +282,6 @@ class Timesheet_IndexController extends Zend_Controller_Action {
         $data['cargo']=$cargo;
         $data['areaid']=$areaid;
         $data['categoriaid']=$categoriaid;
-
 
         $tareopersona = new Admin_Model_DbTable_Tareopersona();
         $data_tareopersona = $tareopersona->_save($data);
@@ -351,7 +339,7 @@ class Timesheet_IndexController extends Zend_Controller_Action {
 
 
          $actividad_generalid = $this->_getParam('actividad_generalid');
-        if($actividad_generalid=='' and $codigo_prop_proy!='2015')
+        if($actividad_generalid=='')
         {
             $data['actividad_generalid']=null;
             $data['tipo_actividad']='P';
@@ -361,15 +349,7 @@ class Timesheet_IndexController extends Zend_Controller_Action {
         }
         else
         {
-            if ($codigo_prop_proy!='2015')
-            {
-                $data['actividad_generalid']=$actividadid;
-            }
-            else
-            {
-                $data['actividad_generalid']=$actividad_generalid;    
-            }
-            
+            $data['actividad_generalid']=$actividad_generalid;
             $data['tipo_actividad']='G';
             $etapa= $this->_getParam('etapa');
             $resultado = str_replace("INICIO", "EJECUCION", $etapa);
@@ -834,42 +814,41 @@ public function sumatareorealAction(){
         $actividad_generalid = $this->_getParam('tarea_general');
         $semanaid=$this->_getParam('semanaid');
         $tipo_actividad= $this->_getParam('tipo_actividad');
+        $actividad_gid= $this->_getParam('actividad_generalid');
 
+        if($actividad_gid=='')
+        {
+            $conteotareo =new Admin_Model_DbTable_Tareopersona();
+            $ctareo=$conteotareo->_getConteotareo2($semanaid,$codigo_actividad,$tipo_actividad,$codigo_prop_proy,$proyectoid,$revision,$actividadid,$uid,$dni);
+            // print_r($ctareo);
+            $count= $ctareo[0]['count'];
+            
+        }
+        else
+        {  
+            $conteotareo =new Admin_Model_DbTable_Tareopersona();
+            $ctareo=$conteotareo->_getConteotareo($actividad_gid,$semanaid,$codigo_actividad,$tipo_actividad,$codigo_prop_proy,$proyectoid,$revision,$actividadid,$uid,$dni);
+            // print_r($ctareo);
+            $count= $ctareo[0]['count'];
+        }
 
-
-        $conteotareo =new Admin_Model_DbTable_Tareopersona();
-        $ctareo=$conteotareo->_getConteotareo($semanaid,$codigo_actividad,$tipo_actividad,$codigo_prop_proy,$proyectoid,$revision,$actividadid,$uid,$dni);
-        // print_r($ctareo);
-        $count= $ctareo[0]['count'];
-
-
-
-
+        
 
         $etapa_inicio = $this->_getParam('etapa');
-<<<<<<< HEAD
-=======
         
         $datos_inicio['actividad_generalid']=$this->_getParam('tarea_general');
         $datos_inicio['tipo_actividad']='G';
         $datos_inicio['etapa']='INICIO-NB-'.$actividad_generalid;
         $datos_inicio['fecha_modificacion']=$fecha_inicio_mod;
 
->>>>>>> 41407749a2a09da7d9819ecf7bab7a67b727c6f3
         $etapa_ejecucion = str_replace("INICIO", "EJECUCION", $etapa_inicio);
         
-        $datos_inicio['actividad_generalid']=$this->_getParam('tarea_general');
         $datos_ejecucion['actividad_generalid']= $this->_getParam('tarea_general');
-        
-        $datos_inicio['tipo_actividad']='G';
         $datos_ejecucion['tipo_actividad']='G';
-
-        $datos_inicio['etapa']='INICIO-NB-'.$actividad_generalid;
         $datos_ejecucion['etapa']='EJECUCION-NB-'.$actividad_generalid;
+        $datos_ejecucion['fecha_modificacion']=$fecha_inicio_mod;
 
         
-        $datos_inicio['fecha_modificacion']=$fecha_inicio_mod;
-        $datos_ejecucion['fecha_modificacion']=$fecha_inicio_mod;
         
         $equipo = new Admin_Model_DbTable_Equipo();
         $estado_usuario='A';
@@ -887,8 +866,7 @@ public function sumatareorealAction(){
             revision='$revision' and codigo_actividad='$codigo_actividad'
             and actividad_padre='$actividad_padre'   and semanaid='$semanaid' and areaid='$areaid' 
             and etapa='$etapa_inicio' and tipo_actividad='$tipo_actividad' 
-            and estado='A' and uid='$uid' and dni='$dni'
-            ";
+            and estado='A' and uid='$uid' and dni='$dni'";
 
         $str_ejecucion="codigo_prop_proy='$codigo_prop_proy' and proyectoid='$proyectoid' and 
             categoriaid='$categoriaid' and actividadid='$actividadid' and 
@@ -904,12 +882,8 @@ public function sumatareorealAction(){
         </script>
         <?php
 
-<<<<<<< HEAD
-
-=======
         if($count>1)
         {
->>>>>>> 41407749a2a09da7d9819ecf7bab7a67b727c6f3
             $update_inicio=$tareopersona -> _update($datos_inicio,$str_inicio);
             $update_ejecucion=$tareopersona -> _update($datos_ejecucion,$str_ejecucion);
 
@@ -921,19 +895,14 @@ public function sumatareorealAction(){
                  else
                 { ?>
                      <script>                  
-                         alert("No se guardo cargue nuevamente la pagina o ya tiene una tarea facturable creada.1");
+                         alert("La actividad ya ha sido ocupada.revise");
                      </script>  <?php               
                 }
             }
             else
             { ?>
-
                 <script>                  
-<<<<<<< HEAD
-                    //alert("No se guardo cargue nuevamente la pagina o ya tiene una tarea facturable creada.");
-=======
-                    alert("No se guardo cargue nuevamente la pagina o ya tiene una tarea facturable creada.4");
->>>>>>> 41407749a2a09da7d9819ecf7bab7a67b727c6f3
+                    alert("La actividad ya ha sido ocupada....revise");
                 </script>
             <?php
             }
@@ -948,7 +917,7 @@ public function sumatareorealAction(){
             else
             { ?>
                 <script>                  
-                    alert("No se guardo cargue nuevamente la pagina o ya tiene una tarea facturable creada.2");
+                    alert("La actividad ya ha sido ocupada..revise");
                 </script>
             <?php
             }
@@ -1377,7 +1346,7 @@ public function sumatareorealAction(){
             if ($isjefe=='S') 
             {
                 $equipo = new Admin_Model_DbTable_Equipo();
-                $equipo_aprobacion = $equipo-> _getListarEquipoxJefe('4',$areaid);
+                $equipo_aprobacion = $equipo->_getListarNivel4xNivel3($uid,$dni,'4','2',$areaid);
 
                 $this->view->equipos_horas_aprobar= $equipo_aprobacion;    
             }
