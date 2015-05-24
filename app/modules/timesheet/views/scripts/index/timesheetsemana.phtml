@@ -366,7 +366,9 @@ $this->uid_validacion;
                   var dni="<?php echo $this->dni ?>";
                   var semanaid="<?php echo $data_tareo['semanaid'] ?>";
                   var cargo="<?php echo $data_tareo['cargo'] ?>";              
-                  url="/timesheet/index/guardarcomentario/estado/R/uid/"+uid+'/dni/'+dni+'/semanaid/'+semanaid+'/cargo/'+cargo+'/coment/'+coment;
+                  url="/timesheet/index/guardarcomentario/estado/R/uid/"+uid+'/dni/'+dni+'/semanaid/'+semanaid+'/cargo/'+cargo+'/coment/'+coment+'/uid_validacion/'+uid_validacion+'/dni_validacion/'+dni_validacion;
+
+                  //url="/timesheet/index/guardarcomentario/estado/R/uid/"+uid+'/dni/'+dni+'/semanaid/'+semanaid+'/cargo/'+cargo+'/coment/'+coment;
                   //alert(url);
                       $.ajax({
                           type: "POST",

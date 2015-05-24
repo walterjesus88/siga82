@@ -1050,6 +1050,59 @@
     </section>
   </div>
 </div>
+
+<div class="col-lg-6 alert-success"  style="padding-top: 10px;padding-bottom: 10px;padding-right: 10px;padding-left: 10px;">
+<?php 
+  $sumahorassemana = new Admin_Model_DbTable_Sumahorasemana();
+  $wheres=array('dni'=>$this->dni,'uid'=>$this->uid,'semanaid'=>$this->semana);
+  $tareosemana=$sumahorassemana->_getOne($wheres);
+  $estado_horas=$tareosemana['estado'];
+  echo $estado_horas;
+
+  $uid=$this->uid;
+  $dni=$this->dni;
+  $semanaid=$this->semana;
+  $vercoment= new Admin_Model_DbTable_Usuariovalidacion();
+  if($vcoment=$vercoment->_getUsuarioxValidacion($semanaid,$uid,$dni))
+  {?>
+  <table>
+    <tr>
+      <th style="width: 30%;">  Usuario</th>
+      <th style="width: 20%;" > Estado</th>
+      <th style="width: 25%;"> Fecha</th>
+      <th style="width: 25%;"> Comentario</th>
+    </tr>
+    <?php
+  
+
+  foreach ($vcoment as $historico) {?>
+
+  <tr>
+      <td>
+          <?php print_r($historico['uid'])?>  
+      </td>
+      <td>
+        <?php 
+        if ($historico['etapa']=='0')
+          { echo "Enviado Aprobacion";}
+        //print_r($historico['estado_usuario'])?>  
+      </td>
+      <td>
+        <?php print_r($historico['fecha_validacion'])?>  
+      </td>
+      <td>
+        <?php print_r($historico['comentario'])?>  
+      </td>
+
+  </tr>
+
+<?php
+    
+  }}
+?>
+
+</table>
+</div>
 <div style="display:none" id="horaregistrada"></div>
 <div style="display:none" id="carga"></div>
 <div style="display:none" id="carga_nueva"></div>
@@ -1155,17 +1208,9 @@ $("#save_work").click(function(){
          $("#fechasemana").text( fech );
       
     fecha_inicio = mostrarFecha(dateObj,-num_day);  
-
-
-       
-    //$("#registro").load("/timesheet/index/registro/fecha/" + fecha_inicio); 
-                   
-          document.location.href="/timesheet/index/calendar";                    
-
-
 });
 
-$("#submit_work").click(function(){
+$("#submit_work1").click(function(){
   alert("Enviando Hoja de Tiempo para Aprobacion");
   var fecha="<?php echo $this->fecha?>";
   var semana="<?php echo $this->semana?>";
@@ -1176,4 +1221,39 @@ $("#submit_work").click(function(){
  document.location.href="/timesheet/index/calendar";
 });
 
+</script>
+
+<script type="text/javascript">        
+  $(document).ready(function(){
+    $("#submit_work").on("click",function(){
+      var fecha_calendario = $("#fechasemana").text();
+      var url1="/timesheet/index/enviartimesheet/fecha_calendario/"+fecha_calendario;
+      $("#carga_nueva").load(url1);
+      alert('Enviando Hoja de Tiempo');
+      var coment='envio';
+      var uid="<?php echo $this->uid ?>";
+      var dni="<?php echo $this->dni ?>";
+      var uid_validacion="<?php echo $this->uid ?>";
+      var dni_validacion="<?php echo $this->dni ?>";
+
+      var semanaid="<?php echo $this->semana ?>";
+      var cargo="<?php echo $this->areaid ?>";
+      url="/timesheet/index/guardarcomentarioequipo/estado/B/uid/"+uid+'/dni/'+dni+'/semanaid/'+semanaid+'/cargo/'+cargo+'/coment/'+coment+'/uid_validacion/'+uid+'/dni_validacion/'+dni+'/etapa/0'+'/fecha/'+fecha_calendario;
+      $.ajax({
+        type: "POST",
+        url: url,
+        data: $(this).serialize(),
+        dataType: "html",                                                 
+        error: function(){
+            alert("error petición ajax load");
+        },
+        success: function(data){      
+            $("#carga_nueva").empty();
+            $("#carga_nueva").html(data);
+          
+           
+        }
+      });
+    });
+  })
 </script>

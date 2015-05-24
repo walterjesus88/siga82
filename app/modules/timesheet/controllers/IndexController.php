@@ -1311,6 +1311,8 @@ public function sumatareorealAction(){
             $estado = $this->_getParam('estado');
             $uid_validacion=$this->_getParam('uid_validacion');
             $dni_validacion=$this->_getParam('dni_validacion');
+            $fecha_validacion=$this->_getParam('fecha');
+            $etapa_validacion=$this->_getParam('etapa');
 
             $data['cargo']=$cargo;
             $data['semanaid']=$semana;
@@ -1320,6 +1322,8 @@ public function sumatareorealAction(){
             $data['dni_validacion']=$dni_validacion;
             $data['comentario']=$coment;
             $data['estado_usuario']=$estado;
+            $data['fecha_validacion']=$fecha_validacion;
+            $data['etapa']=$etapa_validacion;
 
             $where['uid']=$uid;
             $where['dni']=$dni;
@@ -1328,7 +1332,7 @@ public function sumatareorealAction(){
             $where['cargo']=$cargo;
             $where['semanaid']=$semana;
 
-
+            
 
             $vercoment= new Admin_Model_DbTable_Usuariovalidacion();
             if($vcoment=$vercoment->_getOne($where))
@@ -1345,8 +1349,7 @@ public function sumatareorealAction(){
                 ";
                 $update=$sumahorassemana -> _update($datos_actualizar_sumahoras,$str_actualizar_sumahoras);
 
-
-            }
+}
             else
             {
                 $coment=new Admin_Model_DbTable_Usuariovalidacion();
@@ -1357,12 +1360,9 @@ public function sumatareorealAction(){
                 $str_actualizar_sumahoras="semanaid='$semana' and uid='$uid' and dni='$dni' 
                 ";
                 $update=$sumahorassemana -> _update($datos_actualizar_sumahoras,$str_actualizar_sumahoras);
-                  
-            
-
-
             }
 
+            
         }
         catch (Exception $e) {
                 print "Error: ".$e->getMessage();
@@ -1592,6 +1592,70 @@ public function guardarcomentariogerenteAction(){
 
             
 
+        }
+        catch (Exception $e) {
+                print "Error: ".$e->getMessage();
+        }
+    }
+
+ public function guardarcomentarioequipoAction(){
+        try {
+            
+            $this->_helper->layout()->disableLayout();            
+            $uid = $this->_getParam('uid');
+            $dni = $this->_getParam('dni');
+            $cargo = $this->_getParam('cargo');
+            $semana = $this->_getParam('semanaid');
+            $coment = $this->_getParam('coment');
+            $estado = $this->_getParam('estado');
+            $uid_validacion=$this->_getParam('uid_validacion');
+            $dni_validacion=$this->_getParam('dni_validacion');
+            $fecha_validacion=$this->_getParam('fecha');
+            $etapa_validacion=$this->_getParam('etapa');
+
+            $data['cargo']=$cargo;
+            $data['semanaid']=$semana;
+            $data['uid']=$uid;
+            $data['dni']=$dni;
+            $data['uid_validacion']=$uid;
+            $data['dni_validacion']=$dni;
+            $data['comentario']=$coment;
+            $data['estado_usuario']=$estado;
+            $data['fecha_validacion']=$fecha_validacion;
+            $data['etapa']=$etapa_validacion;
+
+            $where['uid']=$uid;
+            $where['dni']=$dni;
+            $where['uid_validacion']=$uid;
+            $where['dni_validacion']=$dni;
+            $where['cargo']=$cargo;
+            $where['semanaid']=$semana;
+
+            
+
+            $vercoment= new Admin_Model_DbTable_Usuariovalidacion();
+            if($vcoment=$vercoment->_getOne($where))
+            {
+                $pk = array('dni' => $dni  ,'uid' => $uid,'cargo' => $cargo ,'semanaid' => $semana,'dni_validacion' => $dni  ,'uid_validacion' => $uid, );
+                $data2['comentario']=$coment;
+                $data2['estado_usuario']=$estado;
+                $data['fecha_validacion']=$fecha_validacion;
+                $data['etapa']=$etapa_validacion;
+                
+                $coment=new Admin_Model_DbTable_Usuariovalidacion();
+                $usecoment=$coment->_updateX($data2,$pk);
+                echo "update";
+              
+            }
+            else
+            {
+                $coment=new Admin_Model_DbTable_Usuariovalidacion();
+                $usercoment=$coment->_save($data);
+                echo "save";
+              
+            }
+
+            
         }
         catch (Exception $e) {
                 print "Error: ".$e->getMessage();
