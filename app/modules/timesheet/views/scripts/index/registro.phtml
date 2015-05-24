@@ -1,156 +1,99 @@
-
- <div class="row">
-    <div class="col-lg-3">
-      <section class="panel">
-        <div class="panel-body">  
-          <p>Semana <?php echo $this->semana; echo ": ";?>
-          <?php
-            $fecha = $this->fecha;
-            $newDate = date("Y-m-d", strtotime($fecha));
-            $fechainicio = date ( 'd/m/Y' , strtotime($fecha) );
-            $nuevafecha = strtotime ( '+6 day' , strtotime ( $newDate ) ) ;
-            $fechafinal = date ( 'd/m/Y' , $nuevafecha );
-            echo $fechainicio; echo " al "; echo $fechafinal;?></p>
-        </div>
-      </section>
-    </div>
-  <div class="col-lg-4">
 <section class="panel">
-      <div class="panel-body" style="padding-bottom: 10px;padding-top: 12px;">
-        <button data-toggle="button" class="btn btn-white">
-          
-          <?php 
-
-
-            // $tareopersona = new Admin_Model_DbTable_Tareopersona();
-            // $sumar=$tareopersona-> _getHorasRealxTipo($this->semana,$this->uid,$this->dni,$this->cargo,'P');
-            // print_r($sumar[0]['tareo_persona_horas_reales_tipoactividad']);
-
-
-            // $tareopersona = new Admin_Model_DbTable_Tareopersona();
-            // $sumar=$tareopersona-> _getHorasRealxTipo($this->semana,$this->uid,$this->dni,$this->cargo,'P');
-            // print_r($sumar[0]['tareo_persona_horas_reales_tipoactividad']);
-            $tareopersona = new Admin_Model_DbTable_Sumahorasemana();
-            $wheres=array('dni'=>$this->dni,'uid'=>$this->uid,'semanaid'=>$this->semana);
-            $sumar=$tareopersona-> _getOne($wheres);
-            echo $sumar['billable'];
-            //print_r($sumar);
-
-
-            echo "<br>"; 
-            echo "HR Facturable";
-          ?>
-        </button>
-        <button data-toggle="button" class="btn btn-white">
-          
-          <?php 
-            // $tareopersona = new Admin_Model_DbTable_Tareopersona();
-            // $sumar=$tareopersona-> _getHorasRealxTipo($this->semana,$this->uid,$this->dni,$this->cargo,'G');
-            // print_r($sumar[0]['tareo_persona_horas_reales_tipoactividad']);
-           
-            echo $sumar['nonbillable'];
-            echo "<br>";
-            echo "HR No Facturable";
-          ?>
-        </button>
-        <button data-toggle="button" class="btn btn-white">
-          
-          <?php 
-            // $tareopersona = new Admin_Model_DbTable_Tareopersona();
-            // $sumar=$tareopersona-> _getHorasRealxTipo($this->semana,$this->uid,$this->dni,$this->cargo,'');
-            // print_r($sumar[0]['tareo_persona_horas_reales_tipoactividad']); 
-            echo $sumar['h_total'];
-
-            echo "<br>";
-            echo "HR Total";
-          ?>
-        </button>
-      </div>
-    </section>
-  </div>
-  <div class="col-lg-5">
-    <section class="panel">
-      <div class="panel-body" style="padding-top: 10px;padding-bottom: 10px;">
-        Aprobado por: <br>
-         <?php 
-            $planificacion = new Admin_Model_DbTable_Planificacion();
-            
-              $proyectos=$planificacion->_getOnexSemana($this->semana,$this->uid,$this->dni,$this->areaid);
-              foreach ($proyectos as $datos) {
-
-                $proyectoid=$datos['proyectoid'];
-                $codigo=$datos['codigo_prop_proy'];
-                
-                $planificacion = new Admin_Model_DbTable_Planificacion();
-                $equipo = new Admin_Model_DbTable_Equipo();
-                $estado_usuario='A';
-                $data_equipo = $equipo->_buscarGerentexProyecto($proyectoid);
-                if ($data_equipo)
-                {
-                print_r($data_equipo[0]['uid']);
-                }
-
-
-              }
-            
-
-          ?>
-
-        
-      </div>
-    </section>
-
-  </div>
-  
-</div>
-<div class="row">
-    <section class="panel">
-
-    <?php 
+  <div class="col-lg-3 alert-success"  style="padding-top: 10px;padding-bottom: 10px;padding-right: 10px;padding-left: 10px;">
+    Semana <?php echo $this->semana; echo ": ";?>
+    <?php
+      $fecha = $this->fecha;
+      $newDate = date("Y-m-d", strtotime($fecha));
+      $fechainicio = date ( 'd/m/Y' , strtotime($fecha) );
+      $nuevafecha = strtotime ( '+6 day' , strtotime ( $newDate ) ) ;
+      $fechafinal = date ( 'd/m/Y' , $nuevafecha );
+      echo $fechainicio; echo " al "; echo $fechafinal;?>
+      <br>
+      <?php 
       $sumahorassemana = new Admin_Model_DbTable_Sumahorasemana();
       $wheres=array('dni'=>$this->dni,'uid'=>$this->uid,'semanaid'=>$this->semana);
       $tareosemana=$sumahorassemana->_getOne($wheres);
       $estado_horas=$tareosemana['estado'];
-      echo $estado_horas;
+     
       ?>
-
-      <div class="panel-body" style="padding-top: 10px;padding-bottom: 10px;">
-
       <?php if ($estado_horas=='P') {?>
-
-        <a id = "" class="btn btn-primary pull-right btn-xs"  href="" style="margin-right : 10px">
-            <i class="fa fa-print"></i> Imprimir
-            
-
-        </a><?php }?>
-<?php if ($estado_horas!='P') {?>
-
-         <a id = "submit_work" class="btn btn-default pull-right btn-xs" href="#" style="margin-right : 10px">
-            <i class="fa fa-check-square"></i> Enviar
-        </a><?php }?>
-<?php if ($estado_horas!='P') {?>
-        <a id = "save_work" class="btn btn-info pull-right btn-xs"  style="margin-right : 10px">
-            <i class="fa fa-save"></i> Guardar
-        </a><?php }?>
-<?php if ($estado_horas!='P') {?>
-        <a id = "add_work" class="btn btn-success pull-right btn-xs" data-toggle="modal" href="#agregar" style="margin-right : 10px">
-            <i class="fa fa-check-square-o"></i> Agregar
-        </a><?php }?>
-    </div></section></div>
-<div class="alert alert-success fade in">
-  <button data-dismiss="alert" class="close close-sm" type="button">
-    <i class="fa fa-times"></i>
-  </button>
+      <strong>Hoja de Tiempo Espera de Aprobacion</strong> 
+      <?php }?>
+      <?php if ($estado_horas!='P') {?>
+      <strong>Hoja de Tiempo Activa</strong> 
+      <?php }?>
+  </div>
+  <div class="col-lg-3" style="padding-top: 5px;">
+    <button data-toggle="button" class="btn btn-white">
+      <?php 
+      $tareopersona = new Admin_Model_DbTable_Sumahorasemana();
+      $wheres=array('dni'=>$this->dni,'uid'=>$this->uid,'semanaid'=>$this->semana);
+      $sumar=$tareopersona-> _getOne($wheres);
+      echo $sumar['billable'];
+      echo "<br>"; 
+      echo "HH Facturable";
+      ?>
+    </button>
+      <!--<button data-toggle="button" class="btn btn-white">
+      <?php 
+      echo $sumar['nonbillable'];
+      echo "<br>";
+      echo "HH No Facturable";
+      ?>-->
+    </button>
+    <button data-toggle="button" class="btn btn-white">
+      <?php 
+      echo $sumar['h_total'];
+      echo "<br>";
+      echo "HR Total";
+      ?>
+    </button>
+  </div>
+  <div class="col-lg-3" style="padding-top: 2px;">
+    Aprobadores: <br>
+    <?php 
+    $planificacion = new Admin_Model_DbTable_Planificacion();
+    $proyectos=$planificacion->_getOnexSemana($this->semana,$this->uid,$this->dni,$this->areaid);
+      foreach ($proyectos as $datos) {
+        $proyectoid=$datos['proyectoid'];
+        $codigo=$datos['codigo_prop_proy'];
+        $planificacion = new Admin_Model_DbTable_Planificacion();
+        $equipo = new Admin_Model_DbTable_Equipo();
+        $estado_usuario='A';
+        $data_equipo = $equipo->_buscarGerentexProyecto($proyectoid);
+        if ($data_equipo)
+        {
+          print_r($data_equipo[0]['uid']);
+        }
+      }
+    ?>
+  </div>
+  <?php 
+    $sumahorassemana = new Admin_Model_DbTable_Sumahorasemana();
+    $wheres=array('dni'=>$this->dni,'uid'=>$this->uid,'semanaid'=>$this->semana);
+    $tareosemana=$sumahorassemana->_getOne($wheres);
+    $estado_horas=$tareosemana['estado'];
+  
+  ?>
+  <div class="panel-body" style="padding-top: 10px;padding-bottom: 0px;">
   <?php if ($estado_horas=='P') {?>
-  <strong>Hoja de Tiempo Espera de Aprobacion</strong> Actualmente esta enviada tu hoja de timepo a espera de aprobacion de tu Jefe de Area. Gracias.
-  <?php }?>
-
+    <a id = "" class="btn btn-primary pull-right btn-xs"  href="" style="margin-right : 10px">
+      <i class="fa fa-print"></i> Imprimir
+    </a><?php }?>
   <?php if ($estado_horas!='P') {?>
-  <strong>Hoja de Tiempo Activa</strong> Puedes llenar tu Hoja de Tiempo. Gracias.
-  <?php }?>
-
-</div>
-
+    <a id = "submit_work" class="btn btn-default pull-right btn-xs" href="#" style="margin-right : 10px">
+      <i class="fa fa-check-square"></i> Enviar
+    </a><?php }?>
+  <?php if ($estado_horas!='P') {?>
+    <a id = "save_work" class="btn btn-info pull-right btn-xs"  style="margin-right : 10px">
+      <i class="fa fa-save"></i> Guardar
+    </a><?php }?>
+  <?php if ($estado_horas!='P') {?>
+    <a id = "add_work" class="btn btn-success pull-right btn-xs" data-toggle="modal" href="#agregar" style="margin-right : 10px">
+      <i class="fa fa-check-square-o"></i> Agregar
+    </a><?php }?>
+  </div>
+</section>
 <div class="row">
   <div class="col-sm-12">
     <section class="panel">
@@ -1187,6 +1130,39 @@ $( "input" )
 
 })
 
+$("#save_work").click(function(){
+  alert("Guardando la Hoja de Tiempo");
+   var dateObj = new Date();
+    //var dateObj = $('#datepicker').datepicker('getDate');
+    var dateFrom = $.datepicker.formatDate('mm/dd/yy', dateObj);
+    var weekfrom = $.datepicker.iso8601Week(new Date(dateFrom));
+    var diasSemana = new Array("Domingo","Lunes","Martes","Miércoles","Jueves","Viernes","Sábado");
+    var day_select = diasSemana[dateObj.getDay()];
+    for (i = 0; i < diasSemana.length; i++) { 
+        if (diasSemana[i] == day_select) {
+            if (i == 0) {
+                var num_day = 6;
+                
+            } else {
+                var num_day = i - 1;
+            };
+        };
+    };
+    var f = new Date(); 
+    var fech=f.getFullYear()+"-"+(f.getMonth()+1) +"-"+f.getDate() ;
+         $("#fechasemana").text( fech );
+      
+    fecha_inicio = mostrarFecha(dateObj,-num_day);  
+
+
+       
+    //$("#registro").load("/timesheet/index/registro/fecha/" + fecha_inicio); 
+                   
+          document.location.href="/timesheet/index/calendar";                    
+
+
+});
+
 $("#submit_work").click(function(){
   alert("Enviando Hoja de Tiempo para Aprobacion");
   var fecha="<?php echo $this->fecha?>";
@@ -1195,7 +1171,7 @@ $("#submit_work").click(function(){
   
   var url="/timesheet/index/enviartimesheet/fecha_calendario/"+fecha_calendario;
   $("#carga_nueva").load(url);
-
+ document.location.href="/timesheet/index/calendar";
 });
 
 </script>

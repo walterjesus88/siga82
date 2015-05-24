@@ -1346,7 +1346,8 @@ public function sumatareorealAction(){
             if ($isjefe=='S') 
             {
                 $equipo = new Admin_Model_DbTable_Equipo();
-                $equipo_aprobacion = $equipo->_getListarNivel4xNivel3($uid,$dni,'4','2',$areaid);
+                //$equipo_aprobacion = $equipo->_getListarNivel4xNivel3($uid,$dni,'4','2',$areaid);
+                $equipo_aprobacion = $equipo->_getListarEquipoArea($areaid);
 
                 $this->view->equipos_horas_aprobar= $equipo_aprobacion;    
             }
