@@ -19,7 +19,21 @@
       <?php if ($estado_horas=='P') {?>
       <strong>Hoja de Tiempo Espera de Aprobacion</strong> 
       <?php }?>
-      <?php if ($estado_horas!='P') {?>
+       <?php if ($estado_horas=='O') {?>
+      <strong>Hoja de Tiempo Rechazada por Jeje Area</strong> 
+      <?php }?>
+        <?php if ($estado_horas=='R') {?>
+      <strong>Hoja de Tiempo Rechazada por Gerente Proyecto</strong> 
+      <?php }?>
+
+      <?php if ($estado_horas=='1') {?>
+      <strong>Hoja de Tiempo Aprobada por Jefe Area, espera Gerente</strong> 
+      <?php }?>
+       <?php if ($estado_horas=='2') {?>
+      <strong>Hoja de Tiempo Aprobada</strong> 
+      <?php }?>
+
+      <?php if ($estado_horas!='P' && $estado_horas!='1' && $estado_horas!='2' &&  $estado_horas!='R' && $estado_horas!='O') {?>
       <strong>Hoja de Tiempo Activa</strong> 
       <?php }?>
   </div>
@@ -76,19 +90,19 @@
   
   ?>
   <div class="panel-body" style="padding-top: 10px;padding-bottom: 0px;">
-  <?php if ($estado_horas=='P') {?>
+  <?php if ($estado_horas=='P' or $estado_horas=='1' or $estado_horas=='2') {?>
     <a id = "" class="btn btn-primary pull-right btn-xs"  href="" style="margin-right : 10px">
       <i class="fa fa-print"></i> Imprimir
     </a><?php }?>
-  <?php if ($estado_horas!='P') {?>
+  <?php if ($estado_horas!='P' && $estado_horas!='1' && $estado_horas!='2') {?>
     <a id = "submit_work" class="btn btn-default pull-right btn-xs" href="#" style="margin-right : 10px">
       <i class="fa fa-check-square"></i> Enviar
     </a><?php }?>
-  <?php if ($estado_horas!='P') {?>
+  <?php if ($estado_horas!='P' && $estado_horas!='1' && $estado_horas!='2') {?>
     <a id = "save_work" class="btn btn-info pull-right btn-xs"  style="margin-right : 10px">
       <i class="fa fa-save"></i> Guardar
     </a><?php }?>
-  <?php if ($estado_horas!='P') {?>
+  <?php if ($estado_horas!='P' && $estado_horas!='1' && $estado_horas!='2') {?>
     <a id = "add_work" class="btn btn-success pull-right btn-xs" data-toggle="modal" href="#agregar" style="margin-right : 10px">
       <i class="fa fa-check-square-o"></i> Agregar
     </a><?php }?>
@@ -1051,40 +1065,46 @@
   </div>
 </div>
 
-<div class="col-lg-6 alert-success"  style="padding-top: 10px;padding-bottom: 10px;padding-right: 10px;padding-left: 10px;">
+<div class="col-lg-9 alert-success"  style="padding-top: 10px;padding-bottom: 10px;padding-right: 10px;padding-left: 10px;">
 <?php 
   $sumahorassemana = new Admin_Model_DbTable_Sumahorasemana();
   $wheres=array('dni'=>$this->dni,'uid'=>$this->uid,'semanaid'=>$this->semana);
   $tareosemana=$sumahorassemana->_getOne($wheres);
   $estado_horas=$tareosemana['estado'];
-  echo $estado_horas;
-
   $uid=$this->uid;
   $dni=$this->dni;
   $semanaid=$this->semana;
   $vercoment= new Admin_Model_DbTable_Usuariovalidacion();
   if($vcoment=$vercoment->_getUsuarioxValidacion($semanaid,$uid,$dni))
+
+   // print_r($vcoment);
   {?>
   <table>
     <tr>
-      <th style="width: 30%;">  Usuario</th>
-      <th style="width: 20%;" > Estado</th>
-      <th style="width: 25%;"> Fecha</th>
+      <th style="width: 20%;">  Usuario</th>
+      <th style="width: 35%;" > Estado</th>
+      <th style="width: 20%;"> Fecha</th>
       <th style="width: 25%;"> Comentario</th>
     </tr>
     <?php
-  
-
-  foreach ($vcoment as $historico) {?>
-
-  <tr>
+    foreach ($vcoment as $historico) {
+      //print_r($historico);?>
+    <tr>
       <td>
-          <?php print_r($historico['uid'])?>  
+        <?php print_r($historico['uid_validacion'])?>  
       </td>
       <td>
         <?php 
-        if ($historico['etapa']=='0')
-          { echo "Enviado Aprobacion";}
+          if ($historico['etapa']=='0'){
+            echo "Enviado Aprobacion";}
+          if ($historico['etapa']=='1' and $historico['estado_usuario']=='B'){
+            echo "Aprobado por el Jefe Area";}  
+          if ($historico['etapa']=='1' and $historico['estado_usuario']=='R'){
+            echo "Rechazado por el Jefe Area";}  
+            if ($historico['etapa']=='2' and $historico['estado_usuario']=='R'){
+            echo "Rechazado por el Gerente Proyecto";}  
+                if ($historico['etapa']=='2' and $historico['estado_usuario']=='B'){
+            echo "Aprobado por el Gerente Proyecto";}  
         //print_r($historico['estado_usuario'])?>  
       </td>
       <td>
@@ -1093,19 +1113,16 @@
       <td>
         <?php print_r($historico['comentario'])?>  
       </td>
-
-  </tr>
-
-<?php
-    
-  }}
+    </tr>
+    <?php
+    }
+  }
 ?>
-
 </table>
 </div>
 <div style="display:none" id="horaregistrada"></div>
 <div style="display:none" id="carga"></div>
-<div style="display:none" id="carga_nueva"></div>
+<div id="carga_nueva"></div>
 <div style="display:none" id="carga_w1"></div>
 
 
@@ -1208,6 +1225,7 @@ $("#save_work").click(function(){
          $("#fechasemana").text( fech );
       
     fecha_inicio = mostrarFecha(dateObj,-num_day);  
+    document.location.href="/timesheet/index/calendar";
 });
 
 $("#submit_work1").click(function(){
@@ -1227,18 +1245,20 @@ $("#submit_work1").click(function(){
   $(document).ready(function(){
     $("#submit_work").on("click",function(){
       var fecha_calendario = $("#fechasemana").text();
-      var url1="/timesheet/index/enviartimesheet/fecha_calendario/"+fecha_calendario;
-      $("#carga_nueva").load(url1);
+      //var url1="/timesheet/index/enviartimesheet/fecha_calendario/"+fecha_calendario;
+      //$("#carga_nueva").load(url1);
       alert('Enviando Hoja de Tiempo');
       var coment='envio';
       var uid="<?php echo $this->uid ?>";
       var dni="<?php echo $this->dni ?>";
       var uid_validacion="<?php echo $this->uid ?>";
       var dni_validacion="<?php echo $this->dni ?>";
-
       var semanaid="<?php echo $this->semana ?>";
       var cargo="<?php echo $this->areaid ?>";
+      document.location.href="/timesheet/index/calendar";
       url="/timesheet/index/guardarcomentarioequipo/estado/B/uid/"+uid+'/dni/'+dni+'/semanaid/'+semanaid+'/cargo/'+cargo+'/coment/'+coment+'/uid_validacion/'+uid+'/dni_validacion/'+dni+'/etapa/0'+'/fecha/'+fecha_calendario;
+      alert(url);
+
       $.ajax({
         type: "POST",
         url: url,

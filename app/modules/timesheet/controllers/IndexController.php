@@ -80,7 +80,7 @@ class Timesheet_IndexController extends Zend_Controller_Action {
 
         $proyectoid = $this->_getParam('proyectoid');
         $codigo_prop_proy = $this->_getParam('codigo_prop_proy');
-        $categoriaid = $this->_getParam('categoriaid');
+       $categoriaid = $this->_getParam('categoriaid');
         $fecha_consulta = $this->_getParam('fecha');
           $semana=date('W', strtotime($fecha_consulta)); 
         $this->view->semanaid = $semana;
@@ -101,10 +101,12 @@ class Timesheet_IndexController extends Zend_Controller_Action {
         //print_r($array);
 
         $dato_padre=$actividad->_getRepliconActividades($proyectoid,$codigo_prop_proy);
-
+        
+        $this->view->actividades = $dato_padre;    
+        
 
         //$this->view->actividades = $array;
-        $this->view->actividades = $dato_padre;
+        
         $this->view->proyectoid = $proyectoid;
         $this->view->codigo_prop_proy = $codigo_prop_proy;
         $this->view->categoriaid = $categoriaid;
@@ -1270,7 +1272,8 @@ public function sumatareorealAction(){
 
 
 
-            $this->view->cargo = 'EQUIPO';
+            $areaid=$this->sesion->personal->ucatareaid;   
+            $this->view->cargo = $areaid;
             $this->view->uid = $uid;
             $this->view->dni = $dni;
 
@@ -1315,9 +1318,14 @@ public function sumatareorealAction(){
             $etapa_validacion=$this->_getParam('etapa');
 
             $data['cargo']=$cargo;
+            $data2['cargo']=$cargo;
+
             $data['semanaid']=$semana;
+            $data2['semanaid']=$semana;
             $data['uid']=$uid;
             $data['dni']=$dni;
+            $data2['uid']=$uid;
+            $data2['dni']=$dni;
             $data['uid_validacion']=$uid_validacion;
             $data['dni_validacion']=$dni_validacion;
             $data['comentario']=$coment;
@@ -1327,36 +1335,77 @@ public function sumatareorealAction(){
 
             $where['uid']=$uid;
             $where['dni']=$dni;
-            $where['uid_validacion']=$uid_validacion;
-            $where['dni_validacion']=$dni_validacion;
+            //$where['uid_validacion']=$uid_validacion;
+            //$where['dni_validacion']=$dni_validacion;
             $where['cargo']=$cargo;
             $where['semanaid']=$semana;
 
-            
+//            print_r($data);
 
             $vercoment= new Admin_Model_DbTable_Usuariovalidacion();
             if($vcoment=$vercoment->_getOne($where))
             {
-                $pk = array('dni' => $dni  ,'uid' => $uid,'cargo' => $cargo ,'semanaid' => $semana,'dni_validacion' => $dni_validacion  ,'uid_validacion' => $uid_validacion, );
+                echo "existe";
+                $pk = array('dni' => $dni  ,'uid' => $uid,'cargo' => $cargo ,'semanaid' => $semana, );
+                
+                $count=$vercoment->_getUsuarioxValidacion($semana,$uid,$dni);
+
                 $data2['comentario']=$coment;
                 $data2['estado_usuario']=$estado;
-                $coment=new Admin_Model_DbTable_Usuariovalidacion();
-                $usecoment=$coment->_updateX($data2,$pk);
+                $data2['fecha_validacion']=$fecha_validacion;
+                $data2['etapa']=$etapa_validacion;
+                $data2['orden']=count($count)+1;
+                $data2['estado']="A";
+                
+                $data2['uid_validacion']=$uid_validacion;
+                $data2['dni_validacion']=$dni_validacion;
+                $usercoment=$vercoment->_save($data2);
+                if ($usercoment){
+
+                $pk1 = array('dni' => $dni  ,'uid' => $uid,'cargo' => $cargo ,'semanaid' => $semana, 'orden' => count($count));
+                $data3['estado']="C";
+
+                print_r($pk1);
+            //    $coment=new Admin_Model_DbTable_Usuariovalidacion();
+                //$usecoment=$coment->_updateX($data2,$pk);
+                
+                $usecoment=$vercoment->_updateXUsuario($data3,$pk1);}
                 //echo "update";
                 $sumahorassemana = new Admin_Model_DbTable_Sumahorasemana();
-                $datos_actualizar_sumahoras['estado']='1';
+                if ( $estado=='R'){
+                  $datos_actualizar_sumahoras['estado']='O';   
+                        $tareopersona = new Admin_Model_DbTable_Tareopersona();
+                        $datos_actualizar['estado']='A';
+                        $str_actualizar="semanaid='$semana' and uid='$uid' and dni='$dni' and   estado='C' ";
+                        $update_tareopersona=$tareopersona -> _update($datos_actualizar,$str_actualizar);
+                }
+                if ( $estado=='B'){
+                    $datos_actualizar_sumahoras['estado']='1';    
+                }
+                
                 $str_actualizar_sumahoras="semanaid='$semana' and uid='$uid' and dni='$dni' 
                 ";
                 $update=$sumahorassemana -> _update($datos_actualizar_sumahoras,$str_actualizar_sumahoras);
+                }
 
-}
+
+
             else
-            {
+            {echo "no existe";
                 $coment=new Admin_Model_DbTable_Usuariovalidacion();
-                $usercoment=$coment->_save($data);
+              $usercoment=$coment->_save($data);
                 //echo "save";
                 $sumahorassemana = new Admin_Model_DbTable_Sumahorasemana();
-                $datos_actualizar_sumahoras['estado']='1';
+               if ( $estado=='R'){
+                    $datos_actualizar_sumahoras['estado']='O';   
+                        $tareopersona = new Admin_Model_DbTable_Tareopersona();
+                        $datos_actualizar['estado']='A';
+                        $str_actualizar="semanaid='$semanaid' and uid='$uid' and dni='$dni' and   estado='C' ";
+                        $update_tareopersona=$tareopersona -> _update($datos_actualizar,$str_actualizar);
+                }
+                if ( $estado=='B'){
+                    $datos_actualizar_sumahoras['estado']='1';    
+                }
                 $str_actualizar_sumahoras="semanaid='$semana' and uid='$uid' and dni='$dni' 
                 ";
                 $update=$sumahorassemana -> _update($datos_actualizar_sumahoras,$str_actualizar_sumahoras);
@@ -1470,7 +1519,9 @@ public function sumatareorealAction(){
         }
     }
 
-    public function timesheetsemanagerenteAction(){
+   
+
+public function timesheetsemanagerenteAction(){
         try {
             $this->_helper->layout()->disableLayout();
             $uid = $this->_getParam('uid');
@@ -1478,8 +1529,15 @@ public function sumatareorealAction(){
             $cargo = $this->_getParam('cargo');
             $semana = $this->_getParam('semanaid');
 
+            $uid_validacion = $this->sesion->uid;
+            $dni_validacion = $this->sesion->dni;
+            $this->view->uid_validacion=$uid_validacion;
+            $this->view->dni_validacion=$dni_validacion;
 
-            $this->view->cargo = 'EQUIPO';
+
+
+            $areaid=$this->sesion->personal->ucatareaid;   
+            $this->view->cargo = $areaid;
             $this->view->uid = $uid;
             $this->view->dni = $dni;
 
@@ -1511,7 +1569,7 @@ public function sumatareorealAction(){
 
 
 
-public function guardarcomentariogerenteAction(){
+/*public function guardarcomentariogerenteAction(){
         try {
             $this->_helper->layout()->disableLayout();            
             $uid = $this->_getParam('uid');
@@ -1567,6 +1625,137 @@ public function guardarcomentariogerenteAction(){
                 print "Error: ".$e->getMessage();
         }
     }
+*/
+
+public function guardarcomentariogerenteAction(){
+        try {
+            $this->_helper->layout()->disableLayout();            
+            $uid = $this->_getParam('uid');
+            $dni = $this->_getParam('dni');
+            $cargo = $this->_getParam('cargo');
+            $semana = $this->_getParam('semanaid');
+            $coment = $this->_getParam('coment');
+            $estado = $this->_getParam('estado');
+            $uid_validacion=$this->_getParam('uid_validacion');
+            $dni_validacion=$this->_getParam('dni_validacion');
+            $fecha_validacion=$this->_getParam('fecha');
+            $etapa_validacion=$this->_getParam('etapa');
+
+            $data['cargo']=$cargo;
+            $data2['cargo']=$cargo;
+
+            $data['semanaid']=$semana;
+            $data2['semanaid']=$semana;
+            $data['uid']=$uid;
+            $data['dni']=$dni;
+            $data2['uid']=$uid;
+            $data2['dni']=$dni;
+            $data['uid_validacion']=$uid_validacion;
+            $data['dni_validacion']=$dni_validacion;
+            $data['comentario']=$coment;
+            $data['estado_usuario']=$estado;
+            $data['fecha_validacion']=$fecha_validacion;
+            $data['etapa']=$etapa_validacion;
+
+            $where['uid']=$uid;
+            $where['dni']=$dni;
+            //$where['uid_validacion']=$uid_validacion;
+            //$where['dni_validacion']=$dni_validacion;
+            $where['cargo']=$cargo;
+            $where['semanaid']=$semana;
+
+//            print_r($data);
+
+            $vercoment= new Admin_Model_DbTable_Usuariovalidacion();
+           
+            if($vcoment=$vercoment->_getOnexUsuario($where))
+            {
+                echo "existe";
+                $pk = array('dni' => $dni  ,'uid' => $uid,'cargo' => $cargo ,'semanaid' => $semana, );
+                
+                $count=$vercoment->_getUsuarioxValidacion($semana,$uid,$dni);
+
+                $data2['comentario']=$coment;
+                $data2['estado_usuario']=$estado;
+                $data2['fecha_validacion']=$fecha_validacion;
+                $data2['etapa']=$etapa_validacion;
+                $data2['orden']=count($count)+1;
+                $data2['estado']="A";
+                
+                $data2['uid_validacion']=$uid_validacion;
+                $data2['dni_validacion']=$dni_validacion;
+                $usercoment=$vercoment->_save($data2);
+                if ($usercoment){
+
+                $pk1 = array('dni' => $dni  ,'uid' => $uid,'cargo' => $cargo ,'semanaid' => $semana, 'orden' => count($count));
+                $data3['estado']="C";
+
+                print_r($pk1);
+            //    $coment=new Admin_Model_DbTable_Usuariovalidacion();
+                //$usecoment=$coment->_updateX($data2,$pk);
+                
+                $usecoment=$vercoment->_updateXUsuario($data3,$pk1);
+            }
+                //echo "update";
+                $sumahorassemana = new Admin_Model_DbTable_Sumahorasemana();
+                
+                 if ( $estado=='R'){
+                  $datos_actualizar_sumahoras['estado']='R';   
+                        $tareopersona = new Admin_Model_DbTable_Tareopersona();
+                        $datos_actualizar['estado']='A';
+                        $str_actualizar="semanaid='$semana' and uid='$uid' and dni='$dni' and   estado='C' ";
+                        $update_tareopersona=$tareopersona -> _update($datos_actualizar,$str_actualizar);
+                }
+                if ( $estado=='B'){
+                   $datos_actualizar_sumahoras['estado']='2';
+                         $tareopersona = new Admin_Model_DbTable_Tareopersona();
+                        $datos_actualizar['estado']='C';
+                        $str_actualizar="semanaid='$semana' and uid='$uid' and dni='$dni' and   estado='A' ";
+                        $update_tareopersona=$tareopersona -> _update($datos_actualizar,$str_actualizar);  
+                }
+
+                
+                $str_actualizar_sumahoras="semanaid='$semana' and uid='$uid' and dni='$dni' 
+                ";
+                $update=$sumahorassemana -> _update($datos_actualizar_sumahoras,$str_actualizar_sumahoras);
+
+
+}
+            else
+            {echo "no existe";
+                $coment=new Admin_Model_DbTable_Usuariovalidacion();
+              //$usercoment=$coment->_save($data);
+                //echo "save";
+                $sumahorassemana = new Admin_Model_DbTable_Sumahorasemana();
+                 if ( $estado=='R'){
+                  $datos_actualizar_sumahoras['estado']='R';   
+                        $tareopersona = new Admin_Model_DbTable_Tareopersona();
+                        $datos_actualizar['estado']='A';
+                        $str_actualizar="semanaid='$semana' and uid='$uid' and dni='$dni' and   estado='C' ";
+                        $update_tareopersona=$tareopersona -> _update($datos_actualizar,$str_actualizar);
+                }
+                 if ( $estado=='B'){
+                   $datos_actualizar_sumahoras['estado']='2';
+                         $tareopersona = new Admin_Model_DbTable_Tareopersona();
+                        $datos_actualizar['estado']='C';
+                        $str_actualizar="semanaid='$semana' and uid='$uid' and dni='$dni' and   estado='A' ";
+                        $update_tareopersona=$tareopersona -> _update($datos_actualizar,$str_actualizar);  
+                }
+
+                
+                
+                $str_actualizar_sumahoras="semanaid='$semana' and uid='$uid' and dni='$dni' 
+                ";
+                //$update=$sumahorassemana -> _update($datos_actualizar_sumahoras,$str_actualizar_sumahoras);
+            }
+
+            
+        }
+        catch (Exception $e) {
+                print "Error: ".$e->getMessage();
+        }
+    }
+
 
  public function timesheethistoricoAction(){
         try {
@@ -1612,6 +1801,7 @@ public function guardarcomentariogerenteAction(){
             $dni_validacion=$this->_getParam('dni_validacion');
             $fecha_validacion=$this->_getParam('fecha');
             $etapa_validacion=$this->_getParam('etapa');
+            
 
             $data['cargo']=$cargo;
             $data['semanaid']=$semana;
@@ -1623,34 +1813,72 @@ public function guardarcomentariogerenteAction(){
             $data['estado_usuario']=$estado;
             $data['fecha_validacion']=$fecha_validacion;
             $data['etapa']=$etapa_validacion;
-
+            $data['orden']='1';
+            $data['estado']='A';
+           
             $where['uid']=$uid;
             $where['dni']=$dni;
-            $where['uid_validacion']=$uid;
-            $where['dni_validacion']=$dni;
-            $where['cargo']=$cargo;
+            //$where['uid_validacion']=$uid;
+            //$where['dni_validacion']=$dni;
+            //$where['cargo']=$cargo;
             $where['semanaid']=$semana;
 
             
 
             $vercoment= new Admin_Model_DbTable_Usuariovalidacion();
-            if($vcoment=$vercoment->_getOne($where))
+            if($vcoment=$vercoment->_getOnexUsuario($where))
             {
-                $pk = array('dni' => $dni  ,'uid' => $uid,'cargo' => $cargo ,'semanaid' => $semana,'dni_validacion' => $dni  ,'uid_validacion' => $uid, );
+                echo "existe";
+                $pk = array('dni' => $dni  ,'uid' => $uid,'cargo' => $cargo ,'semanaid' => $semana, );
+                $count=$vercoment->_getUsuarioxValidacion($semana,$uid,$dni);
                 $data2['comentario']=$coment;
-                $data2['estado_usuario']=$estado;
-                $data['fecha_validacion']=$fecha_validacion;
-                $data['etapa']=$etapa_validacion;
                 
-                $coment=new Admin_Model_DbTable_Usuariovalidacion();
-                $usecoment=$coment->_updateX($data2,$pk);
+                $existe_validacion_jefe=$vercoment->_getEstadoxValidarJefe($semana,$uid,$dni);
+
+                if ($existe_validacion_jefe)
+                {
+                    echo "existe validacion por el geje";
+                    $data2['estado_usuario']='1';
+
+                     $sumahorassemana = new Admin_Model_DbTable_Sumahorasemana();
+            $wheres=array('dni'=>$dni,'uid'=>$uid,'semanaid'=>$semana);
+            $tareosemana=$sumahorassemana->_getOne($wheres);
+            print_r($tareosemana);
+            if ($tareosemana)
+            {
+                $datos_actualizar_sumahoras['estado']='1';
+                $str_actualizar_sumahoras="semanaid='$semana' and uid='$uid' and dni='$dni' 
+                ";
+                $update=$sumahorassemana -> _update($datos_actualizar_sumahoras,$str_actualizar_sumahoras);
+                  
+            }
+
+
+                }
+                    else  {                  
+                    $data2['estado_usuario']=$estado;}
+                
+                $data2['fecha_validacion']=$fecha_validacion;
+                $data2['etapa']=$etapa_validacion;
+                $data2['orden']=count($count)+1;
+                $data2['estado']="A";
+                $data2['cargo']=$cargo;
+                $data2['semanaid']=$semana;
+                $data2['uid']=$uid;
+                $data2['dni']=$dni;
+                $data2['uid_validacion']=$uid;
+                $data2['dni_validacion']=$dni;
+                
+                
+                //$usecoment=$coment->_updateX($data2,$pk);
+                $usercoment=$vercoment->_save($data2);
                 echo "update";
               
             }
             else
             {
-                $coment=new Admin_Model_DbTable_Usuariovalidacion();
-                $usercoment=$coment->_save($data);
+                $vercoment=new Admin_Model_DbTable_Usuariovalidacion();
+                $usercoment=$vercoment->_save($data);
                 echo "save";
               
             }
