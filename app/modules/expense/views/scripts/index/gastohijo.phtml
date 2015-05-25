@@ -3,7 +3,7 @@ if ($this->hijos) { ?>
  	<option value="">Seleccione</option>
  	<?php 
  	foreach ($this->hijos as $hijos) { ?>
- 	 	<option value="<?php echo $hijos['gastoid']. '-' .$hijos['tipo_gasto'] ?>"><?php echo $hijos['gastoid'].' - '.$hijos['nombre_gasto'] ?></option>
+ 	 	<option value="<?php echo $hijos['gastoid']. '-' .$hijos['tipo_gasto']. '-' .$hijos['costo_unitario'] ?>"><?php echo $hijos['gastoid'].' - '.$hijos['nombre_gasto'] ?></option>
  	 	<?php
  	 } ?>
  	<?php
