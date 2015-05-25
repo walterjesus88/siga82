@@ -194,7 +194,7 @@ $data_rendicion = $this->data_rendicion;
                                                         <option value="<?php echo $list_gastos['gastoid']. '-' .$list_gastos['tipo_gasto'] ?>" <?php print ($data_actividades['gastoid']==$list_gastos['gastoid'])? 'selected' : ''; ?>><?php echo $list_gastos['gastoid'].' - '.$list_gastos['nombre_gasto'] ?></option>
                                                     <?php
                                                         }
-                                                    }
+                                                    } 
                                                 } ?>
                                             <?php else: ?>
                                                 <option value="">No Existen Gastos</option>
@@ -339,6 +339,68 @@ $data_rendicion = $this->data_rendicion;
                                             $("#lab_cantidad<?php echo $data_actividades['gasto_persona_id'] ?>").attr('readonly', true);
                                             $("#lab_pu<?php echo $data_actividades['gasto_persona_id'] ?>").attr('readonly', true);
                                         };
+                                    });
+
+                                    $("#gasto_hijo<?php echo $data_actividades['gasto_persona_id'] ?>").change(function(){
+                                        var gasto = $(this).val();
+                                        var res = gasto.split("-");
+                                        if (res[1] == 'laboratorio') {
+                                            $("#lab_pu<?php echo $data_actividades['gasto_persona_id'] ?>").val(res[2]);
+                                        };
+                                    });
+
+                                    $("#lab_cantidad<?php echo $data_actividades['gasto_persona_id'] ?>").keyup(function(){
+                                        var cant = $(this).val();
+                                        var pu = $("#lab_pu<?php echo $data_actividades['gasto_persona_id'] ?>").val();
+                                        var new_neto1 = parseFloat(cant)*parseFloat(pu);
+                                        if (isNaN(new_neto1)) {
+                                            new_neto1 = '';
+                                        };
+                                        $("#neto<?php echo $data_actividades['gasto_persona_id'] ?>").val(new_neto1);
+                                        var otro = $("#otro_imp<?php echo $data_actividades['gasto_persona_id'] ?>").val();
+                                        if (otro == '' || otro =='0') {
+                                            var igv = (new_neto1 * 0.18);
+                                        } else {
+                                            var other_igv = (new_neto1 *(otro/100))
+                                            var new_neto = parseFloat(new_neto1)+parseFloat(other_igv);
+                                            var igv = (new_neto * 0.18);
+                                        };
+                                        var total = parseFloat(new_neto1)+parseFloat(igv);
+                                        if (isNaN(total)) {
+                                            total = 0;
+                                        };
+                                        if (isNaN(igv)) {
+                                            igv = 0;
+                                        };
+                                        $("#igv<?php echo $data_actividades['gasto_persona_id'] ?>").val(igv);
+                                        $("#total<?php echo $data_actividades['gasto_persona_id'] ?>").val(total);
+                                    });
+
+                                    $("#lab_pu<?php echo $data_actividades['gasto_persona_id'] ?>").keyup(function(){
+                                        var pu = $(this).val();
+                                        var cant = $("#lab_cantidad<?php echo $data_actividades['gasto_persona_id'] ?>").val();
+                                        var new_neto1 = parseFloat(cant)*parseFloat(pu);
+                                        if (isNaN(new_neto1)) {
+                                            new_neto1 = '';
+                                        };
+                                        $("#neto<?php echo $data_actividades['gasto_persona_id'] ?>").val(new_neto1);
+                                        var otro = $("#otro_imp<?php echo $data_actividades['gasto_persona_id'] ?>").val();
+                                        if (otro == '' || otro =='0') {
+                                            var igv = (new_neto1 * 0.18);
+                                        } else {
+                                            var other_igv = (new_neto1 *(otro/100))
+                                            var new_neto = parseFloat(new_neto1)+parseFloat(other_igv);
+                                            var igv = (new_neto * 0.18);
+                                        };
+                                        var total = parseFloat(new_neto1)+parseFloat(igv);
+                                        if (isNaN(total)) {
+                                            total = 0;
+                                        };
+                                        if (isNaN(igv)) {
+                                            igv = 0;
+                                        };
+                                        $("#igv<?php echo $data_actividades['gasto_persona_id'] ?>").val(igv);
+                                        $("#total<?php echo $data_actividades['gasto_persona_id'] ?>").val(total);
                                     });
 
                                     $("#neto<?php echo $data_actividades['gasto_persona_id'] ?>").keyup(function(){
