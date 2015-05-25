@@ -352,6 +352,12 @@ $data_rendicion = $this->data_rendicion;
                                             var igv = (new_neto * 0.18);
                                         };
                                         var total = parseFloat(neto)+parseFloat(igv);
+                                        if (isNaN(total)) {
+                                            total = 0;
+                                        };
+                                        if (isNaN(igv)) {
+                                            igv = 0;
+                                        };
                                         $("#igv<?php echo $data_actividades['gasto_persona_id'] ?>").val(igv);
                                         $("#total<?php echo $data_actividades['gasto_persona_id'] ?>").val(total);
                                     });
@@ -367,6 +373,12 @@ $data_rendicion = $this->data_rendicion;
                                             var igv = (new_neto * 0.18);
                                         };
                                         var total = parseFloat(neto)+parseFloat(igv);
+                                        if (isNaN(total)) {
+                                            total = 0;
+                                        };
+                                        if (isNaN(igv)) {
+                                            igv = 0;
+                                        };
                                         $("#igv<?php echo $data_actividades['gasto_persona_id'] ?>").val(igv);
                                         $("#total<?php echo $data_actividades['gasto_persona_id'] ?>").val(total);
                                     });
