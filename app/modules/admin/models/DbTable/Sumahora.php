@@ -42,6 +42,23 @@ class Admin_Model_DbTable_Sumahora extends Zend_Db_Table_Abstract
         }
     }
  
+public function _getSumaHorasxActividad($uid,$dni,$semanaid,$tipo_actividad)
+     {
+        try{
+            $sql=$this->_db->query("
+               select sum($tipo_actividad) from suma_hora
+               where uid='$uid'  and dni='$dni' and semanaid='$semanaid'
+               
+            ");
+            $row=$sql->fetchAll();
+            return $row;           
+            }  
+            
+           catch (Exception $ex){
+            print $ex->getMessage();
+        }
+    }
+
 
     public function _getOne($where=array()){
         try {

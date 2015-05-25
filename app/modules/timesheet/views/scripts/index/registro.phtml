@@ -1,5 +1,5 @@
 <section class="panel">
-  <div class="col-lg-3 alert-success"  style="padding-top: 10px;padding-bottom: 10px;padding-right: 10px;padding-left: 10px;">
+  <div class="col-lg-2 alert-success"  style="padding-top: 10px;padding-bottom: 10px;padding-right: 10px;padding-left: 10px;">
     Semana <?php echo $this->semana; echo ": ";?>
     <?php
       $fecha = $this->fecha;
@@ -37,12 +37,17 @@
       <strong>Hoja de Tiempo Activa</strong> 
       <?php }?>
   </div>
-  <div class="col-lg-3" style="padding-top: 5px;">
+  <div class="col-lg-4" style="padding-top: 5px;">
     <button data-toggle="button" class="btn btn-white">
       <?php 
       $tareopersona = new Admin_Model_DbTable_Sumahorasemana();
       $wheres=array('dni'=>$this->dni,'uid'=>$this->uid,'semanaid'=>$this->semana);
+      $sumahoras = new Admin_Model_DbTable_Sumahora();
+      
+      //print_r($sumahorasxact);
       $sumar=$tareopersona-> _getOne($wheres);
+      //print_r($sumar);
+
       echo $sumar['billable'];
       echo "<br>"; 
       echo "HH Facturable";
@@ -57,9 +62,20 @@
     </button>
     <button data-toggle="button" class="btn btn-white">
       <?php 
+      
+
       echo $sumar['h_total'];
       echo "<br>";
       echo "HR Total";
+      ?>
+    </button>
+    <button data-toggle="button" class="btn btn-white">
+      <?php 
+      $sumahorasxact=$sumahoras->_getSumaHorasxActividad($this->uid,$this->dni,$this->semana,'adm');
+      //echo $sumar['adm'];
+      print_r($sumahorasxact[0]['sum']);
+      echo "<br>";
+      echo "HR Anddes";
       ?>
     </button>
   </div>
@@ -118,7 +134,7 @@
           <thead>
             <tr >
             <th style="width: 5%;">  </th>
-            <th style="width: 40%;" >Proyecto / Actividad: TareaSS</th>
+            <th style="width: 40%;" >Proyecto / Actividad: Tarea</th>
             <th style="width: 7%;">Facturable</th>
             <th style="width: 12%;">Tarea No Facturable</th>
             <?php 
@@ -164,6 +180,11 @@
                   <a id ="crear_tareag_<?php echo $j?>" ><i class="fa fa-plus-square-o"></i></a>
                   <a <?php if ($data_tareo['estado_tareopersona']=='C') { ?> disabled <?php }?> title="Eliminar" id ="eliminar_tareo_<?php echo $j?>" ><i class="fa fa-minus-square-o"></i></a>                                   
                 <?php }?>
+                <?php if ($data_tareo['tipo_actividad']=='A') { ?>
+                  <a ><i class="fa fa-plus-square-o"></i></a>
+                  <a <?php if ($data_tareo['estado_tareopersona']=='C') { ?> disabled <?php }?> title="Eliminar" id ="eliminar_tareo_<?php echo $j?>" ><i class="fa fa-minus-square-o"></i></a>                                   
+                <?php }?>
+
               </td>
 
               <?php } else {?> 
@@ -183,11 +204,21 @@
                   
 
                   <a <?php if ($data_tareo['estado_tareopersona']=='C') { ?> disabled <?php }?> id ="nofacturable_cambio_<?php echo $j?>" class="btn btn-danger btn-xs ">No Facturable.</a>
-                <?php }else{ ?>
+                <?php }
+
+                if ($data_tareo['tipo_actividad']=='P'){ ?>
                 <a <?php if ($data_tareo['estado_tareopersona']=='C') { ?> disabled <?php }?> id ="facturable_tareo_<?php echo $j?>" class="btn btn-success btn-xs">Facturable</a>
                 <a <?php if ($data_tareo['estado_tareopersona']=='C') { ?> disabled <?php }?> id ="nofacturable_tareo_<?php echo $j?>" class="btn btn-danger btn-xs" style="display:none">No Facturable</a>
 
                 <?php }?>
+                <?php if ($data_tareo['tipo_actividad']=='A') {?>
+                  
+
+                  <a  class="btn btn-info btn-xs ">Anddes</a>
+                
+
+                <?php }?>
+
               </td>            
 
               <td> 
@@ -365,7 +396,7 @@
                           var url="/timesheet/index/updatetareoreal/codigo_prop_proy/"+codigo_prop_proy+"/codigo_actividad/"+codigo_actividad+"/actividadid/"+actividadid+"/revision/"+revision+"/actividad_padre/"+actividad_padre+"/proyectoid/"+proyectoid+"/semanaid/"+semanaid+"/fecha_tarea/"+fecha_tarea+"/asignado/"+asignado+"/areaid/"+areaid+"/categoriaid/"+categoriaid+"/dni/"+dni+"/cargo/"+cargo+"/horareal/"+hora_real+"/tipo_actividad/"+tipo_actividad+"/etapa/"+etapa+"/actividad_generalid/"+actividad_generalid+"/fecha_calendario/"+fecha_calendario+"/h_propuesta/"+h_propuesta;   
 
                           var url2='/timesheet/index/traersumahoras/semanaid/'+semanaid+'/fecha/'+fecha_tarea+'/fechainiciomod/'+fecha_tarea+'/uid/'+uid+'/dni/'+dni_+'/cargo/'+cargo;   
-                          //alert(url);            
+                         //alert(url);            
 
                            $.ajax({
                                     type: "POST",
@@ -1122,7 +1153,7 @@
 </div>
 <div style="display:none" id="horaregistrada"></div>
 <div style="display:none" id="carga"></div>
-<div id="carga_nueva"></div>
+<div style="display:none" id="carga_nueva"></div>
 <div style="display:none" id="carga_w1"></div>
 
 
@@ -1245,8 +1276,8 @@ $("#submit_work1").click(function(){
   $(document).ready(function(){
     $("#submit_work").on("click",function(){
       var fecha_calendario = $("#fechasemana").text();
-      //var url1="/timesheet/index/enviartimesheet/fecha_calendario/"+fecha_calendario;
-      //$("#carga_nueva").load(url1);
+      var url1="/timesheet/index/enviartimesheet/fecha_calendario/"+fecha_calendario;
+      $("#carga_nueva").load(url1);
       alert('Enviando Hoja de Tiempo');
       var coment='envio';
       var uid="<?php echo $this->uid ?>";
@@ -1257,7 +1288,7 @@ $("#submit_work1").click(function(){
       var cargo="<?php echo $this->areaid ?>";
       document.location.href="/timesheet/index/calendar";
       url="/timesheet/index/guardarcomentarioequipo/estado/B/uid/"+uid+'/dni/'+dni+'/semanaid/'+semanaid+'/cargo/'+cargo+'/coment/'+coment+'/uid_validacion/'+uid+'/dni_validacion/'+dni+'/etapa/0'+'/fecha/'+fecha_calendario;
-      alert(url);
+         
 
       $.ajax({
         type: "POST",

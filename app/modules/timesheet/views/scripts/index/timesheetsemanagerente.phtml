@@ -7,7 +7,6 @@
     <section class="panel">
       <div class="panel-body">
         <div class="adv-table">
-      
           <table  class="display table table-bordered table-striped">
           <thead>
             <tr >
@@ -58,12 +57,12 @@
             $where['semanaid']=$this->semana;
             $where['uid_validacion']=$this->uid_validacion;
             $where['dni_validacion']=$this->dni_validacion;
-echo "usauio a validar:"; echo $this->uid;
-echo "validador: "; echo $this->uid_validacion;
-$this->uid_validacion;
+            //echo "usauio a validar:"; echo $this->uid;
+            //echo "validador: "; echo $this->uid_validacion;
+            $this->uid_validacion;
             $vercoment= new Admin_Model_DbTable_Usuariovalidacion();
             $vcoment=$vercoment->_getOnexUsuarioxJefe($where); 
-            print_r($vcoment);
+            //print_r($vcoment);
            
             ?>
             <?php

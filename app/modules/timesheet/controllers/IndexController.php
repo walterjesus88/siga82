@@ -53,6 +53,7 @@ class Timesheet_IndexController extends Zend_Controller_Action {
             $data_equipo = $equipo->_getProyectosAnddes();    
             $this->view->equipo = $data_equipo;
             $this->view->fecha_consulta = $fecha_consulta;   
+            $this->view->unidadid=$unidadid;
         }
         else
         {
@@ -272,7 +273,15 @@ class Timesheet_IndexController extends Zend_Controller_Action {
         $data['fecha_tarea']=$fecha_inicio_mod;
         $data['fecha_creacion']=$fecha_inicio_mod;
         $data['fecha_planificacion']=$fecha_inicio_mod;
-        $data['tipo_actividad']='P';
+        if ($codigo_prop_proy=='2015')
+        {
+         $data['tipo_actividad']='A';   
+        }
+        else
+        {
+        $data['tipo_actividad']='P';    
+        }
+        
         $data['estado']='A';
         
         $equipo = new Admin_Model_DbTable_Equipo();
@@ -343,19 +352,34 @@ class Timesheet_IndexController extends Zend_Controller_Action {
          $actividad_generalid = $this->_getParam('actividad_generalid');
         if($actividad_generalid=='')
         {
+            if ($tipo_actividad_actualizar=='A')
+            {
+            $data['actividad_generalid']=$actividad_generalid;
+            $data['tipo_actividad']='A';
+            $etapa= $this->_getParam('etapa');
+            $resultado = str_replace("INICIO", "EJECUCION", $etapa);
+            $data['etapa']=$resultado;
+            }
+            else
+            {
+
             $data['actividad_generalid']=null;
             $data['tipo_actividad']='P';
             $etapa= $this->_getParam('etapa');
             $resultado = str_replace("INICIO", "EJECUCION", $etapa);
             $data['etapa']=$resultado;    
         }
+        }
         else
         {
+
+            
             $data['actividad_generalid']=$actividad_generalid;
             $data['tipo_actividad']='G';
             $etapa= $this->_getParam('etapa');
             $resultado = str_replace("INICIO", "EJECUCION", $etapa);
             $data['etapa']=$resultado;
+            
         }
 
         $equipo = new Admin_Model_DbTable_Equipo();
@@ -570,19 +594,11 @@ class Timesheet_IndexController extends Zend_Controller_Action {
         //$cargo=$this->sesion->personal->ucatcargo;
         $fecha_inicio = $this->_getParam('fecha');
         $fecha_inicio_mod = date("Y-m-d", strtotime($fecha_inicio));
-    
-
-
-       
         $data['fecha_tarea']=$fecha_inicio_mod;
         $data['fecha_creacion']=$fecha_inicio_mod;
         $data['fecha_planificacion']=$fecha_inicio_mod;
-
-
-        
         $data['proyectoid']=$proyectoid = $this->_getParam('proyectoid');
         $data['codigo_prop_proy']=$codigo_prop_proy = $this->_getParam('codigo');
-     
         $data['revision']=$revision = $this->_getParam('revision');
         $data['actividadid']=$actividadid = $this->_getParam('actividadid');
         $data['codigo_actividad']=$codigo_actividad = $this->_getParam('codigo_actividad');
@@ -1020,7 +1036,6 @@ public function sumatareorealAction(){
             and etapa='$etapa_inicio' and tipo_actividad='$tipo_actividad' 
             and estado='A' and uid='$uid' and dni='$dni'
             ";
-
         $str_ejecucion="codigo_prop_proy='$codigo_prop_proy' and proyectoid='$proyectoid' and 
             categoriaid='$categoriaid' and actividadid='$actividadid' and 
             revision='$revision' and codigo_actividad='$codigo_actividad'
@@ -1509,10 +1524,6 @@ public function sumatareorealAction(){
 
                 $this->view->equipos_horas_aprobar= $equipo_aprobacion;    
             }
-
-
-            
-
         }
         catch (Exception $e) {
                 print "Error: ".$e->getMessage();
@@ -1533,14 +1544,10 @@ public function timesheetsemanagerenteAction(){
             $dni_validacion = $this->sesion->dni;
             $this->view->uid_validacion=$uid_validacion;
             $this->view->dni_validacion=$dni_validacion;
-
-
-
             $areaid=$this->sesion->personal->ucatareaid;   
             $this->view->cargo = $areaid;
             $this->view->uid = $uid;
             $this->view->dni = $dni;
-
             $ano=date("Y");/*ojo cambiar  con el tiempo --revisar */
             $enero = mktime(1,1,1,1,1,$ano); 
             //$mos = (11-date('w',1))%7-3; 
@@ -1643,7 +1650,6 @@ public function guardarcomentariogerenteAction(){
 
             $data['cargo']=$cargo;
             $data2['cargo']=$cargo;
-
             $data['semanaid']=$semana;
             $data2['semanaid']=$semana;
             $data['uid']=$uid;
@@ -1663,18 +1669,12 @@ public function guardarcomentariogerenteAction(){
             //$where['dni_validacion']=$dni_validacion;
             $where['cargo']=$cargo;
             $where['semanaid']=$semana;
-
-//            print_r($data);
-
             $vercoment= new Admin_Model_DbTable_Usuariovalidacion();
-           
             if($vcoment=$vercoment->_getOnexUsuario($where))
             {
-                echo "existe";
-                $pk = array('dni' => $dni  ,'uid' => $uid,'cargo' => $cargo ,'semanaid' => $semana, );
-                
-                $count=$vercoment->_getUsuarioxValidacion($semana,$uid,$dni);
 
+                $pk = array('dni' => $dni  ,'uid' => $uid,'cargo' => $cargo ,'semanaid' => $semana, );
+                $count=$vercoment->_getUsuarioxValidacion($semana,$uid,$dni);
                 $data2['comentario']=$coment;
                 $data2['estado_usuario']=$estado;
                 $data2['fecha_validacion']=$fecha_validacion;
@@ -1789,7 +1789,6 @@ public function guardarcomentariogerenteAction(){
 
  public function guardarcomentarioequipoAction(){
         try {
-            
             $this->_helper->layout()->disableLayout();            
             $uid = $this->_getParam('uid');
             $dni = $this->_getParam('dni');
@@ -1801,7 +1800,6 @@ public function guardarcomentariogerenteAction(){
             $dni_validacion=$this->_getParam('dni_validacion');
             $fecha_validacion=$this->_getParam('fecha');
             $etapa_validacion=$this->_getParam('etapa');
-            
 
             $data['cargo']=$cargo;
             $data['semanaid']=$semana;
@@ -1823,8 +1821,6 @@ public function guardarcomentariogerenteAction(){
             //$where['cargo']=$cargo;
             $where['semanaid']=$semana;
 
-            
-
             $vercoment= new Admin_Model_DbTable_Usuariovalidacion();
             if($vcoment=$vercoment->_getOnexUsuario($where))
             {
@@ -1832,9 +1828,7 @@ public function guardarcomentariogerenteAction(){
                 $pk = array('dni' => $dni  ,'uid' => $uid,'cargo' => $cargo ,'semanaid' => $semana, );
                 $count=$vercoment->_getUsuarioxValidacion($semana,$uid,$dni);
                 $data2['comentario']=$coment;
-                
                 $existe_validacion_jefe=$vercoment->_getEstadoxValidarJefe($semana,$uid,$dni);
-
                 if ($existe_validacion_jefe)
                 {
                     echo "existe validacion por el geje";
@@ -1843,7 +1837,7 @@ public function guardarcomentariogerenteAction(){
                      $sumahorassemana = new Admin_Model_DbTable_Sumahorasemana();
             $wheres=array('dni'=>$dni,'uid'=>$uid,'semanaid'=>$semana);
             $tareosemana=$sumahorassemana->_getOne($wheres);
-            print_r($tareosemana);
+            //print_r($tareosemana);
             if ($tareosemana)
             {
                 $datos_actualizar_sumahoras['estado']='1';
@@ -1868,8 +1862,6 @@ public function guardarcomentariogerenteAction(){
                 $data2['dni']=$dni;
                 $data2['uid_validacion']=$uid;
                 $data2['dni_validacion']=$dni;
-                
-                
                 //$usecoment=$coment->_updateX($data2,$pk);
                 $usercoment=$vercoment->_save($data2);
                 echo "update";
@@ -1880,10 +1872,9 @@ public function guardarcomentariogerenteAction(){
                 $vercoment=new Admin_Model_DbTable_Usuariovalidacion();
                 $usercoment=$vercoment->_save($data);
                 echo "save";
+                
               
             }
-
-            
         }
         catch (Exception $e) {
                 print "Error: ".$e->getMessage();
