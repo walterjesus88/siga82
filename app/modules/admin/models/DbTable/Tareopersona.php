@@ -208,7 +208,7 @@ class Admin_Model_DbTable_Tareopersona extends Zend_Db_Table_Abstract
         public function _save($data)
     {
         try{
-            if ($data['areaid']=='' ||  $data['codigo_prop_proy']=='' ) return false;
+            //if ($data['areaid']=='' ||  $data['codigo_prop_proy']=='' ) return false;
             return $this->insert($data);
             return false;
         }catch (Exception $e){
@@ -455,6 +455,45 @@ class Admin_Model_DbTable_Tareopersona extends Zend_Db_Table_Abstract
             print "Error: Read Filter competencia ".$e->getMessage();
         }
     }
+
+
+
+
+    public function _getOne($pk=null)
+    {
+        try{
+            //if ($pk['codigo_prop_proy']=='' ||  $pk['proyectoid']=='' ) return false;
+             
+
+            $where = "codigo_prop_proy = '".$pk['codigo_prop_proy']."' and codigo_actividad='".$pk['codigo_actividad']."' and actividadid='".$pk['actividadid']."'
+            and revision='".$pk['revision']."' and actividad_padre='".$pk['actividad_padre']."' and proyectoid='".$pk['proyectoid']."' and semanaid='".$pk['semanaid']."'
+            and fecha_tarea='".$pk['fecha_tarea']."' and uid='".$pk['uid']."' and dni='".$pk['dni']."' and cargo='".$pk['cargo']."' and fecha_planificacion='".$pk['fecha_planificacion']."'
+            and etapa='".$pk['etapa']."'  and tipo_actividad='".$pk['tipo_actividad']."'  ";
+            $row = $this->fetchRow($where);
+
+            //print_r($row);
+            if ($row) return $row->toArray();
+            return false;
+        }catch (Exception $ex){
+            print "Error: Get Info Distribution ".$ex->getMessage();
+        }
+    }
+
+    public function _updateX($data,$pk)
+    {
+        try{
+            //if ($pk['codigo_prop_proy']=='' ||  $pk['propuestaid']=='' ||  $pk['revision']=='' ) return false;
+            $where = "codigo_prop_proy = '".$pk['codigo_prop_proy']."' and codigo_actividad='".$pk['codigo_actividad']."' and actividadid='".$pk['actividadid']."'
+            and revision='".$pk['revision']."' and actividad_padre='".$pk['actividad_padre']."' and proyectoid='".$pk['proyectoid']."' and semanaid='".$pk['semanaid']."'
+            and fecha_tarea='".$pk['fecha_tarea']."' and uid='".$pk['uid']."' and dni='".$pk['dni']."' and cargo='".$pk['cargo']."' and fecha_planificacion='".$pk['fecha_planificacion']."'
+            and etapa='".$pk['etapa']."'  and tipo_actividad='".$pk['tipo_actividad']."'  ";
+            return $this->update($data, $where);
+            return false;
+        }catch (Exception $e){
+            print "Error: Update Distribution".$e->getMessage();
+        }
+    }
+
 
 
 }

@@ -1,19 +1,18 @@
-$(function() {	
-	console.log('hh');
+angular.module('angularSuma',[])
+.controller('mainController', function ($scope, $http) {
+	
+	scope = this;
+	scope.elementos = [];
+	scope.resultado = 0;
+	
+	scope.agregar = function() {
+		scope.elementos.push(0);
+	}
 
-	window.views.app = new Prueba.Views.App( $('main') );
-	window.collections.schools = new Prueba.Collections.School();
-	window.collections.schools.on('add', function( model ){
-		model.set({
-			"facid" : "Ingenieria",
-			"register" : "Administrador",
-			"state" : "Activo"
-		});
-	 	var	view =  new Prueba.Views.School({ model : model });
-
-	 	view.render();
-	 	view.$el.prependTo('.vistas_schools');
-	 });
-	window.collections.schools.fetch();
-
-})
+	scope.sumar = function() {
+		scope.resultado = 0;
+		for (var i = 0; i<scope.elementos.length; i++) {
+			scope.resultado = scope.resultado + parseInt(scope.elementos[i]);
+		};
+	}
+});

@@ -364,17 +364,13 @@ class Timesheet_IndexController extends Zend_Controller_Action {
         $cargo=$data_equipo[0]['cargo'];
         $data['cargo']=$cargo;
         $data['areaid']=$areaid;
-        $data['categoriaid']=$categoriaid;
-
-
-        
+        $data['categoriaid']=$categoriaid;        
         $data['uid']=$uid;
         $data['asignado']= $dni;
         $data['estado']= 'A';
         $data['dni']=$dni;
-        
-
-
+      
+          
         $tareopersona = new Admin_Model_DbTable_Tareopersona();
       
         //  if ($h_real=='')
@@ -485,6 +481,18 @@ class Timesheet_IndexController extends Zend_Controller_Action {
             //alert("Se actualizo satisfactoriamente");
           </script>
         <?php
+        
+         
+              $str_actualizar1="codigo_prop_proy='$codigo_prop_proy' and proyectoid='$proyectoid' and 
+                and actividadid='$actividadid' and 
+                revision='$revision' and codigo_actividad='$codigo_actividad'
+                and actividad_padre='$actividad_padre' and cargo='$cargo'
+                and semanaid='$semanaid'  and fecha_tarea='$fecha_tarea' 
+                and etapa='$etapa_actualizar' and tipo_actividad='$tipo_actividad_actualizar'
+                and  uid='$uid'  and  dni='$dni'  and  fecha_planificacion='$fecha_tarea'
+                and  estado='A' 
+                ";
+
               $str_actualizar="codigo_prop_proy='$codigo_prop_proy' and proyectoid='$proyectoid' and 
                 categoriaid='$categoriaid' and actividadid='$actividadid' and 
                 revision='$revision' and codigo_actividad='$codigo_actividad'
@@ -779,22 +787,161 @@ public function sumatareorealAction(){
         $uid = $this->sesion->uid;
         $dni = $this->sesion->dni;
 
+
         
-        $proyectoid = '1416.10.07';
-        $codigo_prop_proy = 'PROP-2015-20100079501-1416-14.10.230-B';
-        $actividadid ='3';
-        $revision = 'B';
-        $codigo_actividad = '1416.10.07-3';
-        $actividad_generalid = '5';
-        $semanaid='21';
-        $tipo_actividad= 'G';
+        $tiempo_id=$this->_getParam('tiempo_id');
+        $codigo_prop_proy=$this->_getParam('codigo_prop_proy');
+        $codigo_actividad=$this->_getParam('codigo_actividad');
+        $actividadid=$this->_getParam('actividadid');
+        $revision=$this->_getParam('revision');
+        $actividad_padre=$this->_getParam('actividad_padre');
+       
+        $proyectoid=$this->_getParam('proyectoid');
+        $semanaid=$this->_getParam('semanaid');
+        $fecha_tarea=$this->_getParam('fecha_tarea');
+        $asignado=$this->_getParam('asignado');
+        $areaid=$this->_getParam('areaid');
+      
+        $tipo_actividad=$this->_getParam('tipo_actividad');
+        $etapa=$this->_getParam('etapa');
 
-        //echo $codigo_prop_proy;
+       // print_r($etapa);
+        print_r($fecha_tarea);
+        print_r($codigo_prop_proy);
+        print_r($proyectoid);
+        $actividad_generalid=$this->_getParam('actividad_generalid');
+        $fecha_creacion=$this->_getParam('fecha_creacion');
 
-        $conteotareo =new Admin_Model_DbTable_Tareopersona();
-        $ctareo=$conteotareo->_getConteotareo($semanaid,$codigo_actividad,$actividad_generalid ,$tipo_actividad,$codigo_prop_proy,$proyectoid,$revision,$actividadid,$uid,$dni);
-        // print_r($ctareo);
-        echo $ctareo[0]['count'];
+
+        // $cargo=$this->_getParam('cargo');
+        // $categoriaid=$this->_getParam('categoriaid');
+        // $areaid=$this->_getParam('areaid');
+
+       // $fecha_calendario=$this->_getParam('fecha_calendario');
+        //print_r($codigo_prop_proy);
+        //print_r($actividadid);
+        //print_r($actividad_generalid);
+        //print_r($fecha_tarea);
+
+        //echo $tiempo_id[52];
+        //print_r($fecha_calendario);
+
+        //$nive=array();
+        //$cc=count($codigo_prop_proy);
+        //echo $cc;
+        for ($i=1; $i <= count($codigo_prop_proy); $i++) { 
+
+            for ($j=0; $j < 7; $j++) { 
+
+                $equipo = new Admin_Model_DbTable_Equipo();
+                $estado_usuario='A';
+                $data_equipo = $equipo->_getDatosxProyectoxUidXEstadoxCliente($uid,$dni,$estado_usuario,$codigo_prop_proy[$i][$j],$proyectoid[$i][$j]);
+                $categoriaid=$data_equipo[0]['categoriaid'];
+                $areaid=$data_equipo[0]['areaid'];
+                $cargo=$data_equipo[0]['cargo'];
+                $data['cargo']=$cargo;
+                $data['areaid']=$areaid;
+                $data['categoriaid']=$categoriaid;
+                # code...
+             echo $i;
+             $data['h_real'] = $tiempo_id[$i][$j];
+             $data['codigo_prop_proy'] = $codigo_prop_proy[$i][$j];
+             $data['codigo_actividad'] = $codigo_actividad[$i][$j];
+             $data['actividadid'] = $actividadid[$i][$j];
+             $data['revision'] = $revision[$i][$j];
+             $data['actividad_padre'] = $actividad_padre[$i][$j];
+             $data['proyectoid'] = $proyectoid[$i][$j];
+             $data['semanaid'] = $semanaid[$i][$j];
+             $data['fecha_tarea'] = $fecha_tarea[$i][$j];
+             $data['fecha_planificacion'] = $fecha_tarea[$i][$j];
+             $data['asignado'] = $asignado[$i][$j];
+             //$data['areaid'] = $areaid[$i][$j];
+             $data['tipo_actividad'] = $tipo_actividad[$i][$j];
+
+           
+             $resultado = str_replace("INICIO", "EJECUCION", $etapa[$i][$j]);
+             $data['etapa']=$resultado;
+
+             $data['estado'] = 'A';
+             $data['actividad_generalid'] = $actividad_generalid[$i][$j];
+             $data['uid'] = $uid;
+             $data['dni'] = $dni;
+             $data['fecha_creacion'] = date("Y-m-d");;
+
+                 // echo $tiempo_id[$i][$j];
+                 // echo "nhndf";
+
+        
+            $wheres=array('codigo_prop_proy'=>$codigo_prop_proy[$i][$j],'codigo_actividad'=>$codigo_actividad[$i][$j],
+                'actividadid'=>$actividadid[$i][$j],'revision'=>$revision[$i][$j],
+                'actividad_padre'=>$actividad_padre[$i][$j],'proyectoid'=>$proyectoid[$i][$j],'semanaid'=>$semanaid[$i][$j] 
+                ,'fecha_tarea'=>$fecha_tarea[$i][$j],'uid'=>$uid,'dni'=>$dni,'cargo'=>$cargo,
+                'fecha_planificacion'=>$fecha_tarea[$i][$j],'etapa'=>$resultado,'tipo_actividad'=>$tipo_actividad[$i][$j]);
+
+            print_r($data);
+
+            $verdata = new Admin_Model_DbTable_Tareopersona();
+            $ty=$verdata->_getOne($wheres);
+            print_r($ty);
+
+
+            if($ty)
+            {
+              //echo "update";
+                $etapa_actualizar = str_replace("INICIO", "EJECUCION", $etapa[$i][$j]);
+                
+                $datos_actualizar['fecha_modificacion']=date("Y-m-d");
+                $datos_actualizar['h_real']=$tiempo_id[$i][$j];
+
+                
+
+                // $str_actualizar="codigo_prop_proy=$code and proyectoid='$proyectoid[$i][$j]' and 
+                // categoriaid='$categoriaid[$i][$j]' and actividadid='$actividadid[$i][$j]' and 
+                // revision='$revision[$i][$j]' and codigo_actividad='$codigo_actividad[$i][$j]'
+                // and actividad_padre='$actividad_padre[$i][$j]' and cargo='$cargo[$i][$j]'
+                // and semanaid='$semanaid[$i][$j]' and areaid='$areaid[$i][$j]' and fecha_tarea='$fecha_tarea[$i][$j]' 
+                // and etapa='$etapa_actualizar' and tipo_actividad='$tipo_actividad[$i][$j]' 
+                // and  estado='A' ";
+
+                //print_r($data);
+                
+                $update=$verdata -> _updateX($datos_actualizar,$wheres);
+
+            }
+             else
+            {
+                $data_tareopersona = $verdata->_save($data);
+       
+            }
+                
+
+             //print_r($data);
+
+            }
+        }
+
+        //print_r($nive);
+            // $nive=array();
+            // for ($i=3; $i <=4 ; $i++) 
+            // {       
+            // $where['nivel']=(string)$i;                
+            // $nive[]=$verequipo->_getFilter($where);
+        
+        // $proyectoid = '1416.10.07';
+        // $codigo_prop_proy = 'PROP-2015-20100079501-1416-14.10.230-B';
+        // $actividadid ='3';
+        // $revision = 'B';
+        // $codigo_actividad = '1416.10.07-3';
+        // $actividad_generalid = '5';
+        // $semanaid='21';
+        // $tipo_actividad= 'G';
+
+        // //echo $codigo_prop_proy;
+
+        // $conteotareo =new Admin_Model_DbTable_Tareopersona();
+        // $ctareo=$conteotareo->_getConteotareo($semanaid,$codigo_actividad,$actividad_generalid ,$tipo_actividad,$codigo_prop_proy,$proyectoid,$revision,$actividadid,$uid,$dni);
+        // // print_r($ctareo);
+        // echo $ctareo[0]['count'];
 
     }
 
