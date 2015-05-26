@@ -55,13 +55,14 @@
       echo "HH Facturable";
       ?>
     </button>
+    <!--
     <button data-toggle="button" class="btn btn-white">
       <?php 
       echo $sumar['nonbillable'];
       echo "<br>";
       echo "HH No Facturable";
       ?>
-    </button>
+    </button>-->
    
     <button data-toggle="button" class="btn btn-white">
       <?php 
@@ -100,10 +101,19 @@
     $planificacion = new Admin_Model_DbTable_Planificacion();
     $proyectos=$planificacion->_getOnexSemanaxGerenteProyecto($this->semana,$this->uid,$this->dni,$this->areaid);
     echo "Aprobadores: "; echo "<br>";
+    $usuariocategoria = new Admin_Model_DbTable_Usuariocategoria();
+    $datos_usuario=$usuariocategoria->_getCargoxArea($this->areaid,'JEFE');
+    //print_r($datos_usuario[0]['uid']);
+      $jefe_area = explode(".", $datos_usuario[0]['uid']);
+      echo "JA: ";
+      echo (ucwords($jefe_area[0])); echo " ";
+        echo (ucwords($jefe_area[1])); echo "<br>";
+
+
       foreach ($proyectos as $datos) {
        //print_r($datos['uid']);
        $porciones = explode(".", $datos['uid']);
-
+       echo "GP: ";
        echo (ucwords($porciones[0])); echo " ";
         echo (ucwords($porciones[1])); echo "<br>";
       }
@@ -1315,10 +1325,14 @@ $("#submit_work1").click(function(){
       var semanaid="<?php echo $this->semana ?>";
       var cargo="<?php echo $this->areaid ?>";
       document.location.href="/timesheet/index/calendar";
-      url="/timesheet/index/guardarcomentarioequipo/estado/B/uid/"+uid+'/dni/'+dni+'/semanaid/'+semanaid+'/cargo/'+cargo+'/coment/'+coment+'/uid_validacion/'+uid+'/dni_validacion/'+dni+'/etapa/0'+'/fecha/'+fecha_calendario;
+
+      var d=new Date(); 
+      var fechacapturada=d.getDate()+ "/" + (d.getMonth() +1) + "/" + d.getFullYear()+','+d.getHours()+':'+d.getMinutes()+':'+d.getSeconds(); 
+      //alert(fechauno);
+      url="/timesheet/index/guardarcomentarioequipo/estado/B/uid/"+uid+'/dni/'+dni+'/semanaid/'+semanaid+'/cargo/'+cargo+'/coment/'+coment+'/uid_validacion/'+uid+'/dni_validacion/'+dni+'/etapa/0'+'/fecha/'+fechacapturada;
          
       alert(url);
-      /*
+      
       $.ajax({
         type: "POST",
         url: url,
@@ -1333,7 +1347,7 @@ $("#submit_work1").click(function(){
           
            
         }
-      });*/
+      });
     });
   })
 </script>

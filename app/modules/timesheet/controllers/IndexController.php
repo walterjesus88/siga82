@@ -1949,6 +1949,7 @@ public function guardarcomentariogerenteAction(){
             $uid_validacion=$this->_getParam('uid_validacion');
             $dni_validacion=$this->_getParam('dni_validacion');
             $fecha_validacion=$this->_getParam('fecha');
+            
             $etapa_validacion=$this->_getParam('etapa');
 
             $data['cargo']=$cargo;
@@ -1975,32 +1976,32 @@ public function guardarcomentariogerenteAction(){
             if($vcoment=$vercoment->_getOnexUsuario($where))
             {
                 echo "existe";
-                $pk = array('dni' => $dni  ,'uid' => $uid,'cargo' => $cargo ,'semanaid' => $semana, );
+              //  $pk = array('dni' => $dni  ,'uid' => $uid,'cargo' => $cargo ,'semanaid' => $semana, );
                 $count=$vercoment->_getUsuarioxValidacion($semana,$uid,$dni);
                 $data2['comentario']=$coment;
-                $existe_validacion_jefe=$vercoment->_getEstadoxValidarJefe($semana,$uid,$dni);
-                if ($existe_validacion_jefe)
+              //  $existe_validacion_jefe=$vercoment->_getEstadoxValidarJefe($semana,$uid,$dni);
+            /*    if ($existe_validacion_jefe)
                 {
                     echo "existe validacion por el geje";
                     $data2['estado_usuario']='1';
 
                      $sumahorassemana = new Admin_Model_DbTable_Sumahorasemana();
-            $wheres=array('dni'=>$dni,'uid'=>$uid,'semanaid'=>$semana);
-            $tareosemana=$sumahorassemana->_getOne($wheres);
-            //print_r($tareosemana);
-            if ($tareosemana)
-            {
-                $datos_actualizar_sumahoras['estado']='1';
-                $str_actualizar_sumahoras="semanaid='$semana' and uid='$uid' and dni='$dni' 
+                    $wheres=array('dni'=>$dni,'uid'=>$uid,'semanaid'=>$semana);
+                      $tareosemana=$sumahorassemana->_getOne($wheres);
+                     //print_r($tareosemana);
+                        if ($tareosemana)
+                    {
+                      $datos_actualizar_sumahoras['estado']='1';
+                        $str_actualizar_sumahoras="semanaid='$semana' and uid='$uid' and dni='$dni' 
                 ";
-                $update=$sumahorassemana -> _update($datos_actualizar_sumahoras,$str_actualizar_sumahoras);
+                        $update=$sumahorassemana -> _update($datos_actualizar_sumahoras,$str_actualizar_sumahoras);
                   
-            }
+                     }
 
 
                 }
-                    else  {                  
-                    $data2['estado_usuario']=$estado;}
+                    else  {                  */
+                 //   $data2['estado_usuario']=$estado;}
                 
                 $data2['fecha_validacion']=$fecha_validacion;
                 $data2['etapa']=$etapa_validacion;
@@ -2012,6 +2013,7 @@ public function guardarcomentariogerenteAction(){
                 $data2['dni']=$dni;
                 $data2['uid_validacion']=$uid;
                 $data2['dni_validacion']=$dni;
+                 $data['estado_usuario']=$estado;
                 //$usecoment=$coment->_updateX($data2,$pk);
                 $usercoment=$vercoment->_save($data2);
                 echo "update";
