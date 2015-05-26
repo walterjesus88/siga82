@@ -1,92 +1,5 @@
-
-
-
- <div class="row">
-    <div class="col-lg-3">
-      <section class="panel">
-        <div class="panel-body">  
-          <p>Semana <?php echo $this->semana; echo ": ";?>
-          <?php
-            $fecha = $this->fecha;
-            $newDate = date("Y-m-d", strtotime($fecha));
-            $fechainicio = date ( 'd/m/Y' , strtotime($fecha) );
-            $nuevafecha = strtotime ( '+6 day' , strtotime ( $newDate ) ) ;
-            $fechafinal = date ( 'd/m/Y' , $nuevafecha );
-            echo $fechainicio; echo " al "; echo $fechafinal;?></p>
-        </div>
-      </section>
-    </div>
-  <div class="col-lg-4">
 <section class="panel">
-      <div class="panel-body" style="padding-bottom: 10px;padding-top: 12px;">
-        <button data-toggle="button" class="btn btn-white">
-          
-          <?php 
-            $tareopersona = new Admin_Model_DbTable_Sumahorasemana();
-            $wheres=array('dni'=>$this->dni,'uid'=>$this->uid,'semanaid'=>$this->semana);
-            $sumar=$tareopersona-> _getOne($wheres);
-            echo $sumar['billable'];
-           
-            echo "<br>"; 
-            echo "HR Facturable";
-          ?>
-        </button>
-        <button data-toggle="button" class="btn btn-white">
-          
-          <?php 
-           
-            echo $sumar['nonbillable'];
-            echo "<br>";
-            echo "HR No Facturable";
-          ?>
-        </button>
-        <button data-toggle="button" class="btn btn-white">
-          
-          <?php      
-            echo $sumar['h_total'];
-            echo "<br>";
-            echo "HR Total";
-          ?>
-        </button>
-      </div>
-    </section>
-  </div>
-  <div class="col-lg-5">
-    <section class="panel">
-      <div class="panel-body" style="padding-top: 10px;padding-bottom: 10px;">
-        Aprobado por: <br>
-         <?php 
-            $planificacion = new Admin_Model_DbTable_Planificacion();
-            
-              $proyectos=$planificacion->_getOnexSemana($this->semana,$this->uid,$this->dni,$this->areaid);
-              foreach ($proyectos as $datos) {
-
-                $proyectoid=$datos['proyectoid'];
-                $codigo=$datos['codigo_prop_proy'];
-                
-                $planificacion = new Admin_Model_DbTable_Planificacion();
-                $equipo = new Admin_Model_DbTable_Equipo();
-                $estado_usuario='A';
-                $data_equipo = $equipo->_buscarGerentexProyecto($proyectoid);
-                if ($data_equipo)
-                {
-                print_r($data_equipo[0]['uid']);
-                }
-              }           
-          ?>       
-      </div>
-    </section>
-
-  </div>
-  
-</div>
-<div class="row">
-    <section class="panel">
-
-   
-
-<section class="panel">
-  <div class="col-lg-2 alert-success"  style="padding-top: 10px;padding-bottom: 10px;padding-right: 10px;padding-left: 10px;">
+  <div class="col-lg-3 alert-success"  style="padding-top: 10px;padding-bottom: 10px;padding-right: 10px;padding-left: 10px;">
     Semana <?php echo $this->semana; echo ": ";?>
     <?php
       $fecha = $this->fecha;
@@ -106,10 +19,7 @@
       ?>
 
 
-      <div class="panel-body" style="padding-top: 10px;padding-bottom: 10px;">
-      <a id = "save_hours" class="btn btn-info pull-right btn-xs"  style="margin-right : 10px">
-            <i class="fa fa-save"></i> Guardar horas
-      </a>
+      
 
       <?php if ($estado_horas=='P') {?>
       <strong>Hoja de Tiempo Espera de Aprobacion</strong> 
@@ -174,7 +84,7 @@
       ?>
     </button>
   </div>
-  <div class="col-lg-3" style="padding-top: 2px;">
+  <div class="col-lg-2" style="padding-top: 2px;">
     Aprobadores: <br>
     <?php 
     $planificacion = new Admin_Model_DbTable_Planificacion();
@@ -210,14 +120,22 @@
       <i class="fa fa-check-square"></i> Enviar
     </a><?php }?>
   <?php if ($estado_horas!='P' && $estado_horas!='1' && $estado_horas!='2') {?>
-    <a id = "save_work" class="btn btn-info pull-right btn-xs"  style="margin-right : 10px">
+    <!--<a id = "save_work" class="btn btn-info pull-right btn-xs"  style="margin-right : 10px">
       <i class="fa fa-save"></i> Guardar
-    </a><?php }?>
+    </a>-->
+    <a id = "save_hours" class="btn btn-info pull-right btn-xs"  style="margin-right : 10px">
+      <i class="fa fa-save"></i> Guardar
+    </a>
+
+    <?php }?>
   <?php if ($estado_horas!='P' && $estado_horas!='1' && $estado_horas!='2') {?>
     <a id = "add_work" class="btn btn-success pull-right btn-xs" data-toggle="modal" href="#agregar" style="margin-right : 10px">
       <i class="fa fa-check-square-o"></i> Agregar
     </a><?php }?>
   </div>
+  
+   
+
 </section>
 <div class="row">
 
@@ -232,9 +150,9 @@
           <thead>
             <tr >
             <th style="width: 5%;">  </th>
-            <th style="width: 40%;" >Proyecto / Actividad: Tarea</th>
-            <th style="width: 7%;">Facturable</th>
-            <th style="width: 12%;">Tarea No Facturable</th>
+            <th style="width: 60%;" >Proyecto / Actividad: Tarea</th>
+            <th style="width: 5%;">Facturable</th>
+            <th style="width: 5%;">Tarea No Facturable</th>
             <?php 
               $fecha = $this->fecha;
               $fecha_mostrar = $this->fecha_mostrar;
