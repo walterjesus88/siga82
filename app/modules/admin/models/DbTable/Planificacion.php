@@ -3,9 +3,7 @@ class Admin_Model_DbTable_Planificacion extends Zend_Db_Table_Abstract
 {
     protected $_name = 'planificacion';
     protected $_primary = array("codigo_prop_proy","proyectoid","semanaid","uid","dni","categoriaid","areaid","cargo");   
-
      /* Lista toda las Personas */
-
     public function _getFilter($where=null,$attrib=null,$orders=null){
         try{
             //if($where['eid']=='' || $where['oid']=='') return false;
@@ -30,7 +28,6 @@ class Admin_Model_DbTable_Planificacion extends Zend_Db_Table_Abstract
         }
     }
  
-
     public function _save($data)
     {
         try{
@@ -41,13 +38,11 @@ class Admin_Model_DbTable_Planificacion extends Zend_Db_Table_Abstract
                 print "Error: Planificacion ".$e->getMessage();
         }
     }
- 
 
     public function _getOne($where=array()){
         try {
             //if ($where["dni"]=='') return false;
-                                
-                $wherestr="semanaid = '".$where['semanaid']."' and uid = '".$where['uid']."' and dni = '".$where['dni']."' and cargo = '".$where['cargo']."' 
+            $wherestr="semanaid = '".$where['semanaid']."' and uid = '".$where['uid']."' and dni = '".$where['dni']."' and cargo = '".$where['cargo']."' 
                  and categoriaid = '".$where['categoriaid']."' and areaid = '".$where['areaid']."' and codigo_prop_proy = '".$where['codigo_prop_proy']."'
                  and proyectoid = '".$where['proyectoid']."' ";
 
@@ -62,11 +57,7 @@ class Admin_Model_DbTable_Planificacion extends Zend_Db_Table_Abstract
 
     public function _getOnexSemana($semanaid,$uid,$dni,$areaid){
         try {
-      
-
-
-
- $sql=$this->_db->query("
+            $sql=$this->_db->query("
                select * from planificacion
                where semanaid='$semanaid'  and uid='$uid' and dni='$dni' and areaid='$areaid'
                
@@ -80,6 +71,21 @@ class Admin_Model_DbTable_Planificacion extends Zend_Db_Table_Abstract
     }
 
 
+    public function _getOnexSemanaxGerenteProyecto($semanaid,$uid,$dni,$areaid){
+        try {
+            $sql=$this->_db->query("
+                select distinct e.uid,e.dni from planificacion p inner join equipo e
+                on p.codigo_prop_proy=e.codigo_prop_proy and p.proyectoid=e.proyectoid
+                where p.semanaid='$semanaid'  and p.uid='$uid'  and p.dni='$dni' and p.areaid='$areaid' and e.nivel='0' and e.categoriaid='GER-PROY'
+             
+            ");
+            $row=$sql->fetchAll();
+            return $row;     
+
+        } catch (Exception $e) {
+            print "Error: Read One Condition".$e->getMessage();
+        }
+    }
 
     public function _getPlanificacionAll(){
         try{
