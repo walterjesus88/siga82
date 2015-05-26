@@ -55,12 +55,22 @@
       echo "HH Facturable";
       ?>
     </button>
-      <!--<button data-toggle="button" class="btn btn-white">
+    <button data-toggle="button" class="btn btn-white">
       <?php 
       echo $sumar['nonbillable'];
       echo "<br>";
       echo "HH No Facturable";
-      ?>-->
+      ?>
+    </button>
+   
+    <button data-toggle="button" class="btn btn-white">
+      <?php 
+      $sumahorasxact=$sumahoras->_getSumaHorasxActividad($this->uid,$this->dni,$this->semana,'adm');
+      //echo $sumar['adm'];
+      print_r($sumahorasxact[0]['sum']);
+      echo "<br>";
+      echo "HR Anddes";
+      ?>
     </button>
     <button data-toggle="button" class="btn btn-white">
       <?php 
@@ -69,15 +79,6 @@
       echo $sumar['h_total'];
       echo "<br>";
       echo "HR Total";
-      ?>
-    </button>
-    <button data-toggle="button" class="btn btn-white">
-      <?php 
-      $sumahorasxact=$sumahoras->_getSumaHorasxActividad($this->uid,$this->dni,$this->semana,'adm');
-      //echo $sumar['adm'];
-      print_r($sumahorasxact[0]['sum']);
-      echo "<br>";
-      echo "HR Anddes";
       ?>
     </button>
   </div>

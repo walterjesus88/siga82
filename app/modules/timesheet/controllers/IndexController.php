@@ -424,14 +424,14 @@ class Timesheet_IndexController extends Zend_Controller_Action {
                 {
                     $data1['nonbillable']= $this->_getParam('horareal');
                     $data1['billable']=0;
-                    $data1['adm']=0;
+                    //$data1['adm']=0;
                    
                 }
                 
                 if ($tipo_actividad=='P') {
                     $data1['billable']= $this->_getParam('horareal'); 
                     $data1['nonbillable']=0;
-                    $data1['adm']=0;                              
+                    //$data1['adm']=0;                              
                 }
 
                 if ($tipo_actividad=='A') {

@@ -448,4 +448,64 @@ class Expense_IndexController extends Zend_Controller_Action {
             print "Error: ".$e->getMessage();
         }
     }
+
+    public function historicoAction(){
+        try {
+            $this->_helper->layout()->disableLayout();
+            $uid = $this->sesion->uid;
+            $dni = $this->sesion->dni;
+            $where = array();
+            $where['uid'] = $uid;
+            $where['dni'] = $dni;
+            $where['estado'] = 'B';
+            $rendicion = new Admin_Model_DbTable_Gastorendicion();
+            $data_rendicion = $rendicion->_getAllXuidXestado($where);
+            $this->view->pendiente = $data_rendicion;
+
+            $where['estado'] = 'E';
+            $data_enviado = $rendicion->_getAllXuidXestado($where);
+            $this->view->enviado = $data_enviado;
+
+            $where['estado'] = 'R';
+            $data_rechazado = $rendicion->_getAllXuidXestado($where);
+            $this->view->rechazado = $data_rechazado;
+
+            $where['estado'] = 'A';
+            $data_aprobado = $rendicion->_getAllXuidXestado($where);
+            $this->view->aprobado = $data_aprobado;
+        } catch (Exception $e) {
+            print "Error: ".$e->getMessage();
+        }
+    }
+
+    public function detallesAction(){
+        try {
+            $this->_helper->layout()->disableLayout();
+            $numero = $this->_getParam('numero');
+            $uid = $this->_getParam('uid');
+            $dni = $this->_getParam('dni');
+            $wheretmp = array();
+            $wheretmp['numero_rendicion'] = $numero;
+            $wheretmp['dni'] = $dni;
+            $wheretmp['uid'] = $uid;
+            $gastos = new Admin_Model_DbTable_Gastopersona();
+            $data_gastos = $gastos->_getFilter($wheretmp,$attrib=null,$orders=null);
+            $proyecto = new Admin_Model_DbTable_Proyecto();
+            for ($i=0; $i < count($data_gastos); $i++) { 
+                    $pk = array();
+                    $pk['proyectoid'] = $data_gastos[$i]['proyectoid'];
+                    $pk['codigo_prop_proy'] = $data_gastos[$i]['codigo_prop_proy'];
+                    $data_proyecto = $proyecto->_getOne($pk);
+                    $data_gastos[$i]['nombre_final'] = $data_proyecto['nombre_proyecto'];
+            }
+
+            $this->view->gasto = $data_gastos;
+
+            $gastos = new Admin_Model_DbTable_Listagasto();
+            $data_list_gastos = $gastos->_getGastosAll();
+            $this->view->list_gastos = $data_list_gastos;
+        } catch (Exception $e) {
+            print "Error: ".$e->getMessage();
+        }
+    }
 }
