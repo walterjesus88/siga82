@@ -232,6 +232,9 @@ class Timesheet_IndexController extends Zend_Controller_Action {
         $datos_tareopersona_NB=$tareo_persona->_getTareoxPersonaxSemanaxNB($uid,$dni,$semana);
         //$data_tareo = $tareo->_getTareoXUid($where);
         $this->view->actividades= $datos_tareopersona;
+        
+        print_r($this->sesion->is_gerente);
+        $this->view->is_gerente=$this->sesion->is_gerente;
         //print_r($datos_tareopersona);
 
         //print_r($datos_tareopersona);
