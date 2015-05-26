@@ -1098,13 +1098,13 @@
 <script type="text/javascript">
 
      $('#save_hours').click(function(){
-        alert("Guardando Registros al Sistema. Gracias")
+        //alert("Guardando Registros al Sistema. Gracias")
         $.ajax({
             type   : 'post',
             url    : '/timesheet/index/prueba/',
             data   : $('#form_time').serialize(),
             success: function(data){
-               document.location.href="/timesheet/index/calendar";
+               //document.location.href="/timesheet/index/calendar";
             }
         });
         
