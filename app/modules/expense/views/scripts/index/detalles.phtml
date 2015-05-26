@@ -1,0 +1,87 @@
+<div class="row">
+    <div class="col-sm-12">
+    <?php 
+    $gasto = $this->gasto;
+    if ($gasto) { ?>
+        <div class="adv-table">
+            <table class="display table table-bordered table-striped table-condensed" style="font-size:11px">
+                <thead>
+                    <tr>
+                        <th>Proyecto / Actividades</th>
+                        <th>Descripción</th>
+                        <th>Gasto</th>
+                        <th>Cantidad</th>
+                        <th>PU</th>
+                        <th>Cliente</th>
+                        <th>Reemb.</th>
+                        <th>Fecha</th>
+                        <th>N° Documento</th>
+                        <th>Proveedor</th>
+                        <th>Neto</th>
+                        <th>Otro Imp.</th>
+                        <th>IGV</th>
+                        <th>Monto Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                <?php
+                foreach ($gasto as $data_gasto) { ?>
+                    <tr class="gradeX">
+                        <td>
+                            <span><?php echo $data_gasto['nombre_final']; ?></span>
+                        </td>
+                        <td>
+                            <span><?php echo $data_gasto['descripcion']; ?></span>
+                        </td>
+                        <td>
+                        <?php
+                            list($gastoid, $tipo_gasto) = split('[-]', $data_gasto['gastoid']);
+                            foreach ($this->list_gastos as $kvalue) {
+                                if ($gastoid == $kvalue['gastoid'] && $tipo_gasto == $kvalue['tipo_gasto']) $nom_tmp = $kvalue['nombre_gasto'];
+                            } ?>
+                            <span><?php echo $nom_tmp; ?></span>
+                        </td>
+                        <td>
+                            <span><?php echo $data_gasto['laboratorio_cantidad']; ?></span>
+                        </td>
+                        <td>
+                            <span><?php echo $data_gasto['laboratorio_PU']; ?></span>
+                        </td>
+                        <td>
+                            <span><?php echo ($data_gasto['bill_cliente'] == 'TRUE')? 'Si': 'No'; ?></span>
+                        </td>
+                        <td>
+                            <span><?php echo ($data_gasto['reembolsable'] == 'TRUE')? 'Si': 'No'; ?></span>
+                        </td>
+                        <td>
+                            <span><?php echo $data_gasto['fecha_factura']; ?></span>
+                        </td>
+                        <td>
+                            <span><?php echo $data_gasto['num_factura']; ?></span>
+                        </td>
+                        <td>
+                            <span><?php echo $data_gasto['proveedor']; ?></span>
+                        </td>
+                        <td>
+                            <span><?php echo $data_gasto['monto_igv']; ?></span>
+                        </td>
+                        <td>
+                            <span><?php echo $data_gasto['otro_impuesto']; ?></span>
+                        </td>
+                        <td>
+                            <span><?php echo $data_gasto['igv']; ?></span>
+                        </td>
+                        <td>
+                            <span><?php echo $data_gasto['monto_total']; ?></span>
+                        </td>
+                    </tr>
+                    <?php 
+                } ?>
+                </tbody>
+            </table>
+        </div>
+    <?php
+    }
+     ?>
+    </div>
+</div>
