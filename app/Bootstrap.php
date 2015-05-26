@@ -47,7 +47,12 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
                         ->headScript()->appendFile('/js/advanced-form-components.js')
                         ->headScript()->appendFile('/js/jquery-ui.js')
                         ->headScript()->appendFile('/js/datepicker-es.js')
-                        ->headScript()->appendFile('/js/count.js');
+                        ->headScript()->appendFile('/js/count.js')
+                        // ->headScript()->appendFile('/js/angular-1.3.15.js')
+                        // ->headScript()->appendFile('/js/angular-sanitize.js')                       
+                        // ->headScript()->appendFile('/js/sumar.js')
+                        ;
+
 
                             
 

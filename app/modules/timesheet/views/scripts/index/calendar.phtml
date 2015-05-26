@@ -1,55 +1,42 @@
+
+
 <body onload="cargardatos()"> 
-
-<section class="panel">
-
-<header class="panel-heading" style="padding-bottom : 10px">
-       
- Hoja de Tiempo 
-       
-  <a class="btn btn-danger pull-right btn-xs" data-toggle="modal" href="#calendar">
-            <i class="fa fa-calendar"></i> Calendario
-        </a>
-        
-   <!--        
-         <a id = "" class="btn btn-primary pull-right btn-xs"  href="" style="margin-right : 10px">
+    <section class="panel">
+        <header class="panel-heading" style="padding-bottom : 10px">
+            Hoja de Tiempo 
+             <a class="btn btn-danger pull-right btn-xs" data-toggle="modal" href="#calendar">
+                <i class="fa fa-calendar"></i> Calendario
+            </a>
+                    
+            <!--        
+            <a id = "" class="btn btn-primary pull-right btn-xs"  href="" style="margin-right : 10px">
             <i class="fa fa-print"></i> Imprimir
-        </a>
-         <a id = "submit_work" class="btn btn-default pull-right btn-xs" href="#" style="margin-right : 10px">
+            </a>
+            <a id = "submit_work" class="btn btn-default pull-right btn-xs" href="#" style="margin-right : 10px">
             <i class="fa fa-check-square"></i> Enviar
-        </a>
-        <a id = "save_work" class="btn btn-info pull-right btn-xs"  style="margin-right : 10px">
+            </a>
+            <a id = "save_work" class="btn btn-info pull-right btn-xs"  style="margin-right : 10px">
             <i class="fa fa-save"></i> Guardar
-        </a>
+            </a>
 
-        <a id = "add_work" class="btn btn-success pull-right btn-xs" data-toggle="modal" href="#agregar" style="margin-right : 10px">
+            <a id = "add_work" class="btn btn-success pull-right btn-xs" data-toggle="modal" href="#agregar" style="margin-right : 10px">
             <i class="fa fa-check-square-o"></i> Agregar
-        </a>-->
-    </header>
-
-    
-
-
-        
-    <div class="modal fade" id="agregar" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content" style="width: 1250px; 
-    top: 100%; margin-left: -180px;
-   " >
-                <div class="modal-header" style="padding: 5px; background: rgba(7, 35, 108, 0.92);">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title">Agregar Actividades</h4>
-                </div>
-                <div class="modal-body" style="padding: 1px; ">
-                    <div class="chat-room">
-                       
-                        <aside  style="width:30%; text-align: left;">
-                         
-                                <span style="font-weight:bold;">Cliente</span>
-                            
+            </a>-->
+        </header>
+        <div class="modal fade" id="agregar" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content" style="width: 1250px; top: 100%; margin-left: -180px;" >
+                    <div class="modal-header" style="padding: 5px; background: rgba(7, 35, 108, 0.92);">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title">Agregar Actividades</h4>
+                    </div>
+                    <div class="modal-body" style="padding: 1px; ">
+                        <div class="chat-room">
+                            <aside  style="width:30%; text-align: left;">
+                            <span style="font-weight:bold;">Cliente</span>
                             <ul class="nav nav-pills nav-stacked">
                                 <?php 
                                 $equipo = $this->datoscliente;
-                               // print_r($equipo);
                                 foreach ($equipo as $data_equipo) { ?>
                                     <li >
                                         <a style="padding:5px 5px;" class="cliente" clienteid="<?php echo $data_equipo['clienteid'] ?>" unidadid="<?php echo $data_equipo['unidad_mineraid'] ?>" href="##">
@@ -58,44 +45,29 @@
                                     </li>
                                     <script type="text/javascript">
                                     $(".cliente").click(function(){
-
                                         $("#proyectos").html('');
                                         $("#actividades").html('');
                                         $("#actividades_hijos").html('');
                                         $("#actividades_tareas").html('');
-                                         var fecha = $("#fechasemana").text();
-                                         
+                                        var fecha = $("#fechasemana").text();
                                         var clienteid = $(this).attr('clienteid');
                                         var unidadid = $(this).attr('unidadid');
-                                      //  alert(clienteid);
-                                      //  alert(unidadid);
-                                       // alert(fecha);
                                         $("#proyectos").load("/timesheet/index/proyectos/clienteid/"+clienteid+"/unidadid/"+unidadid+"/fecha/"+fecha);
-
-                                         
                                     });
                                     </script>
                                     <?php
-                                }
-                                 ?>
-                                <li >
-                                    <a style="padding:5px 5px;" class="anddes"  href="##">
+                                }?>
+                                    <li >
+                                        <a style="padding:5px 5px;" class="anddes"  href="##">
                                             <?php echo "Anddes Asociados SAC" ?>
-                                    </a>
-                                </li>
-                                                                    <script type="text/javascript">
+                                        </a>
+                                    </li>
+                                    <script type="text/javascript">
                                     $(".anddes").click(function(){
-
-                                     
-                                         var fecha = $("#fechasemana").text();
-                                         
+                                        var fecha = $("#fechasemana").text();
                                         var clienteid = '20451530535';
                                         var unidadid = '10';
-                                     
                                         $("#proyectos").load("/timesheet/index/proyectos/clienteid/"+clienteid+"/unidadid/"+unidadid+"/fecha/"+fecha);
-
-                                         alert(clienteid);
-                                         alert(unidadid);
                                     });
                                     </script>
                             </ul>
@@ -145,6 +117,25 @@
         </div>
     </div>
 </section>
+
+
+<!--   <h1>Suma de numeros:</h1>
+  <div ng-repeat="elemento in vm.elementos track by $index">
+     <input type="text"  ng-model="vm.elementos[$index]" ng-change="vm.sumar()">
+  </div>
+  <input type="button" value="Agregar" ng-click="vm.agregar()">
+  {{vm.resultado}}
+
+
+
+<button ng-click="mostraraviso()">Mostrar</button>
+<div id="registro" ng-bind-html="registro">
+</div>
+<div  style="display:none" id="fechasemana"></div> 
+ -->
+
+
+
 
 <div id="registro"></div>
 <div  style="display:none" id="fechasemana"></div>

@@ -28,7 +28,10 @@
     
         <link rel="shortcut icon" href="/img/favicon.ico" type="image/x-icon">
     </head>
-    <body>
+
+    <body >
+    <!-- ng-app="angularSuma" ng-controller="sumaController as vm" -->
+
     <section id="container" >
         <!--header start-->
         <header class="header white-bg" >
@@ -141,6 +144,9 @@
                     <?php
                     }
                     if ($rol == "PROYECTO") { ?>
+
+                    <?php if ($is_gerente == 'S') { ?>
+
                         <li class="sub-menu">
                             <a href="/propuesta/index/listar" >
                                 <i class="fa fa-bar-chart-o"></i>
@@ -163,6 +169,33 @@
                                 <li><a  href="/proyecto/index/nuevo">Nuevo</a></li>
                             </ul>
                         </li>
+                        <?php } else {?>
+                        
+                        <li class="sub-menu">
+                            <a href="/admin" >
+                                <i class="fa fa-bar-chart-o"></i>
+                                <span>Propuestas</span>
+                            </a>
+                            <ul class="sub">
+                                <li><a  href="/admin">Lista Propuestas</a></li>
+                                <li><a  href="/admin">Nueva Propuesta</a></li>
+                            <li><a  href="/admin">Lista Transmittal</a></li>
+                            </ul>
+                        </li>
+
+                        <li class="sub-menu">
+                            <a href="/admin" >
+                                <i class="fa fa-archive"></i>
+                                <span>Proyecto</span>
+                            </a>
+                            <ul class="sub">
+                                <li><a  href="/admin">Lista</a></li>
+                                <li><a  href="/admin">Nuevo</a></li>
+                            </ul>
+                        </li>
+
+                        <?php }?>
+
                     <?php 
                     } ?>
                     
@@ -226,12 +259,7 @@
                             </a>
                         </li>
                   <?php }?>
-  <li>
-                            <a href="/timesheet/index/calendar">
-                                <i class="fa fa-money"></i>
-                                <span>Hoja de Tiempo</span>
-                            </a>
-                        </li>
+  
                     <?php 
                     if ($is_gerente == 'S') { ?>
                         <li class="sub-menu">
@@ -254,6 +282,9 @@
                         </li>
                     <?php 
                     } ?>
+                    <?php 
+                    if ($is_gerente == 'S') { ?>
+
                     <li class="sub-menu">
                         <a href="/admin">
                             <i class="fa fa-group"></i>
@@ -280,8 +311,36 @@
                             <span>Administrador</span>
                         </a>
                     </li>
-                    
+                    <?php } else {?>
 
+                    <li class="sub-menu">
+                        <a href="/admin">
+                            <i class="fa fa-group"></i>
+                            <span>RR. HH.</span>
+                        </a>
+                        <ul class="sub">
+                            <li><a  href="/admin">Lista Personal</a></li>
+                            <li><a  href="/admin">Rates</a></li>
+                        </ul>
+                    </li>
+                    <li class="sub-menu">
+                        <a href="/admin" >
+                            <i class="fa fa-suitcase"></i>
+                            <span>Comercial</span>
+                        </a>
+                        <ul class="sub">
+                            <li><a  href="/admin">Clientes</a></li>
+                            <li><a  href="/admin">Contactos</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="/admin">
+                            <i class="fa fa-user"></i>
+                            <span>Administrador</span>
+                        </a>
+                    </li>
+
+                    <?php } ?>
                     <!--multi level menu start-->
                     <!-- <li class="sub-menu">
                         <a href="javascript:;" >

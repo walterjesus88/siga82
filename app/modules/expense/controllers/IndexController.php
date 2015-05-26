@@ -355,6 +355,12 @@ class Expense_IndexController extends Zend_Controller_Action {
             $otro_impuesto = $this->_getParam('otro_impuesto');
             $igv = $this->_getParam('igv');
             $monto_total = $this->_getParam('monto_total');
+
+            print_r($monto_total);
+            print_r($description);
+            print_r($gasto_persona_id);
+            print_r($gasto_padre);
+            
             $gasto = new Admin_Model_DbTable_Gastopersona();
             for ($i=0; $i < count($gasto_persona_id); $i++) { 
                 $pk = array();
