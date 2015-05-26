@@ -18,9 +18,6 @@
      
       ?>
 
-
-      
-
       <?php if ($estado_horas=='P') {?>
       <strong>Hoja de Tiempo Espera de Aprobacion</strong> 
       <?php }?>
@@ -178,16 +175,9 @@
             //for ($k=0; $k < 7; $k++){
               //print_r($actividades);
             foreach ($actividades as $data_tareo)
-
-
             { ?>      
-
-
-
             <tr class="gradeX" id ="tr_tareo_<?php echo $j?>">
-              
               <?php if ($data_tareo['estado_tareopersona']!='C') { ?>  
-
               <td > 
                 <?php if ($data_tareo['tipo_actividad']=='G') {?>
                   <a <?php if ($data_tareo['estado_tareopersona']=='C') { ?> disabled <?php }?> id ="crear_tareag_<?php echo $j?>"><i class="fa fa-plus-square-o"></i></a>
@@ -200,9 +190,7 @@
                   <a ><i class="fa fa-plus-square-o"></i></a>
                   <a <?php if ($data_tareo['estado_tareopersona']=='C') { ?> disabled <?php }?> title="Eliminar" id ="eliminar_tareo_<?php echo $j?>" ><i class="fa fa-minus-square-o"></i></a>                                   
                 <?php }?>
-
               </td>
-
               <?php } else {?> 
 
               <td></td>
@@ -395,7 +383,7 @@
                         $("#valor<?php echo $i ?><?php echo $j?>").focus();
                     $("#valor<?php echo $i ?><?php echo $j?>").keyup(function(e){ 
                    
-                       //alert('fff');
+                      // alert('fff');
                         var hora_real=$(this).val(); 
                         var codigo_prop_proy="<?php echo $data_tareo['codigo_prop_proy'] ?>";
                         var codigo_actividad="<?php echo $data_tareo['codigo_actividad'] ?>";
@@ -436,7 +424,7 @@
                           var url="/timesheet/index/updatetareoreal/codigo_prop_proy/"+codigo_prop_proy+"/codigo_actividad/"+codigo_actividad+"/actividadid/"+actividadid+"/revision/"+revision+"/actividad_padre/"+actividad_padre+"/proyectoid/"+proyectoid+"/semanaid/"+semanaid+"/fecha_tarea/"+fecha_tarea+"/asignado/"+asignado+"/areaid/"+areaid+"/categoriaid/"+categoriaid+"/dni/"+dni+"/cargo/"+cargo+"/horareal/"+hora_real+"/tipo_actividad/"+tipo_actividad+"/etapa/"+etapa+"/actividad_generalid/"+actividad_generalid+"/fecha_calendario/"+fecha_calendario+"/h_propuesta/"+h_propuesta;   
 
                           var url2='/timesheet/index/traersumahoras/semanaid/'+semanaid+'/fecha/'+fecha_tarea+'/fechainiciomod/'+fecha_tarea+'/uid/'+uid+'/dni/'+dni_+'/cargo/'+cargo;   
-                         alert(url);            
+                         //alert(url);            
 
                            $.ajax({
                                     type: "POST",
@@ -462,11 +450,11 @@
                                                       $("#sumahoras<?php echo $i ?>").empty();
                                                       $("#sumahoras<?php echo $i ?>").html(data);                                     
                                                       $("#fecha_<?php echo $i?>").hide(); 
-                                                    //      var i="<?php echo $i ?>";
-                                                    //   var j="<?php echo $j ?>";
+                                                       //   var i="<?php echo $i ?>";
+                                                      // var j="<?php echo $j ?>";
                                                       
                                                     //    sumar(j,i,hora_real);                
-                                                    // }
+                                                     }
                                               });                                          
                                     }
                             });
@@ -1108,15 +1096,18 @@
 </div> -->
 
 <script type="text/javascript">
+
      $('#save_hours').click(function(){
+        alert("Guardando Registros al Sistema. Gracias")
         $.ajax({
             type   : 'post',
             url    : '/timesheet/index/prueba/',
             data   : $('#form_time').serialize(),
             success: function(data){
-               
+               document.location.href="/timesheet/index/calendar";
             }
         });
+        
     });
 </script>
  
