@@ -513,15 +513,12 @@
                         }else{ 
                            //En caso contrario (Si era un número) devuelvo el valor 
 
-                            var i="<?php echo $i ?>";
-                        var j="<?php echo $j ?>";
-                          
-                        sumar(j,i,hora_real);
+                      
 
                           var url="/timesheet/index/updatetareoreal/codigo_prop_proy/"+codigo_prop_proy+"/codigo_actividad/"+codigo_actividad+"/actividadid/"+actividadid+"/revision/"+revision+"/actividad_padre/"+actividad_padre+"/proyectoid/"+proyectoid+"/semanaid/"+semanaid+"/fecha_tarea/"+fecha_tarea+"/asignado/"+asignado+"/areaid/"+areaid+"/categoriaid/"+categoriaid+"/dni/"+dni+"/cargo/"+cargo+"/horareal/"+hora_real+"/tipo_actividad/"+tipo_actividad+"/etapa/"+etapa+"/actividad_generalid/"+actividad_generalid+"/fecha_calendario/"+fecha_calendario+"/h_propuesta/"+h_propuesta;   
 
                           var url2='/timesheet/index/traersumahoras/semanaid/'+semanaid+'/fecha/'+fecha_tarea+'/fechainiciomod/'+fecha_tarea+'/uid/'+uid+'/dni/'+dni_+'/cargo/'+cargo;   
-                         //alert(url);            
+                         alert(url);            
 
                            $.ajax({
                                     type: "POST",
@@ -546,8 +543,12 @@
                                                     success: function(data){                      
                                                       $("#sumahoras<?php echo $i ?>").empty();
                                                       $("#sumahoras<?php echo $i ?>").html(data);                                     
-                                                      $("#fecha_<?php echo $i?>").hide();                 
-                                                    }
+                                                      $("#fecha_<?php echo $i?>").hide(); 
+                                                    //      var i="<?php echo $i ?>";
+                                                    //   var j="<?php echo $j ?>";
+                                                      
+                                                    //    sumar(j,i,hora_real);                
+                                                    // }
                                               });                                          
                                     }
                             });
