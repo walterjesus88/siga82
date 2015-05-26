@@ -55,13 +55,14 @@
       echo "HH Facturable";
       ?>
     </button>
+    <!--
     <button data-toggle="button" class="btn btn-white">
       <?php 
       echo $sumar['nonbillable'];
       echo "<br>";
       echo "HH No Facturable";
       ?>
-    </button>
+    </button>-->
    
     <button data-toggle="button" class="btn btn-white">
       <?php 
@@ -100,10 +101,19 @@
     $planificacion = new Admin_Model_DbTable_Planificacion();
     $proyectos=$planificacion->_getOnexSemanaxGerenteProyecto($this->semana,$this->uid,$this->dni,$this->areaid);
     echo "Aprobadores: "; echo "<br>";
+    $usuariocategoria = new Admin_Model_DbTable_Usuariocategoria();
+    $datos_usuario=$usuariocategoria->_getCargoxArea($this->areaid,'JEFE');
+    //print_r($datos_usuario[0]['uid']);
+      $jefe_area = explode(".", $datos_usuario[0]['uid']);
+      echo "JA: ";
+      echo (ucwords($jefe_area[0])); echo " ";
+        echo (ucwords($jefe_area[1])); echo "<br>";
+
+
       foreach ($proyectos as $datos) {
        //print_r($datos['uid']);
        $porciones = explode(".", $datos['uid']);
-
+       echo "GP: ";
        echo (ucwords($porciones[0])); echo " ";
         echo (ucwords($porciones[1])); echo "<br>";
       }
@@ -448,24 +458,23 @@
                                           //$("#carga").empty();
                                           $("#carga").html(data);                                          
 
-                                              $.ajax({
-                                                    type: "POST",
-                                                    url: url2,
-                                                    data: $(this).serialize(),
-                                                    dataType: "html",                                                 
-                                                    error: function(){
-                                                      alert("error petición ajax load");
-                                                    },
-                                                    success: function(data){                      
-                                                      $("#sumahoras<?php echo $i ?>").empty();
-                                                      $("#sumahoras<?php echo $i ?>").html(data);                                     
-                                                      $("#fecha_<?php echo $i?>").hide(); 
-                                                       //   var i="<?php echo $i ?>";
-                                                      // var j="<?php echo $j ?>";
-                                                      
-                                                    //    sumar(j,i,hora_real);                
-                                                     }
-                                              });                                          
+                                              // $.ajax({
+                                              //       type: "POST",
+                                              //       url: url2,
+                                              //       data: $(this).serialize(),
+                                              //       dataType: "html",                                                 
+                                              //       error: function(){
+                                              //         alert("error petición ajax load");
+                                              //       },
+                                              //       success: function(data){                      
+                                              //         $("#sumahoras<?php echo $i ?>").empty();
+                                              //         $("#sumahoras<?php echo $i ?>").html(data);                                     
+                                              //         $("#fecha_<?php echo $i?>").hide(); 
+                                                       //var i="<?php echo $i ?>";
+                                                       //var j="<?php echo $j ?>";                                                      
+                                                       //sumar(j,i,hora_real);                
+                                              //        }
+                                              // });                                          
                                     }
                             });
                         } 
@@ -1254,12 +1263,52 @@ function fnc(evt) {
 
 }
 
+// $( "input" )
+//   .keyup(function() {
+//   var value = $( this ).val();
+//   $("#horaregistrada").text( value );
+
+// })
 $( "input" )
   .keyup(function() {
-  var value = $( this ).val();
-  $("#horaregistrada").text( value );
-
+  var matriz = new Array(10);
+  for (i = 0; i < 10; i++)
+    matriz[i] = new Array(10);
+  elementos = [];
+  $("[id*=valor]").each(function(indice, elemento) {
+    elemID = $(elemento).attr("id");
+    horizontal = elemID.slice(5,6);
+    vertical = elemID.slice(6,7);
+    console.log('El elemento con el índice ' + horizontal + ' : ' + vertical + ' contiene ' + $(elemento).val());
+    matriz[horizontal][vertical] = $(elemento).val();
+  });
+  maximo = 0;
+  elemSuma = [];
+  for (var hor = 0; hor < 10; hor++) {
+    resSuma = 0;
+    for (var ver = 0; ver < 10; ver++) {
+      if (typeof matriz[hor][ver] !== 'undefined') {
+        if (isNaN(parseInt(matriz[hor][ver]))) {
+          matriz[hor][ver] = 0;
+        };
+        resSuma = resSuma + parseInt(matriz[hor][ver]);
+        maximo = hor+1;};
+        
+      };
+    elemSuma.push(resSuma);
+  };
+  mostrar = elemSuma.slice(0, maximo);
+  console.log(mostrar);
+  for (var i = 0; i < hor+1; i++) {
+    $("#fecha_"+i).html(mostrar[i]);
+    //$("#sumahoras"+i).html(mostrar[i]);
+    //$("#fecha_<?php echo $i?>").hide();
+  };
 })
+
+
+
+
 
 $("#save_work").click(function(){
   alert("Guardando la Hoja de Tiempo");
@@ -1315,10 +1364,14 @@ $("#submit_work1").click(function(){
       var semanaid="<?php echo $this->semana ?>";
       var cargo="<?php echo $this->areaid ?>";
       document.location.href="/timesheet/index/calendar";
-      url="/timesheet/index/guardarcomentarioequipo/estado/B/uid/"+uid+'/dni/'+dni+'/semanaid/'+semanaid+'/cargo/'+cargo+'/coment/'+coment+'/uid_validacion/'+uid+'/dni_validacion/'+dni+'/etapa/0'+'/fecha/'+fecha_calendario;
+
+      var d=new Date(); 
+      var fechacapturada=d.getDate()+ "/" + (d.getMonth() +1) + "/" + d.getFullYear()+','+d.getHours()+':'+d.getMinutes()+':'+d.getSeconds(); 
+      //alert(fechauno);
+      url="/timesheet/index/guardarcomentarioequipo/estado/B/uid/"+uid+'/dni/'+dni+'/semanaid/'+semanaid+'/cargo/'+cargo+'/coment/'+coment+'/uid_validacion/'+uid+'/dni_validacion/'+dni+'/etapa/0'+'/fecha/'+fechacapturada;
          
       alert(url);
-      /*
+      
       $.ajax({
         type: "POST",
         url: url,
@@ -1333,7 +1386,7 @@ $("#submit_work1").click(function(){
           
            
         }
-      });*/
+      });
     });
   })
 </script>
