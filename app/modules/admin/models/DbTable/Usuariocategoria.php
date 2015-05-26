@@ -65,4 +65,22 @@ class Admin_Model_DbTable_Usuariocategoria extends Zend_Db_Table_Abstract
         }
     }
 
+    public function _getCargoxArea($areaid,$cargoid)
+    {
+        try{
+            $sql=$this->_db->query("
+                select * from usuario_categoria 
+                where cargo='$cargoid' and areaid='$areaid' and estado_sistema='A' and estado='A'
+            ");
+            $row=$sql->fetchAll();
+            return $row;           
+            }  
+            catch (Exception $ex){
+            print $ex->getMessage();
+        }
+    }
+
+
+
+
 }

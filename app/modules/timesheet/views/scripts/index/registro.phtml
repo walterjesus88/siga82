@@ -55,13 +55,14 @@
       echo "HH Facturable";
       ?>
     </button>
+    <!--
     <button data-toggle="button" class="btn btn-white">
       <?php 
       echo $sumar['nonbillable'];
       echo "<br>";
       echo "HH No Facturable";
       ?>
-    </button>
+    </button>-->
    
     <button data-toggle="button" class="btn btn-white">
       <?php 
@@ -83,22 +84,40 @@
     </button>
   </div>
   <div class="col-lg-2" style="padding-top: 2px;">
-    Aprobadores: <br>
+
+    
     <?php 
+    
+    
+    
+    if ($this->is_gerente=='S') 
+    {
+      echo "Aprobador: "; echo "<br>";
+      echo "Carlos Cesar";
+    }
+    else
+    {
+
     $planificacion = new Admin_Model_DbTable_Planificacion();
-    $proyectos=$planificacion->_getOnexSemana($this->semana,$this->uid,$this->dni,$this->areaid);
+    $proyectos=$planificacion->_getOnexSemanaxGerenteProyecto($this->semana,$this->uid,$this->dni,$this->areaid);
+    echo "Aprobadores: "; echo "<br>";
+    $usuariocategoria = new Admin_Model_DbTable_Usuariocategoria();
+    $datos_usuario=$usuariocategoria->_getCargoxArea($this->areaid,'JEFE');
+    //print_r($datos_usuario[0]['uid']);
+      $jefe_area = explode(".", $datos_usuario[0]['uid']);
+      echo "JA: ";
+      echo (ucwords($jefe_area[0])); echo " ";
+        echo (ucwords($jefe_area[1])); echo "<br>";
+
+
       foreach ($proyectos as $datos) {
-        $proyectoid=$datos['proyectoid'];
-        $codigo=$datos['codigo_prop_proy'];
-        $planificacion = new Admin_Model_DbTable_Planificacion();
-        $equipo = new Admin_Model_DbTable_Equipo();
-        $estado_usuario='A';
-        $data_equipo = $equipo->_buscarGerentexProyecto($proyectoid);
-        if ($data_equipo)
-        {
-          print_r($data_equipo[0]['uid']);
-        }
+       //print_r($datos['uid']);
+       $porciones = explode(".", $datos['uid']);
+       echo "GP: ";
+       echo (ucwords($porciones[0])); echo " ";
+        echo (ucwords($porciones[1])); echo "<br>";
       }
+    }
     ?>
   </div>
   <?php 
@@ -1098,13 +1117,13 @@
 <script type="text/javascript">
 
      $('#save_hours').click(function(){
-        //alert("Guardando Registros al Sistema. Gracias")
+        alert("Guardando Registros al Sistema. Gracias")
         $.ajax({
             type   : 'post',
             url    : '/timesheet/index/prueba/',
             data   : $('#form_time').serialize(),
             success: function(data){
-               //document.location.href="/timesheet/index/calendar";
+               document.location.href="/timesheet/index/calendar";
             }
         });
         
@@ -1334,8 +1353,8 @@ $("#submit_work1").click(function(){
   $(document).ready(function(){
     $("#submit_work").on("click",function(){
       var fecha_calendario = $("#fechasemana").text();
-      var url1="/timesheet/index/enviartimesheet/fecha_calendario/"+fecha_calendario;
-      $("#carga_nueva").load(url1);
+      //var url1="/timesheet/index/enviartimesheet/fecha_calendario/"+fecha_calendario;
+      //$("#carga_nueva").load(url1);
       alert('Enviando Hoja de Tiempo');
       var coment='envio';
       var uid="<?php echo $this->uid ?>";
@@ -1345,9 +1364,14 @@ $("#submit_work1").click(function(){
       var semanaid="<?php echo $this->semana ?>";
       var cargo="<?php echo $this->areaid ?>";
       document.location.href="/timesheet/index/calendar";
-      url="/timesheet/index/guardarcomentarioequipo/estado/B/uid/"+uid+'/dni/'+dni+'/semanaid/'+semanaid+'/cargo/'+cargo+'/coment/'+coment+'/uid_validacion/'+uid+'/dni_validacion/'+dni+'/etapa/0'+'/fecha/'+fecha_calendario;
-         
 
+      var d=new Date(); 
+      var fechacapturada=d.getDate()+ "/" + (d.getMonth() +1) + "/" + d.getFullYear()+','+d.getHours()+':'+d.getMinutes()+':'+d.getSeconds(); 
+      //alert(fechauno);
+      url="/timesheet/index/guardarcomentarioequipo/estado/B/uid/"+uid+'/dni/'+dni+'/semanaid/'+semanaid+'/cargo/'+cargo+'/coment/'+coment+'/uid_validacion/'+uid+'/dni_validacion/'+dni+'/etapa/0'+'/fecha/'+fechacapturada;
+         
+      alert(url);
+      
       $.ajax({
         type: "POST",
         url: url,

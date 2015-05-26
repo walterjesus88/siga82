@@ -43,6 +43,7 @@ $data_rendicion = $this->data_rendicion;
     <div class="col-lg-4">
         <section class="panel">
             <div class="panel-body" style="padding : 10x 10px">
+                <div id="load_data_consolidated"></div>
                 <div class="form-group">
                     <label class="col-lg-6 col-sm-6 control-label" style="font-size : 12px">Total Monto</label>
                     <div class="col-lg-6">
@@ -138,7 +139,7 @@ $data_rendicion = $this->data_rendicion;
                                     <th>N° Documento</th>
                                     <th>Proveedor</th>
                                     <th>Neto</th>
-                                    <th>Otro Imp. (%)</th>
+                                    <th>Otro Imp.</th>
                                     <th>IGV (18%)</th>
                                     <th>Monto Total</th>
                                 </tr>
@@ -359,13 +360,11 @@ $data_rendicion = $this->data_rendicion;
                                         $("#neto<?php echo $data_actividades['gasto_persona_id'] ?>").val(new_neto1);
                                         var otro = $("#otro_imp<?php echo $data_actividades['gasto_persona_id'] ?>").val();
                                         if (otro == '' || otro =='0') {
-                                            var igv = (new_neto1 * 0.18);
-                                        } else {
-                                            var other_igv = (new_neto1 *(otro/100))
-                                            var new_neto = parseFloat(new_neto1)+parseFloat(other_igv);
-                                            var igv = (new_neto * 0.18);
+                                            otro = 0;
                                         };
-                                        var total = parseFloat(new_neto1)+parseFloat(igv);
+                                        var igv = (new_neto1 * 0.18);
+                                        var total_neto = parseFloat(new_neto1)+parseFloat(igv);
+                                        var total = parseFloat(total_neto)+parseFloat(otro);
                                         if (isNaN(total)) {
                                             total = 0;
                                         };
@@ -386,13 +385,11 @@ $data_rendicion = $this->data_rendicion;
                                         $("#neto<?php echo $data_actividades['gasto_persona_id'] ?>").val(new_neto1);
                                         var otro = $("#otro_imp<?php echo $data_actividades['gasto_persona_id'] ?>").val();
                                         if (otro == '' || otro =='0') {
-                                            var igv = (new_neto1 * 0.18);
-                                        } else {
-                                            var other_igv = (new_neto1 *(otro/100))
-                                            var new_neto = parseFloat(new_neto1)+parseFloat(other_igv);
-                                            var igv = (new_neto * 0.18);
+                                            otro = 0;
                                         };
-                                        var total = parseFloat(new_neto1)+parseFloat(igv);
+                                        var igv = (new_neto1 * 0.18);
+                                        var total_neto = parseFloat(new_neto1)+parseFloat(igv);
+                                        var total = parseFloat(total_neto)+parseFloat(otro);
                                         if (isNaN(total)) {
                                             total = 0;
                                         };
@@ -407,13 +404,11 @@ $data_rendicion = $this->data_rendicion;
                                         var neto = $(this).val();
                                         var otro = $("#otro_imp<?php echo $data_actividades['gasto_persona_id'] ?>").val();
                                         if (otro == '' || otro =='0') {
-                                            var igv = (neto * 0.18);
-                                        } else {
-                                            var other_igv = (neto *(otro/100))
-                                            var new_neto = parseFloat(neto)+parseFloat(other_igv);
-                                            var igv = (new_neto * 0.18);
+                                            otro = 0;
                                         };
-                                        var total = parseFloat(neto)+parseFloat(igv);
+                                        var igv = (neto * 0.18);
+                                        var total_neto = parseFloat(neto)+parseFloat(igv);
+                                        var total = parseFloat(total_neto)+parseFloat(otro);
                                         if (isNaN(total)) {
                                             total = 0;
                                         };
@@ -428,13 +423,11 @@ $data_rendicion = $this->data_rendicion;
                                         var neto = $("#neto<?php echo $data_actividades['gasto_persona_id'] ?>").val();
                                         var otro = $(this).val();
                                         if (otro == '' || otro =='0') {
-                                            var igv = (neto * 0.18);
-                                        } else {
-                                            var other_igv = (neto *(otro/100))
-                                            var new_neto = parseFloat(neto)+parseFloat(other_igv);
-                                            var igv = (new_neto * 0.18);
+                                            otro = 0;
                                         };
-                                        var total = parseFloat(neto)+parseFloat(igv);
+                                        var igv = (neto * 0.18);
+                                        var total_neto = parseFloat(neto)+parseFloat(igv);
+                                        var total = parseFloat(total_neto)+parseFloat(otro);
                                         if (isNaN(total)) {
                                             total = 0;
                                         };
@@ -450,18 +443,15 @@ $data_rendicion = $this->data_rendicion;
                                         var otro = $("#otro_imp<?php echo $data_actividades['gasto_persona_id'] ?>").val();
                                         var igv_tmp = $(this).val();
                                         if (otro == '' || otro =='0') {
-                                            var igv = igv_tmp;
-                                        } else {
-                                            var other_igv = (neto *(otro/100))
-                                            var new_neto = parseFloat(neto)+parseFloat(other_igv);
-                                            var igv = igv_tmp;
+                                            otro = 0;
                                         };
-                                        if (igv == '' || igv =='0') {
+                                        if (igv_tmp == '' || igv_tmp =='0') {
                                             new_igv = 0;
                                         } else {
-                                            new_igv = igv;
+                                            new_igv = igv_tmp;
                                         };
-                                        var total = parseFloat(neto)+parseFloat(new_igv);
+                                        var total_neto = parseFloat(neto)+parseFloat(new_igv);
+                                        var total = parseFloat(total_neto)+parseFloat(otro);
                                         $("#total<?php echo $data_actividades['gasto_persona_id'] ?>").val(total);
                                     });
 
@@ -519,24 +509,6 @@ $data_rendicion = $this->data_rendicion;
                 });
             }
         });
-
-        /*$.ajax({
-            type   : 'post',
-            url    : '/expense/index/updategastorendicion/',
-            data   : $('#form_rendicion').serialize(),
-            success: function(data){
-                $.ajax({
-                    type   : 'post',
-                    url    : '/expense/index/updategastopersona/',
-                    data   : $('#form_gastos').serialize(),
-                    success: function(data){
-                        var url2 = "/expense/index/duplicargastopersona/gasto_persona_id/"+gasto_persona_id+"/proyectoid/"+proyectoid+"/codigo_prop_proy/"+codigo_prop_proy;
-                        $("#load_duplicidad").load(url2);
-                        $("#ingreso").load("/expense/index/ingreso/");
-                    }
-                });
-            }
-        });*/
     });
 
     $(".delete_actividad").click(function(){
@@ -582,6 +554,17 @@ $data_rendicion = $this->data_rendicion;
             }
         });
     });
+
+    function saveexpenseperson() {
+        $.ajax({
+            type   : 'post',
+            url    : '/expense/index/updategastopersona/',
+            data   : $('#form_gastos').serialize(),
+            success: function(data){
+                
+            }
+        });
+    }
 </script>
 
 <?php 
