@@ -371,7 +371,8 @@ class Expense_IndexController extends Zend_Controller_Action {
                 $data = array();
                 $data['descripcion'] = $description[$i];
                 if ($gasto_hijo[$i]!='') {
-                    $data['gastoid'] = $gasto_hijo[$i];
+                    list($gastoid, $tipo_gasto, $gasto_unitario) = split('[-]', $gasto_hijo[$i]);
+                    $data['gastoid'] = $gastoid.'-'.$tipo_gasto;
                 } else {
                     $data['gastoid'] = $gasto_padre[$i];
                 }

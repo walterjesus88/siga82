@@ -306,7 +306,24 @@ public function _getListarEquipoxProyectoxGerente($uid,$dni)
             print $ex->getMessage();
         }
     }
-    
 
+     public function _getListarEquipoArea($areaid)
+     {
+        try{
+            $sql=$this->_db->query("
+               select  distinct uid, dni  
+                from equipo where areaid='$areaid' and nivel='4'
+
+
+            ");
+            $row=$sql->fetchAll();
+            return $row;           
+            }  
+            
+           catch (Exception $ex){
+            print $ex->getMessage();
+        }
+    }
+    
     
 }

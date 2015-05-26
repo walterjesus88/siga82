@@ -7,14 +7,13 @@
     <section class="panel">
       <div class="panel-body">
         <div class="adv-table">
-      
           <table  class="display table table-bordered table-striped">
           <thead>
             <tr >
             <th style="width: 5%;">  </th>
-            <th style="width: 40%;" >Proyecto / Actividad: Tarea</th>
+            <th style="width: 70%;" >Proyecto / Actividad: Tarea</th>
             <th style="width: 7%;">Facturable</th>
-            <th style="width: 12%;">Tarea No Facturable</th>
+            <th style="width: 7%;">Tarea No Facturable</th>
             <?php 
               //$fecha = $this->fecha;
               //echo $fecha;
@@ -56,14 +55,20 @@
             $where['dni']=$this->dni;
             $where['cargo']=$this->cargo;
             $where['semanaid']=$this->semana;
+            $where['uid_validacion']=$this->uid_validacion;
+            $where['dni_validacion']=$this->dni_validacion;
+            //echo "usauio a validar:"; echo $this->uid;
+            //echo "validador: "; echo $this->uid_validacion;
+            $this->uid_validacion;
             $vercoment= new Admin_Model_DbTable_Usuariovalidacion();
-            $vcoment=$vercoment->_getOne($where); 
+            $vcoment=$vercoment->_getOnexUsuarioxJefe($where); 
+            //print_r($vcoment);
            
             ?>
             <?php
-            if($vcoment=$vercoment->_getOne($where))
+            if($vcoment=$vercoment->_getOnexUsuarioxJefe($where))
             {              
-              if($vcoment['estado_usuario']!='B')
+              if($vcoment['estado_usuario']=='B')
               { ?>
                 <div class="col-md-3">
                                
@@ -72,12 +77,15 @@
                   </button>   
                 </div>
             <?php }
-              else {
+              if($vcoment['estado_usuario']=='R') {
                 ?>
                 <div class="col-md-3">
                   <button id="aprobar" class="btn btn-success" type="button">
                     Aprobar Hoja 
-                  </button>                
+                  </button>  
+                  <button id="observar" class="btn btn-warning obs " type="button">
+                  Observar Hoja
+                </button>              
                 </div>
                 <?php
               }
@@ -101,19 +109,11 @@
             { ?>
             <tr class="gradeX" id ="tr_tareo_<?php echo $j?>">
               <td> 
-                <?php if ($data_tareo['tipo_actividad']=='G') {?>
-                  <a ><i class="fa fa-plus-square-o"></i></a>
-                  <a title="Eliminar" id ="eliminar_tareo_<?php echo $j?>" ><i class="fa fa-minus-square-o"></i></a><?php }
-                if ($data_tareo['tipo_actividad']=='P') { ?>
-                  <a id ="crear_tareag_<?php echo $j?>" >
-                  <i class="fa fa-plus-square-o"></i>
-                  </a>
-                  <a title="Eliminar" id ="eliminar_tareo_<?php echo $j?>" ><i class="fa fa-minus-square-o"></i></a>                                   
-                <?php }?>
+                  <?php echo $j?>
               </td>
              
               <td>
-                <?php echo $data_tareo['nombre_proyecto'];  echo " / "; echo $data_tareo['actividadid']; echo ": ";echo $data_tareo['nombre'] ?>
+                <?php echo $data_tareo['proyectoid']; echo " "; echo $data_tareo['nombre_proyecto'];  echo " / "; echo $data_tareo['nombre'] ?>
               </td>            
 
               <td>
@@ -320,16 +320,20 @@
            <script type="text/javascript">        
                 $(document).ready(function(){
                   $("#aprobar").on("click",function(){
-                  //alert('ku');
+                  alert('Aprobando Hoja de Tiempo');
                   
                   var coment=$("#comentario").val();
                   var uid="<?php echo $this->uid ?>";
                   var dni="<?php echo $this->dni ?>";
+                  var uid_validacion="<?php echo $this->uid_validacion ?>";
+                  var dni_validacion="<?php echo $this->dni_validacion ?>";
+                 var fecha_actual = "<?php echo date('Y-m-d') ?>"
+                  
                   var semanaid="<?php echo $data_tareo['semanaid'] ?>";
-                  var cargo="<?php echo $data_tareo['cargo'] ?>";
+                  var cargo="<?php echo $this->cargo  ?>";
                 
-                  url="/timesheet/index/guardarcomentariogerente/estado/B/uid/"+uid+'/dni/'+dni+'/semanaid/'+semanaid+'/cargo/'+cargo+'/coment/'+coment;
-                  alert(url);
+                  url="/timesheet/index/guardarcomentariogerente/estado/B/uid/"+uid+'/dni/'+dni+'/semanaid/'+semanaid+'/cargo/'+cargo+'/coment/'+coment+'/uid_validacion/'+uid_validacion+'/dni_validacion/'+dni_validacion+'/etapa/2'+'/fecha/'+fecha_actual;
+ 
                       $.ajax({
                           type: "POST",
                           url: url,
@@ -356,9 +360,17 @@
                   var coment=$("#comentario").val();
                   var uid="<?php echo $this->uid ?>";
                   var dni="<?php echo $this->dni ?>";
+                  var uid_validacion="<?php echo $this->uid_validacion ?>";
+                  var dni_validacion="<?php echo $this->dni_validacion ?>";
+                  
                   var semanaid="<?php echo $data_tareo['semanaid'] ?>";
-                  var cargo="<?php echo $data_tareo['cargo'] ?>";              
-                  url="/timesheet/index/guardarcomentariogerente/estado/R/uid/"+uid+'/dni/'+dni+'/semanaid/'+semanaid+'/cargo/'+cargo+'/coment/'+coment;
+                  var cargo="<?php echo $data_tareo['cargo'] ?>";
+                 var fecha_actual = "<?php echo date('Y-m-d') ?>"
+
+                  //url="/timesheet/index/guardarcomentario/estado/R/uid/"+uid+'/dni/'+dni+'/semanaid/'+semanaid+'/cargo/'+cargo+'/coment/'+coment+'/uid_validacion/'+uid_validacion+'/dni_validacion/'+dni_validacion;
+                  url="/timesheet/index/guardarcomentariogerente/estado/R/uid/"+uid+'/dni/'+dni+'/semanaid/'+semanaid+'/cargo/'+cargo+'/coment/'+coment+'/uid_validacion/'+uid_validacion+'/dni_validacion/'+dni_validacion+'/etapa/2'+'/fecha/'+fecha_actual;
+
+                  //url="/timesheet/index/guardarcomentario/estado/R/uid/"+uid+'/dni/'+dni+'/semanaid/'+semanaid+'/cargo/'+cargo+'/coment/'+coment;
                   //alert(url);
                       $.ajax({
                           type: "POST",
