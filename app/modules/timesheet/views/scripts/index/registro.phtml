@@ -1044,7 +1044,9 @@
                     <div id="fecha_<?php echo $i?>">
                     <?php  $tareopersona = new Admin_Model_DbTable_Tareopersona();
                     $sumar=$tareopersona-> _getHorasRealxDia($data_tareo['semanaid'],$fecha,$uid,$dni);
-                    print_r($sumar[0]['tareo_persona_horas_reales']); ?>
+                    print_r($sumar[0]['tareo_persona_horas_reales']); 
+                    //print_r($sumar);
+                    ?>
                     </div>
 
                   <!-- <div id="fecha_<?php //echo $i?>"> -->
@@ -1271,9 +1273,9 @@ function fnc(evt) {
 // })
 $( "input" )
   .keyup(function() {
-  var matriz = new Array(10);
-  for (i = 0; i < 10; i++)
-    matriz[i] = new Array(10);
+  var matriz = new Array(30);
+  for (i = 0; i < 30; i++)
+    matriz[i] = new Array(30);
   elementos = [];
   $("[id*=valor]").each(function(indice, elemento) {
     elemID = $(elemento).attr("id");
@@ -1284,9 +1286,9 @@ $( "input" )
   });
   maximo = 0;
   elemSuma = [];
-  for (var hor = 0; hor < 10; hor++) {
+  for (var hor = 0; hor < 30; hor++) {
     resSuma = 0;
-    for (var ver = 0; ver < 10; ver++) {
+    for (var ver = 0; ver < 30; ver++) {
       if (typeof matriz[hor][ver] !== 'undefined') {
         if (isNaN(parseInt(matriz[hor][ver]))) {
           matriz[hor][ver] = 0;
