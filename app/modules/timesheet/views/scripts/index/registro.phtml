@@ -104,6 +104,8 @@
     echo "Aprobadores: "; echo "<br>";
     $usuariocategoria = new Admin_Model_DbTable_Usuariocategoria();
     $datos_usuario=$usuariocategoria->_getCargoxArea($this->areaid,'JEFE');
+    if ($datos_usuario)
+    {
     //print_r($datos_usuario[0]['uid']);
       $jefe_area = explode(".", $datos_usuario[0]['uid']);
       echo "JA: ";
@@ -117,6 +119,7 @@
        echo "GP: ";
        echo (ucwords($porciones[0])); echo " ";
         echo (ucwords($porciones[1])); echo "<br>";
+      }
       }
     }
     ?>
@@ -393,7 +396,7 @@
                 <script type="text/javascript">
                   $(document).ready(function(){
                         $("#valorr<?php echo $i ?><?php echo $j?>").focus();
-                    $("#valorr<?php echo $i ?><?php echo $j?>").keyup(function(e){ 
+                    $("#valor<?php echo $i ?><?php echo $j?>").keyup(function(e){ 
                    
                       // alert('fff');
                         var hora_real=$(this).val(); 
@@ -410,14 +413,12 @@
                         var categoriaid ="<?php echo $data_tareo['categoriaid'] ?>";
                         var dni="<?php echo $data_tareo['dni'] ?>";
                         var cargo="<?php echo $data_tareo['cargo'] ?>";
-
-                        
                         var tipo_actividad="<?php echo $data_tareo['tipo_actividad'] ?>";
                         var etapa="<?php echo $data_tareo['etapa'] ?>";                        
                         var actividad_generalid="<?php echo $data_tareo['actividad_generalid'] ?>";
                         var h_propuesta="<?php echo $data_tareo['h_propuesta'] ?>";
                         var fecha_calendario = $("#fechasemana").text();
-                        
+
                         var uid="<?php echo $this->uid ?>";
                         var dni_="<?php echo $this->dni ?>";
                         var fechainiciomod="<?php echo $this->fecha_inicio_mod ?>";
@@ -763,7 +764,6 @@
                     });                    
                     //$("#carga").load(url);
                     //$("#registro").load(); 
-
                   });
                 });
 
