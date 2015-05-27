@@ -223,7 +223,6 @@
 
              
               <td>
-
                 <?php  echo $data_tareo['proyectoid']; echo " "; echo $data_tareo['nombre_proyecto'];  echo " "; echo $data_tareo['actividadid']; echo " ";echo $data_tareo['nombre'] ?>
               </td>            
 
@@ -349,12 +348,11 @@
                 $buscar_tarea=$tareopersona->_getTareoxProyectoxTareaxDia($proyectoid,$codigo,$revision,$actividadid,$actividad_padre,$semanaid,$fecha_tarea,$fecha_planificacion,$uid,$dni,$cargo,$resultado);
                 //print_r($buscar_tarea[0]['asignado']);
                 //$k=$a[$i][$j];
-                if ($data_tareo['tipo_actividad']=='G' and $data_tareo['actividad_generalid']=='')
+              if ($data_tareo['tipo_actividad']=='G' and $data_tareo['actividad_generalid']=='')
                 {
                 ?>
-                <td>
-                <center>        
-        
+              <td>
+                <center>  
 
                    <input disabled  class="form-control" id="valor<?php echo $i?><?php echo $j?>" style="text-align: center;height: 26px; width: 40px; padding-right: 4px; padding-left: 4px;" maxlength="2" values= "<?php  print_r($buscar_tarea[0]['tipo_actividad']) ?>" value="<?php 
                  if ($buscar_tarea) {
@@ -362,9 +360,11 @@
                     }?>" 
                      > 
 
-                 </center> 
-                <?php } else {
+                 </center>
+                 </td>
 
+                <?php 
+                } else {
                 ?>
               <td>
                 <center>
@@ -383,19 +383,20 @@
                   <input type="hidden" name="semanaid[<?php echo $j ?>][<?php echo $i ?>]" value="<?php echo $data_tareo['semanaid'] ?>"/>
                   <input type="hidden" name="fecha_tarea[<?php echo $j ?>][<?php echo $i ?>]" value="<?php echo $fecha_tarea ?>"/>  
                   <input type="hidden" name="asignado[<?php echo $j ?>][<?php echo $i ?>]" value="<?php echo $data_tareo['asignado'] ?>"/>  
-
+                
                  
                   <input type="hidden" name="tipo_actividad[<?php echo $j ?>][<?php echo $i ?>]" value="<?php echo $data_tareo['tipo_actividad'] ?>"/>  
                   <input type="hidden" name="etapa[<?php echo $j ?>][<?php echo $i ?>]" value="<?php echo $data_tareo['etapa']?>"/> 
                   <input type="hidden" name="actividad_generalid[<?php echo $j ?>][<?php echo $i ?>]" value="<?php echo $data_tareo['actividad_generalid'] ?>"/>
-            
-
-
                 </center>
 
                 <script type="text/javascript">
                   $(document).ready(function(){
+<<<<<<< HEAD
                         $("#valorr<?php echo $i ?><?php echo $j?>").focus();
+=======
+                    $("#valor<?php echo $i ?><?php echo $j?>").focus();
+>>>>>>> 32229a176ab3e84e12df76155ff28c6811d892a5
                     $("#valor<?php echo $i ?><?php echo $j?>").keyup(function(e){ 
                    
                       // alert('fff');
@@ -425,11 +426,60 @@
                         var fecha="<?php echo $this->fecha ?>";
                         var fechaz="<?php echo $data_tareo['fecha_tarea'] ?>";
 
-                        if (isNaN(hora_real)) {
+                        /* codigo de lenon*/
+                        
+                        valor = parseInt($(this).val());
+                        if (isNaN(valor) || valor < 0 || valor > 24) {
+                          $(this).val("");
+                        };
+                        max_horizontal = 50;
+                        max_vertical = 50;
+                        var matriz = new Array(max_horizontal);
+                        for (i = 0; i < max_horizontal; i++)
+                          matriz[i] = new Array(max_vertical);
+                        $("[id*=valor]").each(function(indice, elemento) {
+                          elemID = $(elemento).attr("id");
+                          horizontal = elemID.slice(5,6);
+                          vertical = elemID.slice(6,8);
+                          console.log('El elemento con el índice ' + horizontal + ' : ' + vertical + ' contiene ' + $(elemento).val());
+                          matriz[horizontal][vertical] = $(elemento).val();
+                        });
+                        maximo = 0;
+                        elemSuma = [];
+                        for (var hor = 0; hor < max_horizontal; hor++) {
+                          resSuma = 0;
+                          for (var ver = 0; ver < max_vertical; ver++) {
+                            if (typeof matriz[hor][ver] !== 'undefined') {
+                              if (isNaN(parseInt(matriz[hor][ver]))) {
+                                matriz[hor][ver] = 0;
+                              };
+                              resSuma = resSuma + parseInt(matriz[hor][ver]);
+                              maximo = hor+1;};
+                              
+                            };
+                            if (resSuma > 24) {
+                              resSuma = resSuma - parseInt($(this).val());
+                              console.log(resSuma);
+                              alert("La suma total no puede ser mayor a 24 horas");
+                              $(this).val("");
+                            };
+                          elemSuma.push(resSuma);
+                        };
+                        mostrar = elemSuma.slice(0, maximo);
+                        console.log(mostrar);
+                        for (var i = 0; i < hor+1; i++) {
+                          $("#fecha_"+i).html(mostrar[i]);
+                        };
+
+                        var hora_real=$("#valor<?php echo $i?><?php echo $j?>").val(); 
+
+                        /* codigo de lenon*/
+
+                        //if (isNaN(hora_real)) {
                            //entonces (no es numero) devuelvo el valor cadena vacia 
-                           alert('la hora no puede ser una letra');
+                           //alert('la hora no puede ser una letra');
                            //e.preventDefault();
-                        }else{ 
+                        //}else{ 
                            //En caso contrario (Si era un número) devuelvo el valor 
 
                       
@@ -470,59 +520,11 @@
                                               // });                                          
                                     }
                             });
-                        } 
+                        //} 
                       });
                     });
                   
-                </script>
-                <script type="text/javascript">
-                        var y=new Array();
-                        var z=new Array(5);
-                        z[0]=0;
-                        z[1]=0;
-                        z[2]=0;
-                        z[3]=0;
-                        z[4]=0;
-                        z[5]=0;
-                       
-                        var valor=new Array(4);
-                        valor[0]=0;
-                        valor[1]=0;
-                        valor[2]=0;
-                        valor[3]=0;
-                    function sumar(j,i,hora){
-                        //alert('fd'); 
-                        var x=parseInt(hora);
-                        //alert(x);
-                        //alert(j);
-                        //alert(i);
-                        //var x=parseInt(hora_real);
-                        // var i=parseInt(hora_real.id.charAt(6));  
-                        // var j=parseInt(hora_real.id.charAt(9));
-                         z[j]=x;
-                         y[i]=z;
-                         actualizar();
-                         // alert(z[j]);
-                         //alert(y[i]);
-                    }
-
-                    function actualizar(){
-                      for(i in y){
-                       
-                        for(j=0;j<=3;j++){
-                          valor[j]+=y[i][j];
-                        }     
-                      }
-                      document.getElementById("num1").value=valor[0];
-                      document.getElementById("num2").value=valor[1];
-                      document.getElementById("num3").value=valor[2];
-                      document.getElementById("num4").value=valor[3];
-             
-                    }
-                </script>
-
-       
-
+                </script> 
 
               </td> 
                 <?php 
@@ -1115,7 +1117,7 @@
             url    : '/timesheet/index/prueba/',
             data   : $('#form_time').serialize(),
             success: function(data){
-               document.location.href="/timesheet/index/calendar";
+              // document.location.href="/timesheet/index/calendar";
             }
         });
         
@@ -1263,48 +1265,48 @@ function fnc(evt) {
 // })
 
 
-$( "input" )
-  .keyup(function() {
-  valor = parseInt($(this).val());
-  if (isNaN(valor) || valor < 0 || valor > 24) {
-    $(this).val("");
-  };
-  var matriz = new Array(10);
-  for (i = 0; i < 10; i++)
-    matriz[i] = new Array(10);
-  $("[id*=valor]").each(function(indice, elemento) {
-    elemID = $(elemento).attr("id");
-    horizontal = elemID.slice(5,6);
-    vertical = elemID.slice(6,7);
-    console.log('El elemento con el índice ' + horizontal + ' : ' + vertical + ' contiene ' + $(elemento).val());
-    matriz[horizontal][vertical] = $(elemento).val();
-  });
-  maximo = 0;
-  elemSuma = [];
-  for (var hor = 0; hor < 10; hor++) {
-    resSuma = 0;
-    for (var ver = 0; ver < 10; ver++) {
-      if (typeof matriz[hor][ver] !== 'undefined') {
-        if (isNaN(parseInt(matriz[hor][ver]))) {
-          matriz[hor][ver] = 0;
-        };
-        resSuma = resSuma + parseInt(matriz[hor][ver]);
-        maximo = hor+1;};
+// $( "input" )
+//   .keyup(function() {
+//   valor = parseInt($(this).val());
+//   if (isNaN(valor) || valor < 0 || valor > 24) {
+//     $(this).val("");
+//   };
+//   var matriz = new Array(10);
+//   for (i = 0; i < 10; i++)
+//     matriz[i] = new Array(10);
+//   $("[id*=valor]").each(function(indice, elemento) {
+//     elemID = $(elemento).attr("id");
+//     horizontal = elemID.slice(5,6);
+//     vertical = elemID.slice(6,7);
+//     console.log('El elemento con el índice ' + horizontal + ' : ' + vertical + ' contiene ' + $(elemento).val());
+//     matriz[horizontal][vertical] = $(elemento).val();
+//   });
+//   maximo = 0;
+//   elemSuma = [];
+//   for (var hor = 0; hor < 10; hor++) {
+//     resSuma = 0;
+//     for (var ver = 0; ver < 10; ver++) {
+//       if (typeof matriz[hor][ver] !== 'undefined') {
+//         if (isNaN(parseInt(matriz[hor][ver]))) {
+//           matriz[hor][ver] = 0;
+//         };
+//         resSuma = resSuma + parseInt(matriz[hor][ver]);
+//         maximo = hor+1;};
         
-      };
-      if (resSuma > 24) {
-        resSuma = resSuma - parseInt($(this).val());
-        alert("La suma total no puede ser mayor a 24 horas");
-        $(this).val("");
-      };
-    elemSuma.push(resSuma);
-  };
-  mostrar = elemSuma.slice(0, maximo);
-  console.log(mostrar);
-  for (var i = 0; i < hor+1; i++) {
-    $("#fecha_"+i).html(mostrar[i]);
-  };
-})
+//       };
+//       if (resSuma > 24) {
+//         resSuma = resSuma - parseInt($(this).val());
+//         alert("La suma total no puede ser mayor a 24 horas");
+//         $(this).val("");
+//       };
+//     elemSuma.push(resSuma);
+//   };
+//   mostrar = elemSuma.slice(0, maximo);
+//   console.log(mostrar);
+//   for (var i = 0; i < hor+1; i++) {
+//     $("#fecha_"+i).html(mostrar[i]);
+//   };
+// })
 
     
 

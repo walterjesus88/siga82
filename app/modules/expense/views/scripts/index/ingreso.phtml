@@ -41,13 +41,12 @@ $data_rendicion = $this->data_rendicion;
             </div>
         </section>
     </div>
-    <div class="col-lg-4">
+    <div class="col-lg-6">
         <section class="panel">
             <div class="panel-body" style="padding : 10x 10px">
-                <div id="load_data_consolidated"></div>
                 <div class="form-group">
-                    <label class="col-lg-6 col-sm-6 control-label" style="font-size : 12px">Total Monto</label>
-                    <div class="col-lg-6">
+                    <label class="col-lg-3 col-sm-3 control-label" style="font-size : 12px">Total Monto</label>
+                    <div class="col-lg-3">
                     <?php if ($data_rendicion['estado'] == "E") { ?>
                     <span><?php echo $data_rendicion['monto_total']; ?></span>
                         <?php
@@ -56,10 +55,21 @@ $data_rendicion = $this->data_rendicion;
                     <?php 
                     } ?>
                     </div>
+
+                    <label class="col-lg-3 col-sm-3 control-label" style="font-size : 12px">Segundo Monto</label>
+                    <div class="col-lg-3">
+                    <?php if ($data_rendicion['estado'] == "E") { ?>
+                    <span><?php echo $data_rendicion['segundo_monto_total']; ?></span>
+                        <?php
+                    } else { ?>
+                        <input name="segundo_monto_total" type="text" class="form-control" value="<?php echo ($data_rendicion['segundo_monto_total'])? $data_rendicion['segundo_monto_total']: '';?>" readonly/>
+                    <?php 
+                    } ?>
+                    </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-lg-6 col-sm-6 control-label" style="font-size : 12px">Total Reembolso</label>
-                    <div class="col-lg-6">
+                    <label class="col-lg-3 col-sm-3 control-label" style="font-size : 12px">Total Reembolso</label>
+                    <div class="col-lg-3">
                     <?php if ($data_rendicion['estado'] == "E") { ?>
                     <span><?php echo $data_rendicion['monto_reembolso']; ?></span>
                         <?php
@@ -68,15 +78,37 @@ $data_rendicion = $this->data_rendicion;
                     <?php 
                     } ?>
                     </div>
+
+                    <label class="col-lg-3 col-sm-3 control-label" style="font-size : 12px">Segundo Reembolso</label>
+                    <div class="col-lg-3">
+                    <?php if ($data_rendicion['estado'] == "E") { ?>
+                    <span><?php echo $data_rendicion['segundo_monto_reembolso']; ?></span>
+                        <?php
+                    } else { ?>
+                        <input name="segundo_monto_reembolso" type="text" class="form-control" value="<?php echo ($data_rendicion['segundo_monto_reembolso'])? $data_rendicion['segundo_monto_reembolso']: '';?>" readonly/>
+                    <?php 
+                    } ?>
+                    </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-lg-6 col-sm-6 control-label" style="font-size : 12px">Total Cliente</label>
-                    <div class="col-lg-6">
+                    <label class="col-lg-3 col-sm-3 control-label" style="font-size : 12px">Total Cliente</label>
+                    <div class="col-lg-3">
                     <?php if ($data_rendicion['estado'] == "E") { ?>
                     <span><?php echo $data_rendicion['monto_cliente']; ?></span>
                         <?php
                     } else { ?>
                         <input name="monto_cliente" type="text" class="form-control" value="<?php echo ($data_rendicion['monto_cliente'])? $data_rendicion['monto_cliente']: '';?>" readonly/>
+                    <?php 
+                    } ?>
+                    </div>
+
+                    <label class="col-lg-3 col-sm-3 control-label" style="font-size : 12px">Segundo Cliente</label>
+                    <div class="col-lg-3">
+                    <?php if ($data_rendicion['estado'] == "E") { ?>
+                    <span><?php echo $data_rendicion['segundo_monto_cliente']; ?></span>
+                        <?php
+                    } else { ?>
+                        <input name="segundo_monto_cliente" type="text" class="form-control" value="<?php echo ($data_rendicion['segundo_monto_cliente'])? $data_rendicion['segundo_monto_cliente']: '';?>" readonly/>
                     <?php 
                     } ?>
                     </div>
@@ -86,13 +118,13 @@ $data_rendicion = $this->data_rendicion;
     </div>
 </form>
     <?php if ($data_rendicion['estado'] != "E") { ?>
-    <div class="col-lg-4">
+    <div class="col-lg-2">
         <section class="panel">
             <div class="panel-body" style="padding : 28px 15px 28px 15px">
                 <a id="guardar_gastos" class="btn btn-success pull-right btn-sm" href="##">
                     <i class="fa fa-save"></i> Guardar
                 </a>
-                <a id="enviar_gasto" class="btn btn-warning pull-right btn-sm" href="##" style="margin-right : 10px">
+                <a id="enviar_gasto" class="btn btn-warning pull-right btn-sm" href="##" style="margin-top : 10px">
                     <i class="fa fa-chevron-circle-right"></i> Enviar
                 </a>
             </div>
