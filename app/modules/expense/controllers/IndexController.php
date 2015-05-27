@@ -397,6 +397,16 @@ class Expense_IndexController extends Zend_Controller_Action {
                 $data['otro_impuesto'] = $otro_impuesto[$i];
                 $data['igv'] = $igv[$i];
                 $data['monto_total'] = $monto_total[$i];
+                
+                $tipo_cambio = new Admin_Model_DbTable_Tipogasto();
+                if ($moneda[$i] != 'Soles') {
+                    $where_cambio['tipo_moneda'] = $moneda[$i];
+                    $where_cambio['fecha'] = $fecha[$i];
+                    $data_tipo_cambio = $tipo_cambio->_getOne($where_cambio);
+                    $tot_seg = $data_tipo_cambio['compra'] * $monto_total[$i];
+                    $data['segundo_monto_total'] = $tot_seg;
+                    
+                }
                 $gasto->_update($data, $pk);
             }
         } catch (Exception $e) {
