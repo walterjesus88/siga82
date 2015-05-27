@@ -366,7 +366,7 @@
               <td>
                 <center>
 
-                   <input   name="tiempo_id[<?php echo $j ?>][<?php echo $i ?>]" class="form-control" id="valor<?php echo $i?><?php echo $j?>" style="text-align: center;height: 26px; width: 40px; padding-right: 4px; padding-left: 4px;" maxlength="2"  value="<?php 
+                   <input  <?php if ($data_tareo['estado_tareopersona']=='C') { ?> disabled <?php }?>    name="tiempo_id[<?php echo $j ?>][<?php echo $i ?>]" class="form-control" id="valor<?php echo $i?><?php echo $j?>" style="text-align: center;height: 26px; width: 40px; padding-right: 4px; padding-left: 4px;" maxlength="2"  value="<?php 
                  if ($buscar_tarea) {
                     if($buscar_tarea[0]['h_real']=='0') { echo "";} else { print_r($buscar_tarea[0]['h_real']);}
                     }?>" 
@@ -1191,7 +1191,7 @@
 
 <div style="display:none" id="horaregistrada"></div>
 <div style="display:none" id="carga"></div>
-<div style="display:none" id="carga_nueva"></div>
+<div  id="carga_nueva"></div>
 <div style="display:none" id="carga_w1"></div>
 
 
@@ -1364,14 +1364,14 @@ $("#submit_work1").click(function(){
       var dni_validacion="<?php echo $this->dni ?>";
       var semanaid="<?php echo $this->semana ?>";
       var cargo="<?php echo $this->areaid ?>";
-      document.location.href="/timesheet/index/calendar";
+    //  document.location.href="/timesheet/index/calendar";
 
       var d=new Date(); 
-      var fechacapturada=d.getDate()+ "/" + (d.getMonth() +1) + "/" + d.getFullYear()+','+d.getHours()+':'+d.getMinutes()+':'+d.getSeconds(); 
-      //alert(fechauno);
+      var fechacapturada=d.getDate()+ "-" + (d.getMonth() +1) + "-" + d.getFullYear()+','+d.getHours()+':'+d.getMinutes()+':'+d.getSeconds(); 
+      alert(fechacapturada);
       url="/timesheet/index/guardarcomentarioequipo/estado/B/uid/"+uid+'/dni/'+dni+'/semanaid/'+semanaid+'/cargo/'+cargo+'/coment/'+coment+'/uid_validacion/'+uid+'/dni_validacion/'+dni+'/etapa/0'+'/fecha_calendario/'+fecha_calendario+'/fecha/'+fechacapturada;
          
-      //alert(url);
+      alert(url);
       
       $.ajax({
         type: "POST",
