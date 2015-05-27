@@ -849,7 +849,7 @@ public function sumatareorealAction(){
 
         // print_r($etapa);
         // print_r($actividadid);
-        // print_r($tipo_actividad);
+        print_r($tipo_actividad);
   
         // print_r($actividad_generalid);
         // print_r($asignado);
@@ -872,7 +872,7 @@ public function sumatareorealAction(){
                 $data['areaid']=$areaid;
                 $data['categoriaid']=$categoriaid;
                 # code...
-             echo $i;
+             //echo $i;
              $data['h_real'] = $tiempo_id[$i][$j];
              $data['codigo_prop_proy'] = $codigo_prop_proy[$i][$j];
              $data['codigo_actividad'] = $codigo_actividad[$i][$j];
@@ -907,7 +907,7 @@ public function sumatareorealAction(){
                 ,'fecha_tarea'=>$fecha_tarea[$i][$j],'uid'=>$uid,'dni'=>$dni,'cargo'=>$cargo,
                 'fecha_planificacion'=>$fecha_tarea[$i][$j],'etapa'=>$resultado,'tipo_actividad'=>$tipo_actividad[$i][$j]);
 
-            //print_r($data);//exit();
+            print_r($data);//exit();
 
            $verdata = new Admin_Model_DbTable_Tareopersona();
            $ty=$verdata->_getOne($wheres);
@@ -916,8 +916,7 @@ public function sumatareorealAction(){
            if($ty){
             
               //echo "update";
-                $etapa_actualizar = str_replace("INICIO", "EJECUCION", $etapa[$i][$j]);
-                
+                $etapa_actualizar = str_replace("INICIO", "EJECUCION", $etapa[$i][$j]);                
                 $datos_actualizar['fecha_modificacion']=date("Y-m-d");
                 $datos_actualizar['h_real']=$tiempo_id[$i][$j];              
 
