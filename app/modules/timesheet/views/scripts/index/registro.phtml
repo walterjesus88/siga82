@@ -310,17 +310,18 @@
               $fecha = date("Y-m-d", strtotime($fecha));
                 for ($i=0; $i < 7; $i++) {
                 $proyectoid=$data_tareo['proyectoid'];
-                //  echo $proyectoid;echo "<br>";
+                  //echo $proyectoid;echo "<br>";
                 $codigo=$data_tareo['codigo_prop_proy'];
                 // echo $codigo;echo "<br>";
                 $revision=$data_tareo['revision'];
                 //   echo $revision;echo "<br>";
                 $actividadid=$data_tareo['actividadid'];
-                //  echo $actividadid;echo "<br>";
+                  //echo $actividadid;echo "<br>";
                 $actividad_padre=$data_tareo['actividad_padre'];
                 //   echo $actividad_padre;echo "<br>";
                 $semanaid=$data_tareo['semanaid'];
                 $cadena=$data_tareo['etapa'];
+
                 $resultado = str_replace("INICIO", "EJECUCION", $cadena);
                 //  echo $semanaid;echo "<br>";
                 $fecha_tarea=$fecha;
@@ -374,26 +375,29 @@
                    <!-- {{vm.resultado}} -->
                   <input type="hidden" name="codigo_prop_proy[<?php echo $j ?>][<?php echo $i ?>]" value="<?php echo $data_tareo['codigo_prop_proy'] ?>"/>
                   <input type="hidden" name="codigo_actividad[<?php echo $j ?>][<?php echo $i ?>]" value="<?php echo $data_tareo['codigo_actividad'] ?>"/>
-                  <input type="hidden" name="proyectoid[<?php echo $j ?>][<?php echo $i ?>]" value="<?php echo $data_tareo['proyectoid'] ?>"/>
-                  <input type="hidden" name="actividadid[<?php echo $j ?>][<?php echo $i ?>]" value="<?php echo $data_tareo['actividadid'] ?>"/>
-                  <input type="hidden" name="revision[<?php echo $j ?>][<?php echo $i ?>]" value="<?php echo $data_tareo['revision'] ?>"/>
-                  <input type="hidden" name="actividad_padre[<?php echo $j ?>][<?php echo $i ?>]" value="<?php echo $data_tareo['actividad_padre'] ?>"/>
-                  <input type="hidden" name="semanaid[<?php echo $j ?>][<?php echo $i ?>]" value="<?php echo $data_tareo['semanaid'] ?>"/>
-                  <input type="hidden" name="fecha_tarea[<?php echo $j ?>][<?php echo $i ?>]" value="<?php echo $fecha_tarea ?>"/>  
-                  <input type="hidden" name="asignado[<?php echo $j ?>][<?php echo $i ?>]" value="<?php echo $data_tareo['asignado'] ?>"/>  
-                  <!-- <input type="hidden" name="areaid[<?php echo $j ?>][<?php echo $i ?>]" value="<?php echo $buscar_tarea[0]['areaid']  ?>"/> -->
-                 
-                  <input type="hidden" name="tipo_actividad[<?php echo $j ?>][<?php echo $i ?>]" value="<?php echo $data_tareo['tipo_actividad'] ?>"/>  
-                  <input type="hidden" name="etapa[<?php echo $j ?>][<?php echo $i ?>]" value="<?php echo $data_tareo['etapa']?>"/> 
-                  <input type="hidden" name="actividad_generalid[<?php echo $j ?>][<?php echo $i ?>]" value="<?php echo $data_tareo['actividad_generalid'] ?>"/>        
-
-
-                 <!--  <input type="hidden" name="fecha_creacion[<?php echo $j ?>][<?php echo $i ?>]" value="<?php echo $data_tareo['fecha_creacion'] ?>"/>      -->   
-              <!-- <input type="hidden" name="h_propuesta[<?php echo $j ?>]" value="<?php echo $data_tareo['h_propuesta'] ?>"/>  
                
-                  <input type="hidden" name="cargo[<?php echo $j ?>][<?php echo $i ?>]" value="<?php echo $cargo ?>"/>   
-                  <input type="hidden" name="categoriaid[<?php echo $j ?>][<?php echo $i ?>]" value="<?php echo $categoriaid ?>"/>
-                  <input type="hidden" name="areaid[<?php echo $j ?>][<?php echo $i ?>]" value="<?php echo $areaid ?>"/>   -->                  
+
+          <input type="hidden" name="proyectoid[<?php echo $j ?>][<?php echo $i ?>]" value="<?php echo $buscar_tarea[0]['proyectoid'] ?>"/>         
+
+                  <input type="hidden" name="revision[<?php echo $j ?>][<?php echo $i ?>]" value="<?php echo $data_tareo['revision'] ?>"/>
+                  <input type="hidden" name="actividad_padre[<?php echo $j ?>][<?php echo $i ?>]" value="<?php echo $data_tareo['actividad_padre'] ?>"/> 
+                  <input type="hidden" name="semanaid[<?php echo $j ?>][<?php echo $i ?>]" value="<?php echo $data_tareo['semanaid'] ?>"/> 
+                  <input type="hidden" name="fecha_tarea[<?php echo $j ?>][<?php echo $i ?>]" value="<?php echo $fecha_tarea ?>"/>  
+                  <input type="hidden" name="asignado[<?php echo $j ?>][<?php echo $i ?>]" value="<?php echo $data_tareo['asignado'] ?>"/>   
+            
+       
+                  <input type="hidden" name="tipo_actividad[<?php echo $j ?>][<?php echo $i ?>]" value="<?php echo $buscar_tarea[0]['tipo_actividad'] ?>"/> 
+                  
+                  <input type="hidden" name="actividad_generalid[<?php echo $j ?>][<?php echo $i ?>]" value="<?php echo $buscar_tarea[0]['actividad_generalid'] ?>"/>       
+
+                  <!--para reviisar -->
+
+
+                  <input type="hidden" name="etapa[<?php echo $j ?>][<?php echo $i ?>]" value="<?php echo $buscar_tarea[0]['etapa'] ?>"/>    
+
+            <input type="hidden" name="actividadid[<?php echo $j ?>][<?php echo $i ?>]" value="<?php echo $data_tareo['actividadid'] ?>"/> 
+
+
 
 
             
@@ -401,8 +405,8 @@
 
                 <script type="text/javascript">
                   $(document).ready(function(){
-                    $("#valorr<?php echo $i ?><?php echo $j?>").focus();
-                    $("#valorr<?php echo $i ?><?php echo $j?>").keyup(function(e){ 
+                    $("#valor<?php echo $i ?><?php echo $j?>").focus();
+                    $("#valor<?php echo $i ?><?php echo $j?>").keyup(function(e){ 
                    
                       // alert('fff');
                         var hora_real=$(this).val(); 
@@ -1126,7 +1130,7 @@
             url    : '/timesheet/index/prueba/',
             data   : $('#form_time').serialize(),
             success: function(data){
-               document.location.href="/timesheet/index/calendar";
+               //document.location.href="/timesheet/index/calendar";
             }
         });
         
@@ -1274,9 +1278,9 @@ function fnc(evt) {
 // })
 $( "input" )
   .keyup(function() {
-  var matriz = new Array(30);
-  for (i = 0; i < 30; i++)
-    matriz[i] = new Array(30);
+  var matriz = new Array(10);
+  for (i = 0; i < 10; i++)
+    matriz[i] = new Array(10);
   elementos = [];
   $("[id*=valor]").each(function(indice, elemento) {
     elemID = $(elemento).attr("id");
@@ -1287,9 +1291,9 @@ $( "input" )
   });
   maximo = 0;
   elemSuma = [];
-  for (var hor = 0; hor < 30; hor++) {
+  for (var hor = 0; hor < 10; hor++) {
     resSuma = 0;
-    for (var ver = 0; ver < 30; ver++) {
+    for (var ver = 0; ver < 10; ver++) {
       if (typeof matriz[hor][ver] !== 'undefined') {
         if (isNaN(parseInt(matriz[hor][ver]))) {
           matriz[hor][ver] = 0;
