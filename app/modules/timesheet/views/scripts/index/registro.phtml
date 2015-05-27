@@ -366,12 +366,11 @@
               <td>
                 <center>
 
-                   <input  <?php if ($data_tareo['estado_tareopersona']=='C') { ?> disabled <?php }?>    name="tiempo_id[<?php echo $j ?>][<?php echo $i ?>]" class="form-control" id="valor<?php echo $i?><?php echo $j?>" style="text-align: center;height: 26px; width: 40px; padding-right: 4px; padding-left: 4px;" maxlength="2"  value="<?php 
+                  <input  <?php if ($data_tareo['estado_tareopersona']=='C') { ?> disabled <?php }?>    name="tiempo_id[<?php echo $j ?>][<?php echo $i ?>]" class="form-control" id="valor<?php echo $i?><?php echo $j?>" style="text-align: center;height: 26px; width: 40px; padding-right: 4px; padding-left: 4px;" maxlength="2"  value="<?php 
                  if ($buscar_tarea) {
                     if($buscar_tarea[0]['h_real']=='0') { echo "";} else { print_r($buscar_tarea[0]['h_real']);}
                     }?>" 
                    >
-                   <!-- {{vm.resultado}} -->
                   <input type="hidden" name="codigo_prop_proy[<?php echo $j ?>][<?php echo $i ?>]" value="<?php echo $data_tareo['codigo_prop_proy'] ?>"/>
                   <input type="hidden" name="codigo_actividad[<?php echo $j ?>][<?php echo $i ?>]" value="<?php echo $data_tareo['codigo_actividad'] ?>"/>
                   <input type="hidden" name="proyectoid[<?php echo $j ?>][<?php echo $i ?>]" value="<?php echo $data_tareo['proyectoid'] ?>"/>
@@ -381,28 +380,20 @@
                   <input type="hidden" name="semanaid[<?php echo $j ?>][<?php echo $i ?>]" value="<?php echo $data_tareo['semanaid'] ?>"/>
                   <input type="hidden" name="fecha_tarea[<?php echo $j ?>][<?php echo $i ?>]" value="<?php echo $fecha_tarea ?>"/>  
                   <input type="hidden" name="asignado[<?php echo $j ?>][<?php echo $i ?>]" value="<?php echo $data_tareo['asignado'] ?>"/>  
-                  <!-- <input type="hidden" name="areaid[<?php echo $j ?>][<?php echo $i ?>]" value="<?php echo $buscar_tarea[0]['areaid']  ?>"/> -->
+
                  
                   <input type="hidden" name="tipo_actividad[<?php echo $j ?>][<?php echo $i ?>]" value="<?php echo $data_tareo['tipo_actividad'] ?>"/>  
                   <input type="hidden" name="etapa[<?php echo $j ?>][<?php echo $i ?>]" value="<?php echo $data_tareo['etapa']?>"/> 
-                  <input type="hidden" name="actividad_generalid[<?php echo $j ?>][<?php echo $i ?>]" value="<?php echo $data_tareo['actividad_generalid'] ?>"/>        
-
-
-                 <!--  <input type="hidden" name="fecha_creacion[<?php echo $j ?>][<?php echo $i ?>]" value="<?php echo $data_tareo['fecha_creacion'] ?>"/>      -->   
-              <!-- <input type="hidden" name="h_propuesta[<?php echo $j ?>]" value="<?php echo $data_tareo['h_propuesta'] ?>"/>  
-               
-                  <input type="hidden" name="cargo[<?php echo $j ?>][<?php echo $i ?>]" value="<?php echo $cargo ?>"/>   
-                  <input type="hidden" name="categoriaid[<?php echo $j ?>][<?php echo $i ?>]" value="<?php echo $categoriaid ?>"/>
-                  <input type="hidden" name="areaid[<?php echo $j ?>][<?php echo $i ?>]" value="<?php echo $areaid ?>"/>   -->                  
-
-
+                  <input type="hidden" name="actividad_generalid[<?php echo $j ?>][<?php echo $i ?>]" value="<?php echo $data_tareo['actividad_generalid'] ?>"/>
             
+
+
                 </center>
 
                 <script type="text/javascript">
                   $(document).ready(function(){
-                        $("#valor<?php echo $i ?><?php echo $j?>").focus();
-                    $("#valor<?php echo $i ?><?php echo $j?>").keyup(function(e){ 
+                        $("#valorr<?php echo $i ?><?php echo $j?>").focus();
+                    $("#valorr<?php echo $i ?><?php echo $j?>").keyup(function(e){ 
                    
                       // alert('fff');
                         var hora_real=$(this).val(); 
@@ -445,7 +436,7 @@
                           var url="/timesheet/index/updatetareoreal/codigo_prop_proy/"+codigo_prop_proy+"/codigo_actividad/"+codigo_actividad+"/actividadid/"+actividadid+"/revision/"+revision+"/actividad_padre/"+actividad_padre+"/proyectoid/"+proyectoid+"/semanaid/"+semanaid+"/fecha_tarea/"+fecha_tarea+"/asignado/"+asignado+"/areaid/"+areaid+"/categoriaid/"+categoriaid+"/dni/"+dni+"/cargo/"+cargo+"/horareal/"+hora_real+"/tipo_actividad/"+tipo_actividad+"/etapa/"+etapa+"/actividad_generalid/"+actividad_generalid+"/fecha_calendario/"+fecha_calendario+"/h_propuesta/"+h_propuesta;   
 
                           var url2='/timesheet/index/traersumahoras/semanaid/'+semanaid+'/fecha/'+fecha_tarea+'/fechainiciomod/'+fecha_tarea+'/uid/'+uid+'/dni/'+dni_+'/cargo/'+cargo;   
-                         //alert(url);            
+                          //alert(url);            
 
                            $.ajax({
                                     type: "POST",
@@ -1270,12 +1261,17 @@ function fnc(evt) {
 //   $("#horaregistrada").text( value );
 
 // })
+
+
 $( "input" )
   .keyup(function() {
+  valor = parseInt($(this).val());
+  if (isNaN(valor) || valor < 0 || valor > 24) {
+    $(this).val("");
+  };
   var matriz = new Array(10);
   for (i = 0; i < 10; i++)
     matriz[i] = new Array(10);
-  elementos = [];
   $("[id*=valor]").each(function(indice, elemento) {
     elemID = $(elemento).attr("id");
     horizontal = elemID.slice(5,6);
@@ -1296,17 +1292,21 @@ $( "input" )
         maximo = hor+1;};
         
       };
+      if (resSuma > 24) {
+        resSuma = resSuma - parseInt($(this).val());
+        alert("La suma total no puede ser mayor a 24 horas");
+        $(this).val("");
+      };
     elemSuma.push(resSuma);
   };
   mostrar = elemSuma.slice(0, maximo);
   console.log(mostrar);
   for (var i = 0; i < hor+1; i++) {
     $("#fecha_"+i).html(mostrar[i]);
-    //$("#sumahoras"+i).html(mostrar[i]);
-    //$("#fecha_<?php echo $i?>").hide();
   };
 })
 
+    
 
 
 
