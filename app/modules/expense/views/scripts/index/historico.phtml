@@ -54,6 +54,7 @@
                     <td>
                         <center>
                             <a data-toggle="modal" href="#myModalDetail" class="btn btn-warning btn-xs showdetails" title="Detalles"  uid="<?php echo $lista['uid']; ?>" dni="<?php echo $lista['dni']; ?>" numero="<?php echo $lista['numero']; ?>"><i class="fa fa-folder"></i></a>
+                            <a data-toggle="modal" href="#myModalDetail" class="btn btn-info btn-xs editdetails" title="Editar"  uid="<?php echo $lista['uid']; ?>" dni="<?php echo $lista['dni']; ?>" numero="<?php echo $lista['numero']; ?>"><i class="fa fa-edit"></i></a>
                         </center>
                     </td>
                 </tr>
@@ -246,6 +247,14 @@
             var uid = $(this).attr('uid');
             var dni = $(this).attr('dni');
             var url = "/expense/index/detalles/numero/"+numero+"/uid/"+uid+"/dni/"+dni;
+            $("#load_detalless").load(url);
+        });
+
+        $(".editdetails").click(function(){
+            var numero = $(this).attr('numero');
+            var uid = $(this).attr('uid');
+            var dni = $(this).attr('dni');
+            var url = "/expense/index/editardetalles/numero/"+numero+"/uid/"+uid+"/dni/"+dni;
             $("#load_detalless").load(url);
         });
 
