@@ -96,4 +96,20 @@ class Admin_Model_DbTable_Planificacion extends Zend_Db_Table_Abstract
             print "Error: Al momento de leer todos los gastos persona".$e->getMessage();
         }
     }
+
+    public function _getSemanaxGerenteProyecto($semanaid,$uid,$dni){
+        try {
+            $sql=$this->_db->query("
+                select distinct e.uid,e.dni from planificacion p inner join equipo e
+                on p.codigo_prop_proy=e.codigo_prop_proy and p.proyectoid=e.proyectoid
+                where p.semanaid='$semanaid'  and p.uid='$uid'  and p.dni='$dni'  and e.nivel='0' and e.categoriaid='GER-PROY'
+             
+            ");
+            $row=$sql->fetchAll();
+            return $row;     
+
+        } catch (Exception $e) {
+            print "Error: Read One Condition".$e->getMessage();
+        }
+    }
 }

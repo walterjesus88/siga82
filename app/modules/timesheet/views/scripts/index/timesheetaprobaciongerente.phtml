@@ -106,8 +106,12 @@
                                                   ver detalle
                                               </button>                                      
                                           </td>
-                                          <td class="view-message "><?php echo $valorsuma['estado']?></td>
-                                          <td class="view-message "><?php echo $valorsuma['dni']?></td>
+                                          <td class="view-message "><?php if($valorsuma['estado']=='1') {echo "Para Aprobación";}?></td>
+                                          <td class="view-message "><?php //echo $valorsuma['dni']
+                                            $equipo = explode(".", $valorsuma['uid']);
+                                            echo (ucwords($equipo[0])); echo " ";
+                                            echo (ucwords($equipo[1])); 
+                                          ?></td>
                                           <td class="view-message "><?php echo $valorsuma['uid']?></td>                            
                                           <td class="view-message "><?php echo $valorsuma['semanaid']?></td>                               
                                           <td class="view-message "><?php echo $valorsuma['billable']?></td>
@@ -163,7 +167,7 @@
                                 </div>
                                 <div class="modal-footer">
                                       <button  data-dismiss="modal" class="btn btn-default" type="button">Cerrar</button>
-                                      <button id="savecoment"class="btn btn-warning" type="button"> Confirm</button>
+                                    
                                 </div>
                               </div>
                             </div>
