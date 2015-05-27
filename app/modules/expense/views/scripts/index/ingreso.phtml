@@ -188,11 +188,11 @@ $data_rendicion = $this->data_rendicion;
                                             <?php foreach ($this->list_gastos as $list_gastos) {
                                                     if ($data_actividades['tipo_proyecto'] == 'Construcción'){ 
                                                         if ($list_gastos['tipo_gasto'] == "construccion" || $list_gastos['tipo_gasto'] == "laboratorio") { ?>
-                                                            <option value="<?php echo $list_gastos['gastoid']. '-' .$list_gastos['tipo_gasto'] ?>" <?php print ($data_actividades['gastoid']==$list_gastos['gastoid'])? 'selected' : ''; ?>><?php echo $list_gastos['gastoid'].' - '.$list_gastos['nombre_gasto'] ?></option>
+                                                            <option value="<?php echo $list_gastos['gastoid']. '-' .$list_gastos['tipo_gasto'] ?>" <?php print ($data_actividades['gasto_padre']==$list_gastos['gastoid'].'-'.$list_gastos['tipo_gasto'])? 'selected' : ''; ?>><?php echo $list_gastos['gastoid'].' - '.$list_gastos['nombre_gasto'] ?></option>
                                             <?php       }
                                                     } else { 
                                                         if ($list_gastos['tipo_gasto'] != "construccion" || $list_gastos['tipo_gasto'] == "laboratorio") { ?>
-                                                        <option value="<?php echo $list_gastos['gastoid']. '-' .$list_gastos['tipo_gasto'] ?>" <?php print ($data_actividades['gastoid']==$list_gastos['gastoid'])? 'selected' : ''; ?>><?php echo $list_gastos['gastoid'].' - '.$list_gastos['nombre_gasto'] ?></option>
+                                                        <option value="<?php echo $list_gastos['gastoid']. '-' .$list_gastos['tipo_gasto'] ?>" <?php print ($data_actividades['gasto_padre']==$list_gastos['gastoid'].'-'.$list_gastos['tipo_gasto'])? 'selected' : ''; ?>><?php echo $list_gastos['gastoid'].' - '.$list_gastos['nombre_gasto'] ?></option>
                                                     <?php
                                                         }
                                                     } 
@@ -458,6 +458,14 @@ $data_rendicion = $this->data_rendicion;
                                     $("#gasto_padre<?php echo $data_actividades['gasto_persona_id'] ?>").change(function(){
                                         var gasto_padre = $(this).val();
                                         $("#gasto_hijo<?php echo $data_actividades['gasto_persona_id'] ?>").load("/expense/index/gastohijo/gastoid/"+gasto_padre);
+                                    });
+
+                                    $("#gasto_padre<?php echo $data_actividades['gasto_persona_id'] ?> option:selected").each(function() {
+                                        var gasto_padre = $(this).val();
+                                        var gasto_persona_id = "<?php echo $data_actividades['gasto_persona_id'] ?>";
+                                        if (gasto_padre) {
+                                            $("#gasto_hijo<?php echo $data_actividades['gasto_persona_id'] ?>").load("/expense/index/gastohijo/gastoid/"+gasto_padre+"/gasto_persona_id/"+gasto_persona_id);
+                                        };
                                     });
                                 </script>
                             <?php
