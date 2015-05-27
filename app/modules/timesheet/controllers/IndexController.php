@@ -829,25 +829,41 @@ public function sumatareorealAction(){
         $tiempo_id=$this->_getParam('tiempo_id');
         $codigo_prop_proy=$this->_getParam('codigo_prop_proy');
         $codigo_actividad=$this->_getParam('codigo_actividad');
-        $actividadid=$this->_getParam('actividadid');
+      
         $revision=$this->_getParam('revision');
         $actividad_padre=$this->_getParam('actividad_padre');
        
         $proyectoid=$this->_getParam('proyectoid');
         $semanaid=$this->_getParam('semanaid');
-        $fecha_tarea=$this->_getParam('fecha_tarea');
         $asignado=$this->_getParam('asignado');
-        $areaid=$this->_getParam('areaid');
-      
+        $areaid=$this->_getParam('areaid');      
         $tipo_actividad=$this->_getParam('tipo_actividad');
-        $etapa=$this->_getParam('etapa');
+        $actividadid=$this->_getParam('actividadid');
 
-       // print_r($etapa);
-        print_r($fecha_tarea);
-        print_r($codigo_prop_proy);
-        print_r($proyectoid);
+        //$etapa=$this->_getParam('etapa');
+
+        $fecha_tarea=$this->_getParam('fecha_tarea');
         $actividad_generalid=$this->_getParam('actividad_generalid');
         $fecha_creacion=$this->_getParam('fecha_creacion');
+
+       // print_r($etapa);
+        print_r($actividadid);
+        print_r($tipo_actividad);
+        //print_r($etapa);
+        print_r($actividad_generalid);
+        print_r($asignado);
+        print_r($fecha_tarea);
+        print_r($semanaid);
+        print_r($actividad_padre);
+
+        //print_r($actividadid);
+
+
+
+        
+        //print_r($codigo_prop_proy);
+        //print_r($proyectoid);
+        //exit();
 
 
         // $cargo=$this->_getParam('cargo');
@@ -856,7 +872,7 @@ public function sumatareorealAction(){
 
        // $fecha_calendario=$this->_getParam('fecha_calendario');
         //print_r($codigo_prop_proy);
-        //print_r($actividadid);
+       
         //print_r($actividad_generalid);
         //print_r($fecha_tarea);
 
@@ -866,7 +882,7 @@ public function sumatareorealAction(){
         //$nive=array();
         //$cc=count($codigo_prop_proy);
         //echo $cc;
-        for ($i=1; $i <= count($codigo_prop_proy); $i++) { 
+        for ($i=1; $i <= 30; $i++) { 
 
             for ($j=0; $j < 7; $j++) { 
 
@@ -915,11 +931,11 @@ public function sumatareorealAction(){
                 ,'fecha_tarea'=>$fecha_tarea[$i][$j],'uid'=>$uid,'dni'=>$dni,'cargo'=>$cargo,
                 'fecha_planificacion'=>$fecha_tarea[$i][$j],'etapa'=>$resultado,'tipo_actividad'=>$tipo_actividad[$i][$j]);
 
-            print_r($data);
+            //print_r($data);
 
             $verdata = new Admin_Model_DbTable_Tareopersona();
             $ty=$verdata->_getOne($wheres);
-            print_r($ty);
+            //print_r($ty);
 
 
             if($ty)
