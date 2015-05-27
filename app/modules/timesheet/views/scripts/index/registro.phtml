@@ -1,5 +1,5 @@
 <section class="panel">
-  <div class="col-lg-3 alert-success"  style="padding-top: 10px;padding-bottom: 10px;padding-right: 10px;padding-left: 10px;">
+  <div class="col-lg-2 alert-success"  style="padding-top: 10px;padding-bottom: 10px;padding-right: 10px;padding-left: 10px;">
     Semana <?php echo $this->semana; echo ": ";?>
     <?php
       $fecha = $this->fecha;
@@ -7,6 +7,7 @@
       $fechainicio = date ( 'd/m/Y' , strtotime($fecha) );
       $nuevafecha = strtotime ( '+6 day' , strtotime ( $newDate ) ) ;
       $fechafinal = date ( 'd/m/Y' , $nuevafecha );
+      echo "<br>";
       echo $fechainicio; echo " al "; echo $fechafinal;?>
       <br>
       <?php 
@@ -39,7 +40,7 @@
       <strong>Hoja de Tiempo Activa</strong> 
       <?php }?>
   </div>
-  <div class="col-lg-4" style="padding-top: 5px;">
+  <div class="col-lg-5" style="padding-top: 5px;">
     <button data-toggle="button" class="btn btn-white">
       <?php 
       $tareopersona = new Admin_Model_DbTable_Sumahorasemana();
@@ -52,17 +53,17 @@
 
       echo $sumar['billable'];
       echo "<br>"; 
-      echo "HH Facturable";
+      echo "HH Fact.";
       ?>
     </button>
-    <!--
+    
     <button data-toggle="button" class="btn btn-white">
       <?php 
       echo $sumar['nonbillable'];
       echo "<br>";
-      echo "HH No Facturable";
+      echo "HH No Fact.";
       ?>
-    </button>-->
+    </button>
    
     <button data-toggle="button" class="btn btn-white">
       <?php 
@@ -1329,9 +1330,9 @@ $("#submit_work1").click(function(){
       var d=new Date(); 
       var fechacapturada=d.getDate()+ "/" + (d.getMonth() +1) + "/" + d.getFullYear()+','+d.getHours()+':'+d.getMinutes()+':'+d.getSeconds(); 
       //alert(fechauno);
-      url="/timesheet/index/guardarcomentarioequipo/estado/B/uid/"+uid+'/dni/'+dni+'/semanaid/'+semanaid+'/cargo/'+cargo+'/coment/'+coment+'/uid_validacion/'+uid+'/dni_validacion/'+dni+'/etapa/0'+'/fecha/'+fechacapturada;
+      url="/timesheet/index/guardarcomentarioequipo/estado/B/uid/"+uid+'/dni/'+dni+'/semanaid/'+semanaid+'/cargo/'+cargo+'/coment/'+coment+'/uid_validacion/'+uid+'/dni_validacion/'+dni+'/etapa/0'+'/fecha_calendario/'+fecha_calendario+'/fecha/'+fechacapturada;
          
-      alert(url);
+      //alert(url);
       
       $.ajax({
         type: "POST",

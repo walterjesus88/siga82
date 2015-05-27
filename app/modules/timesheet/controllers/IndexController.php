@@ -1949,7 +1949,7 @@ public function guardarcomentariogerenteAction(){
             $uid_validacion=$this->_getParam('uid_validacion');
             $dni_validacion=$this->_getParam('dni_validacion');
             $fecha_validacion=$this->_getParam('fecha');
-            
+
             $etapa_validacion=$this->_getParam('etapa');
 
             $data['cargo']=$cargo;
@@ -2027,6 +2027,24 @@ public function guardarcomentariogerenteAction(){
                 
               
             }
+
+
+
+            $fecha_inicio = $this->_getParam('fecha_calendario');
+            $fecha_inicio_mod = date("Y-m-d", strtotime($fecha_inicio));
+            $semanaid=date('W', strtotime($fecha_inicio_mod)); 
+            $tareopersona = new Admin_Model_DbTable_Tareopersona();
+            $data_tareopersona = $tareopersona->_getTareoxPersonaxSemana($uid,$dni,$semanaid);
+            if ($data_tareopersona)
+            {
+                $datos_actualizar['estado']='C';
+                $str_actualizar="semanaid='$semana' and uid='$uid' and dni='$dni' and
+                estado='A' 
+                ";
+                $update=$tareopersona -> _update($datos_actualizar,$str_actualizar);
+           }
+
+
         }
         catch (Exception $e) {
                 print "Error: ".$e->getMessage();
