@@ -1269,12 +1269,16 @@ function fnc(evt) {
 //   $("#horaregistrada").text( value );
 
 // })
+
 $( "input" )
   .keyup(function() {
+  valor = parseInt($(this).val());
+  if (isNaN(valor) || valor < 0 || valor > 24) {
+    $(this).val("");
+  };
   var matriz = new Array(10);
   for (i = 0; i < 10; i++)
     matriz[i] = new Array(10);
-  elementos = [];
   $("[id*=valor]").each(function(indice, elemento) {
     elemID = $(elemento).attr("id");
     horizontal = elemID.slice(5,6);
@@ -1295,17 +1299,19 @@ $( "input" )
         maximo = hor+1;};
         
       };
+      if (resSuma > 24) {
+        resSuma = resSuma - parseInt($(this).val());
+        alert("La suma total no puede ser mayor a 24 horas");
+        $(this).val("");
+      };
     elemSuma.push(resSuma);
   };
   mostrar = elemSuma.slice(0, maximo);
   console.log(mostrar);
   for (var i = 0; i < hor+1; i++) {
     $("#fecha_"+i).html(mostrar[i]);
-    //$("#sumahoras"+i).html(mostrar[i]);
-    //$("#fecha_<?php echo $i?>").hide();
   };
 })
-
 
 
 
