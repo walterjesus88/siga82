@@ -76,7 +76,7 @@ class Admin_Model_DbTable_Planificacion extends Zend_Db_Table_Abstract
             $sql=$this->_db->query("
                 select distinct e.uid,e.dni from planificacion p inner join equipo e
                 on p.codigo_prop_proy=e.codigo_prop_proy and p.proyectoid=e.proyectoid
-                where p.semanaid='$semanaid'  and p.uid='$uid'  and p.dni='$dni' and p.areaid='$areaid' and e.nivel='0' and e.categoriaid='GER-PROY'
+                where p.semanaid='$semanaid'  and p.uid='$uid'  and p.dni='$dni' and p.areaid='$areaid' and e.nivel='0' and e.cargo='GER-PROY'
              
             ");
             $row=$sql->fetchAll();

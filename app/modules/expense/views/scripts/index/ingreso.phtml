@@ -10,7 +10,8 @@ $data_rendicion = $this->data_rendicion;
                 <div class="form-group">
                     <label class="col-lg-4 col-sm-4 control-label" style="font-size : 12px">N° Rendición</label>
                     <div class="col-lg-8">
-                        <input name="numero" type="text" class="form-control" value="<?php echo $data_rendicion['numero'];?>" readonly/>
+                        <?php echo $data_rendicion['numero_completo'];?>
+                        <input name="numero" type="hidden" value="<?php echo $data_rendicion['numero'];?>">
                     </div>
                 </div>
                 <div class="form-group">

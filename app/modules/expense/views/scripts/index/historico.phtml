@@ -12,9 +12,9 @@
         <table class="table table-hover p-table">
             <thead>
                 <tr>
-                    <th style="width: 2%;">Num</th>
+                    <th style="width: 10%;">Num</th>
                     <th style="width: 20%;">Nombre</th>
-                    <th style="width: 20%;">Fecha</th>
+                    <th style="width: 10%;">Fecha</th>
                     <th style="width: 10%;"><center>Total</center></th>
                     <th style="width: 20%;">Estado</th>
                     <th style="width: 3%;">&nbsp;&nbsp;&nbsp;&nbsp;Acciones&nbsp;&nbsp;&nbsp;</th>
@@ -27,7 +27,7 @@
             foreach ($this->pendiente as $lista) { ?>
                 <tr>
                     <td class="p-name">
-                        <center><?php echo $lista['numero'];?></center>
+                        <center><?php echo $lista['numero_completo'];?></center>
                     </td>
                     <td class="p-name">
                         <?php echo $lista['nombre'];?>

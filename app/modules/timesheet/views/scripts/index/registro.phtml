@@ -310,18 +310,17 @@
               $fecha = date("Y-m-d", strtotime($fecha));
                 for ($i=0; $i < 7; $i++) {
                 $proyectoid=$data_tareo['proyectoid'];
-                  //echo $proyectoid;echo "<br>";
+                //  echo $proyectoid;echo "<br>";
                 $codigo=$data_tareo['codigo_prop_proy'];
                 // echo $codigo;echo "<br>";
                 $revision=$data_tareo['revision'];
                 //   echo $revision;echo "<br>";
                 $actividadid=$data_tareo['actividadid'];
-                  //echo $actividadid;echo "<br>";
+                //  echo $actividadid;echo "<br>";
                 $actividad_padre=$data_tareo['actividad_padre'];
                 //   echo $actividad_padre;echo "<br>";
                 $semanaid=$data_tareo['semanaid'];
                 $cadena=$data_tareo['etapa'];
-
                 $resultado = str_replace("INICIO", "EJECUCION", $cadena);
                 //  echo $semanaid;echo "<br>";
                 $fecha_tarea=$fecha;
@@ -381,19 +380,20 @@
                   <input type="hidden" name="semanaid[<?php echo $j ?>][<?php echo $i ?>]" value="<?php echo $data_tareo['semanaid'] ?>"/>
                   <input type="hidden" name="fecha_tarea[<?php echo $j ?>][<?php echo $i ?>]" value="<?php echo $fecha_tarea ?>"/>  
                   <input type="hidden" name="asignado[<?php echo $j ?>][<?php echo $i ?>]" value="<?php echo $data_tareo['asignado'] ?>"/>  
+
                  
                   <input type="hidden" name="tipo_actividad[<?php echo $j ?>][<?php echo $i ?>]" value="<?php echo $data_tareo['tipo_actividad'] ?>"/>  
                   <input type="hidden" name="etapa[<?php echo $j ?>][<?php echo $i ?>]" value="<?php echo $data_tareo['etapa']?>"/> 
                   <input type="hidden" name="actividad_generalid[<?php echo $j ?>][<?php echo $i ?>]" value="<?php echo $data_tareo['actividad_generalid'] ?>"/>
             
-                  <!-- <input type="hidden" name="areaid[<?php echo $j ?>][<?php echo $i ?>]" value="<?php echo $buscar_tarea[0]['areaid']  ?>"/> -->
+
 
                 </center>
 
                 <script type="text/javascript">
                   $(document).ready(function(){
-                    $("#valor<?php echo $i ?><?php echo $j?>").focus();
-                    $("#valor<?php echo $i ?><?php echo $j?>").keyup(function(e){ 
+                        $("#valorr<?php echo $i ?><?php echo $j?>").focus();
+                    $("#valorr<?php echo $i ?><?php echo $j?>").keyup(function(e){ 
                    
                       // alert('fff');
                         var hora_real=$(this).val(); 
@@ -1035,10 +1035,8 @@
 
                     <div id="fecha_<?php echo $i?>">
                     <?php  $tareopersona = new Admin_Model_DbTable_Tareopersona();
-                    $sumar=$tareopersona-> _getHorasRealxDia($data_tareo['semanaid'],$fecha,$uid,$dni);
-                    print_r($sumar[0]['tareo_persona_horas_reales']); 
-                    //print_r($sumar);
-                    ?>
+                    $sumar=$tareopersona-> _getHorasRealxDia($data_tareo['semanaid'],$fecha,$uid,$dni,$data_tareo['cargo']);
+                    print_r($sumar[0]['tareo_persona_horas_reales']); ?>
                     </div>
 
                   <!-- <div id="fecha_<?php //echo $i?>"> -->
@@ -1117,7 +1115,7 @@
             url    : '/timesheet/index/prueba/',
             data   : $('#form_time').serialize(),
             success: function(data){
-               //document.location.href="/timesheet/index/calendar";
+               document.location.href="/timesheet/index/calendar";
             }
         });
         
@@ -1315,7 +1313,7 @@ $( "input" )
 
 $("#save_work").click(function(){
   alert("Guardando la Hoja de Tiempo");
-   var dateObj = new Date();
+  /* var dateObj = new Date();
     //var dateObj = $('#datepicker').datepicker('getDate');
     var dateFrom = $.datepicker.formatDate('mm/dd/yy', dateObj);
     var weekfrom = $.datepicker.iso8601Week(new Date(dateFrom));
@@ -1335,7 +1333,7 @@ $("#save_work").click(function(){
     var fech=f.getFullYear()+"-"+(f.getMonth()+1) +"-"+f.getDate() ;
          $("#fechasemana").text( fech );
       
-    fecha_inicio = mostrarFecha(dateObj,-num_day);  
+    fecha_inicio = mostrarFecha(dateObj,-num_day);  */
     document.location.href="/timesheet/index/calendar";
 });
 
@@ -1367,7 +1365,6 @@ $("#submit_work1").click(function(){
       var semanaid="<?php echo $this->semana ?>";
       var cargo="<?php echo $this->areaid ?>";
       document.location.href="/timesheet/index/calendar";
-
       var d=new Date(); 
       var fechacapturada=d.getDate()+ "-" + (d.getMonth() +1) + "-" + d.getFullYear()+','+d.getHours()+':'+d.getMinutes()+':'+d.getSeconds(); 
       //alert(fechacapturada);

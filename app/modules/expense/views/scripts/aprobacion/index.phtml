@@ -15,7 +15,7 @@ if ($this->equipo) {
         <table class="table table-hover p-table">
             <thead>
                 <tr>  
-                    <th style="width: 2%;">Num</th>
+                    <th style="width: 10%;">Num</th>
                     <th style="width: 20%;">Nombre</th>
                     <th style="width: 20%;">Asigando</th>
                     <th style="width: 10%;"><center>Total</center></th>
@@ -31,7 +31,7 @@ if ($this->equipo) {
             foreach ($this->data_enviados as $lista) { ?>
                 <tr>
                     <td class="p-name">
-                        <center><?php echo $lista['numero'];?></center>
+                        <center><?php echo $lista['numero_completo'];?></center>
                     </td>
                     <td class="p-name">
                         <?php echo $lista['nombre'];?>
