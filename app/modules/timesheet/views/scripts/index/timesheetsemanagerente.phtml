@@ -316,7 +316,7 @@
              //}
             }?>
            </tbody>
-           <div id="comentariousers"></div>
+           <div style="display:none" id="comentariousers"></div>
            <script type="text/javascript">        
                 $(document).ready(function(){
                   $("#aprobar").on("click",function(){
@@ -384,7 +384,7 @@
                               $("#comentariousers").empty();
                               $("#comentariousers").html(data);
                               $("#observar").hide();
-                              $("#aprobar").show();
+                              $("#aprobar").hide();
                           }
                       });
                   });

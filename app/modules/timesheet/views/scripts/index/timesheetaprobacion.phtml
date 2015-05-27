@@ -1,6 +1,6 @@
  <section class="panel"><header class="panel-heading" style="padding-bottom : 10px">
 
-                         <div > <center>  Lista de pendiente de aprobación de Hojas de Tiempo Jefe Area</center></div>
+                         <div > <center >  Lista de pendiente de aprobación de Hojas de Tiempo Jefe Area</center></div>
                          </header></section>
 <div class="inbox-body">
                     <!--     <div class="panel-body">
@@ -108,8 +108,20 @@
                                                   ver detalle
                                               </button>                                      
                                           </td>
-                                          <td class="view-message "><?php echo $valorsuma['estado']?></td>
-                                          <td class="view-message "><?php echo $valorsuma['dni']?></td>
+                                          <td class="view-message "><?php 
+                                          if ($valorsuma['estado']=='P'){
+                                            echo "Para Aprobación";
+                                          }
+                                          //echo $valorsuma['estado']?></td>
+                                          <td class="view-message "><?php 
+                                          //echo $valorsuma['dni']
+                                            
+                                            $equipo = explode(".", $valorsuma['uid']);
+      
+                                            echo (ucwords($equipo[0])); echo " ";
+                                            echo (ucwords($equipo[1])); 
+
+                                          ?></td>
                                           <td class="view-message "><?php echo $valorsuma['uid']?></td>                            
                                           <td class="view-message "><?php echo $valorsuma['semanaid']?></td>                               
                                           <td class="view-message "><?php echo $valorsuma['billable']?></td>
@@ -165,6 +177,7 @@
                                 </div>
                                 <div class="modal-footer">
                                       <button  data-dismiss="modal" class="btn btn-default" type="button">Cerrar</button>
+                        
                                     
                                 </div>
                               </div>|
