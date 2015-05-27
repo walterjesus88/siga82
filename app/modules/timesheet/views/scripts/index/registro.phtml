@@ -400,8 +400,8 @@
 
                 <script type="text/javascript">
                   $(document).ready(function(){
-                        $("#valor<?php echo $i ?><?php echo $j?>").focus();
-                    $("#valor<?php echo $i ?><?php echo $j?>").keyup(function(e){ 
+                    $("#valorr<?php echo $i ?><?php echo $j?>").focus();
+                    $("#valorr<?php echo $i ?><?php echo $j?>").keyup(function(e){ 
                    
                       // alert('fff');
                         var hora_real=$(this).val(); 
@@ -1043,7 +1043,7 @@
 
                     <div id="fecha_<?php echo $i?>">
                     <?php  $tareopersona = new Admin_Model_DbTable_Tareopersona();
-                    $sumar=$tareopersona-> _getHorasRealxDia($data_tareo['semanaid'],$fecha,$uid,$dni,$data_tareo['cargo']);
+                    $sumar=$tareopersona-> _getHorasRealxDia($data_tareo['semanaid'],$fecha,$uid,$dni);
                     print_r($sumar[0]['tareo_persona_horas_reales']); ?>
                     </div>
 
