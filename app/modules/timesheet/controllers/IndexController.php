@@ -233,7 +233,7 @@ class Timesheet_IndexController extends Zend_Controller_Action {
         //$data_tareo = $tareo->_getTareoXUid($where);
         $this->view->actividades= $datos_tareopersona;
         
-        print_r($this->sesion->is_gerente);
+       // print_r($this->sesion->is_gerente);
         $this->view->is_gerente=$this->sesion->is_gerente;
         //print_r($datos_tareopersona);
 
@@ -320,10 +320,7 @@ class Timesheet_IndexController extends Zend_Controller_Action {
         //$areaid=$this->sesion->personal->ucatareaid;
         //$cargo=$this->sesion->personal->ucatcargo;
 
-        //$cargoreal= $this->_getParam('tipo_actividad');
-
-
-      
+        //$cargoreal= $this->_getParam('tipo_actividad');      
         $fecha_inicio = $this->_getParam('fecha_calendario');
         $fecha_inicio_mod = date("Y-m-d", strtotime($fecha_inicio));
         $semanaid=date('W', strtotime($fecha_inicio_mod)); 
@@ -353,36 +350,53 @@ class Timesheet_IndexController extends Zend_Controller_Action {
 
 
          $actividad_generalid = $this->_getParam('actividad_generalid');
+        // if($actividad_generalid=='')
+        // {
+        //     if ($tipo_actividad_actualizar=='A')
+        //     {
+        //     $data['actividad_generalid']=$actividad_generalid;
+        //     $data['tipo_actividad']='A';
+        //     $etapa= $this->_getParam('etapa');
+        //     $resultado = str_replace("INICIO", "EJECUCION", $etapa);
+        //     $data['etapa']=$resultado;
+        //     }
+        //     else
+        //     {
+
+        //     $data['actividad_generalid']=null;
+        //     $data['tipo_actividad']='P';
+        //     $etapa= $this->_getParam('etapa');
+        //     $resultado = str_replace("INICIO", "EJECUCION", $etapa);
+        //     $data['etapa']=$resultado;    
+        //     }
+        // }
+        // else
+        // {
+
+            
+        //     $data['actividad_generalid']=$actividad_generalid;
+        //     $data['tipo_actividad']='G';
+        //     $etapa= $this->_getParam('etapa');
+        //     $resultado = str_replace("INICIO", "EJECUCION", $etapa);
+        //     $data['etapa']=$resultado;
+            
+        // }
+
         if($actividad_generalid=='')
         {
-            if ($tipo_actividad_actualizar=='A')
-            {
-            $data['actividad_generalid']=$actividad_generalid;
-            $data['tipo_actividad']='A';
-            $etapa= $this->_getParam('etapa');
-            $resultado = str_replace("INICIO", "EJECUCION", $etapa);
-            $data['etapa']=$resultado;
-            }
-            else
-            {
-
             $data['actividad_generalid']=null;
-            $data['tipo_actividad']='P';
+            $data['tipo_actividad']=$tipo_actividad_actualizar;
             $etapa= $this->_getParam('etapa');
             $resultado = str_replace("INICIO", "EJECUCION", $etapa);
             $data['etapa']=$resultado;    
         }
-        }
         else
         {
-
-            
             $data['actividad_generalid']=$actividad_generalid;
             $data['tipo_actividad']='G';
             $etapa= $this->_getParam('etapa');
             $resultado = str_replace("INICIO", "EJECUCION", $etapa);
             $data['etapa']=$resultado;
-            
         }
 
         $equipo = new Admin_Model_DbTable_Equipo();
@@ -424,14 +438,14 @@ class Timesheet_IndexController extends Zend_Controller_Action {
                 {
                     $data1['nonbillable']= $this->_getParam('horareal');
                     $data1['billable']=0;
-                    //$data1['adm']=0;
+                    $data1['adm']=0;
                    
                 }
                 
                 if ($tipo_actividad=='P') {
                     $data1['billable']= $this->_getParam('horareal'); 
                     $data1['nonbillable']=0;
-                    //$data1['adm']=0;                              
+                    $data1['adm']=0;                              
                 }
 
                 if ($tipo_actividad=='A') {
@@ -439,6 +453,8 @@ class Timesheet_IndexController extends Zend_Controller_Action {
                     $data1['nonbillable']=0;
                     $data1['adm']=$this->_getParam('horareal');                               
                 }
+
+
 
                 //$data2['cargo']=$cargo;
                 $data2['semanaid']=$semanaid;
@@ -512,15 +528,15 @@ class Timesheet_IndexController extends Zend_Controller_Action {
         <?php
         
          
-              $str_actualizar1="codigo_prop_proy='$codigo_prop_proy' and proyectoid='$proyectoid' and 
-                and actividadid='$actividadid' and 
-                revision='$revision' and codigo_actividad='$codigo_actividad'
-                and actividad_padre='$actividad_padre' and cargo='$cargo'
-                and semanaid='$semanaid'  and fecha_tarea='$fecha_tarea' 
-                and etapa='$etapa_actualizar' and tipo_actividad='$tipo_actividad_actualizar'
-                and  uid='$uid'  and  dni='$dni'  and  fecha_planificacion='$fecha_tarea'
-                and  estado='A' 
-                ";
+              // $str_actualizar1="codigo_prop_proy='$codigo_prop_proy' and proyectoid='$proyectoid' and 
+              //   and actividadid='$actividadid' and 
+              //   revision='$revision' and codigo_actividad='$codigo_actividad'
+              //   and actividad_padre='$actividad_padre' and cargo='$cargo'
+              //   and semanaid='$semanaid'  and fecha_tarea='$fecha_tarea' 
+              //   and etapa='$etapa_actualizar' and tipo_actividad='$tipo_actividad_actualizar'
+              //   and  uid='$uid'  and  dni='$dni'  and  fecha_planificacion='$fecha_tarea'
+              //   and  estado='A' 
+              //   ";
 
               $str_actualizar="codigo_prop_proy='$codigo_prop_proy' and proyectoid='$proyectoid' and 
                 categoriaid='$categoriaid' and actividadid='$actividadid' and 
@@ -813,25 +829,41 @@ public function sumatareorealAction(){
         $tiempo_id=$this->_getParam('tiempo_id');
         $codigo_prop_proy=$this->_getParam('codigo_prop_proy');
         $codigo_actividad=$this->_getParam('codigo_actividad');
-        $actividadid=$this->_getParam('actividadid');
+      
         $revision=$this->_getParam('revision');
         $actividad_padre=$this->_getParam('actividad_padre');
        
         $proyectoid=$this->_getParam('proyectoid');
         $semanaid=$this->_getParam('semanaid');
-        $fecha_tarea=$this->_getParam('fecha_tarea');
         $asignado=$this->_getParam('asignado');
-        $areaid=$this->_getParam('areaid');
-      
+        $areaid=$this->_getParam('areaid');      
         $tipo_actividad=$this->_getParam('tipo_actividad');
-        $etapa=$this->_getParam('etapa');
+        $actividadid=$this->_getParam('actividadid');
 
-       // print_r($etapa);
-        print_r($fecha_tarea);
-        print_r($codigo_prop_proy);
-        print_r($proyectoid);
+        //$etapa=$this->_getParam('etapa');
+
+        $fecha_tarea=$this->_getParam('fecha_tarea');
         $actividad_generalid=$this->_getParam('actividad_generalid');
         $fecha_creacion=$this->_getParam('fecha_creacion');
+
+       // print_r($etapa);
+        print_r($actividadid);
+        print_r($tipo_actividad);
+        //print_r($etapa);
+        print_r($actividad_generalid);
+        print_r($asignado);
+        print_r($fecha_tarea);
+        print_r($semanaid);
+        print_r($actividad_padre);
+
+        //print_r($actividadid);
+
+
+
+        
+        //print_r($codigo_prop_proy);
+        //print_r($proyectoid);
+        //exit();
 
 
         // $cargo=$this->_getParam('cargo');
@@ -840,7 +872,7 @@ public function sumatareorealAction(){
 
        // $fecha_calendario=$this->_getParam('fecha_calendario');
         //print_r($codigo_prop_proy);
-        //print_r($actividadid);
+       
         //print_r($actividad_generalid);
         //print_r($fecha_tarea);
 
@@ -850,7 +882,7 @@ public function sumatareorealAction(){
         //$nive=array();
         //$cc=count($codigo_prop_proy);
         //echo $cc;
-        for ($i=1; $i <= count($codigo_prop_proy); $i++) { 
+        for ($i=1; $i <= 30; $i++) { 
 
             for ($j=0; $j < 7; $j++) { 
 
@@ -899,11 +931,11 @@ public function sumatareorealAction(){
                 ,'fecha_tarea'=>$fecha_tarea[$i][$j],'uid'=>$uid,'dni'=>$dni,'cargo'=>$cargo,
                 'fecha_planificacion'=>$fecha_tarea[$i][$j],'etapa'=>$resultado,'tipo_actividad'=>$tipo_actividad[$i][$j]);
 
-            print_r($data);
+            //print_r($data);
 
             $verdata = new Admin_Model_DbTable_Tareopersona();
             $ty=$verdata->_getOne($wheres);
-            print_r($ty);
+            //print_r($ty);
 
 
             if($ty)
@@ -1480,6 +1512,11 @@ public function sumatareorealAction(){
             $uid_validacion=$this->_getParam('uid_validacion');
             $dni_validacion=$this->_getParam('dni_validacion');
             $fecha_validacion=$this->_getParam('fecha');
+            
+            $time = time();
+            $datetime=date("d-m-Y (H:i:s)", $time);
+            $fecha_actualizar=$datetime;
+
             $etapa_validacion=$this->_getParam('etapa');
 
             $data['cargo']=$cargo;
@@ -1495,7 +1532,7 @@ public function sumatareorealAction(){
             $data['dni_validacion']=$dni_validacion;
             $data['comentario']=$coment;
             $data['estado_usuario']=$estado;
-            $data['fecha_validacion']=$fecha_validacion;
+            $data['fecha_validacion']=$fecha_actualizar;
             $data['etapa']=$etapa_validacion;
 
             $where['uid']=$uid;
@@ -1517,7 +1554,7 @@ public function sumatareorealAction(){
 
                 $data2['comentario']=$coment;
                 $data2['estado_usuario']=$estado;
-                $data2['fecha_validacion']=$fecha_validacion;
+                $data2['fecha_validacion']=$fecha_actualizar;
                 $data2['etapa']=$etapa_validacion;
                 $data2['orden']=count($count)+1;
                 $data2['estado']="A";
@@ -1795,7 +1832,7 @@ public function guardarcomentariogerenteAction(){
             $estado = $this->_getParam('estado');
             $uid_validacion=$this->_getParam('uid_validacion');
             $dni_validacion=$this->_getParam('dni_validacion');
-            $fecha_validacion=$this->_getParam('fecha');
+            //$fecha_validacion=$this->_getParam('fecha');
             $etapa_validacion=$this->_getParam('etapa');
 
             $data['cargo']=$cargo;
@@ -1810,6 +1847,10 @@ public function guardarcomentariogerenteAction(){
             $data['dni_validacion']=$dni_validacion;
             $data['comentario']=$coment;
             $data['estado_usuario']=$estado;
+             $time = time();
+            $datetime=date("d-m-Y (H:i:s)", $time);
+            $fecha_validacion=$datetime;
+
             $data['fecha_validacion']=$fecha_validacion;
             $data['etapa']=$etapa_validacion;
 
@@ -1840,45 +1881,87 @@ public function guardarcomentariogerenteAction(){
                 $pk1 = array('dni' => $dni  ,'uid' => $uid,'cargo' => $cargo ,'semanaid' => $semana, 'orden' => count($count));
                 $data3['estado']="C";
 
-                print_r($pk1);
-            //    $coment=new Admin_Model_DbTable_Usuariovalidacion();
-                //$usecoment=$coment->_updateX($data2,$pk);
+               // print_r($pk1);
+                //    $coment=new Admin_Model_DbTable_Usuariovalidacion();
+                    //$usecoment=$coment->_updateX($data2,$pk);
                 
-                $usecoment=$vercoment->_updateXUsuario($data3,$pk1);
-            }
-                //echo "update";
+                    $usecoment=$vercoment->_updateXUsuario($data3,$pk1);
+                }
+                echo "update";
                 $sumahorassemana = new Admin_Model_DbTable_Sumahorasemana();
                 
                  if ( $estado=='R'){
-                  $datos_actualizar_sumahoras['estado']='R';   
+                  $datos_actualizar_sumahoras1['estado']='0';   
+                  $str_actualizar_sumahoras1="semanaid='$semana' and uid='$uid' and dni='$dni'";
                         $tareopersona = new Admin_Model_DbTable_Tareopersona();
                         $datos_actualizar['estado']='A';
                         $str_actualizar="semanaid='$semana' and uid='$uid' and dni='$dni' and   estado='C' ";
                         $update_tareopersona=$tareopersona -> _update($datos_actualizar,$str_actualizar);
+
+                        $update=$sumahorassemana -> _update($datos_actualizar_sumahoras1,$str_actualizar_sumahoras1);
                 }
                 if ( $estado=='B'){
-                   $datos_actualizar_sumahoras['estado']='2';
-                         $tareopersona = new Admin_Model_DbTable_Tareopersona();
-                        $datos_actualizar['estado']='C';
-                        $str_actualizar="semanaid='$semana' and uid='$uid' and dni='$dni' and   estado='A' ";
-                        $update_tareopersona=$tareopersona -> _update($datos_actualizar,$str_actualizar);  
-                }
+                    $tareopersona = new Admin_Model_DbTable_Tareopersona();
+                    $datos_actualizar['estado']='C';
+                    $str_actualizar="semanaid='$semana' and uid='$uid' and dni='$dni' and   estado='A' ";
+                    $update_tareopersona=$tareopersona -> _update($datos_actualizar,$str_actualizar);  
+                    $vercoment= new Admin_Model_DbTable_Usuariovalidacion();
+                    $planificacion = new Admin_Model_DbTable_Planificacion();
+                    $proyectos=$planificacion->_getSemanaxGerenteProyecto($semana,$uid,$dni);
+                    $validado=0;
+                    $novalidado=0;
+                        foreach ($proyectos as $datos) {
+                            $where_validador['uid_validacion']=$datos['uid'];
+                            $where_validador['estado_usuario']='B';
+                            $where_validador['semanaid']=$semana; 
+                            $cant_validadores=$vercoment->_getOnexUsuarioxValidador($where_validador);
+                            print_r($cant_validadores);
+                            if ($cant_validadores){
+                                $validado++;
+                            }
+                            else
+                            {
+                                $novalidado++;
+                            }
+                                                
+                        }
+                        //     echo "cantidad d evlaidacioes"; echo $validado;
+                        //     echo "cantidad d eno validados";  echo $novalidado;
+                        //     echo "cantidad d evalidsdotres"; echo count($proyectos);
 
-                
-                $str_actualizar_sumahoras="semanaid='$semana' and uid='$uid' and dni='$dni' 
-                ";
-                $update=$sumahorassemana -> _update($datos_actualizar_sumahoras,$str_actualizar_sumahoras);
+                        if (count($proyectos)==$validado)
+                        {
+                        //       echo "apribadoooo";
+                            $datos_actualizar_validador['estado_real']='APROBADO';
+                            $str_actualizar_validador="semanaid='$semana' and uid='$uid' and dni='$dni' ";
+                            $update_validador=$sumahorassemana -> _update($datos_actualizar_validador,$str_actualizar_validador);
+                            $datos_actualizar_sumahoras2['estado']='2';
+                            $str_actualizar_sumahoras2="semanaid='$semana' and uid='$uid' and dni='$dni'";
+                            $update=$sumahorassemana -> _update($datos_actualizar_sumahoras2,$str_actualizar_sumahoras2);
 
+                        }
+                        else
+                        {
+                         //     echo "rechazadodoodod";
+                            $datos_actualizar_validador['estado_real']='RECHAZADO';
+                            $str_actualizar_validador="semanaid='$semana' and uid='$uid' and dni='$dni'";
+                            $update_validador=$sumahorassemana -> _update($datos_actualizar_validador,$str_actualizar_validador);
+                            $datos_actualizar_sumahoras3['estado']='0';
+                            $str_actualizar_sumahoras3="semanaid='$semana' and uid='$uid' and dni='$dni'";
+                            $update=$sumahorassemana -> _update($datos_actualizar_sumahoras3,$str_actualizar_sumahoras3);
 
-}
+                        }   
+                    }
+
+            }
             else
-            {echo "no existe";
+            {//echo "no existe";
                 $coment=new Admin_Model_DbTable_Usuariovalidacion();
               //$usercoment=$coment->_save($data);
                 //echo "save";
                 $sumahorassemana = new Admin_Model_DbTable_Sumahorasemana();
                  if ( $estado=='R'){
-                  $datos_actualizar_sumahoras['estado']='R';   
+                  $datos_actualizar_sumahoras['estado']='0';   
                         $tareopersona = new Admin_Model_DbTable_Tareopersona();
                         $datos_actualizar['estado']='A';
                         $str_actualizar="semanaid='$semana' and uid='$uid' and dni='$dni' and   estado='C' ";
@@ -1948,10 +2031,11 @@ public function guardarcomentariogerenteAction(){
             $estado = $this->_getParam('estado');
             $uid_validacion=$this->_getParam('uid_validacion');
             $dni_validacion=$this->_getParam('dni_validacion');
-            $fecha_validacion=$this->_getParam('fecha');
             
+            $time = time();
+            $datetime=date("d-m-Y (H:i:s)", $time);
+            $fecha_validacion=$datetime;
             $etapa_validacion=$this->_getParam('etapa');
-
             $data['cargo']=$cargo;
             $data['semanaid']=$semana;
             $data['uid']=$uid;
@@ -1964,7 +2048,6 @@ public function guardarcomentariogerenteAction(){
             $data['etapa']=$etapa_validacion;
             $data['orden']='1';
             $data['estado']='A';
-           
             $where['uid']=$uid;
             $where['dni']=$dni;
             //$where['uid_validacion']=$uid;
@@ -1975,7 +2058,7 @@ public function guardarcomentariogerenteAction(){
             $vercoment= new Admin_Model_DbTable_Usuariovalidacion();
             if($vcoment=$vercoment->_getOnexUsuario($where))
             {
-                echo "existe";
+              //  echo "existe";
               //  $pk = array('dni' => $dni  ,'uid' => $uid,'cargo' => $cargo ,'semanaid' => $semana, );
                 $count=$vercoment->_getUsuarioxValidacion($semana,$uid,$dni);
                 $data2['comentario']=$coment;
@@ -1991,7 +2074,7 @@ public function guardarcomentariogerenteAction(){
                      //print_r($tareosemana);
                         if ($tareosemana)
                     {
-                      $datos_actualizar_sumahoras['estado']='1';
+                      $datos_actualizar_sumahoras['estado']='P';
                         $str_actualizar_sumahoras="semanaid='$semana' and uid='$uid' and dni='$dni' 
                 ";
                         $update=$sumahorassemana -> _update($datos_actualizar_sumahoras,$str_actualizar_sumahoras);
@@ -2016,21 +2099,81 @@ public function guardarcomentariogerenteAction(){
                  $data['estado_usuario']=$estado;
                 //$usecoment=$coment->_updateX($data2,$pk);
                 $usercoment=$vercoment->_save($data2);
-                echo "update";
+              //  echo "update";
               
             }
             else
             {
                 $vercoment=new Admin_Model_DbTable_Usuariovalidacion();
                 $usercoment=$vercoment->_save($data);
-                echo "save";
+              //  echo "save";
                 
               
+            }
+
+
+
+            $fecha_inicio = $this->_getParam('fecha_calendario');
+           
+            $tareopersona = new Admin_Model_DbTable_Tareopersona();
+            $data_tareopersona = $tareopersona->_getTareoxPersonaxSemana($uid,$dni,$semana);
+            if ($data_tareopersona)
+            {
+              //  echo "actualizando estado c";
+                $datos_actualizar['estado']='C';
+                $str_actualizar="semanaid='$semana' and uid='$uid' and dni='$dni' and
+                estado='A' 
+                ";
+                $update=$tareopersona -> _update($datos_actualizar,$str_actualizar);
+           }
+
+            $sumahorassemana = new Admin_Model_DbTable_Sumahorasemana();
+            $wheres=array('dni'=>$dni,'uid'=>$uid,'semanaid'=>$semana);
+            $tareosemana=$sumahorassemana->_getOne($wheres);
+            //print_r($tareosemana);
+            if ($tareosemana)
+            {
+                $datos_actualizar_sumahoras['estado']='P';
+                $str_actualizar_sumahoras="semanaid='$semana' and uid='$uid' and dni='$dni' 
+                ";
+                $update=$sumahorassemana -> _update($datos_actualizar_sumahoras,$str_actualizar_sumahoras);
+                  
+            }
+
+
+
+        }
+        catch (Exception $e) {
+                print "Error: ".$e->getMessage();
+        }
+    }
+
+    public function timesheetaprobaciongerenteoperacionesAction(){
+        try {
+           // $this->_helper->layout()->disableLayout();       
+            $uid = $this->sesion->uid;
+            $dni = $this->sesion->dni;     
+            
+            $fecha = date("Y-m-d");
+            $semanaid=date('W', strtotime($fecha)); 
+            $this->view->semanaid= $semanaid;    
+
+            $areaid=$this->sesion->personal->ucatareaid;   
+            //$isresponsable=$this->sesion->is_responsable;    
+            $isgerente=$this->sesion->is_gerente;    
+            if ($isgerente=='S' ) 
+            {
+
+                //$equipo = new Admin_Model_DbTable_Equipo();
+                //$equipo_aprobacion = $equipo->_getListarEquipoxProyectoxGerenteOperaciones();
+
+                //$this->view->equipos_horas_aprobar= $equipo_aprobacion;    
             }
         }
         catch (Exception $e) {
                 print "Error: ".$e->getMessage();
         }
     }
+
 
 }

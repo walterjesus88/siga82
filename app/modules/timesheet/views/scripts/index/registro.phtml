@@ -1,5 +1,5 @@
 <section class="panel">
-  <div class="col-lg-3 alert-success"  style="padding-top: 10px;padding-bottom: 10px;padding-right: 10px;padding-left: 10px;">
+  <div class="col-lg-2 alert-success"  style="padding-top: 10px;padding-bottom: 10px;padding-right: 10px;padding-left: 10px;">
     Semana <?php echo $this->semana; echo ": ";?>
     <?php
       $fecha = $this->fecha;
@@ -7,6 +7,7 @@
       $fechainicio = date ( 'd/m/Y' , strtotime($fecha) );
       $nuevafecha = strtotime ( '+6 day' , strtotime ( $newDate ) ) ;
       $fechafinal = date ( 'd/m/Y' , $nuevafecha );
+      echo "<br>";
       echo $fechainicio; echo " al "; echo $fechafinal;?>
       <br>
       <?php 
@@ -39,7 +40,7 @@
       <strong>Hoja de Tiempo Activa</strong> 
       <?php }?>
   </div>
-  <div class="col-lg-4" style="padding-top: 5px;">
+  <div class="col-lg-5" style="padding-top: 5px;">
     <button data-toggle="button" class="btn btn-white">
       <?php 
       $tareopersona = new Admin_Model_DbTable_Sumahorasemana();
@@ -52,17 +53,17 @@
 
       echo $sumar['billable'];
       echo "<br>"; 
-      echo "HH Facturable";
+      echo "HH Fact.";
       ?>
     </button>
-    <!--
+    
     <button data-toggle="button" class="btn btn-white">
       <?php 
       echo $sumar['nonbillable'];
       echo "<br>";
-      echo "HH No Facturable";
+      echo "HH No Fact.";
       ?>
-    </button>-->
+    </button>
    
     <button data-toggle="button" class="btn btn-white">
       <?php 
@@ -309,17 +310,18 @@
               $fecha = date("Y-m-d", strtotime($fecha));
                 for ($i=0; $i < 7; $i++) {
                 $proyectoid=$data_tareo['proyectoid'];
-                //  echo $proyectoid;echo "<br>";
+                  //echo $proyectoid;echo "<br>";
                 $codigo=$data_tareo['codigo_prop_proy'];
                 // echo $codigo;echo "<br>";
                 $revision=$data_tareo['revision'];
                 //   echo $revision;echo "<br>";
                 $actividadid=$data_tareo['actividadid'];
-                //  echo $actividadid;echo "<br>";
+                  //echo $actividadid;echo "<br>";
                 $actividad_padre=$data_tareo['actividad_padre'];
                 //   echo $actividad_padre;echo "<br>";
                 $semanaid=$data_tareo['semanaid'];
                 $cadena=$data_tareo['etapa'];
+
                 $resultado = str_replace("INICIO", "EJECUCION", $cadena);
                 //  echo $semanaid;echo "<br>";
                 $fecha_tarea=$fecha;
@@ -365,7 +367,7 @@
               <td>
                 <center>
 
-                   <input   name="tiempo_id[<?php echo $j ?>][<?php echo $i ?>]" class="form-control" id="valor<?php echo $i?><?php echo $j?>" style="text-align: center;height: 26px; width: 40px; padding-right: 4px; padding-left: 4px;" maxlength="2"  value="<?php 
+                   <input  <?php if ($data_tareo['estado_tareopersona']=='C') { ?> disabled <?php }?>    name="tiempo_id[<?php echo $j ?>][<?php echo $i ?>]" class="form-control" id="valor<?php echo $i?><?php echo $j?>" style="text-align: center;height: 26px; width: 40px; padding-right: 4px; padding-left: 4px;" maxlength="2"  value="<?php 
                  if ($buscar_tarea) {
                     if($buscar_tarea[0]['h_real']=='0') { echo "";} else { print_r($buscar_tarea[0]['h_real']);}
                     }?>" 
@@ -373,26 +375,29 @@
                    <!-- {{vm.resultado}} -->
                   <input type="hidden" name="codigo_prop_proy[<?php echo $j ?>][<?php echo $i ?>]" value="<?php echo $data_tareo['codigo_prop_proy'] ?>"/>
                   <input type="hidden" name="codigo_actividad[<?php echo $j ?>][<?php echo $i ?>]" value="<?php echo $data_tareo['codigo_actividad'] ?>"/>
-                  <input type="hidden" name="proyectoid[<?php echo $j ?>][<?php echo $i ?>]" value="<?php echo $data_tareo['proyectoid'] ?>"/>
-                  <input type="hidden" name="actividadid[<?php echo $j ?>][<?php echo $i ?>]" value="<?php echo $data_tareo['actividadid'] ?>"/>
-                  <input type="hidden" name="revision[<?php echo $j ?>][<?php echo $i ?>]" value="<?php echo $data_tareo['revision'] ?>"/>
-                  <input type="hidden" name="actividad_padre[<?php echo $j ?>][<?php echo $i ?>]" value="<?php echo $data_tareo['actividad_padre'] ?>"/>
-                  <input type="hidden" name="semanaid[<?php echo $j ?>][<?php echo $i ?>]" value="<?php echo $data_tareo['semanaid'] ?>"/>
-                  <input type="hidden" name="fecha_tarea[<?php echo $j ?>][<?php echo $i ?>]" value="<?php echo $fecha_tarea ?>"/>  
-                  <input type="hidden" name="asignado[<?php echo $j ?>][<?php echo $i ?>]" value="<?php echo $data_tareo['asignado'] ?>"/>  
-                  <!-- <input type="hidden" name="areaid[<?php echo $j ?>][<?php echo $i ?>]" value="<?php echo $buscar_tarea[0]['areaid']  ?>"/> -->
-                 
-                  <input type="hidden" name="tipo_actividad[<?php echo $j ?>][<?php echo $i ?>]" value="<?php echo $data_tareo['tipo_actividad'] ?>"/>  
-                  <input type="hidden" name="etapa[<?php echo $j ?>][<?php echo $i ?>]" value="<?php echo $data_tareo['etapa']?>"/> 
-                  <input type="hidden" name="actividad_generalid[<?php echo $j ?>][<?php echo $i ?>]" value="<?php echo $data_tareo['actividad_generalid'] ?>"/>        
-
-
-                 <!--  <input type="hidden" name="fecha_creacion[<?php echo $j ?>][<?php echo $i ?>]" value="<?php echo $data_tareo['fecha_creacion'] ?>"/>      -->   
-              <!-- <input type="hidden" name="h_propuesta[<?php echo $j ?>]" value="<?php echo $data_tareo['h_propuesta'] ?>"/>  
                
-                  <input type="hidden" name="cargo[<?php echo $j ?>][<?php echo $i ?>]" value="<?php echo $cargo ?>"/>   
-                  <input type="hidden" name="categoriaid[<?php echo $j ?>][<?php echo $i ?>]" value="<?php echo $categoriaid ?>"/>
-                  <input type="hidden" name="areaid[<?php echo $j ?>][<?php echo $i ?>]" value="<?php echo $areaid ?>"/>   -->                  
+
+          <input type="hidden" name="proyectoid[<?php echo $j ?>][<?php echo $i ?>]" value="<?php echo $buscar_tarea[0]['proyectoid'] ?>"/>         
+
+                  <input type="hidden" name="revision[<?php echo $j ?>][<?php echo $i ?>]" value="<?php echo $data_tareo['revision'] ?>"/>
+                  <input type="hidden" name="actividad_padre[<?php echo $j ?>][<?php echo $i ?>]" value="<?php echo $data_tareo['actividad_padre'] ?>"/> 
+                  <input type="hidden" name="semanaid[<?php echo $j ?>][<?php echo $i ?>]" value="<?php echo $data_tareo['semanaid'] ?>"/> 
+                  <input type="hidden" name="fecha_tarea[<?php echo $j ?>][<?php echo $i ?>]" value="<?php echo $fecha_tarea ?>"/>  
+                  <input type="hidden" name="asignado[<?php echo $j ?>][<?php echo $i ?>]" value="<?php echo $data_tareo['asignado'] ?>"/>   
+            
+       
+                  <input type="hidden" name="tipo_actividad[<?php echo $j ?>][<?php echo $i ?>]" value="<?php echo $buscar_tarea[0]['tipo_actividad'] ?>"/> 
+                  
+                  <input type="hidden" name="actividad_generalid[<?php echo $j ?>][<?php echo $i ?>]" value="<?php echo $buscar_tarea[0]['actividad_generalid'] ?>"/>       
+
+                  <!--para reviisar -->
+
+
+                  <input type="hidden" name="etapa[<?php echo $j ?>][<?php echo $i ?>]" value="<?php echo $buscar_tarea[0]['etapa'] ?>"/>    
+
+            <input type="hidden" name="actividadid[<?php echo $j ?>][<?php echo $i ?>]" value="<?php echo $data_tareo['actividadid'] ?>"/> 
+
+
 
 
             
@@ -400,7 +405,7 @@
 
                 <script type="text/javascript">
                   $(document).ready(function(){
-                        $("#valor<?php echo $i ?><?php echo $j?>").focus();
+                    $("#valor<?php echo $i ?><?php echo $j?>").focus();
                     $("#valor<?php echo $i ?><?php echo $j?>").keyup(function(e){ 
                    
                       // alert('fff');
@@ -1043,8 +1048,10 @@
 
                     <div id="fecha_<?php echo $i?>">
                     <?php  $tareopersona = new Admin_Model_DbTable_Tareopersona();
-                    $sumar=$tareopersona-> _getHorasRealxDia($data_tareo['semanaid'],$fecha,$uid,$dni,$data_tareo['cargo']);
-                    print_r($sumar[0]['tareo_persona_horas_reales']); ?>
+                    $sumar=$tareopersona-> _getHorasRealxDia($data_tareo['semanaid'],$fecha,$uid,$dni);
+                    print_r($sumar[0]['tareo_persona_horas_reales']); 
+                    //print_r($sumar);
+                    ?>
                     </div>
 
                   <!-- <div id="fecha_<?php //echo $i?>"> -->
@@ -1123,7 +1130,7 @@
             url    : '/timesheet/index/prueba/',
             data   : $('#form_time').serialize(),
             success: function(data){
-               document.location.href="/timesheet/index/calendar";
+               //document.location.href="/timesheet/index/calendar";
             }
         });
         
@@ -1132,7 +1139,7 @@
  
 
 
-<div class="col-lg-9 alert-success"  style="padding-top: 10px;padding-bottom: 10px;padding-right: 10px;padding-left: 10px;">
+<div class="col-lg-10 alert-success"  style="padding-top: 10px;padding-bottom: 10px;padding-right: 10px;padding-left: 10px;">
 <?php 
   $sumahorassemana = new Admin_Model_DbTable_Sumahorasemana();
   $wheres=array('dni'=>$this->dni,'uid'=>$this->uid,'semanaid'=>$this->semana);
@@ -1149,9 +1156,9 @@
   <table>
     <tr>
       <th style="width: 20%;">  Usuario</th>
-      <th style="width: 35%;" > Estado</th>
-      <th style="width: 20%;"> Fecha</th>
-      <th style="width: 25%;"> Comentario</th>
+      <th style="width: 15%;" > Estado</th>
+      <th style="width: 15%;"> Fecha</th>
+      <th style="width: 40%;"> Comentario</th>
     </tr>
     <?php
     foreach ($vcoment as $historico) {
@@ -1190,7 +1197,7 @@
 
 <div style="display:none" id="horaregistrada"></div>
 <div style="display:none" id="carga"></div>
-<div style="display:none" id="carga_nueva"></div>
+<div   style="display:none"  id="carga_nueva"></div>
 <div style="display:none" id="carga_w1"></div>
 
 
@@ -1366,11 +1373,11 @@ $("#submit_work1").click(function(){
       document.location.href="/timesheet/index/calendar";
 
       var d=new Date(); 
-      var fechacapturada=d.getDate()+ "/" + (d.getMonth() +1) + "/" + d.getFullYear()+','+d.getHours()+':'+d.getMinutes()+':'+d.getSeconds(); 
-      //alert(fechauno);
-      url="/timesheet/index/guardarcomentarioequipo/estado/B/uid/"+uid+'/dni/'+dni+'/semanaid/'+semanaid+'/cargo/'+cargo+'/coment/'+coment+'/uid_validacion/'+uid+'/dni_validacion/'+dni+'/etapa/0'+'/fecha/'+fechacapturada;
+      var fechacapturada=d.getDate()+ "-" + (d.getMonth() +1) + "-" + d.getFullYear()+','+d.getHours()+':'+d.getMinutes()+':'+d.getSeconds(); 
+      //alert(fechacapturada);
+      url="/timesheet/index/guardarcomentarioequipo/estado/B/uid/"+uid+'/dni/'+dni+'/semanaid/'+semanaid+'/cargo/'+cargo+'/coment/'+coment+'/uid_validacion/'+uid+'/dni_validacion/'+dni+'/etapa/0'+'/fecha_calendario/'+fecha_calendario+'/fecha/'+fechacapturada;
          
-      alert(url);
+      //alert(url);
       
       $.ajax({
         type: "POST",

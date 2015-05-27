@@ -49,6 +49,23 @@ class Admin_Model_DbTable_Usuariovalidacion extends Zend_Db_Table_Abstract
         }
     }
 
+    public function _getOnexUsuarioxValidador($where=array()){
+        try {
+                //if ($where["dni"]=='') return false;                
+                //$wherestr= "dni = '".$where['dni']."'  ";
+                $wherestr="uid_validacion = '".$where['uid_validacion']."' and estado_usuario = '".$where['estado_usuario']."' and semanaid = '".$where['semanaid']."'   ";
+
+                $row = $this->fetchRow($wherestr);
+
+                //print_r($wherestr);
+                if($row) return $row->toArray();
+                return false;
+        } catch (Exception $e) {
+            print "Error: Read One Condition".$e->getMessage();
+        }
+    }
+
+
         public function _getOnexUsuarioxJefe($where=array()){
         try {
                 //if ($where["dni"]=='') return false;                
@@ -88,7 +105,7 @@ class Admin_Model_DbTable_Usuariovalidacion extends Zend_Db_Table_Abstract
             $sql=$this->_db->query("
               select  * from usuario_validacion 
               where semanaid='$semanaid' and uid='$uid'
-              and dni='$dni'
+              and dni='$dni' order by fecha_validacion
 
             ");
             // print_r($sql);

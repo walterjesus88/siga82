@@ -14,6 +14,7 @@
     $is_jefe = $sesion->is_jefe;
     $is_responsable = $sesion->is_responsable;
     $is_gerente_area = $sesion->is_gerente_area;
+    $is_gerente_general= $sesion->personal->ucatcargo;    
 
 ?>
 <html lang="es">
@@ -247,7 +248,7 @@
                      <?
                  }
                       
-             if ($is_gerente == 'N' && $is_jefe == 'N' )  { 
+             if ($is_gerente == 'N' && $is_jefe == 'N' && $is_gerente_general != 'GERENTE' )  { 
 
                       ?>
 
@@ -260,6 +261,26 @@
                         </li>
                   <?php }?>
   
+  <?php if ($is_gerente_general == 'GERENTE'  )  { 
+
+                      ?>
+
+<li class="sub-menu">
+                            <a href="##" >
+                                <i class="fa fa-suitcase"></i>
+                              <span>Hoja de Tiempo</span>
+                            </a>
+                            <ul class="sub">
+                                <li><a  href="/timesheet/index/timesheetaprobaciongerenteoperaciones">Aprobación</a></li>
+                                <li><a  href="/timesheet/index/calendar">Rendición</a></li>
+                                <li><a  href="/timesheet/index/timesheethistoricogerenteoperaciones">Historico</a></li>
+                            </ul>
+                        </li>
+                  <?php }?>
+
+
+  
+
                     <?php 
                     if ($is_gerente == 'S') { ?>
                         <li class="sub-menu">

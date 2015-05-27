@@ -278,11 +278,11 @@ class Admin_Model_DbTable_Tareopersona extends Zend_Db_Table_Abstract
        }
    }
 
-   public function _getHorasRealxDia($semanaid,$fecha_tarea,$uid,$dni,$cargoid)
+   public function _getHorasRealxDia($semanaid,$fecha_tarea,$uid,$dni)
      {
         try{
             $sql=$this->_db->query("
-              select * from tareo_persona_horas_reales('$semanaid','$fecha_tarea','$uid','$dni','$cargoid')
+              select * from tareo_persona_horas_reales('$semanaid','$fecha_tarea','$uid','$dni')
             ");
             $row=$sql->fetchAll();
             return $row;           
