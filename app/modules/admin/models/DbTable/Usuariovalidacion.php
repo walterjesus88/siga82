@@ -105,7 +105,7 @@ class Admin_Model_DbTable_Usuariovalidacion extends Zend_Db_Table_Abstract
             $sql=$this->_db->query("
               select  * from usuario_validacion 
               where semanaid='$semanaid' and uid='$uid'
-              and dni='$dni'
+              and dni='$dni' order by fecha_validacion
 
             ");
             // print_r($sql);

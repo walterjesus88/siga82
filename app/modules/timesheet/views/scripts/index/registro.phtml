@@ -1133,7 +1133,7 @@
  
 
 
-<div class="col-lg-9 alert-success"  style="padding-top: 10px;padding-bottom: 10px;padding-right: 10px;padding-left: 10px;">
+<div class="col-lg-10 alert-success"  style="padding-top: 10px;padding-bottom: 10px;padding-right: 10px;padding-left: 10px;">
 <?php 
   $sumahorassemana = new Admin_Model_DbTable_Sumahorasemana();
   $wheres=array('dni'=>$this->dni,'uid'=>$this->uid,'semanaid'=>$this->semana);
@@ -1150,9 +1150,9 @@
   <table>
     <tr>
       <th style="width: 20%;">  Usuario</th>
-      <th style="width: 35%;" > Estado</th>
-      <th style="width: 20%;"> Fecha</th>
-      <th style="width: 25%;"> Comentario</th>
+      <th style="width: 15%;" > Estado</th>
+      <th style="width: 15%;"> Fecha</th>
+      <th style="width: 40%;"> Comentario</th>
     </tr>
     <?php
     foreach ($vcoment as $historico) {
@@ -1191,7 +1191,7 @@
 
 <div style="display:none" id="horaregistrada"></div>
 <div style="display:none" id="carga"></div>
-<div  id="carga_nueva"></div>
+<div   style="display:none"  id="carga_nueva"></div>
 <div style="display:none" id="carga_w1"></div>
 
 
@@ -1364,14 +1364,14 @@ $("#submit_work1").click(function(){
       var dni_validacion="<?php echo $this->dni ?>";
       var semanaid="<?php echo $this->semana ?>";
       var cargo="<?php echo $this->areaid ?>";
-    //  document.location.href="/timesheet/index/calendar";
+      document.location.href="/timesheet/index/calendar";
 
       var d=new Date(); 
       var fechacapturada=d.getDate()+ "-" + (d.getMonth() +1) + "-" + d.getFullYear()+','+d.getHours()+':'+d.getMinutes()+':'+d.getSeconds(); 
-      alert(fechacapturada);
+      //alert(fechacapturada);
       url="/timesheet/index/guardarcomentarioequipo/estado/B/uid/"+uid+'/dni/'+dni+'/semanaid/'+semanaid+'/cargo/'+cargo+'/coment/'+coment+'/uid_validacion/'+uid+'/dni_validacion/'+dni+'/etapa/0'+'/fecha_calendario/'+fecha_calendario+'/fecha/'+fechacapturada;
          
-      alert(url);
+      //alert(url);
       
       $.ajax({
         type: "POST",
