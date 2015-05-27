@@ -838,50 +838,26 @@ public function sumatareorealAction(){
         $asignado=$this->_getParam('asignado');
         $areaid=$this->_getParam('areaid');      
         $tipo_actividad=$this->_getParam('tipo_actividad');
+
         $actividadid=$this->_getParam('actividadid');
 
-        //$etapa=$this->_getParam('etapa');
+        $etapa=$this->_getParam('etapa');
 
         $fecha_tarea=$this->_getParam('fecha_tarea');
         $actividad_generalid=$this->_getParam('actividad_generalid');
         $fecha_creacion=$this->_getParam('fecha_creacion');
 
-       // print_r($etapa);
-        print_r($actividadid);
-        print_r($tipo_actividad);
-        //print_r($etapa);
-        print_r($actividad_generalid);
-        print_r($asignado);
-        print_r($fecha_tarea);
-        print_r($semanaid);
-        print_r($actividad_padre);
-
-        //print_r($actividadid);
+        // print_r($etapa);
+        // print_r($actividadid);
+        // print_r($tipo_actividad);
+  
+        // print_r($actividad_generalid);
+        // print_r($asignado);
+        // print_r($fecha_tarea);
+        // print_r($semanaid);
+        // print_r($actividad_padre);
 
 
-
-        
-        //print_r($codigo_prop_proy);
-        //print_r($proyectoid);
-        //exit();
-
-
-        // $cargo=$this->_getParam('cargo');
-        // $categoriaid=$this->_getParam('categoriaid');
-        // $areaid=$this->_getParam('areaid');
-
-       // $fecha_calendario=$this->_getParam('fecha_calendario');
-        //print_r($codigo_prop_proy);
-       
-        //print_r($actividad_generalid);
-        //print_r($fecha_tarea);
-
-        //echo $tiempo_id[52];
-        //print_r($fecha_calendario);
-
-        //$nive=array();
-        //$cc=count($codigo_prop_proy);
-        //echo $cc;
         for ($i=1; $i <= 30; $i++) { 
 
             for ($j=0; $j < 7; $j++) { 
@@ -909,8 +885,9 @@ public function sumatareorealAction(){
              $data['fecha_planificacion'] = $fecha_tarea[$i][$j];
              $data['asignado'] = $asignado[$i][$j];
              //$data['areaid'] = $areaid[$i][$j];
-             $data['tipo_actividad'] = $tipo_actividad[$i][$j];
 
+             //if($tipo_actividad[$i][$j]=='' or $tipo_actividad[$i][$j]==null) { $type='';} else { $type=$tipo_actividad[$i][$j];} 
+             $data['tipo_actividad'] = $tipo_actividad[$i][$j];
            
              $resultado = str_replace("INICIO", "EJECUCION", $etapa[$i][$j]);
              $data['etapa']=$resultado;
@@ -923,7 +900,6 @@ public function sumatareorealAction(){
 
                  // echo $tiempo_id[$i][$j];
                  // echo "nhndf";
-
         
             $wheres=array('codigo_prop_proy'=>$codigo_prop_proy[$i][$j],'codigo_actividad'=>$codigo_actividad[$i][$j],
                 'actividadid'=>$actividadid[$i][$j],'revision'=>$revision[$i][$j],
@@ -931,22 +907,19 @@ public function sumatareorealAction(){
                 ,'fecha_tarea'=>$fecha_tarea[$i][$j],'uid'=>$uid,'dni'=>$dni,'cargo'=>$cargo,
                 'fecha_planificacion'=>$fecha_tarea[$i][$j],'etapa'=>$resultado,'tipo_actividad'=>$tipo_actividad[$i][$j]);
 
-            //print_r($data);
+            //print_r($data);//exit();
 
-            $verdata = new Admin_Model_DbTable_Tareopersona();
-            $ty=$verdata->_getOne($wheres);
+           $verdata = new Admin_Model_DbTable_Tareopersona();
+           $ty=$verdata->_getOne($wheres);
             //print_r($ty);
 
-
-            if($ty)
-            {
+           if($ty){
+            
               //echo "update";
                 $etapa_actualizar = str_replace("INICIO", "EJECUCION", $etapa[$i][$j]);
                 
                 $datos_actualizar['fecha_modificacion']=date("Y-m-d");
-                $datos_actualizar['h_real']=$tiempo_id[$i][$j];
-
-                
+                $datos_actualizar['h_real']=$tiempo_id[$i][$j];              
 
                 // $str_actualizar="codigo_prop_proy=$code and proyectoid='$proyectoid[$i][$j]' and 
                 // categoriaid='$categoriaid[$i][$j]' and actividadid='$actividadid[$i][$j]' and 
@@ -956,8 +929,7 @@ public function sumatareorealAction(){
                 // and etapa='$etapa_actualizar' and tipo_actividad='$tipo_actividad[$i][$j]' 
                 // and  estado='A' ";
 
-                //print_r($data);
-                
+                //print_r($data);                
                 $update=$verdata -> _updateX($datos_actualizar,$wheres);
 
             }
@@ -965,10 +937,7 @@ public function sumatareorealAction(){
             {
                 $data_tareopersona = $verdata->_save($data);
        
-            }
-                
-
-             //print_r($data);
+            }//print_r($data);
 
             }
         }

@@ -367,40 +367,27 @@
               <td>
                 <center>
 
-                   <input  <?php if ($data_tareo['estado_tareopersona']=='C') { ?> disabled <?php }?>    name="tiempo_id[<?php echo $j ?>][<?php echo $i ?>]" class="form-control" id="valor<?php echo $i?><?php echo $j?>" style="text-align: center;height: 26px; width: 40px; padding-right: 4px; padding-left: 4px;" maxlength="2"  value="<?php 
+                  <input  <?php if ($data_tareo['estado_tareopersona']=='C') { ?> disabled <?php }?>    name="tiempo_id[<?php echo $j ?>][<?php echo $i ?>]" class="form-control" id="valor<?php echo $i?><?php echo $j?>" style="text-align: center;height: 26px; width: 40px; padding-right: 4px; padding-left: 4px;" maxlength="2"  value="<?php 
                  if ($buscar_tarea) {
                     if($buscar_tarea[0]['h_real']=='0') { echo "";} else { print_r($buscar_tarea[0]['h_real']);}
                     }?>" 
                    >
-                   <!-- {{vm.resultado}} -->
                   <input type="hidden" name="codigo_prop_proy[<?php echo $j ?>][<?php echo $i ?>]" value="<?php echo $data_tareo['codigo_prop_proy'] ?>"/>
                   <input type="hidden" name="codigo_actividad[<?php echo $j ?>][<?php echo $i ?>]" value="<?php echo $data_tareo['codigo_actividad'] ?>"/>
-               
-
-          <input type="hidden" name="proyectoid[<?php echo $j ?>][<?php echo $i ?>]" value="<?php echo $buscar_tarea[0]['proyectoid'] ?>"/>         
-
+                  <input type="hidden" name="proyectoid[<?php echo $j ?>][<?php echo $i ?>]" value="<?php echo $data_tareo['proyectoid'] ?>"/>
+                  <input type="hidden" name="actividadid[<?php echo $j ?>][<?php echo $i ?>]" value="<?php echo $data_tareo['actividadid'] ?>"/>
                   <input type="hidden" name="revision[<?php echo $j ?>][<?php echo $i ?>]" value="<?php echo $data_tareo['revision'] ?>"/>
-                  <input type="hidden" name="actividad_padre[<?php echo $j ?>][<?php echo $i ?>]" value="<?php echo $data_tareo['actividad_padre'] ?>"/> 
-                  <input type="hidden" name="semanaid[<?php echo $j ?>][<?php echo $i ?>]" value="<?php echo $data_tareo['semanaid'] ?>"/> 
+                  <input type="hidden" name="actividad_padre[<?php echo $j ?>][<?php echo $i ?>]" value="<?php echo $data_tareo['actividad_padre'] ?>"/>
+                  <input type="hidden" name="semanaid[<?php echo $j ?>][<?php echo $i ?>]" value="<?php echo $data_tareo['semanaid'] ?>"/>
                   <input type="hidden" name="fecha_tarea[<?php echo $j ?>][<?php echo $i ?>]" value="<?php echo $fecha_tarea ?>"/>  
-                  <input type="hidden" name="asignado[<?php echo $j ?>][<?php echo $i ?>]" value="<?php echo $data_tareo['asignado'] ?>"/>   
+                  <input type="hidden" name="asignado[<?php echo $j ?>][<?php echo $i ?>]" value="<?php echo $data_tareo['asignado'] ?>"/>  
+                 
+                  <input type="hidden" name="tipo_actividad[<?php echo $j ?>][<?php echo $i ?>]" value="<?php echo $data_tareo['tipo_actividad'] ?>"/>  
+                  <input type="hidden" name="etapa[<?php echo $j ?>][<?php echo $i ?>]" value="<?php echo $data_tareo['etapa']?>"/> 
+                  <input type="hidden" name="actividad_generalid[<?php echo $j ?>][<?php echo $i ?>]" value="<?php echo $data_tareo['actividad_generalid'] ?>"/>
             
-       
-                  <input type="hidden" name="tipo_actividad[<?php echo $j ?>][<?php echo $i ?>]" value="<?php echo $buscar_tarea[0]['tipo_actividad'] ?>"/> 
-                  
-                  <input type="hidden" name="actividad_generalid[<?php echo $j ?>][<?php echo $i ?>]" value="<?php echo $buscar_tarea[0]['actividad_generalid'] ?>"/>       
+                  <!-- <input type="hidden" name="areaid[<?php echo $j ?>][<?php echo $i ?>]" value="<?php echo $buscar_tarea[0]['areaid']  ?>"/> -->
 
-                  <!--para reviisar -->
-
-
-                  <input type="hidden" name="etapa[<?php echo $j ?>][<?php echo $i ?>]" value="<?php echo $buscar_tarea[0]['etapa'] ?>"/>    
-
-            <input type="hidden" name="actividadid[<?php echo $j ?>][<?php echo $i ?>]" value="<?php echo $data_tareo['actividadid'] ?>"/> 
-
-
-
-
-            
                 </center>
 
                 <script type="text/javascript">
@@ -449,7 +436,7 @@
                           var url="/timesheet/index/updatetareoreal/codigo_prop_proy/"+codigo_prop_proy+"/codigo_actividad/"+codigo_actividad+"/actividadid/"+actividadid+"/revision/"+revision+"/actividad_padre/"+actividad_padre+"/proyectoid/"+proyectoid+"/semanaid/"+semanaid+"/fecha_tarea/"+fecha_tarea+"/asignado/"+asignado+"/areaid/"+areaid+"/categoriaid/"+categoriaid+"/dni/"+dni+"/cargo/"+cargo+"/horareal/"+hora_real+"/tipo_actividad/"+tipo_actividad+"/etapa/"+etapa+"/actividad_generalid/"+actividad_generalid+"/fecha_calendario/"+fecha_calendario+"/h_propuesta/"+h_propuesta;   
 
                           var url2='/timesheet/index/traersumahoras/semanaid/'+semanaid+'/fecha/'+fecha_tarea+'/fechainiciomod/'+fecha_tarea+'/uid/'+uid+'/dni/'+dni_+'/cargo/'+cargo;   
-                         //alert(url);            
+                          //alert(url);            
 
                            $.ajax({
                                     type: "POST",
@@ -1277,6 +1264,7 @@ function fnc(evt) {
 
 // })
 
+
 $( "input" )
   .keyup(function() {
   valor = parseInt($(this).val());
@@ -1319,6 +1307,8 @@ $( "input" )
     $("#fecha_"+i).html(mostrar[i]);
   };
 })
+
+    
 
 
 
