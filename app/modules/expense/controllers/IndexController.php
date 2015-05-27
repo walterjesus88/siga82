@@ -272,7 +272,13 @@ class Expense_IndexController extends Zend_Controller_Action {
             $data_exist = $rendicion->_getOneXfecha($where);
             if (!$data_exist) {
                 $where['estado'] = 'B';
-                $rendicion->_save($where);
+                $result = $rendicion->_save($where);
+                $ceros = '10 - ';
+                for ($h=0; $h < (8-strlen($result['numero'])); $h++) { 
+                    $ceros = $ceros.'0';
+                }
+                $data2['numero_completo'] = $ceros.$result['numero'];
+                $rendicion->_update($data2,$result);
             }
             $data_guard = $rendicion->_getOneXfecha($where);
 
