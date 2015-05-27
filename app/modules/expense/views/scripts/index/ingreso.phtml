@@ -10,7 +10,8 @@ $data_rendicion = $this->data_rendicion;
                 <div class="form-group">
                     <label class="col-lg-4 col-sm-4 control-label" style="font-size : 12px">N° Rendición</label>
                     <div class="col-lg-8">
-                        <input name="numero" type="text" class="form-control" value="<?php echo $data_rendicion['numero'];?>" readonly/>
+                        <?php echo $data_rendicion['numero_completo'];?>
+                        <input name="numero" type="hidden" value="<?php echo $data_rendicion['numero'];?>">
                     </div>
                 </div>
                 <div class="form-group">
@@ -172,11 +173,14 @@ $data_rendicion = $this->data_rendicion;
                                     <?php if ($data_rendicion['estado'] == "E") { ?>
                                     <td>
                                     <?php
+                                    if ($data_actividades['gastoid'] != '') {
                                         list($gastoid, $tipo_gasto) = split('[-]', $data_actividades['gastoid']);
                                         foreach ($this->all_gastos as $kvalue) {
                                             if ($gastoid == $kvalue['gastoid'] && $tipo_gasto == $kvalue['tipo_gasto']) $nom_tmp = $kvalue['nombre_gasto'];
                                             }
-                                            ?>
+                                    } else {
+                                        $nom_tmp = '';
+                                    } ?>
                                         <span><?php echo $nom_tmp; ?></span>
                                     </td>
                                     <?php 
@@ -188,11 +192,11 @@ $data_rendicion = $this->data_rendicion;
                                             <?php foreach ($this->list_gastos as $list_gastos) {
                                                     if ($data_actividades['tipo_proyecto'] == 'Construcción'){ 
                                                         if ($list_gastos['tipo_gasto'] == "construccion" || $list_gastos['tipo_gasto'] == "laboratorio") { ?>
-                                                            <option value="<?php echo $list_gastos['gastoid']. '-' .$list_gastos['tipo_gasto'] ?>" <?php print ($data_actividades['gastoid']==$list_gastos['gastoid'])? 'selected' : ''; ?>><?php echo $list_gastos['gastoid'].' - '.$list_gastos['nombre_gasto'] ?></option>
+                                                            <option value="<?php echo $list_gastos['gastoid']. '-' .$list_gastos['tipo_gasto'] ?>" <?php print ($data_actividades['gasto_padre']==$list_gastos['gastoid'].'-'.$list_gastos['tipo_gasto'])? 'selected' : ''; ?>><?php echo $list_gastos['gastoid'].' - '.$list_gastos['nombre_gasto'] ?></option>
                                             <?php       }
                                                     } else { 
                                                         if ($list_gastos['tipo_gasto'] != "construccion" || $list_gastos['tipo_gasto'] == "laboratorio") { ?>
-                                                        <option value="<?php echo $list_gastos['gastoid']. '-' .$list_gastos['tipo_gasto'] ?>" <?php print ($data_actividades['gastoid']==$list_gastos['gastoid'])? 'selected' : ''; ?>><?php echo $list_gastos['gastoid'].' - '.$list_gastos['nombre_gasto'] ?></option>
+                                                        <option value="<?php echo $list_gastos['gastoid']. '-' .$list_gastos['tipo_gasto'] ?>" <?php print ($data_actividades['gasto_padre']==$list_gastos['gastoid'].'-'.$list_gastos['tipo_gasto'])? 'selected' : ''; ?>><?php echo $list_gastos['gastoid'].' - '.$list_gastos['nombre_gasto'] ?></option>
                                                     <?php
                                                         }
                                                     } 
@@ -458,6 +462,14 @@ $data_rendicion = $this->data_rendicion;
                                     $("#gasto_padre<?php echo $data_actividades['gasto_persona_id'] ?>").change(function(){
                                         var gasto_padre = $(this).val();
                                         $("#gasto_hijo<?php echo $data_actividades['gasto_persona_id'] ?>").load("/expense/index/gastohijo/gastoid/"+gasto_padre);
+                                    });
+
+                                    $("#gasto_padre<?php echo $data_actividades['gasto_persona_id'] ?> option:selected").each(function() {
+                                        var gasto_padre = $(this).val();
+                                        var gasto_persona_id = "<?php echo $data_actividades['gasto_persona_id'] ?>";
+                                        if (gasto_padre) {
+                                            $("#gasto_hijo<?php echo $data_actividades['gasto_persona_id'] ?>").load("/expense/index/gastohijo/gastoid/"+gasto_padre+"/gasto_persona_id/"+gasto_persona_id);
+                                        };
                                     });
                                 </script>
                             <?php

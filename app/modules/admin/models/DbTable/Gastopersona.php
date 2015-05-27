@@ -85,7 +85,7 @@ class Admin_Model_DbTable_Gastopersona extends Zend_Db_Table_Abstract
             $sql=$this->_db->query("
                select proyectoid from gasto_persona 
                where fecha_gasto='$fecha_gasto' and uid='$uid' and dni='$dni' 
-               group by proyectoid;
+               group by proyectoid order by proyectoid;
             ");
             $row=$sql->fetchAll();
             return $row;

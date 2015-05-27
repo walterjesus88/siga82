@@ -1,9 +1,14 @@
 <?php 
+if ($this->gasto_persona) {
+	$gasto_persona = $this->gasto_persona;
+} else {
+	$gasto_persona['gastoid'] = '';
+}
 if ($this->hijos) { ?>
  	<option value="">Seleccione</option>
  	<?php 
  	foreach ($this->hijos as $hijos) { ?>
- 	 	<option value="<?php echo $hijos['gastoid']. '-' .$hijos['tipo_gasto']. '-' .$hijos['costo_unitario'] ?>"><?php echo $hijos['gastoid'].' - '.$hijos['nombre_gasto'] ?></option>
+ 	 	<option value="<?php echo $hijos['gastoid']. '-' .$hijos['tipo_gasto']. '-' .$hijos['costo_unitario'] ?>" <?php print ($gasto_persona['gastoid']==$hijos['gastoid'].'-'.$hijos['tipo_gasto'])? 'selected' : ''; ?>><?php echo $hijos['gastoid'].' - '.$hijos['nombre_gasto'] ?></option>
  	 	<?php
  	 } ?>
  	<?php

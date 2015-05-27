@@ -220,6 +220,13 @@ class Expense_IndexController extends Zend_Controller_Action {
         try {
             $this->_helper->layout()->disableLayout();
             $tmp = $this->_getParam('gastoid');
+            $gasto_persona_id = $this->_getParam('gasto_persona_id');
+            if ($gasto_persona_id) {
+                $where['gasto_persona_id'] = $gasto_persona_id;
+                $gasto_persona = new Admin_Model_DbTable_Gastopersona();
+                $data_gasto_persona = $gasto_persona->_getFilter($where,$attrib=null,$orders=null);
+                print_r($this->view->gasto_persona = $data_gasto_persona[0]);
+            }
             list($gastoid, $tipo_gasto) = split('[-]', $tmp);
             $gastos = new Admin_Model_DbTable_Listagasto();
             $data_hijos = $gastos->_getGastosXgastopadre($gastoid, $tipo_gasto);
@@ -265,7 +272,13 @@ class Expense_IndexController extends Zend_Controller_Action {
             $data_exist = $rendicion->_getOneXfecha($where);
             if (!$data_exist) {
                 $where['estado'] = 'B';
-                $rendicion->_save($where);
+                $result = $rendicion->_save($where);
+                $ceros = '10 - ';
+                for ($h=0; $h < (8-strlen($result['numero'])); $h++) { 
+                    $ceros = $ceros.'0';
+                }
+                $data2['numero_completo'] = $ceros.$result['numero'];
+                $rendicion->_update($data2,$result);
             }
             $data_guard = $rendicion->_getOneXfecha($where);
 
@@ -365,11 +378,12 @@ class Expense_IndexController extends Zend_Controller_Action {
                     'codigo_prop_proy'=>$codigo_prop_proy[$i]);
                 $data = array();
                 $data['descripcion'] = $description[$i];
+                $data['gasto_padre'] = $gasto_padre[$i];
                 if ($gasto_hijo[$i]!='') {
                     list($gastoid, $tipo_gasto, $gasto_unitario) = split('[-]', $gasto_hijo[$i]);
                     $data['gastoid'] = $gastoid.'-'.$tipo_gasto;
                 } else {
-                    $data['gastoid'] = $gasto_padre[$i];
+                    $data['gastoid'] = $gasto_hijo[$i];
                 }
                 $data['laboratorio_cantidad'] = $lab_cantidad[$i];
                 $data['laboratorio_PU'] = $lab_pu[$i];
