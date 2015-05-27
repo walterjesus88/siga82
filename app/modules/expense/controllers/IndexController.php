@@ -355,11 +355,6 @@ class Expense_IndexController extends Zend_Controller_Action {
             $otro_impuesto = $this->_getParam('otro_impuesto');
             $igv = $this->_getParam('igv');
             $monto_total = $this->_getParam('monto_total');
-
-            print_r($monto_total);
-            print_r($description);
-            print_r($gasto_persona_id);
-            print_r($gasto_padre);
             
             $gasto = new Admin_Model_DbTable_Gastopersona();
             for ($i=0; $i < count($gasto_persona_id); $i++) { 
@@ -504,6 +499,59 @@ class Expense_IndexController extends Zend_Controller_Action {
             $gastos = new Admin_Model_DbTable_Listagasto();
             $data_list_gastos = $gastos->_getGastosAll();
             $this->view->list_gastos = $data_list_gastos;
+        } catch (Exception $e) {
+            print "Error: ".$e->getMessage();
+        }
+    }
+
+    public function editardetallesAction(){
+        try {
+            $this->_helper->layout()->disableLayout();
+            $numero = $this->_getParam('numero');
+            $uid = $this->_getParam('uid');
+            $dni = $this->_getParam('dni');
+
+            $gasto = new Admin_Model_DbTable_Gastopersona();
+            $data_gasto = $gasto->_getgastoProyectosXnumero($numero, $uid, $dni);
+            for ($i=0; $i < count($data_gasto); $i++) { 
+                $order = array('gasto_persona_id ASC');
+                $wheretmp ['uid'] = $uid;
+                $wheretmp ['dni'] = $dni;
+                $wheretmp ['numero_rendicion'] = $numero;
+                $wheretmp ['proyectoid'] = $data_gasto[$i]['proyectoid'];
+                $data_gasto_final = $gasto->_getFilter($wheretmp,$attrib=null,$order);
+                
+                $pk ['proyectoid'] = $data_gasto[$i]['proyectoid'];
+                $pk ['codigo_prop_proy'] = $data_gasto_final[0]['codigo_prop_proy'];
+                $proyecto = new Admin_Model_DbTable_Proyecto();
+                $data_proyecto = $proyecto->_getOne($pk);
+                for ($n=0; $n < count($data_gasto_final); $n++) { 
+                    $data_gasto_final[$n]['nombre_proyecto'] = $data_proyecto['nombre_proyecto'];
+                    $data_gasto_final[$n]['tipo_proyecto'] = $data_proyecto['tipo_proyecto'];
+                }
+                $data_gasto[$i] = $data_gasto_final[0];
+                $data_gasto[$i]['actividades'] = $data_gasto_final;
+            }
+        $this->view->gasto = $data_gasto;
+        
+        $where_tmp = array();
+        $where_tmp['uid'] = $uid;
+        $where_tmp['dni'] = $dni;
+        $where_tmp['numero'] = $numero;
+        $rendicion = new Admin_Model_DbTable_Gastorendicion();
+        $data_rendicion = $rendicion->_getOneXnumero($where_tmp);
+        $this->view->data_rendicion = $data_rendicion;
+
+        $gastos = new Admin_Model_DbTable_Listagasto();
+        $data_list_gastos = $gastos->_getGastosHijos();
+        $this->view->list_gastos = $data_list_gastos;
+
+        $data_all_gastos = $gastos->_getGastosAll();
+        $this->view->all_gastos = $data_all_gastos;
+        
+        $this->view->numero = $numero;
+        $this->view->uid = $uid;
+        $this->view->dni = $dni;
         } catch (Exception $e) {
             print "Error: ".$e->getMessage();
         }

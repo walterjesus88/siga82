@@ -95,6 +95,22 @@ class Admin_Model_DbTable_Gastopersona extends Zend_Db_Table_Abstract
         }
     }
 
+    public function _getgastoProyectosXnumero($numero, $uid, $dni){
+        try{
+            if ($numero=='' || $uid=='' || $dni=='') return false;
+            $sql=$this->_db->query("
+               select proyectoid from gasto_persona 
+               where numero_rendicion='$numero' and uid='$uid' and dni='$dni' 
+               group by proyectoid;
+            ");
+            $row=$sql->fetchAll();
+            return $row;
+            return false;
+        }catch (Exception $e){
+            print "Error: Read One Add ".$e->getMessage();
+        }
+    }
+
     public function _getgastoProyectoXfechaXactividad($where=array()){
         try{
             if ($where['fecha_gasto']=='' || $where['uid']=='' || $where['dni']=='' || $where['proyectoid']=='') return false;

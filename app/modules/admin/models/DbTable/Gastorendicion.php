@@ -49,6 +49,18 @@ class Admin_Model_DbTable_Gastorendicion extends Zend_Db_Table_Abstract
         }
     }
 
+    public function _getOneXnumero($where=array()){
+        try{
+            if ($where['numero']=='' || $where['uid']=='' || $where['dni']=='') return false;
+            $wherestr="numero = '".$where['numero']."' and uid='".$where['uid']."' and dni='".$where['dni']."'";
+            $row = $this->fetchRow($wherestr);
+            if($row) return $row->toArray();
+            return false;
+        }catch (Exception $e){
+            print "Error: Read One ".$e->getMessage();
+        }
+    }
+
     public function _getrendicionXestadoXproyecto($estado, $codigo_prop_proy, $proyectoid){
         try{
             $sql=$this->_db->query("

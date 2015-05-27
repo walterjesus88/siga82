@@ -320,10 +320,7 @@ class Timesheet_IndexController extends Zend_Controller_Action {
         //$areaid=$this->sesion->personal->ucatareaid;
         //$cargo=$this->sesion->personal->ucatcargo;
 
-        //$cargoreal= $this->_getParam('tipo_actividad');
-
-
-      
+        //$cargoreal= $this->_getParam('tipo_actividad');      
         $fecha_inicio = $this->_getParam('fecha_calendario');
         $fecha_inicio_mod = date("Y-m-d", strtotime($fecha_inicio));
         $semanaid=date('W', strtotime($fecha_inicio_mod)); 
@@ -353,36 +350,53 @@ class Timesheet_IndexController extends Zend_Controller_Action {
 
 
          $actividad_generalid = $this->_getParam('actividad_generalid');
+        // if($actividad_generalid=='')
+        // {
+        //     if ($tipo_actividad_actualizar=='A')
+        //     {
+        //     $data['actividad_generalid']=$actividad_generalid;
+        //     $data['tipo_actividad']='A';
+        //     $etapa= $this->_getParam('etapa');
+        //     $resultado = str_replace("INICIO", "EJECUCION", $etapa);
+        //     $data['etapa']=$resultado;
+        //     }
+        //     else
+        //     {
+
+        //     $data['actividad_generalid']=null;
+        //     $data['tipo_actividad']='P';
+        //     $etapa= $this->_getParam('etapa');
+        //     $resultado = str_replace("INICIO", "EJECUCION", $etapa);
+        //     $data['etapa']=$resultado;    
+        //     }
+        // }
+        // else
+        // {
+
+            
+        //     $data['actividad_generalid']=$actividad_generalid;
+        //     $data['tipo_actividad']='G';
+        //     $etapa= $this->_getParam('etapa');
+        //     $resultado = str_replace("INICIO", "EJECUCION", $etapa);
+        //     $data['etapa']=$resultado;
+            
+        // }
+
         if($actividad_generalid=='')
         {
-            if ($tipo_actividad_actualizar=='A')
-            {
-            $data['actividad_generalid']=$actividad_generalid;
-            $data['tipo_actividad']='A';
-            $etapa= $this->_getParam('etapa');
-            $resultado = str_replace("INICIO", "EJECUCION", $etapa);
-            $data['etapa']=$resultado;
-            }
-            else
-            {
-
             $data['actividad_generalid']=null;
-            $data['tipo_actividad']='P';
+            $data['tipo_actividad']=$tipo_actividad_actualizar;
             $etapa= $this->_getParam('etapa');
             $resultado = str_replace("INICIO", "EJECUCION", $etapa);
             $data['etapa']=$resultado;    
         }
-        }
         else
         {
-
-            
             $data['actividad_generalid']=$actividad_generalid;
             $data['tipo_actividad']='G';
             $etapa= $this->_getParam('etapa');
             $resultado = str_replace("INICIO", "EJECUCION", $etapa);
             $data['etapa']=$resultado;
-            
         }
 
         $equipo = new Admin_Model_DbTable_Equipo();
@@ -424,14 +438,14 @@ class Timesheet_IndexController extends Zend_Controller_Action {
                 {
                     $data1['nonbillable']= $this->_getParam('horareal');
                     $data1['billable']=0;
-                    //$data1['adm']=0;
+                    $data1['adm']=0;
                    
                 }
                 
                 if ($tipo_actividad=='P') {
                     $data1['billable']= $this->_getParam('horareal'); 
                     $data1['nonbillable']=0;
-                    //$data1['adm']=0;                              
+                    $data1['adm']=0;                              
                 }
 
                 if ($tipo_actividad=='A') {
@@ -439,6 +453,8 @@ class Timesheet_IndexController extends Zend_Controller_Action {
                     $data1['nonbillable']=0;
                     $data1['adm']=$this->_getParam('horareal');                               
                 }
+
+
 
                 //$data2['cargo']=$cargo;
                 $data2['semanaid']=$semanaid;
@@ -512,15 +528,15 @@ class Timesheet_IndexController extends Zend_Controller_Action {
         <?php
         
          
-              $str_actualizar1="codigo_prop_proy='$codigo_prop_proy' and proyectoid='$proyectoid' and 
-                and actividadid='$actividadid' and 
-                revision='$revision' and codigo_actividad='$codigo_actividad'
-                and actividad_padre='$actividad_padre' and cargo='$cargo'
-                and semanaid='$semanaid'  and fecha_tarea='$fecha_tarea' 
-                and etapa='$etapa_actualizar' and tipo_actividad='$tipo_actividad_actualizar'
-                and  uid='$uid'  and  dni='$dni'  and  fecha_planificacion='$fecha_tarea'
-                and  estado='A' 
-                ";
+              // $str_actualizar1="codigo_prop_proy='$codigo_prop_proy' and proyectoid='$proyectoid' and 
+              //   and actividadid='$actividadid' and 
+              //   revision='$revision' and codigo_actividad='$codigo_actividad'
+              //   and actividad_padre='$actividad_padre' and cargo='$cargo'
+              //   and semanaid='$semanaid'  and fecha_tarea='$fecha_tarea' 
+              //   and etapa='$etapa_actualizar' and tipo_actividad='$tipo_actividad_actualizar'
+              //   and  uid='$uid'  and  dni='$dni'  and  fecha_planificacion='$fecha_tarea'
+              //   and  estado='A' 
+              //   ";
 
               $str_actualizar="codigo_prop_proy='$codigo_prop_proy' and proyectoid='$proyectoid' and 
                 categoriaid='$categoriaid' and actividadid='$actividadid' and 
