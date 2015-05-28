@@ -15,6 +15,7 @@
     $is_responsable = $sesion->is_responsable;
     $is_gerente_area = $sesion->is_gerente_area;
     $is_gerente_general= $sesion->personal->ucatcargo;    
+    $is_jefe_area= $sesion->personal->ucatcargo;   
 
 ?>
 <html lang="es">
@@ -229,25 +230,27 @@
                     <?php     
                      } 
 
-                   if ($is_gerente == 'S') { ?>
+
+                   //if ($is_gerente == 'S') { ?>   
 
 
-                      <li class="sub-menu">
+                  <!--    <li class="sub-menu">
                             <a href="##" >
                                 <i class="fa fa-suitcase"></i>
-                              <span>Hoja de Tiempo</span>
+                              <span>Hoja de Tiempo GP</span>
                             </a>
                             <ul class="sub">
                                 <li><a  href="/timesheet/index/timesheetaprobaciongerente">Aprobación</a></li>
                                 <li><a  href="/timesheet/index/calendar">Rendición</a></li>
                                 <li><a  href="/timesheet/index/timesheethistorico">Historico</a></li>
                             </ul>
-                        </li>
+                        </li>-->
 
 
-                     <?
-                 }
+                     
+                
                       
+                      <?php
              if ($is_gerente == 'N' && $is_jefe == 'N' && $is_gerente_general != 'GERENTE' )  { 
 
                       ?>
@@ -256,7 +259,7 @@
                         <li>
                             <a href="/timesheet/index/calendar">
                                 <i class="fa fa-money"></i>
-                                <span>Hoja de Tiempo</span>
+                                <span>Hoja de Tiempo Personal 1</span>
                             </a>
                         </li>
                   <?php }?>
@@ -268,18 +271,75 @@
 <li class="sub-menu">
                             <a href="##" >
                                 <i class="fa fa-suitcase"></i>
-                              <span>Hoja de Tiempo</span>
+                              <span>Hoja de Tiempo del Gerente Operaciones</span>
                             </a>
                             <ul class="sub">
-                                <li><a  href="/timesheet/index/timesheetaprobaciongerenteoperaciones">Aprobación</a></li>
+                                <li><a  href="/timesheet/index/aprobaciongerenteoperaciones">Aprobación</a></li>
                                 <li><a  href="/timesheet/index/calendar">Rendición</a></li>
-                                <li><a  href="/timesheet/index/timesheethistoricogerenteoperaciones">Historico</a></li>
+                                <li><a  href="/timesheet/index/historicogerenteoperaciones">Historico</a></li>
+                            </ul>
+                        </li>
+                  <?php }?>
+
+                    <?php if ($is_gerente_general == 'JEFE'  )  { 
+
+                      ?>
+
+<li class="sub-menu">
+                            <a href="##" >
+                                <i class="fa fa-suitcase"></i>
+                              <span>Hoja de Tiempo Jefe</span>
+                            </a>
+                            <ul class="sub">
+                                 <li><a  href="/timesheet/index/timesheetaprobacion">Aprobación</a></li>
+                                <li><a  href="/timesheet/index/calendar">Rendición</a></li>
+                            </ul>
+                        </li>
+                  <?php }?>
+
+                               <?php if ($is_gerente_general == 'GERENTE-PROY'  )  { 
+
+                      ?>
+
+<li class="sub-menu">
+                            <a href="##" >
+                                <i class="fa fa-suitcase"></i>
+                              <span>Hoja de Tiempo GP</span>
+                            </a>
+                            <ul class="sub">
+                              <li><a  href="/timesheet/index/timesheetaprobaciongerente">Aprobación</a></li>
+                                <li><a  href="/timesheet/index/calendar">Rendición</a></li>
+                                <li><a  href="/timesheet/index/timesheethistorico">Historico</a></li>
                             </ul>
                         </li>
                   <?php }?>
 
 
-  
+<?php if ($is_gerente_general == 'GERENTE-AREA'  )  { 
+
+                      ?>
+
+<li class="sub-menu">
+                            <a href="##" >
+                                <i class="fa fa-suitcase"></i>
+                              <span>Hoja de Tiempo Gerente Area</span>
+                            </a>
+                            <ul class="sub">
+                              <li><a  href="/timesheet/index/aprobaciongerentearea">Aprobación</a></li>
+                                <li><a  href="/timesheet/index/calendar">Rendición</a></li>
+                                <li><a  href="/timesheet/index/historicogerentearea">Historico</a></li>
+                            </ul>
+                        </li>
+                  <?php }?>
+
+
+
+   <li>
+                            <a href="/timesheet/index/calendar">
+                                <i class="fa fa-money"></i>
+                                <span>Hoja de Tiempo Personal 2</span>
+                            </a>
+                        </li>
 
                     <?php 
                     if ($is_gerente == 'S') { ?>

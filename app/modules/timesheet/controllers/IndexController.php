@@ -1600,14 +1600,15 @@ public function sumatareorealAction(){
             $this->view->semanaid= $semanaid;    
 
             $areaid=$this->sesion->personal->ucatareaid;   
+             $is_gerente_general= $this->sesion->personal->ucatcargo;    
             //$isresponsable=$this->sesion->is_responsable;    
             $isjefe=$this->sesion->is_jefe;    
-            if ($isjefe=='S') 
+            if ($is_gerente_general=='JEFE') 
             {
                 $equipo = new Admin_Model_DbTable_Equipo();
                 //$equipo_aprobacion = $equipo->_getListarNivel4xNivel3($uid,$dni,'4','2',$areaid);
                 $equipo_aprobacion = $equipo->_getListarEquipoArea($areaid);
-
+                //print_r($equipo_aprobacion);
                 $this->view->equipos_horas_aprobar= $equipo_aprobacion;    
             }
 
@@ -1658,7 +1659,6 @@ public function sumatareorealAction(){
         }
     }
 
-    
     public function timesheetaprobaciongerenteAction(){
         try {
            // $this->_helper->layout()->disableLayout();       
@@ -1678,6 +1678,7 @@ public function sumatareorealAction(){
                 $equipo_aprobacion = $equipo->_getListarEquipoxProyectoxGerente($uid,$dni);
 
                 $this->view->equipos_horas_aprobar= $equipo_aprobacion;    
+               //print_r($equipo_aprobacion);
             }
         }
         catch (Exception $e) {
@@ -2000,6 +2001,7 @@ public function guardarcomentariogerenteAction(){
             $uid_validacion=$this->_getParam('uid_validacion');
             $dni_validacion=$this->_getParam('dni_validacion');
             
+            
             $time = time();
             $datetime=date("d-m-Y (H:i:s)", $time);
             $fecha_validacion=$datetime;
@@ -2099,6 +2101,31 @@ public function guardarcomentariogerenteAction(){
             $wheres=array('dni'=>$dni,'uid'=>$uid,'semanaid'=>$semana);
             $tareosemana=$sumahorassemana->_getOne($wheres);
             //print_r($tareosemana);
+            
+            if ($this->sesion->personal->ucatcargo== 'GERRENTE-PROY' )
+            {   
+                if ($tareosemana)
+                {   
+                    $datos_actualizar_sumahoras2['estado']='GP';
+                    $str_actualizar_sumahoras2="semanaid='$semana' and uid='$uid' and dni='$dni'";
+                    $update=$sumahorassemana -> _update($datos_actualizar_sumahoras2,$str_actualizar_sumahoras2);
+                  
+                }   
+            }
+
+            if ($this->sesion->personal->ucatcargo== 'JEFE' )
+            {   
+                if ($tareosemana)
+                {   
+                    $datos_actualizar_sumahoras1['estado']='J';
+                    $str_actualizar_sumahoras1="semanaid='$semana' and uid='$uid' and dni='$dni'";
+                    $update=$sumahorassemana -> _update($datos_actualizar_sumahoras1,$str_actualizar_sumahoras1);
+                  
+                }   
+            }
+            
+            if ($this->sesion->personal->ucatcargo== 'EQUIPO' OR $this->sesion->personal->ucatcargo= 'RESP-EQUIPO-PROY')
+            {
             if ($tareosemana)
             {
                 $datos_actualizar_sumahoras['estado']='P';
@@ -2106,6 +2133,7 @@ public function guardarcomentariogerenteAction(){
                 ";
                 $update=$sumahorassemana -> _update($datos_actualizar_sumahoras,$str_actualizar_sumahoras);
                   
+                }
             }
 
 
@@ -2143,5 +2171,281 @@ public function guardarcomentariogerenteAction(){
         }
     }
 
+ public function aprobaciongerenteareaAction(){
+        try {
+           // $this->_helper->layout()->disableLayout();       
+            $uid = $this->sesion->uid;
+            $dni = $this->sesion->dni;     
+            
+            $fecha = date("Y-m-d");
+            $semanaid=date('W', strtotime($fecha)); 
+            $this->view->semanaid= $semanaid;    
 
+            $areaid=$this->sesion->personal->ucatareaid;   
+            
+            //$isresponsable=$this->sesion->is_responsable;    
+            $isgerente=$this->sesion->is_gerente;    
+            if ($this->sesion->personal->ucatcargo== 'GERENTE-AREA') 
+            {
+                $equipo = new Admin_Model_DbTable_Equipo();
+                if ($areaid=='20')
+                {
+                    $jefes_area = $equipo->_getListarEquipoxGerenteAreaGeotecnia();    
+                }
+                if ($areaid=='02')
+                {
+                    $jefes_area = $equipo->_getListarEquipoxGerenteAreaIngenieria();    
+                }
+
+             
+                $this->view->equipos_horas_aprobar= $jefes_area;    
+            }
+        }
+        catch (Exception $e) {
+                print "Error: ".$e->getMessage();
+        }
+    }
+
+
+
+   
+
+public function semanagerenteareaAction(){
+        try {
+            $this->_helper->layout()->disableLayout();
+            $uid = $this->_getParam('uid');
+            $dni = $this->_getParam('dni');
+            $cargo = $this->_getParam('cargo');
+            $semana = $this->_getParam('semanaid');
+
+            $uid_validacion = $this->sesion->uid;
+            $dni_validacion = $this->sesion->dni;
+            $this->view->uid_validacion=$uid_validacion;
+            $this->view->dni_validacion=$dni_validacion;
+            $areaid=$this->sesion->personal->ucatareaid;   
+            $this->view->cargo = $areaid;
+            $this->view->uid = $uid;
+            $this->view->dni = $dni;
+            $ano=date("Y");/*ojo cambiar  con el tiempo --revisar */
+            $enero = mktime(1,1,1,1,1,$ano); 
+            //$mos = (11-date('w',1))%7-3; 
+            $mos = (11-date('w',$enero))%7-3;
+
+            $this->view->mos=$mos;
+            $this->view->enero=$enero;
+            $this->view->semana = $semana;
+
+
+            $tareo_persona = new Admin_Model_DbTable_Tareopersona();
+            //$semana=date('W', strtotime($fecha_inicio_mod)); 
+
+
+            $this->view->semana = $semana;
+            $datos_tareopersona=$tareo_persona->_getTareoxPersonaxSemana($uid,$dni,$semana);
+            $datos_tareopersona_NB=$tareo_persona->_getTareoxPersonaxSemanaxNB($uid,$dni,$semana);
+            //$data_tareo = $tareo->_getTareoXUid($where);
+            $this->view->actividades= $datos_tareopersona;
+
+        }    
+         catch (Exception $e) {
+            print "Error: ".$e->getMessage();
+        }
+    }
+
+    public function guardarcomentariogerenteareaAction(){
+        try {
+            $this->_helper->layout()->disableLayout();            
+            $uid = $this->_getParam('uid');
+            $dni = $this->_getParam('dni');
+            $cargo = $this->_getParam('cargo');
+            $semana = $this->_getParam('semanaid');
+            $coment = $this->_getParam('coment');
+            $estado = $this->_getParam('estado');
+            $uid_validacion=$this->_getParam('uid_validacion');
+            $dni_validacion=$this->_getParam('dni_validacion');
+            $fecha_validacion=$this->_getParam('fecha');
+            
+            $time = time();
+            $datetime=date("d-m-Y (H:i:s)", $time);
+            $fecha_actualizar=$datetime;
+
+            $etapa_validacion=$this->_getParam('etapa');
+
+            $data['cargo']=$cargo;
+            $data2['cargo']=$cargo;
+
+            $data['semanaid']=$semana;
+            $data2['semanaid']=$semana;
+            $data['uid']=$uid;
+            $data['dni']=$dni;
+            $data2['uid']=$uid;
+            $data2['dni']=$dni;
+            $data['uid_validacion']=$uid_validacion;
+            $data['dni_validacion']=$dni_validacion;
+            $data['comentario']=$coment;
+            $data['estado_usuario']=$estado;
+            $data['fecha_validacion']=$fecha_actualizar;
+            $data['etapa']=$etapa_validacion;
+
+            $where['uid']=$uid;
+            $where['dni']=$dni;
+            //$where['uid_validacion']=$uid_validacion;
+            //$where['dni_validacion']=$dni_validacion;
+            $where['cargo']=$cargo;
+            $where['semanaid']=$semana;
+
+//            print_r($data);
+
+            $vercoment= new Admin_Model_DbTable_Usuariovalidacion();
+            if($vcoment=$vercoment->_getOne($where))
+            {
+                echo "existe";
+                $pk = array('dni' => $dni  ,'uid' => $uid,'cargo' => $cargo ,'semanaid' => $semana, );
+                
+                $count=$vercoment->_getUsuarioxValidacion($semana,$uid,$dni);
+
+                $data2['comentario']=$coment;
+                $data2['estado_usuario']=$estado;
+                $data2['fecha_validacion']=$fecha_actualizar;
+                $data2['etapa']=$etapa_validacion;
+                $data2['orden']=count($count)+1;
+                $data2['estado']="A";
+                
+                $data2['uid_validacion']=$uid_validacion;
+                $data2['dni_validacion']=$dni_validacion;
+                $usercoment=$vercoment->_save($data2);
+                if ($usercoment){
+
+                $pk1 = array('dni' => $dni  ,'uid' => $uid,'cargo' => $cargo ,'semanaid' => $semana, 'orden' => count($count));
+                $data3['estado']="C";
+
+                print_r($pk1);
+            //    $coment=new Admin_Model_DbTable_Usuariovalidacion();
+                //$usecoment=$coment->_updateX($data2,$pk);
+                
+                $usecoment=$vercoment->_updateXUsuario($data3,$pk1);}
+                //echo "update";
+                $sumahorassemana = new Admin_Model_DbTable_Sumahorasemana();
+                if ( $estado=='R'){
+                  $datos_actualizar_sumahoras['estado']='O';   
+                        $tareopersona = new Admin_Model_DbTable_Tareopersona();
+                        $datos_actualizar['estado']='A';
+                        $str_actualizar="semanaid='$semana' and uid='$uid' and dni='$dni' and   estado='C' ";
+                        $update_tareopersona=$tareopersona -> _update($datos_actualizar,$str_actualizar);
+                }
+                if ( $estado=='B'){
+                    $datos_actualizar_sumahoras['estado']='1';    
+                }
+                
+                $str_actualizar_sumahoras="semanaid='$semana' and uid='$uid' and dni='$dni' 
+                ";
+                $update=$sumahorassemana -> _update($datos_actualizar_sumahoras,$str_actualizar_sumahoras);
+                }
+
+
+
+            else
+            {echo "no existe";
+                $coment=new Admin_Model_DbTable_Usuariovalidacion();
+              $usercoment=$coment->_save($data);
+                //echo "save";
+                $sumahorassemana = new Admin_Model_DbTable_Sumahorasemana();
+               if ( $estado=='R'){
+                    $datos_actualizar_sumahoras['estado']='O';   
+                        $tareopersona = new Admin_Model_DbTable_Tareopersona();
+                        $datos_actualizar['estado']='A';
+                        $str_actualizar="semanaid='$semanaid' and uid='$uid' and dni='$dni' and   estado='C' ";
+                        $update_tareopersona=$tareopersona -> _update($datos_actualizar,$str_actualizar);
+                }
+                if ( $estado=='B'){
+                    $datos_actualizar_sumahoras['estado']='1';    
+                }
+                $str_actualizar_sumahoras="semanaid='$semana' and uid='$uid' and dni='$dni' 
+                ";
+                $update=$sumahorassemana -> _update($datos_actualizar_sumahoras,$str_actualizar_sumahoras);
+            }
+
+            
+        }
+        catch (Exception $e) {
+                print "Error: ".$e->getMessage();
+        }
+    }
+
+    public function aprobaciongerenteoperacionesAction(){
+        try {
+           // $this->_helper->layout()->disableLayout();       
+            $uid = $this->sesion->uid;
+            $dni = $this->sesion->dni;     
+            
+            $fecha = date("Y-m-d");
+            $semanaid=date('W', strtotime($fecha)); 
+            $this->view->semanaid= $semanaid;    
+
+            $areaid=$this->sesion->personal->ucatareaid;   
+            
+            //$isresponsable=$this->sesion->is_responsable;    
+            $isgerente=$this->sesion->is_gerente;    
+            if ($this->sesion->personal->ucatcargo== 'GERENTE') 
+            {
+                $equipo = new Admin_Model_DbTable_Equipo();
+                
+                if ($areaid=='02')
+                {
+                    $jefes_area = $equipo->_getListarEquipoxGerenteGeneralIngenieria();    
+                }
+
+             
+                $this->view->equipos_horas_aprobar= $jefes_area;    
+            }
+        }
+        catch (Exception $e) {
+                print "Error: ".$e->getMessage();
+        }
+    }
+
+
+
+
+public function semanagerenteoperacionesAction(){
+        try {
+            $this->_helper->layout()->disableLayout();
+            $uid = $this->_getParam('uid');
+            $dni = $this->_getParam('dni');
+            $cargo = $this->_getParam('cargo');
+            $semana = $this->_getParam('semanaid');
+
+            $uid_validacion = $this->sesion->uid;
+            $dni_validacion = $this->sesion->dni;
+            $this->view->uid_validacion=$uid_validacion;
+            $this->view->dni_validacion=$dni_validacion;
+            $areaid=$this->sesion->personal->ucatareaid;   
+            $this->view->cargo = $areaid;
+            $this->view->uid = $uid;
+            $this->view->dni = $dni;
+            $ano=date("Y");/*ojo cambiar  con el tiempo --revisar */
+            $enero = mktime(1,1,1,1,1,$ano); 
+            //$mos = (11-date('w',1))%7-3; 
+            $mos = (11-date('w',$enero))%7-3;
+
+            $this->view->mos=$mos;
+            $this->view->enero=$enero;
+            $this->view->semana = $semana;
+
+
+            $tareo_persona = new Admin_Model_DbTable_Tareopersona();
+            //$semana=date('W', strtotime($fecha_inicio_mod)); 
+
+
+            $this->view->semana = $semana;
+            $datos_tareopersona=$tareo_persona->_getTareoxPersonaxSemana($uid,$dni,$semana);
+            $datos_tareopersona_NB=$tareo_persona->_getTareoxPersonaxSemanaxNB($uid,$dni,$semana);
+            //$data_tareo = $tareo->_getTareoXUid($where);
+            $this->view->actividades= $datos_tareopersona;
+
+        }    
+         catch (Exception $e) {
+            print "Error: ".$e->getMessage();
+        }
+    }
 }
