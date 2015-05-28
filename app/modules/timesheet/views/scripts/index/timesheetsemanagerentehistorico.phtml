@@ -45,9 +45,9 @@
             $actividades = $this->actividades;
             $j=1;
             ?>
-            <label class="control-label col-md-2"> Ingrese Comentario: </label>
+           <!-- <label class="control-label col-md-2"> Ingrese Comentario: </label>
             <div class="col-md-4">
-              <textarea name="comentario" id="comentario">Ingrese un comentario aqui...</textarea>
+              <textarea name="comentario" id="comentario">Ingrese un comentario aqui...</textarea>-->
             <!-- Ingrese Comentario: <input type="text" class="form-control" id="comentarioxx" name="lcomentario"><br> -->
             </div>
             <?php
@@ -65,48 +65,14 @@
             //print_r($vcoment);
            
             ?>
-            <?php
-            if($vcoment=$vercoment->_getOnexUsuarioxJefe($where))
-            {              
-              if($vcoment['estado_usuario']=='B')
-              { ?>
-                <div class="col-md-3">
-                               
-                  <button id="observar" class="btn btn-warning" type="button">
-                    Observar Hoja 
-                  </button>   
-                </div>
-            <?php }
-              if($vcoment['estado_usuario']=='R') {
-                ?>
-                <div class="col-md-3">
-                  <button id="aprobar" class="btn btn-success" type="button">
-                    Aprobar Hoja 
-                  </button>  
-                  <button id="observar" class="btn btn-warning obs " type="button">
-                  Observar Hoja
-                </button>              
-                </div>
-                <?php
-              }
-            }
-            else
-            { ?>
-                <div class="col-md-3">
-                <button id="aprobar" class="btn btn-success apro" type="button">
-                  Aprobar Hoja
-                </button>
-                <button id="observar" class="btn btn-warning obs " type="button">
-                  Observar Hoja
-                </button>  
-                </div>
-            <?php }
-            ?>    
+            
            
 
             <?php
             foreach ($actividades as $data_tareo) 
-            { ?>
+            { 
+              //print_r($data_tareo)
+              ?>
             <tr class="gradeX" id ="tr_tareo_<?php echo $j?>">
               <td> 
                   <?php echo $j?>
@@ -119,9 +85,12 @@
               <td>
                 <?php if ($data_tareo['tipo_actividad']=='G') {?>
                   <a id ="nofacturable_cambio_<?php echo $j?>" class="btn btn-danger btn-xs ">No Facturable</a>
-                <?php }else{ ?>
-                <a id ="facturable_tareo_<?php echo $j?>" class="btn btn-success btn-xs">Facturable</a>
-                <a id ="nofacturable_tareo_<?php echo $j?>" class="btn btn-danger btn-xs" style="display:none">No Facturable</a>
+                <?php }
+
+                if ($data_tareo['tipo_actividad']=='P') { ?>
+                <a id ="facturable_tareo_<?php echo $j?>" class="btn btn-success btn-xs">Facturable</a> <?php }?>
+                <?php if ($data_tareo['tipo_actividad']=='A') { ?>
+                <a id ="nofacturable_tareo_<?php echo $j?>" class="btn btn-info btn-xs" >Anddes</a>
 
                 <?php }?>
               </td>            

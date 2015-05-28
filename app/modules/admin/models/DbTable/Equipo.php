@@ -367,7 +367,7 @@ public function _getListarEquipoxProyectoxGerente($uid,$dni)
         try{
             $sql=$this->_db->query("
                 
-               select * from usuario_categoria where cargo='JEFE' and areaid in('10','02')
+               select * from usuario_categoria where cargo='GERENTE-AREA' and areaid in('10','02','20') or uid in ('romy.valdivia','jorge.alvarez','daniel.ttito')
 
                     ");
             $row=$sql->fetchAll();
@@ -378,6 +378,27 @@ public function _getListarEquipoxProyectoxGerente($uid,$dni)
             print $ex->getMessage();
         }
     }
+
+
+    public function _getListarEquipoxGerenteGeneral()
+     {
+        try{
+            $sql=$this->_db->query("
+                
+               select * from usuario_categoria where cargo='GERENTE' 
+
+                    ");
+            $row=$sql->fetchAll();
+            return $row;           
+            }  
+            
+           catch (Exception $ex){
+            print $ex->getMessage();
+        }
+    }
+
+
+    
     
     
 }

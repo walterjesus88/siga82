@@ -1,6 +1,6 @@
- <section class="panel"><header class="panel-heading" style="padding-bottom : 10px">
+<section class="panel"><header class="panel-heading" style="padding-bottom : 10px">
 
-                         <div > <center >  Lista de pendiente de aprobación de Hojas de Tiempo Jefe Area</center></div>
+                         <div > <center>  Lista Historica de aprobación de Hojas de Tiempo de los Gerentes </center></div>
                          </header></section>
 <div class="inbox-body">
                     <!--     <div class="panel-body">
@@ -67,14 +67,12 @@
 
                          </div>-->
                       <!--    </div>-->
-
                          <div id="uno">
-                         
                           <table class="table table-inbox table-hover" id="myTable" >
                             <thead>
                               <tr>  
-                                <th >#</th>
-                                <th >Hoja deTiempo</th>
+                              <th >#</th>
+                                <th >Hoja Tiempo</th>
                                 <th >Estado</th>
                                 <th >Nombre</th>
                                 <th >Usuario</th>
@@ -88,15 +86,16 @@
                             <tbody>
                              <?php
                                   $c=1;                     
-                                  foreach ($this->equipos_horas_aprobar as $equipo){  
 
+                                  foreach ($this->equipos_horas_aprobar as $equipo){  
+                                  
                                   $sumahorassemana = new Admin_Model_DbTable_Sumahorasemana();
                                   $wheres=array('dni'=>$equipo['dni'],'uid'=>$equipo['uid'],'semanaid'=>$this->semanaid);
                                   $valorsuma=$sumahorassemana->_getOne($wheres);
                                   
                                   if ($valorsuma) {
 
-                                    if (trim($valorsuma['estado'])=='P') {
+                                    if (trim($valorsuma['estado'])=='2') {
                                     ?>
                                   
                                   
@@ -108,18 +107,11 @@
                                                   ver detalle
                                               </button>                                      
                                           </td>
-                                          <td class="view-message "><?php 
-                                          if ($valorsuma['estado']=='P'){
-                                            echo "Para Aprobación";
-                                          }
-                                          //echo $valorsuma['estado']?></td>
-                                          <td class="view-message "><?php 
-                                          //echo $valorsuma['dni']
-                                            
-                                            $equipo = explode(".", $valorsuma['uid']);
-      
-                                            echo (ucwords($equipo[0])); echo " ";
-                                            echo (ucwords($equipo[1])); 
+                                          <td class="view-message "><?php if (trim($valorsuma['estado'])=='2') { echo "Aprobado";} ?></td>
+                                          <td class="view-message "><?php //echo $valorsuma['dni']
+                                              $nombre = explode(".", $valorsuma['uid']);
+                                              echo (ucwords($nombre[0])); echo " ";
+                                              echo (ucwords($nombre[1])); 
 
                                           ?></td>
                                           <td class="view-message "><?php echo $valorsuma['uid']?></td>                            
@@ -140,7 +132,7 @@
                                             // alert(uid);
                                             // alert(dni);
                                             // alert(semanaid);
-                                            var url = "/timesheet/index/timesheetsemana/uid/"+ uid+"/dni/"+dni+"/semanaid/"+semanaid; //alert(url);                                             //alert(url);
+                                            var url = "/timesheet/index/timesheetsemanagerentehistorico/uid/"+ uid+"/dni/"+dni+"/semanaid/"+semanaid; //alert(url);                                             //alert(url);
                                             $("#modaltimes").load(url);                                         
                                             //$("#modalsemana").modal('show');
                                             //$(".modal-body").html('<center><img src="/img/spinner.gif" /> Cargando...</center>');
@@ -169,7 +161,7 @@
                               <div class="modal-content" style="width: 1250px; top: 100%; margin-left: -250px; ">
                                 <div class="modal-header">
                                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                                    <h4 class="modal-title">Aprobar Hoja de Tiempo</h4>
+                                    <h4 class="modal-title">Detalle de la Hoja de Tiempo</h4>
                                 </div>
                                 <div class="modal-body">
                                     
@@ -177,10 +169,9 @@
                                 </div>
                                 <div class="modal-footer">
                                       <button  data-dismiss="modal" class="btn btn-default" type="button">Cerrar</button>
-                        
-                                    
+                                    <!--  <button id="savecoment"class="btn btn-warning" type="button"> Confirm</button>-->
                                 </div>
-                              </div>|
+                              </div>
                             </div>
                           </div>
 
@@ -223,25 +214,9 @@ $(document).ready(function(){
 });
 </script>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 <!-- 
-
 /$("#ver").remove();
   //$("#user").change(function(){
-      
-
     //var user = $("#user").val(); 
     //alert(user);
     //$("#uno").hide();
