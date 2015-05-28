@@ -15,7 +15,7 @@
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header" style="padding: 10px; ">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <button type="button" class="close refresh" data-dismiss="modal" aria-hidden="true">&times;</button>
                     <h4 class="modal-title">Agregar Actividades</h4>
                 </div>
                 <div class="modal-body">
@@ -55,7 +55,7 @@
                     </div>
                 </div>
                 <div class="modal-footer " style="padding: 7px">
-                    <button data-dismiss="modal" class="btn btn-default" type="button">Cerrar</button>
+                    <button data-dismiss="modal" class="btn btn-default refresh" type="button">Cerrar</button>
                 </div>
             </div>
         </div>
@@ -69,6 +69,11 @@
         $("#disciplina").html('');
         $("#actividades_padres").html('');
         $("#tareas").html('');
+    });
+
+    $(".refresh").click(function(){
+        var numero = "<?php echo $this->numero?>";
+        $("#ingreso").load("/expense/index/ingreso/numero/"+numero);
     });
 
     $(".cliente").click(function(){
