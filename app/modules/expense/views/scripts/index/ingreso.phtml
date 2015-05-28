@@ -288,7 +288,7 @@ $data_rendicion = $this->data_rendicion;
                                             <span><?php echo $data_actividades['fecha_factura']; ?></span>
                                             <?php
                                         } else { ?>
-                                            <center><input name="fecha[]" type="text" class="form-control datefactura" style="width : 70px" value="<?php echo ($data_actividades['fecha_factura'])? $data_actividades['fecha_factura'] : ''; ?>"></center>
+                                            <center><input name="fecha[]" id = "fecha<?php echo $data_actividades['gasto_persona_id']?>" type="text" class="form-control datefactura" style="width : 70px" value="<?php echo ($data_actividades['fecha_factura'])? $data_actividades['fecha_factura'] : ''; ?>"></center>
                                         <?php
                                         } ?>
                                     </td>
@@ -297,7 +297,7 @@ $data_rendicion = $this->data_rendicion;
                                             <span><?php echo $data_actividades['moneda']; ?></span>
                                             <?php
                                         } else { ?>
-                                            <select name="moneda[]" class="form-control">
+                                            <select name="moneda[]" id = "moneda<?php echo $data_actividades['gasto_persona_id']?>" class="form-control">
                                                 <option value="">Seleccione</option>
                                                 <option value="Soles" <?php echo ($data_actividades['moneda']=='Soles')? 'selected':'';?>>Soles</option>
                                                 <option value="Dolar" <?php echo ($data_actividades['moneda']=='Dolar')? 'selected':'';?>>Dolar</option>
@@ -501,6 +501,16 @@ $data_rendicion = $this->data_rendicion;
                                         var gasto_persona_id = "<?php echo $data_actividades['gasto_persona_id'] ?>";
                                         if (gasto_padre) {
                                             $("#gasto_hijo<?php echo $data_actividades['gasto_persona_id'] ?>").load("/expense/index/gastohijo/gastoid/"+gasto_padre+"/gasto_persona_id/"+gasto_persona_id);
+                                        };
+                                    });
+
+                                    $("#moneda<?php echo $data_actividades['gasto_persona_id'] ?>").change(function(){
+                                        var moneda = $(this).val();
+                                        if (moneda !='') {
+                                            var fecha = $("#fecha<?php echo $data_actividades['gasto_persona_id'] ?>").val();
+                                            if (fecha == '') {
+                                                alert("Ingrese una fecha de Factura.");
+                                            };
                                         };
                                     });
                                 </script>
