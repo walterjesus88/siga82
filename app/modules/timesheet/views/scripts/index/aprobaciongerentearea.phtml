@@ -1,6 +1,6 @@
 <section class="panel"><header class="panel-heading" style="padding-bottom : 10px">
 
-                         <div > <center>  Lista de pendiente de aprobación de Hojas de Tiempo</center></div>
+                         <div > <center>  Lista de pendiente de aprobación de Hojas de Tiempo Gerente Area</center></div>
                          </header></section>
 <div class="inbox-body">
                     <!--     <div class="panel-body">
@@ -87,14 +87,15 @@
                              <?php
                                   $c=1;                     
                                   foreach ($this->equipos_horas_aprobar as $equipo){  
-
+                                  //  print_r($equipo);
                                   $sumahorassemana = new Admin_Model_DbTable_Sumahorasemana();
                                   $wheres=array('dni'=>$equipo['dni'],'uid'=>$equipo['uid'],'semanaid'=>$this->semanaid);
                                   $valorsuma=$sumahorassemana->_getOne($wheres);
-
+                                
                                   if ($valorsuma) {
+  $comparar=trim($valorsuma['estado']);
 
-                                    if (trim($valorsuma['estado'])=='1') {
+                                    if ($comparar=='J') {
                                     ?>
                                   
                                   
@@ -106,7 +107,7 @@
                                                   ver detalle
                                               </button>                                      
                                           </td>
-                                          <td class="view-message "><?php if($valorsuma['estado']=='1') {echo "Para Aprobación";}?></td>
+                                          <td class="view-message "><?php if(trim($valorsuma['estado'])=='J') {echo "Para Aprobación";}?></td>
                                           <td class="view-message "><?php //echo $valorsuma['dni']
                                             $equipo = explode(".", $valorsuma['uid']);
                                             echo (ucwords($equipo[0])); echo " ";
@@ -130,7 +131,7 @@
                                             // alert(uid);
                                             // alert(dni);
                                             // alert(semanaid);
-                                            var url = "/timesheet/index/timesheetsemanagerente/uid/"+ uid+"/dni/"+dni+"/semanaid/"+semanaid; //alert(url);                                             //alert(url);
+                                            var url = "/timesheet/index/semanagerentearea/uid/"+ uid+"/dni/"+dni+"/semanaid/"+semanaid; //alert(url);                                             //alert(url);
                                             $("#modaltimes").load(url);                                         
                                             //$("#modalsemana").modal('show');
                                             //$(".modal-body").html('<center><img src="/img/spinner.gif" /> Cargando...</center>');
@@ -140,7 +141,7 @@
 
 
 <?php $c++;
-                                    }  }
+                                    }  } 
                                    }
 
 
@@ -159,7 +160,7 @@
                               <div class="modal-content" style="width: 1250px; top: 100%; margin-left: -250px; ">
                                 <div class="modal-header">
                                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                                    <h4 class="modal-title">Aprobar Hoja de Tiempo</h4>
+                                    <h4 class="modal-title">Aprobar Hoja de Tiempo de los Jefes de Area</h4>
                                 </div>
                                 <div class="modal-body">
                                     

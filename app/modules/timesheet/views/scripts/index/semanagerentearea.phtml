@@ -1,0 +1,453 @@
+<script src="/js/jquery-ui-1.9.2.custom.min.js"></script>
+<script src="/js/jquery.js"></script>
+
+
+<div class="row">
+  <div class="col-sm-12">
+    <section class="panel">
+      <div class="panel-body">
+        <div class="adv-table">
+          <table  class="display table table-bordered table-striped">
+          <thead>
+            <tr >
+            <th style="width: 5%;">  </th>
+            <th style="width: 70%;" >Proyecto / Actividad: Tarea</th>
+            <th style="width: 7%;">Facturable</th>
+            <th style="width: 7%;">Tarea No Facturable</th>
+            <?php 
+              //$fecha = $this->fecha;
+              //echo $fecha;
+              //$fecha_mostrar = $this->fecha_mostrar;
+              $days_name = array("lun","mar","mié","jue","vie","sáb","dom");
+              $inicios = strtotime(($this->semana-1) . ' weeks '.$this->mos.' days', $this->enero); 
+              for ($i=0; $i < 7; $i++) { ?>
+              <th style="width: 100px;"><center>
+                <?php print $days_name[$i] ?> <br><?php 
+                  //list($dia, $mes, $anio) = split('[/.-]', $fecha);
+                  //print $dia
+                $dias[] = date('Y-m-d', strtotime("+ $i day", $inicios));
+                $dia[] = date('d', strtotime("+ $i day", $inicios));
+                echo $dia[$i];
+                ?></center></th>
+                <?php
+                  // $newDate = date("Y-m-d", strtotime($fecha));
+                  // $nuevafecha = strtotime ( '+1 day' , strtotime ( $newDate ) ) ;
+                  // $fecha = date ( 'd-m-Y' , $nuevafecha );
+                }?>
+            </tr>
+          </thead>
+          <tbody>
+          <?php 
+            $fecha_= $dias[0];
+
+            $fechaactual = $this->fecha;
+            $fechaactual = date("Y-m-d", strtotime($fechaactual));
+            $actividades = $this->actividades;
+            $j=1;
+            ?>
+            <label class="control-label col-md-2"> Ingrese Comentario: </label>
+            <div class="col-md-4">
+              <textarea name="comentario" id="comentario">Ingrese un comentario aqui...</textarea>
+            <!-- Ingrese Comentario: <input type="text" class="form-control" id="comentarioxx" name="lcomentario"><br> -->
+            </div>
+            <?php
+            $where['uid']=$this->uid;
+            $where['dni']=$this->dni;
+            $where['cargo']=$this->cargo;
+            $where['semanaid']=$this->semana;
+            $where['uid_validacion']=$this->uid_validacion;
+            $where['dni_validacion']=$this->dni_validacion;
+            //echo "usauio a validar:"; echo $this->uid;
+            //echo "validador: "; echo $this->uid_validacion;
+            $this->uid_validacion;
+            $vercoment= new Admin_Model_DbTable_Usuariovalidacion();
+            $vcoment=$vercoment->_getOnexUsuarioxJefe($where); 
+            //print_r($vcoment);
+           
+            ?>
+            <?php
+            if($vcoment=$vercoment->_getOnexUsuarioxJefe($where))
+            {              
+              if($vcoment['estado_usuario']=='B')
+              { ?>
+                <div class="col-md-3">
+                               
+                  <button id="observar" class="btn btn-warning" type="button">
+                    Observar Hoja 
+                  </button>   
+                </div>
+            <?php }
+              if($vcoment['estado_usuario']=='R') {
+                ?>
+                <div class="col-md-3">
+                  <button id="aprobar" class="btn btn-success" type="button">
+                    Aprobar Hoja 
+                  </button>  
+                  <button id="observar" class="btn btn-warning obs " type="button">
+                  Observar Hoja
+                </button>              
+                </div>
+                <?php
+              }
+            }
+            else
+            { ?>
+                <div class="col-md-3">
+                <button id="aprobar" class="btn btn-success apro" type="button">
+                  Aprobar Hoja
+                </button>
+                <button id="observar" class="btn btn-warning obs " type="button">
+                  Observar Hoja
+                </button>  
+                </div>
+            <?php }
+            ?>    
+           
+
+            <?php
+            foreach ($actividades as $data_tareo) 
+            { ?>
+            <tr class="gradeX" id ="tr_tareo_<?php echo $j?>">
+              <td> 
+                  <?php echo $j?>
+              </td>
+             
+              <td>
+                <?php echo $data_tareo['proyectoid']; echo " "; echo $data_tareo['nombre_proyecto'];  echo " / "; echo $data_tareo['nombre'] ?>
+              </td>            
+
+              <td>
+                <?php if ($data_tareo['tipo_actividad']=='G') {?>
+                  <a id ="nofacturable_cambio_<?php echo $j?>" class="btn btn-danger btn-xs ">No Facturable</a>
+                <?php }else{ ?>
+                <a id ="facturable_tareo_<?php echo $j?>" class="btn btn-success btn-xs">Facturable</a>
+                <a id ="nofacturable_tareo_<?php echo $j?>" class="btn btn-danger btn-xs" style="display:none">No Facturable</a>
+
+                <?php }?>
+              </td>            
+
+              <td> 
+                <?php if ($data_tareo['tipo_actividad']=='G') {
+                  $dbactividadgeneral= new Admin_Model_DbTable_Actividadgeneral();
+                  $datosactgeneral = $dbactividadgeneral->_getActividadgeneralxId($data_tareo['actividad_generalid']);
+                 // print_r($datosactgeneral[0]['nombre']) 
+                  if ($data_tareo['actividad_generalid']) { ?>
+                           <select disabled id="select_generalg_<?php echo $j?>" class="form-control input-sm m-bot15 col-lg-10">                        
+                            <option value="<?php echo $data_tareo['actividad_generalid']?>"><?php print_r($datosactgeneral[0]['nombre']) ?></option>
+                                <?php 
+                                    $areaid='90';
+                                    $actividad_generales = new Admin_Model_DbTable_Actividadgeneral();
+                                    $data_generales = $actividad_generales->_getActividadgeneralxArea($areaid);
+                                    foreach ($data_generales as $data_tareas) {?>
+                                    <option value="<?php echo $data_tareas['actividad_generalid']?>"><?php  echo strtoupper($data_tareas['nombre'])?></option>
+                                <?php }?>
+                        </select>
+                  <?php
+                  } else{
+                  ?>
+                         <select disabled id="select_generalg_<?php echo $j?>" class="form-control input-sm m-bot15 col-lg-10">
+                        
+                            <option value="">Tarea No Facturable</option>
+                                <?php 
+                                    $areaid='90';
+                                    $actividad_generales = new Admin_Model_DbTable_Actividadgeneral();
+                                    $data_generales = $actividad_generales->_getActividadgeneralxArea($areaid);
+                                    foreach ($data_generales as $data_tareas) {?>
+                                    <option value="<?php echo $data_tareas['actividad_generalid']?>"><?php  echo strtoupper($data_tareas['nombre'])?></option>
+                                <?php }?>
+                        </select>
+                        <?php }?>
+
+                  <?php }
+                  if ($data_tareo['tipo_actividad']=='P') {  ?>
+                  <div id="tarea_proyecto_<?php echo $j?>" >
+                   <?php echo "< none >" ?>
+                   </div>
+                  <div id="tarea_general_<?php echo $j?>" style="display:none">
+
+                  <select disabled id="select_generalp_<?php echo $j?>" class="form-control input-sm m-bot15 col-lg-10">
+                        
+                            <option value="">Seleccione Tarea</option>
+                                <?php 
+                                    $areaid='90';
+                                    $actividad_generales = new Admin_Model_DbTable_Actividadgeneral();
+                                    $data_generales = $actividad_generales->_getActividadgeneralxArea($areaid);
+                                    foreach ($data_generales as $data_tareas) {?>
+                                    <option value="<?php echo $data_tareas['actividad_generalid']?>"><?php  echo strtoupper($data_tareas['nombre'])?></option>
+                                <?php }?>
+
+
+                        </select>
+
+                  <?php }?>
+              </td>
+
+              <?php  
+              $fecha_x = $fecha_;
+              $fecha = $fecha_;            
+
+                for ($i=0; $i < 7; $i++) {
+                $proyectoid=$data_tareo['proyectoid'];
+                //  echo $proyectoid;echo "<br>";
+                $codigo=$data_tareo['codigo_prop_proy'];
+                // echo $codigo;echo "<br>";
+                $revision=$data_tareo['revision'];
+                //   echo $revision;echo "<br>";
+                $actividadid=$data_tareo['actividadid'];
+                //  echo $actividadid;echo "<br>";
+                $actividad_padre=$data_tareo['actividad_padre'];
+                //   echo $actividad_padre;echo "<br>";
+                $semanaid=$data_tareo['semanaid'];
+                $cadena=$data_tareo['etapa'];
+                $resultado = str_replace("INICIO", "EJECUCION", $cadena);
+                //  echo $semanaid;echo "<br>";
+                $fecha_tarea=$fecha;
+                // echo $fecha_tarea;echo "<br>";
+                $fecha_planificacion=$fecha;
+                // echo $fecha_planificacion;echo "<br>";
+                $uid=$this->uid;
+                // echo $uid;echo "<br>";
+                $dni=$this->dni;
+                $equipo = new Admin_Model_DbTable_Equipo();
+                $estado_usuario='A';
+                $data_equipo = $equipo->_getDatosxProyectoxUidXEstadoxCliente($uid,$dni,$estado_usuario,$data_tareo['codigo_prop_proy'],$data_tareo['proyectoid']);
+                $categoriaid=$data_equipo[0]['categoriaid'];
+                $areaid=$data_equipo[0]['areaid'];
+                $cargo=$data_equipo[0]['cargo'];
+             
+
+                //  echo $dni;echo "<br>";
+               // $cargo=$this->cargo;
+                // echo $cargo; echo "<br>";
+                $tareopersona = new Admin_Model_DbTable_Tareopersona();
+                $buscar_tarea=$tareopersona->_getTareoxProyectoxTareaxDia($proyectoid,$codigo,$revision,$actividadid,$actividad_padre,$semanaid,$fecha_tarea,$fecha_planificacion,$uid,$dni,$cargo,$resultado);           
+                ?>
+              <td>
+                <center>
+                
+                <input  disabled class="form-control" id="valor<?php echo $i?><?php echo $j?>" style="text-align: center;height: 26px; width: 40px; padding-right: 4px; padding-left: 4px;" maxlength="2" values="valor<?php echo $i?><?php echo $j?>" value="<?php if ($buscar_tarea) {
+                    if($buscar_tarea[0]['h_real']=='0') { echo "";} else { print_r($buscar_tarea[0]['h_real']);}
+                    }?>" >
+
+                </center>
+
+                 <script type="text/javascript">
+                  $(document).ready(function(){
+                    $("#valor<?php echo $i ?><?php echo $j?>").keyup(function(e){ 
+                        $("#valor<?php echo $i ?><?php echo $j?>").focus();
+                        var hora_real=$("#valor<?php echo $i?><?php echo $j?>").val(); 
+                        var codigo_prop_proy="<?php echo $data_tareo['codigo_prop_proy'] ?>";
+                        var codigo_actividad="<?php echo $data_tareo['codigo_actividad'] ?>";
+                        var actividadid="<?php echo $data_tareo['actividadid'] ?>";
+                        var revision="<?php echo $data_tareo['revision'] ?>";
+                        var actividad_padre="<?php echo $data_tareo['actividad_padre'] ?>";
+                        var proyectoid="<?php echo $data_tareo['proyectoid'] ?>";
+                        var semanaid="<?php echo $data_tareo['semanaid'] ?>";
+                        var fecha_tarea ="<?php echo $fecha ?>";
+                        var asignado="<?php echo $data_tareo['asignado'] ?>";
+                        var areaid="<?php echo $data_tareo['areaid'] ?>";
+                        var categoriaid ="<?php echo $data_tareo['categoriaid'] ?>";
+                        var dni="<?php echo $data_tareo['dni'] ?>";
+                        var cargo="<?php echo $data_tareo['cargo'] ?>";
+                        var tipo_actividad="<?php echo $data_tareo['tipo_actividad'] ?>";
+                        var etapa="<?php echo $data_tareo['etapa'] ?>";                        
+                        var actividad_generalid="<?php echo $data_tareo['actividad_generalid'] ?>";
+                        var h_propuesta="<?php echo $data_tareo['h_propuesta'] ?>";
+                       //var fecha_calendario = $("#fechasemana").text();
+                        var fecha_calendario = "<?php echo $fecha_x ?>";
+
+                        var uid="<?php echo $this->uid ?>";
+                        var dni_="<?php echo $this->dni ?>";
+         
+                        if (isNaN(hora_real)) {
+                           //entonces (no es numero) devuelvo el valor cadena vacia 
+                           alert('la hora no puede ser una letra');
+                           //e.preventDefault();
+                        }else{ 
+                           //En caso contrario (Si era un número) devuelvo el valor 
+                          var url="/timesheet/index/updatetareoreal/codigo_prop_proy/"+codigo_prop_proy+"/codigo_actividad/"+codigo_actividad+"/actividadid/"+actividadid+"/revision/"+revision+"/actividad_padre/"+actividad_padre+"/proyectoid/"+proyectoid+"/semanaid/"+semanaid+"/fecha_tarea/"+fecha_tarea+"/asignado/"+asignado+"/areaid/"+areaid+"/categoriaid/"+categoriaid+"/dni/"+dni+"/cargo/"+cargo+"/horareal/"+hora_real+"/tipo_actividad/"+tipo_actividad+"/etapa/"+etapa+"/actividad_generalid/"+actividad_generalid+"/fecha_calendario/"+fecha_calendario+"/h_propuesta/"+h_propuesta;   
+
+                          var url2='/timesheet/index/traersumahoras/semanaid/'+semanaid+'/fecha/'+fecha_tarea+'/fechainiciomod/'+fecha_tarea+'/uid/'+uid+'/dni/'+dni_+'/cargo/'+cargo;   
+                          
+                           $.ajax({
+                                    type: "POST",
+                                    url: url,
+                                    data: $(this).serialize(),
+                                    dataType: "html",                                                 
+                                    error: function(){
+                                          alert("error petición ajax load");
+                                    },
+                                    success: function(data){                                                
+                                          $("#carga").empty();
+                                          $("#carga").append(data);
+                                              $.ajax({
+                                                    type: "POST",
+                                                    url: url2,
+                                                    data: $(this).serialize(),
+                                                    dataType: "html",                                                 
+                                                    error: function(){
+                                                      alert("error petición ajax load");
+                                                    },
+                                                    success: function(data){      
+                                                      //console.log('agg');                                              
+                                                      $("#sumahoras<?php echo $i ?>").empty();
+                                                      $("#sumahoras<?php echo $i ?>").append(data);                                     
+                                                      $("#fecha_<?php echo $i?>").hide();                 
+                                                    }
+                                              });
+                                    }
+                            });
+                        }           
+                      });
+                    });
+                </script>
+              </td>
+                <?php 
+                  $newDate = date("Y-m-d", strtotime($fecha));
+                  $nuevafecha = strtotime ( '+1 day' , strtotime ( $newDate ) ) ;
+                  $fecha = date ( 'Y-m-d' , $nuevafecha );?>
+                <?php }
+                ?>
+            </tr>    
+
+               
+
+            <?php $j++;
+             //}
+            }?>
+           </tbody>
+           <div style="display:none" id="comentariousers"></div>
+           <script type="text/javascript">        
+                $(document).ready(function(){
+                  $("#aprobar").on("click",function(){
+                  alert('Aprobando Hoja de Tiempo');
+                  
+                  var coment=$("#comentario").val();
+                  var uid="<?php echo $this->uid ?>";
+                  var dni="<?php echo $this->dni ?>";
+                  var uid_validacion="<?php echo $this->uid_validacion ?>";
+                  var dni_validacion="<?php echo $this->dni_validacion ?>";
+                 var fecha_actual = "<?php echo date('Y-m-d') ?>"
+                  
+                  var semanaid="<?php echo $data_tareo['semanaid'] ?>";
+                  var cargo="<?php echo $this->cargo  ?>";
+                
+                  url="/timesheet/index/guardarcomentariogerentearea/estado/B/uid/"+uid+'/dni/'+dni+'/semanaid/'+semanaid+'/cargo/'+cargo+'/coment/'+coment+'/uid_validacion/'+uid_validacion+'/dni_validacion/'+dni_validacion+'/etapa/2'+'/fecha/'+fecha_actual;
+ 
+                      $.ajax({
+                          type: "POST",
+                          url: url,
+                          data: $(this).serialize(),
+                          dataType: "html",                                                 
+                          error: function(){
+                              alert("error petición ajax load");
+                          },
+                          success: function(data){      
+                              $("#comentariousers").empty();
+                              $("#comentariousers").html(data);
+                              $("#aprobar").hide();
+                              $("#observar").show();
+                             
+                          }
+                      });
+                  });
+                })
+           </script>
+           <script type="text/javascript">
+                $(document).ready(function(){
+                  $("#observar").on("click",function(){
+                  //alert('ku');
+                  var coment=$("#comentario").val();
+                  var uid="<?php echo $this->uid ?>";
+                  var dni="<?php echo $this->dni ?>";
+                  var uid_validacion="<?php echo $this->uid_validacion ?>";
+                  var dni_validacion="<?php echo $this->dni_validacion ?>";
+                  
+                  var semanaid="<?php echo $data_tareo['semanaid'] ?>";
+                  var cargo="<?php echo $data_tareo['cargo'] ?>";
+                 var fecha_actual = "<?php echo date('Y-m-d') ?>"
+
+                  //url="/timesheet/index/guardarcomentario/estado/R/uid/"+uid+'/dni/'+dni+'/semanaid/'+semanaid+'/cargo/'+cargo+'/coment/'+coment+'/uid_validacion/'+uid_validacion+'/dni_validacion/'+dni_validacion;
+                  url="/timesheet/index/guardarcomentariogerentearea/estado/R/uid/"+uid+'/dni/'+dni+'/semanaid/'+semanaid+'/cargo/'+cargo+'/coment/'+coment+'/uid_validacion/'+uid_validacion+'/dni_validacion/'+dni_validacion+'/etapa/2'+'/fecha/'+fecha_actual;
+
+                  //url="/timesheet/index/guardarcomentario/estado/R/uid/"+uid+'/dni/'+dni+'/semanaid/'+semanaid+'/cargo/'+cargo+'/coment/'+coment;
+                  //alert(url);
+                      $.ajax({
+                          type: "POST",
+                          url: url,
+                          data: $(this).serialize(),
+                          dataType: "html",                                                 
+                          error: function(){
+                              alert("error petición ajax load");
+                          },
+                          success: function(data){      
+                              $("#comentariousers").empty();
+                              $("#comentariousers").html(data);
+                              $("#observar").hide();
+                              $("#aprobar").hide();
+                          }
+                      });
+                  });
+                });
+           </script>
+          
+           <?php if ( $this->actividades) {?>
+          <tr >
+            <th style="width: 5%;">  </th>
+            <th style="width: 22%;" > </th>
+            <th style="width: 13%;"> </th>
+            <th style="width: 27%;"> </th>
+            <?php 
+
+              $uid=$this->uid;
+                // echo $uid;echo "<br>";
+              $dni=$this->dni;
+              //$fecha = $this->fecha;
+              //$fecha = date("Y-m-d", strtotime($fecha));
+              for ($i=0; $i < 7; $i++) { 
+                //$dia[] = date('Y-m-d', strtotime("+ $i day", $inicios));
+                //$dia[] = date('Y-m-d', strtotime("+ $i day", $inicios));
+
+                $fecha_c=$dias[$i];              
+
+              ?>
+              <th style="width: 100px;">
+                <center>
+
+                    <div id="fecha_<?php echo $i?>">
+                    <?php  $tareopersona = new Admin_Model_DbTable_Tareopersona();
+                    $sumar=$tareopersona-> _getHorasRealxDia($data_tareo['semanaid'],$fecha_c,$uid,$dni,$data_tareo['cargo']);
+                    print_r($sumar[0]['tareo_persona_horas_reales']); ?>
+                    </div>
+
+                  <!-- <div id="fecha_<?php //echo $i?>"> -->
+                  <?php                
+                  // $wheres=array('dni'=>$dni,'uid'=>$uid,'cargo'=>$data_tareo['cargo'],'semanaid'=>$data_tareo['semanaid'],'fecha_tarea'=>$fecha);
+                  // $sumhora=  new  Admin_Model_DbTable_Sumahora();
+                  // $sh=$sumhora->_getOne($wheres);
+                  // print_r($sh['h_totaldia']);
+                  ?>
+                  <!-- </div> -->
+
+                </center>
+
+                <center><div id="sumahoras<?php echo $i ?>"></div></center>
+
+              </th>
+                <?php
+                  $newDate = date("Y-m-d", strtotime($fecha));
+                  $nuevafecha = strtotime ( '+1 day' , strtotime ( $newDate ) ) ;
+                  $fecha = date ( 'Y-m-d' , $nuevafecha );
+                }?>
+          </tr>
+          <?php }?>
+
+          </table>
+        
+        </div>
+      </div>
+    </section>
+  </div>
+</div>
+
+

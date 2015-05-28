@@ -276,7 +276,7 @@ public function _getListarEquipoxProyectoxGerente($uid,$dni)
                 select distinct uid,dni from equipo where proyectoid in  
                 (select distinct proyectoid from
                  equipo  where uid='$uid' and dni='$dni' and nivel='0')
-                  and nivel in ('4','2') 
+                  and nivel in ('4','2','1','3') 
 
 
                     ");
@@ -316,6 +316,60 @@ public function _getListarEquipoxProyectoxGerente($uid,$dni)
 
 
             ");
+            $row=$sql->fetchAll();
+            return $row;           
+            }  
+            
+           catch (Exception $ex){
+            print $ex->getMessage();
+        }
+    }
+
+
+    public function _getListarEquipoxGerenteAreaGeotecnia()
+     {
+        try{
+            $sql=$this->_db->query("
+                
+                select * from usuario_categoria where cargo='JEFE' and areaid in('22','21')
+
+
+                    ");
+            $row=$sql->fetchAll();
+            return $row;           
+            }  
+            
+           catch (Exception $ex){
+            print $ex->getMessage();
+        }
+    }
+
+
+    public function _getListarEquipoxGerenteAreaIngenieria()
+     {
+        try{
+            $sql=$this->_db->query("
+                
+               select * from usuario_categoria where cargo='JEFE' and areaid in('10','02')
+
+                    ");
+            $row=$sql->fetchAll();
+            return $row;           
+            }  
+            
+           catch (Exception $ex){
+            print $ex->getMessage();
+        }
+    }
+
+        public function _getListarEquipoxGerenteGeneralIngenieria()
+     {
+        try{
+            $sql=$this->_db->query("
+                
+               select * from usuario_categoria where cargo='JEFE' and areaid in('10','02')
+
+                    ");
             $row=$sql->fetchAll();
             return $row;           
             }  
