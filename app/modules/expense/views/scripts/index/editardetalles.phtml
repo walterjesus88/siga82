@@ -41,7 +41,7 @@ $data_rendicion = $this->data_rendicion;
 
                     <label class="col-lg-3 col-sm-3 control-label" style="font-size : 12px">Segundo Monto</label>
                     <div class="col-lg-3">
-                        <input name="segundo_monto_total" type="text" class="form-control" value="<?php echo ($data_rendicion['segundo_monto_total'])? $data_rendicion['segundo_monto_total']: '';?>" readonly/>
+                        <input name="dolar_monto_total" type="text" class="form-control" value="<?php echo ($data_rendicion['dolar_monto_total'])? $data_rendicion['dolar_monto_total']: '';?>" readonly/>
                     </div>
                 </div>
                 <div class="form-group">
@@ -52,7 +52,7 @@ $data_rendicion = $this->data_rendicion;
 
                     <label class="col-lg-3 col-sm-3 control-label" style="font-size : 12px">Segundo Reembolso</label>
                     <div class="col-lg-3">
-                        <input name="segundo_monto_reembolso" type="text" class="form-control" value="<?php echo ($data_rendicion['segundo_monto_reembolso'])? $data_rendicion['segundo_monto_reembolso']: '';?>" readonly/>
+                        <input name="dolar_monto_reembolso" type="text" class="form-control" value="<?php echo ($data_rendicion['dolar_monto_reembolso'])? $data_rendicion['dolar_monto_reembolso']: '';?>" readonly/>
                     </div>
                 </div>
                 <div class="form-group">
@@ -63,7 +63,7 @@ $data_rendicion = $this->data_rendicion;
 
                     <label class="col-lg-3 col-sm-3 control-label" style="font-size : 12px">Segundo Cliente</label>
                     <div class="col-lg-3">
-                        <input name="segundo_monto_cliente" type="text" class="form-control" value="<?php echo ($data_rendicion['segundo_monto_cliente'])? $data_rendicion['segundo_monto_cliente']: '';?>" readonly/>
+                        <input name="dolar_monto_cliente" type="text" class="form-control" value="<?php echo ($data_rendicion['dolar_monto_cliente'])? $data_rendicion['dolar_monto_cliente']: '';?>" readonly/>
                     </div>
                 </div>
             </div>
@@ -184,9 +184,11 @@ $data_rendicion = $this->data_rendicion;
                                         <select name="moneda[]" id = "moneda<?php echo $data_actividades['gasto_persona_id']?>" class="form-control">
                                             <option value="">Seleccione</option>
                                             <option value="Soles" <?php echo ($data_actividades['moneda']=='Soles')? 'selected':'';?>>Soles</option>
-                                            <option value="Dolar" <?php echo ($data_actividades['moneda']=='Dolar')? 'selected':'';?>>Dolar</option>
                                             <option value="Real" <?php echo ($data_actividades['moneda']=='Real')? 'selected':'';?>>Real</option>
-                                            <option value="Peso" <?php echo ($data_actividades['moneda']=='Peso')? 'selected':'';?>>Peso</option>
+                                            <option value="Dolar Americano" <?php echo ($data_actividades['moneda']=='Dolar Americano')? 'selected':'';?>>Dolar Americano</option>
+                                            <option value="Dolar Canadiense" <?php echo ($data_actividades['moneda']=='Dolar Canadiense')? 'selected':'';?>>Dolar Canadiense</option>
+                                            <option value="Peso Chileno" <?php echo ($data_actividades['moneda']=='Peso Chileno')? 'selected':'';?>>Peso Chileno</option>
+                                            <option value="Peso Argentino" <?php echo ($data_actividades['moneda']=='Peso Argentino')? 'selected':'';?>>Peso Argentino</option>
                                         </select>
                                     </td>
                                     <td>
