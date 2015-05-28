@@ -535,6 +535,7 @@ $data_rendicion = $this->data_rendicion;
         var cargo = $(this).attr('cargo');
         var revision = $(this).attr('revision');
         var actividadid = $(this).attr('actividadid');
+        var numero = "<?php echo $this->numero?>";
 
         $.ajax({
             type   : 'post',
@@ -546,9 +547,9 @@ $data_rendicion = $this->data_rendicion;
                     url    : '/expense/index/updategastopersona/',
                     data   : $('#form_gastos').serialize(),
                     success: function(data){
-                        var url2 = "/expense/index/guardargastopersona/proyectoid/"+proyectoid+"/codigo-prop-proy/"+codigo_prop_proy+"/categoriaid/"+categoriaid+"/areaid/"+areaid+"/cargo/"+cargo+"/revision/"+revision+"/actividadid/"+actividadid;
+                        var url2 = "/expense/index/guardargastopersona/proyectoid/"+proyectoid+"/codigo-prop-proy/"+codigo_prop_proy+"/categoriaid/"+categoriaid+"/areaid/"+areaid+"/cargo/"+cargo+"/revision/"+revision+"/actividadid/"+actividadid+"/numero/"+numero;
                         $("#load_duplicidad").load(url2);
-                        $("#ingreso").load("/expense/index/ingreso/");
+                        $("#ingreso").load("/expense/index/ingreso/numero/"+numero);
                     }
                 });
             }
@@ -557,9 +558,10 @@ $data_rendicion = $this->data_rendicion;
 
     $(".delete_actividad").click(function(){
         var gasto_persona_id = $(this).attr('gasto-persona-id');
+        var numero = "<?php echo $this->numero?>";
         url = "/expense/index/eliminargastopersona/gasto_persona_id/"+gasto_persona_id;
         $("#load_duplicidad").load(url);
-        $("#ingreso").load("/expense/index/ingreso/");
+        $("#ingreso").load("/expense/index/ingreso/numero/"+numero);
     });
 
     $('#guardar_gastos').click(function(){
@@ -592,23 +594,11 @@ $data_rendicion = $this->data_rendicion;
                     data   : $('#form_gastos').serialize(),
                     success: function(data){
                         alert("El gasto fue enviado.");
-                        window.location.reload();
                     }
                 });
             }
         });
     });
-
-    function saveexpenseperson() {
-        $.ajax({
-            type   : 'post',
-            url    : '/expense/index/updategastopersona/',
-            data   : $('#form_gastos').serialize(),
-            success: function(data){
-                
-            }
-        });
-    }
 </script>
 
 <?php 

@@ -6,11 +6,7 @@
                 <i class="fa fa-check-square-o"></i> Agregar
             </a>
 
-            <!-- <a id = "actualizar_gasto" class="btn btn-default pull-right btn-sm" href="##" style="margin-right : 10px">
-                <i class="fa fa-refresh"></i> Actualizar
-            </a> -->
-
-            <a id = "listar_pendientes" class="btn btn-success pull-right btn-sm" href="##" style="margin-right : 10px">
+            <a class="btn btn-success pull-right btn-sm" href="/expense/index/historico" style="margin-right : 10px">
                 <i class="fa fa-list"></i> Pendientes
             </a>
         </span>
@@ -38,17 +34,6 @@
                                             <span><?php echo $data_equipo['nombre_comercial'] ?></span>
                                         </a>
                                     </li>
-                                    <script type="text/javascript">
-                                        $(".cliente").click(function(){
-                                            $("#proyectos").html('');
-                                            $("#disciplina").html('');
-                                            $("#actividades_padres").html('');
-                                            $("#tareas").html('');
-                                            var unidad_mineraid = $(this).attr('unidadid');
-                                            var clienteid = $(this).attr('clienteid');
-                                            $("#proyectos").load("/expense/index/proyectos/unidad_mineraid/"+unidad_mineraid+"/clienteid/"+clienteid);
-                                        });
-                                    </script>
                                     <?php
                                 }
                                  ?>
@@ -80,20 +65,20 @@
 
 <script type="text/javascript">
     $("#agregar_gasto").click(function(){
-        $("#ingreso").load("/expense/index/ingreso/");
         $("#proyectos").html('');
         $("#disciplina").html('');
         $("#actividades_padres").html('');
         $("#tareas").html('');
     });
-    
-    $("#ingreso").load("/expense/index/historico/");
 
-    $("#listar_pendientes").click(function(){
-        $("#ingreso").load("/expense/index/historico/");
+    $(".cliente").click(function(){
+        $("#proyectos").html('');
+        $("#disciplina").html('');
+        $("#actividades_padres").html('');
+        $("#tareas").html('');
+        var unidad_mineraid = $(this).attr('unidadid');
+        var clienteid = $(this).attr('clienteid');
+        var numero = "<?php echo $this->numero?>";
+        $("#proyectos").load("/expense/index/proyectos/unidad_mineraid/"+unidad_mineraid+"/clienteid/"+clienteid+"/numero/"+numero);
     });
-
-    /*$("#actualizar_gasto").click(function(){
-        $("#ingreso").load("/expense/index/ingreso/");
-    });*/
 </script>

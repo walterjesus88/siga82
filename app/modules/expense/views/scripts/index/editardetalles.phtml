@@ -76,7 +76,7 @@ $data_rendicion = $this->data_rendicion;
                 <a id="guardar_gastos" class="btn btn-success pull-right btn-sm" href="##">
                     <i class="fa fa-save"></i> Guardar
                 </a>
-                <a id="enviar_gasto" class="btn btn-warning pull-right btn-sm" href="##" style="margin-top : 10px">
+                <a id="enviar_gasto" class="btn btn-warning pull-right btn-sm" href="##" style="margin-right : 10px">
                     <i class="fa fa-chevron-circle-right"></i> Enviar
                 </a>
             </div>
@@ -396,7 +396,7 @@ $data_rendicion = $this->data_rendicion;
                     url    : '/expense/index/updategastopersona/',
                     data   : $('#form_gastos').serialize(),
                     success: function(data){
-                        var url2 = "/expense/index/guardargastopersona/proyectoid/"+proyectoid+"/codigo-prop-proy/"+codigo_prop_proy+"/categoriaid/"+categoriaid+"/areaid/"+areaid+"/cargo/"+cargo+"/revision/"+revision+"/actividadid/"+actividadid;
+                        var url2 = "/expense/index/guardargastopersona/proyectoid/"+proyectoid+"/codigo-prop-proy/"+codigo_prop_proy+"/categoriaid/"+categoriaid+"/areaid/"+areaid+"/cargo/"+cargo+"/revision/"+revision+"/actividadid/"+actividadid+"/numero/"+numero;
                         $("#load_duplicidad").load(url2);
                         var url3 = "/expense/index/editardetalles/numero/"+numero+"/uid/"+uid+"/dni/"+dni;
                         $("#load_detalless").load(url3);

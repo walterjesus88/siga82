@@ -29,6 +29,21 @@ class Expense_IndexController extends Zend_Controller_Action {
         $data_clientes = $equipo ->_getClienteXuidXEstado($uid,'A');
         $this->view->clientes = $data_clientes;
         $this->view->equipo = $data_equipo;
+
+        $where = array();
+            $where['fecha'] = date("Y-m-d");
+            $where['uid'] = $uid;
+            $where['dni'] = $dni;
+            $where['estado'] = 'B';
+            $rendicion = new Admin_Model_DbTable_Gastorendicion();
+            $result = $rendicion->_save($where);
+            $ceros = '10 - ';
+            for ($h=0; $h < (8-strlen($result['numero'])); $h++) { 
+                $ceros = $ceros.'0';
+            }
+            $data2['numero_completo'] = $ceros.$result['numero'];
+            $rendicion->_update($data2,$result);
+            $this->view->numero = $result['numero'];
     } catch (Exception $e) {
         print "Error: ".$e->getMessage();
     }
@@ -41,11 +56,13 @@ class Expense_IndexController extends Zend_Controller_Action {
             $dni = $this->sesion->dni;
             $clienteid = $this->_getParam('clienteid');
             $unidadid = $this->_getParam('unidad_mineraid');
+            $numero = $this->_getParam('numero');
             $equipo = new Admin_Model_DbTable_Equipo();
             $data_equipo = $equipo->_getProyectosxUidXEstadoxCliente($uid,'A',$clienteid,$unidadid);
             $this->view->equipo = $data_equipo;
             $this->view->clienteid = $clienteid;
             $this->view->unidad_mineraid = $unidadid;
+            $this->view->numero = $numero;
         } catch (Exception $e) {
             print "Error: ".$e->getMessage();
         }
@@ -164,13 +181,15 @@ class Expense_IndexController extends Zend_Controller_Action {
         $this->_helper->layout()->disableLayout();
         $uid = $this->sesion->uid;
         $dni = $this->sesion->dni;
+        $numero = $this->_getParam('numero');
         $gasto = new Admin_Model_DbTable_Gastopersona();
-        $data_gasto = $gasto->_getgastoProyectosXfecha(date("Y-m-d"), $uid, $dni);
+        $data_gasto = $gasto->_getgastoProyectosXnumero($numero, $uid, $dni);
+        
         for ($i=0; $i < count($data_gasto); $i++) { 
             $order = array('gasto_persona_id ASC');
             $wheretmp ['uid'] = $uid;
             $wheretmp ['dni'] = $dni;
-            $wheretmp ['fecha_gasto'] = date("Y-m-d");
+            $wheretmp ['numero_rendicion'] = $numero;
             $wheretmp ['proyectoid'] = $data_gasto[$i]['proyectoid'];
             $data_gasto_final = $gasto->_getFilter($wheretmp,$attrib=null,$order);
 
@@ -183,26 +202,17 @@ class Expense_IndexController extends Zend_Controller_Action {
                 $data_gasto_final[$n]['tipo_proyecto'] = $data_proyecto['tipo_proyecto'];
             }
             $data_gasto[$i] = $data_gasto_final[0];
-
-            /*$temp_gasto = $gasto->_getgastoProyectoXfechaXactividad($wheretmp);
-            if ($temp_gasto) {
-                $actividad = new Admin_Model_DbTable_Actividad();
-                for ($j=0; $j < count($temp_gasto); $j++) { 
-                    $data_actividad = $actividad->_getActividadesxActividadid($data_gasto[$i]['proyectoid'],$data_gasto_final[0]['codigo_prop_proy'],$temp_gasto[$j]['actividadid']);
-                    $temp_gasto[$j]['nombre'] = $data_actividad[0]['nombre'];
-                }
-            }
-            $data_gasto[$i]['actividades'] = ($temp_gasto)? $temp_gasto : $data_gasto_final;*/
             $data_gasto[$i]['actividades'] = $data_gasto_final;
         }
         $this->view->gasto = $data_gasto;
+        $this->view->numero = $numero;
         
         $where_tmp = array();
         $where_tmp['uid'] = $uid;
         $where_tmp['dni'] = $dni;
-        $where_tmp['fecha'] = date("Y-m-d");
+        $where_tmp['numero'] = $numero;
         $rendicion = new Admin_Model_DbTable_Gastorendicion();
-        $data_rendicion = $rendicion->_getOneXfecha($where_tmp);
+        $data_rendicion = $rendicion->_getOneXnumero($where_tmp);
         $this->view->data_rendicion = $data_rendicion;
 
         $gastos = new Admin_Model_DbTable_Listagasto();
@@ -248,6 +258,7 @@ class Expense_IndexController extends Zend_Controller_Action {
             $cargo = $this->_getParam('cargo');
             $revision = $this->_getParam('revision');
             $actividadid = $this->_getParam('actividadid');
+            $numero = $this->_getParam('numero');
             $data ['proyectoid'] = $proyectoid;
             $data ['codigo_prop_proy'] = $codigo_prop_proy;
             $data ['categoriaid'] = $categoriaid;
@@ -260,31 +271,14 @@ class Expense_IndexController extends Zend_Controller_Action {
             $data ['fecha_gasto'] = date("Y-m-d");
             $data ['gastoid'] = 1;
             $data ['revision'] = $revision;
+            $data['numero_rendicion'] = $numero;
             $data ['estado_rendicion'] = 'B';
             if ($actividadid) {
                 $data ['actividadid'] = $actividadid;
             }
-            $where = array();
-            $where['fecha'] = date("Y-m-d");
-            $where['uid'] = $uid;
-            $where['dni'] = $dni;
-            $rendicion = new Admin_Model_DbTable_Gastorendicion();
-            $data_exist = $rendicion->_getOneXfecha($where);
-            if (!$data_exist) {
-                $where['estado'] = 'B';
-                $result = $rendicion->_save($where);
-                $ceros = '10 - ';
-                for ($h=0; $h < (8-strlen($result['numero'])); $h++) { 
-                    $ceros = $ceros.'0';
-                }
-                $data2['numero_completo'] = $ceros.$result['numero'];
-                $rendicion->_update($data2,$result);
-            }
-            $data_guard = $rendicion->_getOneXfecha($where);
-
-            $data['numero_rendicion'] = $data_guard['numero'];
             $gasto = new Admin_Model_DbTable_Gastopersona();
             $gasto->_save($data);
+            $this->view->numero = $numero;
 
         } catch (Exception $e) {
             print "Error: ".$e->getMessage();
@@ -470,7 +464,6 @@ class Expense_IndexController extends Zend_Controller_Action {
 
     public function historicoAction(){
         try {
-            $this->_helper->layout()->disableLayout();
             $uid = $this->sesion->uid;
             $dni = $this->sesion->dni;
             $where = array();
