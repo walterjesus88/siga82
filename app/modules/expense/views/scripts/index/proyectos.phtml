@@ -45,9 +45,10 @@ if ($equipo) { ?>
                 var areaid = $(this).attr('areaid');
                 var cargo = $(this).attr('cargo');
                 var revision = $(this).attr('revision');
-                url="/expense/index/guardargastopersona/codigo-prop-proy/"+codigo_prop_proy+"/proyectoid/"+proyectoid+"/categoriaid/"+categoriaid+"/areaid/"+areaid+"/cargo/"+cargo+"/revision/"+revision;
+                var numero = "<?php echo $this->numero?>";
+                url="/expense/index/guardargastopersona/codigo-prop-proy/"+codigo_prop_proy+"/proyectoid/"+proyectoid+"/categoriaid/"+categoriaid+"/areaid/"+areaid+"/cargo/"+cargo+"/revision/"+revision+"/numero/"+numero;
                 $("#saveproyect").load(url);
-                $("#ingreso").load("/expense/index/ingreso/");
+                $("#ingreso").load("/expense/index/ingreso/numero/"+numero);
             }
         });
     </script>
