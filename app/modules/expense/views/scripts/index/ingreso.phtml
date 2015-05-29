@@ -606,6 +606,7 @@ $data_rendicion = $this->data_rendicion;
                     data   : $('#form_gastos').serialize(),
                     success: function(data){
                         alert("El gasto fue enviado.");
+                        window.location="/expense/index/historico";
                     }
                 });
             }

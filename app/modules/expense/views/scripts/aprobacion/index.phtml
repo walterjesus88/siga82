@@ -1,17 +1,19 @@
 <?php 
-if ($this->equipo) { 
-        $data_equipo = $this->equipo[0];
+if ($this->data_equipo) { 
+    $data_equipo = $this->data_equipo;
+    $nmb = 0;
+    foreach ($data_equipo as $data_equipo) {
      ?>
     <section class="panel">
         <header class="panel-heading">
           <?php echo $data_equipo['proyectoid']. ' - ' .$data_equipo['nombre_proyecto'] ?>
           <span class="pull-right">
-                <a id="mostrar_enviada" class=" btn btn-success  btn-xs"> Enviada</a>
-                <a id="mostrar_aprobada" class=" btn btn-primary  btn-xs"> Aprobada</a>
-                <a id="mostrar_rechazada" class=" btn btn-danger  btn-xs"> Rechazada</a>
+                <a id="mostrar_enviada<?php echo $nmb?>" class=" btn btn-success  btn-xs"> Enviada</a>
+                <a id="mostrar_aprobada<?php echo $nmb?>" class=" btn btn-primary  btn-xs"> Aprobada</a>
+                <a id="mostrar_rechazada<?php echo $nmb?>" class=" btn btn-danger  btn-xs"> Rechazada</a>
           </span>
         </header>
-        <div id="rendicion_enviados">
+        <div id="rendicion_enviados<?php echo $nmb?>">
         <table class="table table-hover p-table">
             <thead>
                 <tr>  
@@ -27,8 +29,8 @@ if ($this->equipo) {
             <tbody>
 
             <?php
-            if ($this->data_enviados) {
-            foreach ($this->data_enviados as $lista) { ?>
+            if ($data_equipo['data_enviados']) {
+            foreach ($data_equipo['data_enviados'] as $lista) { ?>
                 <tr>
                     <td class="p-name">
                         <center><?php echo $lista['numero_completo'];?></center>
@@ -92,11 +94,11 @@ if ($this->equipo) {
         </table>
         </div>
 
-        <div id="rendicion_rechazados" style="display: none;">
+        <div id="rendicion_rechazados<?php echo $nmb?>" style="display: none;">
         <table class="table table-hover p-table">
             <thead>
                 <tr>  
-                    <th style="width: 2%;">Num</th>
+                    <th style="width: 10%;">Num</th>
                     <th style="width: 20%;">Nombre</th>
                     <th style="width: 20%;">Asigando</th>
                     <th style="width: 10%;"><center>Total</center></th>
@@ -108,8 +110,8 @@ if ($this->equipo) {
             <tbody>
 
             <?php
-            if ($this->data_rechazados) {
-            foreach ($this->data_rechazados as $lista) { ?>
+            if ($data_equipo['data_rechazados']) {
+            foreach ($data_equipo['data_rechazados'] as $lista) { ?>
                 <tr>
                     <td class="p-name">
                         <center><?php echo $lista['numero'];?></center>
@@ -156,16 +158,6 @@ if ($this->equipo) {
                         $("#load_change").load("/expense/aprobacion/estado/numero/"+numero+"/uid/"+uid+"/dni/"+dni+"/estate/"+estate+"/comentario/"+comentario);
                         window.location.reload();
                     });
-
-                    $(".rechazado").click(function(){
-                        var numero = $(this).attr('numero');
-                        var uid = $(this).attr('uid');
-                        var dni = $(this).attr('dni');
-                        var estate = $(this).attr('estate');
-                        var comentario = $("#"+numero).val();
-                        $("#load_change").load("/expense/aprobacion/estado/numero/"+numero+"/uid/"+uid+"/dni/"+dni+"/estate/"+estate+"/comentario/"+comentario);
-                        window.location.reload();
-                    });
                 </script>
           <?php  }
             }?>
@@ -173,11 +165,11 @@ if ($this->equipo) {
         </table>
         </div>
 
-        <div id="rendicion_aprobados" style="display: none;">
+        <div id="rendicion_aprobados<?php echo $nmb?>" style="display: none;">
         <table class="table table-hover p-table">
             <thead>
                 <tr>  
-                    <th style="width: 2%;">Num</th>
+                    <th style="width: 10%;">Num</th>
                     <th style="width: 20%;">Nombre</th>
                     <th style="width: 20%;">Asigando</th>
                     <th style="width: 10%;"><center>Total</center></th>
@@ -189,8 +181,8 @@ if ($this->equipo) {
             <tbody>
 
             <?php
-            if ($this->data_aprobados) {
-            foreach ($this->data_aprobados as $lista) { ?>
+            if ($data_equipo['data_aprobados']) {
+            foreach ($data_equipo['data_aprobados'] as $lista) { ?>
                 <tr>
                     <td class="p-name">
                         <center><?php echo $lista['numero'];?></center>
@@ -233,7 +225,38 @@ if ($this->equipo) {
         </table>
         </div>
     </section>
+    <script type="text/javascript">
+        /*$(".showdetails").click(function(){
+            var numero = $(this).attr('numero');
+            var uid = $(this).attr('uid');
+            var dni = $(this).attr('dni');
+            var proyectoid = $(this).attr('proyectoid');
+            var codigo_prop_proy = $(this).attr('codigo-prop-proy');
+            var url = "/expense/aprobacion/detalles/numero/"+numero+"/uid/"+uid+"/dni/"+dni+"/codigo_prop_proy/"+codigo_prop_proy+"/proyectoid/"+proyectoid;
+            $("#load_data_detail").load(url);
+        });*/
 
+        $("#mostrar_enviada<?php echo $nmb?>").click(function(){
+            $("#rendicion_enviados<?php echo $nmb?>").show();
+            $("#rendicion_rechazados<?php echo $nmb?>").hide();
+            $("#rendicion_aprobados<?php echo $nmb?>").hide();
+        });
+
+        $("#mostrar_aprobada<?php echo $nmb?>").click(function(){
+            $("#rendicion_enviados<?php echo $nmb?>").hide();
+            $("#rendicion_rechazados<?php echo $nmb?>").hide();
+            $("#rendicion_aprobados<?php echo $nmb?>").show();
+        });
+
+        $("#mostrar_rechazada<?php echo $nmb?>").click(function(){
+            $("#rendicion_enviados<?php echo $nmb?>").hide();
+            $("#rendicion_rechazados<?php echo $nmb?>").show();
+            $("#rendicion_aprobados<?php echo $nmb?>").hide();
+        });
+    </script>
+<?php 
+    $nmb++;
+    } ?>
     <div class="modal fade" id="myModalDetail" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content" style="width: 1250px; top: 100%; margin-left: -180px;">
@@ -252,26 +275,7 @@ if ($this->equipo) {
     </div>
 
     <div id="load_change"></div>
-
     <script type="text/javascript">
-        /*$(".aprobado").click(function(){
-            var numero = $(this).attr('numero');
-            var uid = $(this).attr('uid');
-            var dni = $(this).attr('dni');
-            var estate = $(this).attr('estate');
-            $("#load_change").load("/expense/aprobacion/estado/numero/"+numero+"/uid/"+uid+"/dni/"+dni+"/estate/"+estate);
-            window.location.reload();
-        });*/
-
-        /*$(".rechazado").click(function(){
-            var numero = $(this).attr('numero');
-            var uid = $(this).attr('uid');
-            var dni = $(this).attr('dni');
-            var estate = $(this).attr('estate');
-            $("#load_change").load("/expense/aprobacion/estado/numero/"+numero+"/uid/"+uid+"/dni/"+dni+"/estate/"+estate);
-            window.location.reload();
-        });*/
-
         $(".showdetails").click(function(){
             var numero = $(this).attr('numero');
             var uid = $(this).attr('uid');
@@ -281,24 +285,6 @@ if ($this->equipo) {
             var url = "/expense/aprobacion/detalles/numero/"+numero+"/uid/"+uid+"/dni/"+dni+"/codigo_prop_proy/"+codigo_prop_proy+"/proyectoid/"+proyectoid;
             $("#load_data_detail").load(url);
         });
-
-        $("#mostrar_enviada").click(function(){
-            $("#rendicion_enviados").show();
-            $("#rendicion_rechazados").hide();
-            $("#rendicion_aprobados").hide();
-        });
-
-        $("#mostrar_aprobada").click(function(){
-            $("#rendicion_enviados").hide();
-            $("#rendicion_rechazados").hide();
-            $("#rendicion_aprobados").show();
-        });
-
-        $("#mostrar_rechazada").click(function(){
-            $("#rendicion_enviados").hide();
-            $("#rendicion_rechazados").show();
-            $("#rendicion_aprobados").hide();
-        });
     </script>
-<?php 
+    <?php
 } ?>

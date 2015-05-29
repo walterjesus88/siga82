@@ -31,6 +31,23 @@ class Admin_Model_DbTable_Equipo extends Zend_Db_Table_Abstract
         }
     }
 
+    public function _getProyectosXuidXEstadoXnivelXcategoria($uid,$categoriaid,$nivel,$estado)
+     {
+        try{
+            $sql=$this->_db->query("
+               select * from equipo e inner join proyecto p 
+               on e.codigo_prop_proy = p.codigo_prop_proy and e.proyectoid = p.proyectoid 
+               where e.uid='$uid' and e.estado = '$estado' and e.categoriaid = '$categoriaid' 
+               and nivel = '$nivel' order by e.proyectoid");
+            $row=$sql->fetchAll();
+            return $row;           
+            }  
+            
+           catch (Exception $ex){
+            print $ex->getMessage();
+        }
+    }
+
 /*
 select p.codigo_prop_proy, p.proyectoid, e.estado, e.categoriaid, e.cargo, e.areaid, pro.propuestaid, pro.revision, p.nombre_proyecto, 
                 p.tipo_proyecto, pro.moneda, pro.descripcion  
