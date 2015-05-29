@@ -727,27 +727,27 @@ public function eliminartareoAction(){
         $actividad_generalid=$this->_getParam('actividad_generalid');
         $etapa=$this->_getParam('etapa');
 
-        if($etapa=='INICIO' or $etapa=='EJECUCION-NB-' or $etapa=='INICIO-NB-')
-        {
-            $pk1  =   array(                        
-            'codigo_prop_proy'   =>$codigo_prop_proy,
-            'codigo_actividad'   =>$codigo_actividad,
-            'actividadid'   =>$actividadid,
-            'revision'   =>$revision,
-            'actividad_padre'   =>$actividad_padre,
-            'proyectoid'   =>$proyectoid,
-            'semanaid'   =>$semanaid,
-            'uid'   =>$uid,
-            'dni'   =>$dni,
-            'tipo_actividad'   =>$tipo_actividad,
-            'etapa'  => 'EJECUCION',
-            );
-            $tareopersona->_deleteTareasxSemanaX($pk1);
+        // if($etapa=='INICIO' or $etapa=='EJECUCION-NB-' or $etapa=='INICIO-NB-')
+        // {
+        //     $pk1  =   array(                        
+        //     'codigo_prop_proy'   =>$codigo_prop_proy,
+        //     'codigo_actividad'   =>$codigo_actividad,
+        //     'actividadid'   =>$actividadid,
+        //     'revision'   =>$revision,
+        //     'actividad_padre'   =>$actividad_padre,
+        //     'proyectoid'   =>$proyectoid,
+        //     'semanaid'   =>$semanaid,
+        //     'uid'   =>$uid,
+        //     'dni'   =>$dni,
+        //     'tipo_actividad'   =>$tipo_actividad,
+        //     'etapa'  => 'EJECUCION',
+        //     );
+        //     $tareopersona->_deleteTareasxSemanaX($pk1);
 
-        }
+        // }
 
 
-         if($actividad_generalid=='' )
+         if($actividad_generalid=='' and $tipo_actividad!='G' )
          {
             $pk1  =   array(                        
             'codigo_prop_proy'   =>$codigo_prop_proy,
@@ -759,15 +759,28 @@ public function eliminartareoAction(){
             'semanaid'   =>$semanaid,
             'uid'   =>$uid,
             'dni'   =>$dni,
-            'tipo_actividad'   =>$tipo_actividad,
-            'etapa'  => $etapa,
+            'tipo_actividad'   => $tipo_actividad,
+            //'etapa'  => 'EJECUCION',
             );
             $tareopersona->_deleteTareasxSemanaX($pk1);
 
          }
          else
          {
-            $pk  =   array(                        
+
+
+
+            if($actividad_generalid==null and $etapa=='INICIO-NB-')
+            {              
+
+          
+                $tareopersona->deletenb($codigo_prop_proy,$codigo_actividad,$actividadid,$revision,$actividad_padre,$proyectoid,$semanaid,$uid,$dni,$tipo_actividad,$etapa);
+
+            }
+            else
+            {
+
+             $pk  =   array(                        
             'codigo_prop_proy'   =>$codigo_prop_proy,
             'codigo_actividad'   =>$codigo_actividad,
             'actividadid'   =>$actividadid,
@@ -781,6 +794,10 @@ public function eliminartareoAction(){
             'actividad_generalid'  => $actividad_generalid,
              );
             $tareopersona->_deleteTareasxSemana($pk);
+
+            }
+
+        
          }
 
 

@@ -317,6 +317,7 @@ class Admin_Model_DbTable_Tareopersona extends Zend_Db_Table_Abstract
         try{
             if ($pk['codigo_prop_proy']=='' ||  $pk['codigo_actividad']=='' ) return false;
 
+
             $where = "
             codigo_prop_proy = '".$pk['codigo_prop_proy']."' 
             and codigo_actividad='".$pk['codigo_actividad']."' 
@@ -330,7 +331,7 @@ class Admin_Model_DbTable_Tareopersona extends Zend_Db_Table_Abstract
             and tipo_actividad='".$pk['tipo_actividad']."' 
             and actividad_generalid='".$pk['actividad_generalid']."' 
             ";
-            print_r($where);
+            //print_r($where);exit();
             return $this->delete( $where);
             return false;
         }catch (Exception $e){
@@ -354,13 +355,24 @@ class Admin_Model_DbTable_Tareopersona extends Zend_Db_Table_Abstract
             and uid='".$pk['uid']."' 
             and dni='".$pk['dni']."' 
             and tipo_actividad='".$pk['tipo_actividad']."' 
-            and etapa='".$pk['etapa']."' 
+
             ";
-            print_r($where);
+            //print_r($where);
             return $this->delete( $where);
             return false;
         }catch (Exception $e){
             print "Error: Update Distribution".$e->getMessage();
+        }
+    }
+
+    public function deletenb($codigo_prop_proy,$codigo_actividad,$actividadid,$revision,$actividad_padre,$proyectoid,$semanaid,$uid,$dni,$tipo_actividad,$etapa){
+        try{
+           
+            return $this->delete("codigo_prop_proy='$codigo_prop_proy' and codigo_actividad='$codigo_actividad' and actividadid='$actividadid'
+                                  and revision='$revision' and actividad_padre='$actividad_padre' and proyectoid='$proyectoid' and semanaid='$semanaid'
+                                  and uid='$uid' and dni='$dni' and tipo_actividad='$tipo_actividad' and etapa in ('INICIO-NB-','EJECUCION-NB-')   ");
+        }catch (Exception $ex){
+            print "Error: Eliminando un registro de la Persona".$ex->getMessage();
         }
     }
 
