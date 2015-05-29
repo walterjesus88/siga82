@@ -21,51 +21,46 @@ class Expense_AprobacionController extends Zend_Controller_Action {
             $uid = $this->sesion->uid;
             $dni = $this->sesion->dni;
             $equipo = new Admin_Model_DbTable_Equipo();
-            $data_equipo = $equipo->_getProyectosXuidXEstado($uid,'A');
-            if ($data_equipo[0]['nivel'] == '0') {
-                $this->view->equipo = $data_equipo;
-                $codigo_prop_proy = $data_equipo[0]['codigo_prop_proy'];
-                $proyectoid = $data_equipo[0]['proyectoid'];
+            $data_proyectos = $equipo->_getProyectosXuidXEstadoXnivelXcategoria($uid,'GER-PROY','0','A');
+            for ($i=0; $i < count($data_proyectos); $i++) { 
+                $rendicion = new Admin_Model_DbTable_Gastorendicion();
+                $data_rendicion = $rendicion->_getrendicionXestadoXproyecto('E', $data_proyectos[$i]['codigo_prop_proy'], $data_proyectos[$i]['proyectoid']);
+                
+                $persona = new Admin_Model_DbTable_Persona();
+                for ($j=0; $j < count($data_rendicion); $j++) { 
+                    $where['numero'] = $data_rendicion[$j]['numero'];
+                    $data_one = $rendicion->_getOne($where);
+                    $data_rendicion[$j] = $data_one;
+
+                    $data_persona = $persona->_getPersona($data_rendicion[$j]['dni']);
+                    $data_rendicion[$j]['nombre_persona'] = $data_persona['ape_paterno']. ' ' .$data_persona['ape_materno']. ', ' .$data_persona['nombres']. ' ' .$data_persona['segundo_nombre'];
+                }
+                $data_proyectos[$i]['data_enviados'] = $data_rendicion;
+
+                $data_rendicion = $rendicion->_getrendicionXestadoXproyecto('R', $data_proyectos[$i]['codigo_prop_proy'], $data_proyectos[$i]['proyectoid']);
+                for ($k=0; $k < count($data_rendicion); $k++) { 
+                    $where['numero'] = $data_rendicion[$k]['numero'];
+                    $data_one = $rendicion->_getOne($where);
+                    $data_rendicion[$k] = $data_one;
+
+                    $data_persona = $persona->_getPersona($data_rendicion[$k]['dni']);
+                    $data_rendicion[$k]['nombre_persona'] = $data_persona['ape_paterno']. ' ' .$data_persona['ape_materno']. ', ' .$data_persona['nombres']. ' ' .$data_persona['segundo_nombre'];
+                }
+                $data_proyectos[$i]['data_rechazados'] = $data_rendicion;
+
+                $data_rendicion = $rendicion->_getrendicionXestadoXproyecto('A', $data_proyectos[$i]['codigo_prop_proy'], $data_proyectos[$i]['proyectoid']);
+                for ($l=0; $l < count($data_rendicion); $l++) { 
+                    $where['numero'] = $data_rendicion[$l]['numero'];
+                    $data_one = $rendicion->_getOne($where);
+                    $data_rendicion[$l] = $data_one;
+
+                    $data_persona = $persona->_getPersona($data_rendicion[$l]['dni']);
+                    $data_rendicion[$l]['nombre_persona'] = $data_persona['ape_paterno']. ' ' .$data_persona['ape_materno']. ', ' .$data_persona['nombres']. ' ' .$data_persona['segundo_nombre'];
+                }
+                $data_proyectos[$i]['data_aprobados'] = $data_rendicion;
             }
+            $this->view->data_equipo = $data_proyectos;
 
-            $rendicion = new Admin_Model_DbTable_Gastorendicion();
-            $data_rendicion = $rendicion->_getrendicionXestadoXproyecto('E', $codigo_prop_proy, $proyectoid);
-
-            $persona = new Admin_Model_DbTable_Persona();
-            for ($i=0; $i < count($data_rendicion); $i++) { 
-                $where['numero'] = $data_rendicion[$i]['numero'];
-                $data_one = $rendicion->_getOne($where);
-                $data_rendicion[$i] = $data_one;
-
-                $data_persona = $persona->_getPersona($data_rendicion[$i]['dni']);
-                $data_rendicion[$i]['nombre_persona'] = $data_persona['ape_paterno']. ' ' .$data_persona['ape_materno']. ', ' .$data_persona['nombres']. ' ' .$data_persona['segundo_nombre'];
-            }
-            $this->view->data_enviados = $data_rendicion;
-
-
-            $data_rendicion = $rendicion->_getrendicionXestadoXproyecto('R', $codigo_prop_proy, $proyectoid);
-            $persona = new Admin_Model_DbTable_Persona();
-            for ($i=0; $i < count($data_rendicion); $i++) { 
-                $where['numero'] = $data_rendicion[$i]['numero'];
-                $data_one = $rendicion->_getOne($where);
-                $data_rendicion[$i] = $data_one;
-
-                $data_persona = $persona->_getPersona($data_rendicion[$i]['dni']);
-                $data_rendicion[$i]['nombre_persona'] = $data_persona['ape_paterno']. ' ' .$data_persona['ape_materno']. ', ' .$data_persona['nombres']. ' ' .$data_persona['segundo_nombre'];
-            }
-            $this->view->data_rechazados = $data_rendicion;
-
-            $data_rendicion = $rendicion->_getrendicionXestadoXproyecto('A', $codigo_prop_proy, $proyectoid);
-            $persona = new Admin_Model_DbTable_Persona();
-            for ($i=0; $i < count($data_rendicion); $i++) { 
-                $where['numero'] = $data_rendicion[$i]['numero'];
-                $data_one = $rendicion->_getOne($where);
-                $data_rendicion[$i] = $data_one;
-
-                $data_persona = $persona->_getPersona($data_rendicion[$i]['dni']);
-                $data_rendicion[$i]['nombre_persona'] = $data_persona['ape_paterno']. ' ' .$data_persona['ape_materno']. ', ' .$data_persona['nombres']. ' ' .$data_persona['segundo_nombre'];
-            }
-            $this->view->data_aprobados = $data_rendicion;
         } catch (Exception $e) {
             print "Error: ".$e->getMessage();
         }

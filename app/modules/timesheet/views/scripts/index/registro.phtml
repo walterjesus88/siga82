@@ -88,15 +88,69 @@
 
     
     <?php 
+    //echo $this->cargo;
     
-    
-    
-    if ($this->is_gerente=='S') 
+    if ($this->is_gerente=='S' and $this->cargo!='GERENTE-GENERAL') 
     {
-      echo "Aprobador: "; echo "<br>";
-      echo "Carlos Cesar";
+      echo "Aprobado: "; echo "<br>";
+      echo "Carlos Cesar"; echo "<br>";
+
+ $planificacion = new Admin_Model_DbTable_Planificacion();
+    $proyectos=$planificacion->_getOnexSemanaxGerenteProyecto($this->semana,$this->uid,$this->dni,$this->areaid);
+
+     foreach ($proyectos as $datos) {
+       //print_r($datos['uid']);
+       $porciones = explode(".", $datos['uid']);
+       echo "GP: ";
+       echo (ucwords($porciones[0])); echo " ";
+        echo (ucwords($porciones[1])); echo "<br>";
+      }
+      
+      
+
     }
-    else
+
+    if ($this->cargo=='GERENTE') 
+    {
+      echo "Aprobado: "; echo "<br>";
+      echo "Denys Parra"; echo "<br>";
+
+      $planificacion = new Admin_Model_DbTable_Planificacion();
+    $proyectos=$planificacion->_getOnexSemanaxGerenteProyecto($this->semana,$this->uid,$this->dni,$this->areaid);
+
+     foreach ($proyectos as $datos) {
+       //print_r($datos['uid']);
+       $porciones = explode(".", $datos['uid']);
+       echo "GP: ";
+       echo (ucwords($porciones[0])); echo " ";
+        echo (ucwords($porciones[1])); echo "<br>";
+      }
+      
+
+    }
+
+     if ($this->cargo=='GERENTE-GENERAL') 
+    {
+      echo "Aprobado: "; echo "<br>";
+
+
+    $planificacion = new Admin_Model_DbTable_Planificacion();
+    $proyectos=$planificacion->_getOnexSemanaxGerenteProyecto($this->semana,$this->uid,$this->dni,$this->areaid);
+
+     foreach ($proyectos as $datos) {
+       //print_r($datos['uid']);
+       $porciones = explode(".", $datos['uid']);
+       echo "GP: ";
+       echo (ucwords($porciones[0])); echo " ";
+        echo (ucwords($porciones[1])); echo "<br>";
+      }
+
+     
+    }
+
+    
+    if ($this->is_gerente!='S' and $this->cargo!='GERENTE' AND $this->cargo!='GERENTE-GENERAL') 
+    
     {
 
     $planificacion = new Admin_Model_DbTable_Planificacion();
@@ -172,8 +226,8 @@
             <tr >
             <th style="width: 5%;">  </th>
             <th style="width: 60%;" >Proyecto / Actividad: Tarea</th>
-            <th style="width: 5%;">Facturable</th>
-            <th style="width: 5%;">Tarea No Facturable</th>
+            <th style="width: 5%;">Tipo</th>
+            <th style="width: 5%;">Tarea </th>
             <?php 
               $fecha = $this->fecha;
               $fecha_mostrar = $this->fecha_mostrar;
@@ -1184,7 +1238,7 @@
 
 <div style="display:none" id="horaregistrada"></div>
 <div style="display:none" id="carga"></div>
-<div   style="display:none"  id="carga_nueva"></div>
+<div   id="carga_nueva"></div>
 <div style="display:none" id="carga_w1"></div>
 
 

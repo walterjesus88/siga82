@@ -393,14 +393,117 @@ class Expense_IndexController extends Zend_Controller_Action {
                 $data['monto_total'] = $monto_total[$i];
                 
                 $tipo_cambio = new Admin_Model_DbTable_Tipogasto();
-                if ($moneda[$i] != 'Soles') {
-                    $where_cambio['tipo_moneda'] = $moneda[$i];
-                    $where_cambio['fecha'] = $fecha[$i];
-                    $data_tipo_cambio = $tipo_cambio->_getOne($where_cambio);
-                    $tot_seg = $data_tipo_cambio['compra'] * $monto_total[$i];
-                    $data['segundo_monto_total'] = $tot_seg;
+                $where_cambio['fecha'] = $fecha[$i];
+                $where_cambio['tipo_moneda'] = 'Dolar Americano';
+                $dolar_tipo_cambio = $tipo_cambio->_getOne($where_cambio);
+                $where_cambio['tipo_moneda'] = 'Dolar Canadiense';
+                $dolar_canadiense_tipo_cambio = $tipo_cambio->_getOne($where_cambio);
+                $where_cambio['tipo_moneda'] = 'Real';
+                $real_tipo_cambio = $tipo_cambio->_getOne($where_cambio);
+                $where_cambio['tipo_moneda'] = 'Peso Chileno';
+                $peso_chileno_tipo_cambio = $tipo_cambio->_getOne($where_cambio);
+                $where_cambio['tipo_moneda'] = 'Peso Argentino';
+                $peso_argentino_tipo_cambio = $tipo_cambio->_getOne($where_cambio);
+                
+                if ($moneda[$i] == 'Soles') {
+                    $data['soles_monto_total'] = $monto_total[$i];
+
+                    $tot_dolar = $monto_total[$i] / $dolar_tipo_cambio['compra'];
+                    $data['dolar_monto_total'] = round($tot_dolar, 2);
+                    $tot_dolar_canadiense = $monto_total[$i] / $dolar_canadiense_tipo_cambio['compra'];
+                    $data['dolar_canadiense_monto_total'] = round($tot_dolar_canadiense, 2);
+                    $tot_real = $monto_total[$i] / $real_tipo_cambio['compra'];
+                    $data['real_monto_total'] = round($tot_real, 2);
+                    $tot_peso_chileno = $monto_total[$i] * $peso_chileno_tipo_cambio['compra'];
+                    $data['peso_chileno_monto_total'] = round($tot_peso_chileno, 2);
+                    $tot_peso_argentino = $monto_total[$i] * $peso_argentino_tipo_cambio['compra'];
+                    $data['peso_argentino_monto_total'] = round($tot_peso_argentino, 2);
                     
                 }
+
+                if ($moneda[$i] == 'Dolar Americano') {
+                    $data['dolar_monto_total'] = $monto_total[$i];
+
+                    $tot_soles = $monto_total[$i] * $dolar_tipo_cambio['compra'];
+                    $data['soles_monto_total'] = round($tot_soles, 2);
+
+                    $tot_dolar_canadiense = $data['soles_monto_total'] / $dolar_canadiense_tipo_cambio['compra'];
+                    $data['dolar_canadiense_monto_total'] = round($tot_dolar_canadiense, 2);
+                    $tot_real = $data['soles_monto_total'] / $real_tipo_cambio['compra'];
+                    $data['real_monto_total'] = round($tot_real, 2);
+                    $tot_peso_chileno = $data['soles_monto_total'] * $peso_chileno_tipo_cambio['compra'];
+                    $data['peso_chileno_monto_total'] = round($tot_peso_chileno, 2);
+                    $tot_peso_argentino = $data['soles_monto_total'] * $peso_argentino_tipo_cambio['compra'];
+                    $data['peso_argentino_monto_total'] = round($tot_peso_argentino, 2);
+                    
+                }
+
+                if ($moneda[$i] == 'Dolar Canadiense') {
+                    $data['dolar_canadiense_monto_total'] = $monto_total[$i];
+
+                    $tot_soles = $monto_total[$i] * $dolar_canadiense_tipo_cambio['compra'];
+                    $data['soles_monto_total'] = round($tot_soles, 2);
+                    
+                    $tot_dolar = $data['soles_monto_total'] / $dolar_tipo_cambio['compra'];
+                    $data['dolar_monto_total'] = round($tot_dolar, 2);
+                    $tot_real = $data['soles_monto_total'] / $real_tipo_cambio['compra'];
+                    $data['real_monto_total'] = round($tot_real, 2);
+                    $tot_peso_chileno = $data['soles_monto_total'] * $peso_chileno_tipo_cambio['compra'];
+                    $data['peso_chileno_monto_total'] = round($tot_peso_chileno, 2);
+                    $tot_peso_argentino = $data['soles_monto_total'] * $peso_argentino_tipo_cambio['compra'];
+                    $data['peso_argentino_monto_total'] = round($tot_peso_argentino, 2);
+                }
+
+
+                if ($moneda[$i] == 'Real') {
+                    $data['real_monto_total'] = $monto_total[$i];
+
+                    $tot_soles = $monto_total[$i] * $real_tipo_cambio['compra'];
+                    $data['soles_monto_total'] = round($tot_soles, 2);
+                    
+                    $tot_dolar = $data['soles_monto_total'] / $dolar_tipo_cambio['compra'];
+                    $data['dolar_monto_total'] = round($tot_dolar, 2);
+                    $tot_dolar_canadiense = $data['soles_monto_total'] / $dolar_canadiense_tipo_cambio['compra'];
+                    $data['dolar_canadiense_monto_total'] = round($tot_dolar_canadiense, 2);
+                    $tot_peso_chileno = $data['soles_monto_total'] * $peso_chileno_tipo_cambio['compra'];
+                    $data['peso_chileno_monto_total'] = round($tot_peso_chileno, 2);
+                    $tot_peso_argentino = $data['soles_monto_total'] * $peso_argentino_tipo_cambio['compra'];
+                    $data['peso_argentino_monto_total'] = round($tot_peso_argentino, 2);
+                }
+
+                if ($moneda[$i] == 'Peso Chileno') {
+                    $data['peso_chileno_monto_total'] = $monto_total[$i];
+
+                    $tot_soles = $monto_total[$i] / $peso_chileno_tipo_cambio['compra'];
+                    $data['soles_monto_total'] = round($tot_soles, 2);
+                    
+                    $tot_dolar = $data['soles_monto_total'] / $dolar_tipo_cambio['compra'];
+                    $data['dolar_monto_total'] = round($tot_dolar, 2);
+                    $tot_dolar_canadiense = $data['soles_monto_total'] / $dolar_canadiense_tipo_cambio['compra'];
+                    $data['dolar_canadiense_monto_total'] = round($tot_dolar_canadiense, 2);
+                    $tot_real = $data['soles_monto_total'] / $real_tipo_cambio['compra'];
+                    $data['real_monto_total'] = round($tot_real, 2);
+                    $tot_peso_argentino = $data['soles_monto_total'] * $peso_argentino_tipo_cambio['compra'];
+                    $data['peso_argentino_monto_total'] = round($tot_peso_argentino, 2);
+                }
+
+                if ($moneda[$i] == 'Peso Argentino') {
+                    $data['peso_argentino_monto_total'] = $monto_total[$i];
+
+                    $tot_soles = $monto_total[$i] / $peso_argentino_tipo_cambio['compra'];
+                    $data['soles_monto_total'] = round($tot_soles, 2);
+                    
+                    $tot_dolar = $data['soles_monto_total'] / $dolar_tipo_cambio['compra'];
+                    $data['dolar_monto_total'] = round($tot_dolar, 2);
+                    $tot_dolar_canadiense = $data['soles_monto_total'] / $dolar_canadiense_tipo_cambio['compra'];
+                    $data['dolar_canadiense_monto_total'] = round($tot_dolar_canadiense, 2);
+                    $tot_real = $data['soles_monto_total'] / $real_tipo_cambio['compra'];
+                    $data['real_monto_total'] = round($tot_real, 2);
+                    $tot_peso_chileno = $data['soles_monto_total'] * $peso_chileno_tipo_cambio['compra'];
+                    $data['peso_chileno_monto_total'] = round($tot_peso_chileno, 2);
+                }
+
+                print_r($data);
                 $gasto->_update($data, $pk);
             }
         } catch (Exception $e) {

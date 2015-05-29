@@ -1,6 +1,6 @@
- <section class="panel"><header class="panel-heading" style="padding-bottom : 10px">
+<section class="panel"><header class="panel-heading" style="padding-bottom : 10px">
 
-                         <div > <center >  Lista de pendiente de aprobación de Hojas de Tiempo Jefe Area</center></div>
+                         <div > <center>  Lista de pendiente de aprobación de Hojas de Tiempo Gerente Area</center></div>
                          </header></section>
 <div class="inbox-body">
                     <!--     <div class="panel-body">
@@ -69,12 +69,11 @@
                       <!--    </div>-->
 
                          <div id="uno">
-                         
                           <table class="table table-inbox table-hover" id="myTable" >
                             <thead>
                               <tr>  
-                                <th >#</th>
-                                <th >Hoja deTiempo</th>
+                              <th >#</th>
+                                <th >Hoja Tiempo</th>
                                 <th >Estado</th>
                                 <th >Nombre</th>
                                 <th >Usuario</th>
@@ -82,21 +81,21 @@
                                 <th >Facturable</th>
                                 <th >No Facturable</th>
                                 <th >Total</th>
-                                
                               </tr>
                             </thead>
                             <tbody>
                              <?php
                                   $c=1;                     
                                   foreach ($this->equipos_horas_aprobar as $equipo){  
-
+                                    //print_r($equipo);
                                   $sumahorassemana = new Admin_Model_DbTable_Sumahorasemana();
                                   $wheres=array('dni'=>$equipo['dni'],'uid'=>$equipo['uid'],'semanaid'=>$this->semanaid);
                                   $valorsuma=$sumahorassemana->_getOne($wheres);
-                                  
+                                //print_r($valorsuma);
                                   if ($valorsuma) {
+  $comparar=trim($valorsuma['estado']);
 
-                                    if (trim($valorsuma['estado'])=='P') {
+                                    if ($comparar=='GP') {
                                     ?>
                                   
                                   
@@ -108,19 +107,11 @@
                                                   ver detalle
                                               </button>                                      
                                           </td>
-                                          <td class="view-message "><?php 
-                                          if ($valorsuma['estado']=='P'){
-                                            echo "Para Aprobación";
-                                          }
-                                          //echo $valorsuma['estado']?></td>
-                                          <td class="view-message "><?php 
-                                          //echo $valorsuma['dni']
-                                            
+                                          <td class="view-message "><?php if(trim($valorsuma['estado'])=='J') {echo "Para Aprobación";}?></td>
+                                          <td class="view-message "><?php //echo $valorsuma['dni']
                                             $equipo = explode(".", $valorsuma['uid']);
-      
                                             echo (ucwords($equipo[0])); echo " ";
                                             echo (ucwords($equipo[1])); 
-
                                           ?></td>
                                           <td class="view-message "><?php echo $valorsuma['uid']?></td>                            
                                           <td class="view-message "><?php echo $valorsuma['semanaid']?></td>                               
@@ -140,7 +131,7 @@
                                             // alert(uid);
                                             // alert(dni);
                                             // alert(semanaid);
-                                            var url = "/timesheet/index/timesheetsemana/uid/"+ uid+"/dni/"+dni+"/semanaid/"+semanaid; //alert(url);                                             //alert(url);
+                                            var url = "/timesheet/index/semanagerenteoperaciones/uid/"+ uid+"/dni/"+dni+"/semanaid/"+semanaid; //alert(url);                                             //alert(url);
                                             $("#modaltimes").load(url);                                         
                                             //$("#modalsemana").modal('show');
                                             //$(".modal-body").html('<center><img src="/img/spinner.gif" /> Cargando...</center>');
@@ -150,7 +141,7 @@
 
 
 <?php $c++;
-                                    }  }
+                                    }  } 
                                    }
 
 
@@ -169,7 +160,7 @@
                               <div class="modal-content" style="width: 1250px; top: 100%; margin-left: -250px; ">
                                 <div class="modal-header">
                                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                                    <h4 class="modal-title">Aprobar Hoja de Tiempo</h4>
+                                    <h4 class="modal-title">Aprobar Hoja de Tiempo de los Gerentes de Proyectos</h4>
                                 </div>
                                 <div class="modal-body">
                                     
@@ -177,10 +168,9 @@
                                 </div>
                                 <div class="modal-footer">
                                       <button  data-dismiss="modal" class="btn btn-default" type="button">Cerrar</button>
-                        
                                     
                                 </div>
-                              </div>|
+                              </div>
                             </div>
                           </div>
 

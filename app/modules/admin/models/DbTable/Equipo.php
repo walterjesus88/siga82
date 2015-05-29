@@ -31,6 +31,23 @@ class Admin_Model_DbTable_Equipo extends Zend_Db_Table_Abstract
         }
     }
 
+    public function _getProyectosXuidXEstadoXnivelXcategoria($uid,$categoriaid,$nivel,$estado)
+     {
+        try{
+            $sql=$this->_db->query("
+               select * from equipo e inner join proyecto p 
+               on e.codigo_prop_proy = p.codigo_prop_proy and e.proyectoid = p.proyectoid 
+               where e.uid='$uid' and e.estado = '$estado' and e.categoriaid = '$categoriaid' 
+               and nivel = '$nivel' order by e.proyectoid");
+            $row=$sql->fetchAll();
+            return $row;           
+            }  
+            
+           catch (Exception $ex){
+            print $ex->getMessage();
+        }
+    }
+
 /*
 select p.codigo_prop_proy, p.proyectoid, e.estado, e.categoriaid, e.cargo, e.areaid, pro.propuestaid, pro.revision, p.nombre_proyecto, 
                 p.tipo_proyecto, pro.moneda, pro.descripcion  
@@ -276,7 +293,7 @@ public function _getListarEquipoxProyectoxGerente($uid,$dni)
                 select distinct uid,dni from equipo where proyectoid in  
                 (select distinct proyectoid from
                  equipo  where uid='$uid' and dni='$dni' and nivel='0')
-                  and nivel in ('4','2') 
+                  and nivel in ('4','2','1','3') 
 
 
                     ");
@@ -324,6 +341,81 @@ public function _getListarEquipoxProyectoxGerente($uid,$dni)
             print $ex->getMessage();
         }
     }
+
+
+    public function _getListarEquipoxGerenteAreaGeotecnia()
+     {
+        try{
+            $sql=$this->_db->query("
+                
+                select * from usuario_categoria where cargo='JEFE' and areaid in('22','21')
+
+
+                    ");
+            $row=$sql->fetchAll();
+            return $row;           
+            }  
+            
+           catch (Exception $ex){
+            print $ex->getMessage();
+        }
+    }
+
+
+    public function _getListarEquipoxGerenteAreaIngenieria()
+     {
+        try{
+            $sql=$this->_db->query("
+                
+               select * from usuario_categoria where cargo='JEFE' and areaid in('10','02')
+
+                    ");
+            $row=$sql->fetchAll();
+            return $row;           
+            }  
+            
+           catch (Exception $ex){
+            print $ex->getMessage();
+        }
+    }
+
+        public function _getListarEquipoxGerenteGeneralIngenieria()
+     {
+        try{
+            $sql=$this->_db->query("
+                
+               select * from usuario_categoria where cargo='GERENTE-AREA' and areaid in('10','02','20') or uid in ('romy.valdivia','jorge.alvarez','daniel.ttito')
+
+                    ");
+            $row=$sql->fetchAll();
+            return $row;           
+            }  
+            
+           catch (Exception $ex){
+            print $ex->getMessage();
+        }
+    }
+
+
+    public function _getListarEquipoxGerenteGeneral()
+     {
+        try{
+            $sql=$this->_db->query("
+                
+               select * from usuario_categoria where cargo='GERENTE' 
+
+                    ");
+            $row=$sql->fetchAll();
+            return $row;           
+            }  
+            
+           catch (Exception $ex){
+            print $ex->getMessage();
+        }
+    }
+
+
+    
     
     
 }

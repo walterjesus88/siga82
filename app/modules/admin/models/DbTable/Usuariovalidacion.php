@@ -53,7 +53,9 @@ class Admin_Model_DbTable_Usuariovalidacion extends Zend_Db_Table_Abstract
         try {
                 //if ($where["dni"]=='') return false;                
                 //$wherestr= "dni = '".$where['dni']."'  ";
-                $wherestr="uid_validacion = '".$where['uid_validacion']."' and estado_usuario = '".$where['estado_usuario']."' and semanaid = '".$where['semanaid']."'   ";
+                $wherestr="uid_validacion = '".$where['uid_validacion']."' and estado_usuario = '".$where['estado_usuario']."' and semanaid = '".$where['semanaid']."'   
+                    and etapa = '".$where['etapa']."' and  uid = '".$where['uid']."'  and   dni = '".$where['dni']."' and  dni_validacion = '".$where['dni_validacion']."'
+                ";
 
                 $row = $this->fetchRow($wherestr);
 
