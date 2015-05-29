@@ -316,7 +316,7 @@
              //}
             }?>
            </tbody>
-           <div  id="comentariousers"></div>
+           <div style="display:none" id="comentariousers"></div>
            <script type="text/javascript">        
                 $(document).ready(function(){
                   $("#aprobar").on("click",function(){
@@ -332,8 +332,8 @@
                   var semanaid="<?php echo $data_tareo['semanaid'] ?>";
                   var cargo="<?php echo $this->cargo  ?>";
                 
-                  url="/timesheet/index/guardarcomentariogerente/estado/B/uid/"+uid+'/dni/'+dni+'/semanaid/'+semanaid+'/cargo/'+cargo+'/coment/'+coment+'/uid_validacion/'+uid_validacion+'/dni_validacion/'+dni_validacion+'/etapa/2'+'/fecha/'+fecha_actual;
- alert(url);
+                  url="/timesheet/index/guardarcomentariogerentegeneral/estado/B/uid/"+uid+'/dni/'+dni+'/semanaid/'+semanaid+'/cargo/'+cargo+'/coment/'+coment+'/uid_validacion/'+uid_validacion+'/dni_validacion/'+dni_validacion+'/etapa/2'+'/fecha/'+fecha_actual;
+ 
                       $.ajax({
                           type: "POST",
                           url: url,
@@ -368,8 +368,8 @@
                  var fecha_actual = "<?php echo date('Y-m-d') ?>"
 
                   //url="/timesheet/index/guardarcomentario/estado/R/uid/"+uid+'/dni/'+dni+'/semanaid/'+semanaid+'/cargo/'+cargo+'/coment/'+coment+'/uid_validacion/'+uid_validacion+'/dni_validacion/'+dni_validacion;
-                  url="/timesheet/index/guardarcomentariogerente/estado/R/uid/"+uid+'/dni/'+dni+'/semanaid/'+semanaid+'/cargo/'+cargo+'/coment/'+coment+'/uid_validacion/'+uid_validacion+'/dni_validacion/'+dni_validacion+'/etapa/2'+'/fecha/'+fecha_actual;
-                  alert(url);
+                  url="/timesheet/index/guardarcomentariogerentegeneral/estado/R/uid/"+uid+'/dni/'+dni+'/semanaid/'+semanaid+'/cargo/'+cargo+'/coment/'+coment+'/uid_validacion/'+uid_validacion+'/dni_validacion/'+dni_validacion+'/etapa/2'+'/fecha/'+fecha_actual;
+
                   //url="/timesheet/index/guardarcomentario/estado/R/uid/"+uid+'/dni/'+dni+'/semanaid/'+semanaid+'/cargo/'+cargo+'/coment/'+coment;
                   //alert(url);
                       $.ajax({
