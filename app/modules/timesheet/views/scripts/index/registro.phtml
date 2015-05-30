@@ -1,7 +1,5 @@
 <section class="panel">
-
-
-  <div class="col-lg-2 alert-success"  style="padding-top: 10px;padding-bottom: 10px;padding-right: 10px;padding-left: 10px;">
+  <div class="col-lg-2 alert-info"  style="padding-top: 10px;padding-bottom: 10px;padding-right: 10px;padding-left: 10px;">
     Semana <?php echo $this->semana; echo ": ";?>
     <?php
       $fecha = $this->fecha;
@@ -13,32 +11,30 @@
       echo $fechainicio; echo " al "; echo $fechafinal;?>
       <br>
       <?php 
-
       $sumahorassemana = new Admin_Model_DbTable_Sumahorasemana();
       $wheres=array('dni'=>$this->dni,'uid'=>$this->uid,'semanaid'=>$this->semana);
       $tareosemana=$sumahorassemana->_getOne($wheres);
       $estado_horas=$tareosemana['estado'];
-     
+      //print_r($tareosemana);
       ?>
-
-      <?php if ($estado_horas=='P') {?>
+      <?php if (trim($estado_horas)=='P') {?>
       <strong>Hoja de Tiempo Espera de Aprobacion</strong> 
       <?php }?>
-       <?php if ($estado_horas=='O') {?>
+       <?php if (trim($estado_horas)=='O') {?>
       <strong>Hoja de Tiempo Rechazada por Jeje Area</strong> 
       <?php }?>
-        <?php if ($estado_horas=='R') {?>
+        <?php if (trim($estado_horas)=='R') {?>
       <strong>Hoja de Tiempo Rechazada por Gerente Proyecto</strong> 
       <?php }?>
 
-      <?php if ($estado_horas=='1') {?>
+      <?php if (trim($estado_horas)=='1') {?>
       <strong>Hoja de Tiempo Aprobada por Jefe Area, espera Gerente</strong> 
       <?php }?>
-       <?php if ($estado_horas=='2') {?>
+       <?php if (trim($estado_horas)=='2') {?>
       <strong>Hoja de Tiempo Aprobada</strong> 
       <?php }?>
 
-      <?php if ($estado_horas!='P' && $estado_horas!='1' && $estado_horas!='2' &&  $estado_horas!='R' && $estado_horas!='O') {?>
+      <?php if (trim($estado_horas)=='' ) {?>
       <strong>Hoja de Tiempo Activa</strong> 
       <?php }?>
   </div>
@@ -65,10 +61,11 @@
       echo $sumar['nonbillable'];
       echo "<br>";
       echo "HH No Fact.";
+
       ?>
     </button>
    
-    <button data-toggle="button" class="btn btn-white">
+    <button data-toggle="button" class="btn btn-white info">
       <?php 
       $sumahorasxact=$sumahoras->_getSumaHorasxActividad($this->uid,$this->dni,$this->semana,'adm');
       //echo $sumar['adm'];
@@ -193,11 +190,11 @@
     <a id = "" class="btn btn-primary pull-right btn-xs"  href="" style="margin-right : 10px">
       <i class="fa fa-print"></i> Imprimir
     </a><?php }?>
-  <?php if ($estado_horas!='P' && $estado_horas!='1' && $estado_horas!='2') {?>
+  <?php if (trim($estado_horas)!='P' && trim($estado_horas)!='1' && trim($estado_horas)!='2') {?>
     <a id = "submit_work" class="btn btn-default pull-right btn-xs" href="#" style="margin-right : 10px">
       <i class="fa fa-check-square"></i> Enviar
     </a><?php }?>
-  <?php if ($estado_horas!='P' && $estado_horas!='1' && $estado_horas!='2') {?>
+  <?php if (trim($estado_horas)!='P' && trim($estado_horas)!='1' && trim($estado_horas)!='2') {?>
     <!--<a id = "save_work" class="btn btn-info pull-right btn-xs"  style="margin-right : 10px">
       <i class="fa fa-save"></i> Guardar
     </a>-->
@@ -206,7 +203,7 @@
     </a>
 
     <?php }?>
-  <?php if ($estado_horas!='P' && $estado_horas!='1' && $estado_horas!='2') {?>
+  <?php if (trim($estado_horas)!='P' && trim($estado_horas)!='1' && trim($estado_horas)!='2') {?>
     <a id = "add_work" class="btn btn-success pull-right btn-xs" data-toggle="modal" href="#agregar" style="margin-right : 10px">
       <i class="fa fa-check-square-o"></i> Agregar
     </a><?php }?>
@@ -1183,7 +1180,7 @@
  
 
 
-<div class="col-lg-10 alert-success"  style="padding-top: 10px;padding-bottom: 10px;padding-right: 10px;padding-left: 10px;">
+<div class="col-lg-10 "  style="padding-top: 10px;padding-bottom: 10px;padding-right: 10px;padding-left: 10px;">
 <?php 
   $sumahorassemana = new Admin_Model_DbTable_Sumahorasemana();
   $wheres=array('dni'=>$this->dni,'uid'=>$this->uid,'semanaid'=>$this->semana);
@@ -1197,7 +1194,7 @@
 
    // print_r($vcoment);
   {?>
-  <table>
+  <table class="table alert-info">
     <tr>
       <th style="width: 20%;">  Usuario</th>
       <th style="width: 15%;" > Estado</th>
@@ -1273,9 +1270,6 @@ function fnc(evt) {
     var etapa=array_variables[14];
     var fecha_imprimir=array_variables[15];
     var actividad_generalid=array_variables[16];
-
-     
-
     
     if (isNaN(hora_real)) {
     var hora_real='0';
@@ -1283,10 +1277,7 @@ function fnc(evt) {
     //else{
     //var horasumanew=parseInt(horasuma);
     //}
-
     if (isNaN(hora_real)) {
-
-
     }
     else
     {

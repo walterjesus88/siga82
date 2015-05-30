@@ -64,12 +64,9 @@ class Admin_Model_DbTable_Tareopersona extends Zend_Db_Table_Abstract
         }
     }
 
+/*
 
-    public function _getTareoxPersonaxSemana($uid,$dni,$semanaid)
-     {
-        try{
-            $sql=$this->_db->query("
-                select *,tareo.estado as estado_tareopersona   from tareo_persona as tareo 
+         select *,tareo.estado as estado_tareopersona   from tareo_persona as tareo 
                 inner join actividad as act
                 on tareo.actividadid=act.actividadid and tareo.codigo_actividad=act.codigo_actividad 
                     and tareo.codigo_prop_proy=act.codigo_prop_proy
@@ -78,6 +75,35 @@ class Admin_Model_DbTable_Tareopersona extends Zend_Db_Table_Abstract
                     and tareo.revision=pro.revision and tareo.proyectoid=pro.proyectoid 
                 where tareo.uid='$uid' and tareo.dni='$dni' and tareo.semanaid='$semanaid' 
                 and tareo.etapa like 'INICIO%'  order by tareo.proyectoid,tareo.actividadid,tipo_actividad desc 
+
+
+                select * ,t.estado as estado_tareopersona from tareo_persona as t
+inner join actividad a
+on t.actividadid=a.actividadid and t.codigo_actividad=a.codigo_actividad 
+                    and t.codigo_prop_proy=a.codigo_prop_proy
+                    and t.revision=a.revision
+                    
+where t.uid='waldo.huallanca' and t.dni='44083167' and t.semanaid='22' and t.etapa like 'INICIO%' 
+order by t.proyectoid,t.actividadid,t.tipo_actividad desc
+
+                */
+
+    public function _getTareoxPersonaxSemana($uid,$dni,$semanaid)
+     {
+        try{
+            $sql=$this->_db->query("
+       
+select *,tareo.estado as estado_tareopersona   from tareo_persona as tareo 
+                inner join actividad as act
+                on tareo.actividadid=act.actividadid and tareo.codigo_actividad=act.codigo_actividad 
+                    and tareo.codigo_prop_proy=act.codigo_prop_proy
+                    and tareo.revision=act.revision
+                inner join proyecto as pro on tareo.codigo_prop_proy=pro.codigo_prop_proy
+                     and tareo.proyectoid=pro.proyectoid 
+                where tareo.uid='$uid' and tareo.dni='$dni' and tareo.semanaid='$semanaid' 
+                and tareo.etapa like 'INICIO%'  order by tareo.proyectoid,tareo.actividadid,tipo_actividad desc 
+              
+
             ");
             $row=$sql->fetchAll();
             return $row;           
