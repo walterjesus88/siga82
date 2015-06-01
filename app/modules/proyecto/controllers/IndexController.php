@@ -975,6 +975,42 @@ for ($j = 8; $j <= $data->sheets[0]['numCols']-1; $j++) {
     }
   }
 
+public function asignaractividadAction(){
+  try
+  {
+
+    //$proyectoid= $this->_getParam("proyectoid");
+    //$codigo_prop_proy= $this->_getParam("codigo_prop_proy");
+
+    $proyectoid= '1208.10.08';
+    $codigo_prop_proy= '13.10.022-1208.10.08-C';
+
+    $where = array( 'proyectoid' => $proyectoid,'codigo_prop_proy'=>$codigo_prop_proy,'estado' =>'P','isproyecto'=>'S');
+    $veract = new Admin_Model_DbTable_Actividad();
+    $viewactivity=$veract->_getFilter($where);
+    //print_r($viewactivity);
+    $this->view->actividades = $viewactivity;
+
+    $wherekip = array( 'proyectoid' => $proyectoid,'codigo_prop_proy'=>$codigo_prop_proy,'estado' =>'A');    
+    $verequipo= new Admin_Model_DbTable_Equipo();
+    $viewequipo=$verequipo->_getFilter($wherekip);
+    print_r($viewequipo);
+    $this->view->equipo = $viewequipo;
+
+    $area = new Admin_Model_DbTable_Area();
+    $area_view = $area->_getAreaAll();
+    $this->view->area = $area_view;
+
+
+  }
+  catch (Exception $e) {
+    print "Error: ".$e->getMessage();
+  }
+}
+
+
+
+
 public function subirpropuestaAction(){
   try {
     $proyectoid= $this->_getParam("proyectoid");

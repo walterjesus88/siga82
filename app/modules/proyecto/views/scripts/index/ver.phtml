@@ -5,7 +5,6 @@
     </span>
   </header>
 </section>
-
 <div class="row">
   <div class="col-md-8">
     <section class="panel">
@@ -13,6 +12,8 @@
     background: rgba(0, 105, 173, 1);">
         <strong>  Projecto: <?php print_r($this->proyecto['proyectoid']); echo "<br>";
         print_r($this->proyecto['nombre_proyecto'])?></strong>
+      <a class="btn btn-danger" data-toggle="modal" href="#modalperson">Small   </a>
+      
       </div>
       <div class="panel-body bio-graph-info">
         <div class="row p-details">
@@ -37,7 +38,7 @@
       if (file_exists($nombre_fichero)) {?>
         <header class="panel-heading">
           Lista Actividades y Gastos del Proyecto
-<span class="pull-right">
+          <span class="pull-right">
           <a href="/proyecto/index/subiractividades/codigo_prop_proy/<?php  print_r($this->proyecto['codigo_prop_proy'])?>/proyectoid/<?php print_r($this->proyecto['proyectoid']);?>"  id="btn_cargar_actividades" class="btn btn-sm btn-primary">Cargar Actividades</a>
           <a href="/proyecto/index/subirareacategoria/codigo_prop_proy/<?php  print_r($this->proyecto['codigo_prop_proy'])?>/proyectoid/<?php print_r($this->proyecto['proyectoid']);?>"  id="btn_cargar_area_categoria" class="btn btn-sm btn-primary">Cargar Areas x Categoria</a>
           <a href="/proyecto/index/subirtareo/codigo_prop_proy/<?php  print_r($this->proyecto['codigo_prop_proy'])?>/proyectoid/<?php print_r($this->proyecto['proyectoid']);?>"  id="btn_cargar_hh" class="btn btn-sm btn-primary">Cargar HH</a> </span>
@@ -397,7 +398,23 @@ foreach ($equipo as $lista) { ?>
 </div>
 <!-- page end-->
 
-
+<div class="modal fade" id="modalperson" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content" style="width: 1250px; top: 100%; margin-left: -250px; ">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4 class="modal-title">Modal Titdddtle</h4>
+      </div>
+      <div class="modal-body">                           
+        <div id="modaltimes"></div>
+      </div>
+      <div class="modal-footer">
+        <button  data-dismiss="modal" class="btn btn-default" type="button">Cerrar</button>
+        <button id="savecoment"class="btn btn-warning" type="button"> Confirm</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 
 <div class="modal fade modal-dialog-center top-modal-with-space" id="myModal9" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">

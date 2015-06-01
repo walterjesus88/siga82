@@ -1,0 +1,60 @@
+  <div id="Proyecto_Activa">
+    <table class="table table-hover p-table">
+          <thead>
+            <tr>  
+              <th style="width: 10%;">Actividad
+                <select id="select_generalp_<?php echo $j?>" class="form-control input-sm m-bot15 col-lg-10">                        
+                  <option>Seleccione el Area</option>
+                  <?php  
+                  foreach ($this->area as $data_area) {?>
+                  <option value="<?php echo $data_area['areaid']?>"><?php  echo $data_area['nombre']?></option>
+                  <?php }?>
+                </select>
+              </th>
+              <?php
+              $c=0;
+              $cont=count($this->actividades);
+              echo $cont;
+              foreach ($this->actividades as $listaactividad)
+              {
+              ?>
+                <td class="p-name">                    
+                   <a href="#"><?php echo $listaactividad['nombre']; ?></a>
+                </td>                                            
+                <?php $c++;
+              }           
+              ?>
+            </tr>
+          </thead>
+          <?php
+            $c=0;
+            foreach ($this->equipo as $listaequipo) 
+            {               
+                ?>
+                <tr>
+                  <td class="p-name">                
+                    <a href="#"><?php echo $listaequipo['uid'];echo " ";echo $listaequipo['cargo'];echo " ";echo $listaequipo['areaid']; ?></a>
+                  </td>
+                     <?php
+                     for ($i=0; $i < $cont; $i++) { ?>
+                        <td>
+                          <input id="agr" type="checkbox" >
+
+                          <script type="text/javascript">                         
+                           $("#agr").click(function(){ 
+                              //alert("agre");
+                              console.log("ssssss");
+                           });                   
+                          </script>
+                        </td>
+                        
+
+                     <?php
+                     }
+                     ?>
+                </tr>
+                <?php $c++;
+            }            
+          ?>
+    </table>
+  </div>

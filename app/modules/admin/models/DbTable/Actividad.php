@@ -347,6 +347,29 @@ public function _getTareasxActividadPadrexCategoria($proyectoid,$codigo,$propues
            catch (Exception $ex){
             print $ex->getMessage();
         }
+    }
+
+
+    public function _getFilter($where=null,$attrib=null,$orders=null){
+        try{            
+            if($where['codigo_prop_proy']=='' || $where['proyectoid']=='' ) return false;
+                $select = $this->_db->select();
+                if ($attrib=='') $select->from("actividad");
+                else $select->from("actividad",$attrib);
+                foreach ($where as $atri=>$value){
+                    $select->where("$atri = ?", $value);
+                }
+                if ($orders<>null || $orders<>"") {
+                    if (is_array($orders))
+                        $select->order($orders);
+                }   
+                $results = $select->query();
+                $rows = $results->fetchAll();
+                if ($rows) return $rows;
+                return false;
+        }catch (Exception $e){
+            print "Error: Read Filter Actividad ".$e->getMessage();
+        }
     }    
   
   
