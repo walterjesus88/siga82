@@ -143,7 +143,7 @@ public function _getProyectosAnddes()
         select distinct (p.clienteid), c.nombre_comercial, p.unidad_mineraid
 
                from equipo e inner join proyecto p
-               on e.codigo_prop_proy = p.codigo_prop_proy
+               ON e.codigo_prop_proy = p.codigo_prop_proy and e.proyectoid=p.proyectoid 
                
                inner join cliente c on
                p.clienteid=c.clienteid

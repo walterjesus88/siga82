@@ -95,12 +95,12 @@ class Admin_Model_DbTable_Actividad extends Zend_Db_Table_Abstract
     }
 
 
-public function _getRepliconActividades($proyectoid,$codigo)
+    public function _getRepliconActividades($proyectoid,$codigo)
      {
         try{
             $sql=$this->_db->query("
-               select * from actividad 
-               where proyectoid='$proyectoid' and codigo_prop_proy='$codigo' 
+                select * from actividad 
+                where proyectoid='$proyectoid' and codigo_prop_proy='$codigo' 
                 order by orden
             ");
             $row=$sql->fetchAll();
