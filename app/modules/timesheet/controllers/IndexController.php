@@ -25,10 +25,12 @@ class Timesheet_IndexController extends Zend_Controller_Action {
         $uid = $this->sesion->uid;
         $dni = $this->sesion->dni;
         $equipo = new Admin_Model_DbTable_Equipo();
-        $data_equipo = $equipo->_getProyectosXuidXEstado($uid,'A');
-        $data_clientes = $equipo ->_getClienteXuidXEstado($uid,'A');
+        //$data_equipo = $equipo->_getProyectosXuidXEstado($uid,'A');
+        //$data_clientes = $equipo ->_getClienteXuidXEstado($uid,'A');
+        $data_clientes = $equipo ->_getClienteXEquipoXUsuario($uid, $dni ,'A');
+
         $this->view->datoscliente = $data_clientes;
-        $this->view->equipo = $data_equipo;
+        //$this->view->equipo = $data_equipo;
         
          } catch (Exception $e) {
             print "Error: ".$e->getMessage();
@@ -58,7 +60,8 @@ class Timesheet_IndexController extends Zend_Controller_Action {
         else
         {
             $equipo = new Admin_Model_DbTable_Equipo();
-            $data_equipo = $equipo->_getProyectosxUidXEstadoxCliente($uid,'A',$clienteid,$unidadid);    
+            $data_equipo = $equipo->_getProyectosxEquipoxUsuarioXEstadoxCliente($uid,$dni,'A',$clienteid);    
+            //$data_equipo = $equipo->_getProyectosxUidXEstadoxCliente($uid,'A',$clienteid,$unidadid);    
             $this->view->equipo = $data_equipo;
             $this->view->fecha_consulta = $fecha_consulta;
         }

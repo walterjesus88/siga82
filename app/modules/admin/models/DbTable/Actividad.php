@@ -172,6 +172,25 @@ tar.actividadid=act.actividadid and  tar.revision=act.revision
         }
     }
 
+     public function _getActividadesPadres_Replicon($proyectoid,$codigo,$propuestaid,$revision)
+     {
+        try{
+            $sql=$this->_db->query("
+               select * from actividad 
+               where proyectoid='$proyectoid' and codigo_prop_proy='$codigo' 
+               and propuestaid='$propuestaid' and revision='$revision' and actividad_padre='0'  order by orden asc;
+            ");
+            $row=$sql->fetchAll();
+            return $row;           
+            }  
+            
+           catch (Exception $ex){
+            print $ex->getMessage();
+        }
+    }
+
+
+
     public function _getActividadesHijas($proyectoid,$codigo,$propuestaid,$revision,$actividadid)
      {
         try{
