@@ -34,7 +34,7 @@
     <section class="panel">
       <?php $proyectoid=$this->proyecto['proyectoid'];
       $nombre_fichero = './upload/proyecto/'.$proyectoid.'-HH.xls';
-      if (file_exists($nombre_fichero)) {?>
+      //if ( file_exists($nombre_fichero) ) {?>
         <header class="panel-heading">
           Lista Actividades y Gastos del Proyecto
 <span class="pull-right">
@@ -83,7 +83,10 @@
               </div>
             </div>
             <?php $actividadpadre= new Admin_Model_DbTable_Actividad();
-            $list=$actividadpadre->_getActividadesPadres($this->proyecto['proyectoid'],$this->proyecto['codigo_prop_proy'],$this->proyecto['propuestaid'],$this->proyecto['revision']); $j=1;
+            //$list=$actividadpadre->_getActividadesPadres($this->proyecto['proyectoid'],$this->proyecto['codigo_prop_proy'],$this->proyecto['propuestaid'],$this->proyecto['revision']); 
+            $list=$actividadpadre->_getActividadesPadres_Replicon($this->proyecto['proyectoid'],$this->proyecto['codigo_prop_proy'],$this->proyecto['propuestaid'],$this->proyecto['revision']); 
+            
+            $j=1;
             foreach ($list as $lista) { ?>
               <div id="actividad_<?php echo $lista['actividadid'] ?>" class="tab-pane  active">
                 <div class="panel-body">
@@ -203,8 +206,9 @@ foreach ($actividades as $lista) {
 
 
 <?php
-} else {?>
+//} else {?>
 
+<!--
 <form enctype="multipart/form-data" action="/../cargar_horas.php" method="post">
 <input type="hidden" name="MAX_FILE_SIZE" value="200000" />
 <input type="file" name="Filedata" />
@@ -212,10 +216,10 @@ foreach ($actividades as $lista) {
 <input type="submit" value="Cargar Propuesta HH al Servidor" />
 <input style="display: none;" type="text" id="proyectoid" name="proyectoid" value="<?php print_r($this->proyecto['proyectoid']);?>"/>
 <input style="display: none;" type="text" id="codigo" name="codigo" value="<?php  print_r($this->proyecto['codigo_prop_proy']);?>"/>
-</form>
+</form> -->
 <?php
 
-}
+//}
 ?>
 
 </section>
