@@ -1,56 +1,127 @@
+<script type="text/javascript" src="/js/jquery-ui-1.9.2.custom.min.js"></script>
+<script type="text/javascript" src="/js/jquery-migrate-1.2.1.min.js"></script>
+<script type="text/javascript" src="/js/bootstrap.min.js"></script>
+
   <div id="Proyecto_Activa">
     <table class="table table-hover p-table">
           <thead>
             <tr>  
               <th style="width: 10%;">Actividad
-                <select id="select_generalp_<?php echo $j?>" class="form-control input-sm m-bot15 col-lg-10">                        
+      <!--           <select id="select_generalp_<?php echo $j?>" class="form-control input-sm m-bot15 col-lg-10">                        
                   <option>Seleccione el Area</option>
                   <?php  
                   foreach ($this->area as $data_area) {?>
                   <option value="<?php echo $data_area['areaid']?>"><?php  echo $data_area['nombre']?></option>
                   <?php }?>
-                </select>
+                </select> -->
               </th>
               <?php
               $c=0;
               $cont=count($this->actividades);
               echo $cont;
-              foreach ($this->actividades as $listaactividad)
-              {
+            foreach ($this->actividades as $listaactividad)
+            {
               ?>
-                <td class="p-name">                    
-                   <a href="#"><?php echo $listaactividad['nombre']; ?></a>
+                <td class="p-name" id="nomact_<?php echo $c?>">                    
+                   <?php echo $listaactividad['nombre']; ?>
                 </td>                                            
                 <?php $c++;
-              }           
+            }           
               ?>
             </tr>
           </thead>
           <?php
             $c=0;
             foreach ($this->equipo as $listaequipo) 
-            {               
+            {         
                 ?>
                 <tr>
                   <td class="p-name">                
                     <a href="#"><?php echo $listaequipo['uid'];echo " ";echo $listaequipo['cargo'];echo " ";echo $listaequipo['areaid']; ?></a>
                   </td>
                      <?php
-                     for ($i=0; $i < $cont; $i++) { ?>
+
+                       $i=0;              
+                      foreach ($this->actividades as $listaactividad)
+                      {
+
+                        $wheres=array('codigo_prop_proy'=>$listaactividad['codigo_prop_proy'],'codigo_actividad'=>$listaactividad['codigo_actividad'],'proyectoid'=>$listaequipo['proyectoid'],'actividadid'=>$listaactividad['actividadid'],'uid'=>$listaequipo['uid'],'dni'=>$listaequipo['dni'],'cargo'=>$listaequipo['cargo'],'areaid'=>$listaequipo['areaid'],'categoriaid'=>$listaequipo['categoriaid']);
+
+                        $act= new Admin_Model_DbTable_Activaractividad();
+                        $activar= $act->_getOne($wheres);
+
+                        //print_r($activar);
+
+                      ?>
                         <td>
-                          <input id="agr" type="checkbox" >
-                                              
+                          <?php
+                          if($activar['estado']=='A')
+                          {
+                          ?>
+                          <input id="agrega_<?php echo $c?><?php echo $i?>" type="checkbox"  checked="checked" >
+                          <?php 
+                          }
+                          else
+                          {
+                          ?>
+                          <input id="agrega_<?php echo $c?><?php echo $i?>" type="checkbox" >
+                          <?php
+                          }
+                          ?>
+
                           <script type="text/javascript">                         
-                           $("#agr").click(function(){ 
-                              alert("agre");
-                              console.log("ssssss");
+                           $("#agrega_<?php echo $c?><?php echo $i?>").click(function(){ 
+                              //alert("<?php echo $c?><?php echo $i?>");
+
+                              if($("#agrega_<?php echo $c?><?php echo $i?>").is(':checked')) {  
+                                    
+                                    estado='A';
+                                    console.log('act'); 
+                                } else {    
+                                    estado='I';
+                                    console.log('desact'); 
+                              }  
+
+                              var cargo="<?php echo $listaequipo['cargo'] ?>";
+                              var areaid="<?php echo $listaequipo['areaid'] ?>";
+                              var uid="<?php echo $listaequipo['uid'] ?>";
+                              var dni="<?php echo $listaequipo['dni'] ?>";
+                              var proyectoid="<?php echo $listaequipo['proyectoid'] ?>";
+                              var categoriaid="<?php echo $listaequipo['categoriaid'] ?>";
+                              var areaid="<?php echo $listaequipo['areaid'] ?>";
+                              var cargo="<?php echo $listaequipo['cargo'] ?>";
+                              var actividadid="<?php echo $listaactividad['actividadid'] ?>";
+                              var revision="<?php echo $listaactividad['revision'] ?>";
+                              var actividad_padre="<?php echo $listaactividad['actividad_padre'] ?>";
+                              var codigo_actividad="<?php echo $listaactividad['codigo_actividad'] ?>";
+                              var codigo_prop_proy="<?php echo $listaactividad['codigo_prop_proy'] ?>";
+
+                              url="/proyecto/index/agregaactividad/cargo/"+cargo+"/areaid/"+areaid+"/uid/"+uid+"/dni/"+dni+"/proyectoid/"+proyectoid+"/categoriaid/"+ categoriaid+"/actividadid/"+actividadid+"/revision/"+revision+"/actividad_padre/"+actividad_padre+"/codigo_actividad/"+codigo_actividad+"/codigo_prop_proy/"+codigo_prop_proy+"/estado/"+estado;
+
+                              //alert(url);
+
+                              $.ajax({
+                                    type: "POST",
+                                    url: url,
+                                    data: $(this).serialize(),
+                                    dataType: "html",                                                 
+                                    error: function(){
+                                      alert("error petición ajax load");
+                                    },
+                                    success: function(data){                      
+                                     
+                                    }
+                              });    
+
                            });                   
                           </script>
                         </td>
                         
 
                      <?php
-                     }
+                      $i++;
+                      }
+                                 
                      ?>
                 </tr>
                 <?php $c++;

@@ -975,42 +975,6 @@ for ($j = 8; $j <= $data->sheets[0]['numCols']-1; $j++) {
     }
   }
 
-public function asignaractividadAction(){
-  try
-  {
-
-    //$proyectoid= $this->_getParam("proyectoid");
-    //$codigo_prop_proy= $this->_getParam("codigo_prop_proy");
-
-    $proyectoid= '1208.10.08';
-    $codigo_prop_proy= '13.10.022-1208.10.08-C';
-
-    $where = array( 'proyectoid' => $proyectoid,'codigo_prop_proy'=>$codigo_prop_proy,'estado' =>'P','isproyecto'=>'S');
-    $veract = new Admin_Model_DbTable_Actividad();
-    $viewactivity=$veract->_getFilter($where);
-    //print_r($viewactivity);
-    $this->view->actividades = $viewactivity;
-
-    $wherekip = array( 'proyectoid' => $proyectoid,'codigo_prop_proy'=>$codigo_prop_proy,'estado' =>'A');    
-    $verequipo= new Admin_Model_DbTable_Equipo();
-    $viewequipo=$verequipo->_getFilter($wherekip);
-    print_r($viewequipo);
-    $this->view->equipo = $viewequipo;
-
-    $area = new Admin_Model_DbTable_Area();
-    $area_view = $area->_getAreaAll();
-    $this->view->area = $area_view;
-
-
-  }
-  catch (Exception $e) {
-    print "Error: ".$e->getMessage();
-  }
-}
-
-
-
-
 public function subirpropuestaAction(){
   try {
     $proyectoid= $this->_getParam("proyectoid");
@@ -1554,6 +1518,102 @@ public function cargartarea2Action() {
     $dbequipo = new Admin_Model_DbTable_Equipo();
     $dbequipo->_save($dataequipo);
     
+  }
+
+  public function asignaractividadAction(){
+    try
+    {
+      $this->_helper->layout()->disablelayout();
+      $proyectoid= $this->_getParam("proyectoid");
+      $codigo_prop_proy= $this->_getParam("codigo_prop_proy");
+
+      // $proyectoid= '1208.10.08';
+      // $codigo_prop_proy= '13.10.022-1208.10.08-C';
+
+      $where = array( 'proyectoid' => $proyectoid,'codigo_prop_proy'=>$codigo_prop_proy,'estado' =>'P','isproyecto'=>'S');
+      $veract = new Admin_Model_DbTable_Actividad();
+      $viewactivity=$veract->_getFilter($where);
+      //print_r($viewactivity);
+      $this->view->actividades = $viewactivity;
+
+      $wherekip = array( 'proyectoid' => $proyectoid,'codigo_prop_proy'=>$codigo_prop_proy,'estado' =>'A');    
+      $verequipo= new Admin_Model_DbTable_Equipo();
+      $viewequipo=$verequipo->_getFilter($wherekip);
+      //print_r($viewequipo);
+      $this->view->equipo = $viewequipo;
+
+      $area = new Admin_Model_DbTable_Area();
+      $area_view = $area->_getAreaAll();
+      $this->view->area = $area_view;
+
+
+    }
+    catch (Exception $e) {
+      print "Error: ".$e->getMessage();
+    }
+  }
+
+
+
+  public function agregaactividadAction(){
+    try
+    {  
+      $cargo= $this->_getParam("cargo");
+      $areaid= $this->_getParam("areaid");
+      $uid= $this->_getParam("uid");
+      $dni= $this->_getParam("dni");
+      $proyectoid= $this->_getParam("proyectoid");
+      $categoriaid= $this->_getParam("categoriaid");  
+   
+      $actividadid= $this->_getParam("actividadid");
+      $revision= $this->_getParam("revision");
+      $codigo_actividad= $this->_getParam("codigo_actividad");
+      $codigo_prop_proy= $this->_getParam("codigo_prop_proy");
+      $estado= $this->_getParam("estado");
+      $actividad_padre= $this->_getParam("actividad_padre");
+
+      //"codigo_prop_proy","codigo_actividad", "proyectoid", "actividadid", "uid", "dni","cargo", "areaid", "categoriaid");
+      $wheres=array('codigo_prop_proy'=>$codigo_prop_proy,'codigo_actividad'=>$codigo_actividad,'proyectoid'=>$proyectoid,'actividadid'=>$actividadid
+              ,'uid'=>$uid,'dni'=>$dni,'cargo'=>$cargo,'areaid'=>$areaid,'categoriaid'=>$categoriaid);
+
+      $act= new Admin_Model_DbTable_Activaractividad();
+      $activar= $act->_getOne($wheres);
+      //print_r($wheres);
+
+      $data['codigo_prop_proy']=$codigo_prop_proy;
+      $data['proyectoid']=$proyectoid;
+      $data['codigo_actividad']=$codigo_actividad;
+      $data['actividadid']=$actividadid; 
+      $data['revision']=$revision;
+      $data['cargo']=$cargo;
+      $data['categoriaid']=$categoriaid;
+      $data['areaid']=$areaid;
+      $data['uid']=$uid;
+      $data['dni']=$dni;
+      $data['fecha']=date("Y-m-d");
+      $data['estado']=$estado;
+      $data['actividad_padre']=$actividad_padre;
+
+      $datact['fecha']=date("Y-m-d");
+      $datact['estado']=$estado;
+
+        if($activar)
+        {
+          $upactiv= $act->_updateX($datact,$wheres);
+        }
+        else
+        {          
+          $gactiv= $act->_save($data);
+        }
+
+        //exit();
+
+     } 
+
+      catch (Exception $e) {
+      print "Error: ".$e->getMessage();
+    }
+
   }
 
 }

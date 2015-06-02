@@ -44,6 +44,34 @@
             $fechaactual = date("Y-m-d", strtotime($fechaactual));
             $actividades = $this->actividades;
             $j=1;
+
+            $sumahorassemana = new Admin_Model_DbTable_Sumahorasemana();
+            $wheres=array('dni'=>$this->dni,'uid'=>$this->uid,'semanaid'=>$this->semana);
+            $tareosemana=$sumahorassemana->_getOne($wheres);
+            //$estado_horas=$tareosemana['estado'];
+            $estado_real=$tareosemana['estado_real'];
+
+            $where['uid']=$this->uid;
+            $where['dni']=$this->dni;
+            $where['cargo']=$this->cargo;
+            $where['semanaid']=$this->semana;
+            $where['uid_validacion']=$this->uid_validacion;
+            $where['dni_validacion']=$this->dni_validacion;
+            $where['estado_usuario']='B';
+            //echo "usauio a validar:"; echo $this->uid;
+            //echo "validador: "; echo $this->uid_validacion;
+            $this->uid_validacion;
+            $vercoment= new Admin_Model_DbTable_Usuariovalidacion();
+            $vcoment=$vercoment->_getOnexUsuarioxJefexValidacion($where); 
+
+
+            //print_r($vcoment);
+             if (trim($estado_real)=='PENDIENTE' and $vcoment['estado_usuario']=='B') {
+              
+              }
+              else
+              {
+
             ?>
             <label class="control-label col-md-2"> Ingrese Comentario: </label>
             <div class="col-md-4">
@@ -63,7 +91,9 @@
             $vercoment= new Admin_Model_DbTable_Usuariovalidacion();
             $vcoment=$vercoment->_getOnexUsuarioxJefe($where); 
             //print_r($vcoment);
-           
+
+
+
             ?>
             <?php
             if($vcoment=$vercoment->_getOnexUsuarioxJefe($where))
@@ -100,7 +130,7 @@
                   Observar Hoja
                 </button>  
                 </div>
-            <?php }
+            <?php }}
             ?>    
            
 
@@ -316,7 +346,7 @@
              //}
             }?>
            </tbody>
-           <div  id="comentariousers"></div>
+           <div  style="display:none" id="comentariousers"></div>
            <script type="text/javascript">        
                 $(document).ready(function(){
                   $("#aprobar").on("click",function(){
@@ -333,7 +363,7 @@
                   var cargo="<?php echo $this->cargo  ?>";
                 
                   url="/timesheet/index/guardarcomentariogerente/estado/B/uid/"+uid+'/dni/'+dni+'/semanaid/'+semanaid+'/cargo/'+cargo+'/coment/'+coment+'/uid_validacion/'+uid_validacion+'/dni_validacion/'+dni_validacion+'/etapa/2'+'/fecha/'+fecha_actual;
- alert(url);
+ //alert(url);
                       $.ajax({
                           type: "POST",
                           url: url,
@@ -346,7 +376,7 @@
                               $("#comentariousers").empty();
                               $("#comentariousers").html(data);
                               $("#aprobar").hide();
-                              $("#observar").show();
+                              $("#observar").hide();
                              
                           }
                       });
@@ -369,7 +399,7 @@
 
                   //url="/timesheet/index/guardarcomentario/estado/R/uid/"+uid+'/dni/'+dni+'/semanaid/'+semanaid+'/cargo/'+cargo+'/coment/'+coment+'/uid_validacion/'+uid_validacion+'/dni_validacion/'+dni_validacion;
                   url="/timesheet/index/guardarcomentariogerente/estado/R/uid/"+uid+'/dni/'+dni+'/semanaid/'+semanaid+'/cargo/'+cargo+'/coment/'+coment+'/uid_validacion/'+uid_validacion+'/dni_validacion/'+dni_validacion+'/etapa/2'+'/fecha/'+fecha_actual;
-                  alert(url);
+                  //alert(url);
                   //url="/timesheet/index/guardarcomentario/estado/R/uid/"+uid+'/dni/'+dni+'/semanaid/'+semanaid+'/cargo/'+cargo+'/coment/'+coment;
                   //alert(url);
                       $.ajax({
