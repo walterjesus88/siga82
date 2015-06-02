@@ -1527,9 +1527,6 @@ public function cargartarea2Action() {
       $proyectoid= $this->_getParam("proyectoid");
       $codigo_prop_proy= $this->_getParam("codigo_prop_proy");
 
-      // $proyectoid= '1208.10.08';
-      // $codigo_prop_proy= '13.10.022-1208.10.08-C';
-
       $where = array( 'proyectoid' => $proyectoid,'codigo_prop_proy'=>$codigo_prop_proy,'estado' =>'P','isproyecto'=>'S');
       $veract = new Admin_Model_DbTable_Actividad();
       $viewactivity=$veract->_getFilter($where);
@@ -1579,7 +1576,7 @@ public function cargartarea2Action() {
       $act= new Admin_Model_DbTable_Activaractividad();
       $activar= $act->_getOne($wheres);
       //print_r($wheres);
-      
+
         if($activar)
         {
 

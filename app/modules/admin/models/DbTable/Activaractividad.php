@@ -10,9 +10,7 @@ class Admin_Model_DbTable_Activaractividad extends Zend_Db_Table_Abstract
                 $wherestr= "codigo_prop_proy = '".$where['codigo_prop_proy']."' and codigo_actividad='".$where['codigo_actividad']."'
                 			and proyectoid='".$where['proyectoid']."'  and actividadid='".$where['actividadid']."'
                 			and uid='".$where['uid']."' and dni='".$where['dni']."'  and cargo='".$where['cargo']."'  and areaid='".$where['areaid']."'
-                			and categoriaid='".$where['categoriaid']."'
-
-                ";
+                			and categoriaid='".$where['categoriaid']."' ";
 
                 //print_r($wherestr);
 
