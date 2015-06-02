@@ -12,8 +12,9 @@
     background: rgba(0, 105, 173, 1);">
         <strong>  Projecto: <?php print_r($this->proyecto['proyectoid']); echo "<br>";
         print_r($this->proyecto['nombre_proyecto'])?></strong>
-      <a class="btn btn-danger" data-toggle="modal" id="asigna" proyectoid="<?php echo $this->proyecto['proyectoid']?>"  codigo-prop-proy="<?php echo $this->proyecto['codigo_prop_proy'] ?>"
-      href="#modalperson">Asignar Personas-Actividad  </a>
+
+        <a class="btn btn-danger" id="asigna" href="#" proyectoid="<?php echo $this->proyecto['proyectoid']?>"  codigo-prop-proy="<?php echo $this->proyecto['codigo_prop_proy'] ?>"
+      >Asignar Personas-Actividad  </a>
       
       </div>
       <div class="panel-body bio-graph-info">
@@ -417,14 +418,14 @@ foreach ($equipo as $lista) { ?>
     <div class="modal-content" style="width: 1250px; top: 100%; margin-left: -250px; ">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-          <h4 class="modal-title">Modal Titdddtle</h4>
+          <h4 class="modal-title">Asignar Personas a una Actividad</h4>
       </div>
       <div class="modal-body">                           
         <div id="modaltimes"></div>
       </div>
       <div class="modal-footer">
         <button  data-dismiss="modal" class="btn btn-default" type="button">Cerrar</button>
-        <button id="savecoment"class="btn btn-warning" type="button"> Confirm</button>
+    
       </div>
     </div>
   </div>
@@ -435,6 +436,8 @@ foreach ($equipo as $lista) { ?>
     $("#asigna").click(function(){
       var proyectoid = $(this).attr('proyectoid');
       var codigo_prop_proy = $(this).attr('codigo-prop-proy');
+
+      $("#modalperson").modal('show')
                                           
     var url = "/proyecto/index/asignaractividad/proyectoid/"+ proyectoid+"/codigo_prop_proy/"+codigo_prop_proy;
     $("#modaltimes").load(url);   
@@ -479,9 +482,7 @@ foreach ($equipo as $lista) { ?>
     <div class="col-lg-9">
 
      <select  id="categoriaid" name="categoriaid" class="form-control">
-                        </select>
-
-      
+                        </select>      
 
 </div>
 </div>
@@ -490,18 +491,10 @@ foreach ($equipo as $lista) { ?>
 <label for="nombre_colaborador" class="col-lg-4 col-sm-4 control-label">Colaboradores</label>
 <div class="col-lg-6">
  <div id="nombre_colaborador">
-   
 
  </div>
 </div>
-
-
-
 </div>
-
-
-
-
 </form>
 
 
