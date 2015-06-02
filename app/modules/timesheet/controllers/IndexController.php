@@ -1454,9 +1454,6 @@ public function sumatareorealAction(){
             $dni_validacion = $this->sesion->dni;
             $this->view->uid_validacion=$uid_validacion;
             $this->view->dni_validacion=$dni_validacion;
-
-
-
             $areaid=$this->sesion->personal->ucatareaid;   
             $this->view->cargo = $areaid;
             $this->view->uid = $uid;
@@ -1475,11 +1472,7 @@ public function sumatareorealAction(){
             $tareo_persona = new Admin_Model_DbTable_Tareopersona();
             //$semana=date('W', strtotime($fecha_inicio_mod)); 
 
-
-            $this->view->semana = $semana;
             $datos_tareopersona=$tareo_persona->_getTareoxPersonaxSemana($uid,$dni,$semana);
-            $datos_tareopersona_NB=$tareo_persona->_getTareoxPersonaxSemanaxNB($uid,$dni,$semana);
-            //$data_tareo = $tareo->_getTareoXUid($where);
             $this->view->actividades= $datos_tareopersona;
 
         }    
@@ -1836,7 +1829,7 @@ public function guardarcomentariogerenteAction(){
             $data['dni_validacion']=$dni_validacion;
             $data['comentario']=$coment;
             $data['estado_usuario']=$estado;
-             $time = time();
+            $time = time();
             $datetime=date("d-m-Y (H:i:s)", $time);
             $fecha_validacion=$datetime;
 
@@ -1881,6 +1874,7 @@ public function guardarcomentariogerenteAction(){
                 
                  if ( $estado=='R'){
                   $datos_actualizar_sumahoras1['estado']='0';   
+                  $datos_actualizar_sumahoras1['estado_real']='RECHAZADO';
                   $str_actualizar_sumahoras1="semanaid='$semana' and uid='$uid' and dni='$dni'";
                         $tareopersona = new Admin_Model_DbTable_Tareopersona();
                         $datos_actualizar['estado']='A';
