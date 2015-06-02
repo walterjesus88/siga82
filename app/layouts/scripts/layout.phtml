@@ -16,6 +16,7 @@
     $is_gerente_area = $sesion->is_gerente_area;
     $is_gerente_general= $sesion->personal->ucatcargo;    
     $is_jefe_area= $sesion->personal->ucatcargo;   
+    $is_area= $sesion->personal->ucatareaid;
 
 ?>
 <html lang="es">
@@ -120,7 +121,7 @@
                     </li>
 
                     <?php 
-                    if ($rol == "PROPUESTA") { ?>
+                     if ($rol == "PROPUESTA" or $is_area=='26') { ?>
                         <li class="sub-menu">
                             <a href="/propuesta/index/listar" >
                                 <i class="fa fa-bar-chart-o"></i>

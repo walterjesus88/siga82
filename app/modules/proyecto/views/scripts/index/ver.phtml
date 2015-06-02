@@ -12,8 +12,7 @@
     background: rgba(0, 105, 173, 1);">
         <strong>  Projecto: <?php print_r($this->proyecto['proyectoid']); echo "<br>";
         print_r($this->proyecto['nombre_proyecto'])?></strong>
-      <a class="btn btn-danger" data-toggle="modal" id="asigna" proyectoid="<?php echo $this->proyecto['proyectoid']?>"  codigo-prop-proy="<?php echo $this->proyecto['codigo_prop_proy'] ?>"
-       href="#modalperson">Asignar Personas-Actividad  </a>
+      <a class="btn btn-danger" data-toggle="modal" href="#modalperson">Small   </a>
       
       </div>
       <div class="panel-body bio-graph-info">
@@ -50,15 +49,21 @@
             <li class="active">
               <a data-toggle="tab" href="#resumen" aria-expanded="false">Resumen</a>
             </li>
-            <?php $actividadpadre= new Admin_Model_DbTable_Actividad();
-            $list=$actividadpadre->_getActividadesPadres($this->proyecto['proyectoid'],$this->proyecto['codigo_prop_proy'],$this->proyecto['propuestaid'],$this->proyecto['revision']);
-            foreach ($list as $lista) { ?>
+          <!--  
+            <?php 
+            //$actividadpadre= new Admin_Model_DbTable_Actividad();
+            //$list=$actividadpadre->_getActividadesPadres($this->proyecto['proyectoid'],$this->proyecto['codigo_prop_proy'],$this->proyecto['propuestaid'],$this->proyecto['revision']);
+            //$list=$actividadpadre->_getActividadesPadresxReplicon($this->proyecto['proyectoid'],$this->proyecto['codigo_prop_proy'],$this->proyecto['propuestaid'],$this->proyecto['revision']);
+
+           // foreach ($list as $lista) { ?>
+
               <li class="">
-                <a data-toggle="tab" href="#actividad_<?php echo $lista['actividadid']?>" aria-expanded="true"><?php 
-                  $nombre_actividad = explode(":",$lista['nombre']);
-                  echo $nombre_actividad ['0']?></a>
+                <a data-toggle="tab" href="#actividad_<?php //echo $lista['actividadid']?>" aria-expanded="true"><?php 
+                  //$nombre_actividad = explode(":",$lista['nombre']);
+                  //echo $nombre_actividad ['0']?></a>
               </li>
-            <?php } ?>
+           
+            <?php// } ?>-->
             <li class="">
               <a data-toggle="tab" href="#gastos" aria-expanded="false">Gastos</a>
             </li>
@@ -85,6 +90,7 @@
               laboratorio
               </div>
             </div>
+            <!--
             <?php $actividadpadre= new Admin_Model_DbTable_Actividad();
             //$list=$actividadpadre->_getActividadesPadres($this->proyecto['proyectoid'],$this->proyecto['codigo_prop_proy'],$this->proyecto['propuestaid'],$this->proyecto['revision']); 
             $list=$actividadpadre->_getActividadesPadres_Replicon($this->proyecto['proyectoid'],$this->proyecto['codigo_prop_proy'],$this->proyecto['propuestaid'],$this->proyecto['revision']); 
@@ -159,7 +165,8 @@
                     <?php $i++;}?>
                 </div>
               </div>
-              <?php $j++;}?>
+              <?php $j++;}?>-->
+              
           </div>
         </div>
 
@@ -280,12 +287,12 @@ Descripcion Proyecto
 
 <div class="panel-body">
 <div class="panel-body">
-<a href="" class="logo"><img width="150" src="/img/cliente/<?php print_r($this->buscapropuesta[0]['clienteid']);?>.jpg"></a>                  
+<a href="" class="logo"><img width="150" src="/img/cliente/<?php print_r($this->proyecto['clienteid']);?>.jpg"></a>                  
                 </div>
 
 
 
-<!--<a href="#"><img src="/img/cliente/<?php print_r($this->buscapropuesta[0]['clienteid'])?>.jpg" alt="20px"/></a>-->
+<!--<a href="#"><img src="/img/cliente/<?php print_r($this->proyecto['clienteid'])?>.jpg" alt="20px"/></a>-->
 
 
 <div class="panel-body">
@@ -421,19 +428,6 @@ foreach ($equipo as $lista) { ?>
     </div>
   </div>
 </div>
-
-<script type="text/javascript">
-    $(document).ready(function(){
-    $("#asigna").click(function(){
-      var proyectoid = $(this).attr('proyectoid');
-      var codigo_prop_proy = $(this).attr('codigo-prop-proy');
-                                          
-    var url = "/proyecto/index/asignaractividad/proyectoid/"+ proyectoid+"/codigo_prop_proy/"+codigo_prop_proy;
-    $("#modaltimes").load(url);   
-
-     });
-    });
-</script> 
 
 
 <div class="modal fade modal-dialog-center top-modal-with-space" id="myModal9" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
