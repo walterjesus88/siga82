@@ -1580,29 +1580,28 @@ public function cargartarea2Action() {
       $activar= $act->_getOne($wheres);
       //print_r($wheres);
 
-      $data['codigo_prop_proy']=$codigo_prop_proy;
-      $data['proyectoid']=$proyectoid;
-      $data['codigo_actividad']=$codigo_actividad;
-      $data['actividadid']=$actividadid; 
-      $data['revision']=$revision;
-      $data['cargo']=$cargo;
-      $data['categoriaid']=$categoriaid;
-      $data['areaid']=$areaid;
-      $data['uid']=$uid;
-      $data['dni']=$dni;
-      $data['fecha']=date("Y-m-d");
-      $data['estado']=$estado;
-      $data['actividad_padre']=$actividad_padre;
-
-      $datact['fecha']=date("Y-m-d");
-      $datact['estado']=$estado;
-
         if($activar)
         {
+
+          $datact['fecha']=date("Y-m-d");
+          $datact['estado']=$estado;
           $upactiv= $act->_updateX($datact,$wheres);
         }
         else
-        {          
+        {      
+          $data['codigo_prop_proy']=$codigo_prop_proy;
+          $data['proyectoid']=$proyectoid;
+          $data['codigo_actividad']=$codigo_actividad;
+          $data['actividadid']=$actividadid; 
+          $data['revision']=$revision;
+          $data['cargo']=$cargo;
+          $data['categoriaid']=$categoriaid;
+          $data['areaid']=$areaid;
+          $data['uid']=$uid;
+          $data['dni']=$dni;
+          $data['fecha']=date("Y-m-d");
+          $data['estado']=$estado;
+          $data['actividad_padre']=$actividad_padre;    
           $gactiv= $act->_save($data);
         }
 
