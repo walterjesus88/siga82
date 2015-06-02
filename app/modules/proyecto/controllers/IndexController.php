@@ -1579,7 +1579,7 @@ public function cargartarea2Action() {
       $act= new Admin_Model_DbTable_Activaractividad();
       $activar= $act->_getOne($wheres);
       //print_r($wheres);
-
+      
         if($activar)
         {
 
