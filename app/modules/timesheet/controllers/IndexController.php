@@ -25,10 +25,12 @@ class Timesheet_IndexController extends Zend_Controller_Action {
         $uid = $this->sesion->uid;
         $dni = $this->sesion->dni;
         $equipo = new Admin_Model_DbTable_Equipo();
-        $data_equipo = $equipo->_getProyectosXuidXEstado($uid,'A');
-        $data_clientes = $equipo ->_getClienteXuidXEstado($uid,'A');
+        //$data_equipo = $equipo->_getProyectosXuidXEstado($uid,'A');
+        //$data_clientes = $equipo ->_getClienteXuidXEstado($uid,'A');
+        $data_clientes = $equipo ->_getClienteXEquipoXUsuario($uid, $dni ,'A');
+
         $this->view->datoscliente = $data_clientes;
-        $this->view->equipo = $data_equipo;
+        //$this->view->equipo = $data_equipo;
         
          } catch (Exception $e) {
             print "Error: ".$e->getMessage();
@@ -58,7 +60,8 @@ class Timesheet_IndexController extends Zend_Controller_Action {
         else
         {
             $equipo = new Admin_Model_DbTable_Equipo();
-            $data_equipo = $equipo->_getProyectosxUidXEstadoxCliente($uid,'A',$clienteid,$unidadid);    
+            $data_equipo = $equipo->_getProyectosxEquipoxUsuarioXEstadoxCliente($uid,$dni,'A',$clienteid);    
+            //$data_equipo = $equipo->_getProyectosxUidXEstadoxCliente($uid,'A',$clienteid,$unidadid);    
             $this->view->equipo = $data_equipo;
             $this->view->fecha_consulta = $fecha_consulta;
         }
@@ -1451,9 +1454,6 @@ public function sumatareorealAction(){
             $dni_validacion = $this->sesion->dni;
             $this->view->uid_validacion=$uid_validacion;
             $this->view->dni_validacion=$dni_validacion;
-
-
-
             $areaid=$this->sesion->personal->ucatareaid;   
             $this->view->cargo = $areaid;
             $this->view->uid = $uid;
@@ -1472,11 +1472,7 @@ public function sumatareorealAction(){
             $tareo_persona = new Admin_Model_DbTable_Tareopersona();
             //$semana=date('W', strtotime($fecha_inicio_mod)); 
 
-
-            $this->view->semana = $semana;
             $datos_tareopersona=$tareo_persona->_getTareoxPersonaxSemana($uid,$dni,$semana);
-            $datos_tareopersona_NB=$tareo_persona->_getTareoxPersonaxSemanaxNB($uid,$dni,$semana);
-            //$data_tareo = $tareo->_getTareoXUid($where);
             $this->view->actividades= $datos_tareopersona;
 
         }    
@@ -1833,7 +1829,7 @@ public function guardarcomentariogerenteAction(){
             $data['dni_validacion']=$dni_validacion;
             $data['comentario']=$coment;
             $data['estado_usuario']=$estado;
-             $time = time();
+            $time = time();
             $datetime=date("d-m-Y (H:i:s)", $time);
             $fecha_validacion=$datetime;
 
@@ -1878,6 +1874,7 @@ public function guardarcomentariogerenteAction(){
                 
                  if ( $estado=='R'){
                   $datos_actualizar_sumahoras1['estado']='0';   
+                  $datos_actualizar_sumahoras1['estado_real']='RECHAZADO';
                   $str_actualizar_sumahoras1="semanaid='$semana' and uid='$uid' and dni='$dni'";
                         $tareopersona = new Admin_Model_DbTable_Tareopersona();
                         $datos_actualizar['estado']='A';

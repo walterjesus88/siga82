@@ -231,7 +231,7 @@ select *,tareo.estado as estado_tareopersona   from tareo_persona as tareo
 
    
 
-        public function _save($data)
+    public function _save($data)
     {
         try{
             //if ($data['areaid']=='' ||  $data['codigo_prop_proy']=='' ) return false;

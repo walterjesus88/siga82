@@ -64,7 +64,7 @@
             $this->uid_validacion;
             $vercoment= new Admin_Model_DbTable_Usuariovalidacion();
             $vcoment=$vercoment->_getOnexUsuarioxJefe($where); 
-            print_r($vcoment);
+            //print_r($vcoment);
             ?>
             <?php
             if($vcoment=$vercoment->_getOnexUsuarioxJefe($where))
@@ -344,7 +344,7 @@
                               $("#comentariousers").empty();
                               $("#comentariousers").html(data);
                               $("#aprobar").hide();
-                              $("#observar").show();
+                              $("#observar").hide();
                              
                           }
                       });

@@ -172,6 +172,25 @@ tar.actividadid=act.actividadid and  tar.revision=act.revision
         }
     }
 
+     public function _getActividadesPadres_Replicon($proyectoid,$codigo,$propuestaid,$revision)
+     {
+        try{
+            $sql=$this->_db->query("
+               select * from actividad 
+               where proyectoid='$proyectoid' and codigo_prop_proy='$codigo' 
+               and propuestaid='$propuestaid' and revision='$revision' and actividad_padre='0'  order by orden asc;
+            ");
+            $row=$sql->fetchAll();
+            return $row;           
+            }  
+            
+           catch (Exception $ex){
+            print $ex->getMessage();
+        }
+    }
+
+
+
     public function _getActividadesHijas($proyectoid,$codigo,$propuestaid,$revision,$actividadid)
      {
         try{
@@ -346,6 +365,29 @@ public function _getTareasxActividadPadrexCategoria($proyectoid,$codigo,$propues
             
            catch (Exception $ex){
             print $ex->getMessage();
+        }
+    }
+
+
+    public function _getFilter($where=null,$attrib=null,$orders=null){
+        try{            
+            if($where['codigo_prop_proy']=='' || $where['proyectoid']=='' ) return false;
+                $select = $this->_db->select();
+                if ($attrib=='') $select->from("actividad");
+                else $select->from("actividad",$attrib);
+                foreach ($where as $atri=>$value){
+                    $select->where("$atri = ?", $value);
+                }
+                if ($orders<>null || $orders<>"") {
+                    if (is_array($orders))
+                        $select->order($orders);
+                }   
+                $results = $select->query();
+                $rows = $results->fetchAll();
+                if ($rows) return $rows;
+                return false;
+        }catch (Exception $e){
+            print "Error: Read Filter Actividad ".$e->getMessage();
         }
     }    
   

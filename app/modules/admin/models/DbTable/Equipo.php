@@ -97,6 +97,30 @@ public function _getProyectosxUidXEstadoxCliente($uid,$estado,$clienteid,$unidad
         }
     }
 
+/*Nuevo Para Listar Clientes con sus Proyectos sin repetir el nommbre*/
+    public function _getProyectosxEquipoxUsuarioXEstadoxCliente($uid,$dni,$estado,$clienteid)
+     {
+        try{
+            $sql=$this->_db->query("
+         
+                select e.codigo_prop_proy, e.proyectoid,e.estado,e.uid,e.dni,e.categoriaid,e.areaid,e.cargo,e.nivel,p.propuestaid, p.revision, p.nombre_proyecto, p.gerente_proyecto, p.control_documentario, p.control_proyecto,
+                p.tipo_proyecto,p.clienteid,p.unidad_mineraid
+               
+                from equipo e inner join proyecto p
+                on e.codigo_prop_proy = p.codigo_prop_proy and e.proyectoid=p.proyectoid
+                where e.uid = '$uid' and e.dni='$dni' and e.estado = '$estado' and
+                p.clienteid='$clienteid'
+                    ");
+            $row=$sql->fetchAll();
+            return $row;           
+            }  
+            
+           catch (Exception $ex){
+            print $ex->getMessage();
+        }
+    }
+
+
 
 public function _getProyectosAnddes()
      {
@@ -135,23 +159,32 @@ public function _getProyectosAnddes()
      {
         try{
             $sql=$this->_db->query("
+                select distinct (p.clienteid), c.nombre_comercial, p.unidad_mineraid
+                   from equipo e inner join proyecto p
+                ON e.codigo_prop_proy = p.codigo_prop_proy and e.proyectoid=p.proyectoid 
+                inner join cliente c on
+                p.clienteid=c.clienteid
+                where e.uid = '$uid' and e.estado = '$estado'
+               ");
+            $row=$sql->fetchAll();
+            return $row;           
+            }  
             
-
-
-        
-        
-        select distinct (p.clienteid), c.nombre_comercial, p.unidad_mineraid
-
-               from equipo e inner join proyecto p
-               ON e.codigo_prop_proy = p.codigo_prop_proy and e.proyectoid=p.proyectoid 
-               
-               inner join cliente c on
-               p.clienteid=c.clienteid
-               where e.uid = '$uid' and e.estado = '$estado'
-
-
-
-
+           catch (Exception $ex){
+            print $ex->getMessage();
+        }
+    }
+/*Nuevo Para Listar Clientes con sus Proyectos sin repetir el nommbre*/
+    public function _getClienteXEquipoXUsuario($uid,$dni,$estado)
+     {
+        try{
+            $sql=$this->_db->query("
+                select distinct (p.clienteid), c.nombre_comercial
+                   from equipo e inner join proyecto p
+                ON e.codigo_prop_proy = p.codigo_prop_proy and e.proyectoid=p.proyectoid 
+                inner join cliente c on
+                p.clienteid=c.clienteid
+                where e.uid = '$uid' and e.dni='$dni' and e.estado = '$estado'
                ");
             $row=$sql->fetchAll();
             return $row;           
@@ -367,7 +400,7 @@ public function _getListarEquipoxProyectoxGerente($uid,$dni)
         try{
             $sql=$this->_db->query("
                 
-               select * from usuario_categoria where cargo='JEFE' and areaid in('10','02')
+               select * from usuario_categoria where cargo='JEFE' and areaid in('10','02','22')
 
                     ");
             $row=$sql->fetchAll();

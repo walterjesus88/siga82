@@ -39,7 +39,7 @@
                                 $equipo = $this->datoscliente;
                                 foreach ($equipo as $data_equipo) { ?>
                                     <li >
-                                        <a style="padding:5px 5px;" class="cliente" clienteid="<?php echo $data_equipo['clienteid'] ?>" unidadid="<?php echo $data_equipo['unidad_mineraid'] ?>" href="##">
+                                        <a style="padding:5px 5px;" class="cliente" clienteid="<?php echo $data_equipo['clienteid'] ?>"  href="##">
                                             <?php echo $data_equipo['nombre_comercial'] ?>
                                         </a>
                                     </li>
@@ -51,8 +51,8 @@
                                         $("#actividades_tareas").html('');
                                         var fecha = $("#fechasemana").text();
                                         var clienteid = $(this).attr('clienteid');
-                                        var unidadid = $(this).attr('unidadid');
-                                        $("#proyectos").load("/timesheet/index/proyectos/clienteid/"+clienteid+"/unidadid/"+unidadid+"/fecha/"+fecha);
+                                        //var unidadid = $(this).attr('unidadid');
+                                        $("#proyectos").load("/timesheet/index/proyectos/clienteid/"+clienteid+"/fecha/"+fecha);
                                     });
                                     </script>
                                     <?php
