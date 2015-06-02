@@ -1,6 +1,6 @@
 <section class="panel">
   <div class="col-lg-2 alert-info"  style="padding-top: 10px;padding-bottom: 10px;padding-right: 10px;padding-left: 10px;">
-    Semana <?php echo $this->semana; echo ": ";?>
+   <strong>Semana <?php echo $this->semana; echo ": ";?></strong>
     <?php
       $fecha = $this->fecha;
       $newDate = date("Y-m-d", strtotime($fecha));
@@ -15,20 +15,29 @@
       $wheres=array('dni'=>$this->dni,'uid'=>$this->uid,'semanaid'=>$this->semana);
       $tareosemana=$sumahorassemana->_getOne($wheres);
       $estado_horas=$tareosemana['estado'];
+      $estado_real=$tareosemana['estado_real'];
       //print_r($tareosemana);
       ?>
       <?php if (trim($estado_horas)=='P') {?>
       <strong>Hoja de Tiempo Espera de Aprobacion</strong> 
       <?php }?>
-       <?php if (trim($estado_horas)=='O') {?>
+       <?php if (trim($estado_horas)=='0' and trim($estado_horas)=='' ) {?>
       <strong>Hoja de Tiempo Rechazada por Jeje Area</strong> 
       <?php }?>
-        <?php if (trim($estado_horas)=='R') {?>
+        <?php if (trim($estado_real)=='RECHAZADO' and trim($estado_horas)=='0' ) {?>
       <strong>Hoja de Tiempo Rechazada por Gerente Proyecto</strong> 
       <?php }?>
 
+      <?php if (trim($estado_real)=='PENDIENTE') {?>
+      <strong>Hoja de Tiempo Pendiente Aprobación por otro Gerente Proyecto</strong> 
+      <?php }?>
+
+      <?php if (trim($estado_real)=='APROBADO') {?>
+      <strong>Hoja de Tiempo Aprobada por Los Gerentes de Proyectos</strong> 
+      <?php }?>
+
       <?php if (trim($estado_horas)=='1') {?>
-      <strong>Hoja de Tiempo Aprobada por Jefe Area, espera Gerente</strong> 
+      <strong>Hoja de Tiempo Aprobada por Jefe Area, espera Gerente de Proyecto</strong> 
       <?php }?>
        <?php if (trim($estado_horas)=='2') {?>
       <strong>Hoja de Tiempo Aprobada</strong> 
@@ -186,7 +195,7 @@
   
   ?>
   <div class="panel-body" style="padding-top: 10px;padding-bottom: 0px;">
-  <?php if ($estado_horas=='P' or $estado_horas=='1' or $estado_horas=='2') {?>
+  <?php if (trim($estado_horas)=='P' or trim($estado_horas)=='1' or trim($estado_horas)=='2') {?>
     <a id = "" class="btn btn-primary pull-right btn-xs"  href="" style="margin-right : 10px">
       <i class="fa fa-print"></i> Imprimir
     </a><?php }?>
@@ -277,7 +286,7 @@
 
              
               <td>
-                <?php  echo $data_tareo['proyectoid']; echo " "; echo $data_tareo['nombre_proyecto'];  echo " "; echo $data_tareo['actividadid']; echo " ";echo $data_tareo['nombre'] ?>
+                <?php  echo "<strong>"; echo $data_tareo['proyectoid']; echo "</strong>"; echo " "; echo $data_tareo['nombre_proyecto'];  echo " "; echo $data_tareo['actividadid']; echo " ";echo $data_tareo['nombre'] ?>
               </td>            
 
               <td>
@@ -1411,7 +1420,7 @@ $("#submit_work1").click(function(){
       //var url1="/timesheet/index/enviartimesheet/fecha_calendario/"+fecha_calendario;
       //$("#carga_nueva").load(url1);
       alert('Enviando Hoja de Tiempo');
-      var coment='envio';
+      var coment='Envio';
       var uid="<?php echo $this->uid ?>";
       var dni="<?php echo $this->dni ?>";
       var uid_validacion="<?php echo $this->uid ?>";
