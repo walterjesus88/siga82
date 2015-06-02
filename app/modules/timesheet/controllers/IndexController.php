@@ -1556,7 +1556,8 @@ public function sumatareorealAction(){
                 //echo "update";
                 $sumahorassemana = new Admin_Model_DbTable_Sumahorasemana();
                 if ( $estado=='R'){
-                  $datos_actualizar_sumahoras['estado']='O';   
+                        $datos_actualizar_sumahoras['estado']='O';   
+                        $datos_actualizar_sumahoras['estado_real']='';   
                         $tareopersona = new Admin_Model_DbTable_Tareopersona();
                         $datos_actualizar['estado']='A';
                         $str_actualizar="semanaid='$semana' and uid='$uid' and dni='$dni' and   estado='C' ";
