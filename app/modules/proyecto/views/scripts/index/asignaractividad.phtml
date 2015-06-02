@@ -1,15 +1,19 @@
+<script type="text/javascript" src="/js/jquery-ui-1.9.2.custom.min.js"></script>
+<script type="text/javascript" src="/js/jquery-migrate-1.2.1.min.js"></script>
+<script type="text/javascript" src="/js/bootstrap.min.js"></script>
+
   <div id="Proyecto_Activa">
     <table class="table table-hover p-table">
           <thead>
             <tr>  
               <th style="width: 10%;">Actividad
-                <select id="select_generalp_<?php echo $j?>" class="form-control input-sm m-bot15 col-lg-10">                        
+      <!--           <select id="select_generalp_<?php echo $j?>" class="form-control input-sm m-bot15 col-lg-10">                        
                   <option>Seleccione el Area</option>
                   <?php  
                   foreach ($this->area as $data_area) {?>
                   <option value="<?php echo $data_area['areaid']?>"><?php  echo $data_area['nombre']?></option>
                   <?php }?>
-                </select>
+                </select> -->
               </th>
               <?php
               $c=0;
@@ -41,13 +45,42 @@
                       foreach ($this->actividades as $listaactividad)
                       {
 
+                        $wheres=array('codigo_prop_proy'=>$listaactividad['codigo_prop_proy'],'codigo_actividad'=>$listaactividad['codigo_actividad'],'proyectoid'=>$listaequipo['proyectoid'],'actividadid'=>$listaactividad['actividadid'],'uid'=>$listaequipo['uid'],'dni'=>$listaequipo['dni'],'cargo'=>$listaequipo['cargo'],'areaid'=>$listaequipo['areaid'],'categoriaid'=>$listaequipo['categoriaid']);
+
+                        $act= new Admin_Model_DbTable_Activaractividad();
+                        $activar= $act->_getOne($wheres);
+
+                        //print_r($activar);
+
                       ?>
                         <td>
+                          <?php
+                          if($activar['estado']=='A')
+                          {
+                          ?>
+                          <input id="agrega_<?php echo $c?><?php echo $i?>" type="checkbox"  checked="checked" >
+                          <?php 
+                          }
+                          else
+                          {
+                          ?>
                           <input id="agrega_<?php echo $c?><?php echo $i?>" type="checkbox" >
+                          <?php
+                          }
+                          ?>
 
                           <script type="text/javascript">                         
                            $("#agrega_<?php echo $c?><?php echo $i?>").click(function(){ 
-                              alert("<?php echo $c?><?php echo $i?>");
+                              //alert("<?php echo $c?><?php echo $i?>");
+
+                              if($("#agrega_<?php echo $c?><?php echo $i?>").is(':checked')) {  
+                                    
+                                    estado='A';
+                                    console.log('act'); 
+                                } else {    
+                                    estado='I';
+                                    console.log('desact'); 
+                              }  
 
                               var cargo="<?php echo $listaequipo['cargo'] ?>";
                               var areaid="<?php echo $listaequipo['areaid'] ?>";
@@ -63,36 +96,20 @@
                               var codigo_actividad="<?php echo $listaactividad['codigo_actividad'] ?>";
                               var codigo_prop_proy="<?php echo $listaactividad['codigo_prop_proy'] ?>";
 
+                              url="/proyecto/index/agregaactividad/cargo/"+cargo+"/areaid/"+areaid+"/uid/"+uid+"/dni/"+dni+"/proyectoid/"+proyectoid+"/categoriaid/"+ categoriaid+"/actividadid/"+actividadid+"/revision/"+revision+"/actividad_padre/"+actividad_padre+"/codigo_actividad/"+codigo_actividad+"/codigo_prop_proy/"+codigo_prop_proy+"/estado/"+estado;
 
-                                // codigo_prop_proy character varying(100) NOT NULL,
-                                // codigo_actividad character varying(100) NOT NULL,
-                                // proyectoid character varying(30) NOT NULL,
-                                // actividadid character varying(50) NOT NULL,
-                                // revision character varying(10) NOT NULL,
-                                // actividad_padre character varying(50) NOT NULL,
-                                // uid character varying(30) NOT NULL,
-                                // dni character varying(15) NOT NULL,
-                                // categoriaid character varying(20) NOT NULL,
-                                // areaid character varying(20) NOT NULL,
-                                // cargo character varying(100) NOT NULL,
-                                // nivel character varying(10),
-                                // fecha date,
-                                // estado character(1),
-
-                              url="/proyecto/index/agregaactividad/cargo/"+cargo+"/areaid/"+areaid+"/uid/"+uid+"/dni/"+dni+"/proyectoid/"+proyectoid+"/categoriaid/"+ categoriaid+"/areaid/"+areaid+"/cargo/"+cargo+"/actividadid/"+actividadid+"/revision/"+revision+"/actividad_padre/"+actividad_padre+"/codigo_actividad/"+codigo_actividad+"/codigo_prop_proy/"+codigo_prop_proy;
-                              alert(url);
+                              //alert(url);
 
                               $.ajax({
                                     type: "POST",
                                     url: url,
                                     data: $(this).serialize(),
                                     dataType: "html",                                                 
-                                    error: function(){
-                                      alert("error petición ajax load");
-                                    },
+                                    // error: function(){
+                                    //   alert("error petición ajax load");
+                                    // },
                                     success: function(data){                      
-                                      //$("#sumahoras<?php echo $i ?>").empty();
-                                      //$("#sumahoras<?php echo $i ?>").html(data);
+                                     
                                     }
                               });    
 
@@ -112,3 +129,4 @@
           ?>
     </table>
   </div>
+  

@@ -7,12 +7,13 @@ class Admin_Model_DbTable_Activaractividad extends Zend_Db_Table_Abstract
     public function _getOne($where=array()){
         try {
                 //if ($where["dni"]=='') return false;                
-                $wherestr= "codigo_prop_proy = '".$where['codigo_prop_proy']."' and codigo_actividad='".$pk['codigo_actividad']."'
-                			and proyectoid='".$pk['proyectoid']."'  and actividadid='".$pk['actividadid']."'
-                			and uid='".$pk['uid']."' and dni='".$pk['dni']."'  and cargo='".$pk['cargo']."'  and areaid='".$pk['areaid']."'
-                			and categoriaid='".$pk['categoriaid']."'
+                $wherestr= "codigo_prop_proy = '".$where['codigo_prop_proy']."' and codigo_actividad='".$where['codigo_actividad']."'
+                			and proyectoid='".$where['proyectoid']."'  and actividadid='".$where['actividadid']."'
+                			and uid='".$where['uid']."' and dni='".$where['dni']."'  and cargo='".$where['cargo']."'  and areaid='".$where['areaid']."'
+                			and categoriaid='".$where['categoriaid']."' ";
 
-                ";
+                //print_r($wherestr);
+
                 $row = $this->fetchRow($wherestr);
 
                 if($row) return $row->toArray();

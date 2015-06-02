@@ -1523,12 +1523,9 @@ public function cargartarea2Action() {
   public function asignaractividadAction(){
     try
     {
-
-      //$proyectoid= $this->_getParam("proyectoid");
-      //$codigo_prop_proy= $this->_getParam("codigo_prop_proy");
-
-      $proyectoid= '1208.10.08';
-      $codigo_prop_proy= '13.10.022-1208.10.08-C';
+      $this->_helper->layout()->disablelayout();
+      $proyectoid= $this->_getParam("proyectoid");
+      $codigo_prop_proy= $this->_getParam("codigo_prop_proy");
 
       $where = array( 'proyectoid' => $proyectoid,'codigo_prop_proy'=>$codigo_prop_proy,'estado' =>'P','isproyecto'=>'S');
       $veract = new Admin_Model_DbTable_Actividad();
@@ -1539,7 +1536,7 @@ public function cargartarea2Action() {
       $wherekip = array( 'proyectoid' => $proyectoid,'codigo_prop_proy'=>$codigo_prop_proy,'estado' =>'A');    
       $verequipo= new Admin_Model_DbTable_Equipo();
       $viewequipo=$verequipo->_getFilter($wherekip);
-      print_r($viewequipo);
+      //print_r($viewequipo);
       $this->view->equipo = $viewequipo;
 
       $area = new Admin_Model_DbTable_Area();
@@ -1557,21 +1554,55 @@ public function cargartarea2Action() {
 
   public function agregaactividadAction(){
     try
-    {
-  
+    {  
       $cargo= $this->_getParam("cargo");
       $areaid= $this->_getParam("areaid");
       $uid= $this->_getParam("uid");
       $dni= $this->_getParam("dni");
       $proyectoid= $this->_getParam("proyectoid");
-      $categoriaid= $this->_getParam("categoriaid");
-      $areaid= $this->_getParam("areaid");
-      $cargo= $this->_getParam("cargo");
+      $categoriaid= $this->_getParam("categoriaid");  
+   
       $actividadid= $this->_getParam("actividadid");
       $revision= $this->_getParam("revision");
       $codigo_actividad= $this->_getParam("codigo_actividad");
       $codigo_prop_proy= $this->_getParam("codigo_prop_proy");
+      $estado= $this->_getParam("estado");
+      $actividad_padre= $this->_getParam("actividad_padre");
 
+      //"codigo_prop_proy","codigo_actividad", "proyectoid", "actividadid", "uid", "dni","cargo", "areaid", "categoriaid");
+      $wheres=array('codigo_prop_proy'=>$codigo_prop_proy,'codigo_actividad'=>$codigo_actividad,'proyectoid'=>$proyectoid,'actividadid'=>$actividadid
+              ,'uid'=>$uid,'dni'=>$dni,'cargo'=>$cargo,'areaid'=>$areaid,'categoriaid'=>$categoriaid);
+
+      $act= new Admin_Model_DbTable_Activaractividad();
+      $activar= $act->_getOne($wheres);
+      //print_r($wheres);
+
+        if($activar)
+        {
+
+          $datact['fecha']=date("Y-m-d");
+          $datact['estado']=$estado;
+          $upactiv= $act->_updateX($datact,$wheres);
+        }
+        else
+        {      
+          $data['codigo_prop_proy']=$codigo_prop_proy;
+          $data['proyectoid']=$proyectoid;
+          $data['codigo_actividad']=$codigo_actividad;
+          $data['actividadid']=$actividadid; 
+          $data['revision']=$revision;
+          $data['cargo']=$cargo;
+          $data['categoriaid']=$categoriaid;
+          $data['areaid']=$areaid;
+          $data['uid']=$uid;
+          $data['dni']=$dni;
+          $data['fecha']=date("Y-m-d");
+          $data['estado']=$estado;
+          $data['actividad_padre']=$actividad_padre;    
+          $gactiv= $act->_save($data);
+        }
+
+        //exit();
 
      } 
 
