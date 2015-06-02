@@ -31,15 +31,16 @@
       <?php if (trim($estado_real)=='PENDIENTE') {?>
       <strong>Hoja de Tiempo Pendiente Aprobación por otro Gerente Proyecto</strong> 
       <?php }?>
-
+      <!--
       <?php if (trim($estado_real)=='APROBADO') {?>
       <strong>Hoja de Tiempo Aprobada por Los Gerentes de Proyectos</strong> 
       <?php }?>
+      -->
 
       <?php if (trim($estado_horas)=='1') {?>
       <strong>Hoja de Tiempo Aprobada por Jefe Area, espera Gerente de Proyecto</strong> 
       <?php }?>
-       <?php if (trim($estado_horas)=='2') {?>
+       <?php if (trim($estado_horas)=='2' and trim($estado_real)=='APROBADO') {?>
       <strong>Hoja de Tiempo Aprobada</strong> 
       <?php }?>
 
@@ -99,7 +100,7 @@
     <?php 
     //echo $this->cargo;
     
-    if ($this->is_gerente=='S' and $this->cargo!='GERENTE-GENERAL') 
+    if ($this->is_gerente=='S' and $this->cargo!='GERENTE-GENERAL' and $this->cargo!='JEFE') 
     {
       echo "Aprobado: "; echo "<br>";
       echo "Carlos Cesar"; echo "<br>";
@@ -156,36 +157,55 @@
 
      
     }
-
-    
-    if ($this->is_gerente!='S' and $this->cargo!='GERENTE' AND $this->cargo!='GERENTE-GENERAL') 
-    
+/*APROBADORES PARA LOS JEFES DE AREA*/  
+    if ($this->cargo=='JEFE') 
     {
+      echo "<strong>"; echo "Aprobadores: "; echo "</strong>"; echo "<br>";
+      $usuariocategoria = new Admin_Model_DbTable_Usuariocategoria();
+      $datos_usuario=$usuariocategoria->_getGerenteAreaxJefeArea($this->areaid,'GERENTE-AREA');
+      if ($datos_usuario)
+      {
+        $gerente_area = explode(".", $datos_usuario[0]['uid']);
+        echo "GA: ";
+        echo (ucwords($gerente_area[0])); echo " ";
+        echo (ucwords($gerente_area[1])); echo "<br>";
+      }   
+        $planificacion = new Admin_Model_DbTable_Planificacion();
+        $proyectos=$planificacion->_getOnexSemanaxGerenteProyecto($this->semana,$this->uid,$this->dni,$this->areaid);
 
-    $planificacion = new Admin_Model_DbTable_Planificacion();
-    $proyectos=$planificacion->_getOnexSemanaxGerenteProyecto($this->semana,$this->uid,$this->dni,$this->areaid);
-    echo "Aprobadores: "; echo "<br>";
-    $usuariocategoria = new Admin_Model_DbTable_Usuariocategoria();
-    $datos_usuario=$usuariocategoria->_getCargoxArea($this->areaid,'JEFE');
-    if ($datos_usuario)
-    {
-    //print_r($datos_usuario[0]['uid']);
-      $jefe_area = explode(".", $datos_usuario[0]['uid']);
-      echo "JA: ";
-      echo (ucwords($jefe_area[0])); echo " ";
-        echo (ucwords($jefe_area[1])); echo "<br>";
+        foreach ($proyectos as $datos) {
+          //print_r($datos['uid']);
+          $porciones = explode(".", $datos['uid']);
+          echo "GP: ";
+          echo (ucwords($porciones[0])); echo " ";
+          echo (ucwords($porciones[1])); echo "<br>";
+        }
 
-
-      foreach ($proyectos as $datos) {
-       //print_r($datos['uid']);
-       $porciones = explode(".", $datos['uid']);
-       echo "GP: ";
-       echo (ucwords($porciones[0])); echo " ";
-        echo (ucwords($porciones[1])); echo "<br>";
-      }
-      }
     }
-    ?>
+/*APROBADORES PARA EL EQUIPO*/    
+    if ($this->is_gerente!='S' and $this->cargo!='GERENTE' AND $this->cargo!='GERENTE-GENERAL' AND $this->cargo!='JEFE') 
+    
+    {
+      $planificacion = new Admin_Model_DbTable_Planificacion();
+      $proyectos=$planificacion->_getOnexSemanaxGerenteProyecto($this->semana,$this->uid,$this->dni,$this->areaid);
+      echo "<strong>"; echo "Aprobadores: "; echo "</strong>"; echo "<br>";
+      $usuariocategoria = new Admin_Model_DbTable_Usuariocategoria();
+      $datos_usuario=$usuariocategoria->_getCargoxArea($this->areaid,'JEFE');
+      if ($datos_usuario)
+      {
+        $jefe_area = explode(".", $datos_usuario[0]['uid']);
+        echo "JA: ";
+        echo (ucwords($jefe_area[0])); echo " ";
+        echo (ucwords($jefe_area[1])); echo "<br>";
+        foreach ($proyectos as $datos) {
+        //print_r($datos['uid']);
+        $porciones = explode(".", $datos['uid']);
+        echo "GP: ";
+        echo (ucwords($porciones[0])); echo " ";
+        echo (ucwords($porciones[1])); echo "<br>";
+        }
+      }
+    }?>
   </div>
   <?php 
     $sumahorassemana = new Admin_Model_DbTable_Sumahorasemana();

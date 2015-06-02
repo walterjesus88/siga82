@@ -400,7 +400,7 @@ public function _getListarEquipoxProyectoxGerente($uid,$dni)
         try{
             $sql=$this->_db->query("
                 
-               select * from usuario_categoria where cargo='JEFE' and areaid in('10','02')
+               select * from usuario_categoria where cargo='JEFE' and areaid in('10','02','22')
 
                     ");
             $row=$sql->fetchAll();

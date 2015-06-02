@@ -80,6 +80,32 @@ class Admin_Model_DbTable_Usuariocategoria extends Zend_Db_Table_Abstract
         }
     }
 
+    public function _getGerenteAreaxJefeArea($areaid,$cargoid)
+    {
+        try{
+            if ($areaid=='10' or $areaid=='02' or $areaid=='22') {
+                $sql=$this->_db->query("
+                    select * from usuario_categoria 
+                    where cargo='$cargoid' and areaid='02' and estado_sistema='A' and estado='A'
+                ");
+            }
+
+            if ($areaid=='21') {
+                $sql=$this->_db->query("
+                    select * from usuario_categoria 
+                    where cargo='$cargoid' and areaid='20' and estado_sistema='A' and estado='A'
+                ");
+            }
+
+            $row=$sql->fetchAll();
+            return $row;           
+            }  
+            catch (Exception $ex){
+            print $ex->getMessage();
+        }
+    }
+
+
 
 
 
