@@ -22,6 +22,7 @@
 <?php 
 if ($this->gasto) { 
 $data_rendicion = $this->data_rendicion;
+list($año, $mes, $dia) = split('[-]', $data_rendicion['fecha']);
     ?>
 <div class="row">
     <table style="width : 1000px">
@@ -31,7 +32,7 @@ $data_rendicion = $this->data_rendicion;
             <th style="width: 150px">Título Rendición</th>
             <th style="width: 200px"><?php echo $data_rendicion['nombre'];?></th>
             <th style="width: 70px">Fecha</th>
-            <th><?php echo $data_rendicion['fecha'];?></th>
+            <th><?php echo $dia.'-'.$mes.'-'.$año;?></th>
         </tr>
     </table>
 </div>
@@ -142,21 +143,21 @@ $data_rendicion = $this->data_rendicion;
 <table>
     <tr>
         <th style="width: 250px">Total Monto</th>
-        <th style="width: 250px"><?php echo $data_rendicion['monto_total'];?></th>
+        <th style="width: 250px"><?php echo 'S/. '.$data_rendicion['monto_total'];?></th>
         <th style="width: 250px">Segundo Monto</th>
-        <th style="width: 250px"><?php echo $data_rendicion['dolar_monto_total'];?></th>
+        <th style="width: 250px"><?php echo '$. '.$data_rendicion['dolar_monto_total'];?></th>
     </tr>
     <tr>
         <th>Total Reembolso</th>
-        <th><?php echo $data_rendicion['monto_reembolso'];?></th>
+        <th><?php echo 'S/. '.$data_rendicion['monto_reembolso'];?></th>
         <th>Segundo Reembolso</th>
-        <th><?php echo $data_rendicion['dolar_monto_reembolso'];?></th>
+        <th><?php echo '$. '.$data_rendicion['dolar_monto_reembolso'];?></th>
     </tr>
     <tr>
         <th>Total Cliente</th>
-        <th><?php echo $data_rendicion['monto_cliente'];?></th>
+        <th><?php echo 'S/. '.$data_rendicion['monto_cliente'];?></th>
         <th>Segundo Cliente</th>
-        <th><?php echo $data_rendicion['dolar_monto_cliente'];?></th>
+        <th><?php echo '$. '.$data_rendicion['dolar_monto_cliente'];?></th>
     </tr>
 </table>
 <?php 
