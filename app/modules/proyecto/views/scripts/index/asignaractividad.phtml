@@ -15,42 +15,96 @@
               $c=0;
               $cont=count($this->actividades);
               echo $cont;
-              foreach ($this->actividades as $listaactividad)
-              {
+            foreach ($this->actividades as $listaactividad)
+            {
               ?>
-                <td class="p-name">                    
-                   <a href="#"><?php echo $listaactividad['nombre']; ?></a>
+                <td class="p-name" id="nomact_<?php echo $c?>">                    
+                   <?php echo $listaactividad['nombre']; ?>
                 </td>                                            
                 <?php $c++;
-              }           
+            }           
               ?>
             </tr>
           </thead>
           <?php
             $c=0;
             foreach ($this->equipo as $listaequipo) 
-            {               
+            {         
                 ?>
                 <tr>
                   <td class="p-name">                
                     <a href="#"><?php echo $listaequipo['uid'];echo " ";echo $listaequipo['cargo'];echo " ";echo $listaequipo['areaid']; ?></a>
                   </td>
                      <?php
-                     for ($i=0; $i < $cont; $i++) { ?>
+
+                       $i=0;              
+                      foreach ($this->actividades as $listaactividad)
+                      {
+
+                      ?>
                         <td>
-                          <input id="agr" type="checkbox" >
+                          <input id="agrega_<?php echo $c?><?php echo $i?>" type="checkbox" >
 
                           <script type="text/javascript">                         
-                           $("#agr").click(function(){ 
-                              //alert("agre");
-                              console.log("ssssss");
+                           $("#agrega_<?php echo $c?><?php echo $i?>").click(function(){ 
+                              alert("<?php echo $c?><?php echo $i?>");
+
+                              var cargo="<?php echo $listaequipo['cargo'] ?>";
+                              var areaid="<?php echo $listaequipo['areaid'] ?>";
+                              var uid="<?php echo $listaequipo['uid'] ?>";
+                              var dni="<?php echo $listaequipo['dni'] ?>";
+                              var proyectoid="<?php echo $listaequipo['proyectoid'] ?>";
+                              var categoriaid="<?php echo $listaequipo['categoriaid'] ?>";
+                              var areaid="<?php echo $listaequipo['areaid'] ?>";
+                              var cargo="<?php echo $listaequipo['cargo'] ?>";
+                              var actividadid="<?php echo $listaactividad['actividadid'] ?>";
+                              var revision="<?php echo $listaactividad['revision'] ?>";
+                              var actividad_padre="<?php echo $listaactividad['actividad_padre'] ?>";
+                              var codigo_actividad="<?php echo $listaactividad['codigo_actividad'] ?>";
+                              var codigo_prop_proy="<?php echo $listaactividad['codigo_prop_proy'] ?>";
+
+
+                                // codigo_prop_proy character varying(100) NOT NULL,
+                                // codigo_actividad character varying(100) NOT NULL,
+                                // proyectoid character varying(30) NOT NULL,
+                                // actividadid character varying(50) NOT NULL,
+                                // revision character varying(10) NOT NULL,
+                                // actividad_padre character varying(50) NOT NULL,
+                                // uid character varying(30) NOT NULL,
+                                // dni character varying(15) NOT NULL,
+                                // categoriaid character varying(20) NOT NULL,
+                                // areaid character varying(20) NOT NULL,
+                                // cargo character varying(100) NOT NULL,
+                                // nivel character varying(10),
+                                // fecha date,
+                                // estado character(1),
+
+                              url="/proyecto/index/agregaactividad/cargo/"+cargo+"/areaid/"+areaid+"/uid/"+uid+"/dni/"+dni+"/proyectoid/"+proyectoid+"/categoriaid/"+ categoriaid+"/areaid/"+areaid+"/cargo/"+cargo+"/actividadid/"+actividadid+"/revision/"+revision+"/actividad_padre/"+actividad_padre+"/codigo_actividad/"+codigo_actividad+"/codigo_prop_proy/"+codigo_prop_proy;
+                              alert(url);
+
+                              $.ajax({
+                                    type: "POST",
+                                    url: url,
+                                    data: $(this).serialize(),
+                                    dataType: "html",                                                 
+                                    error: function(){
+                                      alert("error petición ajax load");
+                                    },
+                                    success: function(data){                      
+                                      //$("#sumahoras<?php echo $i ?>").empty();
+                                      //$("#sumahoras<?php echo $i ?>").html(data);
+                                    }
+                              });    
+
                            });                   
                           </script>
                         </td>
                         
 
                      <?php
-                     }
+                      $i++;
+                      }
+                                 
                      ?>
                 </tr>
                 <?php $c++;
