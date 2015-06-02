@@ -182,7 +182,6 @@ $data_rendicion = $this->data_rendicion;
                                     </td>
                                     <td>
                                         <select name="moneda[]" id = "moneda<?php echo $data_actividades['gasto_persona_id']?>" class="form-control">
-                                            <option value="">Seleccione</option>
                                             <option value="Soles" <?php echo ($data_actividades['moneda']=='Soles')? 'selected':'';?>>Soles</option>
                                             <option value="Real" <?php echo ($data_actividades['moneda']=='Real')? 'selected':'';?>>Real</option>
                                             <option value="Dolar Americano" <?php echo ($data_actividades['moneda']=='Dolar Americano')? 'selected':'';?>>Dolar Americano</option>
@@ -220,9 +219,12 @@ $data_rendicion = $this->data_rendicion;
                                         if (res[1]=='laboratorio') {
                                             $("#lab_cantidad<?php echo $data_actividades['gasto_persona_id'] ?>").attr('readonly', false);
                                             $("#lab_pu<?php echo $data_actividades['gasto_persona_id'] ?>").attr('readonly', false);
+                                            $("#moneda<?php echo $data_actividades['gasto_persona_id']?>").val("Dolar Americano");
+                                            $("#moneda<?php echo $data_actividades['gasto_persona_id']?>").attr('readonly', true);
                                         } else {
                                             $("#lab_cantidad<?php echo $data_actividades['gasto_persona_id'] ?>").attr('readonly', true);
                                             $("#lab_pu<?php echo $data_actividades['gasto_persona_id'] ?>").attr('readonly', true);
+                                            $("#moneda<?php echo $data_actividades['gasto_persona_id']?>").attr('readonly', false);
                                         };
                                     });
 
