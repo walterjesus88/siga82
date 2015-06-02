@@ -8,15 +8,15 @@
 
 <link href="css/bootstrap.min.css" rel="stylesheet">
 <link href='http://fonts.googleapis.com/css?family=Abel' rel='stylesheet' type='text/css'>
-<table  style="width:100%," class="table table-bordered" font-size="9px" style="font-family: 'Abel', serif;">
+<table  style="width:100%," class="table table-bordered" font-size="9px" style=" font-family: Arial, Helvetica, sans-serif;">
     <tr>
         <th ><img style="width: 30%;" src="/img/logo.jpg"></th>
-        <th rowspan="2" style="width: 50%;text-align: center;"> <p>RENDICIÓN </p> <p>Gastos </p></th>
+        <th rowspan="2" style="width: 50%;text-align: center;"> <p>Administracion y Finanzas</p> <p>Rendicion de Gastos </p></th>
         <th style="width: 30%;">  </th>
     </tr>   
     <tr> 
         <th style="width: 10%;text-align: center;color: #fff;background-color:rgba(0, 105, 173, 1)"> SIG AND </th>         
-        <th style="width: 30%;text-align: center;color: #fff;background-color:rgba(0, 105, 173, 1)">  </th>
+        <th style="width: 30%;text-align: center;"> 10-AND-42-FOR-0100 / r0/ <?php echo date('d-m-y')?> </th>
     </tr>    
 </table>
 <?php 
@@ -25,7 +25,7 @@ $data_rendicion = $this->data_rendicion;
 list($año, $mes, $dia) = split('[-]', $data_rendicion['fecha']);
     ?>
 <div class="row">
-    <table style="width : 1000px">
+    <table style="width : 1000px; font-family: Arial, Helvetica, sans-serif;">
         <tr>
             <th style="width: 100px">N° Rendición</th>
             <th style="width: 120px"><?php echo $data_rendicion['numero_completo'];?></th>
@@ -104,7 +104,15 @@ list($año, $mes, $dia) = split('[-]', $data_rendicion['fecha']);
                                         <span><?php echo $data_actividades['fecha_factura']; ?></span>
                                     </td>
                                     <td>
-                                        <span><?php echo $data_actividades['moneda']; ?></span>
+                                        <span><?php 
+                                                switch ($data_actividades['moneda']) {
+                                                    case 'Soles':
+                                                        echo "PEN";
+                                                        break;
+                                                    case 'Dolar Americano':
+                                                        echo "US";
+                                                        break;
+                                                 } ?></span>
                                     </td>
                                     <td>
                                         <span><?php echo $data_actividades['num_factura']; ?></span>
