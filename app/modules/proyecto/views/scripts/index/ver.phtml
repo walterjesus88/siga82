@@ -12,7 +12,8 @@
     background: rgba(0, 105, 173, 1);">
         <strong>  Projecto: <?php print_r($this->proyecto['proyectoid']); echo "<br>";
         print_r($this->proyecto['nombre_proyecto'])?></strong>
-      <a class="btn btn-danger" data-toggle="modal" href="#modalperson">Small   </a>
+      <a class="btn btn-danger" data-toggle="modal" id="asigna" proyectoid="<?php echo $this->proyecto['proyectoid']?>"  codigo-prop-proy="<?php echo $this->proyecto['codigo_prop_proy'] ?>"
+      href="#modalperson">Asignar Personas-Actividad  </a>
       
       </div>
       <div class="panel-body bio-graph-info">
@@ -428,6 +429,19 @@ foreach ($equipo as $lista) { ?>
     </div>
   </div>
 </div>
+<script type="text/javascript">
+
+    $(document).ready(function(){
+    $("#asigna").click(function(){
+      var proyectoid = $(this).attr('proyectoid');
+      var codigo_prop_proy = $(this).attr('codigo-prop-proy');
+                                          
+    var url = "/proyecto/index/asignaractividad/proyectoid/"+ proyectoid+"/codigo_prop_proy/"+codigo_prop_proy;
+    $("#modaltimes").load(url);   
+
+     });
+    });
+</script> 
 
 
 <div class="modal fade modal-dialog-center top-modal-with-space" id="myModal9" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
