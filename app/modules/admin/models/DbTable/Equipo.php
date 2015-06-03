@@ -431,24 +431,48 @@ public function _getListarEquipoxProyectoxGerente($uid,$dni)
 
 
     public function _getListarEquipoxGerenteGeneral()
-     {
+    {
         try{
             $sql=$this->_db->query("
-                
-               select * from usuario_categoria where cargo='GERENTE' 
-
-                    ");
+                    select * from usuario_categoria where cargo='GERENTE' 
+                ");
             $row=$sql->fetchAll();
             return $row;           
             }  
-            
-           catch (Exception $ex){
+            catch (Exception $ex){
             print $ex->getMessage();
         }
     }
 
+    public function _getUsuarioxProyecto($where=null){
+        try{
+            if ($where['uid']=='' || $where['dni']=='' ) return false;
+            $wherestr="
+                uid = '".$where['uid']."' and dni = '".$where['dni']."' 
+                and codigo_prop_proy = '".$where['codigo_prop_proy']."' 
+                and proyectoid = '".$where['proyectoid']."' 
+                and areaid = '".$where['areaid']."' and estado='A'
+                ";
+            $row = $this->fetchRow($wherestr);
+            if($row) return $row->toArray();
+            return false;         
+            } catch (Exception $ex){
+            print $ex->getMessage();
+        }
+    }
 
-    
-    
-    
+    public function _update($data,$pk)
+    {
+        try{
+            if ($pk['codigo_prop_proy']=='' ||  $pk['proyectoid']=='' ) return false;
+            $where = "codigo_prop_proy = '".$pk['codigo_prop_proy']."' and proyectoid='".$pk['proyectoid']."'
+                and  uid = '".$pk['uid']."' and dni = '".$pk['dni']."' 
+                 and areaid = '".$pk['areaid']."' 
+             ";
+            return $this->update($data, $where);
+            return false;
+        }catch (Exception $e){
+            print "Error: Update Distribution".$e->getMessage();
+        }
+    }    
 }

@@ -77,9 +77,35 @@
         
         <div class="panel-body">
           <div class="tab-content">
-            <div id="resumen" class="tab-pane">
+            <div id="resumen" class="tab-pane active">
               <div class="panel-body">
-                  resumen horas     
+                  
+                <?php 
+                  $actividadpadre= new Admin_Model_DbTable_Actividad();
+                  $list=$actividadpadre->_getActividadesPadresxReplicon($this->proyecto['proyectoid'],$this->proyecto['codigo_prop_proy'],$this->proyecto['propuestaid'],$this->proyecto['revision']);
+                  ?>
+
+
+                 
+                  <table class="table table-hover p-table">
+                  <thead>
+                    <tr>  
+                      <th style="width: 10%;">Id</th>
+                      <th style="width: 70%;">Nombre Actividad</th>
+                      <th style="width: 10;">Duracion</th>
+                      <th style="width: 10%;">Acción</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                   <?php foreach ($list as $lista) { ?>
+                   <tr>
+                    <td><?php print_r($lista['actividadid']); ?></td>
+                    <td><?php print_r($lista['nombre']); ?></td>
+                    <td><?php print_r($lista['h_propuesta']);?></td>
+                    <td></td>
+                  </tr>
+                  <?php }?>
+                       </table>
               </div>
             </div>
             <div id="gastos" class="tab-pane">
@@ -319,87 +345,129 @@ if ($area){
 <div class="panel-group m-bot20" id="accordion">
 <?php
 foreach ($area as $lista) { ?>
-<div class="panel panel-default">
-  <div class="panel-heading">
-    <h4 class="panel-title">
-      <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#<?php echo $i;?>">
-        <?php print_r($lista['areaid']); 
-        echo "-";
-        print_r($lista['nombre']); ?>
-      </a>
-<span class="pull-right">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h4 class="panel-title">
+        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#<?php echo $i;?>">
+          <?php print_r($lista['areaid']); 
+          echo "-";
+          print_r($lista['nombre']); ?>
+        </a>
+  <span class="pull-right">
+
+  <!--
+  <a data-id="<?php print_r($lista['areaid']); ?>" class="open-Modal btn btn-info btn-xs" data-toggle="modal" href="#myModal9">
+  Añadir 
+  </a>-->
+
+   <a class="btn btn-info btn-xs" id="anadir_<?php echo $i?>" href="#" proyectoid="<?php echo $this->proyecto['proyectoid']?>"  codigo-prop-proy="<?php echo $this->proyecto['codigo_prop_proy'] ?>" areaid="<?php print_r($lista['areaid'])?>"
+        >+ </a>
 
 
-<a data-id="<?php print_r($lista['areaid']); ?>" class="open-Modal btn btn-info btn-xs" data-toggle="modal" href="#myModal9">
-Añadir 
-</a>
 
-</span>
-</h4>
-</div>
-<div id="<?php echo $i;?>" class="panel-collapse collapse">
-<div class="panel-body">
-<?php 
-$bdequipo = new Admin_Model_DbTable_Equipo();
-$equipo=$bdequipo->_buscarEquipoxProyectoxArea($this->proyecto['codigo_prop_proy'],$this->proyecto['proyectoid'],$lista['areaid']);?>
+  </span>
+  </h4>
+  </div>
+  <div id="<?php echo $i;?>" class="panel-collapse collapse">
+  <div class="panel-body">
+  <?php 
+  $bdequipo = new Admin_Model_DbTable_Equipo();
+  $equipo=$bdequipo->_buscarEquipoxProyectoxArea($this->proyecto['codigo_prop_proy'],$this->proyecto['proyectoid'],$lista['areaid']);?>
 
- <table class="table table-hover p-table">
-          <thead>
-            <tr>  
-              <th style="width: 40%;">Nombre</th>
-              <th style="width: 20%;">Categoria</th>
-              <th style="width: 20;">Rate</th>
-              <th style="width: 20%;">Rate Proy.</th>
-              
-            </tr>
-          </thead>
-<?php
-foreach ($equipo as $lista) { ?>
-  <tr>
-    <td class="p-name">
-     
-      <a href="#"><?php 
-         $dbpersona = new Admin_Model_DbTable_Persona();
-         $bucarnom=$dbpersona->_getPersona($lista['dni']);
-         print_r($bucarnom['alias']);
-       ?></a>  
+   <table class="table table-hover p-table">
+            <thead>
+              <tr>  
+                <th style="width: 50%;">Nombre</th>
+                <th style="width: 20%;">Categoria</th>
+                <th style="width: 10;">R.</th>
+                <th style="width: 10%;">R.Proy.</th>
+                
+              </tr>
+            </thead>
+  <?php
+  foreach ($equipo as $lista) { ?>
+    <tr>
+      <td class="p-name">
+       <!-- <a href="#"><?php 
+          //$dbpersona = new Admin_Model_DbTable_Persona();
+          //$bucarnom=$dbpersona->_getPersona($lista['dni']);
+          //print_r($bucarnom['alias']);
+          //echo $lista['uid'];
+          //$porciones = explode(".", $lista['uid']);
+          //echo (ucwords($porciones[0])); echo " ";
+          //echo (ucwords($porciones[1])); 
+         ?></a> -->
+        <a id="equipo_<?php echo $lista['dni']?>" href="#" proyectoid="<?php echo $this->proyecto['proyectoid']?>"  codigo-prop-proy="<?php echo $this->proyecto['codigo_prop_proy'] ?>" areaid="<?php print_r($lista['areaid'])?>" dni="<?php echo $lista['dni'];?>" uid="<?php echo $lista['uid'];?>"><?php 
+          $porciones = explode(".", $lista['uid']);
+          echo (ucwords($porciones[0])); echo " ";
+          echo (ucwords($porciones[1])); ?>  
+        </a>
+      </td>
+      <td><?php
+          $dbcat= new Admin_Model_DbTable_Categoria();
+          $bucarcat=$dbcat->_getCategoriaxCategoriaid($lista['categoriaid']);
+          print_r($bucarcat[0]['categoriaid']);?>
+      </td>
+      <td>
+        <?php
+          $dbcat= new Admin_Model_DbTable_Categoria();
+          $bucarcat=$dbcat->_getCategoriaxCategoriaid($lista['categoriaid']);
+          print_r($bucarcat[0]['rate_externo']); ?>
+      </td>
+      <td>
+        <?php
+           //$dbcat= new Admin_Model_DbTable_Categoria();
+           //$bucarcat=$dbcat->_getCategoriaxCategoriaid($lista['categoriaid']);
+           echo $lista['rate_proyecto']; 
+          /*$bdequipo = new Admin_Model_DbTable_Equipo();
+          $wheres=array('codigo_prop_proy'=>$this->proyecto['codigo_prop_proy'],'proyectoid'=>$this->proyecto['proyectoid'],'uid'=>$lista['uid'],'dni'=>$lista['dni'],'areaid'=>$lista['areaid']);
+          $datos_usuario=$bdequipo->_getUsuarioxProyecto($wheres);
+          print_r($datos_usuario['rate_proyecto']);*/
+        ?>      
+      </td>
+    </tr>
+<script type="text/javascript">
+  $(document).ready(function(){
+    $("#equipo_<?php echo  $lista['dni']?>").click(function(){
+      var proyectoid = $(this).attr('proyectoid');
+      var codigo_prop_proy = $(this).attr('codigo-prop-proy');
+      var areaid = $(this).attr('areaid');
+      var dni = $(this).attr('dni');
+      var uid = $(this).attr('uid');
 
-    </td>
-    <td><?php
-         $dbcat= new Admin_Model_DbTable_Categoria();
-         $bucarcat=$dbcat->_getCategoriaxCategoriaid($lista['categoriaid']);
-        print_r($bucarcat[0]['nombre_categoria']);
-        
-?>
-    </td>
-    <td>
-      <?php
-         $dbcat= new Admin_Model_DbTable_Categoria();
-         $bucarcat=$dbcat->_getCategoriaxCategoriaid($lista['categoriaid']);
-        print_r($bucarcat[0]['rate_externo']);
-        
-?>
-
-
-    </td>
-    <td>
- <?php
-         $dbcat= new Admin_Model_DbTable_Categoria();
-         $bucarcat=$dbcat->_getCategoriaxCategoriaid($lista['categoriaid']);
-         print_r($bucarcat[0]['rate_interno']);
-        
-?>      
-
-    </td>
-  </tr>
-
-<?php
-}?>
+      $("#myModalequipo").modal('show')
+      var url = "/proyecto/index/modificarequipo/proyectoid/"+ proyectoid+"/codigo_prop_proy/"+codigo_prop_proy+"/areaid/"+areaid+"/dni/"+dni+"/uid/"+uid;
+      //alert(url);
+      $("#modaltimes_equipo").load(url);   
+    });
+  });
+</script> 
+  <?php
+  }?>
 </table>
 </div>
 </div>
 </div>
-<?php $i++;} }?>
+<script type="text/javascript">
+  $(document).ready(function(){
+    $("#anadir_<?php echo $i?>").click(function(){
+      var proyectoid = $(this).attr('proyectoid');
+      var codigo_prop_proy = $(this).attr('codigo-prop-proy');
+      var areaid = $(this).attr('areaid');
+      $("#myModal9").modal('show')
+      var url = "/proyecto/index/equipo/proyectoid/"+ proyectoid+"/codigo_prop_proy/"+codigo_prop_proy+"/areaid/"+areaid;
+      $("#modaltimes_rate").load(url);   
+    });
+  });
+</script> 
+
+<?php $i++;} ?>
+
+
+
+<?php
+
+}?>
 
 </div>
 
@@ -412,6 +480,25 @@ foreach ($equipo as $lista) { ?>
 </div>
 </div>
 <!-- page end-->
+<div class="modal fade modal-dialog-center top-modal-with-space" id="myModalequipo" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4 class="modal-title">Cambiar Rate del Proyecto</h4>
+        </div>
+        <div class="modal-body">
+          <div id="modaltimes_equipo"></div>
+        </div>
+        <div class="modal-footer">
+          <button data-dismiss="modal" class="btn btn-default" type="button">Cerrar</button>
+         
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
 <div class="modal fade" id="modalperson" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg">
@@ -448,64 +535,23 @@ foreach ($equipo as $lista) { ?>
 
 
 <div class="modal fade modal-dialog-center top-modal-with-space" id="myModal9" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-<div class="modal-dialog">
-<div class="">
-<div class="modal-content">
-<div class="modal-header">
-<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-<h4 class="modal-title">Añadir Personas x Rate al Proyecto</h4>
-</div>
-<div class="modal-body">
-
-
-
-
-<form class="form-horizontal" role="form">
-  <div class="form-group">
-    <label for="cliente" class="col-lg-2 col-sm-2 control-label">Area</label>
-      <div class="col-lg-10">
-        <select id="equipo_areaid" class="form-control m-bot4 col-lg-10">
-          <option>Area</option>
-          <?php 
-            $bdequipoarea = new Admin_Model_DbTable_Equipoarea();
-            $area=$bdequipoarea->_buscarAreasxProyecto($this->proyecto['codigo_prop_proy'],$this->proyecto['proyectoid']);
-            $i=1;
-            foreach ($area as $lista) {?>
-            <option value="<?php echo $lista['areaid']?>"><?php echo strtoupper($lista['nombre'])?></option>
-          <?php }?>
-        </select>
+  <div class="modal-dialog">
+    <div class="">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4 class="modal-title">Añadir Personas x Rate al Proyecto</h4>
+        </div>
+        <div class="modal-body">
+          <div id="modaltimes_rate"></div>
+        </div>
+        <div class="modal-footer">
+          <button data-dismiss="modal" class="btn btn-default" type="button">Cerrar</button>
+          <button id="guardar_contacto" class="btn btn-warning" type="button"> Guardar</button>
+        </div>
       </div>
+    </div>
   </div>
-
-<div class="form-group ">
-  <label for="unidad" class="col-lg-3 col-sm-3 control-label">Categoria</label>
-    <div class="col-lg-9">
-
-     <select  id="categoriaid" name="categoriaid" class="form-control">
-                        </select>      
-
-</div>
-</div>
-
-<div class="form-group">
-<label for="nombre_colaborador" class="col-lg-4 col-sm-4 control-label">Colaboradores</label>
-<div class="col-lg-6">
- <div id="nombre_colaborador">
-
- </div>
-</div>
-</div>
-</form>
-
-
-</div>
-<div class="modal-footer">
-<button data-dismiss="modal" class="btn btn-default" type="button">Cerrar</button>
-<button id="guardar_contacto" class="btn btn-warning" type="button"> Guardar</button>
-</div>
-</div>
-</div>
-</div>
 </div>
 
 

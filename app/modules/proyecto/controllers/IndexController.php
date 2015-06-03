@@ -144,7 +144,84 @@ class Proyecto_IndexController extends Zend_Controller_Action {
 
     }
 
+    public function equipoAction() {
+      $this->_helper->layout()->disableLayout();
+      $proyectoid= $this->_getParam("proyectoid");
+      $codigo_prop_proy= $this->_getParam("codigo_prop_proy");
+      $areaid=$this->_getParam("areaid");
+      $this->view->proyectoid = $proyectoid;
+      $this->view->codigo_prop_proy = $codigo_prop_proy;
+      $this->view->areaid = $areaid;
+      $bdarea_cat = new Admin_Model_DbTable_Areacategoria();
+      $listcat=$bdarea_cat->_buscarCategoriaxAreaxProyecto($areaid);
+      $this->view->categoria = $listcat;
+    }
 
+    public function modificarequipoAction() {
+      $this->_helper->layout()->disableLayout();
+      $proyectoid= $this->_getParam("proyectoid");
+      $codigo_prop_proy= $this->_getParam("codigo_prop_proy");
+      $areaid=$this->_getParam("areaid");
+      $dni=$this->_getParam("dni");
+      $uid=$this->_getParam("uid");
+      $this->view->proyectoid = $proyectoid;
+      $this->view->codigo_prop_proy = $codigo_prop_proy;
+      $this->view->areaid = $areaid;
+      $this->view->dni = $dni;
+      $this->view->uid = $uid;
+      $bdequipo = new Admin_Model_DbTable_Equipo();
+      $wheres=array('codigo_prop_proy'=>$codigo_prop_proy,'proyectoid'=>$proyectoid,'uid'=>$uid,'dni'=>$dni,'areaid'=>$areaid);
+
+      $datos_usuario=$bdequipo->_getUsuarioxProyecto($wheres);
+      $this->view->datos_usuario = $datos_usuario;
+      //print_r($datos_usuario);
+    }
+
+
+      public function updateequipoAction() {
+
+        $this->_helper->layout()->disableLayout();
+        $proyectoid= $this->_getParam("proyectoid");
+        $codigo_prop_proy= $this->_getParam("codigo");
+        $dni= $this->_getParam("dni");
+        $uid= $this->_getParam("uid");
+        $areaid= $this->_getParam("areaid");
+        $rate= $this->_getParam("rate");
+        
+         
+        $pk  =   array(                        
+                        'codigo_prop_proy'   =>$codigo_prop_proy,
+                        'proyectoid'   =>$proyectoid,
+                        'uid'   =>$uid,
+                        'dni'   =>$dni,
+                        'areaid'   =>$areaid,
+                            
+                        );
+        $data = array(
+                        'rate_proyecto' =>  $rate
+                     );
+
+          
+        $update_equipo=new Admin_Model_DbTable_Equipo();
+        //$update_equipo->_update($data,$pk);
+        
+        if($update_equipo->_update($data,$pk))
+        {   ?>
+          <script>                  
+          alert("Actualizado");
+            //document.location.href="/proyecto/index/listar";
+          </script>
+                <?php
+            }
+        else
+        {   ?>
+          <script>                  
+          alert("Error al Cambiar estado verifique porfavor");
+          //document.location.href="/proyecto/index/listar";                                                 
+          </script>
+         <?php
+            }
+    }
     public function cambiarestadoAction() {
 
         $this->_helper->layout()->disableLayout();

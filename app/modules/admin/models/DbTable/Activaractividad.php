@@ -55,5 +55,24 @@ class Admin_Model_DbTable_Activaractividad extends Zend_Db_Table_Abstract
     }
 
 
+    public function _getExistePersonaActividad($where=array()){
+        try {
+                //if ($where["dni"]=='') return false;                
+                $wherestr= "codigo_prop_proy = '".$where['codigo_prop_proy']."' and codigo_actividad='".$where['codigo_actividad']."'
+                            and proyectoid='".$where['proyectoid']."'  and actividadid='".$where['actividadid']."'
+                            and uid='".$where['uid']."' and dni='".$where['dni']."'  and areaid='".$where['areaid']."'
+                             ";
+
+                //print_r($wherestr);
+
+                $row = $this->fetchRow($wherestr);
+
+                if($row) return $row->toArray();
+                return false;
+        } catch (Exception $e) {
+            print "Error: Read One Condition".$e->getMessage();
+        }
+    }
+
 
 }

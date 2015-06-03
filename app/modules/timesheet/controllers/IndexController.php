@@ -75,13 +75,13 @@ class Timesheet_IndexController extends Zend_Controller_Action {
     public function actividadesAction(){
         try {
         $this->_helper->layout()->disableLayout();
-
+        $areaid=$this->sesion->personal->ucatareaid;
         $uid = $this->sesion->uid;
         $dni = $this->sesion->dni;
         
         $this->view->uid = $this->sesion->uid;
         $this->view->dni = $this->sesion->dni;
-
+        $this->view->areaid=$areaid;
         $proyectoid = $this->_getParam('proyectoid');
         $codigo_prop_proy = $this->_getParam('codigo_prop_proy');
        $categoriaid = $this->_getParam('categoriaid');

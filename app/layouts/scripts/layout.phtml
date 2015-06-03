@@ -121,7 +121,7 @@
                     </li>
 
                     <?php 
-                     if ($rol == "PROPUESTA" or $is_area=='26') { ?>
+                     if ($rol == "PROPUESTA" ) { ?>
                         <li class="sub-menu">
                             <a href="/propuesta/index/listar" >
                                 <i class="fa fa-bar-chart-o"></i>
@@ -148,7 +148,7 @@
                     }
                     if ($rol == "PROYECTO") { ?>
 
-                    <?php if ($is_gerente == 'S' or $is_gerente_general == 'GERENTE' ) { ?>
+                    <?php if ($is_gerente == 'S' or $is_gerente_general == 'GERENTE' or $is_area=='26') { ?>
 
                         <li class="sub-menu">
                             <a href="/propuesta/index/listar" >

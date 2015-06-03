@@ -1,0 +1,51 @@
+<form class="form-horizontal" role="form">
+  <div class="form-group">
+    <label for="cliente" class="col-lg-2 col-sm-2 control-label">Area</label>
+      <div class="col-lg-10">
+        <?php echo $this->areaid;?>
+        <!--<select id="equipo_areaid" class="form-control m-bot4 col-lg-10">
+          <option>Area</option>
+          <?php 
+            $bdequipoarea = new Admin_Model_DbTable_Equipoarea();
+            $area=$bdequipoarea->_buscarAreasxProyecto($this->codigo_prop_proy,$this->proyectoid);
+            $i=1;
+            foreach ($area as $lista) {?>
+            <option value="<?php echo $lista['areaid']?>"><?php echo strtoupper($lista['nombre'])?></option>
+          <?php }?>
+        </select>-->
+      </div>
+  </div>
+  <div class="form-group ">
+    <label for="unidad" class="col-lg-3 col-sm-3 control-label">Categoria</label>
+      <div class="col-lg-9">
+      <select  id="categoriaid" name="categoriaid" class="form-control">
+        <option>Seleccione Categoria</option>
+        <?php
+        foreach ($this->categoria  as $categoria){
+        ?>
+          <option value="<?php echo $categoria['categoriaid']?>"><?php echo $categoria['nombre']?> </option>
+        <?php  
+        }
+        ?>
+      </select>      
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="nombre_colaborador" class="col-lg-4 col-sm-4 control-label">Colaboradores</label>
+    <div class="col-lg-6">
+      <div id="nombre_colaborador">
+      </div>
+    </div>
+  </div>
+</form>
+
+<script>
+  $("#categoriaid").change(function(){
+    var categoriaid = $(this).val(); 
+    var areaid = '<?php echo $this->areaid; ?>'; 
+    var proyectoid='<?php echo $this->proyectoid; ?>';
+    var codigo='<?php echo $this->codigo_prop_proy; ?>';
+    url="/proyecto/index/buscarpersonasxcategoria/categoria/"+categoriaid+"/areaid/"+areaid+"/proyectoid/"+proyectoid+"/codigo/"+codigo;
+    $("#nombre_colaborador").load(url);
+  }); 
+</script>

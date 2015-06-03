@@ -1,0 +1,47 @@
+<form class="form-horizontal" role="form">
+  <div class="form-group">
+    <label for="usuario" class="col-lg-2 col-sm-2 control-label">Usuario</label>
+      <div class="col-lg-10">
+        <input type="text" name="uid" id="uid" value="<?php echo $this->uid;?>" maxlength="100" class="form-control">
+      </div>
+  </div>
+  <div class="form-group">
+    <label for="categoria" class="col-lg-2 col-sm-2 control-label">Categoria Proyecto</label>
+      <div class="col-lg-10">
+        <input type="text" name="categoria" id="categoria" value="<?php echo $this->datos_usuario['categoriaid'];?>" maxlength="100" class="form-control">
+      </div>
+  </div>
+
+  <div class="form-group">
+    <label for="rate" class="col-lg-2 col-sm-2 control-label">Rate Proyecto</label>
+      <div class="col-lg-10">
+        <input type="text" name="rate" id="rate" value="<?php echo $this->datos_usuario['rate_proyecto'];?>" maxlength="100" class="form-control">
+      </div>
+  </div>
+   <button id="guardar_equipo" class="btn btn-warning" type="button"> Guardar</button>
+</form>
+
+<div style='display:none' id='cargar'></div>
+<script>
+
+ $(document).ready(function(){
+
+$("#guardar_equipo").click(function(){
+  var areaid = '<?php echo $this->areaid; ?>'; 
+  var proyectoid='<?php echo $this->proyectoid; ?>';
+  var codigo='<?php echo $this->codigo_prop_proy; ?>';
+  var uid='<?php echo $this->uid; ?>';
+  var dni='<?php echo $this->dni; ?>';
+  
+  var rate = $("#rate").val(); 
+
+  url="/proyecto/index/updateequipo/uid/"+uid+"/areaid/"+areaid+"/proyectoid/"+proyectoid+"/codigo/"+codigo+"/dni/"+dni+"/rate/"+rate;
+//alert(url);
+
+$("#cargar").load(url);
+   
+});
+});
+
+
+</script>
