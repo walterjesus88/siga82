@@ -8,22 +8,17 @@ class Proyecto_IndexController extends Zend_Controller_Action {
         );
         Zend_Layout::startMvc($options);
     }
-    
-    public function indexAction() {
-        
-   
-    }
 
+    public function indexAction() {
+    }
 
     public function listarAction() {
-
         $listaproyecto = new Admin_Model_DbTable_Proyecto();
-        $lista=$listaproyecto->_getProyectoAll();
+        //$lista=$listaproyecto->_getProyectoAll();
+        $lista=$listaproyecto->_getProyectosTodosAnddes();
         $this->view->listaproyecto = $lista;
-            
     }
-
-
+    
     public function nuevoAction() {
 
         $propuestas = new Admin_Model_DbTable_Propuesta();

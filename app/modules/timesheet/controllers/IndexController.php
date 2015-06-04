@@ -21,17 +21,14 @@ class Timesheet_IndexController extends Zend_Controller_Action {
 
     public function calendarAction(){
         try {
-        //print_r($this->sesion);
         $uid = $this->sesion->uid;
         $dni = $this->sesion->dni;
         $equipo = new Admin_Model_DbTable_Equipo();
         //$data_equipo = $equipo->_getProyectosXuidXEstado($uid,'A');
         //$data_clientes = $equipo ->_getClienteXuidXEstado($uid,'A');
         $data_clientes = $equipo ->_getClienteXEquipoXUsuario($uid, $dni ,'A');
-
         $this->view->datoscliente = $data_clientes;
         //$this->view->equipo = $data_equipo;
-        
          } catch (Exception $e) {
             print "Error: ".$e->getMessage();
         } 
