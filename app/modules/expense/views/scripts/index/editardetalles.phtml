@@ -389,7 +389,10 @@ $data_rendicion = $this->data_rendicion;
 <div id="load_duplicidad"></div>
 
 <script type="text/javascript">
-    $(".datefactura").datepicker();
+    $(".datefactura").datepicker(
+        {maxDate:0, dateFormat:'dd/mm/yy', yearRange: '-100:+0'}
+        //, changeMonth:true, changeYear: true,
+    );
 
     $(".duplicar_actividad").click(function(){
         var gasto_persona_id = $(this).attr('gasto-persona-id');
