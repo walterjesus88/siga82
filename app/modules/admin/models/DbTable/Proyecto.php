@@ -100,5 +100,56 @@ class Admin_Model_DbTable_Proyecto extends Zend_Db_Table_Abstract
             print $ex->getMessage();
         }
     }
+
+    public function _buscarProyectoxReplicon($proyecto){
+        try{
+            $sql=$this->_db->query("
+                select pro.codigo_prop_proy,pro.proyectoid,
+                       pro.nombre_proyecto,pro.gerente_proyecto 
+                       from proyecto as pro 
+                inner join cliente as cli on
+                pro.clienteid=cli.clienteid 
+                where lower(pro.nombre_proyecto) like '%$proyecto%' 
+                or lower(cli.nombre_comercial) like '%$proyecto%'
+                order by pro.nombre_proyecto asc");
+            $row=$sql->fetchAll();
+            return $row;           
+            }  
+            
+           catch (Exception $ex){
+            print $ex->getMessage();
+        }
+    }
+
+    public function _getProyectosTodosAnddes(){
+        try{
+            $sql=$this->_db->query("
+                select * from proyecto
+                where not proyectoid in ('1','2') order by fecha_inicio desc;
+                ");
+            $row=$sql->fetchAll();
+            return $row;           
+            }  
+            
+           catch (Exception $ex){
+            print $ex->getMessage();
+        }
+    }
+
+        public function _getProyectosxGerente($gerente){
+        try{
+            $sql=$this->_db->query("
+                select * from proyecto
+                where not proyectoid in ('1','2') and gerente_proyecto='$gerente' order by fecha_inicio desc;
+                ");
+            $row=$sql->fetchAll();
+            return $row;           
+            }  
+            
+           catch (Exception $ex){
+            print $ex->getMessage();
+        }
+    }
+
 }
 

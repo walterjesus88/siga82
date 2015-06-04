@@ -226,6 +226,8 @@ public function _getProyectosAnddes()
             $sql=$this->_db->query("
                select * from equipo
                where codigo_prop_proy='$codigo' and proyectoid='$proyectoid' and areaid='$areaid'
+               and not dni in ('00000000')
+               and estado='A'
             ");
             $row=$sql->fetchAll();
             return $row;           

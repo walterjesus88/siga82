@@ -168,8 +168,13 @@
                                 <span>Proyecto</span>
                             </a>
                             <ul class="sub">
+                                <?php if ($is_area=='26') { ?>
                                 <li><a  href="/proyecto/index/listar">Lista</a></li>
                                 <li><a  href="/proyecto/index/nuevo">Nuevo</a></li>
+                                <?php }?>
+                                <?php if ($is_gerente=='S') { ?>
+                                <li><a  href="/proyecto/control/index">Lista</a></li>
+                                <?php }?>
                             </ul>
                         </li>
                         <?php } else {?>
