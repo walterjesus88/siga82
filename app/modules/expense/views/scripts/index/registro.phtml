@@ -2,15 +2,32 @@
     <header class="panel-heading" style="padding-bottom : 17px">
         Rendición Gastos
         <span class="pull-right">
-            <a id = "agregar_gasto" class="btn btn-primary pull-right btn-sm" data-toggle="modal" href="#add_gasto">
+         <!--    <a id = "agregar_gasto" class="btn btn-primary pull-right btn-sm" data-toggle="modal" href="#add_gasto">
                 <i class="fa fa-check-square-o"></i> Agregar
-            </a>
+            </a> -->
+
+            <a class="btn btn-primary pull-right btn-sm" id="asigna" href="#" ><i class="fa fa-check-square-o"></i> Agregar </a>
 
             <a class="btn btn-success pull-right btn-sm" href="/expense/index/historico" style="margin-right : 10px">
                 <i class="fa fa-list"></i> Pendientes
             </a>
         </span>
     </header>
+
+
+
+    <script type="text/javascript">
+    $(document).ready(function(){
+    $("#asigna").click(function(){    
+
+      $("#add_gasto").modal('show')                                         
+      // var url = "/proyecto/index/asignaractividad/proyectoid/"+ proyectoid+"/codigo_prop_proy/"+codigo_prop_proy;
+      // $("#modaltimes").load(url);
+     });
+    });
+    </script> 
+
+
     <div class="modal fade" id="add_gasto" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
