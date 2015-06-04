@@ -27,6 +27,15 @@ class Admin_Model_DbTable_Gastorendicion extends Zend_Db_Table_Abstract
         }
     }
 
+   public function _delete($numero,$uid,$dni){
+        try{
+            if ($numero=='') return false;
+            return $this->delete("numero='$numero' and uid='$uid' and dni='$dni' ");
+        }catch (Exception $ex){
+            print "Error: Eliminando una rendicion ".$ex->getMessage();
+        }
+    }
+
     public function _update($data,$str){
         try{
             if ($str['numero']=='' ||  $str['uid']=='' || $str['dni']=='') return false;

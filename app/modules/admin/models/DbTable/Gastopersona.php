@@ -45,6 +45,16 @@ class Admin_Model_DbTable_Gastopersona extends Zend_Db_Table_Abstract
         }
     }
 
+    public function _deleteX($numero,$uid,$dni){
+        try{
+            if ($numero=='' || $uid=='' ||  $dni=='' ) return false;
+            return $this->delete("numero_rendicion='$numero' and uid='$uid' and dni='$dni'   ");
+        }catch (Exception $ex){
+            print "Error: Eliminando un registro ".$ex->getMessage();
+        }
+    }
+
+
     public function _getFilter($where=null,$attrib=null,$orders=null){
         try{
                 $select = $this->_db->select();
