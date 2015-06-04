@@ -726,4 +726,29 @@ class Expense_IndexController extends Zend_Controller_Action {
             print "Error: ".$e->getMessage();
         }
     }
+
+
+    public function eliminarrendicionAction(){
+        try {
+
+        $this->_helper->layout()->disableLayout();
+        $numero = $this->_getParam('numero');
+        $uid = $this->_getParam('uid');
+        $dni = $this->_getParam('dni');
+
+        $gasto = new Admin_Model_DbTable_Gastopersona();
+        $egasto=$gasto->_deleteX($numero,$uid,$dni);
+
+      
+
+        $rendicion = new Admin_Model_DbTable_Gastorendicion();
+        $erendicion=$rendicion->_delete($numero,$uid,$dni);
+
+
+        }
+        catch (Exception $e) {
+            print "Error: ".$e->getMessage();
+        }
+    }
+    
 }

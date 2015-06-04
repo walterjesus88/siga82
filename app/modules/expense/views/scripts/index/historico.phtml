@@ -27,13 +27,14 @@
                     <th style="width: 10%;">Fecha</th>
                     <th style="width: 10%;"><center>Total</center></th>
                     <th style="width: 20%;">Estado</th>
-                    <th style="width: 3%;">&nbsp;&nbsp;&nbsp;&nbsp;Acciones&nbsp;&nbsp;&nbsp;</th>
+                    <th style="width: 5%;">&nbsp;&nbsp;&nbsp;&nbsp;Acciones&nbsp;&nbsp;&nbsp;</th>
                 </tr>
             </thead>
             <tbody>
 
             <?php
             if ($this->pendiente) {
+            $c=0;
             foreach ($this->pendiente as $lista) { ?>
                 <tr>
                     <td class="p-name">
@@ -66,6 +67,10 @@
                             <a data-toggle="modal" href="#myModalDetail" class="btn btn-warning btn-xs showdetails" title="Detalles"  uid="<?php echo $lista['uid']; ?>" dni="<?php echo $lista['dni']; ?>" numero="<?php echo $lista['numero']; ?>"><i class="fa fa-folder"></i></a>
                             <a data-toggle="modal" href="#myModalDetail" class="btn btn-info btn-xs editdetails" title="Editar"  uid="<?php echo $lista['uid']; ?>" dni="<?php echo $lista['dni']; ?>" numero="<?php echo $lista['numero']; ?>"><i class="fa fa-edit"></i></a>
                             <a href="/expense/index/imprimirrendicion/uid/<?php echo $lista['uid']?>/dni/<?php echo $lista['dni']?>/numero/<?php echo $lista['numero']?>" class="btn btn-default btn-xs" title="Imprimir"><i class="fa fa-print"></i></a>
+
+                            <a id="elimina_<?php echo $c ?>"  class="btn btn-default btn-xs" title="Eliminar"><i class="fa fa-archive"></i></a>
+                            
+                         
                         </center>
                     </td>
                 </tr>
@@ -79,11 +84,42 @@
                         window.location.reload();
                     });
                 </script>
-          <?php  }
+
+                <script type="text/javascript">
+                    $(document).ready(function(){
+                        $("#elimina_<?php echo $c ?>").click(function(){
+                           
+                            var uid = "<?php echo $lista['uid']?>";
+                            var dni = "<?php echo $lista['dni']?>";
+                            var numero = "<?php echo $lista['numero']?>";
+
+                            var url="/expense/index/eliminarrendicion/uid/"+uid+"/dni/"+dni+"/numero/"+numero;
+                          
+                            var r = confirm("Desea Eliminar esta tarea!");
+                                if (r == true)
+                                    {
+                                        $.ajax({
+                                            type: "POST",
+                                            url: url,
+                                            data: $(this).serialize(),
+                                            dataType: "html",
+                                            success: function(data){      
+                                                $("#cargrendi").html(data);     
+                                                window.location.reload();
+
+                                            }
+                                        });
+                                    }
+                        });
+                    });                              
+                </script>
+          <?php 
+            $c++;  }
             }?>
             </tbody>
         </table>
         </div>
+        <div id="cargrendi"></div>
 
         <div id="rendicion_enviados" style="display: none;">
         <table class="table table-hover p-table">
@@ -177,6 +213,7 @@
                             <a data-toggle="modal" href="#myModalDetail" class="btn btn-warning btn-xs showdetails" title="Detalles"  uid="<?php echo $lista['uid']; ?>" dni="<?php echo $lista['dni']; ?>" numero="<?php echo $lista['numero']; ?>"><i class="fa fa-folder"></i></a>
                             <a data-toggle="modal" href="#myModalDetail" class="btn btn-info btn-xs editdetails" title="Editar"  uid="<?php echo $lista['uid']; ?>" dni="<?php echo $lista['dni']; ?>" numero="<?php echo $lista['numero']; ?>"><i class="fa fa-edit"></i></a>
                             <a href="/expense/index/imprimirrendicion/uid/<?php echo $lista['uid']?>/dni/<?php echo $lista['dni']?>/numero/<?php echo $lista['numero']?>" class="btn btn-default btn-xs" title="Imprimir"><i class="fa fa-print"></i></a>
+                                            
                         </center>
                     </td>
                 </tr>
@@ -195,7 +232,7 @@
                     <th style="width: 20%;">Fecha</th>
                     <th style="width: 10%;"><center>Total</center></th>
                     <th style="width: 20%;">Estado</th>
-                    <th style="width: 3%;">&nbsp;&nbsp;&nbsp;&nbsp;Acciones&nbsp;&nbsp;&nbsp;</th>
+                    <th style="width: 3%;">&nbsp;&nbsp;&nbsp;&nbsp;Accioones&nbsp;&nbsp;&nbsp;</th>
                 </tr>
             </thead>
             <tbody>
@@ -239,7 +276,7 @@
 
     <div class="modal fade" id="myModalDetail" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
-            <div class="modal-content" style="width: 1350px; top: 100%; margin-left: -232px;">
+            <div class="modal-content" style="width: 1350px; top: 100%; margin-left: -230px;">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                     <h4 class="modal-title">Detalles</h4>
