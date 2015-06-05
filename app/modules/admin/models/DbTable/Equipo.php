@@ -256,19 +256,6 @@ public function _getProyectosAnddes()
     }
 
 
-    // public function _getOne($where=array()){
-    //     try{
-    //         if ($where['clienteid']=='' ) return false;
-    //         $wherestr="clienteid = '".$where['clienteid']."' ";
-    //         $row = $this->fetchRow($wherestr);
-    //         if($row) return $row->toArray();
-    //         return false;
-    //     }catch (Exception $e){
-    //         print "Error: Read One Add_reportacad_adm ".$e->getMessage();
-    //     }
-    // }
-
- 
         public function _save($data)
     {
         try{
@@ -476,5 +463,25 @@ public function _getListarEquipoxProyectoxGerente($uid,$dni)
         }catch (Exception $e){
             print "Error: Update Distribution".$e->getMessage();
         }
-    }    
+    }
+
+    public function _getOne($where=array()){
+        try {
+                //if ($where["dni"]=='') return false;                
+                $wherestr= "codigo_prop_proy = '".$where['codigo_prop_proy']."' 
+                            and proyectoid='".$where['proyectoid']."'  
+                            and uid='".$where['uid']."' and dni='".$where['dni']."'  and areaid='".$where['areaid']."'
+                             ";
+
+                //print_r($wherestr);
+
+                $row = $this->fetchRow($wherestr);
+
+                if($row) return $row->toArray();
+                return false;
+        } catch (Exception $e) {
+            print "Error: Read One Condition".$e->getMessage();
+        }
+    }
+
 }

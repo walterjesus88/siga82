@@ -2,7 +2,14 @@
 
 <?php 
 	$i=0;
-	foreach ($this->listusuarios as $lista) {?>
+	foreach ($this->listusuarios as $lista) {
+
+        $wheres=array('codigo_prop_proy'=>$this->codigo,'proyectoid'=>$this->proyectoid,'uid'=>$lista['uid'],'dni'=>$lista['dni'],'areaid'=>$this->areaid);
+        $equipo= new Admin_Model_DbTable_Equipo();
+        $activar= $equipo->_getOne($wheres);
+        print_r($activar);
+
+		?>
 		<label class="checkbox-inline">
 			<input type="checkbox" id="persona_<?php echo $i;?>" value="1" name="persona_<?php echo $i;?>"   > 
 			<input type="text" style="display:none" id="nombrepersona_<?php echo $i;?>" value="<?php print_r($lista['dni']);?>" name="nombrepersona_<?php echo $i;?>"   > 
@@ -27,7 +34,7 @@
 	            
 	            url="/proyecto/index/guardarpersonaequipo/codigo/"+codigo+"/proyectoid/"+proyectoid+"/areaid/"+areaid+"/categoriaid/"+categoriaid+"/cargo/"+cargo+"/uid/"+uid+"/dni/"+dni;
 	            alert(url);
-	             $("#cargar").load(url);
+	             //$("#cargar").load(url);
 	             
 	            
 	        }

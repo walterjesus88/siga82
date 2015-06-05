@@ -1598,6 +1598,7 @@ public function cargartarea2Action() {
       $this->_helper->layout()->disablelayout();
       $proyectoid= $this->_getParam("proyectoid");
       $codigo_prop_proy= $this->_getParam("codigo_prop_proy");
+      $areaid= $this->_getParam("areaid");
 
       $where = array( 'proyectoid' => $proyectoid,'codigo_prop_proy'=>$codigo_prop_proy,'estado' =>'P','isproyecto'=>'S');
       $veract = new Admin_Model_DbTable_Actividad();
@@ -1605,7 +1606,7 @@ public function cargartarea2Action() {
       //print_r($viewactivity);
       $this->view->actividades = $viewactivity;
 
-      $wherekip = array( 'proyectoid' => $proyectoid,'codigo_prop_proy'=>$codigo_prop_proy,'estado' =>'A');    
+      $wherekip = array( 'proyectoid' => $proyectoid,'codigo_prop_proy'=>$codigo_prop_proy,'estado' =>'A','areaid'=>$areaid);    
       $verequipo= new Admin_Model_DbTable_Equipo();
       $viewequipo=$verequipo->_getFilter($wherekip);
       //print_r($viewequipo);

@@ -12,9 +12,9 @@
     background: rgba(0, 105, 173, 1);">
         <strong>  Projecto: <?php print_r($this->proyecto['proyectoid']); echo "<br>";
         print_r($this->proyecto['nombre_proyecto'])?></strong>
-
+<!--
         <a class="btn btn-danger" id="asigna" href="#" proyectoid="<?php echo $this->proyecto['proyectoid']?>"  codigo-prop-proy="<?php echo $this->proyecto['codigo_prop_proy'] ?>"
-      >Asignar Personas-Actividad  </a>
+      >Asignar Personas-Actividad  </a>-->
       
       </div>
       <div class="panel-body bio-graph-info">
@@ -353,6 +353,7 @@ foreach ($area as $lista) { ?>
           echo "-";
           print_r($lista['nombre']); ?>
         </a>
+
   <span class="pull-right">
 
   <!--
@@ -362,7 +363,8 @@ foreach ($area as $lista) { ?>
 
    <a class="btn btn-info btn-xs" id="anadir_<?php echo $i?>" href="#" proyectoid="<?php echo $this->proyecto['proyectoid']?>"  codigo-prop-proy="<?php echo $this->proyecto['codigo_prop_proy'] ?>" areaid="<?php print_r($lista['areaid'])?>"
         >+ </a>
-
+<a class="btn btn-danger btn-xs" id="asigna_<?php echo $i?>" href="#" proyectoid="<?php echo $this->proyecto['proyectoid']?>"  codigo-prop-proy="<?php echo $this->proyecto['codigo_prop_proy'] ?>" areaid="<?php print_r($lista['areaid'])?>"
+        >H </a>
 
 
   </span>
@@ -461,6 +463,23 @@ foreach ($area as $lista) { ?>
   });
 </script> 
 
+<script type="text/javascript">
+  $(document).ready(function(){
+    $("#asigna_<?php echo $i?>").click(function(){
+      var proyectoid = $(this).attr('proyectoid');
+      var codigo_prop_proy = $(this).attr('codigo-prop-proy');
+      var areaid = $(this).attr('areaid');
+    
+      $("#modalperson").modal('show')
+                                          
+    var url = "/proyecto/index/asignaractividad/proyectoid/"+ proyectoid+"/codigo_prop_proy/"+codigo_prop_proy+"/areaid/"+areaid;
+    //alert(url);
+    $("#modaltimes").load(url);   
+
+    });
+  });
+</script> 
+
 <?php $i++;} ?>
 
 
@@ -507,7 +526,7 @@ foreach ($area as $lista) { ?>
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
           <h4 class="modal-title">Asignar Personas a una Actividad</h4>
       </div>
-      <div class="modal-body">                           
+      <div class="modal-body" style="padding-bottom: 1px;padding-top: 1px;padding-left: 1px;padding-right: 1px;">                           
         <div id="modaltimes"></div>
       </div>
       <div class="modal-footer">
