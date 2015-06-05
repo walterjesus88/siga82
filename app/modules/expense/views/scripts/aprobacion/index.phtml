@@ -1,262 +1,304 @@
 <?php 
 if ($this->data_equipo) { 
     $data_equipo = $this->data_equipo;
+    //print_r($data_equipo);
     $nmb = 0;
-    foreach ($data_equipo as $data_equipo) {
-     ?>
+    ?>
+<section class="panel">
+    <table class="table table-hover p-table">
+        <thead>
+
+            <tr>
+                <a id="mostrar_enviada" class=" btn btn-success  btn-xs"> Enviada</a>
+                <a id="mostrar_aprobada" class=" btn btn-primary  btn-xs"> Aprobada</a>
+                <a id="mostrar_rechazada" class=" btn btn-danger  btn-xs"> Rechazada</a>
+            </tr>         
+        </thead>
+    </table>
+</section>
+
+
+<div id="rendicion_enviados">
     <section class="panel">
-        <header class="panel-heading">
-          <?php echo $data_equipo['proyectoid']. ' - ' .$data_equipo['nombre_proyecto'] ?>
-          <span class="pull-right">
-                <a id="mostrar_enviada<?php echo $nmb?>" class=" btn btn-success  btn-xs"> Enviada</a>
-                <a id="mostrar_aprobada<?php echo $nmb?>" class=" btn btn-primary  btn-xs"> Aprobada</a>
-                <a id="mostrar_rechazada<?php echo $nmb?>" class=" btn btn-danger  btn-xs"> Rechazada</a>
-          </span>
-        </header>
-        <div id="rendicion_enviados<?php echo $nmb?>">
         <table class="table table-hover p-table">
             <thead>
                 <tr>  
+                    <th style="width: 20%;"><center>Proyecto</center></th>
                     <th style="width: 10%;">Num</th>
                     <th style="width: 20%;">Nombre</th>
-                    <th style="width: 20%;">Asigando</th>
-                    <th style="width: 10%;"><center>Total</center></th>
-                    <th style="width: 20%;">Estado</th>
-                    <th style="width: 25%;">Comentario</th>
+                    <th style="width: 20%;">Asignado</th>
+                    <th style="width: 5%;"><center>Total</center></th>
+                    <th style="width: 15%;">Estado</th>
+                    <th style="width: 33%;">Comentario</th>
                     <th style="width: 3%;">&nbsp;&nbsp;&nbsp;&nbsp;Acciones&nbsp;&nbsp;&nbsp;</th>
-                </tr>
+                </tr>                       
             </thead>
+        <?php  
+        $a=0;
+        foreach ($this->data_equipo as $data_equipo) { ?>
             <tbody>
-
-            <?php
-            if ($data_equipo['data_enviados']) {
-            foreach ($data_equipo['data_enviados'] as $lista) { ?>
-                <tr>
-                    <td class="p-name">
-                        <center><?php echo $lista['numero_completo'];?></center>
-                    </td>
-                    <td class="p-name">
-                        <?php echo $lista['nombre'];?>
-                    </td>
-                    <td class="p-name">
-                        <?php echo $lista['nombre_persona']; ?>
-                    </td>
-                    <td class="p-name">
-                        <?php echo $lista['monto_total']; ?>
-                    </td>
-                    <td>
-                        <?php
-                        if ($lista['estado']=='E') { ?>
-                            <span class="label label-success label-mini">Enviada</span>
+                <?php
+                if ($data_equipo['data_enviados']) {
+                foreach ($data_equipo['data_enviados'] as $lista) { ?>
+                    <tr>                
+                        <td class="p-name" >
+                            <center><?php echo $data_equipo['proyectoid']. ' - ' .$data_equipo['nombre_proyecto'] ?></center>
+                        </td>
+                        <td class="p-name">
+                           <?php echo $lista['numero_completo'];?>
+                        </td>
+                        <td class="p-name">
+                            <?php echo $lista['nombre'];?>
+                        </td>
+                        <td class="p-name">
+                            <?php echo $lista['nombre_persona']; ?>
+                        </td>
+                        <td class="p-name">
+                            <?php echo $lista['monto_total']; ?>
+                        </td>
+                        <td>
                             <?php
-                        } ?>
-                        <div class="btn-group">
-                            <button data-toggle="dropdown" class="btn btn-default dropdown-toggle btn-xs" type="button" aria-expanded="false">Modificar<span class="caret"></span></button>
-                            <ul role="menu" class="dropdown-menu">
-                                <li><a href="##" class="aprobado" uid="<?php echo $lista['uid']; ?>" dni="<?php echo $lista['dni']; ?>" numero="<?php echo $lista['numero']; ?>" estate="A">Aprobado</a></li>
-                                <li><a href="##" class="rechazado" uid="<?php echo $lista['uid']; ?>" dni="<?php echo $lista['dni']; ?>" numero="<?php echo $lista['numero']; ?>" estate="R">Rechazado</a></li>
-                            </ul>
-                        </div>
-                    </td>
-                    <td>
-                        <input id="<?php echo $lista['numero'] ?>" type="text" class="form-control" value="<?php echo $lista['comentario']?>"/>
-                    </td>
-                    <td>
-                        <center>
-                            <a data-toggle="modal" href="#myModalDetail" class="btn btn-warning btn-xs showdetails" title="Detalles"  uid="<?php echo $lista['uid']; ?>" dni="<?php echo $lista['dni']; ?>" numero="<?php echo $lista['numero']; ?>" proyectoid="<?php echo $data_equipo['proyectoid']?>" codigo-prop-proy="<?php echo $data_equipo['codigo_prop_proy']?>"><i class="fa fa-folder"></i></a>
-                        </center>
-                    </td>
-                </tr>
-                <script type="text/javascript">
-                    $(".aprobado").click(function(){
-                        var numero = $(this).attr('numero');
-                        var uid = $(this).attr('uid');
-                        var dni = $(this).attr('dni');
-                        var estate = $(this).attr('estate');
-                        var comentario = $("#"+numero).val();
-                        $("#load_change").load("/expense/aprobacion/estado/numero/"+numero+"/uid/"+uid+"/dni/"+dni+"/estate/"+estate+"/comentario/"+comentario);
-                        window.location.reload();
-                    });
+                            if ($lista['estado']=='E') { ?>
+                                <span class="label label-success label-mini">Enviada</span>
+                                <?php
+                            } ?>
+                            <div class="btn-group">
+                                <button data-toggle="dropdown" class="btn btn-default dropdown-toggle btn-xs" type="button" aria-expanded="false">Modificar<span class="caret"></span></button>
+                                <ul role="menu" class="dropdown-menu">
+                                    <li><a href="##" class="aprobado" uid="<?php echo $lista['uid']; ?>" dni="<?php echo $lista['dni']; ?>" numero="<?php echo $lista['numero']; ?>" estate="A">Aprobado</a></li>
+                                    <li><a href="##" class="rechazado" uid="<?php echo $lista['uid']; ?>" dni="<?php echo $lista['dni']; ?>" numero="<?php echo $lista['numero']; ?>" estate="R">Rechazado</a></li>
+                                </ul>
+                            </div>
+                        </td>
+                        <td>
+                            <input id="<?php echo $lista['numero'] ?>" type="text" class="form-control" value="<?php echo $lista['comentario']?>"/>
+                        </td>
+                        <td>
+                            <center>
+                                <a data-toggle="modal" href="#myModalDetail" class="btn btn-warning btn-xs showdetails" title="Detalles"  uid="<?php echo $lista['uid']; ?>" dni="<?php echo $lista['dni']; ?>" numero="<?php echo $lista['numero']; ?>" proyectoid="<?php echo $data_equipo['proyectoid']?>" codigo-prop-proy="<?php echo $data_equipo['codigo_prop_proy']?>"><i class="fa fa-folder"></i></a>
+                            </center>
+                        </td>
+                    </tr>
+                    <script type="text/javascript">
+                        $(".aprobado").click(function(){
+                            var numero = $(this).attr('numero');
+                            var uid = $(this).attr('uid');
+                            var dni = $(this).attr('dni');
+                            var estate = $(this).attr('estate');
+                            var comentario = $("#"+numero).val();
+                            $("#load_change").load("/expense/aprobacion/estado/numero/"+numero+"/uid/"+uid+"/dni/"+dni+"/estate/"+estate+"/comentario/"+comentario);
+                            window.location.reload();
+                        });
 
-                    $(".rechazado").click(function(){
-                        var numero = $(this).attr('numero');
-                        var uid = $(this).attr('uid');
-                        var dni = $(this).attr('dni');
-                        var estate = $(this).attr('estate');
-                        var comentario = $("#"+numero).val();
-                        $("#load_change").load("/expense/aprobacion/estado/numero/"+numero+"/uid/"+uid+"/dni/"+dni+"/estate/"+estate+"/comentario/"+comentario);
-                        window.location.reload();
-                    });
-                </script>
-          <?php  }
-            }?>
-            </tbody>
-        </table>
-        </div>
-
-        <div id="rendicion_rechazados<?php echo $nmb?>" style="display: none;">
-        <table class="table table-hover p-table">
-            <thead>
-                <tr>  
-                    <th style="width: 10%;">Num</th>
-                    <th style="width: 20%;">Nombre</th>
-                    <th style="width: 20%;">Asigando</th>
-                    <th style="width: 10%;"><center>Total</center></th>
-                    <th style="width: 20%;">Estado</th>
-                    <th style="width: 25%;">Comentario</th>
-                    <th style="width: 3%;">&nbsp;&nbsp;&nbsp;&nbsp;Acciones&nbsp;&nbsp;&nbsp;</th>
-                </tr>
-            </thead>
-            <tbody>
-
-            <?php
-            if ($data_equipo['data_rechazados']) {
-            foreach ($data_equipo['data_rechazados'] as $lista) { ?>
-                <tr>
-                    <td class="p-name">
-                        <center><?php echo $lista['numero'];?></center>
-                    </td>
-                    <td class="p-name">
-                        <?php echo $lista['nombre'];?>
-                    </td>
-                    <td class="p-name">
-                        <?php echo $lista['nombre_persona']; ?>
-                    </td>
-                    <td class="p-name">
-                        <?php echo $lista['monto_total']; ?>
-                    </td>
-                    <td>
-                        <?php
-                        if ($lista['estado']=='R') { ?>
-                            <span class="label label-danger label-mini">Rechazados</span>
-                            <?php
-                        } ?>
-                        <div class="btn-group">
-                            <button data-toggle="dropdown" class="btn btn-default dropdown-toggle btn-xs" type="button" aria-expanded="false">Modificar<span class="caret"></span></button>
-                            <ul role="menu" class="dropdown-menu">
-                                <li><a href="##" class="aprobado" uid="<?php echo $lista['uid']; ?>" dni="<?php echo $lista['dni']; ?>" numero="<?php echo $lista['numero']; ?>" estate="A">Aprobado</a></li>
-                                <!-- <li><a href="##" class="rechazado" uid="<?php echo $lista['uid']; ?>" dni="<?php echo $lista['dni']; ?>" numero="<?php echo $lista['numero']; ?>" estate="R">Rechazado</a></li> -->
-                            </ul>
-                        </div>
-                    </td>
-                    <td>
-                        <input id="<?php echo $lista['numero'] ?>" type="text" class="form-control" value="<?php echo $lista['comentario']?>"/>
-                    </td>
-                    <td>
-                        <center>
-                            <a data-toggle="modal" href="#myModalDetail" class="btn btn-warning btn-xs showdetails" title="Detalles"  uid="<?php echo $lista['uid']; ?>" dni="<?php echo $lista['dni']; ?>" numero="<?php echo $lista['numero']; ?>" proyectoid="<?php echo $data_equipo['proyectoid']?>" codigo-prop-proy="<?php echo $data_equipo['codigo_prop_proy']?>"><i class="fa fa-folder"></i></a>
-                        </center>
-                    </td>
-                </tr>
-                <script type="text/javascript">
-                    $(".aprobado").click(function(){
-                        var numero = $(this).attr('numero');
-                        var uid = $(this).attr('uid');
-                        var dni = $(this).attr('dni');
-                        var estate = $(this).attr('estate');
-                        var comentario = $("#"+numero).val();
-                        $("#load_change").load("/expense/aprobacion/estado/numero/"+numero+"/uid/"+uid+"/dni/"+dni+"/estate/"+estate+"/comentario/"+comentario);
-                        window.location.reload();
-                    });
-                </script>
-          <?php  }
-            }?>
-            </tbody>
-        </table>
-        </div>
-
-        <div id="rendicion_aprobados<?php echo $nmb?>" style="display: none;">
-        <table class="table table-hover p-table">
-            <thead>
-                <tr>  
-                    <th style="width: 10%;">Num</th>
-                    <th style="width: 20%;">Nombre</th>
-                    <th style="width: 20%;">Asigando</th>
-                    <th style="width: 10%;"><center>Total</center></th>
-                    <th style="width: 20%;">Estado</th>
-                    <th style="width: 25%;">Comentario</th>
-                    <th style="width: 3%;">&nbsp;&nbsp;&nbsp;&nbsp;Acciones&nbsp;&nbsp;&nbsp;</th>
-                </tr>
-            </thead>
-            <tbody>
-
-            <?php
-            if ($data_equipo['data_aprobados']) {
-            foreach ($data_equipo['data_aprobados'] as $lista) { ?>
-                <tr>
-                    <td class="p-name">
-                        <center><?php echo $lista['numero'];?></center>
-                    </td>
-                    <td class="p-name">
-                        <?php echo $lista['nombre'];?>
-                    </td>
-                    <td class="p-name">
-                        <?php echo $lista['nombre_persona']; ?>
-                    </td>
-                    <td class="p-name">
-                        <?php echo $lista['monto_total']; ?>
-                    </td>
-                    <td>
-                        <?php
-                        if ($lista['estado']=='A') { ?>
-                            <span class="label label-primary label-mini">Aprobados</span>
-                            <?php
-                        } ?>
-                        <!-- <div class="btn-group">
-                            <button data-toggle="dropdown" class="btn btn-default dropdown-toggle btn-xs" type="button" aria-expanded="false">Modificar<span class="caret"></span></button>
-                            <ul role="menu" class="dropdown-menu">
-                                <li><a href="##" class="aprobado" uid="<?php echo $lista['uid']; ?>" dni="<?php echo $lista['dni']; ?>" numero="<?php echo $lista['numero']; ?>" estate="A">Aprobado</a></li>
-                                <li><a href="##" class="rechazado" uid="<?php echo $lista['uid']; ?>" dni="<?php echo $lista['dni']; ?>" numero="<?php echo $lista['numero']; ?>" estate="R">Rechazado</a></li>
-                            </ul>
-                        </div> -->
-                    </td>
-                    <td class="p-name">
-                        <?php echo $lista['comentario']; ?>
-                    </td>
-                    <td>
-                        <center>
-                            <a data-toggle="modal" href="#myModalDetail" class="btn btn-warning btn-xs showdetails" title="Detalles"  uid="<?php echo $lista['uid']; ?>" dni="<?php echo $lista['dni']; ?>" numero="<?php echo $lista['numero']; ?>" proyectoid="<?php echo $data_equipo['proyectoid']?>" codigo-prop-proy="<?php echo $data_equipo['codigo_prop_proy']?>"><i class="fa fa-folder"></i></a>
-                        </center>
-                    </td>
-                </tr>
-          <?php  }
-            }?>
-            </tbody>
-        </table>
-        </div>
+                        $(".rechazado").click(function(){
+                            var numero = $(this).attr('numero');
+                            var uid = $(this).attr('uid');
+                            var dni = $(this).attr('dni');
+                            var estate = $(this).attr('estate');
+                            var comentario = $("#"+numero).val();
+                            $("#load_change").load("/expense/aprobacion/estado/numero/"+numero+"/uid/"+uid+"/dni/"+dni+"/estate/"+estate+"/comentario/"+comentario);
+                            window.location.reload();
+                        });
+                    </script>
+              <?php  }
+                } ?>
+            </tbody>       
+        <?php 
+        $a++;
+        }
+        ?>
+        </table> 
     </section>
-    <script type="text/javascript">
-        /*$(".showdetails").click(function(){
-            var numero = $(this).attr('numero');
-            var uid = $(this).attr('uid');
-            var dni = $(this).attr('dni');
-            var proyectoid = $(this).attr('proyectoid');
-            var codigo_prop_proy = $(this).attr('codigo-prop-proy');
-            var url = "/expense/aprobacion/detalles/numero/"+numero+"/uid/"+uid+"/dni/"+dni+"/codigo_prop_proy/"+codigo_prop_proy+"/proyectoid/"+proyectoid;
-            $("#load_data_detail").load(url);
-        });*/
+</div>
 
-        $("#mostrar_enviada<?php echo $nmb?>").click(function(){
-            $("#rendicion_enviados<?php echo $nmb?>").show();
-            $("#rendicion_rechazados<?php echo $nmb?>").hide();
-            $("#rendicion_aprobados<?php echo $nmb?>").hide();
-        });
+<div id="rendicion_rechazados" >
+    <section class="panel">
+        <table class="table table-hover p-table">
+            <thead>
+                <tr>  
+                    <th style="width: 20%;"><center>Proyecto</center></th>
+                    <th style="width: 10%;">Num</th>
+                    <th style="width: 20%;">Nombre</th>
+                    <th style="width: 20%;">Asignado</th>
+                    <th style="width: 5%;"><center>Total</center></th>
+                    <th style="width: 15%;">Estado</th>
+                    <th style="width: 33%;">Comentario</th>
+                    <th style="width: 3%;">&nbsp;&nbsp;&nbsp;&nbsp;Acciones&nbsp;&nbsp;&nbsp;</th>
+                </tr>                       
+            </thead>
+            <?php    
+            $b=0;
+            foreach ($this->data_equipo as $data_equipo) { ?>
+                <tbody>
+                        <?php
+                    if ($data_equipo['data_rechazados']) {
+                        foreach ($data_equipo['data_rechazados'] as $lista) { 
+                            
+                            ?>
+                            <tr>
+                                <td class="p-name">
+                                    <center><?php echo $data_equipo['proyectoid']. ' - ' .$data_equipo['nombre_proyecto'] ?></center>
+                                </td>
+                                <td class="p-name">
+                                    <?php echo $lista['numero'];?>
+                                </td>
+                                <td class="p-name">
+                                    <?php echo $lista['nombre'];?>
+                                </td>
+                                <td class="p-name">
+                                    <?php echo $lista['nombre_persona']; ?>
+                                </td>
+                                <td class="p-name">
+                                    <?php echo $lista['monto_total']; ?>
+                                </td>
+                                <td>
+                                    <?php
+                                    if ($lista['estado']=='R') { ?>
+                                        <span class="label label-danger label-mini">Rechazados</span>
+                                        <?php
+                                    } ?>
+                                    <div class="btn-group">
+                                        <button data-toggle="dropdown" class="btn btn-default dropdown-toggle btn-xs" type="button" aria-expanded="false">Modificar<span class="caret"></span></button>
+                                        <ul role="menu" class="dropdown-menu">
+                                            <li><a href="##" class="aprobado" uid="<?php echo $lista['uid']; ?>" dni="<?php echo $lista['dni']; ?>" numero="<?php echo $lista['numero']; ?>" estate="A">Aprobado</a></li>
+                                            <!-- <li><a href="##" class="rechazado" uid="<?php echo $lista['uid']; ?>" dni="<?php echo $lista['dni']; ?>" numero="<?php echo $lista['numero']; ?>" estate="R">Rechazado</a></li> -->
+                                        </ul>
+                                    </div>
+                                </td>
+                                <td>
+                                    <input id="<?php echo $lista['numero'] ?>" type="text" class="form-control" value="<?php echo $lista['comentario']?>"/>
+                                </td>
+                                <td>
+                                    <center>
+                                        <a data-toggle="modal" href="#myModalDetail" class="btn btn-warning btn-xs showdetails" title="Detalles"  uid="<?php echo $lista['uid']; ?>" dni="<?php echo $lista['dni']; ?>" numero="<?php echo $lista['numero']; ?>" proyectoid="<?php echo $data_equipo['proyectoid']?>" codigo-prop-proy="<?php echo $data_equipo['codigo_prop_proy']?>"><i class="fa fa-folder"></i></a>
+                                    </center>
+                                </td>
+                            </tr>
+                            <script type="text/javascript">
+                                $(".aprobado").click(function(){
+                                    var numero = $(this).attr('numero');
+                                    var uid = $(this).attr('uid');
+                                    var dni = $(this).attr('dni');
+                                    var estate = $(this).attr('estate');
+                                    var comentario = $("#"+numero).val();
+                                    $("#load_change").load("/expense/aprobacion/estado/numero/"+numero+"/uid/"+uid+"/dni/"+dni+"/estate/"+estate+"/comentario/"+comentario);
+                                    window.location.reload();
+                                });
+                            </script>                            
+                      <?php } 
+                    }?>
+                </tbody>
+                <?php 
+            $b++;
+            }
+            ?>
+        </table>
+    </section>
+</div>
 
-        $("#mostrar_aprobada<?php echo $nmb?>").click(function(){
-            $("#rendicion_enviados<?php echo $nmb?>").hide();
-            $("#rendicion_rechazados<?php echo $nmb?>").hide();
-            $("#rendicion_aprobados<?php echo $nmb?>").show();
-        });
+<div id="rendicion_aprobados" >
+    <section class="panel">
+        <table class="table table-hover p-table">
+            <thead>
+                <tr>  
+                    <th style="width: 20%;"><center>Proyecto</center></th>
+                    <th style="width: 10%;">Num</th>
+                    <th style="width: 20%;">Nombre</th>
+                    <th style="width: 20%;">Asignado</th>
+                    <th style="width: 5%;"><center>Total</center></th>
+                    <th style="width: 15%;">Estado</th>
+                    <th style="width: 33%;">Comentario</th>
+                    <th style="width: 3%;">&nbsp;&nbsp;&nbsp;&nbsp;Acciones&nbsp;&nbsp;&nbsp;</th>
+                </tr>                       
+            </thead>
+        <?php 
+        $c=0;   
+            foreach ($this->data_equipo as $data_equipo) { ?>
+                <tbody>
 
-        $("#mostrar_rechazada<?php echo $nmb?>").click(function(){
-            $("#rendicion_enviados<?php echo $nmb?>").hide();
-            $("#rendicion_rechazados<?php echo $nmb?>").show();
-            $("#rendicion_aprobados<?php echo $nmb?>").hide();
-        });
-    </script>
-<?php 
-    $nmb++;
-    } ?>
+                    <?php
+                    if ($data_equipo['data_aprobados']) {
+                    foreach ($data_equipo['data_aprobados'] as $lista) { ?>
+                        <tr>
+                            <td class="p-name">
+                                <center><?php echo $data_equipo['proyectoid']. ' - ' .$data_equipo['nombre_proyecto'] ?></center>
+                            </td>
+
+                            <td class="p-name">
+                                <?php echo $lista['numero'];?>
+                            </td>
+                            <td class="p-name">
+                                <?php echo $lista['nombre'];?>
+                            </td>
+                            <td class="p-name">
+                                <?php echo $lista['nombre_persona']; ?>
+                            </td>
+                            <td class="p-name">
+                                <?php echo $lista['monto_total']; ?>
+                            </td>
+                            <td>
+                                <?php
+                                if ($lista['estado']=='A') { ?>
+                                    <span class="label label-primary label-mini">Aprobados</span>
+                                    <?php
+                                } ?>
+                                <!-- <div class="btn-group">
+                                    <button data-toggle="dropdown" class="btn btn-default dropdown-toggle btn-xs" type="button" aria-expanded="false">Modificar<span class="caret"></span></button>
+                                    <ul role="menu" class="dropdown-menu">
+                                        <li><a href="##" class="aprobado" uid="<?php echo $lista['uid']; ?>" dni="<?php echo $lista['dni']; ?>" numero="<?php echo $lista['numero']; ?>" estate="A">Aprobado</a></li>
+                                        <li><a href="##" class="rechazado" uid="<?php echo $lista['uid']; ?>" dni="<?php echo $lista['dni']; ?>" numero="<?php echo $lista['numero']; ?>" estate="R">Rechazado</a></li>
+                                    </ul>
+                                </div> -->
+                            </td>
+                            <td class="p-name">
+                                <?php echo $lista['comentario']; ?>
+                            </td>
+                            <td>
+                                <center>
+                                    <a data-toggle="modal" href="#myModalDetail" class="btn btn-warning btn-xs showdetails" title="Detalles"  uid="<?php echo $lista['uid']; ?>" dni="<?php echo $lista['dni']; ?>" numero="<?php echo $lista['numero']; ?>" proyectoid="<?php echo $data_equipo['proyectoid']?>" codigo-prop-proy="<?php echo $data_equipo['codigo_prop_proy']?>"><i class="fa fa-folder"></i></a>
+                                </center>
+                            </td>
+                        </tr>
+                    <?php  }
+                    }?>
+                </tbody>
+
+        <?php 
+            $c++;
+            }
+        ?>
+        </table>
+    </section>
+</div>
+
+
+
+
+<script type="text/javascript">
+    $("#rendicion_enviados").show();
+    $("#rendicion_rechazados").hide();
+    $("#rendicion_aprobados").hide();
+    $("#mostrar_enviada").click(function(){
+        $("#rendicion_enviados").show();
+        $("#rendicion_rechazados").hide();
+        $("#rendicion_aprobados").hide();
+    });
+
+    $("#mostrar_aprobada").click(function(){
+        $("#rendicion_enviados").hide();
+        $("#rendicion_rechazados").hide();
+        $("#rendicion_aprobados").show();
+    });
+
+    $("#mostrar_rechazada").click(function(){
+        $("#rendicion_enviados").hide();
+        $("#rendicion_rechazados").show();
+        $("#rendicion_aprobados").hide();
+    });
+</script>
+
+
+
     <div class="modal fade" id="myModalDetail" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content" style="width: 1250px; top: 100%; margin-left: -180px;">
