@@ -1583,12 +1583,33 @@ public function cargartarea2Action() {
     $dataequipo['dni']=$dni= $this->_getParam("dni");
     $dataequipo['uid']=$uid= $this->_getParam("uid");
     $dataequipo['cargo']=$cargo= $this->_getParam("cargo");
+    $dataequipo['estado']=$estado= $this->_getParam("estado");
     $dataequipo['fecha_ingreso']=date("Y-m-d");
-    $dataequipo['estado']='A';
-    print_r($dataequipo);
+    
+    
 
-    $dbequipo = new Admin_Model_DbTable_Equipo();
-    $dbequipo->_save($dataequipo);
+   
+    
+
+       $wheres=array('codigo_prop_proy'=>$codigo,'proyectoid'=>$proyectoid,'uid'=>$uid,'dni'=>$dni,'areaid'=>$areaid);
+        $equipo= new Admin_Model_DbTable_Equipo();
+        $activar= $equipo->_getOne($wheres);
+
+
+        if($activar)
+        {
+          echo "existe";
+          print_r($wheres);
+          $datact['fecha_ingreso']=date("Y-m-d");
+          $datact['estado']=$estado;
+          $upactiv= $equipo->_update($datact,$wheres);
+        }
+        else
+        {      
+          echo "no existe";
+           print_r($dataequipo);
+          $gactiv= $equipo->_save($dataequipo);
+        }
     
   }
 
@@ -1626,6 +1647,67 @@ public function cargartarea2Action() {
 
 
   public function agregaactividadAction(){
+    try
+    {  
+      $cargo= $this->_getParam("cargo");
+      $areaid= $this->_getParam("areaid");
+      $uid= $this->_getParam("uid");
+      $dni= $this->_getParam("dni");
+      $proyectoid= $this->_getParam("proyectoid");
+      $categoriaid= $this->_getParam("categoriaid");  
+   
+      $actividadid= $this->_getParam("actividadid");
+      $revision= $this->_getParam("revision");
+      $codigo_actividad= $this->_getParam("codigo_actividad");
+      $codigo_prop_proy= $this->_getParam("codigo_prop_proy");
+      $estado= $this->_getParam("estado");
+      $actividad_padre= $this->_getParam("actividad_padre");
+
+      //"codigo_prop_proy","codigo_actividad", "proyectoid", "actividadid", "uid", "dni","cargo", "areaid", "categoriaid");
+      $wheres=array('codigo_prop_proy'=>$codigo_prop_proy,'codigo_actividad'=>$codigo_actividad,'proyectoid'=>$proyectoid,'actividadid'=>$actividadid
+              ,'uid'=>$uid,'dni'=>$dni,'cargo'=>$cargo,'areaid'=>$areaid,'categoriaid'=>$categoriaid);
+
+      $act= new Admin_Model_DbTable_Activaractividad();
+      $activar= $act->_getOne($wheres);
+      //print_r($wheres);
+
+        if($activar)
+        {
+
+          $datact['fecha']=date("Y-m-d");
+          $datact['estado']=$estado;
+          $upactiv= $act->_updateX($datact,$wheres);
+        }
+        else
+        {      
+          $data['codigo_prop_proy']=$codigo_prop_proy;
+          $data['proyectoid']=$proyectoid;
+          $data['codigo_actividad']=$codigo_actividad;
+          $data['actividadid']=$actividadid; 
+          $data['revision']=$revision;
+          $data['cargo']=$cargo;
+          $data['categoriaid']=$categoriaid;
+          $data['areaid']=$areaid;
+          $data['uid']=$uid;
+          $data['dni']=$dni;
+          $data['fecha']=date("Y-m-d");
+          $data['estado']=$estado;
+          $data['actividad_padre']=$actividad_padre;    
+          $gactiv= $act->_save($data);
+        }
+
+        //exit();
+
+     } 
+
+      catch (Exception $e) {
+      print "Error: ".$e->getMessage();
+    }
+
+  }
+
+
+  public function agregarpersonaequipoAction(){
     try
     {  
       $cargo= $this->_getParam("cargo");
