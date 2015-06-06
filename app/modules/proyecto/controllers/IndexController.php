@@ -1756,11 +1756,90 @@ public function cargartarea2Action() {
           $data['actividad_padre']=$actividad_padre;    
           $gactiv= $act->_save($data);
         }
-
-        //exit();
-
      } 
 
+      catch (Exception $e) {
+      print "Error: ".$e->getMessage();
+    }
+
+  }
+
+  public function agregartodoactividadAction(){
+    try
+    {
+
+      $cargo= $this->_getParam("cargo");
+      $areaid= $this->_getParam("areaid");
+      $uid= $this->_getParam("uid");
+      $dni= $this->_getParam("dni");
+      $proyectoid= $this->_getParam("proyectoid");
+      $categoriaid= $this->_getParam("categoriaid");
+      $codigo_prop_proy= $this->_getParam("codigo_prop_proy");   
+
+      //$wheres=array('proyectoid'=>$proyectoid,'uid'=>$uid,'dni'=>$dni,'cargo'=>$cargo,'areaid'=>$areaid,'categoriaid'=>$categoriaid);
+      //"codigo_prop_proy","codigo_actividad", "proyectoid", "actividadid", "uid", "dni","cargo", "areaid", "categoriaid"
+
+      $act= new Admin_Model_DbTable_Actividad();
+      $activar= $act->_getRepliconActividades($proyectoid,$codigo_prop_proy);
+
+      //print_r($activar);
+      //print_r(count($activar));
+
+      for($i=0;$i<count($activar);$i++)
+      //foreach ($activar as $actividad )
+      {
+          //echo $activar[$i]['codigo_actividad'];
+          //echo "--";  
+
+          $codigo_actividad = $activar[$i]['codigo_actividad'];
+          $actividadid = $activar[$i]['actividadid'];
+          $revision = $activar[$i]['revision'];
+          $actividad_padre = $activar[$i]['actividad_padre'];
+
+         
+
+          $wheres=array('codigo_prop_proy'=>$codigo_prop_proy,'codigo_actividad'=>$activar[$i]['codigo_actividad'],
+               'proyectoid'=>$proyectoid,'actividadid'=>$activar[$i]['actividadid'],'uid'=>$uid,'dni'=>$dni,'cargo'=>$cargo,
+               'areaid'=>$areaid,'categoriaid'=>$categoriaid);
+
+          //print_r($wheres);
+
+
+          $acti= new Admin_Model_DbTable_Activaractividad();
+          $veract= $acti->_getOne($wheres);
+
+          if($veract)
+          {
+
+          }
+          else
+          {
+            
+            $data['codigo_prop_proy']=$codigo_prop_proy;
+            $data['proyectoid']=$proyectoid;
+            $data['codigo_actividad']=$activar[$i]['codigo_actividad'];
+            $data['actividadid']=$actividadid;
+            $data['revision']=$revision;
+            $data['cargo']=$cargo;
+            $data['categoriaid']=$categoriaid;
+            $data['areaid']=$areaid;
+            $data['uid']=$uid;
+            $data['dni']=$dni;
+            $data['fecha']=date("Y-m-d");
+            $data['estado']='A';
+            $data['actividad_padre']=$actividad_padre;
+
+            print_r($data);            
+            echo "llego";
+            /*print_r($data);*/
+            //break; 
+
+            $gactiv= $acti->_save($data);
+          }
+
+      }
+
+    }
       catch (Exception $e) {
       print "Error: ".$e->getMessage();
     }

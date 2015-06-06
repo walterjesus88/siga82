@@ -14,7 +14,7 @@ class Admin_Model_DbTable_Actividad extends Zend_Db_Table_Abstract
         }
      }
 
-  public function _getProyectoxActividad()
+    public function _getProyectoxActividad()
      {
         try{
             $sql=$this->_db->query("
@@ -28,10 +28,7 @@ class Admin_Model_DbTable_Actividad extends Zend_Db_Table_Abstract
         }
     }
 
-  
-
-
-     public function _save($data){
+    public function _save($data){
         try{
             if ($data['codigo_prop_proy']=="" ) return false;
             return $this->insert($data);
