@@ -97,6 +97,9 @@ class Admin_Model_DbTable_Usuariocategoria extends Zend_Db_Table_Abstract
                 ");
             }
 
+            
+
+
             $row=$sql->fetchAll();
             return $row;           
             }  

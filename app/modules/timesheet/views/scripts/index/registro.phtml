@@ -161,8 +161,15 @@
     if ($this->cargo=='JEFE') 
     {
       echo "<strong>"; echo "Aprobadores: "; echo "</strong>"; echo "<br>";
+      if ($this->areaid=='27')
+      {
+        echo "GA: Romy Valdivia";
+      }
+      else
+      {
       $usuariocategoria = new Admin_Model_DbTable_Usuariocategoria();
       $datos_usuario=$usuariocategoria->_getGerenteAreaxJefeArea($this->areaid,'GERENTE-AREA');
+
       if ($datos_usuario)
       {
         $gerente_area = explode(".", $datos_usuario[0]['uid']);
@@ -182,6 +189,7 @@
         }
 
     }
+  }
 /*APROBADORES PARA EL EQUIPO*/    
     if ($this->is_gerente!='S' and $this->cargo!='GERENTE' AND $this->cargo!='GERENTE-GENERAL' AND $this->cargo!='JEFE') 
     

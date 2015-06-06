@@ -54,6 +54,29 @@
                                     <?php
                                 }
                                  ?>
+                                    <li >
+                                        <a style="padding:5px 5px;" class="anddes"  href="##">
+                                        <i class="fa fa-rocket"></i>
+                                            <span>
+                                                <?php echo "Anddes Asociados SAC" ?>
+                                            </span>
+                                        </a>
+                                    </li>
+                                    <script type="text/javascript">
+                                    $(".anddes").click(function(){
+                                        $("#proyectos").html('');
+                                        $("#actividades").html('');
+                                        $("#actividades_hijos").html('');
+                                        $("#actividades_tareas").html('');
+                                        var numero = "<?php echo $this->numero?>";
+                                        var fecha = $("#fechasemana").text();
+                                        var clienteid = '20451530535';
+                                        var unidadid = '10';
+                                        //$("#proyectos").load("/timesheet/index/proyectos/clienteid/"+clienteid+"/unidadid/"+unidadid+"/fecha/"+fecha);
+                                        $("#proyectos").load("/expense/index/proyectos/unidad_mineraid/"+unidadid+"/clienteid/"+clienteid+"/numero/"+numero);
+
+                                    });
+                                    </script>
                             </ul>
                         </aside>
 

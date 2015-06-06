@@ -324,7 +324,10 @@ class Proyecto_IndexController extends Zend_Controller_Action {
         $buscar_proyecto=$this->_getParam('proyecto');
         $buscar_proyecto=strtolower($buscar_proyecto);
         $buscaproyecto = new Admin_Model_DbTable_Proyecto();
-        $buscar=$buscaproyecto->_buscarProyecto($buscar_proyecto);
+        //$buscar=$buscaproyecto->_buscarProyecto($buscar_proyecto);
+        $buscar=$buscaproyecto->_buscarProyectoxReplicon($buscar_proyecto);
+
+        
         $this->view->lista_buscar = $buscar;
       
        

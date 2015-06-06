@@ -90,7 +90,7 @@ class Admin_Model_DbTable_Proyecto extends Zend_Db_Table_Abstract
                 inner join cliente as cli on
                 prop.clienteid=cli.clienteid 
                 where lower(pro.nombre_proyecto) like '%$proyecto%' 
-                or lower(cli.nombre_comercial) like '%$proyecto%'
+                or lower(cli.nombre_comercial) like '%$proyecto%' 
                 order by pro.nombre_proyecto asc");
             $row=$sql->fetchAll();
             return $row;           
@@ -110,7 +110,7 @@ class Admin_Model_DbTable_Proyecto extends Zend_Db_Table_Abstract
                 inner join cliente as cli on
                 pro.clienteid=cli.clienteid 
                 where lower(pro.nombre_proyecto) like '%$proyecto%' 
-                or lower(cli.nombre_comercial) like '%$proyecto%'
+                or lower(cli.nombre_comercial) like '%$proyecto%' or pro.proyectoid like '%$proyecto%'
                 order by pro.nombre_proyecto asc");
             $row=$sql->fetchAll();
             return $row;           
