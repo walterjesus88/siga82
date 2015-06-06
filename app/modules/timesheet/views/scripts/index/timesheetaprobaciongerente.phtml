@@ -1,10 +1,9 @@
 <section class="panel"><header class="panel-heading" style="padding-bottom : 10px">
-
-                         <div > <center>  Lista de pendiente de aprobación de Hojas de Tiempo</center></div>
-                         </header></section>
-<div class="inbox-body">
-                    <!--     <div class="panel-body">
-                        <div class="mail-option">-->
+  <div > <center>  Lista de pendiente de aprobación de Hojas de Tiempo</center></div>
+    </header></section>
+      <div class="inbox-body">
+        <!--     <div class="panel-body">
+          <div class="mail-option">-->
                          <!--
                             <label class="control-label col-md-1"> Usuario</label>                                  
                             <div class="col-md-2"> 
@@ -62,51 +61,40 @@
                                      <a href="#" class="np-btn"><i class="fa fa-angle-right pagination-right"></i></a>
                                  </li>
                             </ul>
-                    
-
-
                          </div>-->
                       <!--    </div>-->
-
-                         <div id="uno">
-                          <table class="table table-inbox table-hover" id="myTable" >
-                            <thead>
-                              <tr>  
-                              <th >#</th>
-                                <th >Hoja Tiempo</th>
-                                <th >Estado</th>
-                                <th >Nombre</th>
-                                <th >Usuario</th>
-                                <th >Semana</th>
-                                <th >Facturable</th>
-                                <th >No Facturable</th>
-                                <th >Total</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                             <?php
-                                  $c=1;                     
-                                  foreach ($this->equipos_horas_aprobar as $equipo){  
-
-                                  $sumahorassemana = new Admin_Model_DbTable_Sumahorasemana();
-                                  $wheres=array('dni'=>$equipo['dni'],'uid'=>$equipo['uid'],'semanaid'=>$this->semanaid);
-                                  $valorsuma=$sumahorassemana->_getOne($wheres);
-
-                                  if ($valorsuma) {
-
-                                    if (trim($valorsuma['estado'])=='1' or trim($valorsuma['estado'])=='3') {
-                                    ?>
-                                  
-                                  
-                              <tr name="oculus" id="xx" class="unread">
-                                <td class="view-message  text-right"><?php echo $c ?></td>                  
-                                          <td>   
-                                        
-                                              <button id="detalletime_<?php echo $c?>" href="#modalsemana" class="btn btn-success" data-toggle="modal"  uid=<?php echo $valorsuma['uid']?> dni=<?php echo $valorsuma['dni']?> semanaid=<?php echo $valorsuma['semanaid']?>  >
-                                                  ver detalle
-                                              </button>                                      
-                                          </td>
-                                          <td class="view-message "><?php if($valorsuma['estado']=='1') {echo "Para Aprobación";}?></td>
+    <div id="uno">
+      <table class="table table-inbox table-hover" id="myTable" >
+        <thead>
+          <tr>  
+            <th ><center># </center></th>
+            <th >Hoja Tiempo</th>
+            <th >Estado</th>
+            <th >Nombre</th>
+            <th >Usuario</th>
+            <th >Semana</th>
+            <th >Facturable</th>
+            <th >No Facturable</th>
+            <th >Total</th>
+          </tr>
+        </thead>
+        <tbody>
+        <?php
+          $c=1;                     
+          foreach ($this->equipos_horas_aprobar as $equipo){  
+            $sumahorassemana = new Admin_Model_DbTable_Sumahorasemana();
+            $wheres=array('dni'=>$equipo['dni'],'uid'=>$equipo['uid'],'semanaid'=>$this->semanaid);
+            $valorsuma=$sumahorassemana->_getOne($wheres);
+            if ($valorsuma) {
+              if (trim($valorsuma['estado'])=='1' or trim($valorsuma['estado'])=='3') { ?>
+                <tr name="oculus" id="xx" class="unread">
+                  <td class="view-message  text-right"><?php echo $c ?></td>                  
+                  <td>   
+                    <button id="detalletime_<?php echo $c?>" href="#modalsemana" class="btn btn-success" data-toggle="modal"  uid=<?php echo $valorsuma['uid']?> dni=<?php echo $valorsuma['dni']?> semanaid=<?php echo $valorsuma['semanaid']?>  >
+                      ver detalle
+                    </button>                                      
+                  </td>
+                  <td class="view-message "><?php if($valorsuma['estado']=='1') {echo "Para Aprobación";}?></td>
                                           <td class="view-message "><?php //echo $valorsuma['dni']
                                             $equipo = explode(".", $valorsuma['uid']);
                                             echo (ucwords($equipo[0])); echo " ";
