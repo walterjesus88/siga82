@@ -181,6 +181,15 @@ class Expense_IndexController extends Zend_Controller_Action {
         $this->_helper->layout()->disableLayout();
         $uid = $this->sesion->uid;
         $dni = $this->sesion->dni;
+
+        $estado='A';
+        $equipo=new Admin_Model_DbTable_Equipo();
+        $ekip=$equipo->_getProyectosXuidXEstado($uid,$estado);
+        //print_r($ekip);
+        $this->view->ekip = $ekip;
+
+                        
+
         $numero = $this->_getParam('numero');
         $gasto = new Admin_Model_DbTable_Gastopersona();
         $data_gasto = $gasto->_getgastoProyectosXnumero($numero, $uid, $dni);
@@ -631,6 +640,12 @@ class Expense_IndexController extends Zend_Controller_Action {
             $uid = $this->_getParam('uid');
             $dni = $this->_getParam('dni');
 
+            $estado='A';
+            $equipo=new Admin_Model_DbTable_Equipo();
+            $ekip=$equipo->_getProyectosXuidXEstado($uid,$estado);
+            //print_r($ekip);
+            $this->view->ekip = $ekip;
+
             $gasto = new Admin_Model_DbTable_Gastopersona();
             $data_gasto = $gasto->_getgastoProyectosXnumero($numero, $uid, $dni);
             for ($i=0; $i < count($data_gasto); $i++) { 
@@ -750,5 +765,57 @@ class Expense_IndexController extends Zend_Controller_Action {
             print "Error: ".$e->getMessage();
         }
     }
+    
+    public function cambiarproyectAction(){
+        try {
+            $proyectoid = $this->_getParam('proyectoid');
+            $codigo_prop_proy = $this->_getParam('codigo_prop_proy');
+            $revision = $this->_getParam('revision');
+            $numero_rendicion = $this->_getParam('numero_rendicion');
+            $uid = $this->_getParam('uid');
+            $dni = $this->_getParam('dni');
+            $codigo_prop_proy_anterior = $this->_getParam('codigo_prop_proy_anterior');
+            $proyectoid_anterior = $this->_getParam('proyectoid_anterior');
+            $areaid = $this->_getParam('areaid');
+            $categoriaid = $this->_getParam('categoriaid');
+            $revision_nueva = $this->_getParam('revision_nueva');
+
+            //$gasto_persona_id = $this->_getParam('gasto_persona_id');
+
+            $wherex=array('codigo_prop_proy'=>$codigo_prop_proy_anterior,'proyectoid'=>$proyectoid_anterior,'revision'=>$revision,
+                          'uid'=>$uid,'dni'=>$dni,'numero_rendicion'=>$numero_rendicion);
+                         // ,'areaid'=>$areaid,'categoriaid'=>$categoriaid);
+         
+            // codigo_prop_proy, proyectoid, revision, gastoid, uid, dni, categoriaid, cargo, areaid, gasto_persona_id
+
+            // , "categoriaid", "gastoid", , "gasto_persona_id"
+            // array("codigo_prop_proy", "proyectoid", "revision", "categoriaid", "gastoid", "uid", "dni", "gasto_persona_id");
+            $gpe= new Admin_Model_DbTable_Gastopersona();
+            //$gp=$gpe->_getFilter($wherex);
+
+            $data['proyectoid']=$proyectoid;
+            $data['codigo_prop_proy']=$codigo_prop_proy;
+            $data['revision']=$revision_nueva;
+           
+            $upgasto=$gpe->_updateX($data,$wherex);
+
+            print_r($data);
+
+            print_r($wherex);
+
+            if($upgasto)
+            {
+                print_r($upgasto);
+                
+            }          
+            //exit();
+
+        }
+
+        catch (Exception $e) {
+            print "Error: ".$e->getMessage();
+        }
+    }
+
     
 }
