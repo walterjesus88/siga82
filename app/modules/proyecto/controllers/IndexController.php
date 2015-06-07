@@ -1624,6 +1624,11 @@ public function cargartarea2Action() {
       $codigo_prop_proy= $this->_getParam("codigo_prop_proy");
       $areaid= $this->_getParam("areaid");
 
+      $this->view->proyectoid = $proyectoid;
+      $this->view->codigo_prop_proy = $codigo_prop_proy;
+      $this->view->areaid = $areaid;
+         
+  
       $where = array( 'proyectoid' => $proyectoid,'codigo_prop_proy'=>$codigo_prop_proy,'estado' =>'P','isproyecto'=>'S');
       $veract = new Admin_Model_DbTable_Actividad();
       $viewactivity=$veract->_getFilter($where);
@@ -1658,7 +1663,9 @@ public function cargartarea2Action() {
       $dni= $this->_getParam("dni");
       $proyectoid= $this->_getParam("proyectoid");
       $categoriaid= $this->_getParam("categoriaid");  
-   
+
+
+
       $actividadid= $this->_getParam("actividadid");
       $revision= $this->_getParam("revision");
       $codigo_actividad= $this->_getParam("codigo_actividad");
@@ -1778,6 +1785,7 @@ public function cargartarea2Action() {
       $proyectoid= $this->_getParam("proyectoid");
       $categoriaid= $this->_getParam("categoriaid");
       $codigo_prop_proy= $this->_getParam("codigo_prop_proy");   
+      $estado= $this->_getParam("estado");   
 
       //$wheres=array('proyectoid'=>$proyectoid,'uid'=>$uid,'dni'=>$dni,'cargo'=>$cargo,'areaid'=>$areaid,'categoriaid'=>$categoriaid);
       //"codigo_prop_proy","codigo_actividad", "proyectoid", "actividadid", "uid", "dni","cargo", "areaid", "categoriaid"
@@ -1813,7 +1821,10 @@ public function cargartarea2Action() {
 
           if($veract)
           {
-
+            $datact['fecha']=date("Y-m-d");
+            $datact['estado']=$estado;
+            $upactiv= $acti->_updateX($datact,$wheres);
+            echo "kkkkk";
           }
           else
           {
@@ -1829,7 +1840,7 @@ public function cargartarea2Action() {
             $data['uid']=$uid;
             $data['dni']=$dni;
             $data['fecha']=date("Y-m-d");
-            $data['estado']='A';
+            $data['estado']=$estado;
             $data['actividad_padre']=$actividad_padre;
 
             print_r($data);            

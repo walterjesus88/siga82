@@ -1,7 +1,9 @@
 <script type="text/javascript" src="/js/jquery-ui-1.9.2.custom.min.js"></script>
 <script type="text/javascript" src="/js/bootstrap.min.js"></script>
-
+<form name="f2">
   <div id="Proyecto_Activa">
+   <a href="/proyecto/index/asignaractividad/proyectoid/<?php echo $this->proyectoid ?>/codigo_prop_proy/<?php echo $this->codigo_prop_proy ?>/areaid/<?php echo $this->areaid ?>"> dd</a>
+   
     <table class="table p-table" style="padding: 1px;">
         <thead>
             <tr>  
@@ -17,7 +19,7 @@
               <?php
                 $c=0;
                 $cont=count($this->actividades);
-                //echo $cont;
+                echo $cont;
                 /*  foreach ($this->actividades as $listaactividad)
                 {?>
                 <td class="p-name" id="nomact_<?php echo $c?>">                    
@@ -30,14 +32,49 @@
                         
                         <a href="#"><?php echo $listaequipo['uid'];?></a>
 
-                        <input id="todoagrega_<?php echo $c ?>" value="A_<?php echo $c?>" type="checkbox" >
+                        <?php
+                        // $wheres=array('codigo_prop_proy'=>$listaequipo['codigo_prop_proy'],'proyectoid'=>$listaequipo['proyectoid'],'uid'=>$listaequipo['uid'],'dni'=>$listaequipo['dni'],'estado'=>'A','areaid'=>$listaequipo['areaid'],'categoriaid'=>$listaequipo['categoriaid']);
+                         $codigo_prop_proy=$listaequipo['codigo_prop_proy'];
+                         $proyectoid=$listaequipo['proyectoid'];
+                         $uid=$listaequipo['uid'];
+                         $dni=$listaequipo['dni'];
+                         $estado='A';
+                         $areaid=$listaequipo['areaid'];
+                         $categoriaid=$listaequipo['categoriaid'];
 
+                         $acti= new Admin_Model_DbTable_Activaractividad();
+                         $activr= $acti-> _getConteoactivar($codigo_prop_proy,$proyectoid,$uid,$dni,$estado,$areaid,$categoriaid);
+                         echo $activr[0]['count'];
+                         //print_r($activr);
+                         if($cont==$activr[0]['count'])
+                         { ?>
+                          <input name="todoagrega" id="todoagrega_<?php echo $c ?>" value="A_<?php echo $c?>" type="checkbox" checked>
+                         <?php }
+                         else
+                         { ?>
+                          <input name="todoagrega" id="todoagrega_<?php echo $c ?>" value="A_<?php echo $c?>" type="checkbox" >
+
+                        <?php  }
+                        ?>
                         <script type="text/javascript"> 
-                          $("#todoagrega_<?php echo $c ?>").click(function(){ 
-                              //alert("A<?php echo $c ?>");  
-                              var v = $(this).val();
-                              alert(v);
-
+                          $("#todoagrega_<?php echo $c ?>").click(function(){                            
+                             
+                              if($("#todoagrega_<?php echo $c?>").is(':checked')) 
+                              {  
+                                    estado='A';
+                                    console.log('act');
+                                    //for (i=0;i<document.f2.elements.length;i++) 
+                                      //if(document.f2.elements[i].type == "checkbox") 
+                                       
+                                        //document.f2.input[name="agreg[i]"].checked=1  
+                                          
+                                } else {    
+                                    estado='I';
+                                    console.log('desact'); 
+                                    //for (i=0;i<document.f2.elements.length;i++) 
+                                      //if(document.f2.elements[i].type == "checkbox")  
+                                        // document.f2.elements[i].checked=0 
+                              }
                               var codigo_prop_proy="<?php echo $listaequipo['codigo_prop_proy'] ?>";
                               var cargo="<?php echo $listaequipo['cargo'] ?>";
                               var areaid="<?php echo $listaequipo['areaid'] ?>";
@@ -48,21 +85,27 @@
                               var areaid="<?php echo $listaequipo['areaid'] ?>";
                               var cargo="<?php echo $listaequipo['cargo'] ?>";   
 
-                              url="/proyecto/index/agregartodoactividad/cargo/"+cargo+"/areaid/"+areaid+"/uid/"+uid+"/dni/"+dni+"/proyectoid/"+proyectoid+"/categoriaid/"+ categoriaid+"/codigo_prop_proy/"+codigo_prop_proy;        
-                              //alert(url);
+                              url="/proyecto/index/agregartodoactividad/cargo/"+cargo+"/areaid/"+areaid+"/uid/"+uid+"/dni/"+dni+"/proyectoid/"+proyectoid+"/categoriaid/"+ categoriaid+"/codigo_prop_proy/"+codigo_prop_proy+"/estado/"+estado;        
+                              alert(url);
 
-                              $.ajax({
-                                    type: "POST",
-                                    url: url,
-                                    data: $(this).serialize(),
-                                    dataType: "html",                                             
+                              $("#cargact").load(url);
+                              window.location.href;
+                              // $.ajax({
+                              //       type: "POST",
+                              //       url: url,
+                              //       data: $(this).serialize(),
+                              //       dataType: "html",                                             
                               
-                                    success: function(data){
-                                    }
-                              });
+                              //       success: function(data)
+                              //       {                                      
+                              //         $("#cargact").html(data);
+                              //       }
+                              // });
                   
                           });
                         </script>
+
+                  
 
                     </th>                                            
                 <?php $c++; } ?>
@@ -100,23 +143,35 @@
                           if($activar['estado']=='A')
                           {
                           ?>
-                          <input id="agrega_<?php echo $c?><?php echo $i?>" type="checkbox"  checked="checked" >
+                          <input id="agrega_<?php echo $c?><?php echo $i?>" type="checkbox"  checked="checked" name="agreg[<?php echo $c?>]" value="<?php echo $i ?><?php echo $c ?>">
                           <!-- <input class ='one-turno-course' index='1' type="checkbox" id="A" name="turno[<?php echo $i?>]" value="<?php echo $c ?>" checked> -->
                           <?php 
                           }
                           else
                           {
                           ?>
-                          <input id="agrega_<?php echo $c?><?php echo $i?>" type="checkbox" >
+                          <input id="agrega_<?php echo $c?><?php echo $i?>" type="checkbox" name="agreg[<?php echo $c?>]" value="<?php echo $i ?><?php echo $c ?>" >
                           <?php
                           }
                           ?>
 
+                          <script type="text/javascript">
+                            var checkboxValues = "";
+                            $('input[name="agreg[]"]:checked').each(function() {
+                              checkboxValues += $(this).val() + ",";
+                            });
+                            //eliminamos la última coma.
+                    
+
+                            checkboxValues = checkboxValues.substring(0, checkboxValues.length-1);
+                            //si todos los checkbox están seleccionados devuelve 1,2,3,4,5
+                            console.log(checkboxValues);
+                          </script>
+
                           <script type="text/javascript">                         
                            $("#agrega_<?php echo $c?><?php echo $i?>").click(function(){ 
                                 
-                                alert("<?php echo $c?><?php echo $i ?>");
-                     
+                                alert("<?php echo $c?><?php echo $i ?>");                   
 
                                 if($("#agrega_<?php echo $c?><?php echo $i?>").is(':checked')) {  
                                     
@@ -156,6 +211,8 @@
                               });
                            });                   
                           </script>
+
+                       
                         </td>
                      <?php
                       $i++;
@@ -168,3 +225,46 @@
           </tbody>
     </table>
   </div>
+  <div id="cargact"></div>
+</form>
+
+
+<form name="f1"> 
+<!-- Nombre: <input type="text" name="nombre"> 
+<br> 
+<input type="checkbox" name="ch1"> Opcion 1 
+<br> 
+<input type="checkbox" name="ch2"> Opcion 2 
+<br> 
+<input type="checkbox" name="ch3"> Opcion 3 
+<br> 
+<input type="checkbox" name="ch4"> Opcion 4 
+<br> 
+//Otro campo de formulario: 
+<select name=otro> 
+<option value="1">Seleccion 1 
+<option value="2">Seleccion 2 
+</select> 
+<br> 
+<input type="submit"> 
+<br> 
+<br> 
+<a href="javascript:seleccionar_todo()">Marcar todos</a> | 
+<a href="javascript:deseleccionar_todo()">Marcar ninguno</a>  -->
+</form>
+
+<script type="text/javascript">
+  // function seleccionar_todo(){ 
+  //   for (i=0;i<document.f2.elements.length;i++) 
+  //     if(document.f2.elements[i].type == "checkbox")  
+  //        document.f2.elements[i].checked=1 
+  //   } 
+</script>
+
+<script type="text/javascript">
+//   function deseleccionar_todo(){ 
+//    for (i=0;i<document.f1.elements.length;i++) 
+//       if(document.f2.elements[i].type == "checkbox")  
+//          document.f2.elements[i].checked=0 
+// }
+</script>

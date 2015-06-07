@@ -141,11 +141,60 @@ $data_rendicion = $this->data_rendicion;
     $gasto = $this->gasto;
     if ($gasto) {
         $j = 0;
+        //print_r($gasto);
         foreach ($gasto as $data_gasto) { ?>
             <section class="panel">
                 <header class="panel-heading modal-header" style="padding : 7px">
-                      <?php echo $data_gasto['proyectoid']. ' - ' .$data_gasto['nombre_proyecto'] ?>
+                        <div id="nombreproyect">
+                            <?php //echo $data_gasto['proyectoid']. ' - ' .$data_gasto['nombre_proyecto'] ?>                            
+                        </div>
+
+                        <select id="cambiagasto_<?php echo $j?>" class="form-control input-lg m-bot13">                        
+                            <option><?php echo $data_gasto['proyectoid']. ' - ' .$data_gasto['nombre_proyecto'] ?></option>
+                            <?php
+                                foreach ($this->ekip as $proyect) { ?>
+                                    <option value="<?php echo $proyect['proyectoid'].";--;".$proyect['codigo_prop_proy'].";--;".$proyect['revision']?>" >
+                                    <?php  echo $proyect['proyectoid']. ' - ' .$proyect['nombre_proyecto']. ' - ' .$proyect['codigo_prop_proy'] ?></option>
+                            <?php }?>
+                        </select>
+                        <script type="text/javascript">
+                            $("#cambiagasto_<?php echo $j?>").click(function(){
+                                var pro=$(this).val();
+                                var tmp=pro.split(";--;");
+                                var proyectoid=tmp[0];
+                                var codigo_prop_proy=tmp[1];
+                                var revision_nueva=tmp[2];
+                                //alert(proyectoid);
+                                //alert(codigo_prop_proy);
+                                var revision = "<?php echo $data_gasto['revision']?>";
+                                var numero_rendicion = "<?php echo $data_gasto['numero_rendicion']?>";
+                                var uid = "<?php echo $data_gasto['uid']?>";
+                                var dni = "<?php echo $data_gasto['dni']?>";
+                                var codigo_prop_proy_anterior = "<?php echo $data_gasto['codigo_prop_proy']?>";
+                                var proyectoid_anterior = "<?php echo $data_gasto['proyectoid']?>";
+                                var areaid = "<?php echo $data_gasto['areaid']?>";
+                                var categoriaid = "<?php echo $data_gasto['categoriaid']?>";
+
+                                var url="/expense/index/cambiarproyect/proyectoid/"+proyectoid+"/codigo_prop_proy/"+codigo_prop_proy+"/revision/"+revision+"/numero_rendicion/"+numero_rendicion+"/uid/"+uid+"/dni/"+dni+"/codigo_prop_proy_anterior/"+codigo_prop_proy_anterior+"/proyectoid_anterior/"+proyectoid_anterior+"/areaid/"+areaid+"/categoriaid/"+categoriaid+"/revision_nueva/"+revision_nueva;
+                                //alert(url);
+                                $.ajax({
+                                        type: "POST",
+                                        url: url,
+                                        data: $(this).serialize(),
+                                        dataType: "html",  
+                                        success: function(data)
+                                        {                                      
+                                          //$("#modifyproyect").html(data);
+                                          //$("#nombreproyect").hide();
+                                          
+                                        }
+                                });                          
+                            });
+                        </script>
+
                 </header>
+                <div id="modifyproyect"></div>
+
                 <div class="panel-body">
                     <div class="adv-table">
                         <table class="display table table-bordered table-striped table-condensed" style="font-size:11px">

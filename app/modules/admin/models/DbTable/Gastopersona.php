@@ -36,6 +36,21 @@ class Admin_Model_DbTable_Gastopersona extends Zend_Db_Table_Abstract
         }
     }
 
+    public function _updateX($data,$pk)
+    {
+        try{
+
+        
+            //if ($pk['codigo_prop_proy']=='' ||  $pk['propuestaid']=='' ||  $pk['revision']=='' ) return false;
+            $where = "codigo_prop_proy = '".$pk['codigo_prop_proy']."' and proyectoid='".$pk['proyectoid']."' and revision='".$pk['revision']."'
+            and uid='".$pk['uid']."' and dni='".$pk['dni']."' and numero_rendicion='".$pk['numero_rendicion']."' ";
+            return $this->update($data, $where);
+            return false;
+        }catch (Exception $e){
+            print "Error: Update Distribution".$e->getMessage();
+        }
+    }
+
     public function _delete($gasto_persona_id){
         try{
             if ($gasto_persona_id=='') return false;
