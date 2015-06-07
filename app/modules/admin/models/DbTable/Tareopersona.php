@@ -101,7 +101,7 @@ select *,tareo.estado as estado_tareopersona   from tareo_persona as tareo
                 inner join proyecto as pro on tareo.codigo_prop_proy=pro.codigo_prop_proy
                      and tareo.proyectoid=pro.proyectoid 
                 where tareo.uid='$uid' and tareo.dni='$dni' and tareo.semanaid='$semanaid' 
-                and tareo.etapa like 'INICIO%'  order by tareo.proyectoid,tareo.actividadid,tipo_actividad desc 
+                and tareo.etapa like 'INICIO%'  order by act.propuestaid desc,tareo.proyectoid,tareo.actividadid,tipo_actividad desc 
               
 
             ");

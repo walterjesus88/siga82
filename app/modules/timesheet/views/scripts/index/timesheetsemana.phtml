@@ -13,8 +13,8 @@
             <tr >
             <th style="width: 5%;">  </th>
             <th style="width: 70%;" >Proyecto / Actividad: Tarea</th>
-            <th style="width: 7%;">Facturable</th>
-            <th style="width: 7%;">Tarea No Facturable</th>
+            <th style="width: 7%;"Tipo</th>
+            <th style="width: 7%;">Tarea </th>
             <?php 
               //$fecha = $this->fecha;
               //echo $fecha;
@@ -113,7 +113,7 @@
               </td>
              
               <td>
-                <?php echo $data_tareo['proyectoid']; echo " "; echo $data_tareo['nombre_proyecto'];  echo " / "; echo $data_tareo['nombre'] ?>
+                 <?php  echo "<strong>"; echo $data_tareo['proyectoid']; echo "</strong>"; echo " "; echo $data_tareo['nombre_proyecto'];  echo " "; echo $data_tareo['actividadid']; echo " ";echo $data_tareo['nombre'] ?>
               </td>            
 
            <td>
