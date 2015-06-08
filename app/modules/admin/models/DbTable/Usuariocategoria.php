@@ -13,6 +13,19 @@ class Admin_Model_DbTable_Usuariocategoria extends Zend_Db_Table_Abstract
         }
     }
 
+    public function _getOne($where=array()){
+        try {
+                $wherestr= "aprobacion = '".$where['aprobacion']."' and estado='".$where['estado']."'
+                and estado_sistema='".$where['estado_sistema']."'
+                ";
+                $row = $this->fetchRow($wherestr);
+                if($row) return $row->toArray();
+                return false;
+        } catch (Exception $e) {
+            print "Error: Read One Condition".$e->getMessage();
+        }
+    }
+
     public function _getFilter($where=null,$attrib=null,$orders=null){
         try{            
             if($where['uid']=='' || $where['dni']=='' ) return false;

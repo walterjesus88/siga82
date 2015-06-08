@@ -108,6 +108,7 @@ class IndexController extends Zend_Controller_Action {
                                 $data->personal->ucatid= $datosucat[0]['categoriaid']; 
                                 $data->personal->ucatareaid= $datosucat[0]['areaid']; 
                                 $data->personal->ucatcargo= $datosucat[0]['cargo'];                                
+                                $data->personal->ucataprobacion= $datosucat[0]['aprobacion'];  
                             }
 
                             if ($data_equipo) {

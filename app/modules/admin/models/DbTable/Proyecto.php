@@ -121,6 +121,22 @@ class Admin_Model_DbTable_Proyecto extends Zend_Db_Table_Abstract
         }
     }
 
+    public function _listProyectoxRepliconxEstado($proyecto,$estado){
+        try{
+            $sql=$this->_db->query("
+                select *
+                       from proyecto 
+                where estado='A'
+                order by pro.nombre_proyecto asc");
+            $row=$sql->fetchAll();
+            return $row;           
+            }  
+            
+           catch (Exception $ex){
+            print $ex->getMessage();
+        }
+    }
+
     public function _getProyectosTodosAnddes(){
         try{
             $sql=$this->_db->query("

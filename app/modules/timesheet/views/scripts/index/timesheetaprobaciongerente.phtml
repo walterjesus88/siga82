@@ -1,5 +1,5 @@
 <section class="panel"><header class="panel-heading" style="padding-bottom : 10px">
-  <div > <center>  Lista de pendiente de aprobación de Hojas de Tiempo</center></div>
+  <div > <center>  Lista de pendiente de aprobación de Hojas de Tiempo de Gerente Proyecto</center></div>
     </header></section>
       <div class="inbox-body">
         <!--     <div class="panel-body">
@@ -80,13 +80,17 @@
         </thead>
         <tbody>
         <?php
-          $c=1;                     
+          $c=1;             
           foreach ($this->equipos_horas_aprobar as $equipo){  
+            // print_r($equipo);
             $sumahorassemana = new Admin_Model_DbTable_Sumahorasemana();
-            $wheres=array('dni'=>$equipo['dni'],'uid'=>$equipo['uid'],'semanaid'=>$this->semanaid);
-            $valorsuma=$sumahorassemana->_getOne($wheres);
+            //$wheres=array('dni'=>$equipo['dni'],'uid'=>$equipo['uid'],'semanaid'=>$this->semanaid);
+            //$valorsuma=$sumahorassemana->_getOne($wheres);
+            $wheres=array('dni'=>$equipo['dni'],'uid'=>$equipo['uid']);
+            $valorsuma=$sumahorassemana->_getOnexMes($wheres);
+            //print_r( $valorsuma);
             if ($valorsuma) {
-              if (trim($valorsuma['estado'])=='1' or trim($valorsuma['estado'])=='3') { ?>
+              if (trim($valorsuma['estado'])=='1' or trim($valorsuma['estado'])=='3' or trim($valorsuma['estado'])==$this->aprobacion) { ?>
                 <tr name="oculus" id="xx" class="unread">
                   <td class="view-message  text-right"><?php echo $c ?></td>                  
                   <td>   

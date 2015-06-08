@@ -113,18 +113,30 @@
               </td>
              
               <td>
-                <?php echo $data_tareo['proyectoid']; echo " "; echo $data_tareo['nombre_proyecto'];  echo " / "; echo $data_tareo['nombre'] ?>
-              </td>            
+                 <?php  echo "<strong>"; echo $data_tareo['proyectoid']; echo "</strong>"; echo " "; echo $data_tareo['nombre_proyecto'];  echo " "; echo $data_tareo['actividadid']; echo " ";echo $data_tareo['nombre'] ?>
+              </td>           
 
-              <td>
+               <td>
                 <?php if ($data_tareo['tipo_actividad']=='G') {?>
-                  <a id ="nofacturable_cambio_<?php echo $j?>" class="btn btn-danger btn-xs ">No Facturable</a>
-                <?php }else{ ?>
-                <a id ="facturable_tareo_<?php echo $j?>" class="btn btn-success btn-xs">Facturable</a>
-                <a id ="nofacturable_tareo_<?php echo $j?>" class="btn btn-danger btn-xs" style="display:none">No Facturable</a>
+                  
+
+                  <a <?php if ($data_tareo['estado_tareopersona']=='C') { ?> disabled <?php }?> id ="nofacturable_cambio_<?php echo $j?>" class="btn btn-danger btn-xs ">No Facturable.</a>
+                <?php }
+
+                if ($data_tareo['tipo_actividad']=='P'){ ?>
+                <a <?php if ($data_tareo['estado_tareopersona']=='C') { ?> disabled <?php }?> id ="facturable_tareo_<?php echo $j?>" class="btn btn-success btn-xs">Facturable</a>
+                <a <?php if ($data_tareo['estado_tareopersona']=='C') { ?> disabled <?php }?> id ="nofacturable_tareo_<?php echo $j?>" class="btn btn-danger btn-xs" style="display:none">No Facturable</a>
 
                 <?php }?>
-              </td>            
+                <?php if ($data_tareo['tipo_actividad']=='A') {?>
+                  
+
+                  <a  class="btn btn-info btn-xs ">Anddes</a>
+                
+
+                <?php }?>
+
+              </td>             
 
               <td> 
                 <?php if ($data_tareo['tipo_actividad']=='G') {

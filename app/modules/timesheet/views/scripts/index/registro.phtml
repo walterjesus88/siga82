@@ -18,7 +18,11 @@
       $estado_real=$tareosemana['estado_real'];
       //print_r($tareosemana);
       ?>
-      <?php if (trim($estado_horas)=='P') {?>
+
+
+      <?php if (trim($estado_horas)=='P' or trim($estado_horas)=='2.B0' or trim($estado_horas)=='3.B1'
+        
+      ) {?>
       <strong>Hoja de Tiempo Espera de Aprobacion</strong> 
       <?php }?>
        <?php if (trim($estado_horas)=='0' and trim($estado_horas)=='' ) {?>
@@ -36,7 +40,6 @@
       <strong>Hoja de Tiempo Aprobada por Los Gerentes de Proyectos</strong> 
       <?php }?>
       -->
-
       <?php if (trim($estado_horas)=='1') {?>
       <strong>Hoja de Tiempo Aprobada por Jefe Area, espera Gerente de Proyecto</strong> 
       <?php }?>
@@ -55,11 +58,9 @@
       $tareopersona = new Admin_Model_DbTable_Sumahorasemana();
       $wheres=array('dni'=>$this->dni,'uid'=>$this->uid,'semanaid'=>$this->semana);
       $sumahoras = new Admin_Model_DbTable_Sumahora();
-      
       //print_r($sumahorasxact);
       $sumar=$tareopersona-> _getOne($wheres);
       //print_r($sumar);
-
       echo $sumar['billable'];
       echo "<br>"; 
       echo "HH Fact.";
@@ -96,10 +97,38 @@
   </div>
   <div class="col-lg-2" style="padding-top: 2px;">
 
+ <?php 
+  if ($this->aprobacion)
+  {
+    $buscar_aprobador=$this->aprobacion;
+    $aprobacion = new Admin_Model_DbTable_Aprobacion();
+    $wheres=array('idaprobacion'=>$buscar_aprobador,'estado'=>'A');
+    $list_aprobacion=$aprobacion->_getOne($wheres); 
+    $aprobador= $list_aprobacion['idaprobador'];
+    $usuario_cat = new Admin_Model_DbTable_Usuariocategoria();
+    $wheres_ucat=array('aprobacion'=>$aprobador,'estado'=>'A','estado_sistema'=>'A');
+    $list_aprobador=$usuario_cat->_getOne($wheres_ucat); 
+    $aprobador_usuario = explode(".", $list_aprobador['uid']);
+    echo "Aprobado: "; echo "<br>";
+    echo (ucwords($aprobador_usuario[0])); echo " ";
+    echo (ucwords($aprobador_usuario[1])); echo "<br>";
+    $planificacion = new Admin_Model_DbTable_Planificacion();
+    $proyectos=$planificacion->_getOnexSemanaxGerenteProyecto($this->semana,$this->uid,$this->dni,$this->areaid);
+
+    foreach ($proyectos as $datos) {
+      //print_r($datos['uid']);
+      $porciones = explode(".", $datos['uid']);
+      echo "GP: ";
+      echo (ucwords($porciones[0])); echo " ";
+      echo (ucwords($porciones[1])); echo "<br>";
+    }
+  }
+ ?> 
     
     <?php 
     //echo $this->cargo;
-    
+    /*
+
     if ($this->is_gerente=='S' and $this->cargo!='GERENTE-GENERAL' and $this->cargo!='JEFE') 
     {
       echo "Aprobado: "; echo "<br>";
@@ -120,6 +149,7 @@
 
     }
 
+    
     if ($this->cargo=='GERENTE') 
     {
       echo "Aprobado: "; echo "<br>";
@@ -156,17 +186,19 @@
       }
 
      
-    }
+    }*/
+
 /*APROBADORES PARA LOS JEFES DE AREA*/  
-    if ($this->cargo=='JEFE') 
+
+    if ($this->cargo=='JEFE' && $this->areaid=!'27' && $this->areaid!='16') 
     {
       echo "<strong>"; echo "Aprobadores: "; echo "</strong>"; echo "<br>";
-      if ($this->areaid=='27')
-      {
-        echo "GA: Romy Valdivia";
-      }
-      else
-      {
+      //if ($this->areaid=='27' )
+      //{
+      //  echo "GA: Romy Valdivia";
+      //}
+      //else
+      //{
       $usuariocategoria = new Admin_Model_DbTable_Usuariocategoria();
       $datos_usuario=$usuariocategoria->_getGerenteAreaxJefeArea($this->areaid,'GERENTE-AREA');
 
@@ -188,7 +220,7 @@
           echo (ucwords($porciones[1])); echo "<br>";
         }
 
-    }
+    //}
   }
 /*APROBADORES PARA EL EQUIPO*/    
     if ($this->is_gerente!='S' and $this->cargo!='GERENTE' AND $this->cargo!='GERENTE-GENERAL' AND $this->cargo!='JEFE') 

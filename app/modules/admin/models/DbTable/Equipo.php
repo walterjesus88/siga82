@@ -484,4 +484,27 @@ public function _getListarEquipoxProyectoxGerente($uid,$dni)
         }
     }
 
+    public function _getListarEquipoxProyectoxGerentexAprobacion($uid,$dni)
+     {
+        try{
+            $sql=$this->_db->query("
+                
+                select distinct uid,dni from equipo where proyectoid in  
+                (select distinct proyectoid from
+                 equipo  where uid='$uid' and dni='$dni' and nivel='0')
+                  and nivel in ('4','2','1','3') 
+                  union
+                   select uid,dni from usuario_categoria where aprobacion like '4.B1.%';
+
+
+                    ");
+            $row=$sql->fetchAll();
+            return $row;           
+            }  
+            
+           catch (Exception $ex){
+            print $ex->getMessage();
+        }
+    }
+
 }

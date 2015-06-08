@@ -1,8 +1,7 @@
 <section class="panel"><header class="panel-heading" style="padding-bottom : 10px">
-
-                         <div > <center>  Lista de pendiente de aprobación de Hojas de Tiempo Gerente Area</center></div>
-                         </header></section>
-<div class="inbox-body">
+  <div > <center>  Lista de pendiente de aprobación de Hojas de Tiempo Gerente Area</center></div>
+  </header></section>
+  <div class="inbox-body">
                     <!--     <div class="panel-body">
                         <div class="mail-option">-->
                          <!--
@@ -68,122 +67,102 @@
                          </div>-->
                       <!--    </div>-->
 
-                         <div id="uno">
-                          <table class="table table-inbox table-hover" id="myTable" >
-                            <thead>
-                              <tr>  
-                              <th >#</th>
-                                <th >Hoja Tiempo</th>
-                                <th >Estado</th>
-                                <th >Nombre</th>
-                                <th >Usuario</th>
-                                <th >Semana</th>
-                                <th >Facturable</th>
-                                <th >No Facturable</th>
-                                <th >Total</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                             <?php
-                                  $c=1;                     
-                                  foreach ($this->equipos_horas_aprobar as $equipo){  
-                                    //print_r($equipo);
-                                  $sumahorassemana = new Admin_Model_DbTable_Sumahorasemana();
-                                  $wheres=array('dni'=>$equipo['dni'],'uid'=>$equipo['uid'],'semanaid'=>$this->semanaid);
-                                  $valorsuma=$sumahorassemana->_getOne($wheres);
-                                //print_r($valorsuma);
-                                  if ($valorsuma) {
-  $comparar=trim($valorsuma['estado']);
+  <div id="uno">
+    <table class="table table-inbox table-hover" id="myTable" >
+      <thead>
+        <tr>  
+        <th >#</th>
+          <th >Hoja Tiempo</th>
+          <th >Estado</th>
+          <th >Nombre</th>
+          <th >Usuario</th>
+          <th >Semana</th>
+          <th >Facturable</th>
+          <th >No Facturable</th>
+          <th >Total</th>
+        </tr>
+      </thead>
+      <tbody>
+      <?php
+        $c=1;                     
+        foreach ($this->equipos_horas_aprobar as $equipo){  
+          //print_r($equipo);
+          $sumahorassemana = new Admin_Model_DbTable_Sumahorasemana();
+          //$wheres=array('dni'=>$equipo['dni'],'uid'=>$equipo['uid'],'semanaid'=>$this->semanaid);
+          //$valorsuma=$sumahorassemana->_getOne($wheres);
+            $wheres=array('dni'=>$equipo['dni'],'uid'=>$equipo['uid']);
+            $valorsuma=$sumahorassemana->_getOnexMes($wheres);
 
-                                    if ($comparar=='GP') {
-                                    ?>
-                                  
-                                  
-                              <tr name="oculus" id="xx" class="unread">
-                                <td class="view-message  text-right"><?php echo $c ?></td>                  
-                                          <td>   
-                                        
-                                              <button id="detalletime_<?php echo $c?>" href="#modalsemana" class="btn btn-success" data-toggle="modal"  uid=<?php echo $valorsuma['uid']?> dni=<?php echo $valorsuma['dni']?> semanaid=<?php echo $valorsuma['semanaid']?>  >
-                                                  ver detalle
-                                              </button>                                      
-                                          </td>
-                                          <td class="view-message "><?php if(trim($valorsuma['estado'])=='J') {echo "Para Aprobación";}?></td>
-                                          <td class="view-message "><?php //echo $valorsuma['dni']
-                                            $equipo = explode(".", $valorsuma['uid']);
-                                            echo (ucwords($equipo[0])); echo " ";
-                                            echo (ucwords($equipo[1])); 
-                                          ?></td>
-                                          <td class="view-message "><?php echo $valorsuma['uid']?></td>                            
-                                          <td class="view-message "><?php echo $valorsuma['semanaid']?></td>                               
-                                          <td class="view-message "><?php echo $valorsuma['billable']?></td>
-                                          <td class="view-message "><?php echo $valorsuma['nonbillable']?></td>
-                                          <td class="view-message "><?php echo $valorsuma['h_total']?></td>
-                                      </tr>
-                                       <script type="text/javascript">
-                                        $(document).ready(function(){
-                                          $("#detalletime_<?php echo $c?>").click(function(){
+          if ($valorsuma) {
+            $comparar=trim($valorsuma['estado']);
+            if ($comparar=='GP' or $comparar==$this->aprobacion) {?>
+              <tr name="oculus" id="xx" class="unread">
+                <td class="view-message  text-right"><?php echo $c ?></td>                  
+                <td>   
+                  <button id="detalletime_<?php echo $c?>" href="#modalsemana" class="btn btn-success" data-toggle="modal"  uid=<?php echo $valorsuma['uid']?> dni=<?php echo $valorsuma['dni']?> semanaid=<?php echo $valorsuma['semanaid']?>  >
+                        ver detalle
+                    </button>                                      
+                </td>
+                <td class="view-message "><?php if(trim($valorsuma['estado'])=='J') {echo "Para Aprobación";}?></td>
+                <td class="view-message "><?php //echo $valorsuma['dni']
+                  $equipo = explode(".", $valorsuma['uid']);
+                  echo (ucwords($equipo[0])); echo " ";
+                  echo (ucwords($equipo[1])); ?>
+                </td>
+                <td class="view-message "><?php echo $valorsuma['uid']?></td>                            
+                <td class="view-message "><?php echo $valorsuma['semanaid']?></td>                               
+                <td class="view-message "><?php echo $valorsuma['billable']?></td>
+                <td class="view-message "><?php echo $valorsuma['nonbillable']?></td>
+                <td class="view-message "><?php echo $valorsuma['h_total']?></td>
+              </tr>
+              <script type="text/javascript">
+                $(document).ready(function(){
+                  $("#detalletime_<?php echo $c?>").click(function(){
 
-                                            //var cargo=$(this).attr('cargo');
-                                            var uid=$(this).attr('uid');
-                                            var dni=$(this).attr('dni');
-                                            var semanaid=$(this).attr('semanaid');
-                                            // alert(cargo);
-                                            // alert(uid);
-                                            // alert(dni);
-                                            // alert(semanaid);
-                                            var url = "/timesheet/index/semanagerenteoperaciones/uid/"+ uid+"/dni/"+dni+"/semanaid/"+semanaid; //alert(url);                                             //alert(url);
-                                            $("#modaltimes").load(url);                                         
-                                            //$("#modalsemana").modal('show');
-                                            //$(".modal-body").html('<center><img src="/img/spinner.gif" /> Cargando...</center>');
-                                            });
-                                          });
-                                      </script>    
-
-
-<?php $c++;
-                                    }  } 
-                                   }
-
-
-                               ?>
-              
-                            </tbody>
-
-
-                          </table>
-                          </div>
-                          
-                          <div id="ver"></div>
-
-                          <div class="modal fade" id="modalsemana" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                            <div class="modal-dialog modal-lg">
-                              <div class="modal-content" style="width: 1250px; top: 100%; margin-left: -250px; ">
-                                <div class="modal-header">
-                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                                    <h4 class="modal-title">Aprobar Hoja de Tiempo de los Gerentes de Proyectos</h4>
-                                </div>
-                                <div class="modal-body">
-                                    
-                                    <div id="modaltimes"></div>
-                                </div>
-                                <div class="modal-footer">
-                                      <button  data-dismiss="modal" class="btn btn-default" type="button">Cerrar</button>
-                                    
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-
-                      </div>
-
-
+                    //var cargo=$(this).attr('cargo');
+                    var uid=$(this).attr('uid');
+                    var dni=$(this).attr('dni');
+                    var semanaid=$(this).attr('semanaid');
+                    // alert(cargo);
+                    // alert(uid);
+                    // alert(dni);
+                    // alert(semanaid);
+                    var url = "/timesheet/index/semanagerenteoperaciones/uid/"+ uid+"/dni/"+dni+"/semanaid/"+semanaid; //alert(url);                                             //alert(url);
+                    $("#modaltimes").load(url);                                         
+                    //$("#modalsemana").modal('show');
+                    //$(".modal-body").html('<center><img src="/img/spinner.gif" /> Cargando...</center>');
+                  });
+                });
+              </script>    
+              <?php $c++;
+            }  
+          } 
+        }?>
+      </tbody>
+    </table>
+  </div>
+  <div id="ver"></div>
+  <div class="modal fade" id="modalsemana" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content" style="width: 1250px; top: 100%; margin-left: -250px; ">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4 class="modal-title">Aprobar Hoja de Tiempo de los Gerentes de Proyectos</h4>
+        </div>
+        <div class="modal-body">
+          <div id="modaltimes"></div>
+        </div>
+        <div class="modal-footer">
+            <button  data-dismiss="modal" class="btn btn-default" type="button">Cerrar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 <div id="modali"></div>
-
 <script type="text/javascript">
 $(document).ready(function(){
-
   $("#filtro").on("click",function(){
-  
     var usuario= $("#user").val(); 
     var dateinicio = $("#fechainicio").val(); 
     var datefin= $("#fechafin").val(); 
@@ -194,7 +173,6 @@ $(document).ready(function(){
     //alert(estado);
     url="/timesheet/index/filtros/usuario/"+usuario+'/dateinicio/'+dateinicio+'/datefin/'+datefin+'/estado/'+estado;
     alert(url);
-
     $.ajax({
       type: "POST",
       url: url,
@@ -209,7 +187,6 @@ $(document).ready(function(){
       }
     });    
   });
-
 });
 </script>
 
