@@ -2,7 +2,7 @@
 <script type="text/javascript" src="/js/bootstrap.min.js"></script>
 <form name="f2">
   <div id="Proyecto_Activa">
-   <a href="/proyecto/index/asignaractividad/proyectoid/<?php echo $this->proyectoid ?>/codigo_prop_proy/<?php echo $this->codigo_prop_proy ?>/areaid/<?php echo $this->areaid ?>"> dd</a>
+   <a href="/proyecto/index/asignaractividad/proyectoid/<?php echo $this->proyectoid ?>/codigo_prop_proy/<?php echo $this->codigo_prop_proy ?>/areaid/<?php echo $this->areaid ?>"> </a>
    
     <table class="table p-table" style="padding: 1px;">
         <thead>
@@ -19,7 +19,7 @@
               <?php
                 $c=0;
                 $cont=count($this->actividades);
-                echo $cont;
+                //echo $cont;
                 /*  foreach ($this->actividades as $listaactividad)
                 {?>
                 <td class="p-name" id="nomact_<?php echo $c?>">                    
@@ -44,7 +44,7 @@
 
                          $acti= new Admin_Model_DbTable_Activaractividad();
                          $activr= $acti-> _getConteoactivar($codigo_prop_proy,$proyectoid,$uid,$dni,$estado,$areaid,$categoriaid);
-                         echo $activr[0]['count'];
+                         //echo $activr[0]['count'];
                          //print_r($activr);
                          if($cont==$activr[0]['count'])
                          { ?>
