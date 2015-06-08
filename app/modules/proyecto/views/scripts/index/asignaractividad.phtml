@@ -3,6 +3,8 @@
 <form name="f2">
   <div id="Proyecto_Activa">
    <a href="/proyecto/index/asignaractividad/proyectoid/<?php echo $this->proyectoid ?>/codigo_prop_proy/<?php echo $this->codigo_prop_proy ?>/areaid/<?php echo $this->areaid ?>"> dd</a>
+   <a href="xxx"> xxxx</a>
+
    
     <table class="table p-table" style="padding: 1px;">
         <thead>
@@ -19,7 +21,7 @@
               <?php
                 $c=0;
                 $cont=count($this->actividades);
-                echo $cont;
+                //echo $cont;
                 /*  foreach ($this->actividades as $listaactividad)
                 {?>
                 <td class="p-name" id="nomact_<?php echo $c?>">                    
@@ -86,21 +88,23 @@
                               var cargo="<?php echo $listaequipo['cargo'] ?>";   
 
                               url="/proyecto/index/agregartodoactividad/cargo/"+cargo+"/areaid/"+areaid+"/uid/"+uid+"/dni/"+dni+"/proyectoid/"+proyectoid+"/categoriaid/"+ categoriaid+"/codigo_prop_proy/"+codigo_prop_proy+"/estado/"+estado;        
-                              alert(url);
+                              //alert(url);
 
-                              $("#cargact").load(url);
-                              window.location.href;
-                              // $.ajax({
-                              //       type: "POST",
-                              //       url: url,
-                              //       data: $(this).serialize(),
-                              //       dataType: "html",                                             
+                              //$("#cargact").load(url);
+                              //window.location.href;
+                              $.ajax({
+                                    type: "POST",
+                                    url: url,
+                                    data: $(this).serialize(),
+                                    dataType: "html",                                             
                               
-                              //       success: function(data)
-                              //       {                                      
-                              //         $("#cargact").html(data);
-                              //       }
-                              // });
+                                    success: function(data)
+                                    {                                      
+                                      //$("#cargact").append(data);
+                                      location.reload();
+                                      //="proyecto/index/ver";
+                                    }
+                              });
                   
                           });
                         </script>

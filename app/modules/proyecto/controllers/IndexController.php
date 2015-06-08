@@ -1777,6 +1777,7 @@ public function cargartarea2Action() {
   public function agregartodoactividadAction(){
     try
     {
+      $this->_helper->layout()->disablelayout();
 
       $cargo= $this->_getParam("cargo");
       $areaid= $this->_getParam("areaid");
@@ -1800,22 +1801,17 @@ public function cargartarea2Action() {
       //foreach ($activar as $actividad )
       {
           //echo $activar[$i]['codigo_actividad'];
-          //echo "--";  
-
+          //echo "--";
           $codigo_actividad = $activar[$i]['codigo_actividad'];
           $actividadid = $activar[$i]['actividadid'];
           $revision = $activar[$i]['revision'];
-          $actividad_padre = $activar[$i]['actividad_padre'];
-
-         
+          $actividad_padre = $activar[$i]['actividad_padre'];         
 
           $wheres=array('codigo_prop_proy'=>$codigo_prop_proy,'codigo_actividad'=>$activar[$i]['codigo_actividad'],
                'proyectoid'=>$proyectoid,'actividadid'=>$activar[$i]['actividadid'],'uid'=>$uid,'dni'=>$dni,'cargo'=>$cargo,
                'areaid'=>$areaid,'categoriaid'=>$categoriaid);
 
           //print_r($wheres);
-
-
           $acti= new Admin_Model_DbTable_Activaractividad();
           $veract= $acti->_getOne($wheres);
 
@@ -1824,11 +1820,10 @@ public function cargartarea2Action() {
             $datact['fecha']=date("Y-m-d");
             $datact['estado']=$estado;
             $upactiv= $acti->_updateX($datact,$wheres);
-            echo "kkkkk";
+            //echo "kkkkk";
           }
           else
-          {
-            
+          {            
             $data['codigo_prop_proy']=$codigo_prop_proy;
             $data['proyectoid']=$proyectoid;
             $data['codigo_actividad']=$activar[$i]['codigo_actividad'];
@@ -1842,12 +1837,10 @@ public function cargartarea2Action() {
             $data['fecha']=date("Y-m-d");
             $data['estado']=$estado;
             $data['actividad_padre']=$actividad_padre;
-
-            print_r($data);            
-            echo "llego";
+            //print_r($data);            
+            //echo "llego";
             /*print_r($data);*/
-            //break; 
-
+            //break;
             $gactiv= $acti->_save($data);
           }
 
