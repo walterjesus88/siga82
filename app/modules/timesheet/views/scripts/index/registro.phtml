@@ -1493,8 +1493,7 @@ $("#submit_work1").click(function(){
       //alert(fechacapturada);
       url="/timesheet/index/guardarcomentarioequipo/estado/B/uid/"+uid+'/dni/'+dni+'/semanaid/'+semanaid+'/cargo/'+cargo+'/coment/'+coment+'/uid_validacion/'+uid+'/dni_validacion/'+dni+'/etapa/0'+'/fecha_calendario/'+fecha_calendario+'/fecha/'+fechacapturada;
          
-      //alert(url);
-      
+      //alert(url);      
       $.ajax({
         type: "POST",
         url: url,
@@ -1505,9 +1504,7 @@ $("#submit_work1").click(function(){
         },
         success: function(data){      
             $("#carga_nueva").empty();
-            $("#carga_nueva").html(data);
-          
-           
+            $("#carga_nueva").html(data);           
         }
       });
     });
