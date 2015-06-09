@@ -32,6 +32,25 @@ class Admin_Model_DbTable_Area extends Zend_Db_Table_Abstract
         }
     }
 
+    public function _buscarCategoriaxTag($tagarea)
+     {
+        try{
+            $sql=$this->_db->query("
+               select * from area where tag like '%$tagarea%' 
+               
+
+            ");
+            $row=$sql->fetchAll();
+            return $row;           
+            }  
+            
+           catch (Exception $ex){
+            print $ex->getMessage();
+        }
+    }
+
+
+
     public function _getAreaxPropuesta()
      {
         try{

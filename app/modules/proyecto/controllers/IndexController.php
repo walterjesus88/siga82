@@ -1271,7 +1271,7 @@ public function verAction() {
     $data = new Spreadsheet_Excel_Reader();
     $data->setOutputEncoding('CP1251');
     //$data->read('./upload/proyecto/'.$proyectoid.'-HH.xls');
-    $data->read('proyecto.xls');
+    $data->read('proyectosss.xls');
     $columnas=$data->sheets[0]['numCols'];
     $filas=$data->sheets[0]['numRows'];
     
@@ -1294,7 +1294,7 @@ public function verAction() {
           $bdcategoria = new Admin_Model_DbTable_Categoria();
           $datoscat=$bdcategoria-> _buscarCategoriaxTag(strtolower($categoria_hija[0]));
           $idcategoria=$datoscat[0]['categoriaid'];
-          print_r($idcategoria); echo "<br>";
+         // print_r($idcategoria); echo "<br>";
 
 
         }
@@ -1305,10 +1305,36 @@ public function verAction() {
         // print_r(strtolower($categoria_hija[1]));
          // print_r(strtolower($categoria_hija[2]));
 
+          //$bdarea = new Admin_Model_DbTable_Area();
+          //$datosarea=$bdarea-> _buscarCategoriaxTag(strtolower($categoria_hija[0]));
+          //$areaid=$datosarea[0]['areaid'];
+          //print_r($areaid); echo "<br>";
+          $areaid=$categoria_hija[0];
+         
+
           $bdcategoria = new Admin_Model_DbTable_Categoria();
-          $datoscat=$bdcategoria-> _buscarCategoriaxTag(strtolower($categoria_hija[0]));
+          $datoscat=$bdcategoria-> _buscarCategoriaxTag(strtolower($categoria_hija[1]));
           $idcategoria=$datoscat[0]['categoriaid'];
-         // print_r($idcategoria); echo "<br>";
+          //print_r($idcategoria); echo "<br>";
+          $rate=$categoria_hija[2];
+          //echo $rate;
+          $dataequipoarea['areaid']=$areaid;
+                $dataequipoarea['codigo_prop_proy']=$codigo;
+                $dataequipoarea['proyectoid']=$proyectoid;
+                $dataequipoarea['categoriaid']=$idcategoria;
+                $dataequipoarea['fecha_creacion']=date("Y-m-d");
+                $dataequipoarea['estado']='A';
+                $dataequipoarea['funcion']='PROYECTO';
+                //$bdarea_categoria = new Admin_Model_DbTable_Areacategoria();
+                //$existearea_categoria=$bdarea_categoria->_getAreacategoriaxIndice($idcategoria,$areaid);
+                //print_r($existearea_categoria);
+
+                $bdequipo_area = new Admin_Model_DbTable_Equipoarea();
+        //$datosequipoarea=$bdequipo_area->_buscarEquipoxProyecto($codigo,$proyectoid,$areaid,$idcategoria);
+        //if(isset($datosequipoarea)) 
+
+               $bdequipo_area->_save($dataequipoarea);
+
         }
 
         /*if (count($categoria_hija)==2)
@@ -1377,9 +1403,11 @@ public function verAction() {
 }   
 
 public function subirtareoAction() {
-    $proyectoid= $this->_getParam("proyectoid");
-    $codigo_prop_proy= $this->_getParam("codigo_prop_proy");
-    
+    /*$proyectoid= $this->_getParam("proyectoid");
+    $codigo_prop_proy= $this->_getParam("codigo_prop_proy");*/
+    $proyectoid='1508.10.01';
+    $codigo_prop_proy='15.10.091-1508.10.01-D';
+
 
     $editproyect= new Admin_Model_DbTable_Proyecto();
     $where = array(
@@ -1399,36 +1427,42 @@ public function subirtareoAction() {
     include ($dir);
     $data = new Spreadsheet_Excel_Reader();
     $data->setOutputEncoding('CP1251');
-    $data->read('./upload/proyecto/'.$proyectoid.'-HH.xls');
+    //$data->read('./upload/proyecto/'.$proyectoid.'-HH.xls');
+    $data->read('proyectosss.xls');
     $columnas=$data->sheets[0]['numCols'];
     $filas=$data->sheets[0]['numRows'];
 
     for ($i = 2; $i <= $filas; $i++) {
-        for ($j = 6; $j <= $columnas-2 ; $j++) {
+        for ($j = 5; $j <= $columnas-2 ; $j++) {
 
-        $areaid=$data->sheets[0]['cells'][$i][1];
-        $actividadid=$data->sheets[0]['cells'][$i][2];
-        $categoria=$data->sheets[0]['cells'][1][$j];
-        $nombre_actividad=$data->sheets[0]['cells'][$i][3];
+        //$areaid=$data->sheets[0]['cells'][$i][1];
+        $actividadid=$data->sheets[0]['cells'][$i][1];
         
+        $categoria=$data->sheets[0]['cells'][1][$j];
+        //echo $categoria; echo "<br>";
+           $categoria_hija = explode("_",$categoria);
+
+        $nombre_actividad=$data->sheets[0]['cells'][$i][2];
+              $areaid=$categoria_hija[0];
+
 
         if (isset( $data->sheets[0]['cells'][$i][$j] ))
         {
-            $suma=$data->sheets[0]['cells'][$i][$j];
+        $suma=$data->sheets[0]['cells'][$i][$j];
         $horas_propuesta=utf8_encode($data->sheets[0]['cells'][$i][$j]);
 
         $bdcategoria = new Admin_Model_DbTable_Categoria();
-        $datoscat=$bdcategoria-> _buscarCategoriaxTag($categoria);
-        $idcategoria=$datoscat[0]['categoriaid'];
+       $datoscat=$bdcategoria-> _buscarCategoriaxTag(strtolower($categoria_hija[1]));
+          $idcategoria=$datoscat[0]['categoriaid'];
         $actividadint=$actividadid;
         $actividadeshijas = explode(".",$actividadint);
         if (count($actividadeshijas)=='2'){
-            $codigo_actividad=$areaid."-".$actividadid;
+            $codigo_actividad=$actividadid;
             $bdtareo = new Admin_Model_DbTable_Tareo();
             $existe_tareo=$bdtareo->_getTareoxProyectoxActividadHijaxAreaxCategoria($proyectoid,$codigo,$revision,$actividadeshijas[0],$actividadid,$codigo_actividad,$areaid,$idcategoria);
             if(isset($existe_tareo)) { 
                 $datostareo["actividadid"]=$actividadid;
-                $datostareo["codigo_actividad"]=$areaid."-".$actividadid;
+                $datostareo["codigo_actividad"]=$actividadid;
                 $datostareo["codigo_prop_proy"]=$codigo;
                 $datostareo["revision"]=$revision;
                 $datostareo["areaid"]=$areaid;
@@ -1444,6 +1478,7 @@ public function subirtareoAction() {
                 $datostareo["isproyecto"]='S';
                 $datostareo["categoriaid"]=$idcategoria;
                 $datostareo["nombre"]=utf8_encode($nombre_actividad);
+                //print_r($datostareo);
                 if($bdtareo->_save($datostareo)){
                     echo "guardado ";
                 }
@@ -1472,9 +1507,9 @@ public function subirtareoAction() {
                 $datostareo2["isproyecto"]='S';
                 $datostareo2["categoriaid"]=$idcategoria;
                 $datostareo2["nombre"]=utf8_encode($nombre_actividad);
-                if($bdtareo->_save($datostareo2)){
-                    
-                }
+                //if($bdtareo->_save($datostareo2)){
+                //    
+                //}
             }
         }
 

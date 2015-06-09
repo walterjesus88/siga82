@@ -2137,6 +2137,21 @@ public function guardarcomentarioequipoAction(){
                 $datos_actualizar_sumahoras1['estado']=$aprobador;
                 $str_actualizar_sumahoras1="semanaid='$semana' and uid='$uid' and dni='$dni'";
                 $update=$sumahorassemana -> _update($datos_actualizar_sumahoras1,$str_actualizar_sumahoras1);
+
+            }
+            else
+            {
+                if ($this->sesion->personal->ucatcargo== 'EQUIPO' OR $this->sesion->personal->ucatcargo == 'RESP-EQUIPO-PROY')
+            {
+                if ($tareosemana)
+                {
+                    echo "equipo";
+                    $datos_actualizar_sumahoras['estado']='P';
+                    $str_actualizar_sumahoras="semanaid='$semana' and uid='$uid' and dni='$dni'";
+                    $update=$sumahorassemana -> _update($datos_actualizar_sumahoras,$str_actualizar_sumahoras);
+                }
+            }
+            
             }
             if ($this->sesion->personal->ucatcargo== 'JEFE' && $this->sesion->personal->ucatareaid=!'27' && $this->sesion->personal->ucatareaid!='16')
             {   
@@ -2158,16 +2173,7 @@ public function guardarcomentarioequipoAction(){
                 }   
             }*/
 
-            if ($this->sesion->personal->ucatcargo== 'EQUIPO' OR $this->sesion->personal->ucatcargo == 'RESP-EQUIPO-PROY')
-            {
-                if ($tareosemana)
-                {
-                    echo "equipo";
-                    $datos_actualizar_sumahoras['estado']='P';
-                    $str_actualizar_sumahoras="semanaid='$semana' and uid='$uid' and dni='$dni'";
-                    $update=$sumahorassemana -> _update($datos_actualizar_sumahoras,$str_actualizar_sumahoras);
-                }
-            }
+            
         }
         catch (Exception $e) {
             print "Error: ".$e->getMessage();
