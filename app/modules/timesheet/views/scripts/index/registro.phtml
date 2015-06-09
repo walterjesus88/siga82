@@ -475,10 +475,10 @@
                 {
                 ?>
               <td>
-                <center>  
-                  <div class="btn-group">
-                   <input disabled  class="form-control" id="valor<?php echo $i?><?php echo $j?>" style="text-align: center;height: 26px; width: 40px; padding-right: 4px; padding-left: 4px;" maxlength="5" values= "<?php  print_r($buscar_tarea[0]['tipo_actividad']) ?>" value="<?php 
-                  if ($buscar_tarea) {
+                <center>
+                   <input disabled  class="form-control focusable" id="valor<?php echo $i?><?php echo $j?>" style="text-align: center;height: 26px; width: 40px; padding-right: 4px; padding-left: 4px;" maxlength="5" values= "<?php  print_r($buscar_tarea[0]['tipo_actividad']) ?>" value="<?php 
+                 if ($buscar_tarea) {
+
                     if($buscar_tarea[0]['h_real']=='0') { echo "";} else { print_r($buscar_tarea[0]['h_real']);}
                     }?>" 
                      > <a data-toggle="modal" href="#myModalcomentario"><i class="fa fa-ellipsis-h"></i></a>
@@ -492,6 +492,7 @@
               <td>
                 <center>
                   <div class="btn-group">
+
                     <input  <?php if ($data_tareo['estado_tareopersona']=='C') { ?> disabled <?php }?>    name="tiempo_id[<?php echo $j ?>][<?php echo $i ?>]" class="form-control" id="valor<?php echo $i?><?php echo $j?>" style="text-align: center;height: 26px; width: 40px; padding-right: 4px; padding-left: 4px;" maxlength="4"  value="<?php 
                    if ($buscar_tarea) {
                       if($buscar_tarea[0]['h_real']=='0') { echo "";} else { print_r($buscar_tarea[0]['h_real']);}
@@ -499,8 +500,10 @@
                      > <a data-toggle="modal" id="coment<?php echo $i ?><?php echo $j?>" href="#myModalcomentario" hora="<?php echo $buscar_tarea[0]['h_real'] ?>" etapa="<?php echo $buscar_tarea[0]['etapa'] ?>" tipo-actividad="<?php echo $buscar_tarea[0]['tipo_actividad'] ?>" actividad-generalid="<?php echo $buscar_tarea[0]['actividad_generalid'] ?>" codigo-prop-proy="<?php echo $data_tareo['codigo_prop_proy'] ?>" proyectoid="<?php echo $data_tareo['proyectoid'] ?>" actividad-padre="<?php echo $buscar_tarea[0]['actividad_padre'] ?>" fecha-tarea="<?php echo $buscar_tarea[0]['fecha_tarea'] ?>" codigo-actividad="<?php echo $buscar_tarea[0]['codigo_actividad'] ?>" actividadid="<?php echo $buscar_tarea[0]['actividadid'] ?>" revision="<?php echo $buscar_tarea[0]['revision'] ?>" semanaid="<?php echo $buscar_tarea[0]['semanaid'] ?>" uid="<?php echo $data_tareo['uid'] ?>" dni="<?php echo $data_tareo['dni'] ?>" cargo="<?php echo $buscar_tarea[0]['cargo'] ?>" fecha-planificacion="<?php echo $buscar_tarea[0]['fecha_planificacion'] ?>" 
                        >
                        <i class="fa fa-ellipsis-h"></i></a>
+
                   </div>
 
+                  
                   <input type="hidden" name="codigo_prop_proy[<?php echo $j ?>][<?php echo $i ?>]" value="<?php echo $data_tareo['codigo_prop_proy'] ?>"/>
                   <input type="hidden" name="codigo_actividad[<?php echo $j ?>][<?php echo $i ?>]" value="<?php echo $data_tareo['codigo_actividad'] ?>"/>
                   <input type="hidden" name="proyectoid[<?php echo $j ?>][<?php echo $i ?>]" value="<?php echo $data_tareo['proyectoid'] ?>"/>
@@ -1510,8 +1513,32 @@ $( "input" )
 
 });
 
-    
 
+/*Funcion para utilizar las flechas direccionales en los campos del timesheet*/    
+$("input.focusable").keydown(function(tecla){
+  console.log(tecla.which);
+  if (tecla.which == 39) {
+    horizontal = $(this).attr('id').slice(5,6);
+    siguiente = parseInt(horizontal) + 1;
+    sig = '#valor' + siguiente + $(this).attr('id').slice(6,8);
+    $(sig).focus();
+  } else if (tecla.which == 37) {
+    horizontal = $(this).attr('id').slice(5,6);
+    anterior = parseInt(horizontal) - 1;
+    ant = '#valor' + anterior + $(this).attr('id').slice(6,8);
+    $(ant).focus();
+  } else if (tecla.which == 38) {
+    vertical = $(this).attr('id').slice(6,8);
+    anterior = parseInt(vertical) - 1;
+    ant = '#valor' + $(this).attr('id').slice(5,6) + anterior;
+    $(ant).focus();
+  } else if (tecla.which == 40) {
+    vertical = $(this).attr('id').slice(6,8);
+    siguiente = parseInt(vertical) + 1;
+    sig = '#valor' + $(this).attr('id').slice(5,6) + siguiente;
+    $(sig).focus();
+  };
+});
 
 
 

@@ -82,7 +82,6 @@
                                 <th >Facturable</th>
                                 <th >No Facturable</th>
                                 <th >Total</th>
-                                
                               </tr>
                             </thead>
                             <tbody>
@@ -95,9 +94,16 @@
                                   //$valorsuma=$sumahorassemana->_getOne($wheres);
 
                                   $wheres=array('dni'=>$equipo['dni'],'uid'=>$equipo['uid']);
-                                  $valorsuma=$sumahorassemana->_getOnexMes($wheres);
-                                  
-                                  if ($valorsuma) {
+                                  //$valorsuma=$sumahorassemana->_getOnexMes($wheres);
+                                  $consultavalorsuma=$sumahorassemana->_getListarHojasdeTiempoxEquipoArea($equipo['uid'],$equipo['dni']);
+
+                                  //print_r($valorsuma);
+                                  if ($consultavalorsuma) {
+
+                                    foreach ($consultavalorsuma as $valorsuma) {
+                                      
+                                    
+
 
                                     if (trim($valorsuma['estado'])=='P') {
                                     ?>
@@ -153,8 +159,10 @@
 
 
 <?php $c++;
-                                    }  }
-                                   }
+                                    }  
+                                  }
+                                }
+                              }
 
 
                                ?>
