@@ -475,22 +475,30 @@
                 {
                 ?>
               <td>
-                <center>  
-
+                <center>
                    <input disabled  class="form-control focusable" id="valor<?php echo $i?><?php echo $j?>" style="text-align: center;height: 26px; width: 40px; padding-right: 4px; padding-left: 4px;" maxlength="5" values= "<?php  print_r($buscar_tarea[0]['tipo_actividad']) ?>" value="<?php 
                  if ($buscar_tarea) {
+
                     if($buscar_tarea[0]['h_real']=='0') { echo "";} else { print_r($buscar_tarea[0]['h_real']);}
                     }?>" 
-                     > 
-
-                 </center>
-                 </td>
+                     > <a data-toggle="modal" href="#myModalcomentario"><i class="fa fa-ellipsis-h"></i></a>
+                  </div>
+                </center>
+              </td>
 
                 <?php 
                 } else {
                 ?>
               <td>
                 <center>
+                  <div class="btn-group">
+                    <input  <?php if ($data_tareo['estado_tareopersona']=='C') { ?> disabled <?php }?>    name="tiempo_id[<?php echo $j ?>][<?php echo $i ?>]" class="form-control" id="valor<?php echo $i?><?php echo $j?>" style="text-align: center;height: 26px; width: 40px; padding-right: 4px; padding-left: 4px;" maxlength="4"  value="<?php 
+                   if ($buscar_tarea) {
+                      if($buscar_tarea[0]['h_real']=='0') { echo "";} else { print_r($buscar_tarea[0]['h_real']);}
+                      }?>" 
+                     > <a data-toggle="modal" id="coment<?php echo $i ?><?php echo $j?>" href="#myModalcomentario" hora="<?php echo $buscar_tarea[0]['h_real'] ?>" etapa="<?php echo $buscar_tarea[0]['etapa'] ?>" tipo-actividad="<?php echo $buscar_tarea[0]['tipo_actividad'] ?>" actividad-generalid="<?php echo $buscar_tarea[0]['actividad_generalid'] ?>" codigo-prop-proy="<?php echo $data_tareo['codigo_prop_proy'] ?>" proyectoid="<?php echo $data_tareo['proyectoid'] ?>" actividad-padre="<?php echo $buscar_tarea[0]['actividad_padre'] ?>" fecha-tarea="<?php echo $buscar_tarea[0]['fecha_tarea'] ?>"
+                       ><i class="fa fa-ellipsis-h"></i></a>
+                  </div>
 
                   <input  <?php if ($data_tareo['estado_tareopersona']=='C') { ?> disabled <?php }?>    name="tiempo_id[<?php echo $j ?>][<?php echo $i ?>]" class="form-control focusable" id="valor<?php echo $i?><?php echo $j?>" style="text-align: center;height: 26px; width: 40px; padding-right: 4px; padding-left: 4px;" maxlength="4"  value="<?php 
                  if ($buscar_tarea) {
@@ -505,9 +513,7 @@
                   <input type="hidden" name="actividad_padre[<?php echo $j ?>][<?php echo $i ?>]" value="<?php echo $data_tareo['actividad_padre'] ?>"/>
                   <input type="hidden" name="semanaid[<?php echo $j ?>][<?php echo $i ?>]" value="<?php echo $data_tareo['semanaid'] ?>"/>
                   <input type="hidden" name="fecha_tarea[<?php echo $j ?>][<?php echo $i ?>]" value="<?php echo $fecha_tarea ?>"/>  
-                  <input type="hidden" name="asignado[<?php echo $j ?>][<?php echo $i ?>]" value="<?php echo $data_tareo['asignado'] ?>"/>  
-                
-                 
+                  <input type="hidden" name="asignado[<?php echo $j ?>][<?php echo $i ?>]" value="<?php echo $data_tareo['asignado'] ?>"/>                 
                   <input type="hidden" name="tipo_actividad[<?php echo $j ?>][<?php echo $i ?>]" value="<?php echo $data_tareo['tipo_actividad'] ?>"/>  
                   <input type="hidden" name="etapa[<?php echo $j ?>][<?php echo $i ?>]" value="<?php echo $data_tareo['etapa']?>"/> 
                   <input type="hidden" name="actividad_generalid[<?php echo $j ?>][<?php echo $i ?>]" value="<?php echo $data_tareo['actividad_generalid'] ?>"/>
@@ -515,13 +521,8 @@
 
                 <script type="text/javascript">
                   $(document).ready(function(){
-
-
-
                     $("#valor<?php echo $i ?><?php echo $j?>").focus();
-
-                    $("#valor<?php echo $i ?><?php echo $j?>").keyup(function(e){ 
-                   
+                    $("#valor<?php echo $i ?><?php echo $j?>").keyup(function(e){                   
                       // alert('fff');
                         var hora_real=$(this).val(); 
                         var codigo_prop_proy="<?php echo $data_tareo['codigo_prop_proy'] ?>";
@@ -652,7 +653,74 @@
                   
                 </script> 
 
-              </td> 
+              </td>
+              <div class="modal fade" id="myModalcomentario" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-sm">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title">Ingrese un Comentario</h4>
+                    </div>
+                    <div class="modal-body">                      
+                      <div class="form-group">
+                        <label class="control-label" for="message">Message</label>
+                        <textarea class="form-control" id="message" rows="7" placeholder="Enter a message ..." >Flatlab is an Awesome dashboard build with BS3 </textarea>
+                      </div>
+                    </div>
+                    <div class="modal-footer">
+                      <button class="btn btn-danger" id="savecoment" type="button"> Ok</button>
+                        <script type="text/javascript">
+                          $("#coment<?php echo $i ?><?php echo $j?>").click(function(){
+                            // alert("coment<?php echo $i ?><?php echo $j?>");
+                            // var hora_real=$(this).val(); 
+                            // var codigo_prop_proy="<?php echo $data_tareo['codigo_prop_proy'] ?>";
+                            // var codigo_actividad="<?php echo $data_tareo['codigo_actividad'] ?>";
+                            // var actividadid="<?php echo $data_tareo['actividadid'] ?>";
+                            // var revision="<?php echo $data_tareo['revision'] ?>";
+                            // var actividad_padre="<?php echo $data_tareo['actividad_padre'] ?>";
+                            // var proyectoid="<?php echo $data_tareo['proyectoid'] ?>";
+                            // var semanaid="<?php echo $data_tareo['semanaid'] ?>";
+                            // var fecha_tarea ="<?php echo $fecha ?>";
+                            // var asignado="<?php echo $data_tareo['asignado'] ?>";
+                            // var areaid="<?php echo $data_tareo['areaid'] ?>";
+                            // var categoriaid ="<?php echo $data_tareo['categoriaid'] ?>";
+                            // var dni="<?php echo $data_tareo['dni'] ?>";
+                            // var cargo="<?php echo $data_tareo['cargo'] ?>";
+                            // var tipo_actividad="<?php echo $data_tareo['tipo_actividad'] ?>";
+                            // var etapa="<?php echo $data_tareo['etapa'] ?>";                        
+                            // var actividad_generalid="<?php echo $data_tareo['actividad_generalid'] ?>";
+                            // var h_propuesta="<?php echo $data_tareo['h_propuesta'] ?>";
+                            // var fecha_calendario = $("#fechasemana").text();
+
+                            var hora = $("#coment<?php echo $i ?><?php echo $j?>").attr('hora');
+                            var etapa = $("#coment<?php echo $i ?><?php echo $j?>").attr('etapa');
+                            var tipo_actividad = $("#coment<?php echo $i ?><?php echo $j?>").attr('tipo-actividad');
+                            var actividad_generalid = $("#coment<?php echo $i ?><?php echo $j?>").attr('actividad-generalid');
+                            var codigo_prop_proy = $("#coment<?php echo $i ?><?php echo $j?>").attr('codigo-prop-proy');
+                            var proyectoid = $("#coment<?php echo $i ?><?php echo $j?>").attr('proyectoid');
+                            var actividad_padre = $("#coment<?php echo $i ?><?php echo $j?>").attr('actividad-padre');
+                            var fecha_tarea = $("#coment<?php echo $i ?><?php echo $j?>").attr('fecha-tarea');
+                                             
+                            alert(hora);
+                            alert(etapa);
+                            alert(tipo_actividad);
+                            alert(actividad_generalid);
+                            alert(codigo_prop_proy);
+                            alert(proyectoid);
+                            alert(fecha_tarea);
+                            alert(actividad_padre);
+                           
+                            var url="/timesheet/index/updatecoment/codigo_prop_proy/"+codigo_prop_proy+"/codigo_actividad/"+codigo_actividad+"/actividadid/"+actividadid+"/revision/"+revision+"/actividad_padre/"+actividad_padre+"/proyectoid/"+proyectoid+"/semanaid/"+semanaid+"/fecha_tarea/"+fecha_tarea+"/asignado/"+asignado+"/areaid/"+areaid+"/categoriaid/"+categoriaid+"/dni/"+dni+"/cargo/"+cargo+"/horareal/"+hora_real+"/tipo_actividad/"+tipo_actividad+"/etapa/"+etapa+"/actividad_generalid/"+actividad_generalid+"/fecha_calendario/"+fecha_calendario+"/h_propuesta/"+h_propuesta; 
+
+                            alert(url);
+
+                          });
+                        </script>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
                 <?php 
                 }
                   $newDate = date("Y-m-d", strtotime($fecha));
