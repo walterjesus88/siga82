@@ -141,7 +141,7 @@ class Admin_Model_DbTable_Proyecto extends Zend_Db_Table_Abstract
         try{
             $sql=$this->_db->query("
                 select * from proyecto
-                where not proyectoid in ('1','2') order by fecha_inicio desc;
+                where not proyectoid in ('1','2') order by proyectoid desc;
                 ");
             $row=$sql->fetchAll();
             return $row;           

@@ -1085,13 +1085,13 @@ public function subirpropuestaAction(){
   }
 }
 
+// Subir actvidades segun la nueva estructura //
 public function subiractividadesAction(){
   try {
-
-    $proyectoid= $this->_getParam("proyectoid");
-    $codigo_prop_proy= $this->_getParam("codigo_prop_proy");
-    
-
+    /*$proyectoid= $this->_getParam("proyectoid");
+    $codigo_prop_proy= $this->_getParam("codigo_prop_proy");*/
+    $proyectoid='1508.10.01';
+    $codigo_prop_proy='15.10.091-1508.10.01-D';
     $editproyect= new Admin_Model_DbTable_Proyecto();
     $where = array(
                       'codigo_prop_proy'    => $codigo_prop_proy,
@@ -1104,76 +1104,77 @@ public function subiractividadesAction(){
     $propuestaid = $edit['propuestaid'];
     $revision = $edit['revision'];
     $moneda = $edit['moneda'];
-
-
     $dir = APPLICATION_LIBRARY . "/excel/excel/reader.php";
     include ($dir);
     $data = new Spreadsheet_Excel_Reader();
     $data->setOutputEncoding('CP1251');
-    $data->read('./upload/proyecto/'.$proyectoid.'-HH.xls');
+    //$data->read('./upload/proyecto/'.$proyectoid.'-HH.xls');
+    $data->read('proyecto.xls');
+    $k=1;
     $columnas=$data->sheets[0]['numCols'];
     $filas=$data->sheets[0]['numRows'];
-
-
     //migrar actividades
-    for ($i = 2; $i <= $data->sheets[0]['numRows']; $i++) {
-      $colsuma=$columnas-1;
-      $areaid=$data->sheets[0]['cells'][$i][1];
-      $actividadid=$data->sheets[0]['cells'][$i][2];
-      $nombre=$data->sheets[0]['cells'][$i][3];
-      $suma=$data->sheets[0]['cells'][$i][$colsuma];
-
+    for ($i = 2; $i <= $data->sheets[0]['numRows']-1; $i++) {
+      //$colsuma=$columnas-1;
+      $actividadid=$data->sheets[0]['cells'][$i][1];
+      $nombre=$data->sheets[0]['cells'][$i][2];
+      //echo $actividadid; echo "<br>";
+      //$suma=$data->sheets[0]['cells'][$i][$colsuma];
       $actividadint=$actividadid;
+      //print_r($actividadint);
       if (ctype_digit(trim($actividadint))) {
+        $k++;
+        $j=0;
         $datosactividadpadre["actividadid"]=$actividadint;
-        $datosactividadpadre["codigo_actividad"]=$areaid."-".$actividadid;
+        $datosactividadpadre["codigo_actividad"]=$actividadid;
         $datosactividadpadre["codigo_prop_proy"]=$codigo;
         $datosactividadpadre["revision"]=$revision;
-        $datosactividadpadre["areaid"]=$areaid;
+        //$datosactividadpadre["areaid"]=$areaid;
         $datosactividadpadre["proyectoid"]=$proyectoid;
         $datosactividadpadre["propuestaid"]=$propuestaid;
-        $datosactividadpadre["actividad_padre"]=null;
+        $datosactividadpadre["actividad_padre"]='0';
 
         $datosactividadpadre["nombre"]=utf8_encode($nombre);
         $datosactividadpadre["fecha_creacion"]=date("Y-m-d");
         $datosactividadpadre["estado"]='P';
         $datosactividadpadre["duracion_total"]='0';
-        $datosactividadpadre["h_propuesta"]=$suma;
-      $datosactividadpadre["h_extra"]='0';
+        $datosactividadpadre["h_propuesta"]='';
+        $datosactividadpadre["h_extra"]='0';
         $datosactividadpadre["h_planificada"]='0';
-        $datosactividadpadre["orden"]=$i-1;
+        $datosactividadpadre["orden"]=$k-1;
         $datosactividadpadre["isproyecto"]='S';
         $datosactividadpadre["moneda"]=$moneda;
         $bdactividad = new Admin_Model_DbTable_Actividad();
-
+        //print_r($datosactividadpadre);
         if($bdactividad->_save($datosactividadpadre))
-          {echo $actividadint;
+         {echo $actividadint;
           echo ": guardo bien actividad padre";  echo "<br>"; }
         
         } 
         else {
         $actividadeshijas = explode(".",$actividadint);
           if (count($actividadeshijas)=='2'){
+            $j++;
             $datosactividadhija["actividadid"]=$actividadint;
-            $datosactividadhija["codigo_actividad"]=$areaid."-".$actividadid;
+            $datosactividadhija["codigo_actividad"]=$actividadid;
             $datosactividadhija["codigo_prop_proy"]=$codigo;
             $datosactividadhija["revision"]=$revision;
-            $datosactividadhija["areaid"]=$areaid;
+            //$datosactividadhija["areaid"]=$areaid;
             $datosactividadhija["proyectoid"]=$proyectoid;
             $datosactividadhija["propuestaid"]=$propuestaid;
             $datosactividadhija["actividad_padre"]=$actividadeshijas[0];
-
             $datosactividadhija["nombre"]=utf8_encode($nombre);
             $datosactividadhija["fecha_creacion"]=date("Y-m-d");
             $datosactividadhija["estado"]='P';
             $datosactividadhija["duracion_total"]='0';
-            $datosactividadhija["h_propuesta"]=$suma;
-          $datosactividadhija["h_extra"]='0';
+            $datosactividadhija["h_propuesta"]='';
+            $datosactividadhija["h_extra"]='0';
             $datosactividadhija["h_planificada"]='0';
-            $datosactividadhija["orden"]=$i-1;
+            $datosactividadhija["orden"]=$k.".".$j-1;
             $datosactividadhija["isproyecto"]='S';
             $datosactividadhija["moneda"]=$moneda;
             $bdactividad = new Admin_Model_DbTable_Actividad();
+           // print_r($datosactividadhija);
           if($bdactividad->_save($datosactividadhija))
             { echo $actividadint;
               echo "guardo bien actividad disciplina"; echo "<br>";
@@ -1181,7 +1182,7 @@ public function subiractividadesAction(){
             }
 
             if (count($actividadeshijas)=='3'){
-          $datosactividadnieta["actividadid"]=$actividadint;
+            $datosactividadnieta["actividadid"]=$actividadint;
             $datosactividadnieta["codigo_actividad"]=$areaid."-".$actividadid;
             $datosactividadnieta["codigo_prop_proy"]=$codigo;
             $datosactividadnieta["revision"]=$revision;
@@ -1195,7 +1196,7 @@ public function subiractividadesAction(){
             $datosactividadnieta["estado"]='P';
             $datosactividadnieta["duracion_total"]='0';
             $datosactividadnieta["h_propuesta"]=$suma;
-          $datosactividadnieta["h_extra"]='0';
+            $datosactividadnieta["h_extra"]='0';
             $datosactividadnieta["h_planificada"]='0';
             $datosactividadnieta["orden"]=$i-1;
             $datosactividadnieta["isproyecto"]='S';
@@ -1245,12 +1246,12 @@ public function verAction() {
   
 }   
 
-public function subirareacategoriaAction() {
+  public function subirareacategoriaAction() {
+    /*$proyectoid= $this->_getParam("proyectoid");
+    $codigo_prop_proy= $this->_getParam("codigo_prop_proy");*/
+    $proyectoid='1508.10.01';
+    $codigo_prop_proy='15.10.091-1508.10.01-D';
     
-    $proyectoid= $this->_getParam("proyectoid");
-    $codigo_prop_proy= $this->_getParam("codigo_prop_proy");
-    
-
     $editproyect= new Admin_Model_DbTable_Proyecto();
     $where = array(
                       'codigo_prop_proy'    => $codigo_prop_proy,
@@ -1269,23 +1270,59 @@ public function subirareacategoriaAction() {
     include ($dir);
     $data = new Spreadsheet_Excel_Reader();
     $data->setOutputEncoding('CP1251');
-    $data->read('./upload/proyecto/'.$proyectoid.'-HH.xls');
+    //$data->read('./upload/proyecto/'.$proyectoid.'-HH.xls');
+    $data->read('proyecto.xls');
     $columnas=$data->sheets[0]['numCols'];
     $filas=$data->sheets[0]['numRows'];
+    
 
-    for ($i = 2; $i <= $filas; $i++) {
-        for ($j = 6; $j <= $columnas-2 ; $j++) {
-        
 
-        $areaid=$data->sheets[0]['cells'][$i][1];
-        $actividadid=$data->sheets[0]['cells'][$i][2];
+   // for ($i = 2; $i <= $filas; $i++) {
+      for ($j =5; $j <= $columnas ; $j++) {
+        //$areaid=$data->sheets[0]['cells'][$i][1];
+        //$actividadid=$data->sheets[0]['cells'][$i][2];
         $categoria=$data->sheets[0]['cells'][1][$j];
+        //echo $categoria; echo "<br>";
+       
+        $categoria_hija = explode("_",$categoria);
+
+        if (count($categoria_hija)==2)
+        {
+          //print_r(strtolower($categoria_hija[0])); echo "<br>";
+         // print_r(strtolower($categoria_hija[1])); echo "<br>";
+
+          $bdcategoria = new Admin_Model_DbTable_Categoria();
+          $datoscat=$bdcategoria-> _buscarCategoriaxTag(strtolower($categoria_hija[0]));
+          $idcategoria=$datoscat[0]['categoriaid'];
+          print_r($idcategoria); echo "<br>";
+
+
+        }
+
+          if (count($categoria_hija)==3)
+        {
+       // print_r(strtolower($categoria_hija[0])); echo "<br>";
+        // print_r(strtolower($categoria_hija[1]));
+         // print_r(strtolower($categoria_hija[2]));
+
+          $bdcategoria = new Admin_Model_DbTable_Categoria();
+          $datoscat=$bdcategoria-> _buscarCategoriaxTag(strtolower($categoria_hija[0]));
+          $idcategoria=$datoscat[0]['categoriaid'];
+         // print_r($idcategoria); echo "<br>";
+        }
+
+        /*if (count($categoria_hija)==2)
+        {
+          print_r($categoria_hija[2]);
+        }*/
+        
+        //echo $categoria;
+        /*
         $bdcategoria = new Admin_Model_DbTable_Categoria();
         $datoscat=$bdcategoria-> _buscarCategoriaxTag($categoria);
         $idcategoria=$datoscat[0]['categoriaid'];
         $bdequipo_area = new Admin_Model_DbTable_Equipoarea();
         $datosequipoarea=$bdequipo_area->_buscarEquipoxProyecto($codigo,$proyectoid,$areaid,$idcategoria);
-        
         if(isset($datosequipoarea)) 
             { 
                 $dataequipoarea['areaid']=$areaid;
@@ -1301,17 +1338,18 @@ public function subirareacategoriaAction() {
                // echo $idcategoria;
                // echo $areaid;
                // echo "<br>";
+              //  print_r($dataequipoarea);
                 if($existearea_categoria) {
                     
                    
                  
-                    if ($bdequipo_area->_save($dataequipoarea))
+                    /*if ($bdequipo_area->_save($dataequipoarea))
                             {
                                 echo "mmmmmmmmm";
                             }
 
-                    
-                }
+                    */
+              /*  }
                 else
                 {
                     $bdarea = new Admin_Model_DbTable_Area();
@@ -1322,7 +1360,7 @@ public function subirareacategoriaAction() {
                     $dataarea_cat['nombre']=$datosarea[0]['nombre']."-".$datoscat[0]['nombre_categoria'];
                     $dataarea_cat['estado']='A';
                     //print_r($dataarea_cat);
-                    if ($bdarea_categoria->_save($dataarea_cat))
+                    /*if ($bdarea_categoria->_save($dataarea_cat))
                     {
                         echo "se creo area_categoria";
                        if ($bdequipo_area->_save($dataequipoarea))
@@ -1332,14 +1370,14 @@ public function subirareacategoriaAction() {
 
                     } 
                 }
-        }
+        }*/
 
       }
-    }
+   // }
 }   
 
 public function subirtareoAction() {
-   $proyectoid= $this->_getParam("proyectoid");
+    $proyectoid= $this->_getParam("proyectoid");
     $codigo_prop_proy= $this->_getParam("codigo_prop_proy");
     
 
@@ -1442,8 +1480,6 @@ public function subirtareoAction() {
 
       }
     } }
-
-
 }   
   public function cargarhorasAction() {
 
@@ -1588,32 +1624,23 @@ public function cargartarea2Action() {
     $dataequipo['cargo']=$cargo= $this->_getParam("cargo");
     $dataequipo['estado']=$estado= $this->_getParam("estado");
     $dataequipo['fecha_ingreso']=date("Y-m-d");
-    
-    
-
-   
-    
-
-       $wheres=array('codigo_prop_proy'=>$codigo,'proyectoid'=>$proyectoid,'uid'=>$uid,'dni'=>$dni,'areaid'=>$areaid);
-        $equipo= new Admin_Model_DbTable_Equipo();
-        $activar= $equipo->_getOne($wheres);
-
-
-        if($activar)
-        {
-          echo "existe";
-          print_r($wheres);
-          $datact['fecha_ingreso']=date("Y-m-d");
-          $datact['estado']=$estado;
-          $upactiv= $equipo->_update($datact,$wheres);
-        }
-        else
-        {      
-          echo "no existe";
-           print_r($dataequipo);
-          $gactiv= $equipo->_save($dataequipo);
-        }
-    
+    $wheres=array('codigo_prop_proy'=>$codigo,'proyectoid'=>$proyectoid,'uid'=>$uid,'dni'=>$dni,'areaid'=>$areaid);
+    $equipo= new Admin_Model_DbTable_Equipo();
+    $activar= $equipo->_getOne($wheres);
+    if($activar)
+      {
+        echo "existe";
+        print_r($wheres);
+        $datact['fecha_ingreso']=date("Y-m-d");
+        $datact['estado']=$estado;
+        $upactiv= $equipo->_update($datact,$wheres);
+      }
+    else
+      {      
+        echo "no existe";
+        print_r($dataequipo);
+        $gactiv= $equipo->_save($dataequipo);
+      }
   }
 
   public function asignaractividadAction(){
@@ -1623,29 +1650,20 @@ public function cargartarea2Action() {
       $proyectoid= $this->_getParam("proyectoid");
       $codigo_prop_proy= $this->_getParam("codigo_prop_proy");
       $areaid= $this->_getParam("areaid");
-
       $this->view->proyectoid = $proyectoid;
       $this->view->codigo_prop_proy = $codigo_prop_proy;
       $this->view->areaid = $areaid;
-         
-  
       $where = array( 'proyectoid' => $proyectoid,'codigo_prop_proy'=>$codigo_prop_proy,'estado' =>'P','isproyecto'=>'S');
       $veract = new Admin_Model_DbTable_Actividad();
       $viewactivity=$veract->_getFilter($where);
-      //print_r($viewactivity);
       $this->view->actividades = $viewactivity;
-
       $wherekip = array( 'proyectoid' => $proyectoid,'codigo_prop_proy'=>$codigo_prop_proy,'estado' =>'A','areaid'=>$areaid);    
       $verequipo= new Admin_Model_DbTable_Equipo();
       $viewequipo=$verequipo->_getFilter($wherekip);
-      //print_r($viewequipo);
       $this->view->equipo = $viewequipo;
-
       $area = new Admin_Model_DbTable_Area();
       $area_view = $area->_getAreaAll();
       $this->view->area = $area_view;
-
-
     }
     catch (Exception $e) {
       print "Error: ".$e->getMessage();
@@ -1663,24 +1681,18 @@ public function cargartarea2Action() {
       $dni= $this->_getParam("dni");
       $proyectoid= $this->_getParam("proyectoid");
       $categoriaid= $this->_getParam("categoriaid");  
-
-
-
       $actividadid= $this->_getParam("actividadid");
       $revision= $this->_getParam("revision");
       $codigo_actividad= $this->_getParam("codigo_actividad");
       $codigo_prop_proy= $this->_getParam("codigo_prop_proy");
       $estado= $this->_getParam("estado");
       $actividad_padre= $this->_getParam("actividad_padre");
-
       //"codigo_prop_proy","codigo_actividad", "proyectoid", "actividadid", "uid", "dni","cargo", "areaid", "categoriaid");
       $wheres=array('codigo_prop_proy'=>$codigo_prop_proy,'codigo_actividad'=>$codigo_actividad,'proyectoid'=>$proyectoid,'actividadid'=>$actividadid
               ,'uid'=>$uid,'dni'=>$dni,'cargo'=>$cargo,'areaid'=>$areaid,'categoriaid'=>$categoriaid);
-
       $act= new Admin_Model_DbTable_Activaractividad();
       $activar= $act->_getOne($wheres);
       //print_r($wheres);
-
         if($activar)
         {
 
@@ -1705,11 +1717,7 @@ public function cargartarea2Action() {
           $data['actividad_padre']=$actividad_padre;    
           $gactiv= $act->_save($data);
         }
-
-        //exit();
-
      } 
-
       catch (Exception $e) {
       print "Error: ".$e->getMessage();
     }
@@ -1726,25 +1734,20 @@ public function cargartarea2Action() {
       $dni= $this->_getParam("dni");
       $proyectoid= $this->_getParam("proyectoid");
       $categoriaid= $this->_getParam("categoriaid");  
-   
       $actividadid= $this->_getParam("actividadid");
       $revision= $this->_getParam("revision");
       $codigo_actividad= $this->_getParam("codigo_actividad");
       $codigo_prop_proy= $this->_getParam("codigo_prop_proy");
       $estado= $this->_getParam("estado");
       $actividad_padre= $this->_getParam("actividad_padre");
-
       //"codigo_prop_proy","codigo_actividad", "proyectoid", "actividadid", "uid", "dni","cargo", "areaid", "categoriaid");
       $wheres=array('codigo_prop_proy'=>$codigo_prop_proy,'codigo_actividad'=>$codigo_actividad,'proyectoid'=>$proyectoid,'actividadid'=>$actividadid
               ,'uid'=>$uid,'dni'=>$dni,'cargo'=>$cargo,'areaid'=>$areaid,'categoriaid'=>$categoriaid);
-
       $act= new Admin_Model_DbTable_Activaractividad();
       $activar= $act->_getOne($wheres);
       //print_r($wheres);
-
         if($activar)
         {
-
           $datact['fecha']=date("Y-m-d");
           $datact['estado']=$estado;
           $upactiv= $act->_updateX($datact,$wheres);
@@ -1767,7 +1770,6 @@ public function cargartarea2Action() {
           $gactiv= $act->_save($data);
         }
      } 
-
       catch (Exception $e) {
       print "Error: ".$e->getMessage();
     }
@@ -1777,8 +1779,6 @@ public function cargartarea2Action() {
   public function agregartodoactividadAction(){
     try
     {
-      $this->_helper->layout()->disablelayout();
-
       $cargo= $this->_getParam("cargo");
       $areaid= $this->_getParam("areaid");
       $uid= $this->_getParam("uid");
@@ -1787,70 +1787,46 @@ public function cargartarea2Action() {
       $categoriaid= $this->_getParam("categoriaid");
       $codigo_prop_proy= $this->_getParam("codigo_prop_proy");   
       $estado= $this->_getParam("estado");   
-
-      //$wheres=array('proyectoid'=>$proyectoid,'uid'=>$uid,'dni'=>$dni,'cargo'=>$cargo,'areaid'=>$areaid,'categoriaid'=>$categoriaid);
-      //"codigo_prop_proy","codigo_actividad", "proyectoid", "actividadid", "uid", "dni","cargo", "areaid", "categoriaid"
-
       $act= new Admin_Model_DbTable_Actividad();
       $activar= $act->_getRepliconActividades($proyectoid,$codigo_prop_proy);
-
-      //print_r($activar);
-      //print_r(count($activar));
-
       for($i=0;$i<count($activar);$i++)
-      //foreach ($activar as $actividad )
       {
-          //echo $activar[$i]['codigo_actividad'];
-          //echo "--";
-          $codigo_actividad = $activar[$i]['codigo_actividad'];
-          $actividadid = $activar[$i]['actividadid'];
-          $revision = $activar[$i]['revision'];
-          $actividad_padre = $activar[$i]['actividad_padre'];         
-
-          $wheres=array('codigo_prop_proy'=>$codigo_prop_proy,'codigo_actividad'=>$activar[$i]['codigo_actividad'],
+        $codigo_actividad = $activar[$i]['codigo_actividad'];
+        $actividadid = $activar[$i]['actividadid'];
+        $revision = $activar[$i]['revision'];
+        $actividad_padre = $activar[$i]['actividad_padre'];
+        $wheres=array('codigo_prop_proy'=>$codigo_prop_proy,'codigo_actividad'=>$activar[$i]['codigo_actividad'],
                'proyectoid'=>$proyectoid,'actividadid'=>$activar[$i]['actividadid'],'uid'=>$uid,'dni'=>$dni,'cargo'=>$cargo,
                'areaid'=>$areaid,'categoriaid'=>$categoriaid);
-
-          //print_r($wheres);
-          $acti= new Admin_Model_DbTable_Activaractividad();
-          $veract= $acti->_getOne($wheres);
-
-          if($veract)
-          {
-            $datact['fecha']=date("Y-m-d");
-            $datact['estado']=$estado;
-            $upactiv= $acti->_updateX($datact,$wheres);
-            //echo "kkkkk";
-          }
-          else
-          {            
-            $data['codigo_prop_proy']=$codigo_prop_proy;
-            $data['proyectoid']=$proyectoid;
-            $data['codigo_actividad']=$activar[$i]['codigo_actividad'];
-            $data['actividadid']=$actividadid;
-            $data['revision']=$revision;
-            $data['cargo']=$cargo;
-            $data['categoriaid']=$categoriaid;
-            $data['areaid']=$areaid;
-            $data['uid']=$uid;
-            $data['dni']=$dni;
-            $data['fecha']=date("Y-m-d");
-            $data['estado']=$estado;
-            $data['actividad_padre']=$actividad_padre;
-            //print_r($data);            
-            //echo "llego";
-            /*print_r($data);*/
-            //break;
-            $gactiv= $acti->_save($data);
-          }
-
+        $acti= new Admin_Model_DbTable_Activaractividad();
+        $veract= $acti->_getOne($wheres);
+        if($veract)
+        {
+          $datact['fecha']=date("Y-m-d");
+          $datact['estado']=$estado;
+          $upactiv= $acti->_updateX($datact,$wheres);
+        }
+        else
+        {
+          $data['codigo_prop_proy']=$codigo_prop_proy;
+          $data['proyectoid']=$proyectoid;
+          $data['codigo_actividad']=$activar[$i]['codigo_actividad'];
+          $data['actividadid']=$actividadid;
+          $data['revision']=$revision;
+          $data['cargo']=$cargo;
+          $data['categoriaid']=$categoriaid;
+          $data['areaid']=$areaid;
+          $data['uid']=$uid;
+          $data['dni']=$dni;
+          $data['fecha']=date("Y-m-d");
+          $data['estado']=$estado;
+          $data['actividad_padre']=$actividad_padre;
+          $gactiv= $acti->_save($data);
+        }
       }
-
     }
       catch (Exception $e) {
       print "Error: ".$e->getMessage();
     }
-
   }
-
 }
