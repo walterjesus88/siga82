@@ -288,15 +288,14 @@
   <div class="col-sm-12">
     <section class="panel">
       <div class="panel-body">
-        <div class="adv-table">
-      
-          <table  class="display table table-bordered table-striped">
-          <thead>
-            <tr >
-            <th style="width: 5%;">  </th>
-            <th style="width: 60%;" >Proyecto / Actividad: Tarea</th>
-            <th style="width: 5%;">Tipo</th>
-            <th style="width: 5%;">Tarea </th>
+        <div class="adv-table tableContainer">
+          <table  class="display table table-bordered table-striped scrollTable">
+          <thead class="fixedHeader">
+            <tr>
+            <th style="width: 2%;">  </th>
+            <th style="width: 37.3%;" >Proyecto / Actividad: Tarea</th>
+            <th style="width: 10.6%;">Tipo</th>
+            <th style="width: 10%;">Tarea </th>
             <?php 
               $fecha = $this->fecha;
               $fecha_mostrar = $this->fecha_mostrar;
@@ -311,9 +310,10 @@
                   $nuevafecha = strtotime ( '+1 day' , strtotime ( $newDate ) ) ;
                   $fecha = date ( 'd-m-Y' , $nuevafecha );
                 }?>
+              <th style="width: 1.2%; padding: 0;"></th>
             </tr>
           </thead>
-          <tbody>
+          <tbody class="scrollContent">
           <?php 
             $fechaactual = $this->fecha;
             $fechaactual = date("Y-m-d", strtotime($fechaactual));
@@ -325,7 +325,7 @@
             { ?>      
             <tr class="gradeX" id ="tr_tareo_<?php echo $j?>">
               <?php if ($data_tareo['estado_tareopersona']!='C') { ?>  
-              <td > 
+              <td> 
                 <?php if ($data_tareo['tipo_actividad']=='G') {?>
                   <a <?php if ($data_tareo['estado_tareopersona']=='C') { ?> disabled <?php }?> id ="crear_tareag_<?php echo $j?>"><i class="fa fa-plus-square-o"></i></a>
                   <a title="Eliminar" id ="eliminar_tareo_<?php echo $j?>" ><i class="fa fa-minus-square-o"></i></a><?php }
@@ -1207,13 +1207,14 @@
              //}
             }?>
            </tbody>
+           <tfoot class="fixedFooter">
           
            <?php if ( $this->actividades) {?>
           <tr >
-            <th style="width: 5%;">  </th>
-            <th style="width: 22%;" > </th>
-            <th style="width: 13%;"> </th>
-            <th style="width: 27%;"> </th>
+            <th style="width: 2%;">  </th>
+            <th style="width: 37.3%;" > </th>
+            <th style="width: 10.6%;"> </th>
+            <th style="width: 10%;"> </th>
             <?php 
               $uid=$this->uid;
                 // echo $uid;echo "<br>";
@@ -1252,10 +1253,11 @@
                 }
 
               ?>
-
+            <th style="width: 1.2%; padding: 0;"></th>
           </tr>
           <?php }?>
 
+          </tfoot> 
           </table>
         
         </div>
