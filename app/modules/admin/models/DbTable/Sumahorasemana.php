@@ -19,6 +19,8 @@ class Admin_Model_DbTable_Sumahorasemana extends Zend_Db_Table_Abstract
         }
     }
 
+
+
     public function _getOnexMes($where=array()){
         try {
             //if ($where["dni"]=='') return false;
@@ -83,6 +85,24 @@ class Admin_Model_DbTable_Sumahorasemana extends Zend_Db_Table_Abstract
             return $this->update($data,$str);
         }catch (Exception $ex){
            print "Error: Actualizando un registro de Propuesta".$ex->getMessage();
+        }
+    }
+
+    public function _getListarHojasdeTiempoxEquipoArea($uid,$dni)
+     {
+        try{
+            $sql=$this->_db->query("
+               select  * from suma_controlsemana
+               where uid='$uid' and dni='$dni'
+
+
+            ");
+            $row=$sql->fetchAll();
+            return $row;           
+            }  
+            
+           catch (Exception $ex){
+            print $ex->getMessage();
         }
     }
 

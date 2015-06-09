@@ -307,15 +307,23 @@ public function _getListarNivel4xNivel3($uid,$dni,$nivel_inferior,$nivel_superio
         }
     }
 
+/*
+
+                select distinct uid,dni from equipo where proyectoid in  
+                (select distinct proyectoid from
+                 equipo  where uid='$uid' and dni='$dni' and nivel='0')
+                  and nivel in ('4','2','1','3') 
+*/
 public function _getListarEquipoxProyectoxGerente($uid,$dni)
      {
         try{
             $sql=$this->_db->query("
                 
-                select distinct uid,dni from equipo where proyectoid in  
+
+                  select distinct uid,dni,proyectoid from planificacion where proyectoid in  
                 (select distinct proyectoid from
-                 equipo  where uid='$uid' and dni='$dni' and nivel='0')
-                  and nivel in ('4','2','1','3') 
+                 equipo   where uid='$uid' and dni='$dni'  and nivel='0')
+
 
 
                     ");
