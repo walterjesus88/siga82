@@ -477,7 +477,7 @@
               <td>
                 <center>  
 
-                   <input disabled  class="form-control" id="valor<?php echo $i?><?php echo $j?>" style="text-align: center;height: 26px; width: 40px; padding-right: 4px; padding-left: 4px;" maxlength="5" values= "<?php  print_r($buscar_tarea[0]['tipo_actividad']) ?>" value="<?php 
+                   <input disabled  class="form-control focusable" id="valor<?php echo $i?><?php echo $j?>" style="text-align: center;height: 26px; width: 40px; padding-right: 4px; padding-left: 4px;" maxlength="5" values= "<?php  print_r($buscar_tarea[0]['tipo_actividad']) ?>" value="<?php 
                  if ($buscar_tarea) {
                     if($buscar_tarea[0]['h_real']=='0') { echo "";} else { print_r($buscar_tarea[0]['h_real']);}
                     }?>" 
@@ -492,7 +492,7 @@
               <td>
                 <center>
 
-                  <input  <?php if ($data_tareo['estado_tareopersona']=='C') { ?> disabled <?php }?>    name="tiempo_id[<?php echo $j ?>][<?php echo $i ?>]" class="form-control" id="valor<?php echo $i?><?php echo $j?>" style="text-align: center;height: 26px; width: 40px; padding-right: 4px; padding-left: 4px;" maxlength="4"  value="<?php 
+                  <input  <?php if ($data_tareo['estado_tareopersona']=='C') { ?> disabled <?php }?>    name="tiempo_id[<?php echo $j ?>][<?php echo $i ?>]" class="form-control focusable" id="valor<?php echo $i?><?php echo $j?>" style="text-align: center;height: 26px; width: 40px; padding-right: 4px; padding-left: 4px;" maxlength="4"  value="<?php 
                  if ($buscar_tarea) {
                     if($buscar_tarea[0]['h_real']=='0') { echo "";} else { print_r($buscar_tarea[0]['h_real']);}
                     }?>" 
@@ -1431,8 +1431,32 @@ $( "input" )
 
 });
 
-    
 
+/*Funcion para utilizar las flechas direccionales en los campos del timesheet*/    
+$("input.focusable").keydown(function(tecla){
+  console.log(tecla.which);
+  if (tecla.which == 39) {
+    horizontal = $(this).attr('id').slice(5,6);
+    siguiente = parseInt(horizontal) + 1;
+    sig = '#valor' + siguiente + $(this).attr('id').slice(6,8);
+    $(sig).focus();
+  } else if (tecla.which == 37) {
+    horizontal = $(this).attr('id').slice(5,6);
+    anterior = parseInt(horizontal) - 1;
+    ant = '#valor' + anterior + $(this).attr('id').slice(6,8);
+    $(ant).focus();
+  } else if (tecla.which == 38) {
+    vertical = $(this).attr('id').slice(6,8);
+    anterior = parseInt(vertical) - 1;
+    ant = '#valor' + $(this).attr('id').slice(5,6) + anterior;
+    $(ant).focus();
+  } else if (tecla.which == 40) {
+    vertical = $(this).attr('id').slice(6,8);
+    siguiente = parseInt(vertical) + 1;
+    sig = '#valor' + $(this).attr('id').slice(5,6) + siguiente;
+    $(sig).focus();
+  };
+});
 
 
 
