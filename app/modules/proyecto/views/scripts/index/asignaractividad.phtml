@@ -47,34 +47,41 @@
                          $activr= $acti-> _getConteoactivar($codigo_prop_proy,$proyectoid,$uid,$dni,$estado,$areaid,$categoriaid);
                          //echo $activr[0]['count'];
                          //print_r($activr);
+                        ?>
+                        <?php
                          if($cont==$activr[0]['count'])
                          { ?>
+                          <!-- <a href="javascript:deseleccionar_todo()">Marcar ninguno</a> -->
                           <input name="todoagrega" id="todoagrega_<?php echo $c ?>" value="A_<?php echo $c?>" type="checkbox" checked>
                          <?php }
                          else
                          { ?>
+                          <!-- <a href="javascript:seleccionar_todo()">Marcar todos</a> -->
                           <input name="todoagrega" id="todoagrega_<?php echo $c ?>" value="A_<?php echo $c?>" type="checkbox" >
-
                         <?php  }
-                        ?>
+                        ?>               
+
+
                         <script type="text/javascript"> 
-                          $("#todoagrega_<?php echo $c ?>").click(function(){                            
-                             
+                          $("#todoagrega_<?php echo $c ?>").click(function(){
+                          
+                              var j="<?php echo $c ?>";
+                              var toten="<?php echo $cont ?>";
                               if($("#todoagrega_<?php echo $c?>").is(':checked')) 
                               {  
+                                    for (i = 0; i < toten; i++){          
+                                        document.getElementById("agrega_"+i+j).checked=1;
+                                        //alert("#agrega_"+i+j);
+                                    }
                                     estado='A';
-                                    console.log('act');
-                                    //for (i=0;i<document.f2.elements.length;i++) 
-                                      //if(document.f2.elements[i].type == "checkbox") 
-                                       
-                                        //document.f2.input[name="agreg[i]"].checked=1  
-                                          
-                                } else {    
+                                    console.log('act');                   
+                              } else {    
+                                    for (i = 0; i < toten; i++){      
+                                        document.getElementById("agrega_"+i+j).checked=0;
+                                        //alert("#agrega_"+i+j);
+                                    }
                                     estado='I';
                                     console.log('desact'); 
-                                    //for (i=0;i<document.f2.elements.length;i++) 
-                                      //if(document.f2.elements[i].type == "checkbox")  
-                                        // document.f2.elements[i].checked=0 
                               }
                               var codigo_prop_proy="<?php echo $listaequipo['codigo_prop_proy'] ?>";
                               var cargo="<?php echo $listaequipo['cargo'] ?>";
@@ -86,22 +93,16 @@
                               var areaid="<?php echo $listaequipo['areaid'] ?>";
                               var cargo="<?php echo $listaequipo['cargo'] ?>";   
 
-                              url="/proyecto/index/agregartodoactividad/cargo/"+cargo+"/areaid/"+areaid+"/uid/"+uid+"/dni/"+dni+"/proyectoid/"+proyectoid+"/categoriaid/"+ categoriaid+"/codigo_prop_proy/"+codigo_prop_proy+"/estado/"+estado;        
-                              //alert(url);
-
-                              //$("#cargact").load(url);
-                              //window.location.href;
+                              url="/proyecto/index/agregartodoactividad/cargo/"+cargo+"/areaid/"+areaid+"/uid/"+uid+"/dni/"+dni+"/proyectoid/"+proyectoid+"/categoriaid/"+ categoriaid+"/codigo_prop_proy/"+codigo_prop_proy+"/estado/"+estado;       
+                             
                               $.ajax({
                                     type: "POST",
                                     url: url,
                                     data: $(this).serialize(),
-                                    dataType: "html",                                             
-                              
+                                    dataType: "html",
                                     success: function(data)
-                                    {                                      
-                                      //$("#cargact").append(data);
-                                      location.reload();
-                                      //="proyecto/index/ver";
+                                    {                                     
+                                      
                                     }
                               });
                   
@@ -146,14 +147,14 @@
                           if($activar['estado']=='A')
                           {
                           ?>
-                          <input id="agrega_<?php echo $c?><?php echo $i?>" type="checkbox"  checked="checked" name="agreg[<?php echo $c?>]" value="<?php echo $i ?><?php echo $c ?>">
+                          <input id="agrega_<?php echo $c?><?php echo $i?>" type="checkbox"  checked="checked" name="agreg[<?php echo $c?>][<?php echo $i?>]" value="<?php echo $i ?><?php echo $c ?>">
                           <!-- <input class ='one-turno-course' index='1' type="checkbox" id="A" name="turno[<?php echo $i?>]" value="<?php echo $c ?>" checked> -->
                           <?php 
                           }
                           else
                           {
                           ?>
-                          <input id="agrega_<?php echo $c?><?php echo $i?>" type="checkbox" name="agreg[<?php echo $c?>]" value="<?php echo $i ?><?php echo $c ?>" >
+                          <input id="agrega_<?php echo $c?><?php echo $i?>" type="checkbox" name="agreg[<?php echo $c?>][<?php echo $i?>]" value="<?php echo $i ?><?php echo $c ?>" >
                           <?php
                           }
                           ?>
@@ -174,8 +175,7 @@
                           <script type="text/javascript">                         
                            $("#agrega_<?php echo $c?><?php echo $i?>").click(function(){ 
                                 
-                                alert("<?php echo $c?><?php echo $i ?>");                   
-
+                                //alert("<?php echo $c?><?php echo $i ?>");
                                 if($("#agrega_<?php echo $c?><?php echo $i?>").is(':checked')) {  
                                     
                                     estado='A';
