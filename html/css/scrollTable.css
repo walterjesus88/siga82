@@ -1,0 +1,44 @@
+.tableContainer {
+    overflow: hidden;
+    clear: both;
+    width: 100%;
+}
+
+.scrollTable {
+    float: left;
+    width: 100%;
+}
+
+.fixedHeader {
+    display: block;
+    width: 100%;
+}
+
+.fixedFooter {
+    display: block;
+    width: 100%;
+}
+
+.scrollContent {
+    display: block;
+    height: 400px;
+    overflow-y: auto;
+    overflow-x: hidden; 
+    width: 100%;
+}
+
+.fixedHeader tr {
+    display: block;
+    position: relative;
+}
+
+.fixedHeader th {
+    width: 200px;
+}
+
+.scrollContent td {
+}
+
+.fixedFooter td {
+
+}

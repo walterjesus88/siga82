@@ -3035,12 +3035,8 @@ public function semanagerentegeneralAction(){
                  //   print_r($jefes_area);
              
                 $this->view->equipos_horas_aprobar= $jefes_area;    
-            }
-
-            
-
-
-            
+            }           
+           
 
         }
         catch (Exception $e) {
@@ -3048,5 +3044,53 @@ public function semanagerentegeneralAction(){
         }
     }
 
+
+   public function  updatecomentAction(){
+        try {
+
+        $this->_helper->layout()->disableLayout();
+        $uid = $this->sesion->uid;
+        $dni = $this->sesion->dni;
+      
+        $codigo_prop_proy = $this->_getParam('codigo_prop_proy');
+        $codigo_actividad = $this->_getParam('codigo_actividad');
+        $actividadid = $this->_getParam('actividadid');
+        $revision = $this->_getParam('revision');
+        $actividad_padre = $this->_getParam('actividad_padre');
+        $proyectoid = $this->_getParam('proyectoid');
+        $semanaid=$this->_getParam('semanaid');
+        $fecha_tarea= $this->_getParam('fecha_tarea');
+        $cargo= $this->_getParam('cargo');
+        
+        $codigo_prop_proy = $this->_getParam('codigo');
+        $tipo_actividad=$this->_getParam('tipo_actividad');
+        $actividad_generalid=$this->_getParam('actividad_generalid');
+        $etapa=$this->_getParam('etapa');
+        $tipo_actividad=$this->_getParam('tipo_actividad');
+        $fecha_planificacion=$this->_getParam('fecha_planificacion');
+
+        //fecha_planificacion, etapa, tipo_actividad)
+
+        // $datos_actualizar['fecha_modificacion']=$fecha_inicio_mod;
+        // $datos_actualizar['h_real']=$h_real= $this->_getParam('horareal');
+        // $data['proyectoid']=$proyectoid = $this->_getParam('proyectoid');
+        // $data['codigo_prop_proy']=$codigo_prop_proy = $this->_getParam('codigo_prop_proy');
+        // $data['actividadid']=$actividadid = $this->_getParam('actividadid');
+        // $data['revision']=$revision = $this->_getParam('revision');
+        // $data['codigo_actividad']=$codigo_actividad = $this->_getParam('codigo_actividad');
+        // $data['actividad_padre']=$actividad_padre = $this->_getParam('actividad_padre');
+        // $data['h_propuesta']=$h_propuesta = $this->_getParam('h_propuesta');
+        // $data['fecha_tarea']=$fecha_tarea= $this->_getParam('fecha_tarea');
+        // $data['fecha_planificacion']=$fecha_tarea;
+        // $data['fecha_modificacion']=$fecha_inicio_mod;
+        // $data['fecha_creacion']=$fecha_inicio_mod;
+        // $data['h_real']=$h_real= $this->_getParam('horareal');
+        // $data['semanaid']=$semanaid;
+
+        }
+        catch (Exception $e) {
+                print "Error: ".$e->getMessage();
+        }
+    }
 
 };
