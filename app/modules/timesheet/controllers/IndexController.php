@@ -924,7 +924,7 @@ public function sumatareorealAction(){
                 ,'fecha_tarea'=>$fecha_tarea[$i][$j],'uid'=>$uid,'dni'=>$dni,'cargo'=>$cargo,
                 'fecha_planificacion'=>$fecha_tarea[$i][$j],'etapa'=>$resultado,'tipo_actividad'=>$tipo_actividad[$i][$j]);
 
-            print_r($data);//exit();
+            //print_r($data);//exit();
 
            $verdata = new Admin_Model_DbTable_Tareopersona();
            $ty=$verdata->_getOne($wheres);
@@ -3057,35 +3057,31 @@ public function semanagerentegeneralAction(){
         $actividadid = $this->_getParam('actividadid');
         $revision = $this->_getParam('revision');
         $actividad_padre = $this->_getParam('actividad_padre');
-        $proyectoid = $this->_getParam('proyectoid');
         $semanaid=$this->_getParam('semanaid');
         $fecha_tarea= $this->_getParam('fecha_tarea');
         $cargo= $this->_getParam('cargo');
-        
-        $codigo_prop_proy = $this->_getParam('codigo');
         $tipo_actividad=$this->_getParam('tipo_actividad');
-        $actividad_generalid=$this->_getParam('actividad_generalid');
         $etapa=$this->_getParam('etapa');
-        $tipo_actividad=$this->_getParam('tipo_actividad');
-        $fecha_planificacion=$this->_getParam('fecha_planificacion');
+        $actividad_generalid=$this->_getParam('actividad_generalid');
+        $hora=$this->_getParam('hora');
+        $proyectoid = $this->_getParam('proyectoid');
+        $fecha_planificacion=$this->_getParam('fecha_planificacion');      
+      
 
-        //fecha_planificacion, etapa, tipo_actividad)
+        $wheres=array('codigo_prop_proy'=>$codigo_prop_proy,'codigo_actividad'=>$codigo_actividad,
+                'actividadid'=>$actividadid,'revision'=>$revision,
+                'actividad_padre'=>$actividad_padre,'proyectoid'=>$proyectoid,'semanaid'=>$semanaid 
+                ,'fecha_tarea'=>$fecha_tarea,'uid'=>$uid,'dni'=>$dni,'cargo'=>$cargo
+                ,'tipo_actividad'=>$tipo_actividad,'etapa'=>$etapa,'fecha_planificacion'=>$fecha_tarea);
 
-        // $datos_actualizar['fecha_modificacion']=$fecha_inicio_mod;
-        // $datos_actualizar['h_real']=$h_real= $this->_getParam('horareal');
-        // $data['proyectoid']=$proyectoid = $this->_getParam('proyectoid');
-        // $data['codigo_prop_proy']=$codigo_prop_proy = $this->_getParam('codigo_prop_proy');
-        // $data['actividadid']=$actividadid = $this->_getParam('actividadid');
-        // $data['revision']=$revision = $this->_getParam('revision');
-        // $data['codigo_actividad']=$codigo_actividad = $this->_getParam('codigo_actividad');
-        // $data['actividad_padre']=$actividad_padre = $this->_getParam('actividad_padre');
-        // $data['h_propuesta']=$h_propuesta = $this->_getParam('h_propuesta');
-        // $data['fecha_tarea']=$fecha_tarea= $this->_getParam('fecha_tarea');
-        // $data['fecha_planificacion']=$fecha_tarea;
-        // $data['fecha_modificacion']=$fecha_inicio_mod;
-        // $data['fecha_creacion']=$fecha_inicio_mod;
-        // $data['h_real']=$h_real= $this->_getParam('horareal');
-        // $data['semanaid']=$semanaid;
+        print_r($wheres);exit();
+        //break;
+
+        $verdata = new Admin_Model_DbTable_Tareopersona();       
+
+        $datos_actualizar['comentario']='xxxx';
+           
+        $update=$verdata -> _updateX($datos_actualizar,$wheres);
 
         }
         catch (Exception $e) {
