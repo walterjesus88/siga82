@@ -481,7 +481,20 @@
 
                     if($buscar_tarea[0]['h_real']=='0') { echo "";} else { print_r($buscar_tarea[0]['h_real']);}
                     }?>" 
-                     > <a data-toggle="modal" href="#myModalcomentario"><i class="fa fa-ellipsis-h"></i></a>
+                     >
+                     <?php
+                       if($buscar_tarea)
+                      { 
+                        if(trim($buscar_tarea[0]['h_real'])=='' or $buscar_tarea[0]['h_real']=='0' or $buscar_tarea[0]['h_real']==null){
+                        }
+                        else
+                        {
+                       ?>
+                          <a data-toggle="modal" href="#myModalcomentario"><i class="fa fa-ellipsis-h"></i></a>
+                       <?php
+                        } 
+                      }   
+                      ?>
                   </div>
                 </center>
               </td>
@@ -497,9 +510,31 @@
                    if ($buscar_tarea) {
                       if($buscar_tarea[0]['h_real']=='0') { echo "";} else { print_r($buscar_tarea[0]['h_real']);}
                       }?>" 
-                     > <a data-toggle="modal" id="coment<?php echo $i ?><?php echo $j?>" href="#myModalcomentario" hora="<?php echo $buscar_tarea[0]['h_real'] ?>" etapa="<?php echo $buscar_tarea[0]['etapa'] ?>" tipo-actividad="<?php echo $buscar_tarea[0]['tipo_actividad'] ?>" actividad-generalid="<?php echo $buscar_tarea[0]['actividad_generalid'] ?>" codigo-prop-proy="<?php echo $data_tareo['codigo_prop_proy'] ?>" proyectoid="<?php echo $data_tareo['proyectoid'] ?>" actividad-padre="<?php echo $buscar_tarea[0]['actividad_padre'] ?>" fecha-tarea="<?php echo $buscar_tarea[0]['fecha_tarea'] ?>" codigo-actividad="<?php echo $buscar_tarea[0]['codigo_actividad'] ?>" actividadid="<?php echo $buscar_tarea[0]['actividadid'] ?>" revision="<?php echo $buscar_tarea[0]['revision'] ?>" semanaid="<?php echo $buscar_tarea[0]['semanaid'] ?>" uid="<?php echo $data_tareo['uid'] ?>" dni="<?php echo $data_tareo['dni'] ?>" cargo="<?php echo $buscar_tarea[0]['cargo'] ?>" fecha-planificacion="<?php echo $buscar_tarea[0]['fecha_planificacion'] ?>" 
+                     > 
+
+                    <?php
+                      if($buscar_tarea)
+                      { 
+                        if(trim($buscar_tarea[0]['h_real'])=='' or $buscar_tarea[0]['h_real']=='0' or $buscar_tarea[0]['h_real']==null){}
+                        else
+                        {
+                          //print_r($buscar_tarea[0]['h_real']);
+                      
+                      ?>
+                        <!-- data-toggle="modal" href="#myModalcomentario" -->
+                        <a  id="coment<?php echo $i ?><?php echo $j?>"  hora="<?php echo $buscar_tarea[0]['h_real'] ?>" etapa="<?php echo $buscar_tarea[0]['etapa'] ?>" tipo-actividad="<?php echo $buscar_tarea[0]['tipo_actividad'] ?>" actividad-generalid="<?php echo $buscar_tarea[0]['actividad_generalid'] ?>" codigo-prop-proy="<?php echo $data_tareo['codigo_prop_proy'] ?>" proyectoid="<?php echo $data_tareo['proyectoid'] ?>" actividad-padre="<?php echo $buscar_tarea[0]['actividad_padre'] ?>" fecha-tarea="<?php echo $buscar_tarea[0]['fecha_tarea'] ?>" codigo-actividad="<?php echo $buscar_tarea[0]['codigo_actividad'] ?>" actividadid="<?php echo $buscar_tarea[0]['actividadid'] ?>" revision="<?php echo $buscar_tarea[0]['revision'] ?>" semanaid="<?php echo $buscar_tarea[0]['semanaid'] ?>" uid="<?php echo $data_tareo['uid'] ?>" dni="<?php echo $data_tareo['dni'] ?>" cargo="<?php echo $buscar_tarea[0]['cargo'] ?>" fecha-planificacion="<?php echo $buscar_tarea[0]['fecha_planificacion'] ?>" 
                        >
                        <i class="fa fa-ellipsis-h"></i></a>
+
+                      <?php } 
+                        }
+                      //  else{
+
+                        ?>
+
+                      
+
+                     <?php  //} ?>                   
 
                   </div>
 
@@ -660,17 +695,22 @@
                     <div class="modal-body">                      
                       <div class="form-group">
                         <label class="control-label" for="message">Message</label>
-                        <textarea class="form-control" id="message" rows="7" placeholder="Enter a message ..." >Flatlab is an Awesome dashboard build with BS3 </textarea>
+                        <textarea class="form-control" id="message" rows="7" placeholder="Enter a message ..." > </textarea>
                       </div>
                     </div>
                     <div class="modal-footer">
-                      <button class="btn btn-danger" id="savecoment" type="button"> Ok</button>
-                        <script type="text/javascript">
+                      <button class="btn btn-danger" id="savecoment" type="button"> Guardar</button>
+                      <button data-dismiss="modal" class="btn btn-default" type="button">Cerrar</button>                        
+                    </div>
+                  </div>
+                </div>
+              </div>
 
-                          $("#coment<?php echo $i ?><?php echo $j?>").click(function(){            
+                    <script type="text/javascript">
+                    $(document).ready(function(){
                           //$("#savecoment").click(function(){            
-                            var coment=$("#message").val(); 
-
+                          $("#coment<?php echo $i ?><?php echo $j?>").click(function(){            
+                            //var coment=$("#message").val();
                             var hora = $("#coment<?php echo $i ?><?php echo $j?>").attr('hora');
                             var etapa = $("#coment<?php echo $i ?><?php echo $j?>").attr('etapa');
                             var tipo_actividad = $("#coment<?php echo $i ?><?php echo $j?>").attr('tipo-actividad');
@@ -687,14 +727,14 @@
                             var cargo = $("#coment<?php echo $i ?><?php echo $j?>").attr('cargo');
                             var fecha_planificacion = $("#coment<?php echo $i ?><?php echo $j?>").attr('fecha-planificacion');
                                              
-                            alert(coment);
-                            // alert(codigo_prop_proy);
+                            //alert(coment);
+                            //alert(codigo_prop_proy);
                             // alert(codigo_actividad);
                             // alert(actividadid);
                             // alert(revision);
                             // alert(actividad_padre);
                             // alert(semanaid);
-                            // alert(fecha_tarea);
+                            //alert(fecha_tarea);
                             // alert(cargo);
                             // alert(tipo_actividad);
                             // alert(etapa);
@@ -702,38 +742,44 @@
                             // alert(hora);
                             // alert(proyectoid);                            
                             // alert(fecha_planificacion);
+                            //alert("#coment<?php echo $i ?><?php echo $j?>");  
+                            $("#myModalcomentario").modal('show');
 
-                            var url="/timesheet/index/updatecoment/codigo_prop_proy/"+codigo_prop_proy+"/codigo_actividad/"+codigo_actividad+"/actividadid/"+actividadid+"/revision/"+revision+"/actividad_padre/"+actividad_padre+"/proyectoid/"+proyectoid+"/semanaid/"+semanaid+"/fecha_tarea/"+fecha_tarea+"/cargo/"+cargo+"/horareal/"+hora+"/tipo_actividad/"+tipo_actividad+"/etapa/"+etapa+"/actividad_generalid/"+actividad_generalid+"/fecha_planificacion/"+fecha_planificacion;
+                            $("#savecoment").click(function(){
+                              var coment=$("#message").val();
+                              //alert(coment);                                
+                              var url="/timesheet/index/updatecoment/codigo_prop_proy/"+codigo_prop_proy+"/codigo_actividad/"+codigo_actividad+"/actividadid/"+actividadid+"/revision/"+revision+"/actividad_padre/"+actividad_padre+"/proyectoid/"+proyectoid+"/semanaid/"+semanaid+"/fecha_tarea/"+fecha_tarea+"/cargo/"+cargo+"/horareal/"+hora+"/tipo_actividad/"+tipo_actividad+"/etapa/"+etapa+"/actividad_generalid/"+actividad_generalid+"/fecha_planificacion/"+fecha_planificacion+"/comentario/"+coment;
 
 
-                            $.ajax({
-                                      type: "POST",
-                                      url: url,
-                                      data: $(this).serialize(),
-                                      dataType: "html",                                                 
-                                      error: function(){
-                                            alert("error petición ajax load");
-                                      },
-                                      success: function(data){                                                 
-                                            //$("#carga").empty();
-                                            //$("#carga").html(data);      
-                                      }
+                              //alert(url);
+                                   
+                                  $.ajax({
+                                    type: "POST",
+                                    url: url,
+                                    data: $(this).serialize(),
+                                    dataType: "html",                                                 
+                                    error: function(){
+                                      alert("error petición ajax load");
+                                    },
+                                    success: function(data){                                                 
+                                      //$("#message").html("");
+                                      //$("#cargacoment").html(data);   
+                                      document.location.href="/timesheet/index/calendar";
+
+                                    }
+
+                                  });                        
+                                
                             });
 
-                            //  uid="<?php echo $data_tareo['uid'] ?>" dni="<?php echo $data_tareo['dni'] ?>" 
-
-                           // codigo_prop_proy, codigo_actividad, actividadid, revision, actividad_padre, proyectoid, semanaid, fecha_tarea, uid, dni, cargo, fecha_planificacion, etapa, tipo_actividad
-                           
-                            //var url="/timesheet/index/updatecoment/codigo_prop_proy/"+codigo_prop_proy+"/codigo_actividad/"+codigo_actividad+"/actividadid/"+actividadid+"/revision/"+revision+"/actividad_padre/"+actividad_padre+"/proyectoid/"+proyectoid+"/semanaid/"+semanaid+"/fecha_tarea/"+fecha_tarea+"/asignado/"+asignado+"/areaid/"+areaid+"/categoriaid/"+categoriaid+"/dni/"+dni+"/cargo/"+cargo+"/horareal/"+hora_real+"/tipo_actividad/"+tipo_actividad+"/etapa/"+etapa+"/actividad_generalid/"+actividad_generalid+"/fecha_calendario/"+fecha_calendario+"/h_propuesta/"+h_propuesta; 
-
-                            alert(url);
-
+                            //alert(coment);
+                    
                           });
+                        });
                         </script>
-                    </div>
-                  </div>
-                </div>
-              </div>
+
+                <div id="cargacoment"></div>
+
 
                 <?php 
                 }

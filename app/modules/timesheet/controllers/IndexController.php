@@ -3045,13 +3045,14 @@ public function semanagerentegeneralAction(){
     }
 
 
-   public function  updatecomentAction(){
+   public function updatecomentAction(){
         try {
 
         $this->_helper->layout()->disableLayout();
         $uid = $this->sesion->uid;
         $dni = $this->sesion->dni;
       
+        $comentario = $this->_getParam('comentario');
         $codigo_prop_proy = $this->_getParam('codigo_prop_proy');
         $codigo_actividad = $this->_getParam('codigo_actividad');
         $actividadid = $this->_getParam('actividadid');
@@ -3074,12 +3075,12 @@ public function semanagerentegeneralAction(){
                 ,'fecha_tarea'=>$fecha_tarea,'uid'=>$uid,'dni'=>$dni,'cargo'=>$cargo
                 ,'tipo_actividad'=>$tipo_actividad,'etapa'=>$etapa,'fecha_planificacion'=>$fecha_tarea);
 
-        print_r($wheres);exit();
+        print_r($wheres);//exit();
         //break;
 
         $verdata = new Admin_Model_DbTable_Tareopersona();       
 
-        $datos_actualizar['comentario']='xxxx';
+        $datos_actualizar['comentario']=$comentario;
            
         $update=$verdata -> _updateX($datos_actualizar,$wheres);
 
