@@ -1,44 +1,68 @@
 .tableContainer {
     overflow: hidden;
-    clear: both;
-    width: 100%;
 }
 
 .scrollTable {
     float: left;
-    width: 100%;
+    box-sizing: border-box;
 }
 
 .fixedHeader {
     display: block;
-    width: 100%;
+    box-sizing: border-box;
+}
+
+.scrollContent {
+    position: relative;
+    display: block;
+    height: 400px;
+    overflow-y: auto;
+    box-sizing: border-box;
 }
 
 .fixedFooter {
     display: block;
-    width: 100%;
+    box-sizing: border-box;
 }
 
-.scrollContent {
-    display: block;
-    height: 400px;
-    overflow-y: auto;
-    overflow-x: hidden; 
-    width: 100%;
+.celda-1 {
+    box-sizing: border-box;
+    width: 50px;
 }
 
-.fixedHeader tr {
-    display: block;
-    position: relative;
+.celda-2 {
+    box-sizing: border-box;
+    width: 424px;
 }
 
-.fixedHeader th {
-    width: 200px;
+.celda-3 {
+    box-sizing: border-box;
+    width: 100px;
 }
 
-.scrollContent td {
+.celda-4 {
+    box-sizing: border-box;
+    width: 100px;
 }
 
-.fixedFooter td {
+.celda-5 {
+    box-sizing: border-box;
+    width: 50px;
+}
 
+.celda-x {
+    box-sizing: border-box;
+    width: 30px;
+}
+
+.div-celda {
+    display: inline-block;
+    box-sizing: border-box;
+    overflow: hidden;
+    width: 60px;
+    height: 60px;
+}
+
+.td-limpio {
+    padding: 0;
 }

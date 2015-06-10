@@ -22,6 +22,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
                      ->headLink()->appendStylesheet('/css/jquery-ui.css')
                      ->headLink()->appendStylesheet('/css/style.css')
                      ->headLink()->appendStylesheet('/css/style-responsive.css')
+                     ->headLink()->appendStylesheet('/css/perfect-scrollbar.css')
                      ->headLink()->appendStylesheet('/css/scrollTable.css');
 
             $view   ->headScript()->appendFile('/js/jquery.js')
@@ -49,10 +50,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
                         ->headScript()->appendFile('/js/jquery-ui.js')
                         ->headScript()->appendFile('/js/datepicker-es.js')
                         ->headScript()->appendFile('/js/count.js')
-                        // ->headScript()->appendFile('/js/angular-1.3.15.js')
-                        // ->headScript()->appendFile('/js/angular-sanitize.js')                       
-                        // ->headScript()->appendFile('/js/sumar.js')
-                        ;
+                        ->headScript()->appendFile('/js/perfect-scrollbar.jquery.js');
 
 
                             
