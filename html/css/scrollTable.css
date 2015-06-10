@@ -5,11 +5,13 @@
 .scrollTable {
     float: left;
     box-sizing: border-box;
+    -webkit-box-sizing: border-box;
 }
 
 .fixedHeader {
     display: block;
     box-sizing: border-box;
+    -webkit-box-sizing: border-box;
 }
 
 .scrollContent {
@@ -18,51 +20,21 @@
     height: 400px;
     overflow-y: auto;
     box-sizing: border-box;
+    -webkit-box-sizing: border-box;
 }
 
 .fixedFooter {
     display: block;
     box-sizing: border-box;
-}
-
-.celda-1 {
-    box-sizing: border-box;
-    width: 50px;
-}
-
-.celda-2 {
-    box-sizing: border-box;
-    width: 424px;
-}
-
-.celda-3 {
-    box-sizing: border-box;
-    width: 100px;
-}
-
-.celda-4 {
-    box-sizing: border-box;
-    width: 100px;
-}
-
-.celda-5 {
-    box-sizing: border-box;
-    width: 50px;
-}
-
-.celda-x {
-    box-sizing: border-box;
-    width: 30px;
+    -webkit-box-sizing: border-box;
 }
 
 .div-celda {
     display: inline-block;
     box-sizing: border-box;
+    -webkit-box-sizing: border-box;
     overflow: hidden;
     width: 60px;
     height: 60px;
-}
-
-.td-limpio {
-    padding: 0;
+    padding: 10px;
 }

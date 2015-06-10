@@ -296,8 +296,8 @@
             <tr>
             <th style="width: 5%;">  </th>
             <th style="width: 60%;" >Proyecto / Actividad: Tarea</th>
-            <th style="width: 10%;">Tipo</th>
-            <th style="width: 10%;">Tarea </th>
+            <th style="width: 10%; padding: 0"><div class="div-celda" style="width: 100px;">Tipo</div></th>
+            <th style="width: 10%; padding: 0"><div class="div-celda" style="width: 100px;">Tarea</div></th>
             <?php 
               $fecha = $this->fecha;
               $fecha_mostrar = $this->fecha_mostrar;
@@ -341,7 +341,7 @@
               </td>
               <?php } else {?> 
 
-              <td></td>
+              <td style="width: 5%;"></td>
 
               <?php } ?>
 
@@ -350,7 +350,8 @@
                 <?php  echo "<strong>"; echo $data_tareo['proyectoid']; echo "</strong>"; echo " "; echo $data_tareo['nombre_proyecto'];  echo " "; echo $data_tareo['actividadid']; echo " ";echo $data_tareo['nombre'] ?>
               </td>            
 
-              <td style="width: 10%;">
+              <td style="width: 10%; padding: 0;">
+              <div class="div-celda" style="width: 100px;">
                 <?php if ($data_tareo['tipo_actividad']=='G') {?>
                   
 
@@ -369,10 +370,11 @@
                 
 
                 <?php }?>
-
+              </div>
               </td>            
 
-              <td style="width: 10%;"> 
+              <td style="width: 10%; padding: 0;"> 
+              <div class="div-celda" style="width: 100px;">
                 <?php if ($data_tareo['tipo_actividad']=='G') {
                   $dbactividadgeneral= new Admin_Model_DbTable_Actividadgeneral();
                   $datosactgeneral = $dbactividadgeneral->_getActividadgeneralxId($data_tareo['actividad_generalid']);
@@ -430,6 +432,8 @@
 
                     <?php
                   }?>
+              </div>
+                
               </td >
 
               <?php  $fecha = $this->fecha; 
@@ -1234,10 +1238,10 @@
           
            <?php if ( $this->actividades) {?>
           <tr >
-            <th style="width: 5%;">  </th>
-            <th style="width: 60%;" > </th>
-            <th style="width: 10%;"> </th>
-            <th style="width: 10%;"> </th>
+            <th style="width: 5%;"></th>
+            <th style="width: 60%;" ></th>
+            <th style="width: 10%; padding: 0;"><div class="div-celda" style="width: 100px;"></div></th>
+            <th style="width: 10%; padding: 0;"><div class="div-celda" style="width: 100px;"></div></th>
             <?php 
               $uid=$this->uid;
                 // echo $uid;echo "<br>";
