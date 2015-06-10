@@ -288,20 +288,22 @@
   <div class="col-sm-12">
     <section class="panel">
       <div class="panel-body">
+
+
         <div class="adv-table tableContainer">
           <table  class="display table table-bordered table-striped scrollTable">
           <thead class="fixedHeader">
             <tr>
-            <th style="width: 2%;">  </th>
-            <th style="width: 37.3%;" >Proyecto / Actividad: Tarea</th>
-            <th style="width: 10.6%;">Tipo</th>
+            <th style="width: 5%;">  </th>
+            <th style="width: 60%;" >Proyecto / Actividad: Tarea</th>
+            <th style="width: 10%;">Tipo</th>
             <th style="width: 10%;">Tarea </th>
             <?php 
               $fecha = $this->fecha;
               $fecha_mostrar = $this->fecha_mostrar;
               $days_name = array("lun","mar","mié","jue","vie","sáb","dom");
               for ($i=0; $i < 7; $i++) { ?>
-              <th style="width: 100px;"><center>
+              <th style="width: 60px; padding:0;"><center class="div-celda">
                 <?php print $days_name[$i] ?> <br><?php 
                   list($dia, $mes, $anio) = split('[/.-]', $fecha);
                   print $dia ?></center></th>
@@ -310,7 +312,6 @@
                   $nuevafecha = strtotime ( '+1 day' , strtotime ( $newDate ) ) ;
                   $fecha = date ( 'd-m-Y' , $nuevafecha );
                 }?>
-              <th style="width: 1.2%; padding: 0;"></th>
             </tr>
           </thead>
           <tbody class="scrollContent">
@@ -325,7 +326,7 @@
             { ?>      
             <tr class="gradeX" id ="tr_tareo_<?php echo $j?>">
               <?php if ($data_tareo['estado_tareopersona']!='C') { ?>  
-              <td> 
+              <td style="width: 5%;"> 
                 <?php if ($data_tareo['tipo_actividad']=='G') {?>
                   <a <?php if ($data_tareo['estado_tareopersona']=='C') { ?> disabled <?php }?> id ="crear_tareag_<?php echo $j?>"><i class="fa fa-plus-square-o"></i></a>
                   <a title="Eliminar" id ="eliminar_tareo_<?php echo $j?>" ><i class="fa fa-minus-square-o"></i></a><?php }
@@ -345,11 +346,11 @@
               <?php } ?>
 
              
-              <td>
+              <td style="width: 60%;">
                 <?php  echo "<strong>"; echo $data_tareo['proyectoid']; echo "</strong>"; echo " "; echo $data_tareo['nombre_proyecto'];  echo " "; echo $data_tareo['actividadid']; echo " ";echo $data_tareo['nombre'] ?>
               </td>            
 
-              <td>
+              <td style="width: 10%;">
                 <?php if ($data_tareo['tipo_actividad']=='G') {?>
                   
 
@@ -371,7 +372,7 @@
 
               </td>            
 
-              <td> 
+              <td style="width: 10%;"> 
                 <?php if ($data_tareo['tipo_actividad']=='G') {
                   $dbactividadgeneral= new Admin_Model_DbTable_Actividadgeneral();
                   $datosactgeneral = $dbactividadgeneral->_getActividadgeneralxId($data_tareo['actividad_generalid']);
@@ -474,7 +475,8 @@
               if ($data_tareo['tipo_actividad']=='G' and $data_tareo['actividad_generalid']=='')
                 {
                 ?>
-              <td>
+              <td style="width: 60px; padding:0;">
+              <div class="div-celda">
                 <center>
                    <input disabled  class="form-control focusable" id="valor<?php echo $i?><?php echo $j?>" style="text-align: center;height: 26px; width: 40px; padding-right: 4px; padding-left: 4px;" maxlength="5" values= "<?php  print_r($buscar_tarea[0]['tipo_actividad']) ?>" value="<?php 
                  if ($buscar_tarea) {
@@ -484,12 +486,14 @@
                      > <a data-toggle="modal" href="#myModalcomentario"><i class="fa fa-ellipsis-h"></i></a>
                   </div>
                 </center>
+              </div>
               </td>
 
                 <?php 
                 } else {
                 ?>
-              <td>
+              <td style="width: 60px; padding:0;">
+              <div class="div-celda">
                 <center>
                   <div class="btn-group">
 
@@ -648,7 +652,7 @@
                     });
                   
                 </script> 
-
+                </div>
               </td>
               <div class="modal fade" id="myModalcomentario" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-sm">
@@ -1230,9 +1234,9 @@
           
            <?php if ( $this->actividades) {?>
           <tr >
-            <th style="width: 2%;">  </th>
-            <th style="width: 37.3%;" > </th>
-            <th style="width: 10.6%;"> </th>
+            <th style="width: 5%;">  </th>
+            <th style="width: 60%;" > </th>
+            <th style="width: 10%;"> </th>
             <th style="width: 10%;"> </th>
             <?php 
               $uid=$this->uid;
@@ -1241,8 +1245,8 @@
               $fecha = $this->fecha;
               $fecha = date("Y-m-d", strtotime($fecha));
               for ($i=0; $i < 7; $i++) { ?>
-              <th style="width: 100px;">
-                <center>
+              <th style="width: 60px; padding:0;">
+                <center class="div-celda">
 
                     <div id="fecha_<?php echo $i?>" maxlength="4">
                     <?php  $tareopersona = new Admin_Model_DbTable_Tareopersona();
@@ -1272,7 +1276,6 @@
                 }
 
               ?>
-            <th style="width: 1.2%; padding: 0;"></th>
           </tr>
           <?php }?>
 
@@ -1580,6 +1583,12 @@ $("#submit_work1").click(function(){
 });
 
 </script>
+
+<script>
+      $(document).ready(function ($) {
+        $('.scrollContent').perfectScrollbar();
+      });
+    </script>
 
 <script type="text/javascript">        
   $(document).ready(function(){
