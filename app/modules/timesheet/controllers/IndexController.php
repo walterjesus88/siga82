@@ -3097,22 +3097,22 @@ public function semanagerentegeneralAction(){
 
 
     public function traercomentAction(){
-        try {
+        // try {
 
-        $this->_helper->layout()->disableLayout();
-        $uid = $this->sesion->uid;
-        $dni = $this->sesion->dni;
+        // $this->_helper->layout()->disableLayout();
+        // $uid = $this->sesion->uid;
+        // $dni = $this->sesion->dni;
       
-        $codigo_prop_proy = $this->_getParam('codigo_prop_proy');
-        $comentarios = base64_decode($this->_getParam('comentariox'));
+        // $codigo_prop_proy = $this->_getParam('codigo_prop_proy');
+        // $comentarios = base64_decode($this->_getParam('comentariox'));
         
-        //echo $comentarios;//exit();        
-        $this->view->comentario= $comentarios;
+        // //echo $comentarios;//exit();        
+        // $this->view->comentario= $comentarios;
 
-        }
-        catch (Exception $e) {
-                print "Error: ".$e->getMessage();
-        }
+        // }
+        // catch (Exception $e) {
+        //         print "Error: ".$e->getMessage();
+        // }
     }
 
 };
