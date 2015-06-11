@@ -314,7 +314,7 @@
                 }?>
             </tr>
           </thead>
-          <tbody class="scrollContent">
+          <tbody id="bodyScroll">
           <?php 
             $fechaactual = $this->fecha;
             $fechaactual = date("Y-m-d", strtotime($fechaactual));
@@ -1635,10 +1635,11 @@ $("#submit_work1").click(function(){
 </script>
 
 <script>
-      $(document).ready(function ($) {
-        $('.scrollContent').perfectScrollbar();
-      });
-    </script>
+  $('#bodyScroll').ready(function ($) {
+    $('#bodyScroll').addClass('scrollContent');
+    $('#bodyScroll').perfectScrollbar();
+  });
+</script>
 
 <script type="text/javascript">        
   $(document).ready(function(){
