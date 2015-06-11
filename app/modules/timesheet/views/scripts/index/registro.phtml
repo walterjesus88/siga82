@@ -1386,13 +1386,30 @@
 <script type="text/javascript">
 
      $('#save_hours').click(function(){
-        alert("Guardando Registros al Sistema. Gracias")
+        var dateObj = $('#datepicker').datepicker('getDate');
+        alert("Guardando Registros al Sistema. Gracias");
+        var dateFrom = $.datepicker.formatDate('mm/dd/yy', dateObj);
+        var weekfrom = $.datepicker.iso8601Week(new Date(dateFrom));
+        var diasSemana = new Array("Domingo","Lunes","Martes","Miércoles","Jueves","Viernes","Sábado");
+        var day_select = diasSemana[dateObj.getDay()];
+        
+        for (i = 0; i < diasSemana.length; i++) { 
+            if (diasSemana[i] == day_select) {
+                if (i == 0) {
+                    var num_day = 6;
+                    
+                } else {
+                    var num_day = i - 1;
+                };
+            };
+        };
+        fecha_inicio = mostrarFecha(dateObj,-num_day);
         $.ajax({
             type   : 'post',
             url    : '/timesheet/index/prueba/',
             data   : $('#form_time').serialize(),
             success: function(data){
-              document.location.href="/timesheet/index/calendar";
+              $("#registro").load("/timesheet/index/registro/fecha/" + fecha_inicio);
             }
         });
         
