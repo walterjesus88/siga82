@@ -3099,38 +3099,15 @@ public function semanagerentegeneralAction(){
     public function traercomentAction(){
         try {
 
-        //$this->_helper->layout()->disableLayout();
+        $this->_helper->layout()->disableLayout();
         $uid = $this->sesion->uid;
         $dni = $this->sesion->dni;
       
-        // $comentario = $this->_getParam('comentario');
-        // $codigo_prop_proy = $this->_getParam('codigo_prop_proy');
-        // $codigo_actividad = $this->_getParam('codigo_actividad');
-        // $actividadid = $this->_getParam('actividadid');
-        // $revision = $this->_getParam('revision');
-        // $actividad_padre = $this->_getParam('actividad_padre');
-        // $semanaid=$this->_getParam('semanaid');
-        // $fecha_tarea= $this->_getParam('fecha_tarea');
-        // $cargo= $this->_getParam('cargo');
-        // $tipo_actividad=$this->_getParam('tipo_actividad');
-        // $etapa=$this->_getParam('etapa');
-        // $actividad_generalid=$this->_getParam('actividad_generalid');
-        // $hora=$this->_getParam('hora');
-        // $proyectoid = $this->_getParam('proyectoid');
-        // $fecha_planificacion=$this->_getParam('fecha_planificacion');      
-      
-
-        // $wheres=array('codigo_prop_proy'=>$codigo_prop_proy,'codigo_actividad'=>$codigo_actividad,
-        //         'actividadid'=>$actividadid,'revision'=>$revision,
-        //         'actividad_padre'=>$actividad_padre,'proyectoid'=>$proyectoid,'semanaid'=>$semanaid 
-        //         ,'fecha_tarea'=>$fecha_tarea,'uid'=>$uid,'dni'=>$dni,'cargo'=>$cargo
-        //         ,'tipo_actividad'=>$tipo_actividad,'etapa'=>$etapa,'fecha_planificacion'=>$fecha_tarea);
-
-        // $verdata = new Admin_Model_DbTable_Tareopersona();
-        // $coment=$verdata->_getFilter($wheres); 
-        // $this->view->comentarios= $coment; 
-         echo "nnn";
-
+        $codigo_prop_proy = $this->_getParam('codigo_prop_proy');
+        $comentarios = base64_decode($this->_getParam('comentariox'));
+        
+        //echo $comentarios;//exit();        
+        $this->view->comentario= $comentarios;
 
         }
         catch (Exception $e) {

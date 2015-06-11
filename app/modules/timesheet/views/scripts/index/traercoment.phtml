@@ -1,20 +1,11 @@
-Nombre: <input type="text" name="nombre"> 
-<br>
- <div class="form-group">
-      <label class="control-label" for="message">Message</label>
-      fjgkgk
-                        <?php                                 
-                        //$this->comentarios;
-                        // $wheres=array('codigo_prop_proy'=>$data_tareo['codigo_prop_proy'],'codigo_actividad'=>$buscar_tarea[0]['codigo_actividad'],
-                        //         'actividadid'=>$buscar_tarea[0]['actividadid'],'revision'=>$buscar_tarea[0]['revision'],
-                        //         'actividad_padre'=>$actividad_padre,'proyectoid'=>$data_tareo['proyectoid'],'semanaid'=>$buscar_tarea[0]['semanaid'] 
-                        //         ,'fecha_tarea'=>$buscar_tarea[0]['fecha_tarea'],'uid'=>$uid,'dni'=>$dni,'cargo'=>$buscar_tarea[0]['cargo']
-                        //         ,'tipo_actividad'=>$buscar_tarea[0]['tipo_actividad'],'etapa'=>$buscar_tarea[0]['etapa'],'fecha_planificacion'=>$buscar_tarea[0]['fecha_planificacion']); 
-                        // //print_r($wheres);
-                        // $verdata = new Admin_Model_DbTable_Tareopersona();  
-                        // $vercom=$verdata->_getFilter($wheres);
-                        // print_r($vercom);
-                        ?>   
+<div class="form-group">
+      <label class="control-label" for="message">Comentario</label>
+      
+      <?php                                 
+      //echo  $this->comentario;            
+      // $coment=trim($this->comentarios[0]['comentario']);
+      // echo $coment;                  
+      ?>
 
-       <textarea class="form-control" id="message" rows="7" placeholder="Enter a message ..." value="" > </textarea>
-</div>
+       <textarea class="form-control" id="message" rows="7" placeholder="Ingrese un comentario " value="<?php echo $coment ?>" ><?php echo $this->comentario ?></textarea> 
+ </div> 
