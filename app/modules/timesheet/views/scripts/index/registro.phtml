@@ -313,7 +313,7 @@
               <th style="width: 1.2%; padding: 0;"></th>
             </tr>
           </thead>
-          <tbody class="scrollContent">
+          <tbody id="bodyScroll">
           <?php 
             $fechaactual = $this->fecha;
             $fechaactual = date("Y-m-d", strtotime($fechaactual));
@@ -1618,6 +1618,14 @@ $("#submit_work1").click(function(){
  document.location.href="/timesheet/index/calendar";
 });
 
+</script>
+
+
+<script>
+  $('#bodyScroll').ready(function ($) {
+    $('#bodyScroll').addClass('scrollContent');
+    $('#bodyScroll').perfectScrollbar();
+  });
 </script>
 
 <script type="text/javascript">        
