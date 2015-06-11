@@ -145,6 +145,12 @@
 <div id="registro" style="position: relative; clear: none;"></div>
 <div  style="display:none" id="fechasemana"></div>
 </body> 
+
+<script type="text/javascript">
+
+
+</script>
+
 <script type="text/javascript">
 
 $("#add_work").click(function(){
@@ -186,17 +192,14 @@ $("#save_work").click(function(){
 
 });
 
-
-
-
-
 $("#guardar_act").click(function(){
-   var dateObj = new Date();
-//var dateObj = $('#datepicker').datepicker('getDate');
+    //var dateObj = new Date();
+        var dateObj = $('#datepicker').datepicker('getDate');
         var dateFrom = $.datepicker.formatDate('mm/dd/yy', dateObj);
         var weekfrom = $.datepicker.iso8601Week(new Date(dateFrom));
         var diasSemana = new Array("Domingo","Lunes","Martes","Miércoles","Jueves","Viernes","Sábado");
         var day_select = diasSemana[dateObj.getDay()];
+        
         for (i = 0; i < diasSemana.length; i++) { 
             if (diasSemana[i] == day_select) {
                 if (i == 0) {
