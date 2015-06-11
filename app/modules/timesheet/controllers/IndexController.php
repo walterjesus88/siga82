@@ -3084,6 +3084,11 @@ public function semanagerentegeneralAction(){
            
         $update=$verdata -> _updateX($datos_actualizar,$wheres);
 
+        if($update)
+        {
+            echo "guardo";
+        }
+
         }
         catch (Exception $e) {
                 print "Error: ".$e->getMessage();
