@@ -522,9 +522,12 @@
                       
                       ?>
                         <!-- data-toggle="modal" href="#myModalcomentario" -->
-                        <a  id="coment<?php echo $i ?><?php echo $j?>"  hora="<?php echo $buscar_tarea[0]['h_real'] ?>" etapa="<?php echo $buscar_tarea[0]['etapa'] ?>" tipo-actividad="<?php echo $buscar_tarea[0]['tipo_actividad'] ?>" actividad-generalid="<?php echo $buscar_tarea[0]['actividad_generalid'] ?>" codigo-prop-proy="<?php echo $data_tareo['codigo_prop_proy'] ?>" proyectoid="<?php echo $data_tareo['proyectoid'] ?>" actividad-padre="<?php echo $buscar_tarea[0]['actividad_padre'] ?>" fecha-tarea="<?php echo $buscar_tarea[0]['fecha_tarea'] ?>" codigo-actividad="<?php echo $buscar_tarea[0]['codigo_actividad'] ?>" actividadid="<?php echo $buscar_tarea[0]['actividadid'] ?>" revision="<?php echo $buscar_tarea[0]['revision'] ?>" semanaid="<?php echo $buscar_tarea[0]['semanaid'] ?>" uid="<?php echo $data_tareo['uid'] ?>" dni="<?php echo $data_tareo['dni'] ?>" cargo="<?php echo $buscar_tarea[0]['cargo'] ?>" fecha-planificacion="<?php echo $buscar_tarea[0]['fecha_planificacion'] ?>" 
+                        <a  id="coment<?php echo $i ?><?php echo $j?>"  hora="<?php echo $buscar_tarea[0]['h_real'] ?>" etapa="<?php echo $buscar_tarea[0]['etapa'] ?>" tipo-actividad="<?php echo $buscar_tarea[0]['tipo_actividad'] ?>" actividad-generalid="<?php echo $buscar_tarea[0]['actividad_generalid'] ?>" codigo-prop-proy="<?php echo $data_tareo['codigo_prop_proy'] ?>" proyectoid="<?php echo $data_tareo['proyectoid'] ?>" actividad-padre="<?php echo $buscar_tarea[0]['actividad_padre'] ?>" fecha-tarea="<?php echo $buscar_tarea[0]['fecha_tarea'] ?>" codigo-actividad="<?php echo $buscar_tarea[0]['codigo_actividad'] ?>" actividadid="<?php echo $buscar_tarea[0]['actividadid'] ?>" revision="<?php echo $buscar_tarea[0]['revision'] ?>" semanaid="<?php echo $buscar_tarea[0]['semanaid'] ?>" uid="<?php echo $data_tareo['uid'] ?>" dni="<?php echo $data_tareo['dni'] ?>" cargo="<?php echo $buscar_tarea[0]['cargo'] ?>" fecha-planificacion="<?php echo $buscar_tarea[0]['fecha_planificacion'] ?>" comentario="<?php echo $buscar_tarea[0]['comentario'] ?>" 
+
                        >
                        <i class="fa fa-ellipsis-h"></i></a>
+
+                    <!--    <a onclick="javascript: window.open('/distribution/distribution/generalpreview/escid/<?php echo base64_encode($this->escid)?>/distid/<?php echo base64_encode($this->distid)?>/perid/<?php echo base64_encode($this->perid)?>/subid/<?php echo base64_encode($this->subid)?>','Vista Preliminar General','resizable=no,location=no,menubar=no,scrollbars=yes,status=no,toolbar=no,fullscreen=yes,dependent=no,width=900,height=720')" class="btn btn-success pull-right" style="float:right"><span class="glyphicon glyphicon-eye-open" data-toggle="tooltip" title="Vista Preliminar General Docente-Curso"></span> Visualizar</a> -->
 
                       <?php } 
                         }
@@ -692,11 +695,13 @@
                       <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                         <h4 class="modal-title">Ingrese un Comentario</h4>
                     </div>
-                    <div class="modal-body">                      
-                      <div class="form-group">
-                        <label class="control-label" for="message">Message</label>
-                        <textarea class="form-control" id="message" rows="7" placeholder="Enter a message ..." > </textarea>
-                      </div>
+                    <div class="modal-body"> 
+                      <div id="modaltimex"></div>
+                        <div class="form-group">
+                            <label class="control-label" for="message">Message</label>
+                              <textarea class="form-control" id="message" rows="7" placeholder="Enter a message ..." value="" > </textarea>
+                        </div>
+                                           
                     </div>
                     <div class="modal-footer">
                       <button class="btn btn-danger" id="savecoment" type="button"> Guardar</button>
@@ -705,6 +710,7 @@
                   </div>
                 </div>
               </div>
+
 
                     <script type="text/javascript">
                     $(document).ready(function(){
@@ -726,7 +732,9 @@
                             var semanaid = $("#coment<?php echo $i ?><?php echo $j?>").attr('semanaid');
                             var cargo = $("#coment<?php echo $i ?><?php echo $j?>").attr('cargo');
                             var fecha_planificacion = $("#coment<?php echo $i ?><?php echo $j?>").attr('fecha-planificacion');
-                                             
+                            var comentario = $("#coment<?php echo $i ?><?php echo $j?>").attr('comentario');
+                                    
+                            //alert(comentario);  
                             //alert(coment);
                             //alert(codigo_prop_proy);
                             // alert(codigo_actividad);
@@ -743,16 +751,19 @@
                             // alert(proyectoid);                            
                             // alert(fecha_planificacion);
                             //alert("#coment<?php echo $i ?><?php echo $j?>");  
+                            var urlx="/timesheet/index/traercoment/codigo_prop_proy/"+codigo_prop_proy+"/codigo_actividad/"+codigo_actividad+"/actividadid/"+actividadid+"/revision/"+revision+"/actividad_padre/"+actividad_padre+"/proyectoid/"+proyectoid+"/semanaid/"+semanaid+"/fecha_tarea/"+fecha_tarea+"/cargo/"+cargo+"/horareal/"+hora+"/tipo_actividad/"+tipo_actividad+"/etapa/"+etapa+"/actividad_generalid/"+actividad_generalid+"/fecha_planificacion/"+fecha_planificacion+"/comentario/"+comentario;
+
+                            //alert(urlx);
+
                             $("#myModalcomentario").modal('show');
+                            //("#modaltimex").load(urlx);   
 
                             $("#savecoment").click(function(){
-                              var coment=$("#message").val();
+                                               
+                                var coment=$("#message").val();
                               //alert(coment);                                
-                              var url="/timesheet/index/updatecoment/codigo_prop_proy/"+codigo_prop_proy+"/codigo_actividad/"+codigo_actividad+"/actividadid/"+actividadid+"/revision/"+revision+"/actividad_padre/"+actividad_padre+"/proyectoid/"+proyectoid+"/semanaid/"+semanaid+"/fecha_tarea/"+fecha_tarea+"/cargo/"+cargo+"/horareal/"+hora+"/tipo_actividad/"+tipo_actividad+"/etapa/"+etapa+"/actividad_generalid/"+actividad_generalid+"/fecha_planificacion/"+fecha_planificacion+"/comentario/"+coment;
+                                var url="/timesheet/index/updatecoment/codigo_prop_proy/"+codigo_prop_proy+"/codigo_actividad/"+codigo_actividad+"/actividadid/"+actividadid+"/revision/"+revision+"/actividad_padre/"+actividad_padre+"/proyectoid/"+proyectoid+"/semanaid/"+semanaid+"/fecha_tarea/"+fecha_tarea+"/cargo/"+cargo+"/horareal/"+hora+"/tipo_actividad/"+tipo_actividad+"/etapa/"+etapa+"/actividad_generalid/"+actividad_generalid+"/fecha_planificacion/"+fecha_planificacion+"/comentario/"+coment;
 
-
-                                  //alert(url);
-                                   
                                   $.ajax({
                                     type: "POST",
                                     url: url,
@@ -762,23 +773,19 @@
                                       alert("error petición ajax load");
                                     },
                                     success: function(data){                                                 
-                                      //$("#message").html("");
-                                      //$("#cargacoment").html(data);   
+                                        
                                       document.location.href="/timesheet/index/calendar";
 
                                     }
 
-                                  });                        
+                                  });                       
                                 
                             });
-
-                            //alert(coment);
                     
                           });
                         });
                         </script>
 
-                <div id="cargacoment"></div>
 
 
                 <?php 
@@ -1325,6 +1332,7 @@
 </form>
 </div>
 
+  <div id="cargacoment">kkkkiiiii</div>
 
 
 
