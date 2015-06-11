@@ -288,22 +288,20 @@
   <div class="col-sm-12">
     <section class="panel">
       <div class="panel-body">
-
-
         <div class="adv-table tableContainer">
           <table  class="display table table-bordered table-striped scrollTable">
           <thead class="fixedHeader">
             <tr>
-            <th style="width: 5%;">  </th>
-            <th style="width: 60%;" >Proyecto / Actividad: Tarea</th>
-            <th style="width: 10%; padding: 0"><div class="div-celda" style="width: 100px;">Tipo</div></th>
-            <th style="width: 10%; padding: 0"><div class="div-celda" style="width: 100px;">Tarea</div></th>
+            <th style="width: 2%;">  </th>
+            <th style="width: 37.3%;" >Proyecto / Actividad: Tarea</th>
+            <th style="width: 10.6%;">Tipo</th>
+            <th style="width: 10%;">Tarea </th>
             <?php 
               $fecha = $this->fecha;
               $fecha_mostrar = $this->fecha_mostrar;
               $days_name = array("lun","mar","mié","jue","vie","sáb","dom");
               for ($i=0; $i < 7; $i++) { ?>
-              <th style="width: 60px; padding:0;"><center class="div-celda">
+              <th style="width: 100px;"><center>
                 <?php print $days_name[$i] ?> <br><?php 
                   list($dia, $mes, $anio) = split('[/.-]', $fecha);
                   print $dia ?></center></th>
@@ -312,6 +310,7 @@
                   $nuevafecha = strtotime ( '+1 day' , strtotime ( $newDate ) ) ;
                   $fecha = date ( 'd-m-Y' , $nuevafecha );
                 }?>
+              <th style="width: 1.2%; padding: 0;"></th>
             </tr>
           </thead>
           <tbody id="bodyScroll">
@@ -326,7 +325,7 @@
             { ?>      
             <tr class="gradeX" id ="tr_tareo_<?php echo $j?>">
               <?php if ($data_tareo['estado_tareopersona']!='C') { ?>  
-              <td style="width: 5%;"> 
+              <td> 
                 <?php if ($data_tareo['tipo_actividad']=='G') {?>
                   <a <?php if ($data_tareo['estado_tareopersona']=='C') { ?> disabled <?php }?> id ="crear_tareag_<?php echo $j?>"><i class="fa fa-plus-square-o"></i></a>
                   <a title="Eliminar" id ="eliminar_tareo_<?php echo $j?>" ><i class="fa fa-minus-square-o"></i></a><?php }
@@ -341,17 +340,16 @@
               </td>
               <?php } else {?> 
 
-              <td style="width: 5%;"></td>
+              <td></td>
 
               <?php } ?>
 
              
-              <td style="width: 60%;">
+              <td>
                 <?php  echo "<strong>"; echo $data_tareo['proyectoid']; echo "</strong>"; echo " "; echo $data_tareo['nombre_proyecto'];  echo " "; echo $data_tareo['actividadid']; echo " ";echo $data_tareo['nombre'] ?>
               </td>            
 
-              <td style="width: 10%; padding: 0;">
-              <div class="div-celda" style="width: 100px;">
+              <td>
                 <?php if ($data_tareo['tipo_actividad']=='G') {?>
                   
 
@@ -370,11 +368,10 @@
                 
 
                 <?php }?>
-              </div>
+
               </td>            
 
-              <td style="width: 10%; padding: 0;"> 
-              <div class="div-celda" style="width: 100px;">
+              <td> 
                 <?php if ($data_tareo['tipo_actividad']=='G') {
                   $dbactividadgeneral= new Admin_Model_DbTable_Actividadgeneral();
                   $datosactgeneral = $dbactividadgeneral->_getActividadgeneralxId($data_tareo['actividad_generalid']);
@@ -432,8 +429,6 @@
 
                     <?php
                   }?>
-              </div>
-                
               </td >
 
               <?php  $fecha = $this->fecha; 
@@ -479,8 +474,7 @@
               if ($data_tareo['tipo_actividad']=='G' and $data_tareo['actividad_generalid']=='')
                 {
                 ?>
-              <td style="width: 60px; padding:0;">
-              <div class="div-celda">
+              <td>
                 <center>
                    <input disabled  class="form-control focusable" id="valor<?php echo $i?><?php echo $j?>" style="text-align: center;height: 26px; width: 40px; padding-right: 4px; padding-left: 4px;" maxlength="5" values= "<?php  print_r($buscar_tarea[0]['tipo_actividad']) ?>" value="<?php 
                  if ($buscar_tarea) {
@@ -503,18 +497,16 @@
                       ?>
                   </div>
                 </center>
-              </div>
               </td>
 
                 <?php 
                 } else {
                 ?>
-              <td style="width: 60px; padding:0;">
-              <div class="div-celda">
+              <td>
                 <center>
                   <div class="btn-group">
 
-                    <input  <?php if ($data_tareo['estado_tareopersona']=='C') { ?> disabled <?php }?>    name="tiempo_id[<?php echo $j ?>][<?php echo $i ?>]" class="form-control focusable" id="valor<?php echo $i?><?php echo $j?>" style="text-align: center;height: 26px; width: 40px; padding-right: 4px; padding-left: 4px;" maxlength="4"  value="<?php 
+                    <input  <?php if ($data_tareo['estado_tareopersona']=='C') { ?> disabled <?php }?>    name="tiempo_id[<?php echo $j ?>][<?php echo $i ?>]" class="form-control" id="valor<?php echo $i?><?php echo $j?>" style="text-align: center;height: 26px; width: 40px; padding-right: 4px; padding-left: 4px;" maxlength="4"  value="<?php 
                    if ($buscar_tarea) {
                       if($buscar_tarea[0]['h_real']=='0') { echo "";} else { print_r($buscar_tarea[0]['h_real']);}
                       }?>" 
@@ -691,7 +683,7 @@
                     });
                   
                 </script> 
-                </div>
+
               </td>
               <div class="modal fade" id="myModalcomentario" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-sm">
@@ -804,7 +796,7 @@
                 $("#select_generalp_<?php echo $j?>").change(function(){
                   var tarea_general = $(this).val(); 
                   //alert(tarea_general);
-                  //alert('1');
+                  alert('1');
                    var codigo_prop_proy= '<?php echo $data_tareo['codigo_prop_proy']?>';
                     var codigo_actividad='<?php echo $data_tareo['codigo_actividad']?>';
                     var actividadid="<?php echo $data_tareo['actividadid']?>";
@@ -824,8 +816,6 @@
                     var fecha = $("#fechasemana").text();
 
                     var url="/timesheet/index/updateetapanb/codigo/"+codigo_prop_proy+"/codigo_actividad/"+codigo_actividad+"/actividadid/"+actividadid+"/revision/"+revision+"/actividad_padre/"+actividad_padre+"/proyectoid/"+proyectoid+"/semanaid/"+semanaid+"/fecha_tarea/"+fecha_tarea+"/asignado/"+asignado+"/areaid/"+areaid+"/categoriaid/"+categoriaid+"/dni/"+dni+"/cargo/"+cargo+"/tipo_actividad/"+tipo_actividad+"/etapa/"+etapa+"/fecha_planificacion/"+fecha_planificacion+"/tarea_general/"+tarea_general+"/fecha/"+fecha;
-
-
                     //alert(url);
                     //$("#carga").load(url);
                     var dateObj = new Date();
@@ -871,16 +861,15 @@
                         }
                     });    
                     //$("#carga").load(url);
-
                 });
 
                 $("#select_generalg_<?php echo $j?>").change(function(){
-                  var tarea_general = $(this).val(); 
+                    var tarea_general = $(this).val(); 
                   //alert(tarea_general);
-                 //alert("2");
+                    //alert("2");
                     var actividad_generalid="<?php echo $data_tareo['actividad_generalid']?>";
                     //alert(actividad_generalid);
-                  var codigo_prop_proy= '<?php echo $data_tareo['codigo_prop_proy']?>';
+                    var codigo_prop_proy= '<?php echo $data_tareo['codigo_prop_proy']?>';
                     var codigo_actividad='<?php echo $data_tareo['codigo_actividad']?>';
                     var actividadid="<?php echo $data_tareo['actividadid']?>";
                     var revision="<?php echo $data_tareo['revision']?>";
@@ -899,10 +888,7 @@
                     var fecha = $("#fechasemana").text();
 
                     var url="/timesheet/index/updateetapanb/codigo/"+codigo_prop_proy+"/codigo_actividad/"+codigo_actividad+"/actividadid/"+actividadid+"/revision/"+revision+"/actividad_padre/"+actividad_padre+"/proyectoid/"+proyectoid+"/semanaid/"+semanaid+"/fecha_tarea/"+fecha_tarea+"/asignado/"+asignado+"/areaid/"+areaid+"/categoriaid/"+categoriaid+"/dni/"+dni+"/cargo/"+cargo+"/tipo_actividad/"+tipo_actividad+"/etapa/"+etapa+"/fecha_planificacion/"+fecha_planificacion+"/tarea_general/"+tarea_general+"/fecha/"+fecha+"/actividad_generalid/"+actividad_generalid+"/ban/0";
-
-
-                    //alert(url);
-                   
+                    //alert(url);                   
                     if (isNaN(tarea_general)) {
                            //entonces (no es numero) devuelvo el valor cadena vacia 
                            alert('la actividad esta duplicada, cargue nuevamente la pagina');
@@ -924,7 +910,9 @@
                       };
                     };
                     fecha_inicio = mostrarFecha(dateObj,-num_day);
-                    urlfecha="/timesheet/index/registro/fecha/" + fecha
+                    //alert(fecha_inicio);
+                    //alert(fecha);
+                    urlfecha="/timesheet/index/registro/fecha/" + fecha_inicio;
                   //  $("#registros").load("/timesheet/index/registro/fecha/" + fecha_inicio); 
                     //document.location.href="/timesheet/index/calendar";
                     $.ajax({
@@ -1000,7 +988,8 @@
                       };
                     };
                     fecha_inicio = mostrarFecha(dateObj,-num_day);
-                    urlfecha="/timesheet/index/registro/fecha/" + fecha;
+                    //alert(fecha_inicio);
+                    urlfecha="/timesheet/index/registro/fecha/" + fecha_inicio;
 
                     $.ajax({
                         type: "POST",
@@ -1036,7 +1025,6 @@
                   $("#facturable_tareo_<?php echo $j?>").click(function(){
 
                     var actividad_generalid="<?php echo $data_tareo['actividad_generalid']?>";
-
                     var codigo_prop_proy= "<?php echo $data_tareo['codigo_prop_proy']?>";
                     var codigo_actividad="<?php echo $data_tareo['codigo_actividad']?>";
                     var actividadid="<?php echo $data_tareo['actividadid']?>";
@@ -1056,11 +1044,7 @@
                     var fecha = $("#fechasemana").text();
 
                     var url="/timesheet/index/updateetapanb/codigo/"+codigo_prop_proy+"/codigo_actividad/"+codigo_actividad+"/actividadid/"+actividadid+"/revision/"+revision+"/actividad_padre/"+actividad_padre+"/proyectoid/"+proyectoid+"/semanaid/"+semanaid+"/fecha_tarea/"+fecha_tarea+"/asignado/"+asignado+"/areaid/"+areaid+"/categoriaid/"+categoriaid+"/dni/"+dni+"/cargo/"+cargo+"/tipo_actividad/"+tipo_actividad+"/etapa/"+etapa+"/fecha_planificacion/"+fecha_planificacion+"/fecha/"+fecha+"/actividad_generalid/"+actividad_generalid+"/ban/1";
-
-
-
                     //alert(url);
-
                     var dateObj = new Date();
                     var dateFrom = $.datepicker.formatDate('mm/dd/yy', dateObj);
                     var weekfrom = $.datepicker.iso8601Week(new Date(dateFrom));
@@ -1076,7 +1060,7 @@
                       };
                     };
                     fecha_inicio = mostrarFecha(dateObj,-num_day);
-                    urlfecha="/timesheet/index/registro/fecha/" + fecha;
+                    urlfecha="/timesheet/index/registro/fecha/" + fecha_inicio;
              
 
                     $.ajax({
@@ -1126,7 +1110,7 @@
                 $(document).ready(function(){
                   $("#crear_tareag_<?php echo $j?>").click(function(){
 
-                    //alert('sssszzzz');
+                    //alert('mazz');
                     var codigo_prop_proy= '<?php echo $data_tareo['codigo_prop_proy']?>';
                     var codigo_actividad='<?php echo $data_tareo['codigo_actividad']?>';
                     var actividadid="<?php echo $data_tareo['actividadid']?>";
@@ -1165,7 +1149,7 @@
                     };
 
                     fecha_inicio = mostrarFecha(dateObj,-num_day);
-                    urlfecha="/timesheet/index/registro/fecha/" + fecha;
+                    urlfecha="/timesheet/index/registro/fecha/" + fecha_inicio;
                      
                      //$("#carga_nueva").load(url);
                       $.ajax({
@@ -1242,7 +1226,8 @@
 
                     fecha_inicio = mostrarFecha(dateObj,-num_day);
                     //document.location.href="/timesheet/index/calendar";
-                    urlfecha="/timesheet/index/registro/fecha/" + fecha_calendario;
+                    //urlfecha="/timesheet/index/registro/fecha/" + fecha_calendario;
+                    urlfecha="/timesheet/index/registro/fecha/" + fecha_inicio;
                             
 
                     var r = confirm("Desea Eliminar esta tarea!");
@@ -1284,10 +1269,10 @@
           
            <?php if ( $this->actividades) {?>
           <tr >
-            <th style="width: 5%;"></th>
-            <th style="width: 60%;" ></th>
-            <th style="width: 10%; padding: 0;"><div class="div-celda" style="width: 100px;"></div></th>
-            <th style="width: 10%; padding: 0;"><div class="div-celda" style="width: 100px;"></div></th>
+            <th style="width: 2%;">  </th>
+            <th style="width: 37.3%;" > </th>
+            <th style="width: 10.6%;"> </th>
+            <th style="width: 10%;"> </th>
             <?php 
               $uid=$this->uid;
                 // echo $uid;echo "<br>";
@@ -1295,8 +1280,8 @@
               $fecha = $this->fecha;
               $fecha = date("Y-m-d", strtotime($fecha));
               for ($i=0; $i < 7; $i++) { ?>
-              <th style="width: 60px; padding:0;">
-                <center class="div-celda">
+              <th style="width: 100px;">
+                <center>
 
                     <div id="fecha_<?php echo $i?>" maxlength="4">
                     <?php  $tareopersona = new Admin_Model_DbTable_Tareopersona();
@@ -1326,6 +1311,7 @@
                 }
 
               ?>
+            <th style="width: 1.2%; padding: 0;"></th>
           </tr>
           <?php }?>
 
@@ -1633,6 +1619,7 @@ $("#submit_work1").click(function(){
 });
 
 </script>
+
 
 <script>
   //Funcion para poner el scroll personalizado a la tabla registro
