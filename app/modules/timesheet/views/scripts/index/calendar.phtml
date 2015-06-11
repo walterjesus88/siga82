@@ -2,19 +2,22 @@
 
 <body onload="cargardatos()"> 
     <section class="panel">
-        <header class="panel-heading" style="padding-bottom : 10px">
+        <header class="panel-heading" style="padding-bottom : 10px;">
             Hoja de Tiempo 
-             <a id="mostrar-calendar" class="btn btn-danger pull-right btn-xs" data-toggle="modal" href="" style="position: relative; z-index: 1000;" >
+             <a id="mostrar-calendar" class="btn btn-danger pull-right btn-xs" data-toggle="modal" href="">
                 <i class="fa fa-calendar"></i> 
                 <p style="margin: 0;">Calendario</p>
-                <script>
-                    $(document).ready(function(){ 
-                       $('#mostrar-calendar').click(function(){
-                          $('#toggle-calendar').toggle('slow');
-                       });
-                    });
-                </script>
-            <div id="toggle-calendar" style="float: left; display: none;">
+            </a>
+
+            <script>
+                $(document).ready(function(){ 
+                   $('#mostrar-calendar').click(function(){
+                      $('#toggle-calendar').toggle('slow');
+                   });
+                });
+            </script>
+
+            <div id="toggle-calendar" class="fixed-calendar">
                 <div class="">
                     <div class="">
                         <div class="">
@@ -29,7 +32,6 @@
                     </div>
                 </div>
             </div>
-            </a>
             
                     
             <!--        
