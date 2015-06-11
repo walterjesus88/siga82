@@ -4,9 +4,33 @@
     <section class="panel">
         <header class="panel-heading" style="padding-bottom : 10px">
             Hoja de Tiempo 
-             <a class="btn btn-danger pull-right btn-xs" data-toggle="modal" href="#calendar">
-                <i class="fa fa-calendar"></i> Calendario
+             <a id="mostrar-calendar" class="btn btn-danger pull-right btn-xs" data-toggle="modal" href="" style="position: relative; z-index: 1000;" >
+                <i class="fa fa-calendar"></i> 
+                <p style="margin: 0;">Calendario</p>
+                <script>
+                    $(document).ready(function(){ 
+                       $('#mostrar-calendar').click(function(){
+                          $('#toggle-calendar').toggle('slow');
+                       });
+                    });
+                </script>
+            <div id="toggle-calendar" style="float: left; display: none;">
+                <div class="">
+                    <div class="">
+                        <div class="">
+                            <div class="">
+                                <section class="panel">
+                                    <div class="panel-body">
+                                        <div id="datepicker"></div>
+                                    </div>
+                                </section>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
             </a>
+            
                     
             <!--        
             <a id = "" class="btn btn-primary pull-right btn-xs"  href="" style="margin-right : 10px">
@@ -97,29 +121,6 @@
             </div>
         </div>
     </div>
-
-    <div class="modal fade full-width-modal-right" id="calendar" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-sm">
-            <div class="modal-content-wrap">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                        <h4 class="modal-title">Calendario</h4>
-                    </div>
-                    <div class="modal-body">
-                        <section class="panel">
-                            <div class="panel-body">
-                                <div id="datepicker"></div>
-                            </div>
-                        </section>
-                    </div>
-                    <div class="modal-footer">
-                        <button  data-dismiss="modal" class="btn btn-default" type="button">Cerrar</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
 </section>
 
 
@@ -141,7 +142,7 @@
 
 
 
-<div id="registro"></div>
+<div id="registro" style="position: relative; clear: none;"></div>
 <div  style="display:none" id="fechasemana"></div>
 </body> 
 <script type="text/javascript">
