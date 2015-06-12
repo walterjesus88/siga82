@@ -1498,9 +1498,10 @@
           <?php           
             $uid=$this->uid;            
             $dni=$this->dni;
+            $semana=$this->semana;
     
             $tareopersona = new Admin_Model_DbTable_Tareopersona();
-            $wheres=array('dni'=>$dni,'uid'=>$uid,'semanaid'=>'24');                
+            $wheres=array('dni'=>$dni,'uid'=>$uid,'semanaid'=>$semana);                
             $tpercoment=$tareopersona->_getFilter($wheres);
 
               foreach ($tpercoment as $value) {              
