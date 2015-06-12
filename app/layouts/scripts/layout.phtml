@@ -537,11 +537,6 @@
 
 <script type="text/javascript">
 $(document).ready(function(){
-
-        $('#mostrar-calendar').click(function(){
-            $('#toggle-calendar').toggle('slow');
-            
-        });
                                 
         var consulta;                 
          //hacemos focus al campo de búsqueda
@@ -580,6 +575,11 @@ $(document).ready(function(){
                                                                                   
                                                                            
         });
+
+    $('#mostrar-calendar').click(function(){
+        $('#toggle-calendar').toggle('slow');
+         $('#sidebar').animate({scrollTop: 2000}, 1000); 
+    });
                                                                    
 });
 
