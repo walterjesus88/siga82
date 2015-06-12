@@ -237,8 +237,13 @@ class Timesheet_IndexController extends Zend_Controller_Action {
         $this->view->is_gerente=$this->sesion->is_gerente;
         //print_r($datos_tareopersona);
 
-        //print_r($datos_tareopersona);
         $this->view->actividades_NB = $datos_tareopersona_NB;
+
+
+
+
+
+
         } catch (Exception $e) {
             print "Error: ".$e->getMessage();
         } 
