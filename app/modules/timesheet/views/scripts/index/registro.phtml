@@ -1484,59 +1484,74 @@
   <table  class="display table table-bordered table-striped" id="dynamic-table">
       <thead>
           <tr>
-            <?php 
-              $fecha = $this->fecha;
-              $fecha_mostrar = $this->fecha_mostrar;
-              $days_name = array("lun","mar","mié","jue","vie","sáb","dom");
-              for ($i=0; $i < 7; $i++) { ?>
-                <th style="width: 900px; padding:0;"><center class="div-celda">
-                  <?php print $days_name[$i] ?> <br><?php 
-                    list($dia, $mes, $anio) = split('[/.-]', $fecha);
-                    print $dia ?></center>
-                </th>                
-                <?php
-                  $newDate = date("Y-m-d", strtotime($fecha));
-                  $nuevafecha = strtotime ( '+1 day' , strtotime ( $newDate ) ) ;
-                  $fecha = date ( 'd-m-Y' , $nuevafecha );
-                  }
-                ?>
-            </tr>
+            <th style="width: 5%;">Fecha  </th>
+            <th style="width: 30%;" >Proyecto </th> 
+            <th style="width: 30%;" > Actividad: Tarea</th> 
+            <th style="width: 30%;" > hora</th> 
+            <th style="width: 30%;" > Comentario</th> 
+          </tr>
          
             
       </thead>
       <tbody>
-          
-          <?php 
-            $uid=$this->uid;
-                // echo $uid;echo "<br>";
+             
+          <?php           
+            $uid=$this->uid;            
             $dni=$this->dni;
-            $fecha = $this->fecha;
-            echo $fecha = date("Y-m-d", strtotime($fecha));
+    
+            $tareopersona = new Admin_Model_DbTable_Tareopersona();
+            $wheres=array('dni'=>$dni,'uid'=>$uid,'semanaid'=>'24');                
+            $tpercoment=$tareopersona->_getFilter($wheres);
 
-           for ($i=0; $i < 7; $i++) { 
-              echo $fecha;
+              foreach ($tpercoment as $value) {              
+                if(trim($value['comentario'])!='' and trim($value['h_real'])!=''){
+                ?>
+                <tr>
+                 
+                  <th>
+                     <?php echo $value['fecha_tarea']; ?>
+                  </th>
+                  <th>
+                    <?php 
+                     //codigo_prop_proy, proyectoid
+                     $wherep=array('codigo_prop_proy'=>$value['codigo_prop_proy'],'proyectoid'=>$value['proyectoid']); 
+                     $nompro=new Admin_Model_DbTable_Proyecto();
+                     $npro=$nompro->_getOne($wherep);
+                     echo $value['proyectoid'];
+                     echo " ";
+                     echo $npro['nombre_proyecto'];
+                    ?>
+                  </th>
+                  <th>
+                     <?php //echo $value['actividadid'];
+                     //codigo_prop_proy, codigo_actividad, actividadid, revision
+                      $wherea=array('codigo_prop_proy'=>$value['codigo_prop_proy'],'codigo_actividad'=>$value['codigo_actividad'],'actividadid'=>$value['actividadid'],'revision'=>$value['revision']);                
 
-              $tareopersona = new Admin_Model_DbTable_Tareopersona();
-              $wheres=array('dni'=>$dni,'uid'=>$uid,'fecha_tarea'=>$fecha);                
-              $tpercoment=$tareopersona->_getFilter($wheres);
+                      $nomact = new Admin_Model_DbTable_Actividad();
+                      $noma=$nomact->_getOne($wherea);
+                      echo $noma['nombre'];
 
-              print_r($tpercoment);     
+                     ?>
+                  </th>
+                  <th>
+                     <?php echo $value['h_real']; ?>
+                  </th>               
+                  <th>                    
+                      <?php echo $value['comentario']; ?>                                             
+                  </th>             
+                
+                </tr>
+                <?php  
+                }              
+              }
+
+              // $newDate = date("Y-m-d", strtotime($fecha));
+              // $nuevafecha = strtotime ('+1 day' , strtotime ( $newDate ) ) ;
+              // $fecha = date ('d-m-Y', $nuevafecha );
+            
+            // }
+
             ?>
-            <tr>
-            <th style="width: 900px; padding:0;">
-                    <center class="div-celda">
-                        <div id="fecha_<?php echo $i?>" >                                        
-                        </div> 
-                    </center>
-                    <center><div id="sumahoras<?php echo $i ?>"></div></center>
-            </th>
-            <?php 
-              $newDate = date("Y-m-d", strtotime($fecha));
-              $nuevafecha = strtotime ('+1 day' , strtotime ( $newDate ) ) ;
-              $fecha = date ('d-m-Y', $nuevafecha );
-            } 
-            ?>
-            </tr>
       </tbody>
 
   </table>
