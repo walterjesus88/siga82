@@ -4,34 +4,6 @@
     <section class="panel">
         <header class="panel-heading" style="padding-bottom : 10px;">
             Hoja de Tiempo 
-             <a id="mostrar-calendar" class="btn btn-danger pull-right btn-xs" data-toggle="modal" href="">
-                <i class="fa fa-calendar"></i> 
-                <p style="margin: 0;">Calendario</p>
-            </a>
-
-            <script>
-                $(document).ready(function(){ 
-                   $('#mostrar-calendar').click(function(){
-                      $('#toggle-calendar').toggle('slow');
-                   });
-                });
-            </script>
-
-            <div id="toggle-calendar" class="fixed-calendar">
-                <div class="">
-                    <div class="">
-                        <div class="">
-                            <div class="">
-                                <section class="panel">
-                                    <div class="panel-body">
-                                        <div id="datepicker"></div>
-                                    </div>
-                                </section>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
             
                     
             <!--        
@@ -244,9 +216,6 @@ $("#datepicker").datepicker({
                 };
             };
         };
-       
-
-
         fecha_inicio = mostrarFecha(dateObj,-num_day);  
       // var f = new Date(); 
     //var fech=f.getFullYear()+"-"+(f.getMonth()+1) +"-"+f.getDate() ;

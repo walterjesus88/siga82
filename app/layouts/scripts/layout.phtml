@@ -465,7 +465,33 @@
                         </ul>
                     </li> -->
                     <!--multi level menu end-->
+                <li>
+                    <a id="mostrar-calendar" class="" data-toggle="modal" href="">
+                        <i class="fa fa-calendar"></i> 
+                        <span>Calendario</span>
+                    </a>
+                    <div id="toggle-calendar" class="fixed-calendar">
+                        <div class="">
+                            <div class="">
+                                <div class="">
+                                    <div class="">
+                                        <section class="panel">
+                                            <div class="panel-body">
+                                                <div id="datepicker"></div>
+                                            </div>
+                                        </section>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
 
+            <script>
+                
+            </script>
+                    
+                </li>
                 </ul>
               <!-- sidebar menu end-->
             </div>
@@ -511,6 +537,11 @@
 
 <script type="text/javascript">
 $(document).ready(function(){
+
+        $('#mostrar-calendar').click(function(){
+            $('#toggle-calendar').toggle('slow');
+            
+        });
                                 
         var consulta;                 
          //hacemos focus al campo de búsqueda
@@ -550,5 +581,11 @@ $(document).ready(function(){
                                                                            
         });
                                                                    
+});
+
+
+$.datepicker.setDefaults($.datepicker.regional["es"]);
+$("#datepicker").datepicker({
+    firstDay: 1
 });
 </script>

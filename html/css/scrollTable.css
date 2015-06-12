@@ -44,16 +44,11 @@ Autor: Enzo
 }
 
 .fixed-calendar {
-    position: fixed;
-    display: none;
-    z-index: 1000;
-    top: 120px;
-    right: 0px;
-    background: #2a3542;
-    padding: 20px;
-    font-size: 10px;
-    height: 100%; 
+    font-size: 8px;
 }
 
-#datepicker {
+.fixed-calendar a {
+    padding: 0px !important;
+    text-align: center !important;
 }
+
