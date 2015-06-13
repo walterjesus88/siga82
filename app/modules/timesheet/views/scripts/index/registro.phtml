@@ -613,7 +613,6 @@
                           elemID = $(elemento).attr("id");
                           horizontal = elemID.slice(5,6);
                           vertical = elemID.slice(6,8);
-                          console.log('El elemento con el índice ' + horizontal + ' : ' + vertical + ' contiene ' + $(elemento).val());
                           matriz[horizontal][vertical] = $(elemento).val();
                         });
                         maximo = 0;
@@ -631,16 +630,12 @@
                             };
                             if (resSuma > 24) {
                               resSuma = resSuma - parseFloat($(this).val());
-                              console.log(resSuma);
                               alert("La suma total no puede ser mayor a 24 horas");
                               $(this).val("");
                             };
                           elemSuma.push(resSuma);
                         };
                         mostrar = elemSuma.slice(0, maximo);
-                        //alert(mostrar);
-
-                        console.log(mostrar);
                         for (var i = 0; i < hor+1; i++) {
                           //alert(mostrar[i]);
                           $("#fecha_"+i).html(parseFloat(mostrar[i]).toFixed(2));
@@ -1640,7 +1635,6 @@ $( "input" )
         elemID = $(elemento).attr("id");
         horizontal = elemID.slice(5,6);
         vertical = elemID.slice(6,8);
-        console.log('El elemento con el índice ' + horizontal + ' : ' + vertical + ' contiene ' + $(elemento).val());
         matriz[horizontal][vertical] = $(elemento).val();
         });
     maximo = 0;
@@ -1659,16 +1653,12 @@ $( "input" )
         };
         if (resSuma > 24) {
           resSuma = resSuma - parseFloat($(this).val());
-          console.log(resSuma);
           alert("La suma total no puede ser mayor a 24 horas");
           $(this).val("");
         };
           elemSuma.push(resSuma);
       };
       mostrar = elemSuma.slice(0, maximo);
-      //alert(mostrar);
-
-      console.log(mostrar);
       for (var i = 0; i < hor+1; i++) {
           //alert(mostrar[i]);
       $("#fecha_"+i).html(parseFloat(mostrar[i]).toFixed(2));
@@ -1679,7 +1669,6 @@ $( "input" )
 
 /*Funcion para utilizar las flechas direccionales en los campos del timesheet*/    
 $("input.focusable").keydown(function(tecla){
-  console.log(tecla.which);
   if (tecla.which == 39) {
     horizontal = $(this).attr('id').slice(5,6);
     siguiente = parseInt(horizontal) + 1;
