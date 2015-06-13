@@ -2048,11 +2048,7 @@ public function guardarcomentarioequipoAction(){
             $datetime=date("d-m-Y (H:i:s)", $time);
             $fecha_validacion=$datetime;
             $etapa_validacion=$this->_getParam('etapa');
-            $fechaduplica=$this->_getParam('fecha_calendario');
-
-            $duplica=new Admin_Model_DbTable_Tareopersona();   
-            $dupl=$duplica->_getDuplicarTareo($fechaduplica,$semana,$uid);
-   
+            $fechaduplica=$this->_getParam('fecha_calendario');   
 
 
             $data['cargo']=$cargo;
@@ -2299,6 +2295,9 @@ public function semanagerenteareaAction(){
             print "Error: ".$e->getMessage();
         }
     }
+
+
+
 
     public function guardarcomentariogerenteareaAction(){
         try {
@@ -3104,6 +3103,24 @@ public function semanagerentegeneralAction(){
         }
         catch (Exception $e) {
                 print "Error: ".$e->getMessage();
+        }
+    }
+
+    public function copiartareoAction(){
+    try {
+
+            $this->_helper->layout()->disableLayout();            
+            $uid = $this->sesion->uid;
+                  
+            $semana = $this->_getParam('semanaid');      
+           
+            $fechaduplica=$this->_getParam('fecha_calendario');
+
+            $duplica=new Admin_Model_DbTable_Tareopersona();   
+            $dupl=$duplica->_getDuplicarTareo($fechaduplica,$semana,$uid);
+    }
+    catch (Exception $e) {
+            print "Error: ".$e->getMessage();
         }
     }
 

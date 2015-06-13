@@ -263,6 +263,9 @@
     <a id = "submit_work" class="btn btn-default pull-right btn-xs" href="#" style="margin-right : 10px">
       <i class="fa fa-check-square"></i> Enviar 
     </a><?php }?>
+     <a id = "submit_copiar" class="btn btn-default pull-right btn-xs" href="#" style="margin-right : 10px">
+      <i class="fa fa-check-square"></i> copiar 
+    </a>
   <?php if (trim($estado_horas)!='P' && trim($estado_horas)!='1' && trim($estado_horas)!='2') {?>
     <!--<a id = "save_work" class="btn btn-info pull-right btn-xs"  style="margin-right : 10px">
       <i class="fa fa-save"></i> Guardar
@@ -1477,6 +1480,7 @@
 <div style="display:none" id="horaregistrada"></div>
 <div style="display:none" id="carga"></div>
 <div style="display:none"  id="carga_nueva"></div>
+<div style="display:none"  id="carga_copiar"></div>
 <div style="display:none" id="carga_w1"></div>
 
 
@@ -1781,6 +1785,33 @@ $("#submit_work1").click(function(){
         success: function(data){      
             $("#carga_nueva").empty();
             $("#carga_nueva").html(data);           
+        }
+      });
+    });
+  })
+
+</script>
+
+<script type="text/javascript">        
+  $(document).ready(function(){
+    $("#submit_copiar").on("click",function(){
+      var fecha_calendario = $("#fechasemana").text();
+      var semanaid="<?php echo $this->semana ?>";
+      
+      url="/timesheet/index/copiartareo/fecha_calendario/"+fecha_calendario+'/semanaid/'+semanaid;
+         
+      alert(url);      
+      $.ajax({
+        type: "POST",
+        url: url,
+        data: $(this).serialize(),
+        dataType: "html",                                                 
+        error: function(){
+            alert("error petición ajax load");
+        },
+        success: function(data){      
+            $("#carga_copiar").empty();
+            $("#carga_copiar").html(data);           
         }
       });
     });
