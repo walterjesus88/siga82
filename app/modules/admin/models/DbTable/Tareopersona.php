@@ -319,6 +319,21 @@ select *,tareo.estado as estado_tareopersona   from tareo_persona as tareo
         }
     }
 
+    public function _getDuplicarTareo($fecha,$vsemana,$vuid)    
+     {
+        try{
+            $sql=$this->_db->query("
+              select * from duplicando_tareo('$fecha','$vsemana','$vuid')
+            ");
+            $row=$sql->fetchAll();
+            return $row;           
+            }  
+            
+           catch (Exception $ex){
+           // print $ex->getMessage();
+        }
+    }
+
     public function _getHorasRealxTipo($semanaid,$uid,$dni,$cargoid,$tipo)
      {
         try{

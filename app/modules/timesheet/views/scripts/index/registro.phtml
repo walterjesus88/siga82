@@ -261,7 +261,7 @@
     </a><?php }?>
   <?php if (trim($estado_horas)!='P' && trim($estado_horas)!='1' && trim($estado_horas)!='2') {?>
     <a id = "submit_work" class="btn btn-default pull-right btn-xs" href="#" style="margin-right : 10px">
-      <i class="fa fa-check-square"></i> Enviar
+      <i class="fa fa-check-square"></i> Enviar 
     </a><?php }?>
   <?php if (trim($estado_horas)!='P' && trim($estado_horas)!='1' && trim($estado_horas)!='2') {?>
     <!--<a id = "save_work" class="btn btn-info pull-right btn-xs"  style="margin-right : 10px">
@@ -1734,6 +1734,7 @@ $("#submit_work1").click(function(){
   var fecha_calendario = $("#fechasemana").text();
   
   var url="/timesheet/index/enviartimesheet/fecha_calendario/"+fecha_calendario;
+  //alert(url);
   $("#carga_nueva").load(url);
  document.location.href="/timesheet/index/calendar";
 });

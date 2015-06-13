@@ -2048,6 +2048,13 @@ public function guardarcomentarioequipoAction(){
             $datetime=date("d-m-Y (H:i:s)", $time);
             $fecha_validacion=$datetime;
             $etapa_validacion=$this->_getParam('etapa');
+            $fechaduplica=$this->_getParam('fecha_calendario');
+
+            $duplica=new Admin_Model_DbTable_Tareopersona();   
+            $dupl=$duplica->_getDuplicarTareo($fechaduplica,$semana,$uid);
+   
+
+
             $data['cargo']=$cargo;
             $data['semanaid']=$semana;
             $data['uid']=$uid;
