@@ -17,6 +17,15 @@ class Admin_Model_DbTable_Persona extends Zend_Db_Table_Abstract
         }
     }
 
+    public function _getFullNamePersona($dni){
+        try{
+            $name['dni']=$dni;
+            $f = $this->fetchAll();
+            return false;
+        }catch (Exception $e){
+            print "Error: Al momento de leer todas las personas".$e->getMessage();
+        }
+    }
 
      /* Insertando un nuevo registro de Persona */
     public function _guardar($data){
@@ -27,7 +36,6 @@ class Admin_Model_DbTable_Persona extends Zend_Db_Table_Abstract
             print "Error: Insertando un nuevo registro de Persona".$ex->getMessage();
         }
 	}
-
 
 	   /* Obteniendo todos los datos de la Persona por el Nro de DNI */
     public function _getPersona($dni=""){
