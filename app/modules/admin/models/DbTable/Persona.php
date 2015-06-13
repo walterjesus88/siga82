@@ -17,17 +17,7 @@ class Admin_Model_DbTable_Persona extends Zend_Db_Table_Abstract
         }
     }
 
-    public function _getFullNamePersona($dni){
-        try{
-            $name['dni']=$dni;
-            $f = $this->fetchAll();
-            return false;
-        }catch (Exception $e){
-            print "Error: Al momento de leer todas las personas".$e->getMessage();
-        }
-    }
-
-     /* Insertando un nuevo registro de Persona */
+    /* Insertando un nuevo registro de Persona */
     public function _guardar($data){
 	   	try{
             if ($data['pid']=="" || $data['ape_pat']=="" || $data['ape_mat']=="") return false;
