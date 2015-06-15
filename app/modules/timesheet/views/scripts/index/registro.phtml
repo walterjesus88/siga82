@@ -550,38 +550,42 @@
                   <div class="btn-group">
 
                     <input  <?php if ($data_tareo['estado_tareopersona']=='C') { ?> disabled <?php }?>    name="tiempo_id[<?php echo $j ?>][<?php echo $i ?>]" class="form-control focusable" id="valor<?php echo $i?><?php echo $j?>" style="text-align: center;height: 26px; width: 40px; padding-right: 4px; padding-left: 4px;" maxlength="4"  value="<?php 
-                   if ($buscar_tarea) {
+                    if ($buscar_tarea) {
                       if($buscar_tarea[0]['h_real']=='0') { echo "";} else { print_r($buscar_tarea[0]['h_real']);}
                       }?>" 
                      > 
-
                     <?php
                       if($buscar_tarea)
                       { 
-                        if(trim($buscar_tarea[0]['h_real'])=='' or $buscar_tarea[0]['h_real']=='0' or $buscar_tarea[0]['h_real']==null){}
+                        if(trim($buscar_tarea[0]['h_real'])=='' or $buscar_tarea[0]['h_real']=='0' or $buscar_tarea[0]['h_real']==null){
+                        }
                         else
                         {
-                          //print_r($buscar_tarea[0]['h_real']);
-                      
-                      ?>
+                          if(trim($buscar_tarea[0]['comentario'])=='' or trim($buscar_tarea[0]['comentario'])==null) {
+                        ?>
                         <!-- data-toggle="modal" href="#myModalcomentario" -->
-                        
-                        <a  id="coment<?php echo $i ?><?php echo $j?>"  hora="<?php echo $buscar_tarea[0]['h_real'] ?>" etapa="<?php echo $buscar_tarea[0]['etapa'] ?>" tipo-actividad="<?php echo $buscar_tarea[0]['tipo_actividad'] ?>" actividad-generalid="<?php echo $buscar_tarea[0]['actividad_generalid'] ?>" codigo-prop-proy="<?php echo $data_tareo['codigo_prop_proy'] ?>" proyectoid="<?php echo $data_tareo['proyectoid'] ?>" actividad-padre="<?php echo $buscar_tarea[0]['actividad_padre'] ?>" fecha-tarea="<?php echo $buscar_tarea[0]['fecha_tarea'] ?>" codigo-actividad="<?php echo $buscar_tarea[0]['codigo_actividad'] ?>" actividadid="<?php echo $buscar_tarea[0]['actividadid'] ?>" revision="<?php echo $buscar_tarea[0]['revision'] ?>" semanaid="<?php echo $buscar_tarea[0]['semanaid'] ?>" uid="<?php echo $data_tareo['uid'] ?>" dni="<?php echo $data_tareo['dni'] ?>" cargo="<?php echo $buscar_tarea[0]['cargo'] ?>" fecha-planificacion="<?php echo $buscar_tarea[0]['fecha_planificacion'] ?>" 
+                       
+                        <a   <?php if ($data_tareo['estado_tareopersona']=='C') { ?> disabled="disabled" <?php } else {?> id="coment<?php echo $i ?><?php echo $j?>"  hora="<?php echo $buscar_tarea[0]['h_real'] ?>" etapa="<?php echo $buscar_tarea[0]['etapa'] ?>" tipo-actividad="<?php echo $buscar_tarea[0]['tipo_actividad'] ?>" actividad-generalid="<?php echo $buscar_tarea[0]['actividad_generalid'] ?>" codigo-prop-proy="<?php echo $data_tareo['codigo_prop_proy'] ?>" proyectoid="<?php echo $data_tareo['proyectoid'] ?>" actividad-padre="<?php echo $buscar_tarea[0]['actividad_padre'] ?>" fecha-tarea="<?php echo $buscar_tarea[0]['fecha_tarea'] ?>" codigo-actividad="<?php echo $buscar_tarea[0]['codigo_actividad'] ?>" actividadid="<?php echo $buscar_tarea[0]['actividadid'] ?>" revision="<?php echo $buscar_tarea[0]['revision'] ?>" semanaid="<?php echo $buscar_tarea[0]['semanaid'] ?>" uid="<?php echo $data_tareo['uid'] ?>" dni="<?php echo $data_tareo['dni'] ?>" cargo="<?php echo $buscar_tarea[0]['cargo'] ?>" fecha-planificacion="<?php echo $buscar_tarea[0]['fecha_planificacion'] ?>"  <?php }?>
                         comentario="<?php echo $buscar_tarea[0]['comentario'] ?>" 
 
                        >
-                       <i class="fa fa-comment"></i></a>                   
+                       <i style="color: #D6D6D8" class="fa fa-comment"></i></a>                   
 
-                      <?php } 
+                      <?php }
+                        else
+                            {?>
+
+                              <a   <?php if ($data_tareo['estado_tareopersona']=='C') { ?> disabled="disabled" <?php } else {?> id="coment<?php echo $i ?><?php echo $j?>"  hora="<?php echo $buscar_tarea[0]['h_real'] ?>" etapa="<?php echo $buscar_tarea[0]['etapa'] ?>" tipo-actividad="<?php echo $buscar_tarea[0]['tipo_actividad'] ?>" actividad-generalid="<?php echo $buscar_tarea[0]['actividad_generalid'] ?>" codigo-prop-proy="<?php echo $data_tareo['codigo_prop_proy'] ?>" proyectoid="<?php echo $data_tareo['proyectoid'] ?>" actividad-padre="<?php echo $buscar_tarea[0]['actividad_padre'] ?>" fecha-tarea="<?php echo $buscar_tarea[0]['fecha_tarea'] ?>" codigo-actividad="<?php echo $buscar_tarea[0]['codigo_actividad'] ?>" actividadid="<?php echo $buscar_tarea[0]['actividadid'] ?>" revision="<?php echo $buscar_tarea[0]['revision'] ?>" semanaid="<?php echo $buscar_tarea[0]['semanaid'] ?>" uid="<?php echo $data_tareo['uid'] ?>" dni="<?php echo $data_tareo['dni'] ?>" cargo="<?php echo $buscar_tarea[0]['cargo'] ?>" fecha-planificacion="<?php echo $buscar_tarea[0]['fecha_planificacion'] ?>"  <?php }?>
+                        comentario="<?php echo $buscar_tarea[0]['comentario'] ?>" 
+
+                       >
+                       <i style="color: #485BBD" class="fa fa-comment"></i></a>                   
+
+                      <?php
+                            }
+                          } 
                         }
-                      //  else{
-
-                        ?>
-
-                      
-
-                     <?php  //} ?>                   
-
+                      ?>
                   </div>
 
                   
