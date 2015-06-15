@@ -104,11 +104,8 @@
 
 //Funcion que muestra las tareas hijas al hacer click en el padre
         $('.actividad_padre').click(function(event){
-            
             var dato = $(this).attr('actividadid');
-            
             $('#lista_tareas').html('');
-            
             hijoArray.forEach(function (item) {
                 agregar = '';
                 if (item.actividad_padre == dato) {
@@ -132,7 +129,6 @@
                     
                     if (item.codigo_actividad == dato) {
                         url = "/timesheet/index/guardartareopersona/codigo/" + item.codigo + "/proyectoid/" + item.proyectoid + "/revision/" + item.revision + "/categoriaid/" + item.categoriaid + "/propuestaid/" + item.propuestaid + "/actividadid/" + item.actividadid + "/codigo_actividad/" + item.codigo_actividad + "/actividad_padre/" + item.actividad_padre + "/h_propuesta/" + item.h_propuesta + "/fecha/" + fecha;
-                
                         $("#cargar").load(url);
                     }
                 })
@@ -143,4 +139,4 @@
 
 </script>
 
-<div  style="display:none" id="cargar"> </div>
+<div   id="cargar"> </div>
