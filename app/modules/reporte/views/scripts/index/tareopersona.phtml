@@ -1,0 +1,162 @@
+<div ng-app="reporteApp" ng-controller="mainController as reporte" class="div-reportes">
+	<h1>Reporte Tareopersona</h1>
+	<div>
+		<div>
+			<table class="table-bordered">
+				<thead>
+					<th>
+						<div>
+							Cobrabilidad
+						</div>
+					</th>
+				</thead>
+				<tbody>
+					<tr ng-repeat="cobrabilidad in reporte.cobrabilidad">
+						<td>
+							<div>
+								{{cobrabilidad}}
+							</div>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<div>
+			<table class="table-bordered">
+				<thead>
+					<th>
+						<div>
+							Rango Fecha Rendición
+						</div>
+					</th>
+				</thead>
+				<tbody>
+					<tr ng-repeat="fecha in reporte.rango_fecha">
+						<td>
+							<div>
+								{{fecha}}
+							</div>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<div>
+			<table class="table-bordered">
+				<thead>
+					<th>
+						<div>
+							Formato de Nombres de Proyecto
+						</div>
+					</th>
+				</thead>
+				<tbody>
+					<tr ng-repeat="formato in reporte.formato_proyecto">
+						<td>
+							<div>
+								{{formato}}
+							</div>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<div>
+			<table class="table-bordered">
+				<thead>
+					<th>
+						<div>
+							Usuarios
+						</div>
+					</th>
+				</thead>
+				<tbody>
+					<tr ng-repeat="usuario in reporte.usuarios">
+						<td>
+							<div>
+								{{usuario}}
+							</div>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+	<div>
+		<table class="table-bordered">
+		<thead>
+			<th>
+				<div>
+					Usuario Id
+				</div>
+			</th>
+			<th>
+				<div>
+					Usuario
+				</div>
+			</th>
+			<th>
+				<div>
+					Rate del proyecto
+				</div>
+			</th>
+			<th>
+				<div>
+					Código de Proyecto
+				</div>
+			</th>
+			<th>
+				<div>
+					Cobrable/No Cobrable
+				</div>
+			</th>
+			<th>
+				<div>
+					Proyecto (Unidad minera - proyecto)
+				</div>
+			</th>
+			<th>
+				<div>
+					Status Proyecto
+				</div>
+			</th>
+			<th>
+				<div>
+					Full Sumary
+				</div>
+			</th>
+		</thead>
+		<tbody>
+			
+		</tbody>
+		<tfoot>
+			<td>
+				<div>
+					Full Summary
+				</div>
+			</td>
+			<td>
+				<div></div>
+			</td>
+			<td>
+				<div></div>
+			</td>
+			<td>
+				<div></div>
+			</td>
+			<td>
+				<div></div>
+			</td>
+			<td>
+				<div></div>
+			</td>
+			<td>
+				<div></div>
+			</td>
+			<td>
+				<div></div>
+			</td>
+		</tfoot>	
+		</table>
+	</div>
+</div>

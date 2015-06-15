@@ -19,7 +19,7 @@ class Reporte_IndexController extends Zend_Controller_Action {
         print_r($this->sesion);
     }
 
-    public function reporteAction() {
-        $this->view->data = 'jaja';
+    public function tareopersonaAction() {
+        
     }
 }
