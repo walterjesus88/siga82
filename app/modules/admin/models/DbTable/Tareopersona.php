@@ -92,8 +92,7 @@ order by t.proyectoid,t.actividadid,t.tipo_actividad desc
      {
         try{
             $sql=$this->_db->query("
-       
-select *,tareo.estado as estado_tareopersona   from tareo_persona as tareo 
+                select *,tareo.estado as estado_tareopersona   from tareo_persona as tareo 
                 inner join actividad as act
                 on tareo.actividadid=act.actividadid and tareo.codigo_actividad=act.codigo_actividad 
                     and tareo.codigo_prop_proy=act.codigo_prop_proy
@@ -102,8 +101,6 @@ select *,tareo.estado as estado_tareopersona   from tareo_persona as tareo
                      and tareo.proyectoid=pro.proyectoid 
                 where tareo.uid='$uid' and tareo.dni='$dni' and tareo.semanaid='$semanaid' 
                 and tareo.etapa like 'INICIO%'  order by act.propuestaid desc,tareo.proyectoid,tareo.actividadid,tipo_actividad desc 
-              
-
             ");
             $row=$sql->fetchAll();
             return $row;           
