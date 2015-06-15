@@ -466,7 +466,7 @@
                         </ul>
                     </li> -->
                     <!--multi level menu end-->
-                <li>
+                <li>ff
                     <a id="mostrar-calendar" class="" data-toggle="modal" href="">
                         <i class="fa fa-calendar"></i> 
                         <span>Calendario</span>
@@ -586,7 +586,10 @@ $(document).ready(function(){
 
 
 $.datepicker.setDefaults($.datepicker.regional["es"]);
-$("#datepicker").datepicker({
+$("#datepicker").datepicker
+({
+    maxDate:0, dateFormat:'dd/mm/yy', yearRange: '-100:+0',    
     firstDay: 1
+
 });
 </script>
