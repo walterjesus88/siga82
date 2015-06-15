@@ -53,7 +53,11 @@
     
 </ul>
 
+
+
+<!--Codigo javascript para verificar condiciones y agregar elementos al DOM-->
 <script>
+//Dividir el array en dos dependiendo si es actividad o tarea
         padreArray = [];
         hijoArray = [];
 
@@ -65,24 +69,40 @@
             }
         })
 
+//Verificar si es actividad final
+    padreArray.forEach(function (itempadre) {
+        itempadre['ultimo'] = 'SI';
+        hijoArray.forEach(function (itemhijo) {
+            if (itempadre.actividadid == itemhijo.actividad_padre){
+                itempadre['ultimo'] = 'NO';
+            }
+        }) 
+    })
+
+
+//Agregar actividades padre al DOM
         padreArray.forEach(function (item) {
             agregar = '';
+            
+
             if (item.estado == 'checked') {
-                agregar = '<li style="padding:5px 5px;color: #667fa0;"> <a href="#">' + '<span class="actividad_padre" actividadid="' + item.actividadid + '">' + item.nombre + '</span>' +
-                '<input disabled name="" id="" type = "checkbox" class = "pull-right" value="" checked="true">'  + '</a></li>';
+                agregar = '<li style="padding:5px 5px;color: #667fa0;" class="actividad_padre"  actividadid="' + item.actividadid + '"> <a id="' + item.actividadid +'">' + item.nombre + '<input disabled name="" id="tarea_h_'+ item.actividadid + '" type = "checkbox" class = "pull-right" value="" checked="true">'  + '</a></li>';
             } else {
-                agregar = '<li style="padding:5px 5px;color: #667fa0;"> <a href="#">' + '<span class="actividad_padre" actividadid="' + item.actividadid + '">' +item.nombre + '</span>' + 
-                '<input name="tarea_h_' + item.actividadid + '" id="tarea_h_'+ item.actividadid + '" type= "checkbox" class= "pull-right" value="" codigo-prop-proy="' + item.codigo + '" proyectoid="' + item.proyectoid + '" categoriaid="' + item.categoriaid + '" actividadid= "' + item.actividadid + '" revision= "' + item.revision + '" propuestaid= "' + item.propuestaid + '" codigo_actividad= "' + item.codigo_actividad + '">'  + '</a></li>';
+                agregar = '<li style="padding:5px 5px;color: #667fa0;" class="actividad_padre" actividadid="' + item.actividadid + '"> <a id="' + item.actividadid +'">' + item.nombre + '<input name="tarea_h_' + item.actividadid + '" id="tarea_h_'+ item.actividadid + '" type= "checkbox" class= "pull-right" value="" codigo-prop-proy="' + item.codigo + '" proyectoid="' + item.proyectoid + '" categoriaid="' + item.categoriaid + '" actividadid= "' + item.actividadid + '" revision= "' + item.revision + '" propuestaid= "' + item.propuestaid + '" codigo_actividad= "' + item.codigo_actividad + '">'  + '</a></li>';
             }
 
-            $('#lista_actividades').append(agregar);        
+            $('#lista_actividades').append(agregar);  
+            if (item.ultimo == 'NO') {
+                $('#tarea_h_' + item.actividadid).hide();
+                $('#' + item.actividadid).attr('href','#');
+            }   
         })
     </script>
 
 <script type="text/javascript">
     $(document).ready(function(){
 
-
+//Funcion que muestra las tareas hijas al hacer click en el padre
         $('.actividad_padre').click(function(event){
             
             var dato = $(this).attr('actividadid');
@@ -103,6 +123,7 @@
             })
         })
 
+//Funcion que agrega las tareas al registro cuando son checkeadas
         $('[name^="tarea_h_"]').click(function(event) {
             if ($(this).is(":checked")) {
                 var fecha = $("#fechasemana").text();
