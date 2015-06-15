@@ -17,8 +17,7 @@ class Admin_Model_DbTable_Persona extends Zend_Db_Table_Abstract
         }
     }
 
-
-     /* Insertando un nuevo registro de Persona */
+    /* Insertando un nuevo registro de Persona */
     public function _guardar($data){
 	   	try{
             if ($data['pid']=="" || $data['ape_pat']=="" || $data['ape_mat']=="") return false;
@@ -27,7 +26,6 @@ class Admin_Model_DbTable_Persona extends Zend_Db_Table_Abstract
             print "Error: Insertando un nuevo registro de Persona".$ex->getMessage();
         }
 	}
-
 
 	   /* Obteniendo todos los datos de la Persona por el Nro de DNI */
     public function _getPersona($dni=""){
