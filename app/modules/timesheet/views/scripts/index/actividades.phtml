@@ -48,7 +48,7 @@
 
 <ul id="lista_actividades" class="nav nav-pills nav-stacked">
 </ul>
-<p>Tareas</p>
+
 <ul id="lista_tareas" class="nav nav-pills nav-stacked">
     
 </ul>
@@ -95,8 +95,25 @@
             if (item.ultimo == 'NO') {
                 $('#tarea_h_' + item.actividadid).hide();
                 $('#' + item.actividadid).attr('href','#');
+                $('#lista_tareas').html('');
+                $('#lista_tareas').append('<p id="titulo_lista_hijos">Tareas</p>');
             }   
         })
+
+
+//agregar actividades hijo al DOM
+        hijoArray.forEach(function (item) {
+                agregar = '';
+                    if (item.estado == 'checked') {
+                        agregar = '<li style="padding:5px 5px;color: #667fa0;" class="hijode' + item.actividad_padre + '">' + '<span class="actividad_padre" actividadid="' + item.actividadid + '">' + item.nombre + '</span>' + '<input disabled name="" id="" type = "checkbox" class = "pull-right" value="" checked="true">'  + '</li>';
+                    } else {
+                        agregar = '<li style="padding:5px 5px;color: #667fa0;" class="hijode' +item.actividad_padre+ '">' + '<span class="actividad_padre" actividadid="' + item.actividadid + '">' +item.nombre + '</span>' + '<input name="tarea_h_' + item.actividadid + '" id="tarea_h_'+ item.actividadid + '" type= "checkbox" class= "pull-right" value="" codigo-prop-proy="' + item.codigo + '" proyectoid="' + item.proyectoid + '" categoriaid="' + item.categoriaid + '" actividadid= "' + item.actividadid + '" revision= "' + item.revision + '" propuestaid= "' + item.propuestaid + '" codigo_actividad= "' + item.codigo_actividad + '">'  + '</li>';
+                    }
+                $('#lista_tareas').append(agregar);
+
+            })
+        $('#titulo_lista_hijos').hide();
+        $('[class^=hijode]').hide();
     </script>
 
 <script type="text/javascript">
@@ -104,6 +121,7 @@
 
 //Funcion que muestra las tareas hijas al hacer click en el padre
         $('.actividad_padre').click(function(event){
+<<<<<<< HEAD
             var dato = $(this).attr('actividadid');
             $('#lista_tareas').html('');
             hijoArray.forEach(function (item) {
@@ -118,6 +136,12 @@
                 }
                 $('#lista_tareas').append(agregar);}
             })
+=======
+            padre = $(this).attr('actividadid');
+            $('#titulo_lista_hijos').show();
+            $('[class^=hijode]').hide();
+            $('.hijode' + padre).show();        
+>>>>>>> origin/development
         })
 
 //Funcion que agrega las tareas al registro cuando son checkeadas
@@ -134,7 +158,7 @@
                 })
             }
         });
-    }); 
+})
 
 
 </script>
