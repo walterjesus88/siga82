@@ -198,7 +198,8 @@ $("#guardar_act").click(function(){
 $.datepicker.setDefaults($.datepicker.regional["es"]);
 $("#datepicker").datepicker({
     firstDay: 1,
-
+    maxDate:0, dateFormat:'dd/mm/yy', yearRange: '-100:+0',    
+    
     onSelect: function (date, inst) {
         var dateObj = $('#datepicker').datepicker('getDate');
         var dateFrom = $.datepicker.formatDate('mm/dd/yy', dateObj);
