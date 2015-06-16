@@ -22,7 +22,8 @@ controller('mainController', ['$http', function($http){
 	reporte.getTareopersona = function () {
 		$http.get('/reporte/index/tareopersona')
 		.success(function (data) {
-			reporte.datos = data;
+			//estoy cortando el array de respuesta porque tiene > de 6000 registro y lo pone lento
+			reporte.datos = data.slice(0, 20);
 			reporte.datos.forEach(function (item) {
 				reporte.usuarios.push(item['uid']);
 				reporte.tareopersona.push(item);

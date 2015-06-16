@@ -19,11 +19,28 @@ class Reporte_IndexController extends Zend_Controller_Action {
         
     }
 
+    /*Funcion que devuelde los registros con los campos necesarios para visualozacion
+    de la vista de reporte tarea persona. Para lo cual han sido parseados como json
+    */
+
     public function tareopersonaAction() {
         $this->_helper->layout()->disableLayout();
         $tareopersona = new Admin_Model_DbTable_Tareopersona();
         $todos_tareopersona = $tareopersona->_getTareopersonall();
-        print_r(json_encode($todos_tareopersona));        
+        $respuesta = [];
+        $i = 0;
+        foreach ($todos_tareopersona as $fila) {
+            $proyecto = new Admin_Model_DbTable_Proyecto();
+            $pro = $proyecto->_show($fila['codigo_prop_proy']);
+            $fila['nombre_proyecto'] = $pro['nombre_proyecto'];
+            $respuesta[$i] = $fila;
+            $i++;
+        }
+        print_r(json_encode($respuesta));      
+    }
+
+    public function proyectoAction() {
+
     }
 
 }
