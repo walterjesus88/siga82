@@ -21,16 +21,16 @@
                 
                 <a href="#"><?php echo $lista['proyectoid']; ?></a>  
               </td>
-              <td>
+                <td>
                  <?php
-                 $propuestaid=$lista['propuestaid'];
-                 $revision=$lista['revision'];
-                 $codigo=$lista['codigo_prop_proy'];
+                 //$propuestaid=$lista['propuestaid'];
+                 //$revision=$lista['revision'];
+                 //$codigo=$lista['codigo_prop_proy'];
 
                     $buscacliente = new Admin_Model_DbTable_Cliente();
                     //$buscanombre_cliente=$buscacliente->_getClientexPropuestaxRevisionxCodigo($propuestaid,$revision,$codigo);
                     //print_r($buscanombre_cliente[0]['nombre_comercial']);
-
+                    //print_r($lista);
                     $buscanombre_cliente=$buscacliente->_getClientexIndice($lista['clienteid']);
                     
                     if ($buscanombre_cliente)

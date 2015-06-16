@@ -17,52 +17,42 @@
       $tareosemana=$sumahorassemana->_getOne($wheres);
       $estado_horas=$tareosemana['estado'];
       $estado_real=$tareosemana['estado_real'];
-      //print_r($tareosemana);
       ?>
 
-
-      <?php if (trim($estado_horas)=='P' or trim($estado_horas)=='2.B0' or trim($estado_horas)=='3.B1'
-        
-      ) {?>
-      <strong>Hoja de Tiempo Espera de Aprobacion</strong> 
+      <?php if (trim($estado_horas)=='P' or trim($estado_horas)=='2.B0' or trim($estado_horas)=='3.B1') {?>
+        <strong>Hoja de Tiempo Espera de Aprobacion</strong> 
       <?php }?>
-       <?php if (trim($estado_horas)=='0' and trim($estado_horas)=='' ) {?>
-      <strong>Hoja de Tiempo Rechazada por Jeje Area</strong> 
+      <?php if (trim($estado_horas)=='0' and trim($estado_horas)=='' ) {?>
+        <strong>Hoja de Tiempo Rechazada por Jeje Area</strong> 
       <?php }?>
         <?php if (trim($estado_real)=='RECHAZADO' and trim($estado_horas)=='0' ) {?>
       <strong>Hoja de Tiempo Rechazada por Gerente Proyecto</strong> 
       <?php }?>
-
       <?php if (trim($estado_real)=='PENDIENTE') {?>
       <strong>Hoja de Tiempo Pendiente Aprobación por otro Gerente Proyecto</strong> 
       <?php }?>
-      <!--
+
       
       <?php if (trim($estado_real)=='APROBADO') {?>
-      <strong>Hoja de Tiempo Aprobada por Los Gerentes de Proyectos</strong> 
+      <strong>Hoja de Tiempo Aprobada</strong> 
       <?php }?>
-      -->
       <?php if (trim($estado_horas)=='1') {?>
       <strong>Hoja de Tiempo Aprobada por Jefe Area, espera Gerente de Proyecto</strong> 
       <?php }?>
        <?php if (trim($estado_horas)=='2' and trim($estado_real)=='APROBADO') {?>
       <strong>Hoja de Tiempo Aprobada</strong> 
       <?php }?>
-
       <?php if (trim($estado_horas)=='' ) {?>
       <strong>Hoja de Tiempo Activa</strong> 
       <?php }?>
   </div>
-  
   <div class="col-lg-5" style="padding-top: 5px;">
     <button data-toggle="button" class="btn btn-white">
       <?php 
       $tareopersona = new Admin_Model_DbTable_Sumahorasemana();
       $wheres=array('dni'=>$this->dni,'uid'=>$this->uid,'semanaid'=>$this->semana);
       $sumahoras = new Admin_Model_DbTable_Sumahora();
-      //print_r($sumahorasxact);
       $sumar=$tareopersona-> _getOne($wheres);
-      //print_r($sumar);
       echo $sumar['billable'];
       echo "<br>"; 
       echo "HH Fact.";
@@ -81,7 +71,6 @@
     <button data-toggle="button" class="btn btn-white info">
       <?php 
       $sumahorasxact=$sumahoras->_getSumaHorasxActividad($this->uid,$this->dni,$this->semana,'adm');
-      //echo $sumar['adm'];
       print_r($sumahorasxact[0]['sum']);
       echo "<br>";
       echo "HH Anddes";
@@ -89,8 +78,6 @@
     </button>
     <button data-toggle="button" class="btn btn-white">
       <?php 
-      
-
       echo $sumar['h_total'];
       echo "<br>";
       echo "HH Total";
@@ -110,10 +97,13 @@
     $usuario_cat = new Admin_Model_DbTable_Usuariocategoria();
     $wheres_ucat=array('aprobacion'=>$aprobador,'estado'=>'A','estado_sistema'=>'A');
     $list_aprobador=$usuario_cat->_getOne($wheres_ucat); 
+    echo "<strong>";echo "Aprobadores: "; echo "</strong>";echo "<br>";
+    if ($list_aprobador){
     $aprobador_usuario = explode(".", $list_aprobador['uid']);
-    echo "Aprobado: "; echo "<br>";
+    
     echo (ucwords($aprobador_usuario[0])); echo " ";
     echo (ucwords($aprobador_usuario[1])); echo "<br>";
+    }
     $planificacion = new Admin_Model_DbTable_Planificacion();
     $proyectos=$planificacion->_getOnexSemanaxGerenteProyecto($this->semana,$this->uid,$this->dni,$this->areaid);
 
@@ -128,6 +118,7 @@
  ?> 
     
     <?php 
+
     //echo $this->cargo;
     /*
 
@@ -183,20 +174,13 @@
      
     }*/
 
-/*APROBADORES PARA LOS JEFES DE AREA*/  
 
-    if ($this->cargo=='JEFE' && $this->areaid=!'27' && $this->areaid!='16' ) 
+/*APROBADORES PARA LOS JEFES DE AREA*/  
+  if ($this->cargo=='JEFE' && $this->areaid=!'27' && $this->areaid!='16' ) 
     {
       echo "<strong>"; echo "Aprobadores: "; echo "</strong>"; echo "<br>";
-      //if ($this->areaid=='27' )
-      //{
-      //  echo "GA: Romy Valdivia";
-      //}
-      //else
-      //{
       $usuariocategoria = new Admin_Model_DbTable_Usuariocategoria();
       $datos_usuario=$usuariocategoria->_getGerenteAreaxJefeArea($this->areaid,'GERENTE-AREA');
-
       if ($datos_usuario)
       {
         $gerente_area = explode(".", $datos_usuario[0]['uid']);
@@ -214,19 +198,14 @@
           echo (ucwords($porciones[0])); echo " ";
           echo (ucwords($porciones[1])); echo "<br>";
         }
-
-    //}
-  }
-
-      if ($this->cargo=='EQUIPO' and $this->areaid!='26') 
+    }
+  if ($this->cargo=='EQUIPO' and $this->areaid!='26') 
     {
       $planificacion = new Admin_Model_DbTable_Planificacion();
       $proyectos=$planificacion->_getOnexSemanaxGerenteProyecto($this->semana,$this->uid,$this->dni,$this->area_empresa);
       echo "<strong>"; echo "Aprobadores: "; echo "</strong>"; echo "<br>";
       $usuariocategoria = new Admin_Model_DbTable_Usuariocategoria();
-   
       $datos_usuario=$usuariocategoria->_getCargoxArea($this->area_empresa,'JEFE');
-      //print_r($datos_usuario);
       if ($datos_usuario)
       {
         $jefe_area = explode(".", $datos_usuario[0]['uid']);
@@ -242,32 +221,7 @@
         }
       }
     }
-
-/*APROBADORES PARA EL EQUIPO*/    
-/*
-    if ($this->is_gerente!='S' and $this->cargo!='GERENTE' AND $this->cargo!='GERENTE-GENERAL' AND $this->cargo!='JEFE' and $this->areaid=!'27' and $this->areaid!='16' and  $this->areaid!='26') 
-    
-    {
-      $planificacion = new Admin_Model_DbTable_Planificacion();
-      $proyectos=$planificacion->_getOnexSemanaxGerenteProyecto($this->semana,$this->uid,$this->dni,$this->areaid);
-      echo "<strong>"; echo "Aprobadores: "; echo "</strong>"; echo "<br>";
-      $usuariocategoria = new Admin_Model_DbTable_Usuariocategoria();
-      $datos_usuario=$usuariocategoria->_getCargoxArea($this->areaid,'JEFE');
-      if ($datos_usuario)
-      {
-        $jefe_area = explode(".", $datos_usuario[0]['uid']);
-        echo "JA: ";
-        echo (ucwords($jefe_area[0])); echo " ";
-        echo (ucwords($jefe_area[1])); echo "<br>";
-        foreach ($proyectos as $datos) {
-        //print_r($datos['uid']);
-        $porciones = explode(".", $datos['uid']);
-        echo "GP: ";
-        echo (ucwords($porciones[0])); echo " ";
-        echo (ucwords($porciones[1])); echo "<br>";
-        }
-      }
-    }*/?>
+  ?>
   </div>
   <?php 
     $sumahorassemana = new Admin_Model_DbTable_Sumahorasemana();
@@ -277,7 +231,7 @@
   
   ?>
   <div class="panel-body" style="padding-top: 10px;padding-bottom: 0px;">
-  <?php if (trim($estado_horas)=='P' or trim($estado_horas)=='1' or trim($estado_horas)=='2') {?>
+  <?php if (trim($estado_horas)=='P' or trim($estado_horas)=='1' or trim($estado_horas)=='2' or trim($estado_horas)=='2.B0' or trim($estado_horas)=='3.B1' ) {?>
     <a id = "" class="btn btn-primary pull-right btn-xs"  href="" style="margin-right : 10px">
       <i class="fa fa-print"></i> Imprimir
     </a>
@@ -285,12 +239,12 @@
       <i class="fa fa-check-square"></i> Copiar 
     </a>
     <?php }?>
-  <?php if (trim($estado_horas)!='P' && trim($estado_horas)!='1' && trim($estado_horas)!='2') {?>
+  <?php if (trim($estado_horas)!='P' && trim($estado_horas)!='1' && trim($estado_horas)!='2' && trim($estado_horas)!='2.B0' && trim($estado_horas)!='3.B1') {?>
     <a id = "submit_work" class="btn btn-default pull-right btn-xs" href="#" style="margin-right : 10px">
       <i class="fa fa-check-square"></i> Enviar 
     </a><?php }?>
      
-  <?php if (trim($estado_horas)!='P' && trim($estado_horas)!='1' && trim($estado_horas)!='2') {?>
+  <?php if (trim($estado_horas)!='P' && trim($estado_horas)!='1' && trim($estado_horas)!='2' && trim($estado_horas)!='2.B0' && trim($estado_horas)!='3.B1') {?>
     <!--<a id = "save_work" class="btn btn-info pull-right btn-xs"  style="margin-right : 10px">
       <i class="fa fa-save"></i> Guardar
     </a>-->
@@ -299,7 +253,7 @@
     </a>
 
     <?php }?>
-  <?php if (trim($estado_horas)!='P' && trim($estado_horas)!='1' && trim($estado_horas)!='2') {?>
+  <?php if (trim($estado_horas)!='P' && trim($estado_horas)!='1' && trim($estado_horas)!='2' && trim($estado_horas)!='2.B0' && trim($estado_horas)!='3.B1') {?>
     <a id = "add_work" class="btn btn-success pull-right btn-xs" data-toggle="modal" href="#agregar" style="margin-right : 10px">
       <i class="fa fa-check-square-o"></i> Agregar
     </a><?php }?>
@@ -707,24 +661,7 @@
                                           //$("#carga").empty();
                                           $("#carga").html(data);                  
                                           $("#comentview").hide();                                          
-
-                                              // $.ajax({
-                                              //       type: "POST",
-                                              //       url: url2,
-                                              //       data: $(this).serialize(),
-                                              //       dataType: "html",                                                 
-                                              //       error: function(){
-                                              //         alert("error petición ajax load");
-                                              //       },
-                                              //       success: function(data){                      
-                                              //         $("#sumahoras<?php echo $i ?>").empty();
-                                              //         $("#sumahoras<?php echo $i ?>").html(data);                                     
-                                              //         $("#fecha_<?php echo $i?>").hide(); 
-                                                       //var i="<?php echo $i ?>";
-                                                       //var j="<?php echo $j ?>";                                                      
-                                                       //sumar(j,i,hora_real);                
-                                              //        }
-                                              // });                                          
+                                        
                                     }
                             });
                         //} 
@@ -778,6 +715,7 @@
                             
                             var cc=comentario;
 
+
                             var titulo = $('input[name=titulo]').val();
       var autor = $('input[name=autor]').val();
       var tag = $('input[name=tag]').val();
@@ -825,6 +763,7 @@
       </article>';        
              
 
+
                             alertify.prompt("Escriba un comentario", function (e, str) {
                             if (e) {
                             
@@ -839,14 +778,11 @@
                                       alert("error petición ajax load");
                                     },
                                     success: function(data){
-                                      alertify.success("ha sido guardado su comentario: " + str); 
-                                      //$("#coment").html(data);     
-                                       $('.posts').prepend($(template).fadeIn());
-
-
+                                
                                     }
                                   });
 
+                                alertify.success("ha sido guardado su comentario: " + str);
 
                               } else {
                                 alertify.error("ha sido Cancelado");
@@ -863,6 +799,8 @@
                         });
                         </script>
 
+
+
                 <?php 
                 }
                   $newDate = date("Y-m-d", strtotime($fecha));
@@ -870,6 +808,8 @@
                   $fecha = date ( 'Y-m-d' , $nuevafecha );?>
                 <?php }
                 ?>
+
+
             </tr>
 
               <script type="text/javascript">
@@ -981,7 +921,9 @@
                            //e.preventDefault();
                     }else{ 
 
-                    var dateObj = new Date();
+                    
+
+                     var dateObj = $('#datepicker').datepicker('getDate');
                     var dateFrom = $.datepicker.formatDate('mm/dd/yy', dateObj);
                     var weekfrom = $.datepicker.iso8601Week(new Date(dateFrom));
                     var diasSemana = new Array("Domingo","Lunes","Martes","Miércoles","Jueves","Viernes","Sábado");
@@ -995,8 +937,26 @@
                         };
                       };
                     };
+
                     fecha_inicio = mostrarFecha(dateObj,-num_day);
+
+                    /*var dateObj = new Date();
+                    var dateFrom = $.datepicker.formatDate('mm/dd/yy', dateObj);
+                    var weekfrom = $.datepicker.iso8601Week(new Date(dateFrom));
+                    var diasSemana = new Array("Domingo","Lunes","Martes","Miércoles","Jueves","Viernes","Sábado");
+                    var day_select = diasSemana[dateObj.getDay()];
+                    for (i = 0; i < diasSemana.length; i++) { 
+                      if (diasSemana[i] == day_select) {
+                        if (i == 0) {
+                          var num_day = 6;
+                        } else {
+                          var num_day = i - 1;
+                        };
+                      };
+                    };
+                    fecha_inicio = mostrarFecha(dateObj,-num_day);*/
                     urlfecha="/timesheet/index/registro/fecha/" + fecha_inicio;
+
                   //  $("#registros").load("/timesheet/index/registro/fecha/" + fecha_inicio); 
                     //document.location.href="/timesheet/index/calendar";
                     $.ajax({
@@ -1536,11 +1496,9 @@
 <div style="display:none" id="carga"></div>
 <div style="display:none"  id="carga_nueva"></div>
 <div style="display:none"  id="carga_copiar"></div>
-<div style="display:none"  id="coment"></div>
 <div style="display:none" id="carga_w1"></div>
 
 
-  <section class="posts">
 
   <article class="postg">
   </article>
@@ -1610,13 +1568,21 @@
                 <?php  
                 }              
               }
-            }       
-
+            }
+            //}
+              // $newDate = date("Y-m-d", strtotime($fecha));
+              // $nuevafecha = strtotime ('+1 day' , strtotime ( $newDate ) ) ;
+              // $fecha = date ('d-m-Y', $nuevafecha );
+            
+            // }
             ?>
       </tbody>
+
   </table>
+
 </article>
 </section>
+
 
 
 <script type="text/javascript">
