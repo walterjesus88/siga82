@@ -145,12 +145,8 @@
        echo "GP: ";
        echo (ucwords($porciones[0])); echo " ";
         echo (ucwords($porciones[1])); echo "<br>";
-      }
-      
-      
-
+      }    
     }
-
     
     if ($this->cargo=='GERENTE') 
     {
@@ -166,16 +162,13 @@
        echo "GP: ";
        echo (ucwords($porciones[0])); echo " ";
         echo (ucwords($porciones[1])); echo "<br>";
-      }
-      
+      }      
 
     }
 
      if ($this->cargo=='GERENTE-GENERAL') 
     {
       echo "Aprobado: "; echo "<br>";
-
-
     $planificacion = new Admin_Model_DbTable_Planificacion();
     $proyectos=$planificacion->_getOnexSemanaxGerenteProyecto($this->semana,$this->uid,$this->dni,$this->areaid);
 
@@ -789,14 +782,16 @@
       var autor = $('input[name=autor]').val();
       var tag = $('input[name=tag]').val();
 
-      var template = '<article class="post"> \
+      var template = '<article class="postg"> \
         <div class="ss"> \
           <table > \
-            <tr> \
-              <td> \
-              x \
-              </td> \
-            </tr> \
+          <tr>\
+            <th style="width: 10%;">Fecha  </th>\
+            <th style="width: 30%;" >Proyecto </th> \
+            <th style="width: 20%;" > Actividad: Tarea</th> \
+            <th style="width: 5%;" > hora</th> \
+            <th style="width: 35%;" > Comentario</th> \
+          </tr>\
           </table> \
         </div> \
         <div class="descripcion"> \
@@ -827,33 +822,8 @@
             <a class="estrellita" href="#"></a> \
           </div> \
         </div> \
-      </article>';
-
-                            //alert(cc);
-                            //alert(comentario);  
-                            //alert(coment);
-                            //alert(codigo_prop_proy);
-                            // alert(codigo_actividad);
-                            // alert(actividadid);
-                            // alert(revision);
-                            // alert(actividad_padre);
-                            // alert(semanaid);
-                            //alert(fecha_tarea);
-                            // alert(cargo);
-                            // alert(tipo_actividad);
-                            // alert(etapa);
-                            // alert(actividad_generalid);
-                            // alert(hora);
-                            // alert(proyectoid);                            
-                            // alert(fecha_planificacion);
-                            //alert("#coment<?php echo $i ?><?php echo $j?>");  
-
-                            // var urlx="/timesheet/index/traercoment/codigo_prop_proy/"+codigo_prop_proy+"/codigo_actividad/"+codigo_actividad+"/actividadid/"+actividadid+"/revision/"+revision+"/actividad_padre/"+actividad_padre+"/proyectoid/"+proyectoid+"/semanaid/"+semanaid+"/fecha_tarea/"+fecha_tarea+"/cargo/"+cargo+"/horareal/"+hora+"/tipo_actividad/"+tipo_actividad+"/etapa/"+etapa+"/actividad_generalid/"+actividad_generalid+"/fecha_planificacion/"+fecha_planificacion+"/comentariox/"+cc;
-
-                            //alert(urlx);
-
-                            //$("#myModalcomentario").modal('show');
-                            //$("#modaltimex").load(urlx);
+      </article>';        
+             
 
                             alertify.prompt("Escriba un comentario", function (e, str) {
                             if (e) {
@@ -1572,6 +1542,10 @@
 
   <section class="posts">
 
+  <article class="postg">
+  </article>
+
+  <article class="post">
   <table  class="display table table-bordered table-striped" id="dynamic-table">
       <thead>
           <tr>
@@ -1636,11 +1610,12 @@
                 <?php  
                 }              
               }
-            }        
+            }       
 
             ?>
       </tbody>
   </table>
+</article>
 </section>
 
 
