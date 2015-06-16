@@ -326,7 +326,7 @@ class Timesheet_IndexController extends Zend_Controller_Action {
         //$cargo=$this->sesion->personal->ucatcargo;
 
         //$cargoreal= $this->_getParam('tipo_actividad');      
-        $fecha_inicio = $this->_getParam('fecha_calendario');
+        $fecha_inicio = $this->_getParam('fecha_tarea');
         $fecha_inicio_mod = date("Y-m-d", strtotime($fecha_inicio));
         $semanaid=date('W', strtotime($fecha_inicio_mod)); 
         $tipo_actividad_actualizar= $this->_getParam('tipo_actividad');
@@ -351,6 +351,9 @@ class Timesheet_IndexController extends Zend_Controller_Action {
         $data['fecha_creacion']=$fecha_inicio_mod;
         $data['h_real']=$h_real= $this->_getParam('horareal');
         $data['semanaid']=$semanaid;
+
+
+        print_r($data);
 
 
 

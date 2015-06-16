@@ -118,6 +118,63 @@
  ?> 
     
     <?php 
+
+    //echo $this->cargo;
+    /*
+
+    if ($this->is_gerente=='S' and $this->cargo!='GERENTE-GENERAL' and $this->cargo!='JEFE') 
+    {
+      echo "Aprobado: "; echo "<br>";
+      echo "Carlos Cesar"; echo "<br>";
+
+ $planificacion = new Admin_Model_DbTable_Planificacion();
+    $proyectos=$planificacion->_getOnexSemanaxGerenteProyecto($this->semana,$this->uid,$this->dni,$this->areaid);
+
+     foreach ($proyectos as $datos) {
+       //print_r($datos['uid']);
+       $porciones = explode(".", $datos['uid']);
+       echo "GP: ";
+       echo (ucwords($porciones[0])); echo " ";
+        echo (ucwords($porciones[1])); echo "<br>";
+      }    
+    }
+    
+    if ($this->cargo=='GERENTE') 
+    {
+      echo "Aprobado: "; echo "<br>";
+      echo "Denys Parra"; echo "<br>";
+
+      $planificacion = new Admin_Model_DbTable_Planificacion();
+    $proyectos=$planificacion->_getOnexSemanaxGerenteProyecto($this->semana,$this->uid,$this->dni,$this->areaid);
+
+     foreach ($proyectos as $datos) {
+       //print_r($datos['uid']);
+       $porciones = explode(".", $datos['uid']);
+       echo "GP: ";
+       echo (ucwords($porciones[0])); echo " ";
+        echo (ucwords($porciones[1])); echo "<br>";
+      }      
+
+    }
+
+     if ($this->cargo=='GERENTE-GENERAL') 
+    {
+      echo "Aprobado: "; echo "<br>";
+    $planificacion = new Admin_Model_DbTable_Planificacion();
+    $proyectos=$planificacion->_getOnexSemanaxGerenteProyecto($this->semana,$this->uid,$this->dni,$this->areaid);
+
+     foreach ($proyectos as $datos) {
+       //print_r($datos['uid']);
+       $porciones = explode(".", $datos['uid']);
+       echo "GP: ";
+       echo (ucwords($porciones[0])); echo " ";
+        echo (ucwords($porciones[1])); echo "<br>";
+      }
+
+     
+    }*/
+
+
 /*APROBADORES PARA LOS JEFES DE AREA*/  
   if ($this->cargo=='JEFE' && $this->areaid=!'27' && $this->areaid!='16' ) 
     {
@@ -604,24 +661,7 @@
                                           //$("#carga").empty();
                                           $("#carga").html(data);                  
                                           $("#comentview").hide();                                          
-
-                                              // $.ajax({
-                                              //       type: "POST",
-                                              //       url: url2,
-                                              //       data: $(this).serialize(),
-                                              //       dataType: "html",                                                 
-                                              //       error: function(){
-                                              //         alert("error petición ajax load");
-                                              //       },
-                                              //       success: function(data){                      
-                                              //         $("#sumahoras<?php echo $i ?>").empty();
-                                              //         $("#sumahoras<?php echo $i ?>").html(data);                                     
-                                              //         $("#fecha_<?php echo $i?>").hide(); 
-                                                       //var i="<?php echo $i ?>";
-                                                       //var j="<?php echo $j ?>";                                                      
-                                                       //sumar(j,i,hora_real);                
-                                              //        }
-                                              // });                                          
+                                        
                                     }
                             });
                         //} 
@@ -674,31 +714,55 @@
                             var comentario = $("#coment<?php echo $i ?><?php echo $j?>").attr('comentario');
                             
                             var cc=comentario;
-                            //alert(cc);
-                            //alert(comentario);  
-                            //alert(coment);
-                            //alert(codigo_prop_proy);
-                            // alert(codigo_actividad);
-                            // alert(actividadid);
-                            // alert(revision);
-                            // alert(actividad_padre);
-                            // alert(semanaid);
-                            //alert(fecha_tarea);
-                            // alert(cargo);
-                            // alert(tipo_actividad);
-                            // alert(etapa);
-                            // alert(actividad_generalid);
-                            // alert(hora);
-                            // alert(proyectoid);                            
-                            // alert(fecha_planificacion);
-                            //alert("#coment<?php echo $i ?><?php echo $j?>");  
 
-                            // var urlx="/timesheet/index/traercoment/codigo_prop_proy/"+codigo_prop_proy+"/codigo_actividad/"+codigo_actividad+"/actividadid/"+actividadid+"/revision/"+revision+"/actividad_padre/"+actividad_padre+"/proyectoid/"+proyectoid+"/semanaid/"+semanaid+"/fecha_tarea/"+fecha_tarea+"/cargo/"+cargo+"/horareal/"+hora+"/tipo_actividad/"+tipo_actividad+"/etapa/"+etapa+"/actividad_generalid/"+actividad_generalid+"/fecha_planificacion/"+fecha_planificacion+"/comentariox/"+cc;
 
-                            //alert(urlx);
+                            var titulo = $('input[name=titulo]').val();
+      var autor = $('input[name=autor]').val();
+      var tag = $('input[name=tag]').val();
 
-                            //$("#myModalcomentario").modal('show');
-                            //$("#modaltimex").load(urlx);
+      var template = '<article class="postg"> \
+        <div class="ss"> \
+          <table > \
+          <tr>\
+            <th style="width: 10%;">Fecha  </th>\
+            <th style="width: 30%;" >Proyecto </th> \
+            <th style="width: 20%;" > Actividad: Tarea</th> \
+            <th style="width: 5%;" > hora</th> \
+            <th style="width: 35%;" > Comentario</th> \
+          </tr>\
+          </table> \
+        </div> \
+        <div class="descripcion"> \
+          <figure class="imagen"> \
+            <img src="imagenes/foto.jpg" /> \
+          </figure> \
+          <div class="detalles"> \
+            <h2 class="titulo"> \
+              '+titulo+' \
+            </h2> \
+            <p class="autor"> \
+              por <a href="#">'+autor+'</a> \
+            </p> \
+            <a class="tag" href="#">'+tag+'</a> \
+            <p class="fecha">hace <strong>0</strong> min</p> \
+          </div> \
+        </div> \
+        <div class="acciones"> \
+          <div class="votos"> \
+            <a class="up" href="#"></a> \
+            <span class="total">0</span> \
+            <a class="down" href="#"></a> \
+          </div> \
+          <div class="datos"> \
+            <a class="comentarios" href="#"> \
+              0 \
+            </a> \
+            <a class="estrellita" href="#"></a> \
+          </div> \
+        </div> \
+      </article>';        
+             
+
 
                             alertify.prompt("Escriba un comentario", function (e, str) {
                             if (e) {
@@ -1436,6 +1500,10 @@
 
 
 
+  <article class="postg">
+  </article>
+
+  <article class="post">
   <table  class="display table table-bordered table-striped" id="dynamic-table">
       <thead>
           <tr>
@@ -1501,16 +1569,20 @@
                 }              
               }
             }
+            //}
               // $newDate = date("Y-m-d", strtotime($fecha));
               // $nuevafecha = strtotime ('+1 day' , strtotime ( $newDate ) ) ;
               // $fecha = date ('d-m-Y', $nuevafecha );
             
             // }
-
             ?>
       </tbody>
 
   </table>
+
+</article>
+</section>
+
 
 
 <script type="text/javascript">
