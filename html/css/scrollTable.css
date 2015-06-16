@@ -57,6 +57,34 @@ Autor: Enzo
 /*De aqui comienza los estilos para la vista de reportes*/
 
 .div-reportes {
-    
+    background: #ffffff;
+    padding: 10px;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.div-reportes .title-table{
+    display: block;
+    background: #2F608D;
+    color: #ffffff;
+}
+
+.table-inline {
+    display: inline-block;
+    margin: 0 100px 20px 0;
+}
+
+.scroll-content-small {
+    display: block;
+    max-height: 100px;
+    overflow: auto;
+    overflow-x: hidden; 
+}
+
+.scroll-content-high {
+    display: block;
+    max-height: 400px;
+    overflow: auto;
+    overflow-x: hidden; 
 }
 

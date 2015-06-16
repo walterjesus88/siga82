@@ -16,10 +16,14 @@ class Reporte_IndexController extends Zend_Controller_Action {
     }
     
     public function indexAction() {
-        print_r($this->sesion);
+        
     }
 
     public function tareopersonaAction() {
-        
+        $this->_helper->layout()->disableLayout();
+        $tareopersona = new Admin_Model_DbTable_Tareopersona();
+        $todos_tareopersona = $tareopersona->_getTareopersonall();
+        print_r(json_encode($todos_tareopersona));        
     }
+
 }
