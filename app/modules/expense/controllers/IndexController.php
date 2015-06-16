@@ -20,6 +20,7 @@ class Expense_IndexController extends Zend_Controller_Action {
 
     }
     
+
     public function registroAction(){
     try {
         $uid = $this->sesion->uid;
