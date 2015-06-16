@@ -21,7 +21,6 @@ class Timesheet_AprobacionController extends Zend_Controller_Action {
 
     public function historiconivel4Action(){
         try {
-                // $this->_helper->layout()->disableLayout();       
                 $uid = $this->sesion->uid;
                 $dni = $this->sesion->dni;     
                 $fecha = date("Y-m-d");
