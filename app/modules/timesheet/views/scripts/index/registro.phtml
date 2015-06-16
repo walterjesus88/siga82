@@ -379,7 +379,15 @@
 
              
               <td style="width: 60%;">
-                <?php  echo "<strong>"; echo $data_tareo['proyectoid']; echo "</strong>"; echo " "; echo $data_tareo['nombre_proyecto'];  echo " "; echo $data_tareo['actividadid']; echo " ";echo $data_tareo['nombre'] ?>
+                <?php  
+                  $buscaunidad = new Admin_Model_DbTable_Unidadminera();
+                  $buscanombre_unidad=$buscaunidad->_getUnidadmineraxid($data_tareo['clienteid'],$data_tareo['unidad_mineraid']);
+                  if ($buscanombre_unidad)
+                    { $unidad_minera=$buscanombre_unidad[0]['nombre']; }
+                  else
+                    { $unidad_minera =$data_tareo['unidad_mineraid']; }
+
+                echo "<strong>"; echo $data_tareo['proyectoid']; echo "</strong>"; echo " "; echo "<strong>"; echo $unidad_minera; echo "</strong>"; echo " "; echo $data_tareo['nombre_proyecto'];  echo " "; echo $data_tareo['actividadid']; echo " ";echo $data_tareo['nombre'] ?>
               </td>            
 
               <td style="width: 10%; padding: 0;">
@@ -1521,9 +1529,9 @@
           <tr>
             <th style="width: 10%;">Fecha  </th>
             <th style="width: 30%;" >Proyecto </th> 
-            <th style="width: 30%;" > Actividad: Tarea</th> 
-            <th style="width: 20%;" > hora</th> 
-            <th style="width: 30%;" > Comentario</th> 
+            <th style="width: 20%;" > Actividad: Tarea</th> 
+            <th style="width: 5%;" > hora</th> 
+            <th style="width: 35%;" > Comentario</th> 
           </tr>
          
             
