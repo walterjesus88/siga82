@@ -1,3 +1,4 @@
+<!-- hla -->
 <section class="panel">
   <div class="col-lg-2 alert-info"  style="padding-top: 10px;padding-bottom: 10px;padding-right: 10px;padding-left: 10px;">
    <strong>Semana <?php echo $this->semana; echo ": ";?></strong>
@@ -16,51 +17,42 @@
       $tareosemana=$sumahorassemana->_getOne($wheres);
       $estado_horas=$tareosemana['estado'];
       $estado_real=$tareosemana['estado_real'];
-      //print_r($tareosemana);
       ?>
 
-
-      <?php if (trim($estado_horas)=='P' or trim($estado_horas)=='2.B0' or trim($estado_horas)=='3.B1'
-        
-      ) {?>
-      <strong>Hoja de Tiempo Espera de Aprobacion</strong> 
+      <?php if (trim($estado_horas)=='P' or trim($estado_horas)=='2.B0' or trim($estado_horas)=='3.B1') {?>
+        <strong>Hoja de Tiempo Espera de Aprobacion</strong> 
       <?php }?>
-       <?php if (trim($estado_horas)=='0' and trim($estado_horas)=='' ) {?>
-      <strong>Hoja de Tiempo Rechazada por Jeje Area</strong> 
+      <?php if (trim($estado_horas)=='0' and trim($estado_horas)=='' ) {?>
+        <strong>Hoja de Tiempo Rechazada por Jeje Area</strong> 
       <?php }?>
         <?php if (trim($estado_real)=='RECHAZADO' and trim($estado_horas)=='0' ) {?>
       <strong>Hoja de Tiempo Rechazada por Gerente Proyecto</strong> 
       <?php }?>
-
       <?php if (trim($estado_real)=='PENDIENTE') {?>
       <strong>Hoja de Tiempo Pendiente Aprobación por otro Gerente Proyecto</strong> 
       <?php }?>
-      <!--
+
+      
       <?php if (trim($estado_real)=='APROBADO') {?>
-      <strong>Hoja de Tiempo Aprobada por Los Gerentes de Proyectos</strong> 
+      <strong>Hoja de Tiempo Aprobada</strong> 
       <?php }?>
-      -->
       <?php if (trim($estado_horas)=='1') {?>
       <strong>Hoja de Tiempo Aprobada por Jefe Area, espera Gerente de Proyecto</strong> 
       <?php }?>
        <?php if (trim($estado_horas)=='2' and trim($estado_real)=='APROBADO') {?>
       <strong>Hoja de Tiempo Aprobada</strong> 
       <?php }?>
-
       <?php if (trim($estado_horas)=='' ) {?>
       <strong>Hoja de Tiempo Activa</strong> 
       <?php }?>
   </div>
-  
   <div class="col-lg-5" style="padding-top: 5px;">
     <button data-toggle="button" class="btn btn-white">
       <?php 
       $tareopersona = new Admin_Model_DbTable_Sumahorasemana();
       $wheres=array('dni'=>$this->dni,'uid'=>$this->uid,'semanaid'=>$this->semana);
       $sumahoras = new Admin_Model_DbTable_Sumahora();
-      //print_r($sumahorasxact);
       $sumar=$tareopersona-> _getOne($wheres);
-      //print_r($sumar);
       echo $sumar['billable'];
       echo "<br>"; 
       echo "HH Fact.";
@@ -79,7 +71,6 @@
     <button data-toggle="button" class="btn btn-white info">
       <?php 
       $sumahorasxact=$sumahoras->_getSumaHorasxActividad($this->uid,$this->dni,$this->semana,'adm');
-      //echo $sumar['adm'];
       print_r($sumahorasxact[0]['sum']);
       echo "<br>";
       echo "HH Anddes";
@@ -87,8 +78,6 @@
     </button>
     <button data-toggle="button" class="btn btn-white">
       <?php 
-      
-
       echo $sumar['h_total'];
       echo "<br>";
       echo "HH Total";
@@ -108,10 +97,13 @@
     $usuario_cat = new Admin_Model_DbTable_Usuariocategoria();
     $wheres_ucat=array('aprobacion'=>$aprobador,'estado'=>'A','estado_sistema'=>'A');
     $list_aprobador=$usuario_cat->_getOne($wheres_ucat); 
+    echo "<strong>";echo "Aprobadores: "; echo "</strong>";echo "<br>";
+    if ($list_aprobador){
     $aprobador_usuario = explode(".", $list_aprobador['uid']);
-    echo "Aprobado: "; echo "<br>";
+    
     echo (ucwords($aprobador_usuario[0])); echo " ";
     echo (ucwords($aprobador_usuario[1])); echo "<br>";
+    }
     $planificacion = new Admin_Model_DbTable_Planificacion();
     $proyectos=$planificacion->_getOnexSemanaxGerenteProyecto($this->semana,$this->uid,$this->dni,$this->areaid);
 
@@ -126,6 +118,7 @@
  ?> 
     
     <?php 
+
     //echo $this->cargo;
     /*
 
@@ -143,12 +136,8 @@
        echo "GP: ";
        echo (ucwords($porciones[0])); echo " ";
         echo (ucwords($porciones[1])); echo "<br>";
-      }
-      
-      
-
+      }    
     }
-
     
     if ($this->cargo=='GERENTE') 
     {
@@ -164,16 +153,13 @@
        echo "GP: ";
        echo (ucwords($porciones[0])); echo " ";
         echo (ucwords($porciones[1])); echo "<br>";
-      }
-      
+      }      
 
     }
 
      if ($this->cargo=='GERENTE-GENERAL') 
     {
       echo "Aprobado: "; echo "<br>";
-
-
     $planificacion = new Admin_Model_DbTable_Planificacion();
     $proyectos=$planificacion->_getOnexSemanaxGerenteProyecto($this->semana,$this->uid,$this->dni,$this->areaid);
 
@@ -188,20 +174,13 @@
      
     }*/
 
-/*APROBADORES PARA LOS JEFES DE AREA*/  
 
-    if ($this->cargo=='JEFE' && $this->areaid=!'27' && $this->areaid!='16' ) 
+/*APROBADORES PARA LOS JEFES DE AREA*/  
+  if ($this->cargo=='JEFE' && $this->areaid=!'27' && $this->areaid!='16' ) 
     {
       echo "<strong>"; echo "Aprobadores: "; echo "</strong>"; echo "<br>";
-      //if ($this->areaid=='27' )
-      //{
-      //  echo "GA: Romy Valdivia";
-      //}
-      //else
-      //{
       $usuariocategoria = new Admin_Model_DbTable_Usuariocategoria();
       $datos_usuario=$usuariocategoria->_getGerenteAreaxJefeArea($this->areaid,'GERENTE-AREA');
-
       if ($datos_usuario)
       {
         $gerente_area = explode(".", $datos_usuario[0]['uid']);
@@ -219,18 +198,14 @@
           echo (ucwords($porciones[0])); echo " ";
           echo (ucwords($porciones[1])); echo "<br>";
         }
-
-    //}
-  }
-/*APROBADORES PARA EL EQUIPO*/    
-    if ($this->is_gerente!='S' and $this->cargo!='GERENTE' AND $this->cargo!='GERENTE-GENERAL' AND $this->cargo!='JEFE' and $this->areaid=!'27' and $this->areaid!='16' and  $this->areaid!='26') 
-    
+    }
+  if ($this->cargo=='EQUIPO' and $this->areaid!='26') 
     {
       $planificacion = new Admin_Model_DbTable_Planificacion();
-      $proyectos=$planificacion->_getOnexSemanaxGerenteProyecto($this->semana,$this->uid,$this->dni,$this->areaid);
+      $proyectos=$planificacion->_getOnexSemanaxGerenteProyecto($this->semana,$this->uid,$this->dni,$this->area_empresa);
       echo "<strong>"; echo "Aprobadores: "; echo "</strong>"; echo "<br>";
       $usuariocategoria = new Admin_Model_DbTable_Usuariocategoria();
-      $datos_usuario=$usuariocategoria->_getCargoxArea($this->areaid,'JEFE');
+      $datos_usuario=$usuariocategoria->_getCargoxArea($this->area_empresa,'JEFE');
       if ($datos_usuario)
       {
         $jefe_area = explode(".", $datos_usuario[0]['uid']);
@@ -245,7 +220,8 @@
         echo (ucwords($porciones[1])); echo "<br>";
         }
       }
-    }?>
+    }
+  ?>
   </div>
   <?php 
     $sumahorassemana = new Admin_Model_DbTable_Sumahorasemana();
@@ -255,18 +231,20 @@
   
   ?>
   <div class="panel-body" style="padding-top: 10px;padding-bottom: 0px;">
-  <?php if (trim($estado_horas)=='P' or trim($estado_horas)=='1' or trim($estado_horas)=='2') {?>
+  <?php if (trim($estado_horas)=='P' or trim($estado_horas)=='1' or trim($estado_horas)=='2' or trim($estado_horas)=='2.B0' or trim($estado_horas)=='3.B1' ) {?>
     <a id = "" class="btn btn-primary pull-right btn-xs"  href="" style="margin-right : 10px">
       <i class="fa fa-print"></i> Imprimir
-    </a><?php }?>
-  <?php if (trim($estado_horas)!='P' && trim($estado_horas)!='1' && trim($estado_horas)!='2') {?>
+    </a>
+    <a id = "submit_copiar" class="btn btn-default pull-right btn-xs" href="#" style="margin-right : 10px">
+      <i class="fa fa-check-square"></i> Copiar 
+    </a>
+    <?php }?>
+  <?php if (trim($estado_horas)!='P' && trim($estado_horas)!='1' && trim($estado_horas)!='2' && trim($estado_horas)!='2.B0' && trim($estado_horas)!='3.B1') {?>
     <a id = "submit_work" class="btn btn-default pull-right btn-xs" href="#" style="margin-right : 10px">
       <i class="fa fa-check-square"></i> Enviar 
     </a><?php }?>
-     <a id = "submit_copiar" class="btn btn-default pull-right btn-xs" href="#" style="margin-right : 10px">
-      <i class="fa fa-check-square"></i> copiar 
-    </a>
-  <?php if (trim($estado_horas)!='P' && trim($estado_horas)!='1' && trim($estado_horas)!='2') {?>
+     
+  <?php if (trim($estado_horas)!='P' && trim($estado_horas)!='1' && trim($estado_horas)!='2' && trim($estado_horas)!='2.B0' && trim($estado_horas)!='3.B1') {?>
     <!--<a id = "save_work" class="btn btn-info pull-right btn-xs"  style="margin-right : 10px">
       <i class="fa fa-save"></i> Guardar
     </a>-->
@@ -275,7 +253,7 @@
     </a>
 
     <?php }?>
-  <?php if (trim($estado_horas)!='P' && trim($estado_horas)!='1' && trim($estado_horas)!='2') {?>
+  <?php if (trim($estado_horas)!='P' && trim($estado_horas)!='1' && trim($estado_horas)!='2' && trim($estado_horas)!='2.B0' && trim($estado_horas)!='3.B1') {?>
     <a id = "add_work" class="btn btn-success pull-right btn-xs" data-toggle="modal" href="#agregar" style="margin-right : 10px">
       <i class="fa fa-check-square-o"></i> Agregar
     </a><?php }?>
@@ -350,7 +328,15 @@
 
              
               <td style="width: 60%;">
-                <?php  echo "<strong>"; echo $data_tareo['proyectoid']; echo "</strong>"; echo " "; echo $data_tareo['nombre_proyecto'];  echo " "; echo $data_tareo['actividadid']; echo " ";echo $data_tareo['nombre'] ?>
+                <?php  
+                  $buscaunidad = new Admin_Model_DbTable_Unidadminera();
+                  $buscanombre_unidad=$buscaunidad->_getUnidadmineraxid($data_tareo['clienteid'],$data_tareo['unidad_mineraid']);
+                  if ($buscanombre_unidad)
+                    { $unidad_minera=$buscanombre_unidad[0]['nombre']; }
+                  else
+                    { $unidad_minera =$data_tareo['unidad_mineraid']; }
+
+                echo "<strong>"; echo $data_tareo['proyectoid']; echo "</strong>"; echo " "; echo "<strong>"; echo $unidad_minera; echo "</strong>"; echo " "; echo $data_tareo['nombre_proyecto'];  echo " "; echo $data_tareo['actividadid']; echo " ";echo $data_tareo['nombre'] ?>
               </td>            
 
               <td style="width: 10%; padding: 0;">
@@ -474,10 +460,13 @@
                 $cargo=$data_equipo[0]['cargo'];
              
 
-                // echo $cargo; echo "<br>";
+                 //echo $categoriaid; echo "<br>";
                 $tareopersona = new Admin_Model_DbTable_Tareopersona();
                 $buscar_tarea=$tareopersona->_getTareoxProyectoxTareaxDia($proyectoid,$codigo,$revision,$actividadid,$actividad_padre,$semanaid,$fecha_tarea,$fecha_planificacion,$uid,$dni,$cargo,$resultado);
+             
+                //print_r($data_tareo);echo "<br>";
                 //print_r($buscar_tarea[0]['asignado']);
+
                 //$k=$a[$i][$j];
               if ($data_tareo['tipo_actividad']=='G' and $data_tareo['actividad_generalid']=='')
                 {
@@ -518,38 +507,42 @@
                   <div class="btn-group">
 
                     <input  <?php if ($data_tareo['estado_tareopersona']=='C') { ?> disabled <?php }?>    name="tiempo_id[<?php echo $j ?>][<?php echo $i ?>]" class="form-control focusable" id="valor<?php echo $i?><?php echo $j?>" style="text-align: center;height: 26px; width: 40px; padding-right: 4px; padding-left: 4px;" maxlength="4"  value="<?php 
-                   if ($buscar_tarea) {
+                    if ($buscar_tarea) {
                       if($buscar_tarea[0]['h_real']=='0') { echo "";} else { print_r($buscar_tarea[0]['h_real']);}
                       }?>" 
                      > 
-
                     <?php
                       if($buscar_tarea)
                       { 
-                        if(trim($buscar_tarea[0]['h_real'])=='' or $buscar_tarea[0]['h_real']=='0' or $buscar_tarea[0]['h_real']==null){}
+                        if(trim($buscar_tarea[0]['h_real'])=='' or $buscar_tarea[0]['h_real']=='0' or $buscar_tarea[0]['h_real']==null){
+                        }
                         else
                         {
-                          //print_r($buscar_tarea[0]['h_real']);
-                      
-                      ?>
+                          if(trim($buscar_tarea[0]['comentario'])=='' or trim($buscar_tarea[0]['comentario'])==null) {
+                        ?>
                         <!-- data-toggle="modal" href="#myModalcomentario" -->
-                        
-                        <a  id="coment<?php echo $i ?><?php echo $j?>"  hora="<?php echo $buscar_tarea[0]['h_real'] ?>" etapa="<?php echo $buscar_tarea[0]['etapa'] ?>" tipo-actividad="<?php echo $buscar_tarea[0]['tipo_actividad'] ?>" actividad-generalid="<?php echo $buscar_tarea[0]['actividad_generalid'] ?>" codigo-prop-proy="<?php echo $data_tareo['codigo_prop_proy'] ?>" proyectoid="<?php echo $data_tareo['proyectoid'] ?>" actividad-padre="<?php echo $buscar_tarea[0]['actividad_padre'] ?>" fecha-tarea="<?php echo $buscar_tarea[0]['fecha_tarea'] ?>" codigo-actividad="<?php echo $buscar_tarea[0]['codigo_actividad'] ?>" actividadid="<?php echo $buscar_tarea[0]['actividadid'] ?>" revision="<?php echo $buscar_tarea[0]['revision'] ?>" semanaid="<?php echo $buscar_tarea[0]['semanaid'] ?>" uid="<?php echo $data_tareo['uid'] ?>" dni="<?php echo $data_tareo['dni'] ?>" cargo="<?php echo $buscar_tarea[0]['cargo'] ?>" fecha-planificacion="<?php echo $buscar_tarea[0]['fecha_planificacion'] ?>" 
+                       
+                        <a   <?php if ($data_tareo['estado_tareopersona']=='C') { ?> disabled="disabled" <?php } else {?> id="coment<?php echo $i ?><?php echo $j?>"  hora="<?php echo $buscar_tarea[0]['h_real'] ?>" etapa="<?php echo $buscar_tarea[0]['etapa'] ?>" tipo-actividad="<?php echo $buscar_tarea[0]['tipo_actividad'] ?>" actividad-generalid="<?php echo $buscar_tarea[0]['actividad_generalid'] ?>" codigo-prop-proy="<?php echo $data_tareo['codigo_prop_proy'] ?>" proyectoid="<?php echo $data_tareo['proyectoid'] ?>" actividad-padre="<?php echo $buscar_tarea[0]['actividad_padre'] ?>" fecha-tarea="<?php echo $buscar_tarea[0]['fecha_tarea'] ?>" codigo-actividad="<?php echo $buscar_tarea[0]['codigo_actividad'] ?>" actividadid="<?php echo $buscar_tarea[0]['actividadid'] ?>" revision="<?php echo $buscar_tarea[0]['revision'] ?>" semanaid="<?php echo $buscar_tarea[0]['semanaid'] ?>" uid="<?php echo $data_tareo['uid'] ?>" dni="<?php echo $data_tareo['dni'] ?>" cargo="<?php echo $buscar_tarea[0]['cargo'] ?>" fecha-planificacion="<?php echo $buscar_tarea[0]['fecha_planificacion'] ?>"  <?php }?>
                         comentario="<?php echo $buscar_tarea[0]['comentario'] ?>" 
 
                        >
-                       <i class="fa fa-ellipsis-h"></i></a>                   
+                       <i style="color: #D6D6D8" class="fa fa-comment"></i></a>                   
 
-                      <?php } 
+                      <?php }
+                        else
+                            {?>
+
+                              <a   <?php if ($data_tareo['estado_tareopersona']=='C') { ?> disabled="disabled" <?php } else {?> id="coment<?php echo $i ?><?php echo $j?>"  hora="<?php echo $buscar_tarea[0]['h_real'] ?>" etapa="<?php echo $buscar_tarea[0]['etapa'] ?>" tipo-actividad="<?php echo $buscar_tarea[0]['tipo_actividad'] ?>" actividad-generalid="<?php echo $buscar_tarea[0]['actividad_generalid'] ?>" codigo-prop-proy="<?php echo $data_tareo['codigo_prop_proy'] ?>" proyectoid="<?php echo $data_tareo['proyectoid'] ?>" actividad-padre="<?php echo $buscar_tarea[0]['actividad_padre'] ?>" fecha-tarea="<?php echo $buscar_tarea[0]['fecha_tarea'] ?>" codigo-actividad="<?php echo $buscar_tarea[0]['codigo_actividad'] ?>" actividadid="<?php echo $buscar_tarea[0]['actividadid'] ?>" revision="<?php echo $buscar_tarea[0]['revision'] ?>" semanaid="<?php echo $buscar_tarea[0]['semanaid'] ?>" uid="<?php echo $data_tareo['uid'] ?>" dni="<?php echo $data_tareo['dni'] ?>" cargo="<?php echo $buscar_tarea[0]['cargo'] ?>" fecha-planificacion="<?php echo $buscar_tarea[0]['fecha_planificacion'] ?>"  <?php }?>
+                        comentario="<?php echo $buscar_tarea[0]['comentario'] ?>" 
+
+                       >
+                       <i style="color: #485BBD" class="fa fa-comment"></i></a>                   
+
+                      <?php
+                            }
+                          } 
                         }
-                      //  else{
-
-                        ?>
-
-                      
-
-                     <?php  //} ?>                   
-
+                      ?>
                   </div>
 
                   
@@ -668,24 +661,7 @@
                                           //$("#carga").empty();
                                           $("#carga").html(data);                  
                                           $("#comentview").hide();                                          
-
-                                              // $.ajax({
-                                              //       type: "POST",
-                                              //       url: url2,
-                                              //       data: $(this).serialize(),
-                                              //       dataType: "html",                                                 
-                                              //       error: function(){
-                                              //         alert("error petición ajax load");
-                                              //       },
-                                              //       success: function(data){                      
-                                              //         $("#sumahoras<?php echo $i ?>").empty();
-                                              //         $("#sumahoras<?php echo $i ?>").html(data);                                     
-                                              //         $("#fecha_<?php echo $i?>").hide(); 
-                                                       //var i="<?php echo $i ?>";
-                                                       //var j="<?php echo $j ?>";                                                      
-                                                       //sumar(j,i,hora_real);                
-                                              //        }
-                                              // });                                          
+                                        
                                     }
                             });
                         //} 
@@ -738,31 +714,55 @@
                             var comentario = $("#coment<?php echo $i ?><?php echo $j?>").attr('comentario');
                             
                             var cc=comentario;
-                            //alert(cc);
-                            //alert(comentario);  
-                            //alert(coment);
-                            //alert(codigo_prop_proy);
-                            // alert(codigo_actividad);
-                            // alert(actividadid);
-                            // alert(revision);
-                            // alert(actividad_padre);
-                            // alert(semanaid);
-                            //alert(fecha_tarea);
-                            // alert(cargo);
-                            // alert(tipo_actividad);
-                            // alert(etapa);
-                            // alert(actividad_generalid);
-                            // alert(hora);
-                            // alert(proyectoid);                            
-                            // alert(fecha_planificacion);
-                            //alert("#coment<?php echo $i ?><?php echo $j?>");  
 
-                            // var urlx="/timesheet/index/traercoment/codigo_prop_proy/"+codigo_prop_proy+"/codigo_actividad/"+codigo_actividad+"/actividadid/"+actividadid+"/revision/"+revision+"/actividad_padre/"+actividad_padre+"/proyectoid/"+proyectoid+"/semanaid/"+semanaid+"/fecha_tarea/"+fecha_tarea+"/cargo/"+cargo+"/horareal/"+hora+"/tipo_actividad/"+tipo_actividad+"/etapa/"+etapa+"/actividad_generalid/"+actividad_generalid+"/fecha_planificacion/"+fecha_planificacion+"/comentariox/"+cc;
 
-                            //alert(urlx);
+                            var titulo = $('input[name=titulo]').val();
+      var autor = $('input[name=autor]').val();
+      var tag = $('input[name=tag]').val();
 
-                            //$("#myModalcomentario").modal('show');
-                            //$("#modaltimex").load(urlx);
+      var template = '<article class="postg"> \
+        <div class="ss"> \
+          <table > \
+          <tr>\
+            <th style="width: 10%;">Fecha  </th>\
+            <th style="width: 30%;" >Proyecto </th> \
+            <th style="width: 20%;" > Actividad: Tarea</th> \
+            <th style="width: 5%;" > hora</th> \
+            <th style="width: 35%;" > Comentario</th> \
+          </tr>\
+          </table> \
+        </div> \
+        <div class="descripcion"> \
+          <figure class="imagen"> \
+            <img src="imagenes/foto.jpg" /> \
+          </figure> \
+          <div class="detalles"> \
+            <h2 class="titulo"> \
+              '+titulo+' \
+            </h2> \
+            <p class="autor"> \
+              por <a href="#">'+autor+'</a> \
+            </p> \
+            <a class="tag" href="#">'+tag+'</a> \
+            <p class="fecha">hace <strong>0</strong> min</p> \
+          </div> \
+        </div> \
+        <div class="acciones"> \
+          <div class="votos"> \
+            <a class="up" href="#"></a> \
+            <span class="total">0</span> \
+            <a class="down" href="#"></a> \
+          </div> \
+          <div class="datos"> \
+            <a class="comentarios" href="#"> \
+              0 \
+            </a> \
+            <a class="estrellita" href="#"></a> \
+          </div> \
+        </div> \
+      </article>';        
+             
+
 
                             alertify.prompt("Escriba un comentario", function (e, str) {
                             if (e) {
@@ -921,7 +921,9 @@
                            //e.preventDefault();
                     }else{ 
 
-                    var dateObj = new Date();
+                    
+
+                     var dateObj = $('#datepicker').datepicker('getDate');
                     var dateFrom = $.datepicker.formatDate('mm/dd/yy', dateObj);
                     var weekfrom = $.datepicker.iso8601Week(new Date(dateFrom));
                     var diasSemana = new Array("Domingo","Lunes","Martes","Miércoles","Jueves","Viernes","Sábado");
@@ -935,8 +937,26 @@
                         };
                       };
                     };
+
                     fecha_inicio = mostrarFecha(dateObj,-num_day);
+
+                    /*var dateObj = new Date();
+                    var dateFrom = $.datepicker.formatDate('mm/dd/yy', dateObj);
+                    var weekfrom = $.datepicker.iso8601Week(new Date(dateFrom));
+                    var diasSemana = new Array("Domingo","Lunes","Martes","Miércoles","Jueves","Viernes","Sábado");
+                    var day_select = diasSemana[dateObj.getDay()];
+                    for (i = 0; i < diasSemana.length; i++) { 
+                      if (diasSemana[i] == day_select) {
+                        if (i == 0) {
+                          var num_day = 6;
+                        } else {
+                          var num_day = i - 1;
+                        };
+                      };
+                    };
+                    fecha_inicio = mostrarFecha(dateObj,-num_day);*/
                     urlfecha="/timesheet/index/registro/fecha/" + fecha_inicio;
+
                   //  $("#registros").load("/timesheet/index/registro/fecha/" + fecha_inicio); 
                     //document.location.href="/timesheet/index/calendar";
                     $.ajax({
@@ -1480,14 +1500,18 @@
 
 
 
+  <article class="postg">
+  </article>
+
+  <article class="post">
   <table  class="display table table-bordered table-striped" id="dynamic-table">
       <thead>
           <tr>
-            <th style="width: 5%;">Fecha  </th>
+            <th style="width: 10%;">Fecha  </th>
             <th style="width: 30%;" >Proyecto </th> 
-            <th style="width: 30%;" > Actividad: Tarea</th> 
-            <th style="width: 30%;" > hora</th> 
-            <th style="width: 30%;" > Comentario</th> 
+            <th style="width: 20%;" > Actividad: Tarea</th> 
+            <th style="width: 5%;" > hora</th> 
+            <th style="width: 35%;" > Comentario</th> 
           </tr>
          
             
@@ -1502,7 +1526,7 @@
             $tareopersona = new Admin_Model_DbTable_Tareopersona();
             $wheres=array('dni'=>$dni,'uid'=>$uid,'semanaid'=>$semana);                
             $tpercoment=$tareopersona->_getFilter($wheres);
-
+            if ($tpercoment) {
               foreach ($tpercoment as $value) {              
                 if(trim($value['comentario'])!='' and trim($value['h_real'])!=''){
                 ?>
@@ -1544,17 +1568,21 @@
                 <?php  
                 }              
               }
-
+            }
+            //}
               // $newDate = date("Y-m-d", strtotime($fecha));
               // $nuevafecha = strtotime ('+1 day' , strtotime ( $newDate ) ) ;
               // $fecha = date ('d-m-Y', $nuevafecha );
             
             // }
-
             ?>
       </tbody>
 
   </table>
+
+</article>
+</section>
+
 
 
 <script type="text/javascript">

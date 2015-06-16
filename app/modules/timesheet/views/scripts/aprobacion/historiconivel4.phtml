@@ -1,169 +1,69 @@
- <section class="panel"><header class="panel-heading" style="padding-bottom : 10px">
-
-                         <div > <center >  Lista de pendiente de aprobación de Hojas de Tiempo Jefe Area</center></div>
-                         </header></section>
-<div class="inbox-body">
-                    <!--     <div class="panel-body">
-                        <div class="mail-option">-->
-                         <!--
-                            <label class="control-label col-md-1"> Usuario</label>                                  
-                            <div class="col-md-2"> 
-                      
-                                  <div class="btn-group" > 
-                                    <select  id="user" name="user" class="form-control " data-toggle="dropdown">
-                                        <ul class="dropdown-menu">                                        
-                                        <li><option value="T" selected>All</option></li>
-                                        <li class="divider"></li>
-                                        <?php
-                                        foreach ($this->equipos_horas_aprobar as $value){
-                                            ?>
-                                            <li><option value="<?php echo $value['uid']?>"><?php echo $value['uid']?></option></li>
-                                            <?php
-                                        }?>
-                                    </select>
-                                  </div>                        
-                            </div>-->
-
-                           <!-- <label class="control-label col-md-1"> Timesheet Period</label>
-                            <div class="col-md-2">                                                       
-                                  <div class="input-group input-small" data-date="13/07/2013" data-date-format="mm/dd/yyyy">
-                                          <input id="fechainicio" type="text" class="form-control dpd1" name="from">
-                                          <span class="input-group-addon">To</span>
-                                          <input id="fechafin" type="text" class="form-control dpd2" name="to"> 
-                                  </div>
-                            </div>-->
-<!--
-                            <label class="control-label col-md-1"> Estados</label>                          
-                            <div class="col-md-2">
-                                                           
-                                 <div class="btn-group" >                                   
-                                    <select id="estado" class="form-control" >
-                                         <option value="T" selected><a href="#"> All</a></option>
-                                         <li class="divider"></li>
-                                         <option value="B"><a href="#"> Aprobado</a></option>                                                         
-                                         <option value="R"><a href="#">Rechazado</a></option>
-                                    </select>
-                                 </div>
-                       
-                             </div>   
-                    
-                             <div class="btn-group">
-                                 <a id="filtro" class="btn mini tooltips" data-toggle="dropdown" data-placement="top" data-original-title="Refresh">
-                                     <i class=" fa fa-refresh"></i>
-                                 </a>
-                             </div>
-
-                            <ul class="unstyled inbox-pagination">
-                                 <li><span>1-50 of 234</span></li>
-                                 <li>
-                                     <a href="#" class="np-btn"><i class="fa fa-angle-left  pagination-left"></i></a>
-                                 </li>
-                                 <li>
-                                     <a href="#" class="np-btn"><i class="fa fa-angle-right pagination-right"></i></a>
-                                 </li>
-                            </ul>
-                    
-
-
-                         </div>-->
-                      <!--    </div>-->
-
-                         <div id="uno">
-                         
-                          <table class="table table-inbox table-hover" id="myTable" >
-                            <thead>
-                              <tr>  
-                                <th >#</th>
-                                <th >Hoja deTiempo</th>
-                                <th >Estado</th>
-                                <th >Nombre</th>
-                                <th >Usuario</th>
-                                <th >Semana</th>
-                                <th >Facturable</th>
-                                <th >No Facturable</th>
-                                <th >Total</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                             <?php
-                                  $c=1;                     
-                                  foreach ($this->equipos_horas_aprobar as $equipo){  
-                                    
-
-                                  $sumahorassemana = new Admin_Model_DbTable_Sumahorasemana();
-                                  //$wheres=array('dni'=>$equipo['dni'],'uid'=>$equipo['uid'],'semanaid'=>$this->semanaid);
-                                  //$valorsuma=$sumahorassemana->_getOne($wheres);
-
-                                  $wheres=array('dni'=>$equipo['dni'],'uid'=>$equipo['uid']);
-                                  //$valorsuma=$sumahorassemana->_getOnexMes($wheres);
-                                  $consultavalorsuma=$sumahorassemana->_getListarHojasdeTiempoxEquipoArea($equipo['uid'],$equipo['dni']);
-
-                                  //print_r($valorsuma);
-                                  if ($consultavalorsuma) {
-
-                                    foreach ($consultavalorsuma as $valorsuma) {
-                                      
-                                    
-
-
-                                    if (trim($valorsuma['estado'])=='P') {
-                                    ?>
-                                  
-                                  
-                              <tr name="oculus" id="xx" class="unread">
-                                <td class="view-message  text-right"><?php echo $c ?></td>                  
-                                          <td>   
-                                        
-                                              <button id="detalletime_<?php echo $c?>" href="#modalsemana" class="btn btn-success" data-toggle="modal"  uid=<?php echo $valorsuma['uid']?> dni=<?php echo $valorsuma['dni']?> semanaid=<?php echo $valorsuma['semanaid']?>  >
-                                                  ver detalle
-                                              </button>                                      
-                                          </td>
-                                          <td class="view-message "><?php 
-                                          if ($valorsuma['estado']=='P'){
-                                            echo "Para Aprobación";
-                                          }
-                                          //echo $valorsuma['estado']?></td>
-                                          <td class="view-message "><?php 
-                                          //echo $valorsuma['dni']
-                                            
-                                            $equipo = explode(".", $valorsuma['uid']);
-      
-                                            echo (ucwords($equipo[0])); echo " ";
-                                            echo (ucwords($equipo[1])); 
-
-                                          ?></td>
-                                          <td class="view-message "><?php echo $valorsuma['uid']?></td>                            
-                                          <td class="view-message "><?php echo $valorsuma['semanaid']?></td>                               
-                                          <td class="view-message "><?php echo $valorsuma['billable']?></td>
-                                          <td class="view-message "><?php echo $valorsuma['nonbillable']?></td>
-                                          <td class="view-message "><?php echo $valorsuma['h_total']?></td>
-                                      </tr>
-                                       <script type="text/javascript">
-                                        $(document).ready(function(){
-                                          $("#detalletime_<?php echo $c?>").click(function(){
-
-                                            //var cargo=$(this).attr('cargo');
-                                            var uid=$(this).attr('uid');
-                                            var dni=$(this).attr('dni');
-                                            var semanaid=$(this).attr('semanaid');
-                                            // alert(cargo);
-                                            // alert(uid);
-                                            // alert(dni);
-                                            // alert(semanaid);
-                                            var url = "/timesheet/index/timesheetsemana/uid/"+ uid+"/dni/"+dni+"/semanaid/"+semanaid; //alert(url);                                             //alert(url);
-                                            $("#modaltimes").load(url);                                         
-                                            //$("#modalsemana").modal('show');
-                                            //$(".modal-body").html('<center><img src="/img/spinner.gif" /> Cargando...</center>');
-                                            });
-                                          });
-                                      </script>    
-
-
-<?php $c++;
-                                    }  
-                                  }
-                                }
-                              }
+<section class="panel">
+  <header class="panel-heading" style="padding-bottom : 10px">
+    <div > <center>  Lista Historica de Estado de Hojas de Tiempo Jefe Área</center></div>
+  </header></section>
+  <div class="inbox-body">
+    <div id="uno">
+      <table class="table table-inbox table-hover" id="myTable" >
+        <thead>
+          <tr>  
+            <th >#</th>
+            <th >Hoja Tiempo</th>
+            <th >Estado</th>
+            <th >Nombre</th>
+            <th >Usuario</th>
+            <th >Semana</th>
+            <th >Facturable</th>
+            <th >No Facturable</th>
+            <th >Total</th>
+          </tr>
+        </thead>
+      <tbody>
+      <?php
+        $c=1;                     
+        foreach ($this->equipos_horas_aprobar as $equipo) {  
+          $sumahorassemana = new Admin_Model_DbTable_Sumahorasemana();
+          $consulta_htiempo_historico=$sumahorassemana->_getListarHojasdeTiempoxEquipoArea($equipo['uid'],$equipo['dni']);
+          if ($consulta_htiempo_historico) {
+            foreach ($consulta_htiempo_historico as $valorsuma){
+              if (trim($valorsuma['estado'])!='A' and trim($valorsuma['estado'])!='P' and trim($valorsuma['estado'])!='J' ) { ?>
+                <tr name="oculus" id="xx" class="unread">
+                  <td class="view-message  text-right"><?php echo $c ?></td>                  
+                  <td>   
+                    <button id="detalletime_<?php echo $c?>" href="#modalsemana" class="btn btn-success" data-toggle="modal"  uid=<?php echo $valorsuma['uid']?> dni=<?php echo $valorsuma['dni']?> semanaid=<?php echo $valorsuma['semanaid']?>  >
+                      ver detalle
+                    </button>                                      
+                  </td>
+                  <td class="view-message "><?php if (trim($valorsuma['estado'])=='2') { echo "Aprobado";} if (trim($valorsuma['estado'])=='1') { echo "Pendiente Aprobacion GP";} if (trim($valorsuma['estado'])=='O') { echo "Observado Jefe Area";} 
+                    if (trim($valorsuma['estado'])=='0') { echo "Rechazado GP";} 
+                    if (trim($valorsuma['estado'])=='3') { echo "Pendiente Aprobacion GP";}
+                  ?></td>
+                  <td class="view-message "><?php //echo $valorsuma['dni']
+                    $nombre = explode(".", $valorsuma['uid']);
+                    echo (ucwords($nombre[0])); echo " ";
+                    echo (ucwords($nombre[1])); ?>
+                  </td>
+                  <td class="view-message "><?php echo $valorsuma['uid']?></td>                            
+                  <td class="view-message "><?php echo $valorsuma['semanaid']?></td>                               
+                  <td class="view-message "><?php echo $valorsuma['billable']?></td>
+                  <td class="view-message "><?php echo $valorsuma['nonbillable']?></td>
+                  <td class="view-message "><?php echo $valorsuma['h_total']?></td>
+                </tr>
+                <script type="text/javascript">
+                  $(document).ready(function(){
+                    $("#detalletime_<?php echo $c?>").click(function(){
+                      var uid=$(this).attr('uid');
+                      var dni=$(this).attr('dni');
+                      var semanaid=$(this).attr('semanaid');
+                      var url = "/timesheet/index/timesheetsemanagerentehistorico/uid/"+ uid+"/dni/"+dni+"/semanaid/"+semanaid;
+                      $("#modaltimes").load(url);                                         
+                    });
+                  });
+                </script>    
+      <?php $c++;
+                                    }  }
+                                   }
+                                 }
 
 
                                ?>
@@ -181,7 +81,7 @@
                               <div class="modal-content" style="width: 1250px; top: 100%; margin-left: -250px; ">
                                 <div class="modal-header">
                                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                                    <h4 class="modal-title">Aprobar Hoja de Tiempo</h4>
+                                    <h4 class="modal-title">Detalle de la Hoja de Tiempo</h4>
                                 </div>
                                 <div class="modal-body">
                                     
@@ -189,10 +89,9 @@
                                 </div>
                                 <div class="modal-footer">
                                       <button  data-dismiss="modal" class="btn btn-default" type="button">Cerrar</button>
-                        
-                                    
+                                    <!--  <button id="savecoment"class="btn btn-warning" type="button"> Confirm</button>-->
                                 </div>
-                              </div>|
+                              </div>
                             </div>
                           </div>
 
@@ -235,25 +134,9 @@ $(document).ready(function(){
 });
 </script>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 <!-- 
-
 /$("#ver").remove();
   //$("#user").change(function(){
-      
-
     //var user = $("#user").val(); 
     //alert(user);
     //$("#uno").hide();

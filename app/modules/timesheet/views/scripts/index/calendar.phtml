@@ -1,24 +1,7 @@
-
 <body onload="cargardatos()"> 
     <section class="panel">
         <header class="panel-heading" style="padding-bottom : 10px;">
-            Hoja de Tiempo 
-            
-                    
-            <!--        
-            <a id = "" class="btn btn-primary pull-right btn-xs"  href="" style="margin-right : 10px">
-            <i class="fa fa-print"></i> Imprimir
-            </a>
-            <a id = "submit_work" class="btn btn-default pull-right btn-xs" href="#" style="margin-right : 10px">
-            <i class="fa fa-check-square"></i> Enviar
-            </a>
-            <a id = "save_work" class="btn btn-info pull-right btn-xs"  style="margin-right : 10px">
-            <i class="fa fa-save"></i> Guardar
-            </a>
-
-            <a id = "add_work" class="btn btn-success pull-right btn-xs" data-toggle="modal" href="#agregar" style="margin-right : 10px">
-            <i class="fa fa-check-square-o"></i> Agregar
-            </a>-->
+            Hoja de Tiempo        
         </header>
         <div class="modal fade" id="agregar" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-lg">
@@ -32,6 +15,11 @@
                             <aside  style="width:30%; text-align: left;">
                             <span style="font-weight:bold;">Cliente</span>
                             <ul class="nav nav-pills nav-stacked">
+                                <li >
+                                    <a style="padding:5px 5px;" class="anddes"  href="##">
+                                        <?php echo "Anddes Asociados SAC" ?>
+                                    </a>
+                                </li>
                                 <?php 
                                 $equipo = $this->datoscliente;
                                 foreach ($equipo as $data_equipo) { ?>
@@ -48,17 +36,12 @@
                                         $("#actividades_tareas").html('');
                                         var fecha = $("#fechasemana").text();
                                         var clienteid = $(this).attr('clienteid');
-                                        //var unidadid = $(this).attr('unidadid');
                                         $("#proyectos").load("/timesheet/index/proyectos/clienteid/"+clienteid+"/fecha/"+fecha);
                                     });
                                     </script>
                                     <?php
                                 }?>
-                                    <li >
-                                        <a style="padding:5px 5px;" class="anddes"  href="##">
-                                            <?php echo "Anddes Asociados SAC" ?>
-                                        </a>
-                                    </li>
+                                    
                                     <script type="text/javascript">
                                     $(".anddes").click(function(){
                                         $("#proyectos").html('');
@@ -82,13 +65,9 @@
                         <aside style="width:20%; " class="right-side">
                             <div id="actividades_hijos"></div>
                         </aside>
-                       <!-- <aside style="width:30%; " class="right-side">
-                            <div id="actividades_tareas"></div>
-                        </aside>-->
                     </div>
                 </div>
                 <div class="modal-footer " style="padding: 5px; ">
-                    <!--<button class="btn btn-warning" type="button">Agregar</button>-->
                     <button id="guardar_act" data-dismiss="modal" class="btn btn-default" type="button">Cerrar</button>
                 </div>
             </div>
@@ -96,34 +75,9 @@
     </div>
 </section>
 
-
-<!--   <h1>Suma de numeros:</h1>
-  <div ng-repeat="elemento in vm.elementos track by $index">
-     <input type="text"  ng-model="vm.elementos[$index]" ng-change="vm.sumar()">
-  </div>
-  <input type="button" value="Agregar" ng-click="vm.agregar()">
-  {{vm.resultado}}
-
-
-
-<button ng-click="mostraraviso()">Mostrar</button>
-<div id="registro" ng-bind-html="registro">
-</div>
-<div  style="display:none" id="fechasemana"></div> 
- -->
-
-
-
-
 <div id="registro" style="position: relative; clear: none;"></div>
 <div  style="display:none" id="fechasemana"></div>
 </body> 
-
-<script type="text/javascript">
-
-
-</script>
-
 <script type="text/javascript">
 
 $("#add_work").click(function(){
@@ -132,9 +86,7 @@ $("#add_work").click(function(){
     $("#actividades_tareas").html('');
 });
 
-
 $("#save_work").click(function(){
-
     alert("guardando");
     var dateObj = new Date();
     //var dateObj = $('#datepicker').datepicker('getDate');
@@ -157,48 +109,37 @@ $("#save_work").click(function(){
          $("#fechasemana").text( fech );
       
     fecha_inicio = mostrarFecha(dateObj,-num_day);  
-
-
-       
     $("#registro").load("/timesheet/index/registro/fecha/" + fecha_inicio); 
-
-
 });
 
 $("#guardar_act").click(function(){
-    //var dateObj = new Date();
-        var dateObj = $('#datepicker').datepicker('getDate');
-        var dateFrom = $.datepicker.formatDate('mm/dd/yy', dateObj);
-        var weekfrom = $.datepicker.iso8601Week(new Date(dateFrom));
-        var diasSemana = new Array("Domingo","Lunes","Martes","Miércoles","Jueves","Viernes","Sábado");
-        var day_select = diasSemana[dateObj.getDay()];
+    var dateObj = $('#datepicker').datepicker('getDate');
+    var dateFrom = $.datepicker.formatDate('mm/dd/yy', dateObj);
+    var weekfrom = $.datepicker.iso8601Week(new Date(dateFrom));
+    var diasSemana = new Array("Domingo","Lunes","Martes","Miércoles","Jueves","Viernes","Sábado");
+    var day_select = diasSemana[dateObj.getDay()];
         
-        for (i = 0; i < diasSemana.length; i++) { 
-            if (diasSemana[i] == day_select) {
-                if (i == 0) {
-                    var num_day = 6;
-                    
-                } else {
-                    var num_day = i - 1;
-                };
+    for (i = 0; i < diasSemana.length; i++) { 
+        if (diasSemana[i] == day_select) {
+            if (i == 0) {
+                var num_day = 6;
+                
+            } else {
+                var num_day = i - 1;
             };
         };
-        fecha_inicio = mostrarFecha(dateObj,-num_day);
-       var f = new Date(); 
+    };
+    fecha_inicio = mostrarFecha(dateObj,-num_day);
+    var f = new Date(); 
     var fech=f.getFullYear()+"-"+(f.getMonth()+1) +"-"+f.getDate() ;
-         $("#fechasemana").text( fech );
-        $("#registro").load("/timesheet/index/registro/fecha/" + fecha_inicio); 
-       
-
-  
+    $("#fechasemana").text( fech );
+    $("#registro").load("/timesheet/index/registro/fecha/" + fecha_inicio); 
 });
-
-
 
 $.datepicker.setDefaults($.datepicker.regional["es"]);
 $("#datepicker").datepicker({
     firstDay: 1,
-
+    maxDate:0, dateFormat:'dd/mm/yy', yearRange: '-100:+0',    
     onSelect: function (date, inst) {
         var dateObj = $('#datepicker').datepicker('getDate');
         var dateFrom = $.datepicker.formatDate('mm/dd/yy', dateObj);
@@ -216,12 +157,8 @@ $("#datepicker").datepicker({
             };
         };
         fecha_inicio = mostrarFecha(dateObj,-num_day);  
-      // var f = new Date(); 
-    //var fech=f.getFullYear()+"-"+(f.getMonth()+1) +"-"+f.getDate() ;
-         $("#fechasemana").text( fecha_inicio );
+        $("#fechasemana").text( fecha_inicio );
         $("#registro").load("/timesheet/index/registro/fecha/" + fecha_inicio);
-        
-
     },
 });
 
@@ -237,13 +174,11 @@ function mostrarFecha(fecha,days){
     day=fecha.getDate();
     month=fecha.getMonth()+1;
     year=fecha.getFullYear();
- 
     return(day+"-"+month+"-"+year);
 }
 
 function cargardatos(){ 
     var dateObj = new Date();
-    //var dateObj = $('#datepicker').datepicker('getDate');
     var dateFrom = $.datepicker.formatDate('mm/dd/yy', dateObj);
     var weekfrom = $.datepicker.iso8601Week(new Date(dateFrom));
     var diasSemana = new Array("Domingo","Lunes","Martes","Miércoles","Jueves","Viernes","Sábado");
@@ -261,13 +196,7 @@ function cargardatos(){
     var f = new Date(); 
     var fech=f.getFullYear()+"-"+(f.getMonth()+1) +"-"+f.getDate() ;
          $("#fechasemana").text( fech );
-      
     fecha_inicio = mostrarFecha(dateObj,-num_day);  
-
-
-       
     $("#registro").load("/timesheet/index/registro/fecha/" + fecha_inicio); 
 } 
-
-
 </script>

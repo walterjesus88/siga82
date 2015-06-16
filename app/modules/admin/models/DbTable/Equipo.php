@@ -109,7 +109,7 @@ public function _getProyectosxUidXEstadoxCliente($uid,$estado,$clienteid,$unidad
                 from equipo e inner join proyecto p
                 on e.codigo_prop_proy = p.codigo_prop_proy and e.proyectoid=p.proyectoid
                 where e.uid = '$uid' and e.dni='$dni' and e.estado = '$estado' and
-                p.clienteid='$clienteid'
+                p.clienteid='$clienteid' order by e.proyectoid
                     ");
             $row=$sql->fetchAll();
             return $row;           
@@ -184,7 +184,7 @@ public function _getProyectosAnddes()
                 ON e.codigo_prop_proy = p.codigo_prop_proy and e.proyectoid=p.proyectoid 
                 inner join cliente c on
                 p.clienteid=c.clienteid
-                where e.uid = '$uid' and e.dni='$dni' and e.estado = '$estado'
+                where e.uid = '$uid' and e.dni='$dni' and e.estado = '$estado' order by c.nombre_comercial
                ");
             $row=$sql->fetchAll();
             return $row;           
@@ -320,9 +320,9 @@ public function _getListarEquipoxProyectoxGerente($uid,$dni)
             $sql=$this->_db->query("
                 
 
-                  select distinct uid,dni,proyectoid from planificacion where proyectoid in  
+                  select distinct uid,dni from planificacion where proyectoid in  
                 (select distinct proyectoid from
-                 equipo   where uid='$uid' and dni='$dni'  and nivel='0')
+                 equipo   where uid='$uid' and dni='$dni'  and nivel='0') and h_totaldia is not null
 
 
 
@@ -360,7 +360,7 @@ public function _getListarEquipoxProyectoxGerente($uid,$dni)
             $sql=$this->_db->query("
                select  distinct uid, dni  
                 from equipo where areaid='$areaid' and nivel='4'
-
+                and not dni='10664960'
 
             ");
             $row=$sql->fetchAll();
@@ -497,12 +497,12 @@ public function _getListarEquipoxProyectoxGerente($uid,$dni)
         try{
             $sql=$this->_db->query("
                 
-                select distinct uid,dni from equipo where proyectoid in  
+                    select distinct uid,dni 
+                from planificacion where proyectoid in  
                 (select distinct proyectoid from
-                 equipo  where uid='$uid' and dni='$dni' and nivel='0')
-                  and nivel in ('4','2','1','3') 
-                  union
-                   select uid,dni from usuario_categoria where aprobacion like '4.B1.%';
+                equipo   where uid='$uid' and dni='$dni'  and nivel='0')
+                union
+                select uid,dni from usuario_categoria where aprobacion like '4.B1.%';
 
 
                     ");
