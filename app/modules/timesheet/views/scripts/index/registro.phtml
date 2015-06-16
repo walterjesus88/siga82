@@ -774,6 +774,51 @@
                             var comentario = $("#coment<?php echo $i ?><?php echo $j?>").attr('comentario');
                             
                             var cc=comentario;
+
+                            var titulo = $('input[name=titulo]').val();
+      var autor = $('input[name=autor]').val();
+      var tag = $('input[name=tag]').val();
+
+      var template = '<article class="post"> \
+        <div class="ss"> \
+          <table > \
+            <tr> \
+              <td> \
+              x \
+              </td> \
+            </tr> \
+          </table> \
+        </div> \
+        <div class="descripcion"> \
+          <figure class="imagen"> \
+            <img src="imagenes/foto.jpg" /> \
+          </figure> \
+          <div class="detalles"> \
+            <h2 class="titulo"> \
+              '+titulo+' \
+            </h2> \
+            <p class="autor"> \
+              por <a href="#">'+autor+'</a> \
+            </p> \
+            <a class="tag" href="#">'+tag+'</a> \
+            <p class="fecha">hace <strong>0</strong> min</p> \
+          </div> \
+        </div> \
+        <div class="acciones"> \
+          <div class="votos"> \
+            <a class="up" href="#"></a> \
+            <span class="total">0</span> \
+            <a class="down" href="#"></a> \
+          </div> \
+          <div class="datos"> \
+            <a class="comentarios" href="#"> \
+              0 \
+            </a> \
+            <a class="estrellita" href="#"></a> \
+          </div> \
+        </div> \
+      </article>';
+
                             //alert(cc);
                             //alert(comentario);  
                             //alert(coment);
@@ -814,11 +859,14 @@
                                       alert("error petición ajax load");
                                     },
                                     success: function(data){
-                                
+                                      alertify.success("ha sido guardado su comentario: " + str); 
+                                      //$("#coment").html(data);     
+                                       $('.posts').prepend($(template).fadeIn());
+
+
                                     }
                                   });
 
-                                alertify.success("ha sido guardado su comentario: " + str);
 
                               } else {
                                 alertify.error("ha sido Cancelado");
@@ -835,8 +883,6 @@
                         });
                         </script>
 
-
-
                 <?php 
                 }
                   $newDate = date("Y-m-d", strtotime($fecha));
@@ -844,8 +890,6 @@
                   $fecha = date ( 'Y-m-d' , $nuevafecha );?>
                 <?php }
                 ?>
-
-
             </tr>
 
               <script type="text/javascript">
@@ -1512,9 +1556,11 @@
 <div style="display:none" id="carga"></div>
 <div style="display:none"  id="carga_nueva"></div>
 <div style="display:none"  id="carga_copiar"></div>
+<div style="display:none"  id="coment"></div>
 <div style="display:none" id="carga_w1"></div>
 
 
+  <section class="posts">
 
   <table  class="display table table-bordered table-striped" id="dynamic-table">
       <thead>
@@ -1580,17 +1626,12 @@
                 <?php  
                 }              
               }
-            }
-              // $newDate = date("Y-m-d", strtotime($fecha));
-              // $nuevafecha = strtotime ('+1 day' , strtotime ( $newDate ) ) ;
-              // $fecha = date ('d-m-Y', $nuevafecha );
-            
-            // }
+            }        
 
             ?>
       </tbody>
-
   </table>
+</section>
 
 
 <script type="text/javascript">
