@@ -105,7 +105,7 @@ class Admin_Model_DbTable_Proyecto extends Zend_Db_Table_Abstract
         try{
             $sql=$this->_db->query("
                 select pro.codigo_prop_proy,pro.proyectoid,
-                       pro.nombre_proyecto,pro.gerente_proyecto 
+                       pro.nombre_proyecto,pro.gerente_proyecto ,pro.clienteid
                        from proyecto as pro 
                 inner join cliente as cli on
                 pro.clienteid=cli.clienteid 

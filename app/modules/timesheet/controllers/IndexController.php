@@ -1677,44 +1677,36 @@ public function sumatareorealAction(){
 
     public function timesheetaprobaciongerenteAction(){
         try {
-           // $this->_helper->layout()->disableLayout();       
             $uid = $this->sesion->uid;
             $dni = $this->sesion->dni;     
-            
             $fecha = date("Y-m-d");
             $semanaid=date('W', strtotime($fecha)); 
             $this->view->semanaid= $semanaid;    
             $this->view->aprobacion=$this->sesion->personal->ucataprobacion;  
             $areaid=$this->sesion->personal->ucatareaid;   
-            //$isresponsable=$this->sesion->is_responsable;    
             $isgerente=$this->sesion->is_gerente;    
             if ($isgerente=='S') 
             {
                 if ($this->view->aprobacion)
                 {
                     if ($this->view->aprobacion=='3.B1')       
-                    {
+                    {   
                         $equipo = new Admin_Model_DbTable_Equipo();
                         $equipo_aprobacion = $equipo->_getListarEquipoxProyectoxGerentexAprobacion($uid,$dni);
                         $this->view->equipos_horas_aprobar= $equipo_aprobacion;        
                     }
-
                     else
                     {
                     $equipo = new Admin_Model_DbTable_Equipo();
                     $equipo_aprobacion = $equipo->_getListarEquipoxProyectoxGerente($uid,$dni);
-
                     $this->view->equipos_horas_aprobar= $equipo_aprobacion;    
-                   //print_r($equipo_aprobacion);
                     }
                 }
                 else
                 {
                 $equipo = new Admin_Model_DbTable_Equipo();
                 $equipo_aprobacion = $equipo->_getListarEquipoxProyectoxGerente($uid,$dni);
-
                 $this->view->equipos_horas_aprobar= $equipo_aprobacion;    
-               //print_r($equipo_aprobacion);
                 }
             }
         }
