@@ -35,6 +35,7 @@ controller('mainController', ['$http', function($http){
 
 	angular.element(document).ready(function () {
         reporte.getTareopersona();
+        console.log('hola');
     });
 	
 }])
