@@ -94,10 +94,13 @@
     $usuario_cat = new Admin_Model_DbTable_Usuariocategoria();
     $wheres_ucat=array('aprobacion'=>$aprobador,'estado'=>'A','estado_sistema'=>'A');
     $list_aprobador=$usuario_cat->_getOne($wheres_ucat); 
+    echo "<strong>";echo "Aprobadores: "; echo "</strong>";echo "<br>";
+    if ($list_aprobador){
     $aprobador_usuario = explode(".", $list_aprobador['uid']);
-    echo "Aprobado: "; echo "<br>";
+    
     echo (ucwords($aprobador_usuario[0])); echo " ";
     echo (ucwords($aprobador_usuario[1])); echo "<br>";
+    }
     $planificacion = new Admin_Model_DbTable_Planificacion();
     $proyectos=$planificacion->_getOnexSemanaxGerenteProyecto($this->semana,$this->uid,$this->dni,$this->areaid);
 
@@ -668,51 +671,6 @@
                             var comentario = $("#coment<?php echo $i ?><?php echo $j?>").attr('comentario');
                             
                             var cc=comentario;
-
-                            var titulo = $('input[name=titulo]').val();
-      var autor = $('input[name=autor]').val();
-      var tag = $('input[name=tag]').val();
-
-      var template = '<article class="post"> \
-        <div class="ss"> \
-          <table > \
-            <tr> \
-              <td> \
-              x \
-              </td> \
-            </tr> \
-          </table> \
-        </div> \
-        <div class="descripcion"> \
-          <figure class="imagen"> \
-            <img src="imagenes/foto.jpg" /> \
-          </figure> \
-          <div class="detalles"> \
-            <h2 class="titulo"> \
-              '+titulo+' \
-            </h2> \
-            <p class="autor"> \
-              por <a href="#">'+autor+'</a> \
-            </p> \
-            <a class="tag" href="#">'+tag+'</a> \
-            <p class="fecha">hace <strong>0</strong> min</p> \
-          </div> \
-        </div> \
-        <div class="acciones"> \
-          <div class="votos"> \
-            <a class="up" href="#"></a> \
-            <span class="total">0</span> \
-            <a class="down" href="#"></a> \
-          </div> \
-          <div class="datos"> \
-            <a class="comentarios" href="#"> \
-              0 \
-            </a> \
-            <a class="estrellita" href="#"></a> \
-          </div> \
-        </div> \
-      </article>';
-
                             //alert(cc);
                             //alert(comentario);  
                             //alert(coment);
@@ -753,14 +711,11 @@
                                       alert("error petición ajax load");
                                     },
                                     success: function(data){
-                                      alertify.success("ha sido guardado su comentario: " + str); 
-                                      //$("#coment").html(data);     
-                                       $('.posts').prepend($(template).fadeIn());
-
-
+                                
                                     }
                                   });
 
+                                alertify.success("ha sido guardado su comentario: " + str);
 
                               } else {
                                 alertify.error("ha sido Cancelado");
@@ -777,6 +732,8 @@
                         });
                         </script>
 
+
+
                 <?php 
                 }
                   $newDate = date("Y-m-d", strtotime($fecha));
@@ -784,6 +741,8 @@
                   $fecha = date ( 'Y-m-d' , $nuevafecha );?>
                 <?php }
                 ?>
+
+
             </tr>
 
               <script type="text/javascript">
@@ -1450,11 +1409,9 @@
 <div style="display:none" id="carga"></div>
 <div style="display:none"  id="carga_nueva"></div>
 <div style="display:none"  id="carga_copiar"></div>
-<div style="display:none"  id="coment"></div>
 <div style="display:none" id="carga_w1"></div>
 
 
-  <section class="posts">
 
   <table  class="display table table-bordered table-striped" id="dynamic-table">
       <thead>
@@ -1520,12 +1477,17 @@
                 <?php  
                 }              
               }
-            }        
+            }
+              // $newDate = date("Y-m-d", strtotime($fecha));
+              // $nuevafecha = strtotime ('+1 day' , strtotime ( $newDate ) ) ;
+              // $fecha = date ('d-m-Y', $nuevafecha );
+            
+            // }
 
             ?>
       </tbody>
+
   </table>
-</section>
 
 
 <script type="text/javascript">
