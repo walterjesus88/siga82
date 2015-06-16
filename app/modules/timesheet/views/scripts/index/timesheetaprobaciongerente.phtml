@@ -27,7 +27,7 @@
             $consultavalorsuma=$sumahorassemana->_getListarHojasdeTiempoxEquipoArea($equipo['uid'],$equipo['dni']);
             if ($consultavalorsuma) {
               foreach ($consultavalorsuma as $valorsuma) {
-                if (trim($valorsuma['estado'])=='1' or trim($valorsuma['estado'])=='3' or trim($valorsuma['estado'])==$this->aprobacion) { ?>
+                if (trim($valorsuma['estado'])=='1' or trim($valorsuma['estado'])==$this->aprobacion) { ?>
                   <tr name="oculus" id="xx" class="unread">
                     <td class="view-message  text-right"><?php echo $c ?></td>                  
                     <td>   
