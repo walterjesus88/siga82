@@ -1,3 +1,4 @@
+
 <section class="panel">
   <header class="panel-heading">
     Detalles del Projecto
@@ -147,8 +148,51 @@
           if ($area){
           ?>
             <h5 class="bold">Lista de Disciplinas</h5>
+              <a id="anadirarea" href="##" class="btn btn-info btn-xs" >Anadir</a>
+
+              <form action="">
+              
+                <select id="area_categoria" class="form-control input-sm m-bot15 col-lg-10">                        
+                    <option>Seleccione el Area</option>
+                    <?php  
+                        foreach ($this->area as $data_area) {?>
+                           
+                          <option value="<?php echo $data_area['areaid'],'--',$data_area['categoriaid']?>"><?php  echo $data_area['nombre']?></option>
+                  <?php }?>
+                </select> 
+
+                <select id="function" class="form-control input-sm m-bot15 col-lg-10">
+                    <option value="SOPORTE">Soporte</option>
+                    <option value="PROYECTO">Proyecto</option>                
+
+                </select> 
+
+                <input value="Publicar" type="submit" />
+              </form>
+
+             
+
+              <script type="text/javascript">
+              // $("#anadisr").click(function(){
+              //   alert('ggg');
+
+              //   alertify.prompt("This is a prompt dialog", function (e, str) {
+              //     if (e) {
+              //       alertify.success("You've clicked OK and typed: " + str);
+              //       $('#anadirareaproyecto').prepend($(template).fadeIn());
+
+              //     } else {
+              //       alertify.error("You've clicked Cancel");
+              //     }
+              //   }, "Default Value");
+              //   return false;
+
+              // });  
+              </script>
+
               <div class="panel-group m-bot20" id="accordion">
               <?php
+              
               foreach ($area as $lista) { ?>
                 <div class="panel panel-default">
                   <div class="panel-heading">
@@ -169,6 +213,7 @@
                       $bdequipo = new Admin_Model_DbTable_Equipo();
                       $equipo=$bdequipo->_buscarEquipoxProyectoxArea($this->proyecto['codigo_prop_proy'],$this->proyecto['proyectoid'],$lista['areaid']);?>
 
+                      <section class="posts">
                       <table style="font-size: 12px;" class="table table-hover p-table">
                         <thead>
                           <tr>    
@@ -216,6 +261,7 @@
                            <?php
                           }?>
                       </table>
+                      </setion>
                     </div>
                   </div>
                 </div>
@@ -332,7 +378,78 @@
   </div>
 </div>
 
+<script>
+              $(function(){
+                //$('form').hide();
+                  $('form').slideUp(); 
 
+                $('#anadirarea').on('click', mostrarFormulario);
+
+                function mostrarFormulario() {
+                  $('form').slideToggle();
+                }
+
+                $('form').on('submit', procesarFormulario);
+
+                function procesarFormulario(ev)
+                {
+                  var areacat= $("#area_categoria").val();
+                  var tmp= areacat.split('--');
+                  var area=tmp[0];
+                  var cat=tmp[1];
+
+                  var funcion= $("#function").val();
+                  var codigo="<?php echo $this->codigoproyecto ?>";
+                  var proyecto="<?php echo $this->proyectoid ?>";
+                  // alert(areacat);
+                  // alert(codigo);
+                  // alert(proyecto);
+                  // alert(area);
+                  // alert(cat);
+                  var url="/proyecto/index/guardarareaequipo/codigo_prop_proy/"+codigo+"/proyectoid/"+proyecto+"/funcion/"+funcion+"/area/"+area+"/cat/"+cat;
+                 
+                  alert(url);
+
+
+                  //$("#anadirareaproyecto").load(url);
+                  $('form').slideUp(); 
+                     // var template='
+                     //    <table style="font-size: 12px;" class="table table-hover p-table"> \
+                     //    <thead> \
+                     //      <tr> \
+                     //        <th style="width: 50%;">Nombre</th> \
+                     //        <th style="width: 20%;">Categoria</th> \
+                     //        <th style="width: 10;">R.</th> \
+                     //        <th style="width: 10%;">R.Proy.</th> \
+                     //      </tr> \
+                     //    </thead> \
+                     //    </table> \
+                     //    ';
+
+                     // $('.posts').prepend($(template).fadeIn());
+
+                  $.ajax({
+                        type: "POST",
+                        url: url,
+                        data: $(this).serialize(),
+                        dataType: "html",                                                 
+                        error: function()
+                        {
+                          alert("error petición ajax load");
+                        },
+                        success: function(data)
+                        {   
+
+                          $("#anadirareaproyecto").empty();
+                          $("#anadirareaproyecto").append(data);
+
+                        }
+                    });
+                }
+
+              });
+</script>
+<div id="anadirareaproyecto">gg</div>
 
 <script>
 

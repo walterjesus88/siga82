@@ -741,9 +741,8 @@
                                       alert("error petición ajax load");
                                     },
                                     success: function(data){
-                                      //$("postg").prepend();
-                                      $( ".postg" ).prepend( "<b>Hello </b>" );
-                                    }
+                                        $('.postg').prepend($(template).fadeIn());
+                                                                          }
                                   });
 
                                 alertify.success("ha sido guardado su comentario: " + str);
@@ -1309,7 +1308,7 @@
 </div>
 
 <script src="/js/alertify.min.js"></script>
- <link rel="stylesheet" href="/css/alertify.core.css" />
+<link rel="stylesheet" href="/css/alertify.core.css" />
 <link rel="stylesheet" href="/css/alertify.default.css" id="toggleCSS" />
 
 <script type="text/javascript">
