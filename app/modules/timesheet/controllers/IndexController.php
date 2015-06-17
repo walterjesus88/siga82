@@ -1137,22 +1137,12 @@ public function sumatareorealAction(){
             <?php
             }
 
-        }   
-            //$update_inicio ||
-            //update_ejecucion
-
-
-
-     
+        }        
        
         } catch (Exception $e) {
             print "Error: ".$e->getMessage();
         }
     }
-
-
-  
-
 
     public function updateetapabAction(){
         try {
@@ -1254,8 +1244,7 @@ public function sumatareorealAction(){
         $semana=date('W', strtotime($fecha_inicio_mod)); 
         $datos_tareopersona=$tareo_persona->_getTareoxPersonaxSemana($uid,$dni,$semana);
       
-        $this->view->actividades= $datos_tareopersona;
-      
+        $this->view->actividades= $datos_tareopersona;      
 
         $this->view->semanaid = $semanaid;
         $this->view->fecha = $fecha;
@@ -1288,12 +1277,7 @@ public function sumatareorealAction(){
         $sumahora = new Admin_Model_DbTable_Sumahora();
         $versum=$sumahora->_getOne($wheres);
 
-        //print_r($versum);
-        //echo $this->versum['h_totaldia'];
-      
         $this->view->versum= $versum;
-      
-
         $this->view->semanaid = $semanaid;
         $this->view->fecha = $fecha;
   
