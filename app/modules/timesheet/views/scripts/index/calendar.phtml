@@ -79,9 +79,9 @@
 </section>
 
 <div id="registro" style="position: relative; clear: none;"></div>
-<div  style="display:none" id="fechasemana"></div>
+<div   id="fechasemana"></div>
 
-<!--  -->
+<!-- style="display:none"  -->
 
 </body> 
 <script type="text/javascript">
@@ -141,10 +141,10 @@ $("#guardar_act").click(function(){
     var f = new Date(); 
     var fech=f.getFullYear()+"-"+(f.getMonth()+1) +"-"+f.getDate() ;
     
-    //console.log("fecha_inic"+fecha_inicio);
-    //console.log("fech"+fecha_inicio);
+    console.log("fecha_inic"+fecha_inicio);
+    console.log("fech"+fech);
 
-    $("#fechasemana").text( fech );
+    $("#fechasemana").text( fecha_inicio );
     $("#registro").load("/timesheet/index/registro/fecha/" + fecha_inicio); 
 });
 
@@ -168,8 +168,10 @@ $("#datepicker").datepicker({
                 };
             };
         };
-        fecha_inicio = mostrarFecha(dateObj,-num_day);  
+        fecha_inicio = mostrarFecha(dateObj,-num_day);
+
         $("#fechasemana").text( fecha_inicio );
+
         url="/timesheet/index/registro/fecha/" + fecha_inicio;
         //console.log("datepickker"+url);        
         $("#registro").load(url);
@@ -211,7 +213,7 @@ function cargardatos(){
     var fech=f.getFullYear()+"-"+(f.getMonth()+1) +"-"+f.getDate() ;
          $("#fechasemana").text( fech );
 
-    //console.log("cargardatosfechasemana"+fech);
+    console.log("cargardatosfechasemana"+fech);
 
     fecha_inicio = mostrarFecha(dateObj,-num_day);
     //console.log("cargardatos"+fecha_inicio);  

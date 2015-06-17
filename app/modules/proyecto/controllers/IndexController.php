@@ -1247,9 +1247,10 @@ public function verAction() {
     $this->view->buscapropuesta = $busca; 
 
 
-    $areacat=new Admin_Model_DbTable_Areacategoria();
-    $arcat=$areacat->_getAreacategoriaAll();
+    $areacat=new Admin_Model_DbTable_Area();
+    $arcat=$areacat->_getAreaAll();
     $this->view->area = $arcat; 
+    
 
 
   
