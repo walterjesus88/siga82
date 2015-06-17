@@ -572,7 +572,7 @@
                           'hora': hora_real,
                           'etapa': "EJECUCION",
                           'tipo_actividad': "<?php echo $data_tareo['tipo_actividad'] ?>",
-                          'actividad_generalid': "<?php echo $data_tareas['actividad_generalid'] ?>",
+                          'actividad_generalid': "<?php echo $data_tareo['actividad_generalid'] ?>",
                           'codigo_prop_proy': "<?php echo $data_tareo['codigo_prop_proy'] ?>",
                           'proyectoid': "<?php echo $data_tareo['proyectoid'] ?>",
                           'actividad_padre': "<?php echo $data_tareo['actividad_padre'] ?>",
@@ -635,7 +635,7 @@
 
                                 alertify.success("ha sido guardado su comentario: " + str);
                                 $('#coment<?php echo $i ?><?php echo $j?>').children('i').attr('style', "color: #485BBD");
-                                
+
 
                               } else {
                                 alertify.error("ha sido Cancelado");
