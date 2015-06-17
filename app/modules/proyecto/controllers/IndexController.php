@@ -147,6 +147,11 @@ class Proyecto_IndexController extends Zend_Controller_Action {
       $this->view->proyectoid = $proyectoid;
       $this->view->codigo_prop_proy = $codigo_prop_proy;
       $this->view->areaid = $areaid;
+
+  
+
+
+
       $bdarea_cat = new Admin_Model_DbTable_Areacategoria();
       $listcat=$bdarea_cat->_buscarCategoriaxAreaxProyecto($areaid);
       $this->view->categoria = $listcat;
@@ -1250,7 +1255,7 @@ public function verAction() {
     $areacat=new Admin_Model_DbTable_Area();
     $arcat=$areacat->_getAreaAll();
     $this->view->area = $arcat; 
-    
+
 
 
   
@@ -1640,20 +1645,27 @@ public function cargartarea2Action() {
     $this->view->categoria = $listcat;
   }
   
+  /* al parecer no es necesario esta accion*/
   public function buscarpersonasxcategoriaAction() {
     $this->_helper->layout()->disablelayout();
     $areaid= $this->_getParam("areaid");
     $categoriaid= $this->_getParam("categoria");
     $proyectoid= $this->_getParam("proyectoid");
-    $codigo= $this->_getParam("codigo");
+    $codigo= $this->_getParam("codigo_prop_proy");
     $this->view->areaid = $areaid;
     $this->view->categoriaid = $categoriaid;
     $this->view->proyectoid = $proyectoid;
     $this->view->codigo = $codigo;
 
-    $bdarea_cat = new Admin_Model_DbTable_Usuariocategoria();
-    $listusuarios=$bdarea_cat->_buscarUsuarioxAreaxCategoria($areaid,$categoriaid);
-    $this->view->listusuarios = $listusuarios;
+    $wheres=array('areaid'=>$areaid);
+    $usercat=new Admin_Model_DbTable_Usuariocategoria();
+    $ucat=$usercat->_getFilter($wheres);
+    //$this->view->usercat = $ucat;
+    //print_r($ucat);
+
+   // $bdarea_cat = new Admin_Model_DbTable_Usuariocategoria();
+   // $listusuarios=$bdarea_cat->_buscarUsuarioxAreaxCategoria($areaid,$categoriaid);
+    $this->view->listusuarios = $ucat;
   }
 
   
@@ -1883,24 +1895,29 @@ public function cargartarea2Action() {
       $this->_helper->layout()->disablelayout();      
       $proyectoid= $this->_getParam("proyectoid");
       $codigo_prop_proy= $this->_getParam("codigo_prop_proy");
-      $categoriaid= $this->_getParam("cat");
+      //$categoriaid= $this->_getParam("cat");
       $areaid= $this->_getParam("area");
       $funcion= $this->_getParam("funcion");
 
-
       $data['codigo_prop_proy']=$codigo_prop_proy;
-      $data['proyectoid']=$proyectoid;
-      
-      $data['categoriaid']=$categoriaid;
-      $data['areaid']=$areaid;
-   
+      $data['proyectoid']=$proyectoid;      
+      $data['categoriaid']='';
+      $data['areaid']=$areaid;   
+      $data['funcion']=$funcion;   
       $data['fecha_creacion']=date("Y-m-d");
       $data['estado']='A';
    
       print_r($data);
-      
+
       $equiparea= new Admin_Model_DbTable_Equipoarea();
       $gequiparea= $equiparea->_save($data);
+
+      if($gequiparea)
+      { ?>
+        <script>
+          alert('sssaa');
+        </script>
+      <?php }
 
     }
     catch (Exception $e) {

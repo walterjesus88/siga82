@@ -141,37 +141,33 @@
           <h4 ><?php print_r($this->proyecto['nombre_proyecto'])?></h4>
           <p style="font-size: 12px;"> <?php print_r($this->proyecto['descripcion']); ?></p>
         </div>
+        <h5 class="bold">Lista de Disciplinas</h5>
+        <a id="anadirarea" href="##" class="btn btn-info btn-xs" >Anadir</a>
+        <form action="">
+              
+          <select id="area_categoria" class="form-control input-sm m-bot15 col-lg-10">                        
+            <option>Seleccione el Area</option>
+            <?php  
+              foreach ($this->area as $data_area) {?>                          
+                <option value="<?php echo $data_area['areaid']?>"><?php  echo $data_area['nombre']?></option>
+                  <?php }?>
+                </select> 
+                <select id="function" class="form-control input-sm m-bot15 col-lg-10">
+                    <option value="SOPORTE">Soporte</option>
+                    <option value="PROYECTO">Proyecto</option> 
+          </select> 
+
+                <input value="Publicar" type="submit" />
+        </form>
+
+
+
           <?php 
           $bdequipoarea = new Admin_Model_DbTable_Equipoarea();
           $area=$bdequipoarea->_buscarAreasxProyecto($this->proyecto['codigo_prop_proy'],$this->proyecto['proyectoid']);
-          $i=1;
+          $i=1;          
           if ($area){
           ?>
-            <h5 class="bold">Lista de Disciplinas</h5>
-              <a id="anadirarea" href="##" class="btn btn-info btn-xs" >Anadir</a>
-
-              <form action="">
-              
-                <select id="area_categoria" class="form-control input-sm m-bot15 col-lg-10">                        
-                    <option>Seleccione el Area</option>
-                    <?php  
-                        foreach ($this->area as $data_area) {?>
-                           
-                          <option value="<?php echo $data_area['areaid']?>"><?php  echo $data_area['nombre']?></option>
-                  <?php }?>
-                </select> 
-
-                <select id="function" class="form-control input-sm m-bot15 col-lg-10">
-                    <option value="SOPORTE">Soporte</option>
-                    <option value="PROYECTO">Proyecto</option>                
-
-                </select> 
-
-                <input value="Publicar" type="submit" />
-              </form>
-
-             
-
               <script type="text/javascript">
               // $("#anadisr").click(function(){
               //   alert('ggg');
@@ -272,7 +268,7 @@
                       var codigo_prop_proy = $(this).attr('codigo-prop-proy');
                       var areaid = $(this).attr('areaid');
                       $("#myModal9").modal('show')
-                      var url = "/proyecto/index/equipo/proyectoid/"+ proyectoid+"/codigo_prop_proy/"+codigo_prop_proy+"/areaid/"+areaid;
+                      var url = "/proyecto/index/buscarpersonasxcategoria/proyectoid/"+ proyectoid+"/codigo_prop_proy/"+codigo_prop_proy+"/areaid/"+areaid;
                       $("#modaltimes_rate").load(url);   
                     });
                   });
@@ -394,23 +390,14 @@
                 function procesarFormulario(ev)
                 {
                   var areacat= $("#area_categoria").val();
-                  var tmp= areacat.split('--');
-                  var area=tmp[0];
-                  var cat=tmp[1];
-
+                 
                   var funcion= $("#function").val();
                   var codigo="<?php echo $this->codigoproyecto ?>";
                   var proyecto="<?php echo $this->proyectoid ?>";
-                  // alert(areacat);
-                  // alert(codigo);
-                  // alert(proyecto);
-                  // alert(area);
-                  // alert(cat);
-                  var url="/proyecto/index/guardarareaequipo/codigo_prop_proy/"+codigo+"/proyectoid/"+proyecto+"/funcion/"+funcion+"/area/"+area+"/cat/"+cat;
+             
+                  var url="/proyecto/index/guardarareaequipo/codigo_prop_proy/"+codigo+"/proyectoid/"+proyecto+"/funcion/"+funcion+"/area/"+areacat;
                  
                   alert(url);
-
-
                   //$("#anadirareaproyecto").load(url);
                   $('form').slideUp(); 
                      // var template='
