@@ -132,9 +132,11 @@
             if ($(this).is(":checked")) {
                 var fecha = $("#fechasemana").text();
                 var dato = $(this).attr('codigo_actividad');
+                var dato2 = $(this).attr('actividadid');
                 actividadArray.forEach(function (item) {
                     
-                    if (item.codigo_actividad == dato) {
+                    if (item.codigo_actividad == dato && item.actividadid == dato2) {
+                        console.log('hola');
                         url = "/timesheet/index/guardartareopersona/codigo/" + item.codigo + "/proyectoid/" + item.proyectoid + "/revision/" + item.revision + "/categoriaid/" + item.categoriaid + "/propuestaid/" + item.propuestaid + "/actividadid/" + item.actividadid + "/codigo_actividad/" + item.codigo_actividad + "/actividad_padre/" + item.actividad_padre + "/h_propuesta/" + item.h_propuesta + "/fecha/" + fecha;
                         $("#cargar").load(url);
                     }
