@@ -584,7 +584,14 @@
                           'fecha_planificacion': "<?php echo $data_tareo['fecha_planificacion'] ?>",
                           'fecha_tarea': "<?php echo $fecha_tarea ?>"
                         }
-                        console.log(datospro);
+                        
+
+                        //borrar el elemento si existe y ademas no hay numero
+                        if ($(this).val()=='' && $(this).parent().children('a').length) {
+                          $(this).parent().children('#coment<?php echo $i ?><?php echo $j?>').remove();
+                        }
+
+
 
                         //aparecer el icono cuando se rellena y no exista actualmente
                         if (!isNaN(parseInt($(this).val())) && !$(this).parent().children('a').length) {
