@@ -3072,22 +3072,52 @@ public function semanagerentegeneralAction(){
 
 
     public function traercomentAction(){
-        // try {
+         try {
 
-        // $this->_helper->layout()->disableLayout();
-        // $uid = $this->sesion->uid;
-        // $dni = $this->sesion->dni;
-      
-        // $codigo_prop_proy = $this->_getParam('codigo_prop_proy');
-        // $comentarios = base64_decode($this->_getParam('comentariox'));
-        
-        // //echo $comentarios;//exit();        
-        // $this->view->comentario= $comentarios;
+            $this->_helper->layout()->disableLayout();
+            $uid = $this->sesion->uid;
+            $dni = $this->sesion->dni;
+            $semana = $this->_getParam('semanaid');
 
-        // }
-        // catch (Exception $e) {
-        //         print "Error: ".$e->getMessage();
-        // }
+            $respuesta = [];
+            $i = 0;
+
+            $tareopersona = new Admin_Model_DbTable_Tareopersona();
+            $wheres=array('dni'=>$dni,'uid'=>$uid,'semanaid'=>$semana);                
+            $tpercoment = $tareopersona->_getFilter($wheres);
+
+            if ($tpercoment) {
+                foreach ($tpercoment as $value) {              
+                    if(trim($value['comentario'])!='' and trim($value['h_real'])!=''){
+                        $fila = [];             
+                        $wherep=array('codigo_prop_proy'=>$value['codigo_prop_proy'],'proyectoid'=>$value['proyectoid']); 
+                        $nompro = new Admin_Model_DbTable_Proyecto();
+                        $npro = $nompro->_getOne($wherep); 
+
+                        $wherea=array('codigo_prop_proy'=>$value['codigo_prop_proy'],'codigo_actividad'=>$value['codigo_actividad'],'actividadid'=>$value['actividadid'],'revision'=>$value['revision']);                
+                        $nomact = new Admin_Model_DbTable_Actividad();
+                        $noma=$nomact->_getOne($wherea);
+                        $nombrepro = $value['proyectoid'].' '.$npro['nombre_proyecto'];
+                        $fila['fecha_tarea'] = $value['fecha_tarea'];
+                        $fila['proyecto'] = $nombrepro;
+                        $fila['actividad'] = $noma['nombre'];
+                        $fila['h_real'] = $value['h_real'];
+                        $fila['comentario'] = $value['comentario'];
+
+                        $respuesta[$i] = $fila;
+
+                        $i++;
+                    }
+                }
+            }
+
+            $this->_helper->json->sendJson($respuesta);
+                                    
+
+         }
+         catch (Exception $e) {
+                 print "Error: ".$e->getMessage();
+         }
     }
 
 };

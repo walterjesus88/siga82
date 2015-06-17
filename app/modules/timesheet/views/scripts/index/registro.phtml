@@ -621,6 +621,7 @@
                             var comentario = $("#coment<?php echo $i ?><?php echo $j?>").attr('comentario');
                             
                             var cc=comentario;
+                            
 
                             alertify.prompt("Escriba un comentario", function (e, str) {
                             if (e) {
@@ -643,6 +644,23 @@
                                 alertify.success("ha sido guardado su comentario: " + str);
                                 $('#coment<?php echo $i ?><?php echo $j?>').children('i').attr('style', "color: #485BBD");
 
+                                $('#agregarComentario').html('');
+                                
+                                $.ajax({
+                                  type: "GET",
+                                  url: '/timesheet/index/traercoment/semanaid/' + "<?php echo $this->semana; ?>",
+                                  success: function(data){
+                                    data.forEach(function (item) {
+                                      fila_comen = '<tr><th>' + item.fecha_tarea + '</th><th>' + item.proyecto + '</th><th>' + item.actividad + '</th><th>' + item.h_real + '</th><th>' + item.comentario + '</th></tr>';
+
+                                        $('#agregarComentario').append(fila_comen);
+
+                                    })
+                                
+                                  }
+                                })
+        
+                                
 
                               } else {
                                 alertify.error("ha sido Cancelado");
@@ -873,6 +891,22 @@
                                   });
 
                                 alertify.success("ha sido guardado su comentario: " + str);
+
+                                $('#agregarComentario').html('');
+                                
+                                $.ajax({
+                                  type: "GET",
+                                  url: '/timesheet/index/traercoment/semanaid/' + "<?php echo $this->semana; ?>",
+                                  success: function(data){
+                                    data.forEach(function (item) {
+                                      fila_comen = '<tr><th>' + item.fecha_tarea + '</th><th>' + item.proyecto + '</th><th>' + item.actividad + '</th><th>' + item.h_real + '</th><th>' + item.comentario + '</th></tr>';
+
+                                        $('#agregarComentario').append(fila_comen);
+
+                                    })
+                                
+                                  }
+                                })
 
                               } else {
                                 alertify.error("ha sido Cancelado");

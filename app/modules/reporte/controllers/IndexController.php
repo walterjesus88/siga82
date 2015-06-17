@@ -36,7 +36,7 @@ class Reporte_IndexController extends Zend_Controller_Action {
             $respuesta[$i] = $fila;
             $i++;
         }
-        print_r(json_encode($respuesta));      
+        $this->_helper->json->sendJson($respuesta);      
     }
 
     public function proyectoAction() {
