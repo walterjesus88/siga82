@@ -1,0 +1,235 @@
+<div ng-app="reporteApp" ng-controller="mainController as reporte" class="div-reportes">
+	<h1>Reporte Tareopersona</h1>        
+	<a href="#" ng-click="reporte.getTareopersona()">Hola</a>
+	<div>
+		<div class="table-inline">
+			<table class="table-bordered">
+				<thead class="title-table">
+					<th>
+						<div>
+							Cobrabilidad
+						</div>
+					</th>
+				</thead>
+				<tbody class="scroll-content-small">
+					<tr ng-repeat="cobrabilidad in reporte.cobrabilidad">
+						<td>
+							<div>
+								{{cobrabilidad}}
+							</div>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<div class="table-inline">
+			<table class="table-bordered">
+				<thead class="title-table">
+					<th>
+						<div>
+							Rango Fecha Rendición
+						</div>
+					</th>
+				</thead>
+				<tbody class="scroll-content-small">
+					<tr ng-repeat="fecha in reporte.rango_fecha">
+						<td>
+							<div>
+								{{fecha}}
+							</div>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<div class="table-inline">
+			<table class="table-bordered">
+				<thead class="title-table"> 
+					<th>
+						<div>
+							Formato de Nombres de Proyecto
+						</div>
+					</th>
+				</thead>
+				<tbody class="scroll-content-small">
+					<tr ng-repeat="formato in reporte.formato_proyecto">
+						<td>
+							<div>
+								{{formato}}
+							</div>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<div class="table-inline">
+			<table class="table-bordered">
+				<thead class="title-table">
+					<th>
+						<div>
+							Usuarios
+						</div>
+					</th>
+				</thead>
+				<tbody class="scroll-content-small" id="usuarioScroll" >
+					<tr ng-repeat="usuario in reporte.usuarios track by $index">
+						<td>
+							<div>
+								{{usuario}}
+							</div>
+						</td>
+					</tr>
+				</tbody>	
+			</table>
+		</div>
+	</div>
+	<div>
+		<table class="table-bordered">
+		<thead class="title-table">
+			<th>
+				<div>
+					Usuario Id
+				</div>
+			</th>
+			<th>
+				<div>
+					Usuario
+				</div>
+			</th>
+			<th>
+				<div>
+					Rate del proyecto
+				</div>
+			</th>
+			<th>
+				<div>
+					Código de Proyecto
+				</div>
+			</th>
+			<th>
+				<div>
+					Cobrable/No Cobrable
+				</div>
+			</th>
+			<th>
+				<div>
+					Proyecto (Unidad minera - proyecto)
+				</div>
+			</th>
+			<th>
+				<div>
+					Status Proyecto
+				</div>
+			</th>
+			<th ng-repeat="dia in reporte.dias">
+				<div>
+					{{dia}}
+				</div>
+			</th>
+			<th>
+				<div>
+					Full Sumary
+				</div>
+			</th>
+		</thead>
+		<tbody class="scroll-content-high">
+			<tr ng-repeat="fila in reporte.tareopersona">
+				<td>
+					<div>
+						{{fila.dni}}
+					</div>
+				</td>
+				<td>
+					<div>
+						{{fila.uid}}
+					</div>
+				</td>
+				<td>
+					<div>
+						{{fila.rate}}
+					</div>
+				</td>
+				<td>
+					<div>
+						{{fila.proyectoid}}
+					</div>
+				</td>
+				<td>
+					<div>
+						{{fila.cobra}}
+					</div>
+				</td>
+				<td>
+					<div>
+						{{fila.nombre_proyecto}}
+					</div>
+				</td>
+				<td>
+					<div>
+						{{fila.etapa}}
+					</div>
+				</td>
+				<td ng-repeat="dia in reporte.dias">
+					<div>
+						
+					</div>
+				</td>
+				<td>
+					<div>
+						{{fila.summary}}
+					</div>
+				</td>
+			</tr>
+		</tbody>
+		<tfoot class="title-table">
+			<td>
+				<div>
+					Full Summary
+				</div>
+			</td>
+			<td>
+				<div></div>
+			</td>
+			<td>
+				<div></div>
+			</td>
+			<td>
+				<div></div>
+			</td>
+			<td>
+				<div></div>
+			</td>
+			<td>
+				<div></div>
+			</td>
+			<td>
+				<div></div>
+			</td>
+			<td ng-repeat="dia in reporte.dias">
+				<div>
+					
+				</div>
+			</td>
+			<td>
+				<div></div>
+			</td>
+		</tfoot>	
+		</table>
+	</div>
+
+</div>
+
+<!--script>
+  //Funcion para poner el scroll personalizado a las tablas
+  $('#usuarioScroll').ready(function ($) {
+    //$('.bodyScroll').addClass('scrollContent');
+    $('#usuarioScroll').perfectScrollbar();
+  });
+</script-->
+
+
+
+
+
+
+

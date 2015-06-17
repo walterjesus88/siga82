@@ -94,8 +94,6 @@ class Admin_Model_DbTable_Sumahorasemana extends Zend_Db_Table_Abstract
             $sql=$this->_db->query("
                select  * from suma_controlsemana
                where uid='$uid' and dni='$dni'
-
-
             ");
             $row=$sql->fetchAll();
             return $row;           

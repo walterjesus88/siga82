@@ -16,6 +16,25 @@ class Admin_Model_DbTable_Proyecto extends Zend_Db_Table_Abstract
     }
 
 
+    //Funcion para obtener un proyecto en particular para el modulo de reportes
+    public function _show($id)
+    {
+        /*try{
+            $sql=$this->_db->query("
+               select * from proyecto where codigo_prop_proy = '$id'");
+            $row=$sql->fetchAll();
+            return $row;           
+            }  
+            
+           catch (Exception $ex){
+            print $ex->getMessage();
+        }*/
+
+        $where = "codigo_prop_proy = '".$id."'";
+        $row = $this->fetchRow($where);
+        if ($row) return $row->toArray();
+    }
+
     public function _getOne($pk=null)
     {
         try{
