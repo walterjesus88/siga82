@@ -136,6 +136,7 @@
                     
                     if (item.codigo_actividad == dato) {
                         url = "/timesheet/index/guardartareopersona/codigo/" + item.codigo + "/proyectoid/" + item.proyectoid + "/revision/" + item.revision + "/categoriaid/" + item.categoriaid + "/propuestaid/" + item.propuestaid + "/actividadid/" + item.actividadid + "/codigo_actividad/" + item.codigo_actividad + "/actividad_padre/" + item.actividad_padre + "/h_propuesta/" + item.h_propuesta + "/fecha/" + fecha;
+                        //alert(url);
                         $("#cargar").load(url);
                     }
                 })
