@@ -2083,8 +2083,8 @@ public function guardarcomentarioequipoAction(){
                 $vercoment=new Admin_Model_DbTable_Usuariovalidacion();
                 $usercoment=$vercoment->_save($data);
 
-                $duplica=new Admin_Model_DbTable_Tareopersona();   
-                $dupl=$duplica->_getDuplicarTareo($fecha_duplicidad,$semana,$uid);
+                //$duplica=new Admin_Model_DbTable_Tareopersona();   
+                //$dupl=$duplica->_getDuplicarTareo($fecha_duplicidad,$semana,$uid);
 
             }
                 $fecha_inicio = $this->_getParam('fecha_calendario');
