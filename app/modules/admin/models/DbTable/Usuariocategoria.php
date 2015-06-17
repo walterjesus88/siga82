@@ -28,7 +28,7 @@ class Admin_Model_DbTable_Usuariocategoria extends Zend_Db_Table_Abstract
 
     public function _getFilter($where=null,$attrib=null,$orders=null){
         try{            
-            if($where['uid']=='' || $where['dni']=='' ) return false;
+            //if($where['uid']=='' || $where['dni']=='' ) return false;
                 $select = $this->_db->select();
                 if ($attrib=='') $select->from("usuario_categoria");
                 else $select->from("usuario_categoria",$attrib);

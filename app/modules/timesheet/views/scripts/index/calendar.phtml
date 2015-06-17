@@ -36,7 +36,9 @@
                                         $("#actividades_tareas").html('');
                                         var fecha = $("#fechasemana").text();
                                         var clienteid = $(this).attr('clienteid');
-                                        $("#proyectos").load("/timesheet/index/proyectos/clienteid/"+clienteid+"/fecha/"+fecha);
+                                        url="/timesheet/index/proyectos/clienteid/"+clienteid+"/fecha/"+fecha;
+                                        //alert(url);
+                                        $("#proyectos").load(url);
                                     });
                                     </script>
                                     <?php
@@ -51,7 +53,8 @@
                                         var fecha = $("#fechasemana").text();
                                         var clienteid = '20451530535';
                                         var unidadid = '10';
-                                        $("#proyectos").load("/timesheet/index/proyectos/clienteid/"+clienteid+"/unidadid/"+unidadid+"/fecha/"+fecha);
+                                        url="/timesheet/index/proyectos/clienteid/"+clienteid+"/unidadid/"+unidadid+"/fecha/"+fecha;
+                                        $("#proyectos").load(url);
                                     });
                                     </script>
                             </ul>
@@ -76,7 +79,10 @@
 </section>
 
 <div id="registro" style="position: relative; clear: none;"></div>
-<div  style="" id="fechasemana"></div>
+<div   id="fechasemana"></div>
+
+<!-- style="display:none"  -->
+
 </body> 
 <script type="text/javascript">
 
@@ -108,8 +114,10 @@ $("#save_work").click(function(){
     var fech=f.getFullYear()+"-"+(f.getMonth()+1) +"-"+f.getDate() ;
          $("#fechasemana").text( fech );
       
-    fecha_inicio = mostrarFecha(dateObj,-num_day);  
-    $("#registro").load("/timesheet/index/registro/fecha/" + fecha_inicio); 
+    fecha_inicio = mostrarFecha(dateObj,-num_day);
+    url="/timesheet/index/registro/fecha/" + fecha_inicio;
+    //console.log("save"+url);
+    $("#registro").load(url); 
 });
 
 $("#guardar_act").click(function(){
@@ -132,7 +140,11 @@ $("#guardar_act").click(function(){
     fecha_inicio = mostrarFecha(dateObj,-num_day);
     var f = new Date(); 
     var fech=f.getFullYear()+"-"+(f.getMonth()+1) +"-"+f.getDate() ;
-    $("#fechasemana").text( fech );
+    
+    console.log("fecha_inic"+fecha_inicio);
+    console.log("fech"+fech);
+
+    $("#fechasemana").text( fecha_inicio );
     $("#registro").load("/timesheet/index/registro/fecha/" + fecha_inicio); 
 });
 
@@ -156,9 +168,13 @@ $("#datepicker").datepicker({
                 };
             };
         };
-        fecha_inicio = mostrarFecha(dateObj,-num_day);  
+        fecha_inicio = mostrarFecha(dateObj,-num_day);
+
         $("#fechasemana").text( fecha_inicio );
-        $("#registro").load("/timesheet/index/registro/fecha/" + fecha_inicio);
+
+        url="/timesheet/index/registro/fecha/" + fecha_inicio;
+        //console.log("datepickker"+url);        
+        $("#registro").load(url);
     },
 });
 
@@ -196,7 +212,11 @@ function cargardatos(){
     var f = new Date(); 
     var fech=f.getFullYear()+"-"+(f.getMonth()+1) +"-"+f.getDate() ;
          $("#fechasemana").text( fech );
-    fecha_inicio = mostrarFecha(dateObj,-num_day);  
+
+    console.log("cargardatosfechasemana"+fech);
+
+    fecha_inicio = mostrarFecha(dateObj,-num_day);
+    //console.log("cargardatos"+fecha_inicio);  
     $("#registro").load("/timesheet/index/registro/fecha/" + fecha_inicio); 
 } 
 </script>
