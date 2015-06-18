@@ -795,19 +795,17 @@
                             var comentario = $("#coment<?php echo $i ?><?php echo $j?>").attr('comentario');
                             
                             var cc=comentario;
-
-
-                            var template = '<article class="post"> \
-                              <table > \
-                                <tr>\
-                                  <th style="width: 10%;">Fecha  </th>\
-                                  <th style="width: 30%;" >Proyecto </th> \
-                                  <th style="width: 20%;" > Actividad: Tarea</th> \
-                                  <th style="width: 5%;" > hora</th> \
-                                  <th style="width: 35%;" > Comentario</th> \
-                                </tr>\
-                                </table> \
-                               </article>';        
+                            // var template = '<article class="post"> \
+                            //   <table > \
+                            //     <tr>\
+                            //       <th style="width: 10%;">Fecha  </th>\
+                            //       <th style="width: 30%;" >Proyecto </th> \
+                            //       <th style="width: 20%;" > Actividad: Tarea</th> \
+                            //       <th style="width: 5%;" > hora</th> \
+                            //       <th style="width: 35%;" > Comentario</th> \
+                            //     </tr>\
+                            //     </table> \
+                            //    </article>';        
                                
                             alertify.prompt("Escriba un comentario", function (e, str) {
                             if (e) {
@@ -823,7 +821,7 @@
                                       alert("error petición ajax load");
                                     },
                                     success: function(data){
-                                        $('.postg').prepend($(template).fadeIn());
+                                        //$('.postg').prepend($(template).fadeIn());
                                                                           }
                                   });
 
@@ -840,9 +838,6 @@
                           });
                         });
                         </script>
-
-
-
                 <?php 
                 }
                   $newDate = date("Y-m-d", strtotime($fecha));
