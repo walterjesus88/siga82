@@ -644,6 +644,8 @@
                                 alertify.success("ha sido guardado su comentario: " + str);
                                 $('#coment<?php echo $i ?><?php echo $j?>').children('i').attr('style', "color: #485BBD");
 
+                                $("#coment<?php echo $i ?><?php echo $j?>").attr('comentario', str);
+
                                 $('#agregarComentario').html('');
                                 
                                 $.ajax({
@@ -891,6 +893,7 @@
                                   });
 
                                 alertify.success("ha sido guardado su comentario: " + str);
+                                $('#coment<?php echo $i ?><?php echo $j?>').children('i').attr('style', "color: #485BBD");
 
                                 $('#agregarComentario').html('');
                                 
