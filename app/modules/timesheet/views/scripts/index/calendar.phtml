@@ -10,6 +10,9 @@
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                         <h4 class="modal-title">Agregar Actividades</h4>
                     </div>
+                    <script>
+                        acAg = [];
+                    </script>
                     <div class="modal-body" style="padding: 1px; ">
                         <div class="chat-room">
                             <aside  style="width:30%; text-align: left;">
@@ -143,6 +146,12 @@ $("#guardar_act").click(function(){
     console.log("fech"+fech);
 
     $("#fechasemana").text( fecha_inicio );
+    console.log(acAg);
+    acAg.forEach(function (item) {
+        var fecha = $("#fechasemana").text();
+        url = "/timesheet/index/guardartareopersona/codigo/" + item.codigo + "/proyectoid/" + item.proyectoid + "/revision/" + item.revision + "/categoriaid/" + item.categoriaid + "/propuestaid/" + item.propuestaid + "/actividadid/" + item.actividadid + "/codigo_actividad/" + item.codigo_actividad + "/actividad_padre/" + item.actividad_padre + "/h_propuesta/" + item.h_propuesta + "/fecha/" + fecha;
+    $("#cargar").load(url);
+    })
     $("#registro").load("/timesheet/index/registro/fecha/" + fecha_inicio); 
 });
 
