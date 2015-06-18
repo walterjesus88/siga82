@@ -265,69 +265,84 @@
                             });
                           </script>
 
-                          <style type="text/css">
-                            /* Curso JavaScript estilos aprenderaprogramar.com*/
-                            /*body {font-family: Arial, Helvetica, sans-serif; background-color: #FFF8DC;}
-                             
-                            table { font-family: "Lucida Sans Unicode", "Lucida Grande", Sans-Serif; font-size: 12px; margin: 45px; width: 550px;
-                                text-align: center; border-collapse: collapse; }
-                             
-                            th { font-size: 13px; font-weight: normal; padding: 8px; background: #b9c9fe; border-top: 4px solid #aabcfe;
-                                border-bottom: 1px solid #fff; color: #039; }
-                             
-                            td { padding: 8px; background: #e8edff; border-bottom: 1px solid #fff; color: #669; border-top: 1px solid transparent; }
-                             
-                            tr:hover td { background: #d0dafd; color: #339; }
-                            */
-                             
-                            .editar {color: blue; cursor:pointer;}
-                             
-                            #contenedorForm {margin-left: 45px; font-size:12px;}
-                             
-                            .boton {   color: black; padding: 5px; margin: 10px;
-                              background-color: #b9c9fe;
-                              font-weight: bold; }
-                          </style>
+                            <style type="text/css">
+                              /* Curso JavaScript estilos aprenderaprogramar.com*/
+                              /*body {font-family: Arial, Helvetica, sans-serif; background-color: #FFF8DC;}
+                               
+                              table { font-family: "Lucida Sans Unicode", "Lucida Grande", Sans-Serif; font-size: 12px; margin: 45px; width: 550px;
+                                  text-align: center; border-collapse: collapse; }
+                               
+                              th { font-size: 13px; font-weight: normal; padding: 8px; background: #b9c9fe; border-top: 4px solid #aabcfe;
+                                  border-bottom: 1px solid #fff; color: #039; }
+                               
+                              td { padding: 8px; background: #e8edff; border-bottom: 1px solid #fff; color: #669; border-top: 1px solid transparent; }
+                               
+                              tr:hover td { background: #d0dafd; color: #339; }
+                              */
+                               
+                              .editar {color: blue; cursor:pointer;}
+                               
+                              #contenedorForm {margin-left: 45px; font-size:12px;}
+                               
+                              .boton {   color: black; padding: 5px; margin: 10px;
+                                background-color: #b9c9fe;
+                                font-weight: bold; }
+                            </style>
 
-                          <script>
-                          /*Curso JavaScript aprenderaprogramar.com */
-                          var editando=false;                           
-                          function transformarEnEditable(nodo){
-                          //El nodo recibido es SPAN
-                          if (editando == false) {
-                          var nodoTd = nodo.parentNode; //Nodo TD
-                          var nodoTr = nodoTd.parentNode; //Nodo TR
-                          var nodoContenedorForm = document.getElementById('contenedorForm'); //Nodo DIV
-                          var nodosEnTr = nodoTr.getElementsByTagName('td');
-                          var nombre = nodosEnTr[0].textContent;
-                          var categoria = nodosEnTr[1].textContent;
-                          var rate = nodosEnTr[2].textContent; 
-                          var rate_proyecto = nodosEnTr[3].textContent;
+                            <script>
+                            /*Curso JavaScript aprenderaprogramar.com */
+                            var editando=false;                           
+                            function transformarEnEditable(nodo){
+                            //El nodo recibido es SPAN
+                            if (editando == false) {
+                            var nodoTd = nodo.parentNode; //Nodo TD
+                            var nodoTr = nodoTd.parentNode; //Nodo TR
+                            var nodoContenedorForm = document.getElementById('contenedorForm'); //Nodo DIV
+                            var nodosEnTr = nodoTr.getElementsByTagName('td');
+                            var nombre = nodosEnTr[0].textContent;
+                            var categoria = nodosEnTr[1].textContent;
+                            var rate = nodosEnTr[2].textContent; 
+                            var rate_proyecto = nodosEnTr[3].textContent;
 
-                          alert(nombre);
-                          alert(categoria);
-               
-                          var nuevoCodigoHtml = 
-                          '<td><input type="text" name="nombre" id="nombre" value="'+nombre+'" size="10"></td>'+
-                          '<td><input type="text" name="categoria" id="categoria" value="'+categoria+'" size="5"</td>'+
-                          '<td><input type="text" name="rate" id="rate" value="'+rate+'" size="5"</td>'+
-                          '<td><input type="text" name="rate_proyecto" id="rate_proyecto" value="'+rate_proyecto+'" size="5"</td>';
+                            alert(nombre);
+                            alert(categoria);
+                 
+                            var nuevoCodigoHtml = 
+                            '<td><input type="text" name="nombre" id="nombre" value="'+nombre+'" size="10"></td>'+
+                            '<td><input type="text" name="categoria" id="categoria" value="'+categoria+'" size="5"</td>'+
+                            '<td><input type="text" name="rate" id="rate" value="'+rate+'" size="5"</td>'+
+                            '<td><input type="text" name="rate_proyecto" id="rate_proyecto" value="'+rate_proyecto+'" size="5"</td>'+'<td>En edición</td>';
 
-                          // +'<td><input type="text" name="carbohidratos" id="carbohidratos" value="'+carbohidratos+'" size="5"</td> <td>En edición</td>';                           
-                          nodoTr.innerHTML = nuevoCodigoHtml;                           
-                          nodoContenedorForm.innerHTML = 'Pulse Aceptar para guardar los cambios o cancelar para anularlos'+
-                          '<form name = "formulario" action="http://aprenderaprogramar.com" method="get" onsubmit="capturarEnvio()" onreset="anular()">'+
-                          '<input class="boton" type = "submit" value="Aceptar"> <input class="boton" type="reset" value="Cancelar">';
-                          editando = "true";
-                          }
-                          else
-                            {alert ('Solo se puede editar una línea. Recargue la página para poder editar otra');
+                            // +'<td><input type="text" name="carbohidratos" id="carbohidratos" value="'+carbohidratos+'" size="5"</td> <td>En edición</td>';                           
+                            nodoTr.innerHTML = nuevoCodigoHtml;                           
+                            nodoContenedorForm.innerHTML = 'Pulse Aceptar para guardar los cambios o cancelar para anularlos'+
+                            '<form name = "formulario" action="/proyecto/index/updateequipo/" method="post" onsubmit="capturarEnvio()" onreset="anular()">'+
+
+                            '<input class="boton" type = "submit" value="Aceptar"> <input class="boton" type="reset" value="Cancelar">';
+                            editando = "true";
+                            }
+                            else
+                              {alert ('Solo se puede editar una línea. Recargue la página para poder editar otra');
+                              }
+
                             }
 
-                          }
+                            function capturarEnvio(){
+                              var nodoContenedorForm = document.getElementById('contenedorForm'); //Nodo DIV
+                              nodoContenedorForm.innerHTML = 'Pulse Aceptar para guardar los cambios o cancelar para anularlos'+
+                              '<form name = "formulario" action="/proyecto/index/updateequipo/" method="post" onsubmit="capturarEnvio()" onreset="anular()">'+
+                              '<input type="hidden" name="nombre" value="'+document.querySelector('#nombre').value+'">'+
+                              '<input type="hidden" name="areaid" value="2">'+
+                              '<input type="hidden" name="rate" value="'+document.querySelector('#rate').value+'">'+
+                              '<input type="hidden" name="rate_proyecto" value="'+document.querySelector('#rate_proyecto').value+'">'+
+                          
+                              '<input class="boton" type = "submit" value="Aceptarx"> <input class="boton" type="reset" value="Cancelar">';
+                              alert(areaid);
+                              document.formulario.submit();
+                              }
 
 
-                          </script> 
+                            </script> 
                            <?php
                           }?>
                       </table>
