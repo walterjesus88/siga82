@@ -344,18 +344,18 @@
                 <?php if ($data_tareo['tipo_actividad']=='G') {?>
                   
 
-                  <a <?php if ($data_tareo['estado_tareopersona']=='C') { ?> disabled <?php }?> id ="nofacturable_cambio_<?php echo $j?>" class="btn btn-danger btn-xs ">No Facturable.</a>
+                  <a disabled <?php if ($data_tareo['estado_tareopersona']=='C') { ?> disabled <?php }?> id ="nofacturable_cambio_<?php echo $j?>" class="btn btn-danger btn-xs ">No Facturable.</a>
                 <?php }
 
                 if ($data_tareo['tipo_actividad']=='P'){ ?>
-                <a <?php if ($data_tareo['estado_tareopersona']=='C') { ?> disabled <?php }?> id ="facturable_tareo_<?php echo $j?>" class="btn btn-success btn-xs">Facturable</a>
-                <a <?php if ($data_tareo['estado_tareopersona']=='C') { ?> disabled <?php }?> id ="nofacturable_tareo_<?php echo $j?>" class="btn btn-danger btn-xs" style="display:none">No Facturable</a>
+                <a disabled <?php if ($data_tareo['estado_tareopersona']=='C') { ?> disabled <?php }?> id ="facturable_tareo_<?php echo $j?>" class="btn btn-success btn-xs">Facturable</a>
+                <a disabled <?php if ($data_tareo['estado_tareopersona']=='C') { ?> disabled <?php }?> id ="nofacturable_tareo_<?php echo $j?>" class="btn btn-danger btn-xs" style="display:none">No Facturable</a>
 
                 <?php }?>
                 <?php if ($data_tareo['tipo_actividad']=='A') {?>
                   
 
-                  <a  class="btn btn-info btn-xs ">Anddes</a>
+                  <a  disabled class="btn btn-info btn-xs ">Anddes</a>
                 
 
                 <?php }?>
