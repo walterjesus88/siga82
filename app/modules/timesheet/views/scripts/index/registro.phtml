@@ -563,8 +563,116 @@
                 <script type="text/javascript">
                   $(document).ready(function(){
                     $("#valor<?php echo $i ?><?php echo $j?>").focus();
-                    $("#valor<?php echo $i ?><?php echo $j?>").keyup(function(e){                   
-                      // alert('fff');
+                    $("#valor<?php echo $i ?><?php echo $j?>").keyup(function(e){
+
+                        
+                        var hora_real = $(this).val();
+
+                        var datospro = {
+                          'hora': hora_real,
+                          'etapa': "EJECUCION",
+                          'tipo_actividad': "<?php echo $data_tareo['tipo_actividad'] ?>",
+                          'actividad_generalid': "<?php echo $data_tareo['actividad_generalid'] ?>",
+                          'codigo_prop_proy': "<?php echo $data_tareo['codigo_prop_proy'] ?>",
+                          'proyectoid': "<?php echo $data_tareo['proyectoid'] ?>",
+                          'actividad_padre': "<?php echo $data_tareo['actividad_padre'] ?>",
+                          'codigo_actividad': "<?php echo $data_tareo['codigo_actividad'] ?>",
+                          'actividadid': "<?php echo $data_tareo['actividadid'] ?>",
+                          'revision': "<?php echo $data_tareo['revision'] ?>",
+                          'semanaid': "<?php echo $data_tareo['semanaid'] ?>",
+                          'cargo': "<?php echo $data_tareo['cargo'] ?>",
+                          'fecha_planificacion': "<?php echo $data_tareo['fecha_planificacion'] ?>",
+                          'fecha_tarea': "<?php echo $fecha_tarea ?>"
+                        }
+                        
+
+                        //borrar el elemento si existe y ademas no hay numero
+                        if ($(this).val()=='' && $(this).parent().children('a').length) {
+                          $(this).parent().children('#coment<?php echo $i ?><?php echo $j?>').remove();
+                        }
+
+
+
+                        //aparecer el icono cuando se rellena y no exista actualmente
+                        if (!isNaN(parseInt($(this).val())) && !$(this).parent().children('a').length) {
+                          nube = '<a disabled="disabled"> <i style="color: #D6D6D8" class="fa fa-comment"></i></a>';
+                          $(this).parent().append(nube);
+                          $(this).parent().children('a').attr("id","coment<?php echo $i ?><?php echo $j?>");
+                          $(this).parent().children('a').attr("etapa", datospro.etapa);
+                          $(this).parent().children('a').attr('tipo_actividad', datospro.tipo_actividad);
+                          $(this).parent().children('a').attr('actividad-generalid', datospro.actividad_generalid);
+                          $(this).parent().children('a').attr('codigo_prop_proy', datospro.codigo_prop_proy);
+                          $(this).parent().children('a').attr('proyectoid', datospro.proyectoid);
+                          $(this).parent().children('a').attr('actividad_padre', datospro.actividad_padre);
+                          $(this).parent().children('a').attr('codigo_actividad', datospro.codigo_actividad);
+                          $(this).parent().children('a').attr('actividadid', datospro.actividadid);
+                          $(this).parent().children('a').attr('revision', datospro.revision);
+                          $(this).parent().children('a').attr('semanaid', datospro.semanaid);
+                          $(this).parent().children('a').attr('cargo', datospro.cargo);
+                          $(this).parent().children('a').attr('fecha_planificacion', datospro.fecha_planificacion);
+                          $(this).parent().children('a').attr('fecha_tarea', datospro.fecha_tarea);
+                          $(this).parent().children('a').attr("comentario", "<?php echo $data_tareo['comentario'] ?>");
+                        };
+
+
+                        //Llamar al modal de ingreso de comentario y ademas obtener los datos de la tarea
+                        $(this).parent().children('a').on('click', function () {
+
+                            var comentario = $("#coment<?php echo $i ?><?php echo $j?>").attr('comentario');
+                            
+                            var cc=comentario;
+                            
+
+                            alertify.prompt("Escriba un comentario", function (e, str) {
+                            if (e) {
+                            
+                                var url="/timesheet/index/updatecoment/codigo_prop_proy/"+datospro.codigo_prop_proy+"/codigo_actividad/"+datospro.codigo_actividad+"/actividadid/"+datospro.actividadid+"/revision/"+datospro.revision+"/actividad_padre/"+datospro.actividad_padre+"/proyectoid/"+datospro.proyectoid+"/semanaid/"+datospro.semanaid+"/fecha_tarea/"+datospro.fecha_tarea+"/cargo/"+datospro.cargo+"/horareal/"+datospro.hora+"/tipo_actividad/"+datospro.tipo_actividad+"/etapa/"+datospro.etapa+"/actividad_generalid/"+datospro.actividad_generalid+"/fecha_planificacion/"+datospro.fecha_planificacion+"/comentario/"+str;
+
+                                  $.ajax({
+                                    type: "POST",
+                                    url: url,
+                                    data: $(this).serialize(),
+                                    dataType: "html",                                                 
+                                    error: function(){
+                                      alert("error petición ajax load");
+                                    },
+                                    success: function(data){
+                                
+                                    }
+                                  });
+
+                                alertify.success("ha sido guardado su comentario: " + str);
+                                $('#coment<?php echo $i ?><?php echo $j?>').children('i').attr('style', "color: #485BBD");
+
+                                $('#agregarComentario').html('');
+                                
+                                $.ajax({
+                                  type: "GET",
+                                  url: '/timesheet/index/traercoment/semanaid/' + "<?php echo $this->semana; ?>",
+                                  success: function(data){
+                                    data.forEach(function (item) {
+                                      fila_comen = '<tr><th>' + item.fecha_tarea + '</th><th>' + item.proyecto + '</th><th>' + item.actividad + '</th><th>' + item.h_real + '</th><th>' + item.comentario + '</th></tr>';
+
+                                        $('#agregarComentario').append(fila_comen);
+
+                                    })
+                                
+                                  }
+                                })
+        
+                                
+
+                              } else {
+                                alertify.error("ha sido Cancelado");
+                              }
+                            }, cc);
+
+                        })  
+
+
+
+
+
                         var hora_real=$(this).val(); 
                         var codigo_prop_proy="<?php echo $data_tareo['codigo_prop_proy'] ?>";
                         var codigo_actividad="<?php echo $data_tareo['codigo_actividad'] ?>";
@@ -783,6 +891,22 @@
                                   });
 
                                 alertify.success("ha sido guardado su comentario: " + str);
+
+                                $('#agregarComentario').html('');
+                                
+                                $.ajax({
+                                  type: "GET",
+                                  url: '/timesheet/index/traercoment/semanaid/' + "<?php echo $this->semana; ?>",
+                                  success: function(data){
+                                    data.forEach(function (item) {
+                                      fila_comen = '<tr><th>' + item.fecha_tarea + '</th><th>' + item.proyecto + '</th><th>' + item.actividad + '</th><th>' + item.h_real + '</th><th>' + item.comentario + '</th></tr>';
+
+                                        $('#agregarComentario').append(fila_comen);
+
+                                    })
+                                
+                                  }
+                                })
 
                               } else {
                                 alertify.error("ha sido Cancelado");
@@ -1516,7 +1640,7 @@
          
             
       </thead>
-      <tbody>
+      <tbody id="agregarComentario">
              
           <?php           
             $uid=$this->uid;            

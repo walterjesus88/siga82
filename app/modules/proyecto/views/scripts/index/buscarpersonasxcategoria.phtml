@@ -2,12 +2,13 @@
 
 <?php 
 	$i=0;
+	if($this->listusuarios){
 	foreach ($this->listusuarios as $lista) {
 
        	 $wheres=array('codigo_prop_proy'=>$this->codigo,'proyectoid'=>$this->proyectoid,'uid'=>$lista['uid'],'dni'=>$lista['dni'],'areaid'=>$this->areaid);
         $equipo= new Admin_Model_DbTable_Equipo();
         $activar= $equipo->_getOne($wheres);
-       //print_r($activar);
+         
 
 		?>
 		<label class="checkbox-inline">
@@ -22,73 +23,72 @@
 			<input type="text" style="display:none" id="nombrepersona_<?php echo $i;?>" value="<?php print_r($lista['dni']);?>" name="nombrepersona_<?php echo $i;?>"   > 
 			<input type="text" style="display:none" id="uid_<?php echo $i;?>" value="<?php print_r($lista['uid']);?>" name="nombrepersona_<?php echo $i;?>"   > 
 			<input type="text" style="display:none" id="cargo_<?php echo $i;?>" value="<?php print_r($lista['cargo']);?>" name="nombrepersona_<?php echo $i;?>"   > 
-			<?php print_r($lista['alias']);?>
+			<tr>				
+				<td>
+				<?php print_r($lista['uid']);?>
+				<td>
+			</tr>
 
 		</label>
 
-<script type='text/javascript'>
-	/*
-	$(document).ready(function(){
-	    $('[name^="persona_<?php echo $i;?>"]').click(function(event) {
-	        
-	        if ($(this).is(":checked")) {
-	            var dni = $("#nombrepersona_<?php echo $i;?>").val();
-	            var uid = $("#uid_<?php echo $i;?>").val();
-	            var cargo = $("#cargo_<?php echo $i;?>").val();
-	            var categoriaid = '<?php echo $this->categoriaid; ?>'; 
-    			var areaid = '<?php echo $this->areaid; ?>';
-    			var proyectoid='<?php echo $this->proyectoid; ?>';
-    			var codigo='<?php echo $this->codigo; ?>';
+	<script type='text/javascript'>
+		/*
+		$(document).ready(function(){
+		    $('[name^="persona_<?php echo $i;?>"]').click(function(event) {		        
+		        if ($(this).is(":checked")) {
+		            var dni = $("#nombrepersona_<?php echo $i;?>").val();
+		            var uid = $("#uid_<?php echo $i;?>").val();
+		            var cargo = $("#cargo_<?php echo $i;?>").val();
+		            var categoriaid = '<?php echo $this->categoriaid; ?>'; 
+	    			var areaid = '<?php echo $this->areaid; ?>';
+	    			var proyectoid='<?php echo $this->proyectoid; ?>';
+	    			var codigo='<?php echo $this->codigo; ?>';		            
+		            url="/proyecto/index/guardarpersonaequipo/codigo/"+codigo+"/proyectoid/"+proyectoid+"/areaid/"+areaid+"/categoriaid/"+categoriaid+"/cargo/"+cargo+"/uid/"+uid+"/dni/"+dni;
+		            alert(url);
+		            //$("#cargar").load(url);
+		        }		        
+		    });    
+		});*/
+		$("#persona_<?php echo $i?>").click(function(){ 
+	        //alert("<?php echo $i?>");
+	        if($("#persona_<?php echo $i?>").is(':checked')) {
+	            estado='A';
+	            console.log('act'); 
+	        } else {    
+	            estado='I';
+	            console.log('desact'); 
+	      }  
 
-	            
-	            url="/proyecto/index/guardarpersonaequipo/codigo/"+codigo+"/proyectoid/"+proyectoid+"/areaid/"+areaid+"/categoriaid/"+categoriaid+"/cargo/"+cargo+"/uid/"+uid+"/dni/"+dni;
-	            alert(url);
-	             //$("#cargar").load(url);
-	             
-	            
-	        }
-	        
-	    });    
-	});*/
-	$("#persona_<?php echo $i?>").click(function(){ 
-        //alert("<?php echo $i?>");
-        if($("#persona_<?php echo $i?>").is(':checked')) {
-            estado='A';
-            console.log('act'); 
-        } else {    
-            estado='I';
-            console.log('desact'); 
-      }  
+	        var dni = $("#nombrepersona_<?php echo $i;?>").val();
+	        var uid = $("#uid_<?php echo $i;?>").val();
+	        var cargo = $("#cargo_<?php echo $i;?>").val();
+	        var categoriaid = '<?php echo $lista['categoriaid']; ?>'; 
+			var areaid = '<?php echo $this->areaid; ?>';
+			var proyectoid='<?php echo $this->proyectoid; ?>';
+			var codigo='<?php echo $this->codigo; ?>';
 
-        var dni = $("#nombrepersona_<?php echo $i;?>").val();
-        var uid = $("#uid_<?php echo $i;?>").val();
-        var cargo = $("#cargo_<?php echo $i;?>").val();
-        var categoriaid = '<?php echo $this->categoriaid; ?>'; 
-		var areaid = '<?php echo $this->areaid; ?>';
-		var proyectoid='<?php echo $this->proyectoid; ?>';
-		var codigo='<?php echo $this->codigo; ?>';
+	       url="/proyecto/index/guardarpersonaequipo/codigo/"+codigo+"/proyectoid/"+proyectoid+"/areaid/"+areaid+"/categoriaid/"+categoriaid+"/cargo/"+cargo+"/uid/"+uid+"/dni/"+dni+"/estado/"+estado;
 
-       url="/proyecto/index/guardarpersonaequipo/codigo/"+codigo+"/proyectoid/"+proyectoid+"/areaid/"+areaid+"/categoriaid/"+categoriaid+"/cargo/"+cargo+"/uid/"+uid+"/dni/"+dni+"/estado/"+estado;
+	      
+	      //alert(url);
 
-      
-
-      $.ajax({
-            type: "POST",
-            url: url,
-            data: $(this).serialize(),
-            dataType: "html",                                                 
-            // error: function(){
-            //   alert("error petición ajax load");
-            // },
-            success: function(data){   
-                               
-            }
-      });    
-   });   
-</script>
+	      $.ajax({
+	            type: "POST",
+	            url: url,
+	            data: $(this).serialize(),
+	            dataType: "html",                                                 
+	            // error: function(){
+	            //   alert("error petición ajax load");
+	            // },
+	            success: function(data){   
+	                               
+	            }
+	      });    
+	   });   
+	</script>
 
 <?php
 $i++; 
-	}?>
+ } }?>
 
-	<div id="cargar"></div>
+<div id="cargar"></div>

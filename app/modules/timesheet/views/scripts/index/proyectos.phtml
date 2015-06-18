@@ -45,7 +45,9 @@
                 var codigo_prop_proy = $(this).attr('codigo-prop-proy');
       
                 var categoriaid = $(this).attr('categoriaid');
-                $("#actividades").load("/timesheet/index/actividades/proyectoid/"+proyectoid+"/codigo_prop_proy/"+codigo_prop_proy+"/categoriaid/"+categoriaid+"/fecha/"+fecha);
+                url="/timesheet/index/actividades/proyectoid/"+proyectoid+"/codigo_prop_proy/"+codigo_prop_proy+"/categoriaid/"+categoriaid+"/fecha/"+fecha;
+                //alert(url);
+                $("#actividades").load(url);
 
                // alert(proyectoid);
                 // alert(codigo_prop_proy);
