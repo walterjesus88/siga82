@@ -183,18 +183,34 @@ class Proyecto_IndexController extends Zend_Controller_Action {
         //$this->_helper->layout()->disableLayout();
         $proyectoid= $this->_getParam("proyectoid");
         $codigo_prop_proy= $this->_getParam("codigo");
-        $dni= $this->_getParam("dni");
-        $uid= $this->_getParam("uid");
-        $areaid= $this->_getParam("areaid");
+        $dni= trim($this->_getParam("dni"));
+        $uid= trim($this->_getParam("uid"));
+        $areaid= trim($this->_getParam("areaid"));
         $rate= $this->_getParam("rate");
-        $ratep= $this->_getParam("rate_proyecto");
+        //$ratep= $this->_getParam("rate_proyecto");
         
-        echo $ratep;
-        echo $proyectoid;
-        echo $codigo_prop_proy;
-        echo "aca";
-        echo $areaid;
-        exit();
+        // $nom= $this->_getParam("nombre");
+        
+        // echo $nom;
+         echo $rate;
+         echo "</br>";
+         echo $proyectoid;
+         echo "</br>";
+
+         echo $codigo_prop_proy;
+         echo "</br>";
+
+         echo $uid;
+         echo "</br>";
+
+         echo $dni;
+         echo "</br>";
+
+         echo $areaid;
+         echo "</br>";
+
+        // echo $areaid;
+        // exit();
 
          
         $pk  =   array(                        
@@ -209,7 +225,10 @@ class Proyecto_IndexController extends Zend_Controller_Action {
                         'rate_proyecto' =>  $rate
                      );
 
-          
+        
+        print_r($pk);
+        print_r($data);
+        //exit();
         $update_equipo=new Admin_Model_DbTable_Equipo();
         //$update_equipo->_update($data,$pk);
         
