@@ -572,7 +572,7 @@
                           'hora': hora_real,
                           'etapa': "EJECUCION",
                           'tipo_actividad': "<?php echo $data_tareo['tipo_actividad'] ?>",
-                          'actividad_generalid': "<?php echo $data_tareo['actividad_generalid'] ?>",
+                          'actividad_generalid': "<?php echo $data_tareas['actividad_generalid'] ?>",
                           'codigo_prop_proy': "<?php echo $data_tareo['codigo_prop_proy'] ?>",
                           'proyectoid': "<?php echo $data_tareo['proyectoid'] ?>",
                           'actividad_padre': "<?php echo $data_tareo['actividad_padre'] ?>",
@@ -584,14 +584,7 @@
                           'fecha_planificacion': "<?php echo $data_tareo['fecha_planificacion'] ?>",
                           'fecha_tarea': "<?php echo $fecha_tarea ?>"
                         }
-                        
-
-                        //borrar el elemento si existe y ademas no hay numero
-                        if ($(this).val()=='' && $(this).parent().children('a').length) {
-                          $(this).parent().children('#coment<?php echo $i ?><?php echo $j?>').remove();
-                        }
-
-
+                        console.log(datospro);
 
                         //aparecer el icono cuando se rellena y no exista actualmente
                         if (!isNaN(parseInt($(this).val())) && !$(this).parent().children('a').length) {
@@ -621,7 +614,6 @@
                             var comentario = $("#coment<?php echo $i ?><?php echo $j?>").attr('comentario');
                             
                             var cc=comentario;
-                            
 
                             alertify.prompt("Escriba un comentario", function (e, str) {
                             if (e) {
@@ -643,24 +635,6 @@
 
                                 alertify.success("ha sido guardado su comentario: " + str);
                                 $('#coment<?php echo $i ?><?php echo $j?>').children('i').attr('style', "color: #485BBD");
-
-                                $('#agregarComentario').html('');
-                                
-                                $.ajax({
-                                  type: "GET",
-                                  url: '/timesheet/index/traercoment/semanaid/' + "<?php echo $this->semana; ?>",
-                                  success: function(data){
-                                    data.forEach(function (item) {
-                                      fila_comen = '<tr><th>' + item.fecha_tarea + '</th><th>' + item.proyecto + '</th><th>' + item.actividad + '</th><th>' + item.h_real + '</th><th>' + item.comentario + '</th></tr>';
-
-                                        $('#agregarComentario').append(fila_comen);
-
-                                    })
-                                
-                                  }
-                                })
-        
-                                
 
                               } else {
                                 alertify.error("ha sido Cancelado");
@@ -693,11 +667,11 @@
                         var h_propuesta="<?php echo $data_tareo['h_propuesta'] ?>";
                         var fecha_calendario = $("#fechasemana").text();
 
-                        var uid="<?php echo $this->uid ?>";
-                        var dni_="<?php echo $this->dni ?>";
-                        var fechainiciomod="<?php echo $this->fecha_inicio_mod ?>";
-                        var fecha="<?php echo $this->fecha ?>";
-                        var fechaz="<?php echo $data_tareo['fecha_tarea'] ?>";
+                        //var uid="<?php echo $this->uid ?>";
+                        //var dni_="<?php echo $this->dni ?>";
+                        //var fechainiciomod="<?php echo $this->fecha_inicio_mod ?>";
+                        //var fecha="<?php echo $this->fecha ?>";
+                        //var fechaz="<?php echo $data_tareo['fecha_tarea'] ?>";
 
                         /* codigo de lenon*/
                         
@@ -752,9 +726,10 @@
                            //e.preventDefault();
                         //}else{ 
                            //En caso contrario (Si era un número) devuelvo el valor 
-                         var url="/timesheet/index/updatetareoreal/codigo_prop_proy/"+codigo_prop_proy+"/codigo_actividad/"+codigo_actividad+"/actividadid/"+actividadid+"/revision/"+revision+"/actividad_padre/"+actividad_padre+"/proyectoid/"+proyectoid+"/semanaid/"+semanaid+"/fecha_tarea/"+fecha_tarea+"/asignado/"+asignado+"/areaid/"+areaid+"/categoriaid/"+categoriaid+"/dni/"+dni+"/cargo/"+cargo+"/horareal/"+hora_real+"/tipo_actividad/"+tipo_actividad+"/etapa/"+etapa+"/actividad_generalid/"+actividad_generalid+"/fecha_calendario/"+fecha_calendario+"/h_propuesta/"+h_propuesta;   
+                         var url="/timesheet/index/updatetareoreal/codigo_prop_proy/"+codigo_prop_proy+"/codigo_actividad/"+codigo_actividad+"/actividadid/"+actividadid+"/revision/"+revision+"/actividad_padre/"+actividad_padre+"/proyectoid/"+proyectoid+"/semanaid/"+semanaid+"/fecha_tarea/"+fecha_tarea+"/asignado/"+asignado+"/areaid/"+areaid+"/categoriaid/"+categoriaid+"/dni/"+dni+"/cargo/"+cargo+"/horareal/"+hora_real+"/tipo_actividad/"+tipo_actividad+"/etapa/"+etapa+"/actividad_generalid/"+actividad_generalid+"/h_propuesta/"+h_propuesta;   
 
-                          var url2='/timesheet/index/traersumahoras/semanaid/'+semanaid+'/fecha/'+fecha_tarea+'/fechainiciomod/'+fecha_tarea+'/uid/'+uid+'/dni/'+dni_+'/cargo/'+cargo;   
+                          //var url2='/timesheet/index/traersumahoras/semanaid/'+semanaid+'/fecha/'+fecha_tarea+'/fechainiciomod/'+fecha_tarea+'/uid/'+uid+'/dni/'+dni_+'/cargo/'+cargo;   
+                          
                           //alert(url);            
 
                            $.ajax({
@@ -766,10 +741,9 @@
                                           alert("error petición ajax load");
                                     },
                                     success: function(data){                                                 
-                                          //$("#carga").empty();
+                                          $("#carga").empty();
                                           $("#carga").html(data);                  
-                                          $("#comentview").hide();                                          
-                                        
+                                          //$("#comentview").hide();
                                     }
                             });
                         //} 
@@ -798,7 +772,6 @@
                 </div>
               </div>
 
-
                     <script type="text/javascript">
                     $(document).ready(function(){
                           //$("#savecoment").click(function(){            
@@ -822,56 +795,18 @@
                             var comentario = $("#coment<?php echo $i ?><?php echo $j?>").attr('comentario');
                             
                             var cc=comentario;
-
-
-                            var titulo = $('input[name=titulo]').val();
-      var autor = $('input[name=autor]').val();
-      var tag = $('input[name=tag]').val();
-
-      var template = '<article class="postg"> \
-        <div class="ss"> \
-          <table > \
-          <tr>\
-            <th style="width: 10%;">Fecha  </th>\
-            <th style="width: 30%;" >Proyecto </th> \
-            <th style="width: 20%;" > Actividad: Tarea</th> \
-            <th style="width: 5%;" > hora</th> \
-            <th style="width: 35%;" > Comentario</th> \
-          </tr>\
-          </table> \
-        </div> \
-        <div class="descripcion"> \
-          <figure class="imagen"> \
-            <img src="imagenes/foto.jpg" /> \
-          </figure> \
-          <div class="detalles"> \
-            <h2 class="titulo"> \
-              '+titulo+' \
-            </h2> \
-            <p class="autor"> \
-              por <a href="#">'+autor+'</a> \
-            </p> \
-            <a class="tag" href="#">'+tag+'</a> \
-            <p class="fecha">hace <strong>0</strong> min</p> \
-          </div> \
-        </div> \
-        <div class="acciones"> \
-          <div class="votos"> \
-            <a class="up" href="#"></a> \
-            <span class="total">0</span> \
-            <a class="down" href="#"></a> \
-          </div> \
-          <div class="datos"> \
-            <a class="comentarios" href="#"> \
-              0 \
-            </a> \
-            <a class="estrellita" href="#"></a> \
-          </div> \
-        </div> \
-      </article>';        
-             
-
-
+                            // var template = '<article class="post"> \
+                            //   <table > \
+                            //     <tr>\
+                            //       <th style="width: 10%;">Fecha  </th>\
+                            //       <th style="width: 30%;" >Proyecto </th> \
+                            //       <th style="width: 20%;" > Actividad: Tarea</th> \
+                            //       <th style="width: 5%;" > hora</th> \
+                            //       <th style="width: 35%;" > Comentario</th> \
+                            //     </tr>\
+                            //     </table> \
+                            //    </article>';        
+                               
                             alertify.prompt("Escriba un comentario", function (e, str) {
                             if (e) {
                             
@@ -886,45 +821,23 @@
                                       alert("error petición ajax load");
                                     },
                                     success: function(data){
-                                
-                                    }
+                                        //$('.postg').prepend($(template).fadeIn());
+                                                                          }
                                   });
 
                                 alertify.success("ha sido guardado su comentario: " + str);
-
-                                $('#agregarComentario').html('');
-                                
-                                $.ajax({
-                                  type: "GET",
-                                  url: '/timesheet/index/traercoment/semanaid/' + "<?php echo $this->semana; ?>",
-                                  success: function(data){
-                                    data.forEach(function (item) {
-                                      fila_comen = '<tr><th>' + item.fecha_tarea + '</th><th>' + item.proyecto + '</th><th>' + item.actividad + '</th><th>' + item.h_real + '</th><th>' + item.comentario + '</th></tr>';
-
-                                        $('#agregarComentario').append(fila_comen);
-
-                                    })
-                                
-                                  }
-                                })
 
                               } else {
                                 alertify.error("ha sido Cancelado");
                               }
                             }, cc);
-                             return false;                          
-
-
+                             return false; 
                             // $("#savecoment").click(function(){
                             //     var coment=$("#message").val();
                             // });
-                    
                           });
                         });
                         </script>
-
-
-
                 <?php 
                 }
                   $newDate = date("Y-m-d", strtotime($fecha));
@@ -1034,20 +947,15 @@
                     var fecha_planificacion="<?php echo $data_tareo['fecha_planificacion']?>";
                     var fecha = $("#fechasemana").text();
 
-                    var url="/timesheet/index/updateetapanb/codigo/"+codigo_prop_proy+"/codigo_actividad/"+codigo_actividad+"/actividadid/"+actividadid+"/revision/"+revision+"/actividad_padre/"+actividad_padre+"/proyectoid/"+proyectoid+"/semanaid/"+semanaid+"/fecha_tarea/"+fecha_tarea+"/asignado/"+asignado+"/areaid/"+areaid+"/categoriaid/"+categoriaid+"/dni/"+dni+"/cargo/"+cargo+"/tipo_actividad/"+tipo_actividad+"/etapa/"+etapa+"/fecha_planificacion/"+fecha_planificacion+"/tarea_general/"+tarea_general+"/fecha/"+fecha+"/actividad_generalid/"+actividad_generalid+"/ban/0";
-
-
-                    //alert(url);
-                   
+                    var url="/timesheet/index/updateetapanb/codigo/"+codigo_prop_proy+"/codigo_actividad/"+codigo_actividad+"/actividadid/"+actividadid+"/revision/"+revision+"/actividad_padre/"+actividad_padre+"/proyectoid/"+proyectoid+"/semanaid/"+semanaid+"/fecha_tarea/"+fecha_tarea+"/asignado/"+asignado+"/areaid/"+areaid+"/categoriaid/"+categoriaid+"/dni/"+dni+"/cargo/"+cargo+"/tipo_actividad/"+tipo_actividad+"/etapa/"+etapa+"/fecha_planificacion/"+fecha_planificacion+"/tarea_general/"+tarea_general+"/fecha/"+fecha_tarea+"/actividad_generalid/"+actividad_generalid+"/ban/0";
+                    //alert(url);                   
                     if (isNaN(tarea_general)) {
                            //entonces (no es numero) devuelvo el valor cadena vacia 
                            alert('la actividad esta duplicada, cargue nuevamente la pagina');
                            //e.preventDefault();
-                    }else{ 
+                    }else{                     
 
-                    
-
-                     var dateObj = $('#datepicker').datepicker('getDate');
+                    var dateObj = $('#datepicker').datepicker('getDate');
                     var dateFrom = $.datepicker.formatDate('mm/dd/yy', dateObj);
                     var weekfrom = $.datepicker.iso8601Week(new Date(dateFrom));
                     var diasSemana = new Array("Domingo","Lunes","Martes","Miércoles","Jueves","Viernes","Sábado");
@@ -1063,7 +971,6 @@
                     };
 
                     fecha_inicio = mostrarFecha(dateObj,-num_day);
-
                     /*var dateObj = new Date();
                     var dateFrom = $.datepicker.formatDate('mm/dd/yy', dateObj);
                     var weekfrom = $.datepicker.iso8601Week(new Date(dateFrom));
@@ -1080,7 +987,6 @@
                     };
                     fecha_inicio = mostrarFecha(dateObj,-num_day);*/
                     urlfecha="/timesheet/index/registro/fecha/" + fecha_inicio;
-
                   //  $("#registros").load("/timesheet/index/registro/fecha/" + fecha_inicio); 
                     //document.location.href="/timesheet/index/calendar";
                     $.ajax({
@@ -1115,11 +1021,7 @@
 
                 $(document).ready(function(){
                   $("#nofacturable_cambio_<?php echo $j?>").click(function(){
-                    //alert("ssss");
-                    //$("#tarea_general_<?php echo $j?>").show();
-                    //$("#facturable_tareo_<?php echo $j?>").hide();
-                    //$("#nofacturable_tareo_<?php echo $j?>").show();
-                    //$("#tarea_proyecto_<?php echo $j?>").hide();                   
+                    //alert("ssss");                                      
                     var codigo_prop_proy= "<?php echo $data_tareo['codigo_prop_proy']?>";
                     var codigo_actividad="<?php echo $data_tareo['codigo_actividad']?>";
                     var actividadid="<?php echo $data_tareo['actividadid']?>";
@@ -1138,7 +1040,7 @@
                     var fecha_planificacion="<?php echo $data_tareo['fecha_planificacion']?>";
                     var fecha = $("#fechasemana").text();
 
-                    var url="/timesheet/index/updateetapab/codigo/"+codigo_prop_proy+"/codigo_actividad/"+codigo_actividad+"/actividadid/"+actividadid+"/revision/"+revision+"/actividad_padre/"+actividad_padre+"/proyectoid/"+proyectoid+"/semanaid/"+semanaid+"/fecha_tarea/"+fecha_tarea+"/asignado/"+asignado+"/areaid/"+areaid+"/categoriaid/"+categoriaid+"/dni/"+dni+"/cargo/"+cargo+"/tipo_actividad/"+tipo_actividad+"/etapa/"+etapa+"/fecha_planificacion/"+fecha_planificacion+"/fecha/"+fecha;
+                    var url="/timesheet/index/updateetapab/codigo/"+codigo_prop_proy+"/codigo_actividad/"+codigo_actividad+"/actividadid/"+actividadid+"/revision/"+revision+"/actividad_padre/"+actividad_padre+"/proyectoid/"+proyectoid+"/semanaid/"+semanaid+"/fecha_tarea/"+fecha_tarea+"/asignado/"+asignado+"/areaid/"+areaid+"/categoriaid/"+categoriaid+"/dni/"+dni+"/cargo/"+cargo+"/tipo_actividad/"+tipo_actividad+"/etapa/"+etapa+"/fecha_planificacion/"+fecha_planificacion+"/fecha/"+fecha_tarea;
                     // alert(url);
                    
                     var dateObj = new Date();
@@ -1211,7 +1113,7 @@
                     var fecha_planificacion="<?php echo $data_tareo['fecha_planificacion']?>";
                     var fecha = $("#fechasemana").text();
 
-                    var url="/timesheet/index/updateetapanb/codigo/"+codigo_prop_proy+"/codigo_actividad/"+codigo_actividad+"/actividadid/"+actividadid+"/revision/"+revision+"/actividad_padre/"+actividad_padre+"/proyectoid/"+proyectoid+"/semanaid/"+semanaid+"/fecha_tarea/"+fecha_tarea+"/asignado/"+asignado+"/areaid/"+areaid+"/categoriaid/"+categoriaid+"/dni/"+dni+"/cargo/"+cargo+"/tipo_actividad/"+tipo_actividad+"/etapa/"+etapa+"/fecha_planificacion/"+fecha_planificacion+"/fecha/"+fecha+"/actividad_generalid/"+actividad_generalid+"/ban/1";
+                    var url="/timesheet/index/updateetapanb/codigo/"+codigo_prop_proy+"/codigo_actividad/"+codigo_actividad+"/actividadid/"+actividadid+"/revision/"+revision+"/actividad_padre/"+actividad_padre+"/proyectoid/"+proyectoid+"/semanaid/"+semanaid+"/fecha_tarea/"+fecha_tarea+"/asignado/"+asignado+"/areaid/"+areaid+"/categoriaid/"+categoriaid+"/dni/"+dni+"/cargo/"+cargo+"/tipo_actividad/"+tipo_actividad+"/etapa/"+etapa+"/fecha_planificacion/"+fecha_planificacion+"/fecha/"+fecha_tarea+"/actividad_generalid/"+actividad_generalid+"/ban/1";
 
 
 
@@ -1232,7 +1134,7 @@
                       };
                     };
                     fecha_inicio = mostrarFecha(dateObj,-num_day);
-                    urlfecha="/timesheet/index/registro/fecha/" + fecha;
+                    urlfecha="/timesheet/index/registro/fecha/" + fecha_inicio;
              
 
                     $.ajax({
@@ -1257,31 +1159,24 @@
                                           $("#registro").html(data);
                                           $("#facturable_tareo_<?php echo $j?>").hide();
                                           $("#tarea_general_<?php echo $j?>").show();
-                                          $("#nofacturable_tareo_<?php echo $j?>").show();
-                                        
+                                          $("#nofacturable_tareo_<?php echo $j?>").show();                                        
                                   }
-                              }); 
-                          
+                              });                          
                         }
-                    });                                        
-                   
+                    });
                   });
                 });
 
                 $(document).ready(function(){
                   $("#nofacturable_tareo_<?php echo $j?>").click(function(){
-
                     $("#facturable_tareo_<?php echo $j?>").show();
                     $("#tarea_general_<?php echo $j?>").hide();
-                    $("#nofacturable_tareo_<?php echo $j?>").hide(); 
-
-
+                    $("#nofacturable_tareo_<?php echo $j?>").hide();
                   });
                 });
 
                 $(document).ready(function(){
                   $("#crear_tareag_<?php echo $j?>").click(function(){
-
                     //alert('sssszzzz');
                     var codigo_prop_proy= '<?php echo $data_tareo['codigo_prop_proy']?>';
                     var codigo_actividad='<?php echo $data_tareo['codigo_actividad']?>';
@@ -1301,9 +1196,7 @@
                     var fecha_planificacion="<?php echo $data_tareo['fecha_planificacion']?>";
                      var fecha = $("#fechasemana").text();
 
-
-                    var url="/timesheet/index/guardaractividadgeneral/codigo/"+codigo_prop_proy+"/codigo_actividad/"+codigo_actividad+"/actividadid/"+actividadid+"/revision/"+revision+"/actividad_padre/"+actividad_padre+"/proyectoid/"+proyectoid+"/semanaid/"+semanaid+"/fecha_tarea/"+fecha_tarea+"/asignado/"+asignado+"/areaid/"+areaid+"/categoriaid/"+categoriaid+"/dni/"+dni+"/cargo/"+cargo+"/tipo_actividad/"+tipo_actividad+"/etapa/"+etapa+"/fecha_planificacion/"+fecha_planificacion+"/fecha/"+fecha;
-                    
+                    var url="/timesheet/index/guardaractividadgeneral/codigo/"+codigo_prop_proy+"/codigo_actividad/"+codigo_actividad+"/actividadid/"+actividadid+"/revision/"+revision+"/actividad_padre/"+actividad_padre+"/proyectoid/"+proyectoid+"/semanaid/"+semanaid+"/fecha_tarea/"+fecha_tarea+"/asignado/"+asignado+"/areaid/"+areaid+"/categoriaid/"+categoriaid+"/dni/"+dni+"/cargo/"+cargo+"/tipo_actividad/"+tipo_actividad+"/etapa/"+etapa+"/fecha_planificacion/"+fecha_planificacion+"/fecha/"+fecha_tarea;                    
                     //alert(url);
                     var dateObj = $('#datepicker').datepicker('getDate');
                     var dateFrom = $.datepicker.formatDate('mm/dd/yy', dateObj);
@@ -1492,38 +1385,8 @@
 </div>
 
 <script src="/js/alertify.min.js"></script>
- <link rel="stylesheet" href="/css/alertify.core.css" />
+<link rel="stylesheet" href="/css/alertify.core.css" />
 <link rel="stylesheet" href="/css/alertify.default.css" id="toggleCSS" />
-<link rel="stylesheet" href="/css/alertify.bootstrapx.css" id="toggleCSS" />
-<!--
-<link rel="stylesheet" href="/css/alertify1.4.1/alertify.css" id="toggleCSS" /> 
-<link rel="stylesheet" href="/css/alertify1.4.1/alertify.min.css" id="toggleCSS" /> 
-<link rel="stylesheet" href="/css/alertify1.4.1/alertify.rtl.css" id="toggleCSS" /> 
-<link rel="stylesheet" href="/css/alertify1.4.1/alertify.rtl.min.css" id="toggleCSS" />  -->
-<!-- <body ng-app="angularSuma" ng-controller="sumaController as vm">
-  <h1>Suma de numeros:</h1>
-  <div ng-repeat="elemento in vm.elementos track by $index">
-     <input type="text"  ng-model="vm.elementos[$index]" ng-change="vm.sumar()">
-  </div>
-  <input type="button" value="Agregar" ng-click="vm.agregar()">
-  {{vm.resultado}}
-</body> -->
-<!--   <input type="text" id="num1">
-  <input type="text" id="num2">
-  <input type="text" id="num3">
-  <input type="text" id="num4">
- -->
-<!-- <div class="row">
-<form action="" id="form_rendicion" class="form-horizontal">
-<?php 
-  for ($i=0; $i < 6; $i++) { 
-  ?>
-  <input type="text" name="gasto_persona_id[]" value="989"/>
-  <?php 
-  }  
-?>
-<form>
-</div> -->
 
 <script type="text/javascript">
 
@@ -1622,8 +1485,6 @@
 <div style="display:none"  id="carga_copiar"></div>
 <div style="display:none" id="carga_w1"></div>
 
-
-
   <article class="postg">
   </article>
 
@@ -1637,11 +1498,8 @@
             <th style="width: 5%;" > hora</th> 
             <th style="width: 35%;" > Comentario</th> 
           </tr>
-         
-            
       </thead>
-      <tbody id="agregarComentario">
-             
+      <tbody>             
           <?php           
             $uid=$this->uid;            
             $dni=$this->dni;
