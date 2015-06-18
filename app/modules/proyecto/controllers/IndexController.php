@@ -180,14 +180,22 @@ class Proyecto_IndexController extends Zend_Controller_Action {
 
       public function updateequipoAction() {
 
-        $this->_helper->layout()->disableLayout();
+        //$this->_helper->layout()->disableLayout();
         $proyectoid= $this->_getParam("proyectoid");
         $codigo_prop_proy= $this->_getParam("codigo");
         $dni= $this->_getParam("dni");
         $uid= $this->_getParam("uid");
         $areaid= $this->_getParam("areaid");
         $rate= $this->_getParam("rate");
+        $ratep= $this->_getParam("rate_proyecto");
         
+        echo $ratep;
+        echo $proyectoid;
+        echo $codigo_prop_proy;
+        echo "aca";
+        echo $areaid;
+        exit();
+
          
         $pk  =   array(                        
                         'codigo_prop_proy'   =>$codigo_prop_proy,
