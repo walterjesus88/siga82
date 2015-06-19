@@ -103,7 +103,6 @@ class Admin_Model_DbTable_Actividad extends Zend_Db_Table_Abstract
             $row=$sql->fetchAll();
             return $row;           
             }  
-            
            catch (Exception $ex){
             print $ex->getMessage();
         }
@@ -433,6 +432,23 @@ public function _getTareasxActividadPadrexCategoria($proyectoid,$codigo,$propues
             return false;
         }catch (Exception $ex){
             print "Error: Get Info curriculum ".$ex->getMessage();
+        }
+    }
+
+
+    public function _getRepliconProyectosInternos($codigo)
+     {
+        try{
+            $sql=$this->_db->query("
+                select * from proyecto 
+                where codigo_prop_proy='$codigo' 
+                order by proyectoid
+            ");
+            $row=$sql->fetchAll();
+            return $row;           
+            }  
+           catch (Exception $ex){
+            print $ex->getMessage();
         }
     }
     

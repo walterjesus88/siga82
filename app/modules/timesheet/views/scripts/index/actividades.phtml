@@ -1,19 +1,13 @@
 <!--Separando codigo php de la vista y codigo javascript-->
 <!--Tranfiriendo los datos de las actividades a un array en javascript-->
-
 <span style="font-weight:bold;">Actividad</span>
 <script>
     var actividadArray = [];
-
 <?php
     $actividades_hijos = $this->actividades;
-
     foreach ($actividades_hijos as $data_tareo_hijos) {
         $tareopersona = new Admin_Model_DbTable_Tareopersona();
-
         $buscar_tarea=$tareopersona->_getTareoxPersonaxSemanaxActividadidxReplicon($this->uid,$this->dni,$this->semanaid,$data_tareo_hijos['actividad_padre'],$data_tareo_hijos['actividadid'],$data_tareo_hijos['codigo_actividad'],$this->codigo_prop_proy,$this->proyectoid,$data_tareo_hijos['revision']); ?>
-
-        
             actividadObj = {}
             actividadObj = {
                 'codigo': '<?php echo $this->codigo_prop_proy; ?>',
@@ -27,8 +21,7 @@
                 'actividad_padre': "<?php echo $data_tareo_hijos['actividad_padre']; ?>",
                 'h_propuesta': "<?php echo $data_tareo_hijos['h_propuesta']; ?>"
             }
-
-              
+             
 <?php   if ($buscar_tarea) {?>
                 actividadObj['estado'] = 'checked';
                 actividadArray.push(actividadObj);
@@ -40,19 +33,10 @@
 ?>
 </script>
 <!--Fin de transferencia, apartir de aqui ya no se utiliza php-->
-
-
-
-
 <ul id="lista_actividades" class="nav nav-pills nav-stacked">
 </ul>
-
 <ul id="lista_tareas" class="nav nav-pills nav-stacked">
-    
 </ul>
-
-
-
 <!--Codigo javascript para verificar condiciones y agregar elementos al DOM-->
 <script>
 //Dividir el array en dos dependiendo si es actividad o tarea
