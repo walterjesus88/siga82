@@ -644,6 +644,8 @@
                                 alertify.success("ha sido guardado su comentario: " + str);
                                 $('#coment<?php echo $i ?><?php echo $j?>').children('i').attr('style', "color: #485BBD");
 
+                                $("#coment<?php echo $i ?><?php echo $j?>").attr('comentario', str);
+
                                 $('#agregarComentario').html('');
                                 
                                 $.ajax({
@@ -766,7 +768,7 @@
                                           alert("error petición ajax load");
                                     },
                                     success: function(data){                                                 
-                                          //$("#carga").empty();
+                                          $("#carga").empty();
                                           $("#carga").html(data);                  
                                           $("#comentview").hide();                                          
                                         
@@ -891,6 +893,7 @@
                                   });
 
                                 alertify.success("ha sido guardado su comentario: " + str);
+                                $('#coment<?php echo $i ?><?php echo $j?>').children('i').attr('style', "color: #485BBD");
 
                                 $('#agregarComentario').html('');
                                 
@@ -1494,36 +1497,6 @@
 <script src="/js/alertify.min.js"></script>
  <link rel="stylesheet" href="/css/alertify.core.css" />
 <link rel="stylesheet" href="/css/alertify.default.css" id="toggleCSS" />
-<link rel="stylesheet" href="/css/alertify.bootstrapx.css" id="toggleCSS" />
-<!--
-<link rel="stylesheet" href="/css/alertify1.4.1/alertify.css" id="toggleCSS" /> 
-<link rel="stylesheet" href="/css/alertify1.4.1/alertify.min.css" id="toggleCSS" /> 
-<link rel="stylesheet" href="/css/alertify1.4.1/alertify.rtl.css" id="toggleCSS" /> 
-<link rel="stylesheet" href="/css/alertify1.4.1/alertify.rtl.min.css" id="toggleCSS" />  -->
-<!-- <body ng-app="angularSuma" ng-controller="sumaController as vm">
-  <h1>Suma de numeros:</h1>
-  <div ng-repeat="elemento in vm.elementos track by $index">
-     <input type="text"  ng-model="vm.elementos[$index]" ng-change="vm.sumar()">
-  </div>
-  <input type="button" value="Agregar" ng-click="vm.agregar()">
-  {{vm.resultado}}
-</body> -->
-<!--   <input type="text" id="num1">
-  <input type="text" id="num2">
-  <input type="text" id="num3">
-  <input type="text" id="num4">
- -->
-<!-- <div class="row">
-<form action="" id="form_rendicion" class="form-horizontal">
-<?php 
-  for ($i=0; $i < 6; $i++) { 
-  ?>
-  <input type="text" name="gasto_persona_id[]" value="989"/>
-  <?php 
-  }  
-?>
-<form>
-</div> -->
 
 <script type="text/javascript">
 
