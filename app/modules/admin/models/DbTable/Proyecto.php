@@ -160,7 +160,7 @@ class Admin_Model_DbTable_Proyecto extends Zend_Db_Table_Abstract
         try{
             $sql=$this->_db->query("
                 select * from proyecto
-                where not proyectoid in ('1','2','3','4','5') order by proyectoid desc;
+                where not proyectoid in ('1','2','3','4','5','1590.10.01','1590.10.02','1590.10.03') order by proyectoid desc;
                 ");
             $row=$sql->fetchAll();
             return $row;           
@@ -175,7 +175,7 @@ class Admin_Model_DbTable_Proyecto extends Zend_Db_Table_Abstract
         try{
             $sql=$this->_db->query("
                 select * from proyecto
-                where not proyectoid in ('1','2','3','4','5') and gerente_proyecto='$gerente' order by proyectoid asc;
+                where not proyectoid in ('1','2','3','4','5','1590.10.01','1590.10.02','1590.10.03') and gerente_proyecto='$gerente' order by proyectoid asc;
                 ");
             $row=$sql->fetchAll();
             return $row;           
