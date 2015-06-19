@@ -158,7 +158,9 @@ $("#guardar_act").click(function(){
 $.datepicker.setDefaults($.datepicker.regional["es"]);
 $("#datepicker").datepicker({
     firstDay: 1,
-    maxDate:0, dateFormat:'dd/mm/yy', yearRange: '-100:+0',    
+    maxDate:0, dateFormat:'dd/mm/yy', yearRange: '-100:+0',  
+    minDate: new Date(noMonth()),
+      
     onSelect: function (date, inst) {
         var dateObj = $('#datepicker').datepicker('getDate');
         var dateFrom = $.datepicker.formatDate('mm/dd/yy', dateObj);
@@ -185,6 +187,12 @@ $("#datepicker").datepicker({
     },
 });
 
+function noMonth(){
+    var f = new Date();
+    //var day = f.getDay();  
+    var fech=f.getFullYear()+"-"+(f.getMonth()) +"-"+f.getDate(); 
+    return fech;
+}
 
 function mostrarFecha(fecha,days){
     milisegundos=parseInt(35*24*60*60*1000);
