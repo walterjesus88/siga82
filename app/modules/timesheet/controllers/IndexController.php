@@ -81,38 +81,17 @@ class Timesheet_IndexController extends Zend_Controller_Action {
         $this->view->areaid=$areaid;
         $proyectoid = $this->_getParam('proyectoid');
         $codigo_prop_proy = $this->_getParam('codigo_prop_proy');
-       $categoriaid = $this->_getParam('categoriaid');
+        $categoriaid = $this->_getParam('categoriaid');
         $fecha_consulta = $this->_getParam('fecha');
-          $semana=date('W', strtotime($fecha_consulta)); 
+        $semana=date('W', strtotime($fecha_consulta)); 
         $this->view->semanaid = $semana;
-
         $actividad = new Admin_Model_DbTable_Actividad();
-        $actividades_padre = $actividad->_getActividadesPadresXproyectoXcodigo($proyectoid, $codigo_prop_proy);
-
-        /*actividades por categoria habilitadas para el usuario*/
-        //$actividades_padre=$actividad->_getActividadesPadresXProyectoXCategoria($proyectoid,$categoriaid,$codigo_prop_proy);
-        $i=0;
-        //print_r($actividades_padre);
-       /* foreach ($actividades_padre as $act_padre) {
-        $dato_padre=$actividad->_getActividadesxActividadid($proyectoid,$codigo_prop_proy,$act_padre['padre']);
-        $array[$i]=$dato_padre[0];
-        $i++;
-        }*/
-
-        //print_r($array);
-
         $dato_padre=$actividad->_getRepliconActividades($proyectoid,$codigo_prop_proy);
-        
         $this->view->actividades = $dato_padre;    
-        
-
-        //$this->view->actividades = $array;
-        
         $this->view->proyectoid = $proyectoid;
         $this->view->codigo_prop_proy = $codigo_prop_proy;
         $this->view->categoriaid = $categoriaid;
         $this->view->fecha_consulta = $fecha_consulta;
-
         } catch (Exception $e) {
             print "Error: ".$e->getMessage();
         } 
