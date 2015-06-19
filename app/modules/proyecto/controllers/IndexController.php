@@ -1280,7 +1280,7 @@ public function verAction() {
 
 
     $areacat=new Admin_Model_DbTable_Area();
-    $arcat=$areacat->_getAreaAll();
+    $arcat=$areacat->_getAreaxProyecto();
     $this->view->area = $arcat; 
 
 
