@@ -1,20 +1,6 @@
 <style type="text/css">
-/*  body {font-family: Arial, Helvetica, sans-serif; background-color: #FFF8DC;}
- 
-  table { font-family: "Lucida Sans Unicode", "Lucida Grande", Sans-Serif; font-size: 12px; margin: 45px; width: 550px;
-      text-align: center; border-collapse: collapse; }
-   
-  th { font-size: 13px; font-weight: normal; padding: 8px; background: #b9c9fe; border-top: 4px solid #aabcfe;
-      border-bottom: 1px solid #fff; color: #039; }
-   
-  td { padding: 8px; background: #e8edff; border-bottom: 1px solid #fff; color: #669; border-top: 1px solid transparent; }
-   
-  tr:hover td { background: #d0dafd; color: #339; }*/
-   
   .editar {color: blue; cursor:pointer;}
-   
   #contenedorForm {margin-left: 45px; font-size:12px;}
-   
   .boton {   color: black; padding: 5px; margin: 10px;
     background-color: #b9c9fe;
     font-weight: bold; }
@@ -177,7 +163,7 @@
                     <option value="PROYECTO">Proyecto</option> 
           </select> 
 
-                <input value="Publicar" type="submit" />
+                <input value="Guardar" type="submit" />
         </form>
           <?php 
           $bdequipoarea = new Admin_Model_DbTable_Equipoarea();
@@ -220,7 +206,6 @@
                           <?php
                           $j=0;
                           foreach ($equipo as $lista) { 
-                            //print_r($lista);
                           ?>
                             <tr>
                               <td class="p-name">
@@ -237,7 +222,6 @@
                                 <?php
                                 $dbcat= new Admin_Model_DbTable_Categoria();
                                 $bucarcat=$dbcat->_getCategoriaxCategoriaid($lista['categoriaid']); 
-                                //print_r($bucarcat);
                                 print_r($bucarcat[0]['rate_externo']); 
                                 ?>
                               </td>
@@ -298,11 +282,8 @@
                                   ;
                                             
                                   nodoTr.innerHTML = nuevoCodigoHtml;
-
                                   nodoContenedorForm.innerHTML = 'Pulse Aceptar para guardar los cambios o cancelar para anularlos'+
                                    '<input class="boton" type = "submit" value="Aceptar" onclick="capturarEnvio()"> <input class="boton" type="reset" value="Cancelar"  onclick="anular()" >';
-
-
                                 });
                               });
                             </script> 
