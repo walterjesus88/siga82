@@ -1,46 +1,18 @@
 <div ng-app="reporteApp" ng-controller="mainController as reporte" class="div-reportes">
-	<h1>Reporte Tareopersona</h1>        
-	<a href="#" ng-click="reporte.getTareopersona()">Hola</a>
+	<h1>Reporte Tareopersona</h1>
 	<div>
 		<div class="table-inline">
-			<table class="table-bordered">
-				<thead class="title-table">
-					<th>
-						<div>
-							Cobrabilidad
-						</div>
-					</th>
-				</thead>
-				<tbody class="scroll-content-small">
-					<tr ng-repeat="cobrabilidad in reporte.cobrabilidad">
-						<td>
-							<div>
-								{{cobrabilidad}}
-							</div>
-						</td>
-					</tr>
-				</tbody>
-			</table>
+			<h3>Cobrabilidad</h3>
+			<input type="checkbox" ng-model="reporte.tipo_todo" ng-true-value="true" ng-false-value="false" ng-click="reporte.mostrarTodo()">
+			<div ng-repeat="item in reporte.cobrabilidad">
+				<input type="checkbox" ng-model="reporte.activo[item.text]" ng-true-value="true" ng-false-value="false">{{item.text}}
+			</div>
 		</div>
 		<div class="table-inline">
-			<table class="table-bordered">
-				<thead class="title-table">
-					<th>
-						<div>
-							Rango Fecha Rendición
-						</div>
-					</th>
-				</thead>
-				<tbody class="scroll-content-small">
-					<tr ng-repeat="fecha in reporte.rango_fecha">
-						<td>
-							<div>
-								{{fecha}}
-							</div>
-						</td>
-					</tr>
-				</tbody>
-			</table>
+			<h3>Rango Fecha de Rendición</h3>
+			<div ng-repeat="fecha in reporte.rango_fecha">
+				{{fecha}}
+			</div>
 		</div>
 		<div class="table-inline">
 			<table class="table-bordered">
@@ -75,7 +47,7 @@
 					<tr ng-repeat="usuario in reporte.usuarios track by $index">
 						<td>
 							<div>
-								{{usuario}}
+								{{usuario.usuario}}
 							</div>
 						</td>
 					</tr>
@@ -133,7 +105,7 @@
 			</th>
 		</thead>
 		<tbody class="scroll-content-high">
-			<tr ng-repeat="fila in reporte.tareopersona">
+			<tr ng-repeat="fila in reporte.tareopersona" ng-show="reporte.activo[fila.tipo_actividad]">
 				<td>
 					<div>
 						{{fila.dni}}
@@ -156,7 +128,7 @@
 				</td>
 				<td>
 					<div>
-						{{fila.cobra}}
+						{{fila.tipo_actividad}}
 					</div>
 				</td>
 				<td>
