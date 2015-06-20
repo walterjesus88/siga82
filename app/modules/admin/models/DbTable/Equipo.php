@@ -108,7 +108,7 @@ public function _getProyectosxUidXEstadoxCliente($uid,$estado,$clienteid,$unidad
                
                 from equipo e inner join proyecto p
                 on e.codigo_prop_proy = p.codigo_prop_proy and e.proyectoid=p.proyectoid
-                where e.uid = '$uid' and e.dni='$dni' and e.estado = '$estado' and
+                where e.uid = '$uid' and e.dni='$dni' and e.estado = '$estado' and p.estado='$estado' and 
                 p.clienteid='$clienteid' order by e.proyectoid
                     ");
             $row=$sql->fetchAll();
@@ -184,7 +184,7 @@ public function _getProyectosAnddes()
                 ON e.codigo_prop_proy = p.codigo_prop_proy and e.proyectoid=p.proyectoid 
                 inner join cliente c on
                 p.clienteid=c.clienteid
-                where e.uid = '$uid' and e.dni='$dni' and e.estado = '$estado' order by c.nombre_comercial
+                where e.uid = '$uid' and e.dni='$dni' and p.estado='$estado' and e.estado = '$estado' order by c.nombre_comercial
                ");
             $row=$sql->fetchAll();
             return $row;           
