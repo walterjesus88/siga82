@@ -16,14 +16,19 @@ controller('mainController', ['$http', function($http){
 	reporte.dias = ['11', '12', '13', '14'];
 	reporte.activo = {'Facturable': true, 'No Facturable': true, 'Administración': true};
 	reporte.tipo_todo = true;
+	reporte.cliente_seleccionado = 'todos';
+	reporte.usuario_seleccionado = 'todos';
 
-	reporte.getTareopersona = function () {
+	reporte.getTareopersona = function (uid) {
 		$("#wait").modal();
-		$http.get('/reporte/index/tareopersona/uid/denys.parra/dni/08051678')
+		if (uid == 'todos') {
+			uid = '';
+		};
+		dni = obtenerdni(uid);
+		$http.get('/reporte/index/tareopersona/uid/'+ uid +'/dni/' + dni)
 		.success(function (res) {
 			reporte.tareopersona = res;
 			$("#wait").modal('hide');
-			console.log(reporte.tareopersona);
 		})
 	}
 
@@ -59,8 +64,18 @@ controller('mainController', ['$http', function($http){
 	angular.element(document).ready(function () {
 		reporte.getClientes();
 		reporte.getUsuarios();
-        reporte.getTareopersona();
+        reporte.getTareopersona('');
         
     });
+
+    function obtenerdni (uid) {
+    	dni = '';
+    	reporte.usuarios.forEach(function (item) {
+    		if (item.uid == uid) {
+    			dni = item.dni;
+    		};
+    	})
+    	return dni;
+    }
 	
 }])

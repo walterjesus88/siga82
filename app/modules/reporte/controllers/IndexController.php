@@ -29,12 +29,9 @@ class Reporte_IndexController extends Zend_Controller_Action {
     public function tareopersonaAction() {
         $this->_helper->layout()->disableLayout();
         $tareopersona = new Admin_Model_DbTable_Tareopersona();
-
-        {
-            $data['uid'] = $this->_getParam('uid');
-            $data['dni'] = $this->_getParam('dni');
-            $todos_tareopersona = $tareopersona->_getReporte($data);
-        }
+        $data['uid'] = $this->_getParam('uid');
+        $data['dni'] = $this->_getParam('dni');
+        $todos_tareopersona = $tareopersona->_getReporte($data);
 
         $respuesta = [];
         $i = 0;

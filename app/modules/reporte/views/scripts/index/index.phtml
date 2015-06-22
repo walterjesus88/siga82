@@ -26,24 +26,10 @@
 			</select>
 		</div>
 		<div class="table-inline">
-			<table class="table-bordered">
-				<thead class="title-table">
-					<th>
-						<div>
-							Usuarios
-						</div>
-					</th>
-				</thead>
-				<tbody class="scroll-content-small" id="usuarioScroll" >
-					<tr ng-repeat="usuario in reporte.usuarios track by $index">
-						<td>
-							<div>
-								{{usuario.uid}}
-							</div>
-						</td>
-					</tr>
-				</tbody>	
-			</table>
+			<select ng-model="reporte.usuario_seleccionado" ng-change="reporte.getTareopersona(reporte.usuario_seleccionado)">
+				<option value="todos" selected="selected">Todos</option>
+				<option value="{{usuario.uid}}" ng-repeat="usuario in reporte.usuarios">{{usuario.uid}}</option>
+			</select>
 		</div>
 	</div>
 	<div>
