@@ -9,29 +9,44 @@ controller('mainController', ['$http', function($http){
 	reporte = this;
 	reporte.tareopersona = [];
 	reporte.cobrabilidad = [{'id': 'P', 'text': 'Facturable'}, {'id': 'G', 'text': 'No Facturable'}, {'id': 'A', 'text': 'Administración'}];
+	reporte.clientes = [];
+	reporte.unidadminera = [];
 	reporte.rango_fecha = ['Fecha de inicio', 'Fecha final'];
-	reporte.formato_proyecto = ['Por nombre', 'Por cliente', 'Unidad minera - Proyecto', 'Todos'];
 	reporte.usuarios = [];
 	reporte.dias = ['11', '12', '13', '14'];
 	reporte.activo = {'Facturable': true, 'No Facturable': true, 'Administración': true};
+	reporte.tipo_todo = true;
 
 	reporte.getTareopersona = function () {
-		$http.get('/reporte/index/tareopersona')
+		$("#wait").modal();
+		$http.get('/reporte/index/tareopersona/uid/denys.parra/dni/08051678')
 		.success(function (res) {
-			//estoy cortando el array de respuesta porque tiene > de 6000 registro y necesito menos para
-			//las pruebas
-			reporte.tareopersona = res;	
+			reporte.tareopersona = res;
+			$("#wait").modal('hide');
+			console.log(reporte.tareopersona);
+		})
+	}
+
+	reporte.getClientes = function () {
+		$http.get('/reporte/index/clientes')
+		.success(function (res) {
+			reporte.clientes = res;
+		})
+	}
+
+	reporte.getUnidadMinera = function (seleccionado) {
+		$http.get('/reporte/index/unidadminera/clienteid/' + seleccionado)
+		.success(function (res) {
+			reporte.unidadminera = res;
 		})
 	}
 
 	reporte.getUsuarios = function () {
 		$http.get('/reporte/index/usuarios')
 		.success(function (res) {
-			reporte.usuarios = res.slice(0, 20);
+			reporte.usuarios = res;
 		})
 	}
-
-	reporte.tipo_todo = true;
 
 	reporte.mostrarTodo = function (id) {
 		if (reporte.tipo_todo) {
@@ -42,8 +57,10 @@ controller('mainController', ['$http', function($http){
 	}
 
 	angular.element(document).ready(function () {
+		reporte.getClientes();
+		reporte.getUsuarios();
         reporte.getTareopersona();
-        reporte.getUsuarios();
+        
     });
 	
 }])
