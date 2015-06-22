@@ -515,4 +515,20 @@ public function _getListarEquipoxProyectoxGerente($uid,$dni)
         }
     }
 
+
+
+
+    /*Metodo para obtener rate_proyecto por proyecto y usuario*/
+    public function _getRatexCppxPidxUid($cpp, $pid, $uid)
+    {
+        try{
+            $where = "codigo_prop_proy = '".$cpp."' and proyectoid = '".$pid."' and uid = '".$uid."'";
+            $row = $this->fetchRow($where);
+            if ($row) return $row->toArray();     
+        }  
+            
+           catch (Exception $ex){
+            print $ex->getMessage();
+        }
+    }
 }

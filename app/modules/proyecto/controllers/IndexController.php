@@ -1952,4 +1952,9 @@ public function cargartarea2Action() {
     }
   }
 
+public function hojaresumenAction() 
+{
+
+}
+
 }
