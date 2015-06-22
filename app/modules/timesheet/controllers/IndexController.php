@@ -211,17 +211,56 @@ class Timesheet_IndexController extends Zend_Controller_Action {
         $datos_tareopersona_NB=$tareo_persona->_getTareoxPersonaxSemanaxNB($uid,$dni,$semana);
         //$data_tareo = $tareo->_getTareoXUid($where);
         $this->view->actividades= $datos_tareopersona;
-        
-       // print_r($this->sesion->is_gerente);
+        // print_r($this->sesion->is_gerente);
         $this->view->is_gerente=$this->sesion->is_gerente;
         //print_r($datos_tareopersona);
-
         $this->view->actividades_NB = $datos_tareopersona_NB;
 
+        $buscar_aprobador=$this->sesion->personal->ucataprobacion;
+        $aprobacion = new Admin_Model_DbTable_Aprobacion();
+        
+        $wheres_filtro1=array('idaprobacion'=>$buscar_aprobador,'estado_filtro1'=>'A');
+        $list_aprobacion_filtro1=$aprobacion->_getOnefiltro1($wheres_filtro1); 
+        if ($list_aprobacion_filtro1)
+        {
+          $aprobador_filtro1= $list_aprobacion_filtro1['idaprobador_filtro1'];  
+          /*
+          $usuario_cat = new Admin_Model_DbTable_Usuariocategoria();
+          $wheres_ucat=array('aprobacion'=>$aprobador_filtro1,'estado'=>'A','estado_sistema'=>'A');
+          $list_aprobador=$usuario_cat->_getOne($wheres_ucat); 
+          echo "<strong>";echo "Aprobadores: "; echo "</strong>";echo "<br>";*/
+        }
 
+        $wheres_filtro2=array('idaprobacion'=>$buscar_aprobador,'estado_filtro2'=>'A');
+        $list_aprobacion_filtro2=$aprobacion->_getOnefiltro2($wheres_filtro2); 
+        if ($list_aprobacion_filtro2)
+        {
+          $aprobador_filtro2= $list_aprobacion_filtro2['idaprobador_filtro2'];  
+          $usuario_cat = new Admin_Model_DbTable_Usuariocategoria();
+          $wheres_ucat=array('aprobacion'=>$aprobador_filtro2,'estado'=>'A','estado_sistema'=>'A');
+          $list_aprobador=$usuario_cat->_getOne($wheres_ucat); 
+          echo "<strong>";echo "Aprobadores: "; echo "</strong>";echo "<br>";
+          $aprobador_usuario = explode(".", $list_aprobador['uid']);
+          echo (ucwords($aprobador_usuario[0])); echo " ";
+          echo (ucwords($aprobador_usuario[1])); echo "<br>";
+        }
+        $planificacion = new Admin_Model_DbTable_Planificacion();
+        
+        $proyectos=$planificacion->_getOnexSemanaxGerenteProyecto($semana,$uid,$dni,$areaid);
 
+        print_r($proyectos);
 
-
+        echo $semana;
+        echo $uid;
+        echo $dni;
+        echo $areaid;
+        foreach ($proyectos as $datos) {
+          $porciones = explode(".", $datos['uid']);
+          echo "GP: ";
+          echo (ucwords($porciones[0])); echo " ";
+          echo (ucwords($porciones[1])); echo "<br>";
+        }
+       
 
         } catch (Exception $e) {
             print "Error: ".$e->getMessage();
