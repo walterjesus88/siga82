@@ -111,4 +111,27 @@ class Admin_Model_DbTable_Aprobacion extends Zend_Db_Table_Abstract
         }
     }
 
+    public function _getOnefiltro1($where=array()){
+        try {
+                $wherestr= "idaprobacion = '".$where['idaprobacion']."' and estado_filtro1='".$where['estado_filtro1']."'
+                ";
+                $row = $this->fetchRow($wherestr);
+                if($row) return $row->toArray();
+                return false;
+        } catch (Exception $e) {
+            print "Error: Read One Condition".$e->getMessage();
+        }
+    }
+
+    public function _getOnefiltro2($where=array()){
+        try {
+                $wherestr= "idaprobacion = '".$where['idaprobacion']."' and estado_filtro2='".$where['estado_filtro2']."'
+                ";
+                $row = $this->fetchRow($wherestr);
+                if($row) return $row->toArray();
+                return false;
+        } catch (Exception $e) {
+            print "Error: Read One Condition".$e->getMessage();
+        }
+    }
 }

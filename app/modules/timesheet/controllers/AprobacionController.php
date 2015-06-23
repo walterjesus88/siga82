@@ -41,21 +41,9 @@ class Timesheet_AprobacionController extends Zend_Controller_Action {
 
     }
 
-    public function aprobacionnivelhistoriconivel4Action(){
+    public function enviaraprobacionAction(){
         try {
-                $uid = $this->sesion->uid;
-                $dni = $this->sesion->dni;     
-                $fecha = date("Y-m-d");
-                $semanaid=date('W', strtotime($fecha)); 
-                $this->view->semanaid= $semanaid;    
-                $areaid=$this->sesion->personal->ucatareaid;   
-                $cargo=$this->sesion->personal->ucatcargo;   
-                if ($cargo=='JEFE') 
-                {
-                    $equipo = new Admin_Model_DbTable_Equipo();
-                    $equipo_aprobacion = $equipo->_getListarEquipoArea($areaid);
-                    $this->view->equipos_horas_aprobar= $equipo_aprobacion;   
-                }        
+                echo "holaaaa";
 
          } catch (Exception $e) {
             print "Error: ".$e->getMessage();
