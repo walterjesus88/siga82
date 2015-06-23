@@ -1955,6 +1955,18 @@ public function cargartarea2Action() {
 public function hojaresumenAction() 
 {
 
+  $proyectoid= $this->_getParam("proyectoid");
+  $codigo_prop_proy= $this->_getParam("codigo_prop_proy");
+
+  $this->view->proyectoid=$proyectoid;
+  $this->view->codigo_prop_proy=$codigo_prop_proy;
+
+  $proyect = new Admin_Model_DbTable_Proyecto();
+  $verproyect=$proyect->_buscarProyectodetalles($proyectoid,$codigo_prop_proy);
+  print_r($verproyect);
+
+  $this->view->proyectdetail=$verproyect;
+
 }
 
 }

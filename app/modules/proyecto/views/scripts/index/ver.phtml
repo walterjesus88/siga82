@@ -67,7 +67,7 @@
       <a id="save" class="btn btn-success btn-xs" href="#">Lista de Entregables</a>
       <a id="save" class="btn btn-success btn-xs" href="#">Valorizacion</a>
       <a id="save" class="btn btn-success btn-xs" href="#">EDP</a>
-      <a id="save" class="btn btn-success btn-xs" href="#">Hoja de Resumen</a>
+      <a id="hojaresumen" class="btn btn-success btn-xs" href="/proyecto/index/hojaresumen/codigo_prop_proy/<?php echo $this->codigo_prop_proy ?>/proyectoid/<?php echo $this->proyectoid ?>">Hoja de Resumen</a>
 
     </section>
 
@@ -378,7 +378,7 @@
 
                                   nodoContenedorForm.innerHTML = 'Pulse Aceptar para guardar los cambios o cancelar para anularlos'+
                                    '<input class="boton" type = "submit" value="Aceptar" onclick="capturarEnvio()"> <input class="boton" type="reset" value="Cancelar"  onclick="anular(this)" >';
-                                  //editando = "true";                             
+                                  editando = "true";                             
 
                                   }
                                 });                              
@@ -600,13 +600,6 @@
             <div id="destino"></div>
           </body>  
       </html>
-
-
-
-
-
-
-
 
 
 <!-- page end-->
@@ -837,6 +830,22 @@ var myDNI = $(this).data('id');
 $(".modal-body #DNI").val( myDNI );
 });
 
+</script>
+
+<div id="#carguexx">fwfw</div>
+
+<script type="text/javascript">
+  // $("#hojaresumen").click(function()
+  //   {
+  //     alert("gr");
+  //     var codigo_prop_proy="<?php echo $this->codigoproyecto?>";
+  //     var proyectoid="<?php echo $this->proyectoid?>";
+  //     //alert(codigo);
+  //     //alert(proyectoid);
+  //     var url="/proyecto/index/hojaresumen/codigo_prop_proy/"+codigo_prop_proy+"/proyectoid/"+proyectoid;
+  //     alert(url);
+  //     $("#carguexx").load(url);
+  // });
 </script>
 
 
