@@ -545,8 +545,45 @@ order by t.proyectoid,t.actividadid,t.tipo_actividad desc
     }
 
 
+//Funcion que devuelve a los usuarios registrados en la tabla ordenados alfabeticamente y unicos
+    public function _getUsuarios(){
+      try{
+            $sql=$this->_db->query("
+              select  distinct uid, dni from tareo_persona order by uid");
+            $row=$sql->fetchAll();
+            return $row;           
+            }  
+            
+           catch (Exception $ex){
+            print $ex->getMessage();
+        }
+    }
+
+
+//Funcion que devuelve los datos requeridos para reporte
+    public function _getReporte($where=array()){
+      try{
+            $condicion = '';
+            if ($where['uid'] != null) {
+              $condicion = " where tareo.uid='".$where['uid']."' and tareo.dni='".$where['dni']."'";       
+            }
+            
+            $sql=$this->_db->query("select tareo.dni, tareo.uid, equipo.rate_proyecto, pro.proyectoid, tareo.tipo_actividad, unimin.nombre, pro.nombre_proyecto, pro.estado
+from tareo_persona as tareo 
+inner join equipo as equipo
+on tareo.codigo_prop_proy=equipo.codigo_prop_proy and tareo.proyectoid=equipo.proyectoid and tareo.uid=equipo.uid
+inner join proyecto as pro on tareo.codigo_prop_proy=pro.codigo_prop_proy and tareo.proyectoid=pro.proyectoid
+inner join unidad_minera as unimin on pro.unidad_mineraid=unimin.unidad_mineraid".$condicion);
+
+            $row=$sql->fetchAll();
+            return $row;           
+            }  
+            
+           catch (Exception $ex){
+            print $ex->getMessage();
+        }
+    }
+
+
 
 }
-
-
-

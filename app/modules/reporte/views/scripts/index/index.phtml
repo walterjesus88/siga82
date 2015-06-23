@@ -2,57 +2,34 @@
 	<h1>Reporte Tareopersona</h1>
 	<div>
 		<div class="table-inline">
-			<h3>Cobrabilidad</h3>
+			<h4>Cobrabilidad</h4>
 			<input type="checkbox" ng-model="reporte.tipo_todo" ng-true-value="true" ng-false-value="false" ng-click="reporte.mostrarTodo()">
 			<div ng-repeat="item in reporte.cobrabilidad">
 				<input type="checkbox" ng-model="reporte.activo[item.text]" ng-true-value="true" ng-false-value="false">{{item.text}}
 			</div>
 		</div>
 		<div class="table-inline">
-			<h3>Rango Fecha de Rendición</h3>
+			<h4>Rango Fecha de Rendición</h4>
 			<div ng-repeat="fecha in reporte.rango_fecha">
 				{{fecha}}
 			</div>
 		</div>
 		<div class="table-inline">
-			<table class="table-bordered">
-				<thead class="title-table"> 
-					<th>
-						<div>
-							Formato de Nombres de Proyecto
-						</div>
-					</th>
-				</thead>
-				<tbody class="scroll-content-small">
-					<tr ng-repeat="formato in reporte.formato_proyecto">
-						<td>
-							<div>
-								{{formato}}
-							</div>
-						</td>
-					</tr>
-				</tbody>
-			</table>
+			<h4>Clientes</h4>
+			<select ng-model="reporte.cliente_seleccionado" ng-change="reporte.getUnidadMinera(reporte.cliente_seleccionado)">
+				<option value="todos" selected="selected">Todos</option>
+				<option value="{{cliente.id}}" ng-repeat="cliente in reporte.clientes track by $index">{{cliente.nombre}}</option>
+			</select>
+			<h4>Unidad Minera</h4>
+			<select name="" id="">
+				<option ng-repeat="uni_min in reporte.unidadminera track by $index">{{uni_min.nombre}}</option>
+			</select>
 		</div>
 		<div class="table-inline">
-			<table class="table-bordered">
-				<thead class="title-table">
-					<th>
-						<div>
-							Usuarios
-						</div>
-					</th>
-				</thead>
-				<tbody class="scroll-content-small" id="usuarioScroll" >
-					<tr ng-repeat="usuario in reporte.usuarios track by $index">
-						<td>
-							<div>
-								{{usuario.usuario}}
-							</div>
-						</td>
-					</tr>
-				</tbody>	
-			</table>
+			<select ng-model="reporte.usuario_seleccionado" ng-change="reporte.getTareopersona(reporte.usuario_seleccionado)">
+				<option value="todos" selected="selected">Todos</option>
+				<option value="{{usuario.uid}}" ng-repeat="usuario in reporte.usuarios">{{usuario.uid}}</option>
+			</select>
 		</div>
 	</div>
 	<div>
@@ -138,7 +115,7 @@
 				</td>
 				<td>
 					<div>
-						{{fila.etapa}}
+						{{fila.estado}}
 					</div>
 				</td>
 				<td ng-repeat="dia in reporte.dias">
@@ -200,8 +177,13 @@
 </script-->
 
 
-
-
-
-
-
+<!--div de modal para barra cargando-->
+<div class="modal fade" id="wait" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+  <div class="modal-dialog">
+      <div class="modal-content">
+          <div class="modal-body">
+			<img src="/img/ico-loading.gif" alt="">
+          </div>
+      </div>
+  </div>
+</div>
