@@ -1,118 +1,11 @@
 
   <section id="container" class="">
-      <!--header start-->
+    <?php $this->proyectdetail;
 
-      <!--header end-->
+    foreach ($this->proyectdetail as $proyect) {
+      # code...
   
-      <!--main content start-->
-    
-              <!-- page start-->
-              <div class="chat-room">
-<!--                   <aside class="left-side">
-                      <div class="user-head">
-                          <i class="fa fa-comments-o"></i>
-                          <h3>FlatChat</h3>
-                      </div>
-                      <ul class="chat-list">
-                          <li class="">
-                              <a class="lobby" href="lobby.html">
-                                  <h4>                                     
-                                      Nombre del Proyecto
-                                  </h4>
-                              </a>
-                          </li>
-                          <li>
-                              <a href="chat_room.html">                       
-                                <span>Descripcion del Proyecto</span>                         
-                              </a>
-                          </li>
-                          <li class="active">
-                              <a href="chat_room.html">                                
-                                  <span>Propietario</span>                                
-                              </a>
-                          </li>
-                          <li>
-                              <a href="chat_room.html">                          
-                                  <span>Unnidad Minera</span>                           
-                              </a>
-                          </li>
-                          <li>
-                              <a href="chat_room.html">                            
-                                  <span>Tipo de Servicio</span>                               
-                              </a>
-                          </li>
-                          <li>
-                              <a href="chat_room.html">                                  
-                                  <span>Gerente de Proyecto</span>                                
-                              </a>
-                          </li>
-                          <li>
-                              <a href="chat_room.html">                             
-                                  <span>Jefe de Proyecto 1</span>                             
-                              </a>
-                          </li>
-                          <li>
-                              <a href="chat_room.html">                           
-                                  <span>Jefe de Proyecto 2</span>                                
-                              </a>
-                          </li>
-                          <li>
-                              <a href="chat_room.html">                                
-                                  <span>Control Documentario</span>                                 
-                              </a>
-                          </li>
-                          <li>
-                              <a href="chat_room.html">                              
-                                  <span>Control Proyecto</span>                               
-                              </a>
-                          </li>
-
-                      </ul>
-                      <ul class="chat-list chat-user">
-
-                          <li>
-                              <a href="#">
-                                  <i class="fa fa-circle text-success"></i>
-                                  <span>Jonathan Smith</span>
-                                  <i class="fa fa-times pull-right"></i>
-                              </a>
-                          </li>
-                          <li>
-                              <a href="#">
-                                  <i class="fa fa-circle text-success"></i>
-                                  <span>Jhon Doe</span>
-                                  <i class="fa fa-times pull-right"></i>
-                              </a>
-                          </li>
-                          <li>
-                              <a href="#">
-                                  <i class="fa fa-circle text-muted"></i>
-                                  <span>Franklin kally</span>
-                                  <i class="fa fa-times pull-right"></i>
-                              </a>
-                          </li>
-                          <li>
-                              <a href="#">
-                                  <i class="fa fa-circle text-danger"></i>
-                                  <span>Anjelina Joe</span>
-                                  <i class="fa fa-times pull-right"></i>
-                              </a>
-                          </li>
-
-                      </ul>
-                      <footer>
-                              <a class="chat-avatar" href="javascript:;">
-                                  <img alt="" src="img/mail-avatar.jpg">
-                              </a>
-                              <div class="user-status">
-                                  <i class="fa fa-circle text-success"></i>
-                                  Available
-                              </div>
-                              <a class="chat-dropdown pull-right" href="javascript:;">
-                                  <i class="fa fa-chevron-down"></i>
-                              </a>
-                      </footer>
-                  </aside> -->
+    ?>
                   <aside class="mid-side">
                       <div class="chat-room-head">
                           <h3>Informacion</h3>
@@ -120,8 +13,8 @@
                       </div>
 
                           <div class="group-rom">
-                              <div class="col-sm-2">Jonathan Smith</div>
-                              <div class="col-sm-5">Jonathan Smith</div>
+                              <div class="col-sm-2"><?php echo $proyect['nombre_proyecto'] ?>  </div>
+                              <div class="col-sm-5"><?php echo $proyect['descripcion'] ?></div>
                               <div class="col-sm-2">
                                 <ul>    
                                     <li>
@@ -135,10 +28,10 @@
                               <div class="col-sm-3">
                                  <ul>    
                                     <li>
-                                      <span>1508-125</span>            
+                                      <span><?php echo $this->proyectoid ?></span>            
                                     </li>
                                     <li>
-                                      <span>1508-125-DNA</span>            
+                                      <span><?php echo $proyect['propuestaid'] ?></span>            
                                     </li>                                   
                                 </ul>                             
                               </div>
@@ -152,7 +45,7 @@
                               <div class="col-sm-8 odd" >
                                 <ul>    
                                     <li>
-                                      <span>N de Proyecto</span>            
+                                      <span><?php echo $proyect['descripcion'] ?></span>            
                                     </li>                                                                  
                                 </ul>
                               </div>                              
@@ -168,7 +61,7 @@
                                     </li>
                                     <li>
                                         <a href="chat_room.html">                          
-                                            <span>Unnidad Minera</span>                           
+                                            <span>Unidad Minera</span>                           
                                         </a>
                                     </li>
                                     <li>
@@ -187,7 +80,7 @@
                                     </li>
                                     <li class="">
                                         <a class="chat_room.html">                                      
-                                                santa rosa
+                                                <?php echo $proyect['nombre'] ?>
                                         </a>
                                     </li>
                                      <li class="">
@@ -209,12 +102,12 @@
                                   <ul>
                                     <li class="">
                                         <a class="lobby" href="lobby.html">                                      
-                                                mendoza
+                                                Gerente del Proyecto
                                         </a>
                                     </li>
                                      <li class="">
                                         <a class="lobby" href="lobby.html">                                              
-                                                negron
+                                                Jefe del Proyecto 1
                                         </a>
                                     </li>
                                   </ul>
@@ -223,32 +116,33 @@
                                   <ul>
                                     <li class="">
                                         <a class="lobby" href="lobby.html">                                      
-                                                mendoza
+                                           
+                                          <?php echo $proyect['gerente_proyecto'] ?>   
                                         </a>
                                     </li>
                                      <li class="">
                                         <a class="lobby" href="lobby.html">                                              
-                                                negron
+                                                
                                         </a>
                                     </li>
                                   </ul>
                               </div>
                               <div class="col-sm-2">Fecha de Inicio</div>
-                              <div class="col-sm-1">ddww</div>
+                              <div class="col-sm-1"><?php echo $proyect['fecha_inicio'] ?></div>
                               <div class="col-sm-2">Fecha de Cierre</div>
-                              <div class="col-sm-1">12:32</div>
+                              <div class="col-sm-1"><?php echo $proyect['fecha_cierre'] ?></div>
                           </div>
                           <div class="group-rom">
                               <div class="col-sm-2">
                                   <ul>
                                     <li class="">
                                         <a class="lobby" href="lobby.html">                                      
-                                                Nombre del Proyecto
+                                                Jefe del Proyecto 2
                                         </a>
                                     </li>
                                      <li class="">
                                         <a class="lobby" href="lobby.html">                                              
-                                                Nombre del Proyecto
+                                                Control Documentario
                                         </a>
                                     </li>
                                   </ul>
@@ -262,7 +156,8 @@
                                     </li>
                                      <li class="">
                                         <a class="lobby" href="lobby.html">                                              
-                                                Nombre del Proyecto
+                                            <?php echo $proyect['control_documentario'] ?>   
+
                                         </a>
                                     </li>
                                   </ul>
@@ -285,57 +180,57 @@
                                  <ul>
                                     <li class="">
                                         <a class="lobby" href="lobby.html">                                      
-                                                Nombre del Proyecto
+                                                Nombre Contacto
                                         </a>
                                     </li>
                                      <li class="">
                                         <a class="lobby" href="lobby.html">                                              
-                                                Nombre del Proyecto
+                                                Cargo
                                         </a>
                                     </li>
                                      <li class="">
                                         <a class="lobby" href="lobby.html">                                              
-                                                Nombre del Proyecto
+                                                Telefono
                                         </a>
                                     </li>
                                      <li class="">
                                         <a class="lobby" href="lobby.html">                                              
-                                                Nombre del Proyecto
+                                                Celular 1
                                         </a>
                                     </li>
                                      <li class="">
                                         <a class="lobby" href="lobby.html">                                              
-                                                Nombre del Proyecto
+                                                E-mail
                                         </a>
                                     </li>
                                      <li class="">
                                         <a class="lobby" href="lobby.html">                                              
-                                                Nombre del Proyecto
+                                                Razon Social
                                         </a>
                                     </li>
                                      <li class="">
                                         <a class="lobby" href="lobby.html">                                              
-                                                Nombre del Proyecto
+                                                RUC
                                         </a>
                                     </li>
                                      <li class="">
                                         <a class="lobby" href="lobby.html">                                              
-                                                Nombre del Proyecto
+                                               Direccion Fiscal
                                         </a>
                                     </li>
                                      <li class="">
                                         <a class="lobby" href="lobby.html">                                              
-                                                Nombre del Proyecto
+                                                Documento de Aprobacion
                                         </a>
                                     </li>
                                      <li class="">
                                         <a class="lobby" href="lobby.html">                                              
-                                                Nombre del Proyecto
+                                                Comentarios
                                         </a>
                                     </li>
                                      <li class="">
                                         <a class="lobby" href="lobby.html">                                              
-                                                Nombre del Proyecto
+                                                Foto Proyecto
                                         </a>
                                     </li>                                  
                                   </ul>
@@ -406,57 +301,61 @@
                                   <ul>
                                     <li class="">
                                         <a class="lobby" href="lobby.html">                                      
-                                                Nombre del Proyecto
+                                                Presupuesto
+                                        </a>
+                                    </li>
+
+                                    <div class="col-sm-2">
+                                      <li class="">
+                                        <a class="lobby" href="lobby.html">                                              
+                                                Moneda
+                                        </a></br>
+                                        <a class="lobby" href="lobby.html">                                              
+                                                Honorarios
+                                        </a>
+                                      </li>
+                                    </div>
+
+                                
+                                    
+                                     <li class="">
+                                        <a class="lobby" href="lobby.html">                                              
+                                                Gastos
                                         </a>
                                     </li>
                                      <li class="">
                                         <a class="lobby" href="lobby.html">                                              
-                                                Nombre del Proyecto
+                                                Laboratorio
                                         </a>
                                     </li>
                                      <li class="">
                                         <a class="lobby" href="lobby.html">                                              
-                                                Nombre del Proyecto
+                                                Otros
                                         </a>
                                     </li>
                                      <li class="">
                                         <a class="lobby" href="lobby.html">                                              
-                                                Nombre del Proyecto
+                                                Descuento
                                         </a>
                                     </li>
                                      <li class="">
                                         <a class="lobby" href="lobby.html">                                              
-                                                Nombre del Proyecto
+                                                Total
                                         </a>
                                     </li>
                                      <li class="">
                                         <a class="lobby" href="lobby.html">                                              
-                                                Nombre del Proyecto
+                                                SOC 01
                                         </a>
                                     </li>
                                      <li class="">
                                         <a class="lobby" href="lobby.html">                                              
-                                                Nombre del Proyecto
+                                                SOC 02
                                         </a>
                                     </li>
                                      <li class="">
                                         <a class="lobby" href="lobby.html">                                              
-                                                Nombre del Proyecto
-                                        </a>
-                                    </li>
-                                     <li class="">
-                                        <a class="lobby" href="lobby.html">                                              
-                                                Nombre del Proyecto
-                                        </a>
-                                    </li>
-                                     <li class="">
-                                        <a class="lobby" href="lobby.html">                                              
-                                                Nombre del Proyecto
-                                        </a>
-                                    </li>
-                                     <li class="">
-                                        <a class="lobby" href="lobby.html">                                              
-                                                Nombre del Proyecto
+                                                SOC 03
                                         </a>
                                     </li>                                  
                                   </ul>
@@ -527,37 +426,10 @@
 
 
 
-<!--                           <div class="group-rom">
-                              <div class="first-part odd">Jonathan Smith</div>
-                              <div class="second-part"><a href="#">search_scb_dialog.jpg</a> <span class="text-muted">46.8KB</span> <p>
-                                  <img src="img/chat-attach.jpg" alt=""></p></div>
-                              <div class="third-part">12:32</div>
-                          </div>
-                          <div class="group-rom">
-                              <div class="first-part">Anjelina Joe</div>
-                              <div class="second-part">Fantastic job, love it :)</div>
-                              <div class="third-part">12:32</div>
-                          </div>
-                          <div class="group-rom">
-                              <div class="first-part odd">Jonathan Smith</div>
-                              <div class="second-part">Thanks</div>
-                              <div class="third-part">12:33</div>
-                          </div>
-
-                      <footer>
-                          <div class="chat-txt">
-                              <input type="text" class="form-control">
-                          </div>
-                          <div class="btn-group">
-                              <button type="button" class="btn btn-white"><i class="fa fa-meh-o"></i></button>
-                              <button type="button" class="btn btn-white"><i class=" fa fa-paperclip"></i></button>
-                          </div>
-                          <button class="btn btn-danger">Send</button>
-                      </footer> -->
                   </aside>
      
               </div>
               <!-- page end-->
-      
+    <?php  } ?>
 
   </section>
