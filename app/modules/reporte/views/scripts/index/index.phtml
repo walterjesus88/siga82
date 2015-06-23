@@ -33,7 +33,7 @@
 			<h4>Usuarios</h4>
 			<select ng-disabled="reporte.select_usuarios" class="form-control m-bot15" ng-model="reporte.usuario_seleccionado" ng-change="reporte.getTareopersona(reporte.usuario_seleccionado)">
 				<option value="todos" selected="selected">Todos</option>
-				<option value="{{usuario.uid}}" ng-repeat="usuario in reporte.usuarios">{{usuario.uid}}</option>
+				<option value="{{usuario.uid}}" ng-repeat="usuario in reporte.usuarios track by $index">{{usuario.uid}}</option>
 			</select>
 		</div>
 		<div class="col-lg-4">

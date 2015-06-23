@@ -106,16 +106,10 @@ controller('mainController', ['$http', function($http){
 	}
 
 	reporte.getUsuarios = function (proyecto, index) {
-		reporte.usuarios = [];
-		reporte.select_usuarios = true;
 		if (reporte.proyectos[index]['selected']) {
-			$http.get('/reporte/index/usuarios/codigo_prop_proy/' + proyecto)
-			.success(function (res) {
-				reporte.usuarios = res;
-				if (reporte.usuarios.length != 0) {
-					reporte.select_usuarios = false;
-				}
-			})
+			agregarUsuarios(proyecto);
+		} else {
+			borrarUsuarios(proyecto);
 		}
 	}
 
@@ -157,5 +151,60 @@ controller('mainController', ['$http', function($http){
     	})
     	return dni;
     }
+
+    function agregarUsuarios (proyecto) {
+		$http.get('/reporte/index/usuarios/codigo_prop_proy/' + proyecto)
+		.success(function (res) {
+			res.forEach(function (item) {
+				//inicializar la varible existe
+				existe = 0;
+				//verificar si usuario existe en la lista
+				for (var i = 0; i < reporte.usuarios.length; i++) {
+					if (item.uid == reporte.usuarios[i].uid) {
+						existe = 1;
+					}
+				}
+				//si existe agregar el numero de proyectos en 1, sino aumentarlo al array
+				if (existe == 1) {
+					for (var i = 0; i < reporte.usuarios.length; i++) {
+						if (item.uid == reporte.usuarios[i].uid) {
+							reporte.usuarios[i]['num_pro'] = reporte.usuarios[i]['num_pro'] + 1;
+						}
+					}
+				} else {
+					item['num_pro'] = 1;
+					reporte.usuarios.push(item);
+				}
+			})
+			if (reporte.usuarios.length != 0) {
+				reporte.select_usuarios = false;
+			}
+		})
+	}
+
+	function borrarUsuarios (proyecto) {
+		$http.get('/reporte/index/usuarios/codigo_prop_proy/' + proyecto)
+		.success(function (res) {
+			res.forEach(function (item) {
+				//disminuir en 1 el num_pro de los elementos que aparecen en la lista
+				for (var i = 0; i < reporte.usuarios.length; i++) {
+					if (item.uid == reporte.usuarios[i].uid) {
+						reporte.usuarios[i]['num_pro'] = reporte.usuarios[i]['num_pro'] - 1;
+					}
+				}
+			})
+			//eliminar a todos los usuarios que tengan 0 proyectos
+			arrayTemp = reporte.usuarios;
+			reporte.usuarios = [];
+			for (var i = 0; i < arrayTemp.length; i++) {
+				if (parseInt(arrayTemp[i]['num_pro']) != 0) {
+					reporte.usuarios.push(arrayTemp[i]);
+				}
+			};
+			if (reporte.usuarios.length == 0) {
+				reporte.select_usuarios = true;
+			}
+		})
+	}
 	
 }])
