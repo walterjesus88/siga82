@@ -518,14 +518,14 @@ public function _getListarEquipoxProyectoxGerente($uid,$dni)
 
 
 
-    /*Metodo para obtener rate_proyecto por proyecto y usuario*/
-    public function _getRatexCppxPidxUid($cpp, $pid, $uid)
+    //Metodo para obtener a los usuarios por proyecto
+    public function _getUsuarioxProyectoxEstadoxNivel($proyecto, $estado, $nivel)
     {
         try{
-            $where = "codigo_prop_proy = '".$cpp."' and proyectoid = '".$pid."' and uid = '".$uid."'";
-            $row = $this->fetchRow($where);
-            if ($row) return $row->toArray();     
-        }  
+            $sql=$this->_db->query("select uid, dni from equipo where codigo_prop_proy='".$proyecto."' and estado='".$estado."' and nivel='".$nivel."'");
+            $row=$sql->fetchAll();
+            return $row;           
+            }  
             
            catch (Exception $ex){
             print $ex->getMessage();

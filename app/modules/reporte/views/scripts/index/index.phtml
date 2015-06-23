@@ -1,35 +1,53 @@
 <div ng-app="reporteApp" ng-controller="mainController as reporte" class="div-reportes">
 	<h1>Reporte Tareopersona</h1>
 	<div>
-		<div class="table-inline">
+		<div>
+			<div class="col-lg-6">
+				<h4>Clientes</h4>
+				<select class="form-control m-bot15" ng-model="reporte.cliente_seleccionado" ng-change="reporte.getProyectos(reporte.cliente_seleccionado, 'byCliente')">
+					<option value="todos">Todos</option>
+					<option value="{{cliente.id}}" ng-repeat="cliente in reporte.clientes track by $index">{{cliente.nombre}}</option>
+				</select>
+			</div>
+			<div class="col-lg-6">
+				<h4>Gerentes</h4>
+				<select class="form-control m-bot15" ng-model="reporte.gerente_seleccionado" ng-change="reporte.getProyectos(reporte.gerente_seleccionado, 'byGerente')">
+					<option value="todos">Todos</option>
+					<option value="{{gerente.gerente_proyecto}}" ng-repeat="gerente in reporte.gerentes track by $index">{{gerente.gerente_proyecto}}</option>
+				</select>
+			</div>
+			
+			<div class="col-lg-12">
+				<h4>Proyectos</h4>
+				{{reporte.text_proyectos}}
+				<table>
+					<tr ng-repeat="proyecto in reporte.proyectos">
+						<th>{{proyecto.nombre_proyecto}}</th>
+						<th><input ng-model="reporte.proyectos[$index].selected" ng-change="reporte.getUsuarios(proyecto.codigo_prop_proy, $index)" ng-true-value="true" ng-false-value="false" type="checkbox"></th>
+					</tr>
+			</table>
+			</div>			
+		
+		</div>
+		<div class="col-lg-4">
+			<h4>Usuarios</h4>
+			<select ng-disabled="reporte.select_usuarios" class="form-control m-bot15" ng-model="reporte.usuario_seleccionado" ng-change="reporte.getTareopersona(reporte.usuario_seleccionado)">
+				<option value="todos" selected="selected">Todos</option>
+				<option value="{{usuario.uid}}" ng-repeat="usuario in reporte.usuarios">{{usuario.uid}}</option>
+			</select>
+		</div>
+		<div class="col-lg-4">
 			<h4>Cobrabilidad</h4>
-			<input type="checkbox" ng-model="reporte.tipo_todo" ng-true-value="true" ng-false-value="false" ng-click="reporte.mostrarTodo()">
+			<input ng-disabled="reporte.not_tareopersona" type="checkbox" ng-model="reporte.tipo_todo" ng-true-value="true" ng-false-value="false" ng-click="reporte.mostrarTodo()">Todos
 			<div ng-repeat="item in reporte.cobrabilidad">
-				<input type="checkbox" ng-model="reporte.activo[item.text]" ng-true-value="true" ng-false-value="false">{{item.text}}
+				<input ng-disabled="reporte.not_tareopersona" type="checkbox" ng-model="reporte.activo[item.text]" ng-true-value="true" ng-false-value="false" ng-click="reporte.notTodo()">{{item.text}}
 			</div>
 		</div>
-		<div class="table-inline">
+		<div class="col-lg-4">
 			<h4>Rango Fecha de Rendición</h4>
 			<div ng-repeat="fecha in reporte.rango_fecha">
 				{{fecha}}
 			</div>
-		</div>
-		<div class="table-inline">
-			<h4>Clientes</h4>
-			<select ng-model="reporte.cliente_seleccionado" ng-change="reporte.getUnidadMinera(reporte.cliente_seleccionado)">
-				<option value="todos" selected="selected">Todos</option>
-				<option value="{{cliente.id}}" ng-repeat="cliente in reporte.clientes track by $index">{{cliente.nombre}}</option>
-			</select>
-			<h4>Unidad Minera</h4>
-			<select name="" id="">
-				<option ng-repeat="uni_min in reporte.unidadminera track by $index">{{uni_min.nombre}}</option>
-			</select>
-		</div>
-		<div class="table-inline">
-			<select ng-model="reporte.usuario_seleccionado" ng-change="reporte.getTareopersona(reporte.usuario_seleccionado)">
-				<option value="todos" selected="selected">Todos</option>
-				<option value="{{usuario.uid}}" ng-repeat="usuario in reporte.usuarios">{{usuario.uid}}</option>
-			</select>
 		</div>
 	</div>
 	<div>
@@ -110,7 +128,7 @@
 				</td>
 				<td>
 					<div>
-						{{fila.nombre_proyecto}}
+						{{fila.nombre + ' / ' +fila.nombre_proyecto}}
 					</div>
 				</td>
 				<td>
