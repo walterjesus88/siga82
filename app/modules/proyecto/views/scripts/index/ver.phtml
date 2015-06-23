@@ -206,6 +206,7 @@
                       $equipo=$bdequipo->_buscarEquipoxProyectoxArea($this->proyecto['codigo_prop_proy'],$this->proyecto['proyectoid'],$lista['areaid']);?>
 
                       <section class="posts">
+                    
                         <table style="font-size: 12px;" class="table table-hover p-table">
                           <thead>
                             <tr>    
@@ -273,31 +274,31 @@
                             </script> 
                             
                             <script>
-                              $(document).ready(function(){
-                                $("editar_<?php echo $i?><?php echo $j?>").dblclick(function(){
-                                  alert('editar_<?php echo $i?><?php echo $j?>');
+                              // $(document).ready(function(){
+                              //   $("editar_<?php echo $i?><?php echo $j?>").dblclick(function(){
+                              //     alert('editar_<?php echo $i?><?php echo $j?>');
                                     
-                                  console.log('contenedorForm_<?php echo $i?><?php echo $j?>');
-                                  console.log('editar_<?php echo $i?><?php echo $j?>');
-                                  var nodoContenedorForm = document.getElementById('contenedorForm_<?php echo $i?><?php echo $j?>'); 
-                                  var areaidcont=$('areaidcont_<?php echo $i?><?php echo $j?>').textContent;
-                                  alert(areaidcont);
+                              //     console.log('contenedorForm_<?php echo $i?><?php echo $j?>');
+                              //     console.log('editar_<?php echo $i?><?php echo $j?>');
+                              //     var nodoContenedorForm = document.getElementById('contenedorForm_<?php echo $i?><?php echo $j?>'); 
+                              //     var areaidcont=$('areaidcont_<?php echo $i?><?php echo $j?>').textContent;
+                              //     alert(areaidcont);
 
-                                  var nuevoCodigoHtml = 
-                                  '<td><input disabled type="text" name="nombre" id="nombre" value="'+nombre.trim()+'" size="15"></td>'+
-                                  '<td><input disabled type="text" name="categoria" id="categoria" value="'+categoria.trim()+'" size="8"</td>'+
-                                  '<td><input disabled type="text" name="rate" id="rate" value="'+rate.trim()+'" size="5"</td>'+
-                                  '<td><input type="text" name="rate_proyecto" id="rate_proyecto" value="'+rate_proyecto.trim()+'" size="5"</td>'+'<td>En ediciónss</td>'+
-                                  '<td><input style="display:none" type="text" name="dnix" id="dnix" value="'+dni+'" size="5"</td>'+
-                                  '<td><input style="display:none" type="text" name="uidx" id="uidx" value="'+uid+'" size="5"</td>'+
-                                  '<td><input style="display:none" type="text" name="areaidx" id="areaidx" value="'+areaid+'" size="5"</td>'
-                                  ;
+                              //     var nuevoCodigoHtml = 
+                              //     '<td><input disabled type="text" name="nombre" id="nombre" value="'+nombre.trim()+'" size="15"></td>'+
+                              //     '<td><input disabled type="text" name="categoria" id="categoria" value="'+categoria.trim()+'" size="8"</td>'+
+                              //     '<td><input disabled type="text" name="rate" id="rate" value="'+rate.trim()+'" size="5"</td>'+
+                              //     '<td><input type="text" name="rate_proyecto" id="rate_proyecto" value="'+rate_proyecto.trim()+'" size="5"</td>'+'<td>En ediciónss</td>'+
+                              //     '<td><input style="display:none" type="text" name="dnix" id="dnix" value="'+dni+'" size="5"</td>'+
+                              //     '<td><input style="display:none" type="text" name="uidx" id="uidx" value="'+uid+'" size="5"</td>'+
+                              //     '<td><input style="display:none" type="text" name="areaidx" id="areaidx" value="'+areaid+'" size="5"</td>'
+                              //     ;
                                             
-                                  nodoTr.innerHTML = nuevoCodigoHtml;
-                                  nodoContenedorForm.innerHTML = 'Pulse Aceptar para guardar los cambios o cancelar para anularlos'+
-                                   '<input class="boton" type = "submit" value="Aceptar" onclick="capturarEnvio()"> <input class="boton" type="reset" value="Cancelar"  onclick="anular()" >';
-                                });
-                              });
+                              //     nodoTr.innerHTML = nuevoCodigoHtml;
+                              //     nodoContenedorForm.innerHTML = 'Pulse Aceptar para guardar los cambios o cancelar para anularlos'+
+                              //      '<input class="boton" type = "submit" value="Aceptar" onclick="capturarEnvio()"> <input class="boton" type="reset" value="Cancelar"  onclick="anular()" >';
+                              //   });
+                              // });
                             </script> 
 
                             <script>                           
@@ -527,9 +528,12 @@
                       </div>
                     </div>
                 </div>
+         
+
                 <script type="text/javascript">
                   $(document).ready(function(){
                     $("#anadir_<?php echo $i?>").click(function(){
+                      alert("ffff");
                       var proyectoid = $(this).attr('proyectoid');
                       var codigo_prop_proy = $(this).attr('codigo-prop-proy');
                       var areaid = $(this).attr('areaid');
@@ -669,7 +673,11 @@
           <h4 class="modal-title">Añadir Personas x Rate al Proyecto</h4>
         </div>
         <div class="modal-body">
-          <div id="modaltimes_rate"></div>
+            
+          <div id="modaltimes_rate" >
+          </div>
+             
+            
         </div>
         <div class="modal-footer">
           <button data-dismiss="modal" class="btn btn-default" type="button">Cerrar</button>
@@ -703,24 +711,17 @@
              
                   var url="/proyecto/index/guardarareaequipo/codigo_prop_proy/"+codigo+"/proyectoid/"+proyecto+"/funcion/"+funcion+"/area/"+areacat;
                  
-                  alert(url);
+                  //alert(url);
                   //$("#anadirareaproyecto").load(url);
                   $('form').slideUp(); 
-                     // var template='
-                     //    <table style="font-size: 12px;" class="table table-hover p-table"> \
-                     //    <thead> \
-                     //      <tr> \
-                     //        <th style="width: 50%;">Nombre</th> \
-                     //        <th style="width: 20%;">Categoria</th> \
-                     //        <th style="width: 10;">R.</th> \
-                     //        <th style="width: 10%;">R.Proy.</th> \
-                     //      </tr> \
-                     //    </thead> \
-                     //    </table> \
-                     //    ';
+                     var template='<td>dfd</td>'+'<td>seccion</td>'+'<td>tyfsf</td>'+
+                     '<td><a class="editar btn btn-info btn-xs" id="mas" href="#"  >+ </a></td>'
+                     
+                     +'<td><span class="editar" onclick="ver(this)" >enter</span></td>';
 
-                     // $('.posts').prepend($(template).fadeIn());
-
+                     //  $('.posts').prepend($(template).fadeIn());
+                          $('#accordion').prepend($(template).fadeIn());
+                     
                   $.ajax({
                         type: "POST",
                         url: url,
@@ -732,16 +733,33 @@
                         },
                         success: function(data)
                         {   
-
-                          $("#anadirareaproyecto").empty();
-                          $("#anadirareaproyecto").append(data);
-
+                          //$("#anadirareaproyecto").empty();
+                          //$("#anadirareaproyecto").append(data);
+                          //$("#accordion").append("<li>"+"person.name"+"("+")"+"</li");
                         }
-                    });
+                  });
                 }
 
+                function ver(ev)
+                {
+                  console.log("tyny");
+                  alert("puttttt");
+                }
+
+
               });
+
 </script>
+
+<script type="text/javascript">
+  $(document).ready(function(){
+    $("#mas").click(function(){
+      alert("mas");
+    });
+  });
+</script>
+
+
 <div id="anadirareaproyecto">gg</div>
 
 <script>
@@ -851,7 +869,7 @@ $(".modal-body #DNI").val( myDNI );
 </script>
 
 
-
+    <ul id="put">dDDDDDDDDDDDd</ul>
 
 
 

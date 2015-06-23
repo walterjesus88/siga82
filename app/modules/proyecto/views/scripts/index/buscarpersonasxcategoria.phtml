@@ -11,6 +11,8 @@
          
 
 		?>
+		<ul>
+		<li>
 		<label class="checkbox-inline">
 
 		<?php if($activar['estado']=='A') {?>
@@ -23,13 +25,18 @@
 			<input type="text" style="display:none" id="nombrepersona_<?php echo $i;?>" value="<?php print_r($lista['dni']);?>" name="nombrepersona_<?php echo $i;?>"   > 
 			<input type="text" style="display:none" id="uid_<?php echo $i;?>" value="<?php print_r($lista['uid']);?>" name="nombrepersona_<?php echo $i;?>"   > 
 			<input type="text" style="display:none" id="cargo_<?php echo $i;?>" value="<?php print_r($lista['cargo']);?>" name="nombrepersona_<?php echo $i;?>"   > 
-			<tr>				
-				<td>
-				<?php print_r($lista['uid']);?>
-				<td>
-			</tr>
+					
 
+					<?php 
+						//print_r($lista['uid']);
+						$porciones = explode(".", $lista['uid']);
+		                echo (ucwords($porciones[0])); echo " ";echo (ucwords($porciones[1]));
+					?>				
+		
 		</label>
+		</li>			
+		</ul>
+
 
 	<script type='text/javascript'>
 		/*
