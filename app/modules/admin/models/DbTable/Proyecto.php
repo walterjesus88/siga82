@@ -24,6 +24,20 @@ class Admin_Model_DbTable_Proyecto extends Zend_Db_Table_Abstract
         if ($row) return $row->toArray();
     }
 
+    //para obtener todos los proyectos de un cliente especifico
+    public function _getProyectoxCliente($cliente){
+        try{
+            $sql=$this->_db->query("select codigo_prop_proy, nombre_proyecto, clienteid 
+                from proyecto where clienteid='".$cliente."' order by codigo_prop_proy;");
+            $row=$sql->fetchAll();
+            return $row;           
+            }  
+            
+           catch (Exception $ex){
+            print $ex->getMessage();
+        }
+    }
+
     public function _getOne($pk=null)
     {
         try{
@@ -182,12 +196,25 @@ class Admin_Model_DbTable_Proyecto extends Zend_Db_Table_Abstract
         }
     }
 
-        public function _getProyectosxGerente($gerente){
+    public function _getProyectosxGerente($gerente){
         try{
             $sql=$this->_db->query("
                 select * from proyecto
                 where not proyectoid in ('1','2','3','4','5','1590.10.01','1590.10.02','1590.10.03') and gerente_proyecto='$gerente' order by proyectoid asc;
                 ");
+            $row=$sql->fetchAll();
+            return $row;           
+            }  
+            
+           catch (Exception $ex){
+            print $ex->getMessage();
+        }
+    }
+
+    public function _getGerentes(){
+         try{
+            $sql=$this->_db->query("select distinct usu.dni, pro.gerente_proyecto from proyecto as pro inner join
+                usuario as usu on pro.gerente_proyecto = usu.uid order by pro.gerente_proyecto;");
             $row=$sql->fetchAll();
             return $row;           
             }  
