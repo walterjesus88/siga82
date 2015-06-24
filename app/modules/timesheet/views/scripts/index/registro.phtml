@@ -95,8 +95,8 @@
             <tr>
             <th style="width: 5%;">  </th>
             <th style="width: 60%;" >Proyecto / Actividad: Tarea</th>
-            <th style="width: 10%; padding: 0"><div class="div-celda" style="width: 100px;">Tipo</div></th>
-            <th style="width: 10%; padding: 0"><div class="div-celda" style="width: 100px;">Tarea</div></th>
+            <th style="width: 10%; padding: 0"><div class="div-celda" style="width: 80px;">Tipo</div></th>
+            <th style="width: 10%; padding: 0"><div class="div-celda" style="width: 80px;">Tarea</div></th>
             <?php 
               $fecha = $this->fecha;
               $fecha_mostrar = $this->fecha_mostrar;
@@ -111,6 +111,11 @@
                   $nuevafecha = strtotime ( '+1 day' , strtotime ( $newDate ) ) ;
                   $fecha = date ( 'd-m-Y' , $nuevafecha );
                 }?>
+                <td style="padding: 0">
+                	<div class="div-celda">
+                		Total
+                	</div>
+                </td>
             </tr>
           </thead>
           <tbody id="bodyScroll">
@@ -125,7 +130,8 @@
             { ?>      
             <tr class="gradeX" id ="tr_tareo_<?php echo $j?>">
               <?php if ($data_tareo['estado_tareopersona']!='C') { ?>  
-              <td style="width: 5%;"> 
+              <td style="width: 5%; padding: 0">
+               <div class="div-celda" style="width: 25px"> 
                 <?php if ($data_tareo['tipo_actividad']=='G') {?>
                   <a <?php if ($data_tareo['estado_tareopersona']=='C') { ?> disabled <?php }?> id ="crear_tareag_<?php echo $j?>"><i class="fa fa-plus-square-o"></i></a>
                   <a title="Eliminar" id ="eliminar_tareo_<?php echo $j?>" ><i class="fa fa-minus-square-o"></i></a><?php }
@@ -137,6 +143,7 @@
                   <a ><i class="fa fa-plus-square-o"></i></a>
                   <a <?php if ($data_tareo['estado_tareopersona']=='C') { ?> disabled <?php }?> title="Eliminar" id ="eliminar_tareo_<?php echo $j?>" ><i class="fa fa-minus-square-o"></i></a>                                   
                 <?php }?>
+               </div>
               </td>
               <?php } else {?> 
 
@@ -145,7 +152,8 @@
               <?php } ?>
 
              
-              <td style="width: 60%;">
+              <td style="width: 60%; padding: 0">
+               <div class="div-celda" style="width: 100%">
                 <?php  
                   $buscaunidad = new Admin_Model_DbTable_Unidadminera();
                   $buscanombre_unidad=$buscaunidad->_getUnidadmineraxid($data_tareo['clienteid'],$data_tareo['unidad_mineraid']);
@@ -155,10 +163,11 @@
                     { $unidad_minera =$data_tareo['unidad_mineraid']; }
 
                 echo "<strong>"; echo $data_tareo['proyectoid']; echo "</strong>"; echo " "; echo "<strong>"; echo $unidad_minera; echo "</strong>"; echo " "; echo $data_tareo['nombre_proyecto'];  echo " "; echo $data_tareo['actividadid']; echo " ";echo $data_tareo['nombre'] ?>
+               </div>
               </td>            
 
               <td style="width: 10%; padding: 0;">
-              <div class="div-celda" style="width: 100px;">
+              <div class="div-celda" style="width: 80px;">
                 <?php if ($data_tareo['tipo_actividad']=='G') {?>
                   
 
@@ -181,7 +190,7 @@
               </td>            
 
               <td style="width: 10%; padding: 0;"> 
-              <div class="div-celda" style="width: 100px;">
+              <div class="div-celda" style="width: 80px;">
                 <?php if ($data_tareo['tipo_actividad']=='G') {
                   $dbactividadgeneral= new Admin_Model_DbTable_Actividadgeneral();
                   $datosactgeneral = $dbactividadgeneral->_getActividadgeneralxId($data_tareo['actividad_generalid']);
@@ -561,6 +570,7 @@
                           //alert(mostrar[i]);
                           $("#fecha_"+i).html(parseFloat(mostrar[i]).toFixed(2));
                         };
+                        sumarHorizontales();
 
                         var hora_real=$("#valor<?php echo $i?><?php echo $j?>").val(); 
 
@@ -754,7 +764,11 @@
                 <?php }
                 ?>
 
-
+				<td style="padding: 0">
+                	<div id="suma-horizontal<?php echo $j?>" class="div-celda">
+                		
+                	</div>
+                </td>
             </tr>
 
               <script type="text/javascript">
@@ -1263,8 +1277,8 @@
           <tr >
             <th style="width: 5%;"></th>
             <th style="width: 60%;" ></th>
-            <th style="width: 10%; padding: 0;"><div class="div-celda" style="width: 100px;"></div></th>
-            <th style="width: 10%; padding: 0;"><div class="div-celda" style="width: 100px;"></div></th>
+            <th style="width: 10%; padding: 0;"><div class="div-celda" style="width: 80px;"></div></th>
+            <th style="width: 10%; padding: 0;"><div class="div-celda" style="width: 80px;"></div></th>
             <?php 
               $uid=$this->uid;
                 // echo $uid;echo "<br>";
@@ -1299,6 +1313,11 @@
                 }
 
               ?>
+              <td style="padding: 0">
+                	<div class="div-celda">
+                		Total
+                	</div>
+                </td>
           </tr>
           <?php }?>
 
@@ -1748,5 +1767,44 @@ $("#submit_work1").click(function(){
       });
     });
   })
+
+  $(document).ready(function () {
+  	sumarHorizontales();
+  })
+
+  function sumarHorizontales () {
+  	max_horizontal = 50;
+    max_vertical = 50;
+    var matriz = new Array(max_horizontal);
+    for (i = 0; i < max_horizontal; i++)
+      matriz[i] = new Array(max_vertical);
+    $("[id*=valor]").each(function(indice, elemento) {
+      elemID = $(elemento).attr("id");
+      horizontal = elemID.slice(5,6);
+      vertical = elemID.slice(6,8);
+      matriz[horizontal][vertical] = $(elemento).val();
+    });
+    maximo = 0;
+    elemSuma = [];
+    horSuma = [];
+    
+    for (var ver = 0; ver < max_vertical; ver++) {
+      resSumah = 0;
+      for (var hor = 0; hor < max_horizontal; hor++) {
+        if (typeof matriz[hor][ver] !== 'undefined') {
+          if (isNaN(parseInt(matriz[hor][ver]))) {
+            matriz[hor][ver] = 0;
+          };
+          resSumah = resSumah + parseInt(matriz[hor][ver]);
+          maximov = ver+1;};
+          
+        };
+      horSuma.push(resSumah);
+    };
+    mostrarver = horSuma.slice(1, maximov);
+    $("[id*=suma-horizontal]").each(function(indice, elemento) {
+      $(elemento).html(mostrarver[indice]);
+    });
+  }
 
 </script>
