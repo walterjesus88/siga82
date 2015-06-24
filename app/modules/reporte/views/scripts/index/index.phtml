@@ -1,18 +1,19 @@
 <div ng-app="reporteApp" ng-controller="mainController as reporte" class="div-reportes">
-	<h1>Reporte Tareopersona</h1>
-	<div>
+	
+	<div class="col-lg-12 m-bot15">
+		<h1>Reporte Tareopersona</h1>
 		<div>
 			<div class="col-lg-6">
 				<h4>Clientes</h4>
 				<select class="form-control m-bot15" ng-model="reporte.cliente_seleccionado" ng-change="reporte.getProyectos(reporte.cliente_seleccionado, 'byCliente')">
-					<option value="todos">Todos</option>
+					<option value="todos">Seleccione Cliente</option>
 					<option value="{{cliente.id}}" ng-repeat="cliente in reporte.clientes track by $index">{{cliente.nombre}}</option>
 				</select>
 			</div>
 			<div class="col-lg-6">
 				<h4>Gerentes</h4>
 				<select class="form-control m-bot15" ng-model="reporte.gerente_seleccionado" ng-change="reporte.getProyectos(reporte.gerente_seleccionado, 'byGerente')">
-					<option value="todos">Todos</option>
+					<option value="todos">Seleccione Gerente</option>
 					<option value="{{gerente.gerente_proyecto}}" ng-repeat="gerente in reporte.gerentes track by $index">{{gerente.gerente_proyecto}}</option>
 				</select>
 			</div>
@@ -23,7 +24,7 @@
 				<table>
 					<tr ng-repeat="proyecto in reporte.proyectos">
 						<th>{{proyecto.nombre_proyecto}}</th>
-						<th><input ng-model="reporte.proyectos[$index].selected" ng-change="reporte.getUsuarios(proyecto.codigo_prop_proy, $index)" ng-true-value="true" ng-false-value="false" type="checkbox"></th>
+						<th><input ng-model="reporte.proyectos[$index].selected" ng-change="reporte.getData(proyecto.codigo_prop_proy, $index)" ng-true-value="true" ng-false-value="false" type="checkbox"></th>
 					</tr>
 			</table>
 			</div>			
@@ -31,7 +32,7 @@
 		</div>
 		<div class="col-lg-4">
 			<h4>Usuarios</h4>
-			<select ng-disabled="reporte.disabled_children" class="form-control m-bot15" ng-model="reporte.usuario_seleccionado" ng-change="reporte.getTareopersona(reporte.usuario_seleccionado)">
+			<select ng-disabled="reporte.disabled_children" class="form-control m-bot15" ng-model="reporte.usuario_seleccionado">
 				<option value="todos" selected="selected">Todos</option>
 				<option value="{{usuario.uid}}" ng-repeat="usuario in reporte.usuarios track by $index">{{usuario.uid}}</option>
 			</select>
@@ -55,7 +56,7 @@
 	        </div>
 		</div>
 	</div>
-	<div>
+	<div ng-hide="reporte.tareopersona_void">
 		<table class="table table-bordered table-striped table-condensed">
 		<thead class="">
 			<th>
@@ -187,8 +188,7 @@
 			</td>
 		</tfoot>	
 		</table>
-	</div>
-	<div class="row-fluid">
+		<div class="row-fluid">
 		<div class="span6">
 			<div class="dataTables_info">Showing 1 to 10 of 57 entries</div>
 		</div>
@@ -205,6 +205,15 @@
 				</ul>
 			</div>
 		</div>
+	</div>
+	</div>
+
+	<div class="col-lg-12" ng-show="reporte.tareopersona_void">
+		<h2>
+			<center>	
+				No hay Tareo_persona que mostrar
+			</center>
+		</h2>
 	</div>
 
 </div>
@@ -228,109 +237,3 @@
       </div>
   </div>
 </div>
-
-<script>
-	 if (top.location != location) {
-        top.location.href = document.location.href ;
-    }
-    $(function(){
-        window.prettyPrint && prettyPrint();
-        $('.default-date-picker').datepicker({
-            format: 'mm-dd-yyyy',
-            autoclose: true
-        });
-        $('.dpYears').datepicker({
-            autoclose: true
-        });
-        $('.dpMonths').datepicker({
-            autoclose: true
-        });
-
-
-        var startDate = new Date(2012,1,20);
-        var endDate = new Date(2012,1,25);
-        $('.dp4').datepicker()
-            .on('changeDate', function(ev){
-                if (ev.date.valueOf() > endDate.valueOf()){
-                    $('.alert').show().find('strong').text('The start date can not be greater then the end date');
-                } else {
-                    $('.alert').hide();
-                    startDate = new Date(ev.date);
-                    $('#startDate').text($('.dp4').data('date'));
-                }
-                $('.dp4').datepicker('hide');
-            });
-        $('.dp5').datepicker()
-            .on('changeDate', function(ev){
-                if (ev.date.valueOf() < startDate.valueOf()){
-                    $('.alert').show().find('strong').text('The end date can not be less then the start date');
-                } else {
-                    $('.alert').hide();
-                    endDate = new Date(ev.date);
-                    $('.endDate').text($('.dp5').data('date'));
-                }
-                $('.dp5').datepicker('hide');
-            });
-
-        // disabling dates
-        var nowTemp = new Date();
-        var now = new Date(nowTemp.getFullYear(), nowTemp.getMonth(), nowTemp.getDate(), 0, 0, 0, 0);
-
-        var checkin = $('.dpd1').datepicker({
-            onRender: function(date) {
-                return date.valueOf() < now.valueOf() ? 'disabled' : '';
-            }
-        }).on('changeDate', function(ev) {
-                if (ev.date.valueOf() > checkout.date.valueOf()) {
-                    var newDate = new Date(ev.date)
-                    newDate.setDate(newDate.getDate() + 1);
-                    checkout.setValue(newDate);
-                }
-                checkin.hide();
-                $('.dpd2')[0].focus();
-            }).data('datepicker');
-        var checkout = $('.dpd2').datepicker({
-            onRender: function(date) {
-                return date.valueOf() <= checkin.date.valueOf() ? 'disabled' : '';
-            }
-        }).on('changeDate', function(ev) {
-                checkout.hide();
-            }).data('datepicker');
-    });
-
-
-
-$(".form_datetime").datetimepicker({
-    format: 'yyyy-mm-dd hh:ii',
-    autoclose: true,
-    todayBtn: true,
-    pickerPosition: "bottom-left"
-
-});
-
-
-$(".form_datetime-component").datetimepicker({
-    format: "dd MM yyyy - hh:ii",
-    autoclose: true,
-    todayBtn: true,
-    pickerPosition: "bottom-left"
-});
-
-$(".form_datetime-adv").datetimepicker({
-    format: "dd MM yyyy - hh:ii",
-    autoclose: true,
-    todayBtn: true,
-    startDate: "2013-02-14 10:00",
-    minuteStep: 10,
-    pickerPosition: "bottom-left"
-
-});
-
-$(".form_datetime-meridian").datetimepicker({
-    format: "dd MM yyyy - HH:ii P",
-    showMeridian: true,
-    autoclose: true,
-    todayBtn: true,
-    pickerPosition: "bottom-left"
-});
-</script>

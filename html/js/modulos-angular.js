@@ -31,22 +31,6 @@ controller('mainController', ['$http', function($http){
 
 	
 	//funciones que realizaran peticiones al servidor para obtener rellenar los array
-	reporte.getTareopersona = function (uid) {
-		$("#wait").modal();
-		if (uid == 'todos') {
-			uid = '';
-		};
-		dni = obtenerdni(uid);
-		reporte.tareopersona_void = false;
-		$http.get('/reporte/index/tareopersona/uid/'+ uid +'/dni/' + dni)
-		.success(function (res) {
-			reporte.tareopersona = res;
-			if (reporte.tareopersona.length == 0) {
-				reporte.tareopersona_void = true;
-			};
-			$("#wait").modal('hide');
-		})
-	}
 
 	reporte.getGerentes = function () {
 		$http.get('/reporte/index/gerentes')
@@ -79,6 +63,7 @@ controller('mainController', ['$http', function($http){
 						reporte.proyectos.push(proyecto);
 					})
 				}
+				console.log(reporte.proyectos);
 			})
 		} else if (por == 'byGerente') {
 			reporte.cliente_seleccionado = 'todos';
@@ -104,11 +89,13 @@ controller('mainController', ['$http', function($http){
 		})
 	}
 
-	reporte.getUsuarios = function (proyecto, index) {
+	reporte.getData = function (proyecto, index) {
 		if (reporte.proyectos[index]['selected']) {
 			agregarUsuarios(proyecto);
+			agregarTareopersona(proyecto);
 		} else {
 			borrarUsuarios(proyecto);
+			borrarTareopersona(proyecto);
 		}
 	}
 
@@ -152,6 +139,23 @@ controller('mainController', ['$http', function($http){
     	})
     	return dni;
     }
+
+    function fechaActual () {
+		var f = new Date();
+		var dd = f.getDate();
+		var mm = f.getMonth() + 1;
+		var yyyy = f.getFullYear();
+		
+		if(dd < 10) {
+    		dd = '0' + dd
+		} 
+
+		if(mm < 10) {
+    		mm = '0' + mm
+		} 
+
+		return dd + '-' + mm + '-' + yyyy;
+	}
 
     function agregarUsuarios (proyecto) {
 		$http.get('/reporte/index/usuarios/codigo_prop_proy/' + proyecto)
@@ -208,21 +212,33 @@ controller('mainController', ['$http', function($http){
 		})
 	}
 
-	function fechaActual () {
-		var f = new Date();
-		var dd = f.getDate();
-		var mm = f.getMonth() + 1;
-		var yyyy = f.getFullYear();
-		
-		if(dd < 10) {
-    		dd = '0' + dd
-		} 
+	agregarTareopersona = function (codigo_prop_proy) {
+		$("#wait").modal();
+		reporte.tareopersona_void = false;
+		$http.get('/reporte/index/tareopersona/codigo_prop_proy/'+ codigo_prop_proy + '/desde/' + reporte.fecha_from + '/hasta/' + reporte.fecha_to)
+		.success(function (res) {
+			res.forEach(function (item) {
+				reporte.tareopersona.push(item);
+			})
+			if (reporte.tareopersona.length == 0) {
+				reporte.tareopersona_void = true;
+			}
+			$("#wait").modal('hide');
+			console.log(reporte.tareopersona);
+		})
+	}
 
-		if(mm < 10) {
-    		mm = '0' + mm
-		} 
-
-		return dd + '-' + mm + '-' + yyyy;
+	borrarTareopersona = function (codigo_prop_proy) {
+		arrayTemp = reporte.tareopersona;
+		reporte.tareopersona = [];
+		arrayTemp.forEach(function (item) {
+			if (item.codigo_prop_proy != codigo_prop_proy) {
+				reporte.tareopersona.push(item);
+			}
+		})
+		if (reporte.tareopersona.length == 0) {
+			reporte.tareopersona_void = true;
+		}
 	}
 	
 }])
