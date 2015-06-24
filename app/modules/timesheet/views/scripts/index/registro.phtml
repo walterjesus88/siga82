@@ -1,5 +1,5 @@
 <section class="panel">
-  <!-- Titulo de la semana de la hoja d etiempo-->
+  <!-- Titulo de la semana de la hoja de tiempo-->
   <div class="col-lg-2 alert-info"  style="padding-top: 10px;padding-bottom: 10px;padding-right: 10px;padding-left: 10px;">
    <strong>Semana <?php echo $this->semana; echo ": ";?></strong>
     <?php
@@ -57,8 +57,18 @@
   <?php 
   if ($this->aprobacion)
   {
-  
+    echo "<strong>";echo "Aprobadores: "; echo "</strong>";echo "<br>";
+    echo "<strong>";echo "JI: ";echo "</strong>";echo $this->aprobador_filtro2;
+    echo "<br>";echo "<strong>";echo "GP: ";echo "</strong>";
+    if ($this->gerentes_proyectos)
+    {
+      foreach ($this->gerentes_proyectos as $gerente_proyecto)
+      {
+        echo($gerente_proyecto);echo "<br>";
+      }
+    } 
   }
+
   ?> 
   </div>
   <div class="panel-body" style="padding-top: 10px;padding-bottom: 0px;">
@@ -68,7 +78,10 @@
     <a id = "submit_copiar" class="btn btn-default pull-right btn-xs" href="#" style="margin-right : 10px">
       <i class="fa fa-check-square"></i> Copiar 
     </a>
-    <a id = "submit_work" class="btn btn-default pull-right btn-xs" href="#" style="margin-right : 10px">
+    <!--<a id = "submit_work" class="btn btn-default pull-right btn-xs" href="#" style="margin-right : 10px">
+      <i class="fa fa-check-square"></i> Enviar 
+    </a>-->
+    <a id = "enviar_hojatiempo" class="btn btn-default pull-right btn-xs" href="#" style="margin-right : 10px">
       <i class="fa fa-check-square"></i> Enviar 
     </a>
     <a id = "save_hours" class="btn btn-info pull-right btn-xs"  style="margin-right : 10px">
@@ -83,12 +96,9 @@
 <div class="row">
 
 <form action="" id="form_time" class="form-horizontal">
-
   <div class="col-sm-12">
     <section class="panel">
       <div class="panel-body">
-
-
         <div class="adv-table tableContainer">
           <table  class="display table table-bordered table-striped scrollTable">
           <thead class="fixedHeader">
@@ -856,8 +866,6 @@
                     var fecha = $("#fechasemana").text();
 
                     var url="/timesheet/index/updateetapanb/codigo/"+codigo_prop_proy+"/codigo_actividad/"+codigo_actividad+"/actividadid/"+actividadid+"/revision/"+revision+"/actividad_padre/"+actividad_padre+"/proyectoid/"+proyectoid+"/semanaid/"+semanaid+"/fecha_tarea/"+fecha_tarea+"/asignado/"+asignado+"/areaid/"+areaid+"/categoriaid/"+categoriaid+"/dni/"+dni+"/cargo/"+cargo+"/tipo_actividad/"+tipo_actividad+"/etapa/"+etapa+"/fecha_planificacion/"+fecha_planificacion+"/tarea_general/"+tarea_general+"/fecha/"+fecha+"/actividad_generalid/"+actividad_generalid+"/ban/0";
-
-
                     //alert(url);
                    
                     if (isNaN(tarea_general)) {
@@ -865,10 +873,7 @@
                            alert('la actividad esta duplicada, cargue nuevamente la pagina');
                            //e.preventDefault();
                     }else{ 
-
-                    
-
-                     var dateObj = $('#datepicker').datepicker('getDate');
+                    var dateObj = $('#datepicker').datepicker('getDate');
                     var dateFrom = $.datepicker.formatDate('mm/dd/yy', dateObj);
                     var weekfrom = $.datepicker.iso8601Week(new Date(dateFrom));
                     var diasSemana = new Array("Domingo","Lunes","Martes","Miércoles","Jueves","Viernes","Sábado");
@@ -1317,8 +1322,7 @@
 <link rel="stylesheet" href="/css/alertify.default.css" id="toggleCSS" />
 
 <script type="text/javascript">
-
-     $('#save_hours').click(function(){
+    $('#save_hours').click(function(){
         var dateObj = $('#datepicker').datepicker('getDate');
         alert("Guardando Registros al Sistema. Gracias");
         var dateFrom = $.datepicker.formatDate('mm/dd/yy', dateObj);
@@ -1409,7 +1413,7 @@
 
 <div style="display:none" id="horaregistrada"></div>
 <div style="display:none" id="carga"></div>
-<div style="display:none"  id="carga_nueva"></div>
+<div  id="carga_nueva"></div>
 <div style="display:none"  id="carga_copiar"></div>
 <div style="display:none" id="carga_w1"></div>
 
@@ -1702,7 +1706,6 @@ $("#submit_work1").click(function(){
       document.location.href="/timesheet/index/calendar";
       var d=new Date(); 
       var fechacapturada=d.getDate()+ "-" + (d.getMonth() +1) + "-" + d.getFullYear()+','+d.getHours()+':'+d.getMinutes()+':'+d.getSeconds(); 
-      //alert(fechacapturada);
       url="/timesheet/index/guardarcomentarioequipo/estado/B/uid/"+uid+'/dni/'+dni+'/semanaid/'+semanaid+'/cargo/'+cargo+'/coment/'+coment+'/uid_validacion/'+uid+'/dni_validacion/'+dni+'/etapa/0'+'/fecha_calendario/'+fecha_calendario+'/fecha/'+fechacapturada;
          
       //alert(url);      
@@ -1749,4 +1752,49 @@ $("#submit_work1").click(function(){
     });
   })
 
+</script>
+<script type="text/javascript">
+    $('#enviar_hojatiempo').click(function(){
+        var dateObj = $('#datepicker').datepicker('getDate');
+        alert("Guardando Registros al Sistema. Gracias");
+        var dateFrom = $.datepicker.formatDate('mm/dd/yy', dateObj);
+        var weekfrom = $.datepicker.iso8601Week(new Date(dateFrom));
+        var diasSemana = new Array("Domingo","Lunes","Martes","Miércoles","Jueves","Viernes","Sábado");
+        var day_select = diasSemana[dateObj.getDay()];
+        for (i = 0; i < diasSemana.length; i++) { 
+            if (diasSemana[i] == day_select) {
+                if (i == 0) {
+                    var num_day = 6;
+                    
+                } else {
+                    var num_day = i - 1;
+                };
+            };
+        };
+        fecha_capturadacalendario = mostrarFecha(dateObj,-num_day);
+        var d=new Date(); 
+        var fechaactualenvio=d.getDate()+ "-" + (d.getMonth() +1) + "-" + d.getFullYear()+','+d.getHours()+':'+d.getMinutes()+':'+d.getSeconds(); 
+        var uid="<?php echo $this->uid ?>";
+        var dni="<?php echo $this->dni ?>";
+        var semanaid="<?php echo $this->semana ?>";
+        var cargo="<?php echo $this->areaid ?>";
+        url_enviar_hojatiempo="/timesheet/aprobacion/enviarhojatiempo/estado/E/uid/"+uid+'/dni/'+dni+'/semanaid/'+semanaid+'/cargo/'+cargo+'/etapa/0'+'/fecha_envio/'+fechaactualenvio;
+        $.ajax({
+          type: "POST",
+          url: url_enviar_hojatiempo,
+          data: $(this).serialize(),
+          dataType: "html",
+          success: function(data){      
+              $("#carga_nueva").html(data);
+                $.ajax({
+                type   : 'post',
+                url    : '/timesheet/index/prueba/',
+                data   : $('#form_time').serialize(),
+                success: function(data){
+                  $("#registro").load("/timesheet/index/registro/fecha/" + fecha_capturadacalendario);
+                }
+              });     
+            }
+        });
+    });
 </script>

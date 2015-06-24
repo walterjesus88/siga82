@@ -223,44 +223,36 @@ class Timesheet_IndexController extends Zend_Controller_Action {
         $list_aprobacion_filtro1=$aprobacion->_getOnefiltro1($wheres_filtro1); 
         if ($list_aprobacion_filtro1)
         {
-          $aprobador_filtro1= $list_aprobacion_filtro1['idaprobador_filtro1'];  
-          /*
-          $usuario_cat = new Admin_Model_DbTable_Usuariocategoria();
-          $wheres_ucat=array('aprobacion'=>$aprobador_filtro1,'estado'=>'A','estado_sistema'=>'A');
-          $list_aprobador=$usuario_cat->_getOne($wheres_ucat); 
-          echo "<strong>";echo "Aprobadores: "; echo "</strong>";echo "<br>";*/
+            $aprobador_filtro1= $list_aprobacion_filtro1['idaprobador_filtro1'];  
         }
 
         $wheres_filtro2=array('idaprobacion'=>$buscar_aprobador,'estado_filtro2'=>'A');
         $list_aprobacion_filtro2=$aprobacion->_getOnefiltro2($wheres_filtro2); 
         if ($list_aprobacion_filtro2)
         {
-          $aprobador_filtro2= $list_aprobacion_filtro2['idaprobador_filtro2'];  
-          $usuario_cat = new Admin_Model_DbTable_Usuariocategoria();
-          $wheres_ucat=array('aprobacion'=>$aprobador_filtro2,'estado'=>'A','estado_sistema'=>'A');
-          $list_aprobador=$usuario_cat->_getOne($wheres_ucat); 
-          echo "<strong>";echo "Aprobadores: "; echo "</strong>";echo "<br>";
-          $aprobador_usuario = explode(".", $list_aprobador['uid']);
-          echo (ucwords($aprobador_usuario[0])); echo " ";
-          echo (ucwords($aprobador_usuario[1])); echo "<br>";
+            $idaprobador_filtro2= $list_aprobacion_filtro2['idaprobador_filtro2'];  
+            $usuario_cat = new Admin_Model_DbTable_Usuariocategoria();
+            $wheres_ucat=array('aprobacion'=>$idaprobador_filtro2,'estado'=>'A','estado_sistema'=>'A','areaid'=>$areaid);
+            $list_aprobador=$usuario_cat->_getAprobadorxArea($wheres_ucat); 
+            if ($list_aprobador)
+            {
+                $aprobador_usuario = explode(".", $list_aprobador['uid']);
+                $this->view->aprobador_filtro2=ucwords($aprobador_usuario[0])." ".ucwords($aprobador_usuario[1]);
+            }
         }
         $planificacion = new Admin_Model_DbTable_Planificacion();
-        
         $proyectos=$planificacion->_getOnexSemanaxGerenteProyecto($semana,$uid,$dni,$areaid);
-
-        print_r($proyectos);
-
-        echo $semana;
-        echo $uid;
-        echo $dni;
-        echo $areaid;
+        $k=0;
+        $gerentes_proyectos=array();
+        
         foreach ($proyectos as $datos) {
           $porciones = explode(".", $datos['uid']);
-          echo "GP: ";
-          echo (ucwords($porciones[0])); echo " ";
-          echo (ucwords($porciones[1])); echo "<br>";
+          $gerentes_proyectos[$k]=ucwords($porciones[0])." ".ucwords($porciones[1]);
+          $k++;
         }
-       
+        $this->view->gerentes_proyectos=$gerentes_proyectos;
+
+
 
         } catch (Exception $e) {
             print "Error: ".$e->getMessage();
@@ -2101,6 +2093,7 @@ public function guardarcomentarioequipoAction(){
                 $sumahorassemana = new Admin_Model_DbTable_Sumahorasemana();
                 $wheres=array('dni'=>$dni,'uid'=>$uid,'semanaid'=>$semana);
                 $tareosemana=$sumahorassemana->_getOne($wheres);
+
                 if ($this->sesion->personal->ucataprobacion)
                 {
                     $aprobacion = new Admin_Model_DbTable_Aprobacion();
