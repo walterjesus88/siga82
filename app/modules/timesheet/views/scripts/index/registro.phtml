@@ -59,11 +59,12 @@
   {
     echo "<strong>";echo "Aprobadores: "; echo "</strong>";echo "<br>";
     echo "<strong>";echo "JI: ";echo "</strong>";echo $this->aprobador_filtro2;
-    echo "<br>";echo "<strong>";echo "GP: ";echo "</strong>";
+    echo "<br>";
     if ($this->gerentes_proyectos)
     {
       foreach ($this->gerentes_proyectos as $gerente_proyecto)
       {
+        echo "<strong>";echo "GP: ";echo "</strong>";
         echo($gerente_proyecto);echo "<br>";
       }
     } 

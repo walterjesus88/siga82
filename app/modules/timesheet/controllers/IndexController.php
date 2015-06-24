@@ -227,12 +227,13 @@ class Timesheet_IndexController extends Zend_Controller_Action {
         }
 
         $wheres_filtro2=array('idaprobacion'=>$buscar_aprobador,'estado_filtro2'=>'A');
+
         $list_aprobacion_filtro2=$aprobacion->_getOnefiltro2($wheres_filtro2); 
         if ($list_aprobacion_filtro2)
         {
             $idaprobador_filtro2= $list_aprobacion_filtro2['idaprobador_filtro2'];  
             $usuario_cat = new Admin_Model_DbTable_Usuariocategoria();
-            $wheres_ucat=array('aprobacion'=>$idaprobador_filtro2,'estado'=>'A','estado_sistema'=>'A','areaid'=>$areaid);
+            $wheres_ucat=array('aprobacion'=>$idaprobador_filtro2,'estado'=>'A','estado_sistema'=>'A');
             $list_aprobador=$usuario_cat->_getAprobadorxArea($wheres_ucat); 
             if ($list_aprobador)
             {

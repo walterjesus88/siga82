@@ -124,7 +124,7 @@ class Admin_Model_DbTable_Usuariocategoria extends Zend_Db_Table_Abstract
     public function _getAprobadorxArea($where=array()){
         try {
                 $wherestr= "aprobacion = '".$where['aprobacion']."' and estado='".$where['estado']."'
-                and estado_sistema='".$where['estado_sistema']."' and areaid='".$where['areaid']."'
+                and estado_sistema='".$where['estado_sistema']."' 
                 ";
                 $row = $this->fetchRow($wherestr);
                 if($row) return $row->toArray();
