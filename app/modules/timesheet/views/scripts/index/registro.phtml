@@ -73,14 +73,14 @@
   ?> 
   </div>
   <div class="panel-body" style="padding-top: 10px;padding-bottom: 0px;">
-    <a id = "" class="btn btn-primary pull-right btn-xs"  href="" style="margin-right : 10px">
+    <!--<a id = "" class="btn btn-primary pull-right btn-xs"  href="" style="margin-right : 10px">
       <i class="fa fa-print"></i> Imprimir
     </a>
     <a id = "submit_copiar" class="btn btn-default pull-right btn-xs" href="#" style="margin-right : 10px">
       <i class="fa fa-check-square"></i> Copiar 
     </a>
-    <!--<a id = "submit_work" class="btn btn-default pull-right btn-xs" href="#" style="margin-right : 10px">
-      <i class="fa fa-check-square"></i> Enviar 
+    <a id = "submit_work" class="btn btn-default pull-right btn-xs" href="#" style="margin-right : 10px">
+      <i class="fa fa-check-square"></i> Enviar Anterior
     </a>-->
     <a id = "enviar_hojatiempo" class="btn btn-default pull-right btn-xs" href="#" style="margin-right : 10px">
       <i class="fa fa-check-square"></i> Enviar 
@@ -279,21 +279,22 @@
                 // echo $uid;echo "<br>";
                 $dni=$this->dni;
                 //  echo $dni;echo "<br>";
-               
-                
+
                 $equipo = new Admin_Model_DbTable_Equipo();
                 $estado_usuario='A';
-                $data_equipo = $equipo->_getDatosxProyectoxUidXEstadoxCliente($uid,$dni,$estado_usuario,$data_tareo['codigo_prop_proy'],$data_tareo['proyectoid']);
+                $data_equipo = $equipo->_getDatosxEquipoxProyecto($uid,$dni,$data_tareo['codigo_prop_proy'],$data_tareo['proyectoid']);
                 $categoriaid=$data_equipo[0]['categoriaid'];
                 $areaid=$data_equipo[0]['areaid'];
                 $cargo=$data_equipo[0]['cargo'];
+
+
              
 
                  //echo $categoriaid; echo "<br>";
                 $tareopersona = new Admin_Model_DbTable_Tareopersona();
                 $buscar_tarea=$tareopersona->_getTareoxProyectoxTareaxDia($proyectoid,$codigo,$revision,$actividadid,$actividad_padre,$semanaid,$fecha_tarea,$fecha_planificacion,$uid,$dni,$cargo,$resultado);
              
-                //print_r($data_tareo);echo "<br>";
+                //print_r($buscar_tarea);echo "<br>";
                 //print_r($buscar_tarea[0]['asignado']);
 
                 //$k=$a[$i][$j];
@@ -1353,8 +1354,6 @@
         
     });
 </script>
- 
-
 
 <div class="col-lg-10 "  style="padding-top: 10px;padding-bottom: 10px;padding-right: 10px;padding-left: 10px;">
 <?php 
@@ -1367,7 +1366,6 @@
   $semanaid=$this->semana;
   $vercoment= new Admin_Model_DbTable_Usuariovalidacion();
   if($vcoment=$vercoment->_getUsuarioxValidacion($semanaid,$uid,$dni))
-
    // print_r($vcoment);
   {?>
   <table class="table alert-info">
@@ -1639,47 +1637,6 @@ $("input.focusable").keydown(function(tecla){
     $(sig).focus();
   };
 });
-
-
-
-$("#save_work").click(function(){
-  alert("Guardando la Hoja de Tiempo");
-  /* var dateObj = new Date();
-    //var dateObj = $('#datepicker').datepicker('getDate');
-    var dateFrom = $.datepicker.formatDate('mm/dd/yy', dateObj);
-    var weekfrom = $.datepicker.iso8601Week(new Date(dateFrom));
-    var diasSemana = new Array("Domingo","Lunes","Martes","Miércoles","Jueves","Viernes","Sábado");
-    var day_select = diasSemana[dateObj.getDay()];
-    for (i = 0; i < diasSemana.length; i++) { 
-        if (diasSemana[i] == day_select) {
-            if (i == 0) {
-                var num_day = 6;
-                
-            } else {
-                var num_day = i - 1;
-            };
-        };
-    };
-    var f = new Date(); 
-    var fech=f.getFullYear()+"-"+(f.getMonth()+1) +"-"+f.getDate() ;
-         $("#fechasemana").text( fech );
-      
-    fecha_inicio = mostrarFecha(dateObj,-num_day);  */
-    document.location.href="/timesheet/index/calendar";
-});
-
-$("#submit_work1").click(function(){
-  alert("Enviando Hoja de Tiempo para Aprobacion");
-  var fecha="<?php echo $this->fecha?>";
-  var semana="<?php echo $this->semana?>";
-  var fecha_calendario = $("#fechasemana").text();
-  
-  var url="/timesheet/index/enviartimesheet/fecha_calendario/"+fecha_calendario;
-  //alert(url);
-  $("#carga_nueva").load(url);
- document.location.href="/timesheet/index/calendar";
-});
-
 </script>
 
 <script>
@@ -1688,44 +1645,6 @@ $("#submit_work1").click(function(){
     $('#bodyScroll').addClass('scrollContent');
     $('#bodyScroll').perfectScrollbar();
   });
-</script>
-
-<script type="text/javascript">        
-  $(document).ready(function(){
-    $("#submit_work").on("click",function(){
-      var fecha_calendario = $("#fechasemana").text();
-      //var url1="/timesheet/index/enviartimesheet/fecha_calendario/"+fecha_calendario;
-      //$("#carga_nueva").load(url1);
-      alert('Enviando Hoja de Tiempo');
-      var coment='Envio';
-      var uid="<?php echo $this->uid ?>";
-      var dni="<?php echo $this->dni ?>";
-      var uid_validacion="<?php echo $this->uid ?>";
-      var dni_validacion="<?php echo $this->dni ?>";
-      var semanaid="<?php echo $this->semana ?>";
-      var cargo="<?php echo $this->areaid ?>";
-      document.location.href="/timesheet/index/calendar";
-      var d=new Date(); 
-      var fechacapturada=d.getDate()+ "-" + (d.getMonth() +1) + "-" + d.getFullYear()+','+d.getHours()+':'+d.getMinutes()+':'+d.getSeconds(); 
-      url="/timesheet/index/guardarcomentarioequipo/estado/B/uid/"+uid+'/dni/'+dni+'/semanaid/'+semanaid+'/cargo/'+cargo+'/coment/'+coment+'/uid_validacion/'+uid+'/dni_validacion/'+dni+'/etapa/0'+'/fecha_calendario/'+fecha_calendario+'/fecha/'+fechacapturada;
-         
-      //alert(url);      
-      $.ajax({
-        type: "POST",
-        url: url,
-        data: $(this).serialize(),
-        dataType: "html",                                                 
-        error: function(){
-            alert("error petición ajax load");
-        },
-        success: function(data){      
-            $("#carga_nueva").empty();
-            $("#carga_nueva").html(data);           
-        }
-      });
-    });
-  })
-
 </script>
 
 <script type="text/javascript">        
@@ -1757,7 +1676,7 @@ $("#submit_work1").click(function(){
 <script type="text/javascript">
     $('#enviar_hojatiempo').click(function(){
         var dateObj = $('#datepicker').datepicker('getDate');
-        alert("Guardando Registros al Sistema. Gracias");
+        alert("Enviando Hoja de Tiempo. Gracias");
         var dateFrom = $.datepicker.formatDate('mm/dd/yy', dateObj);
         var weekfrom = $.datepicker.iso8601Week(new Date(dateFrom));
         var diasSemana = new Array("Domingo","Lunes","Martes","Miércoles","Jueves","Viernes","Sábado");
@@ -1780,6 +1699,9 @@ $("#submit_work1").click(function(){
         var semanaid="<?php echo $this->semana ?>";
         var cargo="<?php echo $this->areaid ?>";
         url_enviar_hojatiempo="/timesheet/aprobacion/enviarhojatiempo/estado/E/uid/"+uid+'/dni/'+dni+'/semanaid/'+semanaid+'/cargo/'+cargo+'/etapa/0'+'/fecha_envio/'+fechaactualenvio;
+        
+        urlfecha="/timesheet/index/registro/fecha/" + fecha_inicio;
+
         $.ajax({
           type: "POST",
           url: url_enviar_hojatiempo,
@@ -1789,10 +1711,11 @@ $("#submit_work1").click(function(){
               $("#carga_nueva").html(data);
                 $.ajax({
                 type   : 'post',
-                url    : '/timesheet/index/prueba/',
+                url    : urlfecha,
                 data   : $('#form_time').serialize(),
                 success: function(data){
-                  $("#registro").load("/timesheet/index/registro/fecha/" + fecha_capturadacalendario);
+                  $("#registro").html(data);     
+
                 }
               });     
             }
