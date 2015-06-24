@@ -24,6 +24,20 @@ class Admin_Model_DbTable_Proyecto extends Zend_Db_Table_Abstract
         if ($row) return $row->toArray();
     }
 
+    //para obtener todos los proyectos de un cliente especifico
+    public function _getProyectoxCliente($cliente){
+        try{
+            $sql=$this->_db->query("select codigo_prop_proy, nombre_proyecto, clienteid 
+                from proyecto where clienteid='".$cliente."' order by codigo_prop_proy;");
+            $row=$sql->fetchAll();
+            return $row;           
+            }  
+            
+           catch (Exception $ex){
+            print $ex->getMessage();
+        }
+    }
+
     public function _getOne($pk=null)
     {
         try{
@@ -129,6 +143,28 @@ class Admin_Model_DbTable_Proyecto extends Zend_Db_Table_Abstract
         }
     }
 
+    public function _buscarProyectodetalles($proyecto,$codigo_prop_proy){
+        try{
+            $sql=$this->_db->query("
+               select pro.codigo_prop_proy,pro.descripcion,pro.gerente_proyecto,pro.control_documentario,pro.fecha_inicio,pro.fecha_cierre,pro.nombre_proyecto,pro.propuestaid,pro.proyectoid,cli.nombre_comercial,uni.nombre,
+               pro.nombre_proyecto,pro.gerente_proyecto ,pro.clienteid
+               from proyecto as pro 
+               inner join cliente as cli on
+                        pro.clienteid=cli.clienteid 
+               inner join unidad_minera as uni
+               on uni.unidad_mineraid=pro.unidad_mineraid
+             
+               where codigo_prop_proy='14.10.140-1101.10.10-B' and proyectoid='1101.10.10'
+                ");
+            $row=$sql->fetchAll();
+            return $row;           
+            }  
+            
+           catch (Exception $ex){
+            print $ex->getMessage();
+        }
+    }
+
     public function _listProyectoxRepliconxEstado($proyecto,$estado){
         try{
             $sql=$this->_db->query("
@@ -160,12 +196,25 @@ class Admin_Model_DbTable_Proyecto extends Zend_Db_Table_Abstract
         }
     }
 
-        public function _getProyectosxGerente($gerente){
+    public function _getProyectosxGerente($gerente){
         try{
             $sql=$this->_db->query("
                 select * from proyecto
                 where  gerente_proyecto='$gerente' order by proyectoid asc;
                 ");
+            $row=$sql->fetchAll();
+            return $row;           
+            }  
+            
+           catch (Exception $ex){
+            print $ex->getMessage();
+        }
+    }
+
+    public function _getGerentes(){
+         try{
+            $sql=$this->_db->query("select distinct usu.dni, pro.gerente_proyecto from proyecto as pro inner join
+                usuario as usu on pro.gerente_proyecto = usu.uid order by pro.gerente_proyecto;");
             $row=$sql->fetchAll();
             return $row;           
             }  

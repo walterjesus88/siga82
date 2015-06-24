@@ -67,8 +67,9 @@ class Reporte_IndexController extends Zend_Controller_Action {
 
     public function usuariosAction() {
         $this->_helper->layout()->disableLayout();
-        $tareopersona = new Admin_Model_DbTable_Tareopersona();
-        $usuarios = $tareopersona->_getUsuarios();
+        $proyecto = $this->_getParam('codigo_prop_proy');
+        $equipo = new Admin_Model_DbTable_Equipo();
+        $usuarios = $equipo->_getUsuarioxProyectoxEstadoxNivel($proyecto, 'A', '4');
         $this->_helper->json->sendJson($usuarios);
     }
 
@@ -85,6 +86,27 @@ class Reporte_IndexController extends Zend_Controller_Action {
             $i++; 
         }
         $this->_helper->json->sendJson($respuesta);
+    }
+
+    public function gerentesAction(){
+        $this->_helper->layout()->disableLayout();
+        $proyecto = new Admin_Model_DbTable_Proyecto();
+        $gerentes = $proyecto->_getGerentes();
+        $this->_helper->json->sendJson($gerentes);
+    }
+
+    public function proyectosAction(){
+        $this->_helper->layout()->disableLayout();
+        if ($this->_getParam('clienteid') != '') {
+            $cliente = $this->_getParam('clienteid');
+            $proyecto = new Admin_Model_DbTable_Proyecto();
+            $proyectos = $proyecto->_getProyectoxCliente($cliente);
+        } elseif ($this->_getParam('gerenteid') != '') {
+            $gerente = $this->_getParam('gerenteid');
+            $proyecto = new Admin_Model_DbTable_Proyecto();
+            $proyectos = $proyecto->_getProyectosxGerente($gerente);
+        }
+        $this->_helper->json->sendJson($proyectos);
     }
 
     public function unidadmineraAction(){

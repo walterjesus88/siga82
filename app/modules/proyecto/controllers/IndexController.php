@@ -1934,7 +1934,7 @@ public function cargartarea2Action() {
       $data['fecha_creacion']=date("Y-m-d");
       $data['estado']='A';
    
-      print_r($data);
+      //print_r($data);
 
       $equiparea= new Admin_Model_DbTable_Equipoarea();
       $gequiparea= $equiparea->_save($data);
@@ -1942,9 +1942,10 @@ public function cargartarea2Action() {
       if($gequiparea)
       { ?>
         <script>
-          alert('sssaa');
+          //alert('ha sido creada la nueva area');
         </script>
       <?php }
+      exit();
 
     }
     catch (Exception $e) {
@@ -1954,6 +1955,18 @@ public function cargartarea2Action() {
 
 public function hojaresumenAction() 
 {
+
+  $proyectoid= $this->_getParam("proyectoid");
+  $codigo_prop_proy= $this->_getParam("codigo_prop_proy");
+
+  $this->view->proyectoid=$proyectoid;
+  $this->view->codigo_prop_proy=$codigo_prop_proy;
+
+  $proyect = new Admin_Model_DbTable_Proyecto();
+  $verproyect=$proyect->_buscarProyectodetalles($proyectoid,$codigo_prop_proy);
+  print_r($verproyect);
+
+  $this->view->proyectdetail=$verproyect;
 
 }
 

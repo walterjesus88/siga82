@@ -1,4 +1,5 @@
 <span style="font-weight:bold;">Proyecto</span>
+<<<<<<< HEAD
 <ul class="nav nav-pills nav-stacked" >
     <?php 
     $equipo = $this->equipo;
@@ -10,6 +11,51 @@
                 <?php echo $data_equipo['proyectoid']. ' - ' .$data_equipo['nombre_proyecto'] ?>
             </a>
         </li>
+=======
+    
+    <ul class="nav nav-pills nav-stacked" >
+        <?php 
+        $equipo = $this->equipo;
+        if ($this->unidadid!='10') {
+        foreach ($equipo as $data_equipo) { ?>
+            <li  >
+                <a style="padding:1px 1px;" class="proyecto" codigo-prop-proy="<?php echo $data_equipo['codigo_prop_proy'] ?>" proyectoid="<?php echo $data_equipo['proyectoid'] ?>" categoriaid="<?php echo $data_equipo['categoriaid'] ?>" href="##">
+                    
+                    <?php echo $data_equipo['proyectoid']. ' - ' .$data_equipo['nombre_proyecto'] ?>
+                </a>
+            </li>
+
+            <?php
+        } }
+        else
+        {?>
+        
+            <li>
+                <a style="padding:1px 1px;" class="proyecto" codigo-prop-proy="<?php echo '2015' ?>" proyectoid="<?php echo '1' ?>" categoriaid="<?php echo 'EQUIPO' ?>" href="##">
+                    <?php echo "1. Administrativo" ?>
+                </a>
+            </li>    
+            <li>
+                <a style="padding:1px 1px;" class="proyecto" codigo-prop-proy="<?php echo '2015' ?>" proyectoid="<?php echo '2' ?>" categoriaid="<?php echo 'EQUIPO' ?>" href="##">
+                    <?php echo "2. Propuesta" ?>
+                </a>
+            </li>    
+             <li>
+                <a style="padding:1px 1px;" class="proyecto" codigo-prop-proy="<?php echo '1590.10.01' ?>" proyectoid="<?php echo '1590.10.01' ?>" categoriaid="<?php echo 'EQUIPO' ?>" href="##">
+                <?php echo "3. Proyecto SPC" ?>
+                </a>
+            </li>    
+            <li>
+                <a style="padding:1px 1px;" class="proyecto" codigo-prop-proy="<?php echo '1590.10.02' ?>" proyectoid="<?php echo '1590.10.02' ?>" categoriaid="<?php echo 'EQUIPO' ?>" href="##">
+                <?php echo "4. Proyecto SIG" ?>
+                </a>
+            </li> 
+            <li>
+                <a style="padding:1px 1px;" class="proyecto" codigo-prop-proy="<?php echo '1590.10.03' ?>" proyectoid="<?php echo '1590.10.03' ?>" categoriaid="<?php echo 'EQUIPO' ?>" href="##">
+                <?php echo "5. Proyecto Investigación" ?>
+                </a>
+            </li>    
+>>>>>>> c0a653da85b66ec0348bd9d5e13c8c200e6f43e8
         <?php
     } }
     else
