@@ -166,8 +166,8 @@
           <select id="area_categoria" class="form-control input-sm m-bot15 col-lg-10">                        
             <option>Seleccione el Area</option>
             <?php  
-              foreach ($this->area as $data_area) {?>                          
-                <option value="<?php echo $data_area['areaid']?>"><?php  echo $data_area['nombre']?></option>
+              foreach ($this->area as $data_area) {?>                        
+                <option value="<?php echo $data_area['areaid'].";-;".$data_area['nombre']?>"><?php  echo $data_area['nombre']?></option>
                   <?php }?>
                 </select> 
                 <select id="function" class="form-control input-sm m-bot15 col-lg-10">
@@ -253,7 +253,6 @@
                               </td>
                               <td>
                                 <span class="editar" id="editar_<?php echo $i?><?php echo $j?>" onclick="transformarEnEditable(this)">Editar</span>
-                                <!--  -->
                               </td>
                             </tr>
                             <div id="contenedorForm_<?php echo $i?><?php echo $j?>"></div>
@@ -271,35 +270,7 @@
                                   $("#modaltimes_equipo").load(url);   
                                 });
                               });
-                            </script> 
-                            
-                            <script>
-                              // $(document).ready(function(){
-                              //   $("editar_<?php echo $i?><?php echo $j?>").dblclick(function(){
-                              //     alert('editar_<?php echo $i?><?php echo $j?>');
-                                    
-                              //     console.log('contenedorForm_<?php echo $i?><?php echo $j?>');
-                              //     console.log('editar_<?php echo $i?><?php echo $j?>');
-                              //     var nodoContenedorForm = document.getElementById('contenedorForm_<?php echo $i?><?php echo $j?>'); 
-                              //     var areaidcont=$('areaidcont_<?php echo $i?><?php echo $j?>').textContent;
-                              //     alert(areaidcont);
-
-                              //     var nuevoCodigoHtml = 
-                              //     '<td><input disabled type="text" name="nombre" id="nombre" value="'+nombre.trim()+'" size="15"></td>'+
-                              //     '<td><input disabled type="text" name="categoria" id="categoria" value="'+categoria.trim()+'" size="8"</td>'+
-                              //     '<td><input disabled type="text" name="rate" id="rate" value="'+rate.trim()+'" size="5"</td>'+
-                              //     '<td><input type="text" name="rate_proyecto" id="rate_proyecto" value="'+rate_proyecto.trim()+'" size="5"</td>'+'<td>En ediciónss</td>'+
-                              //     '<td><input style="display:none" type="text" name="dnix" id="dnix" value="'+dni+'" size="5"</td>'+
-                              //     '<td><input style="display:none" type="text" name="uidx" id="uidx" value="'+uid+'" size="5"</td>'+
-                              //     '<td><input style="display:none" type="text" name="areaidx" id="areaidx" value="'+areaid+'" size="5"</td>'
-                              //     ;
-                                            
-                              //     nodoTr.innerHTML = nuevoCodigoHtml;
-                              //     nodoContenedorForm.innerHTML = 'Pulse Aceptar para guardar los cambios o cancelar para anularlos'+
-                              //      '<input class="boton" type = "submit" value="Aceptar" onclick="capturarEnvio()"> <input class="boton" type="reset" value="Cancelar"  onclick="anular()" >';
-                              //   });
-                              // });
-                            </script> 
+                            </script>
 
                             <script>                           
                               var editando=false;                           
@@ -459,9 +430,7 @@
                               }
 
                               function capturarEnvio(nodo){ 
-                                console.log("ffffffaaa");
-                           
-
+                                //console.log("ffffffaaa");  
                                 var nombremod = $("#nombre").val();
                                 var categoriamod = $("#categoria").val();
                                 var ratemod = $("#rate").val();
@@ -471,8 +440,7 @@
                                 var areaid = $("#areaidx").val();
 
                                 var proyecto="<?php echo $this->proyecto['proyectoid']?>";
-                                var codigo="<?php echo $this->proyecto['codigo_prop_proy'] ?>";                  
-                                
+                                var codigo="<?php echo $this->proyecto['codigo_prop_proy'] ?>"; 
                                 // alert(nombremod);
                                 // alert(categoriamod);
                                 // alert(ratemod);
@@ -484,21 +452,19 @@
                                 // alert(areaid);           
                             
                                 $("#destinos").load("/proyecto/index/updateequipo/", {proyectoid: proyecto,codigo:codigo,dni:dni,uid:uid,areaid:areaid,rate:rateproyectomod}, 
-                                function(){
+                                  function(){
                                   //alert("Campo actualizado");
                                   window.location.reload();
 
                                   //var editando=false;  
                                   //$(nodoContenedorForm).hide();
                                   //$("#contenedorForm").html(''); 
-
                                   // document.getElementById("nombre").reset();
                                   // document.getElementById("categoria").reset();
                                   // document.getElementById("rate").reset();
                                   // document.getElementById("rate_proyecto").reset();
                                   // document.getElementById("uidx").reset();
-                                 
-                                });                              
+                                  });                              
                                 }
 
                                 function anular(nodo){
@@ -574,12 +540,46 @@
     </div>
 
     <script type="text/javascript">
-      function prueba(ev)
+      function anadir(ev)
         {
-          var areax = $("#areasx").val();            
+
+          var x=ev.value;  
+          var i=ev.id.charAt(7);        
+          var j=ev.id.charAt(8);
+          var z=ev.id.charAt(9);
+          var areax=i+j+z;
+          alert(i);    
+          alert(j);
+          //var areax = $("#areasx").val();
+          var codigo="<?php echo $this->codigoproyecto ?>";
+          var proyecto="<?php echo $this->proyectoid ?>";            
           //var x=ev.value;  
-          alert(areax);
+          //alert(areax);
+          $("#myModal9").modal('show')
+          var url = "/proyecto/index/buscarpersonasxcategoria/proyectoid/"+ proyecto+"/codigo_prop_proy/"+codigo+"/areaid/"+areax;
+          alert(url);
+          $("#modaltimes_rate").load(url);   
           //alert(x);
+        }
+
+      function asigna(ev)
+        {
+          var x=ev.value;  
+          var i=ev.id.charAt(7);        
+          var j=ev.id.charAt(8);
+          var z=ev.id.charAt(9);
+          var areax=i+j+z;
+          alert(i);    
+          alert(j);
+          //var areax = $("#areasx").val();
+          var codigo="<?php echo $this->codigoproyecto ?>";
+          var proyecto="<?php echo $this->proyectoid ?>";            
+          //var x=ev.value;  
+          //alert(areax);
+          $("#modalperson").modal('show')
+          var url = "/proyecto/index/asignaractividad/proyectoid/"+ proyecto+"/codigo_prop_proy/"+codigo+"/areaid/"+areax;
+          alert(url);
+          $("#modaltimes").load(url); 
         }
     </script>
 
@@ -587,6 +587,8 @@
       $(function(){
       //$('form').hide();
       $('form').slideUp(); 
+      //$(this).parent().children('#anadirarea').remove();
+
       $('#anadirarea').on('click', mostrarFormulario);
 
       function mostrarFormulario() {
@@ -597,23 +599,30 @@
 
       function procesarFormulario(ev)
       {
-      //var nodoContenedorForm = document.getElementById('contenedorForm'); //Nodo DIV
-        var areacat= $("#area_categoria").val();                 
+        var areacatx= $("#area_categoria").val();
+        tmp=areacatx.split(";-;");
+        areacat=tmp[0];
+        nom=tmp[1];
+
         var funcion= $("#function").val();
         var codigo="<?php echo $this->codigoproyecto ?>";
         var proyecto="<?php echo $this->proyectoid ?>";
                  
         var url="/proyecto/index/guardarareaequipo/codigo_prop_proy/"+codigo+"/proyectoid/"+proyecto+"/funcion/"+funcion+"/area/"+areacat;
                      
+        alert(areacat);  
                       //alert(url);
                       //$("#anadirareaproyecto").load(url);
         $('form').slideUp();
-
-        var template='<td>'+areacat+'-</td>'+'<td>nom</td>'+
-                    '<td><a class="editar btn btn-info btn-xs" id="mas" href="#"  >+ </a></td>'                         
-                     +
-                     '<td><input disabled type="text" name="areasx" id="areasx" value="'+areacat+'" size="5"</td>'+
-                     '<td><span class="editar" onclick="prueba(this)" >enter</span></td>';
+        //$(this).parent().children('#area_categoria').remove();
+        //var i=100;
+        var template='<div class="panel panel-default">'+'<div class="panel-heading">'+'<h4 class="panel-title" >'+
+                     '<tr>'+'<td style="font-size: 12px;">'+areacat+'-</td>'+'<td>'+nom+'</td>'+                    
+                     '<td><input style="display:none" disabled type="text" name="areasx" id="areasx" value="'+areacat+'" size="5"></td>'+
+                     '<span class="pull-right">'+
+                     '<td><span  id="anadir_'+areacat+'" class="editar btn btn-info btn-xs" onclick="anadir(this)">+</span></td>'+
+                     '<td><span  id="anadir_'+areacat+'" class="editar btn btn-danger btn-xs" onclick="asigna(this)">H</span></td>'
+                     +'</span>'+'<tr>'+'</h4>'+'</div>'+'</div>';
 
 
         //$(this).parent().innerHTML = template;
@@ -622,22 +631,22 @@
         $(this).parent().append(template);
                               //$('#accordion').prepend($(template).fadeIn());
                          
-        // $.ajax({
-       //       type: "POST",
-       //       url: url,
-        //       data: $(this).serialize(),
-        //       dataType: "html",                                                 
-        //       error: function()
-        //       {
-        //         alert("error petición ajax load");
-        //       },
-        //       success: function(data)
-        //       {   
-        //         //$("#anadirareaproyecto").empty();
-        //         //$("#anadirareaproyecto").append(data);
-        //         //$("#accordion").append("<li>"+"person.name"+"("+")"+"</li");
-        //       }
-        // });
+        $.ajax({
+             type: "POST",
+             url: url,
+              data: $(this).serialize(),
+              dataType: "html",                                                 
+              error: function()
+              {
+                alert("error petición ajax load");
+              },
+              success: function(data)
+              {   
+                //$("#anadirareaproyecto").empty();
+                //$("#anadirareaproyecto").append(data);
+                //$("#accordion").append("<li>"+"person.name"+"("+")"+"</li");
+              }
+        });
       } 
     });
 </script>
@@ -761,14 +770,6 @@
 </div>
 
 
-
-<script type="text/javascript">
-  $(document).ready(function(){
-    $("#mas").click(function(){
-      alert("mas");
-    });
-  });
-</script>
 
 
 <div id="anadirareaproyecto">gg</div>
