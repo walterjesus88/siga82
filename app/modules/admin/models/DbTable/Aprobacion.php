@@ -89,28 +89,6 @@ class Admin_Model_DbTable_Aprobacion extends Zend_Db_Table_Abstract
     }  
 
 
-    public function _getConteoactivar($codigo_prop_proy,$proyectoid,$uid,$dni,$estado,$areaid,$categoriaid)
-     {
-
-       
-        try{
-            $sql=$this->_db->query("
-              select  count(*) from activar_actividad
-              where codigo_prop_proy='$codigo_prop_proy' and proyectoid='$proyectoid' 
-              and estado='$estado' and uid='$uid' and dni='$dni' 
-              and areaid = '$areaid' and categoriaid='$categoriaid'
-
-            ");
-            // print_r($sql);
-            $row=$sql->fetchAll();
-            return $row;           
-            }  
-            
-           catch (Exception $ex){
-            print $ex->getMessage();
-        }
-    }
-
     public function _getOnefiltro1($where=array()){
         try {
                 $wherestr= "idaprobacion = '".$where['idaprobacion']."' and estado_filtro1='".$where['estado_filtro1']."'
@@ -134,4 +112,21 @@ class Admin_Model_DbTable_Aprobacion extends Zend_Db_Table_Abstract
             print "Error: Read One Condition".$e->getMessage();
         }
     }
+
+    public function _getCodigoAprobacionxAprobadorfiltro2($idaprobador_filtro2,$estado_filtro2)
+    {
+        try{
+            $sql=$this->_db->query("
+              select  idaprobacion from aprobacion
+              where idaprobador_filtro2='$idaprobador_filtro2' and estado_filtro2='$estado_filtro2' 
+            ");
+            $row=$sql->fetchAll();
+            return $row;           
+            }  
+           catch (Exception $ex){
+            print $ex->getMessage();
+        }
+    }
+
+
 }

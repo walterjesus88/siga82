@@ -166,8 +166,8 @@
           <select id="area_categoria" class="form-control input-sm m-bot15 col-lg-10">                        
             <option>Seleccione el Area</option>
             <?php  
-              foreach ($this->area as $data_area) {?>                          
-                <option value="<?php echo $data_area['areaid']?>"><?php  echo $data_area['nombre']?></option>
+              foreach ($this->area as $data_area) {?>                        
+                <option value="<?php echo $data_area['areaid'].";-;".$data_area['nombre']?>"><?php  echo $data_area['nombre']?></option>
                   <?php }?>
                 </select> 
                 <select id="function" class="form-control input-sm m-bot15 col-lg-10">
@@ -206,6 +206,7 @@
                       $equipo=$bdequipo->_buscarEquipoxProyectoxArea($this->proyecto['codigo_prop_proy'],$this->proyecto['proyectoid'],$lista['areaid']);?>
 
                       <section class="posts">
+                    
                         <table style="font-size: 12px;" class="table table-hover p-table">
                           <thead>
                             <tr>    
@@ -252,7 +253,6 @@
                               </td>
                               <td>
                                 <span class="editar" id="editar_<?php echo $i?><?php echo $j?>" onclick="transformarEnEditable(this)">Editar</span>
-                                <!--  -->
                               </td>
                             </tr>
                             <div id="contenedorForm_<?php echo $i?><?php echo $j?>"></div>
@@ -270,35 +270,7 @@
                                   $("#modaltimes_equipo").load(url);   
                                 });
                               });
-                            </script> 
-                            
-                            <script>
-                              $(document).ready(function(){
-                                $("editar_<?php echo $i?><?php echo $j?>").dblclick(function(){
-                                  alert('editar_<?php echo $i?><?php echo $j?>');
-                                    
-                                  console.log('contenedorForm_<?php echo $i?><?php echo $j?>');
-                                  console.log('editar_<?php echo $i?><?php echo $j?>');
-                                  var nodoContenedorForm = document.getElementById('contenedorForm_<?php echo $i?><?php echo $j?>'); 
-                                  var areaidcont=$('areaidcont_<?php echo $i?><?php echo $j?>').textContent;
-                                  alert(areaidcont);
-
-                                  var nuevoCodigoHtml = 
-                                  '<td><input disabled type="text" name="nombre" id="nombre" value="'+nombre.trim()+'" size="15"></td>'+
-                                  '<td><input disabled type="text" name="categoria" id="categoria" value="'+categoria.trim()+'" size="8"</td>'+
-                                  '<td><input disabled type="text" name="rate" id="rate" value="'+rate.trim()+'" size="5"</td>'+
-                                  '<td><input type="text" name="rate_proyecto" id="rate_proyecto" value="'+rate_proyecto.trim()+'" size="5"</td>'+'<td>En ediciónss</td>'+
-                                  '<td><input style="display:none" type="text" name="dnix" id="dnix" value="'+dni+'" size="5"</td>'+
-                                  '<td><input style="display:none" type="text" name="uidx" id="uidx" value="'+uid+'" size="5"</td>'+
-                                  '<td><input style="display:none" type="text" name="areaidx" id="areaidx" value="'+areaid+'" size="5"</td>'
-                                  ;
-                                            
-                                  nodoTr.innerHTML = nuevoCodigoHtml;
-                                  nodoContenedorForm.innerHTML = 'Pulse Aceptar para guardar los cambios o cancelar para anularlos'+
-                                   '<input class="boton" type = "submit" value="Aceptar" onclick="capturarEnvio()"> <input class="boton" type="reset" value="Cancelar"  onclick="anular()" >';
-                                });
-                              });
-                            </script> 
+                            </script>
 
                             <script>                           
                               var editando=false;                           
@@ -308,10 +280,10 @@
                               var x=nodo.value;  
                               var i=parseInt(nodo.id.charAt(7));
                               var j=parseInt(nodo.id.charAt(8));
-/*
+                              /*
                               alert(i);
                               alert(j);
-*/
+                              */
                               if (editando == false) {
 
                               
@@ -328,7 +300,7 @@
                               var dni = nodosEnTr[4].textContent;
                               var uid = nodosEnTr[5].textContent;
                               var areaid = nodosEnTr[6].textContent;                  
-/*
+                              /*
                               alert(nombre);
                               alert(dni);
                               alert(uid);
@@ -458,9 +430,7 @@
                               }
 
                               function capturarEnvio(nodo){ 
-                                console.log("ffffffaaa");
-                           
-
+                                //console.log("ffffffaaa");  
                                 var nombremod = $("#nombre").val();
                                 var categoriamod = $("#categoria").val();
                                 var ratemod = $("#rate").val();
@@ -470,8 +440,7 @@
                                 var areaid = $("#areaidx").val();
 
                                 var proyecto="<?php echo $this->proyecto['proyectoid']?>";
-                                var codigo="<?php echo $this->proyecto['codigo_prop_proy'] ?>";                  
-                                
+                                var codigo="<?php echo $this->proyecto['codigo_prop_proy'] ?>"; 
                                 // alert(nombremod);
                                 // alert(categoriamod);
                                 // alert(ratemod);
@@ -483,21 +452,19 @@
                                 // alert(areaid);           
                             
                                 $("#destinos").load("/proyecto/index/updateequipo/", {proyectoid: proyecto,codigo:codigo,dni:dni,uid:uid,areaid:areaid,rate:rateproyectomod}, 
-                                function(){
+                                  function(){
                                   //alert("Campo actualizado");
                                   window.location.reload();
 
                                   //var editando=false;  
                                   //$(nodoContenedorForm).hide();
                                   //$("#contenedorForm").html(''); 
-
                                   // document.getElementById("nombre").reset();
                                   // document.getElementById("categoria").reset();
                                   // document.getElementById("rate").reset();
                                   // document.getElementById("rate_proyecto").reset();
                                   // document.getElementById("uidx").reset();
-                                 
-                                });                              
+                                  });                              
                                 }
 
                                 function anular(nodo){
@@ -527,9 +494,12 @@
                       </div>
                     </div>
                 </div>
+         
+
                 <script type="text/javascript">
                   $(document).ready(function(){
                     $("#anadir_<?php echo $i?>").click(function(){
+                      alert("ffff");
                       var proyectoid = $(this).attr('proyectoid');
                       var codigo_prop_proy = $(this).attr('codigo-prop-proy');
                       var areaid = $(this).attr('areaid');
@@ -556,6 +526,9 @@
                     });
                   });
                 </script> 
+
+            
+
               <?php $i++; 
                 } 
               }?>
@@ -565,6 +538,118 @@
         </section>
       </div>
     </div>
+
+    <script type="text/javascript">
+      function anadir(ev)
+        {
+
+          var x=ev.value;  
+          var i=ev.id.charAt(7);        
+          var j=ev.id.charAt(8);
+          var z=ev.id.charAt(9);
+          var areax=i+j+z;
+          alert(i);    
+          alert(j);
+          //var areax = $("#areasx").val();
+          var codigo="<?php echo $this->codigoproyecto ?>";
+          var proyecto="<?php echo $this->proyectoid ?>";            
+          //var x=ev.value;  
+          //alert(areax);
+          $("#myModal9").modal('show')
+          var url = "/proyecto/index/buscarpersonasxcategoria/proyectoid/"+ proyecto+"/codigo_prop_proy/"+codigo+"/areaid/"+areax;
+          alert(url);
+          $("#modaltimes_rate").load(url);   
+          //alert(x);
+        }
+
+      function asigna(ev)
+        {
+          var x=ev.value;  
+          var i=ev.id.charAt(7);        
+          var j=ev.id.charAt(8);
+          var z=ev.id.charAt(9);
+          var areax=i+j+z;
+          alert(i);    
+          alert(j);
+          //var areax = $("#areasx").val();
+          var codigo="<?php echo $this->codigoproyecto ?>";
+          var proyecto="<?php echo $this->proyectoid ?>";            
+          //var x=ev.value;  
+          //alert(areax);
+          $("#modalperson").modal('show')
+          var url = "/proyecto/index/asignaractividad/proyectoid/"+ proyecto+"/codigo_prop_proy/"+codigo+"/areaid/"+areax;
+          alert(url);
+          $("#modaltimes").load(url); 
+        }
+    </script>
+
+    <script>
+      $(function(){
+      //$('form').hide();
+      $('form').slideUp(); 
+      //$(this).parent().children('#anadirarea').remove();
+
+      $('#anadirarea').on('click', mostrarFormulario);
+
+      function mostrarFormulario() {
+        $('form').slideToggle();
+      }
+
+      $('form').on('submit', procesarFormulario);
+
+      function procesarFormulario(ev)
+      {
+        var areacatx= $("#area_categoria").val();
+        tmp=areacatx.split(";-;");
+        areacat=tmp[0];
+        nom=tmp[1];
+
+        var funcion= $("#function").val();
+        var codigo="<?php echo $this->codigoproyecto ?>";
+        var proyecto="<?php echo $this->proyectoid ?>";
+                 
+        var url="/proyecto/index/guardarareaequipo/codigo_prop_proy/"+codigo+"/proyectoid/"+proyecto+"/funcion/"+funcion+"/area/"+areacat;
+                     
+        alert(areacat);  
+                      //alert(url);
+                      //$("#anadirareaproyecto").load(url);
+        $('form').slideUp();
+        //$(this).parent().children('#area_categoria').remove();
+        //var i=100;
+        var template='<div class="panel panel-default">'+'<div class="panel-heading">'+'<h4 class="panel-title" >'+
+                     '<tr>'+'<td style="font-size: 12px;">'+areacat+'-</td>'+'<td>'+nom+'</td>'+                    
+                     '<td><input style="display:none" disabled type="text" name="areasx" id="areasx" value="'+areacat+'" size="5"></td>'+
+                     '<span class="pull-right">'+
+                     '<td><span  id="anadir_'+areacat+'" class="editar btn btn-info btn-xs" onclick="anadir(this)">+</span></td>'+
+                     '<td><span  id="anadir_'+areacat+'" class="editar btn btn-danger btn-xs" onclick="asigna(this)">H</span></td>'
+                     +'</span>'+'<tr>'+'</h4>'+'</div>'+'</div>';
+
+
+        //$(this).parent().innerHTML = template;
+
+        //nube = '<a disabled="disabled"> <i style="color: #D6D6D8" class="fa fa-comment"></i></a>';
+        $(this).parent().append(template);
+                              //$('#accordion').prepend($(template).fadeIn());
+                         
+        $.ajax({
+             type: "POST",
+             url: url,
+              data: $(this).serialize(),
+              dataType: "html",                                                 
+              error: function()
+              {
+                alert("error petición ajax load");
+              },
+              success: function(data)
+              {   
+                //$("#anadirareaproyecto").empty();
+                //$("#anadirareaproyecto").append(data);
+                //$("#accordion").append("<li>"+"person.name"+"("+")"+"</li");
+              }
+        });
+      } 
+    });
+</script>
         
     <div id="destinos"></div>
     <!-- sirve para editar-->
@@ -586,7 +671,7 @@
                              /*enviar informacion:*/
                              e.preventDefault();
                              $("#destino").load("/proyecto/index/updateequipo/", {nombre: "Juan", edad: 45}, function(){
-                    alert("Campo actualizado");
+                            alert("Campo actualizado");
                 });
                           }  
                       });  
@@ -669,7 +754,11 @@
           <h4 class="modal-title">Añadir Personas x Rate al Proyecto</h4>
         </div>
         <div class="modal-body">
-          <div id="modaltimes_rate"></div>
+            
+          <div id="modaltimes_rate" >
+          </div>
+             
+            
         </div>
         <div class="modal-footer">
           <button data-dismiss="modal" class="btn btn-default" type="button">Cerrar</button>
@@ -680,68 +769,9 @@
   </div>
 </div>
 
-<script>
-              $(function(){
-                //$('form').hide();
-                  $('form').slideUp(); 
 
-                $('#anadirarea').on('click', mostrarFormulario);
 
-                function mostrarFormulario() {
-                  $('form').slideToggle();
-                }
 
-                $('form').on('submit', procesarFormulario);
-
-                function procesarFormulario(ev)
-                {
-                  var areacat= $("#area_categoria").val();
-                 
-                  var funcion= $("#function").val();
-                  var codigo="<?php echo $this->codigoproyecto ?>";
-                  var proyecto="<?php echo $this->proyectoid ?>";
-             
-                  var url="/proyecto/index/guardarareaequipo/codigo_prop_proy/"+codigo+"/proyectoid/"+proyecto+"/funcion/"+funcion+"/area/"+areacat;
-                 
-                  alert(url);
-                  //$("#anadirareaproyecto").load(url);
-                  $('form').slideUp(); 
-                     // var template='
-                     //    <table style="font-size: 12px;" class="table table-hover p-table"> \
-                     //    <thead> \
-                     //      <tr> \
-                     //        <th style="width: 50%;">Nombre</th> \
-                     //        <th style="width: 20%;">Categoria</th> \
-                     //        <th style="width: 10;">R.</th> \
-                     //        <th style="width: 10%;">R.Proy.</th> \
-                     //      </tr> \
-                     //    </thead> \
-                     //    </table> \
-                     //    ';
-
-                     // $('.posts').prepend($(template).fadeIn());
-
-                  $.ajax({
-                        type: "POST",
-                        url: url,
-                        data: $(this).serialize(),
-                        dataType: "html",                                                 
-                        error: function()
-                        {
-                          alert("error petición ajax load");
-                        },
-                        success: function(data)
-                        {   
-
-                          $("#anadirareaproyecto").empty();
-                          $("#anadirareaproyecto").append(data);
-
-                        }
-                    });
-                }
-
-              });
-</script>
 <div id="anadirareaproyecto">gg</div>
 
 <script>
@@ -851,7 +881,7 @@ $(".modal-body #DNI").val( myDNI );
 </script>
 
 
-
+    <ul id="put">dDDDDDDDDDDDd</ul>
 
 
 

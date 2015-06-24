@@ -1,5 +1,5 @@
 <section class="panel">
-  <!-- Titulo de la semana de la hoja d etiempo-->
+  <!-- Titulo de la semana de la hoja de tiempo-->
   <div class="col-lg-2 alert-info"  style="padding-top: 10px;padding-bottom: 10px;padding-right: 10px;padding-left: 10px;">
    <strong>Semana <?php echo $this->semana; echo ": ";?></strong>
     <?php
@@ -57,8 +57,19 @@
   <?php 
   if ($this->aprobacion)
   {
-  
+    echo "<strong>";echo "Aprobadores: "; echo "</strong>";echo "<br>";
+    echo "<strong>";echo "JI: ";echo "</strong>";echo $this->aprobador_filtro2;
+    echo "<br>";
+    if ($this->gerentes_proyectos)
+    {
+      foreach ($this->gerentes_proyectos as $gerente_proyecto)
+      {
+        echo "<strong>";echo "GP: ";echo "</strong>";
+        echo($gerente_proyecto);echo "<br>";
+      }
+    } 
   }
+
   ?> 
   </div>
   <div class="panel-body" style="padding-top: 10px;padding-bottom: 0px;">
@@ -68,7 +79,10 @@
     <a id = "submit_copiar" class="btn btn-default pull-right btn-xs" href="#" style="margin-right : 10px">
       <i class="fa fa-check-square"></i> Copiar 
     </a>
-    <a id = "submit_work" class="btn btn-default pull-right btn-xs" href="#" style="margin-right : 10px">
+    <!--<a id = "submit_work" class="btn btn-default pull-right btn-xs" href="#" style="margin-right : 10px">
+      <i class="fa fa-check-square"></i> Enviar 
+    </a>-->
+    <a id = "enviar_hojatiempo" class="btn btn-default pull-right btn-xs" href="#" style="margin-right : 10px">
       <i class="fa fa-check-square"></i> Enviar 
     </a>
     <a id = "save_hours" class="btn btn-info pull-right btn-xs"  style="margin-right : 10px">
@@ -83,20 +97,17 @@
 <div class="row">
 
 <form action="" id="form_time" class="form-horizontal">
-
   <div class="col-sm-12">
     <section class="panel">
       <div class="panel-body">
-
-
         <div class="adv-table tableContainer">
           <table  class="display table table-bordered table-striped scrollTable">
           <thead class="fixedHeader">
             <tr>
             <th style="width: 5%;">  </th>
             <th style="width: 60%;" >Proyecto / Actividad: Tarea</th>
-            <th style="width: 10%; padding: 0"><div class="div-celda" style="width: 100px;">Tipo</div></th>
-            <th style="width: 10%; padding: 0"><div class="div-celda" style="width: 100px;">Tarea</div></th>
+            <th style="width: 10%; padding: 0"><div class="div-celda" style="width: 80px;">Tipo</div></th>
+            <th style="width: 10%; padding: 0"><div class="div-celda" style="width: 80px;">Tarea</div></th>
             <?php 
               $fecha = $this->fecha;
               $fecha_mostrar = $this->fecha_mostrar;
@@ -111,6 +122,11 @@
                   $nuevafecha = strtotime ( '+1 day' , strtotime ( $newDate ) ) ;
                   $fecha = date ( 'd-m-Y' , $nuevafecha );
                 }?>
+                <td style="padding: 0">
+                	<div class="div-celda">
+                		Total
+                	</div>
+                </td>
             </tr>
           </thead>
           <tbody id="bodyScroll">
@@ -125,7 +141,8 @@
             { ?>      
             <tr class="gradeX" id ="tr_tareo_<?php echo $j?>">
               <?php if ($data_tareo['estado_tareopersona']!='C') { ?>  
-              <td style="width: 5%;"> 
+              <td style="width: 5%; padding: 0">
+               <div class="div-celda" style="width: 25px"> 
                 <?php if ($data_tareo['tipo_actividad']=='G') {?>
                   <a <?php if ($data_tareo['estado_tareopersona']=='C') { ?> disabled <?php }?> id ="crear_tareag_<?php echo $j?>"><i class="fa fa-plus-square-o"></i></a>
                   <a title="Eliminar" id ="eliminar_tareo_<?php echo $j?>" ><i class="fa fa-minus-square-o"></i></a><?php }
@@ -137,6 +154,7 @@
                   <a ><i class="fa fa-plus-square-o"></i></a>
                   <a <?php if ($data_tareo['estado_tareopersona']=='C') { ?> disabled <?php }?> title="Eliminar" id ="eliminar_tareo_<?php echo $j?>" ><i class="fa fa-minus-square-o"></i></a>                                   
                 <?php }?>
+               </div>
               </td>
               <?php } else {?> 
 
@@ -145,7 +163,8 @@
               <?php } ?>
 
              
-              <td style="width: 60%;">
+              <td style="width: 60%; padding: 0">
+               <div class="div-celda" style="width: 100%">
                 <?php  
                   $buscaunidad = new Admin_Model_DbTable_Unidadminera();
                   $buscanombre_unidad=$buscaunidad->_getUnidadmineraxid($data_tareo['clienteid'],$data_tareo['unidad_mineraid']);
@@ -155,10 +174,11 @@
                     { $unidad_minera =$data_tareo['unidad_mineraid']; }
 
                 echo "<strong>"; echo $data_tareo['proyectoid']; echo "</strong>"; echo " "; echo "<strong>"; echo $unidad_minera; echo "</strong>"; echo " "; echo $data_tareo['nombre_proyecto'];  echo " "; echo $data_tareo['actividadid']; echo " ";echo $data_tareo['nombre'] ?>
+               </div>
               </td>            
 
               <td style="width: 10%; padding: 0;">
-              <div class="div-celda" style="width: 100px;">
+              <div class="div-celda" style="width: 80px;">
                 <?php if ($data_tareo['tipo_actividad']=='G') {?>
                   
 
@@ -181,7 +201,7 @@
               </td>            
 
               <td style="width: 10%; padding: 0;"> 
-              <div class="div-celda" style="width: 100px;">
+              <div class="div-celda" style="width: 80px;">
                 <?php if ($data_tareo['tipo_actividad']=='G') {
                   $dbactividadgeneral= new Admin_Model_DbTable_Actividadgeneral();
                   $datosactgeneral = $dbactividadgeneral->_getActividadgeneralxId($data_tareo['actividad_generalid']);
@@ -561,6 +581,7 @@
                           //alert(mostrar[i]);
                           $("#fecha_"+i).html(parseFloat(mostrar[i]).toFixed(2));
                         };
+                        sumarHorizontales();
 
                         var hora_real=$("#valor<?php echo $i?><?php echo $j?>").val(); 
 
@@ -754,7 +775,11 @@
                 <?php }
                 ?>
 
-
+				<td style="padding: 0">
+                	<div id="suma-horizontal<?php echo $j?>" class="div-celda">
+                		
+                	</div>
+                </td>
             </tr>
 
               <script type="text/javascript">
@@ -856,8 +881,6 @@
                     var fecha = $("#fechasemana").text();
 
                     var url="/timesheet/index/updateetapanb/codigo/"+codigo_prop_proy+"/codigo_actividad/"+codigo_actividad+"/actividadid/"+actividadid+"/revision/"+revision+"/actividad_padre/"+actividad_padre+"/proyectoid/"+proyectoid+"/semanaid/"+semanaid+"/fecha_tarea/"+fecha_tarea+"/asignado/"+asignado+"/areaid/"+areaid+"/categoriaid/"+categoriaid+"/dni/"+dni+"/cargo/"+cargo+"/tipo_actividad/"+tipo_actividad+"/etapa/"+etapa+"/fecha_planificacion/"+fecha_planificacion+"/tarea_general/"+tarea_general+"/fecha/"+fecha+"/actividad_generalid/"+actividad_generalid+"/ban/0";
-
-
                     //alert(url);
                    
                     if (isNaN(tarea_general)) {
@@ -865,10 +888,7 @@
                            alert('la actividad esta duplicada, cargue nuevamente la pagina');
                            //e.preventDefault();
                     }else{ 
-
-                    
-
-                     var dateObj = $('#datepicker').datepicker('getDate');
+                    var dateObj = $('#datepicker').datepicker('getDate');
                     var dateFrom = $.datepicker.formatDate('mm/dd/yy', dateObj);
                     var weekfrom = $.datepicker.iso8601Week(new Date(dateFrom));
                     var diasSemana = new Array("Domingo","Lunes","Martes","Miércoles","Jueves","Viernes","Sábado");
@@ -1263,8 +1283,8 @@
           <tr >
             <th style="width: 5%;"></th>
             <th style="width: 60%;" ></th>
-            <th style="width: 10%; padding: 0;"><div class="div-celda" style="width: 100px;"></div></th>
-            <th style="width: 10%; padding: 0;"><div class="div-celda" style="width: 100px;"></div></th>
+            <th style="width: 10%; padding: 0;"><div class="div-celda" style="width: 80px;"></div></th>
+            <th style="width: 10%; padding: 0;"><div class="div-celda" style="width: 80px;"></div></th>
             <?php 
               $uid=$this->uid;
                 // echo $uid;echo "<br>";
@@ -1299,6 +1319,11 @@
                 }
 
               ?>
+              <td style="padding: 0">
+                	<div class="div-celda">
+                		Total
+                	</div>
+                </td>
           </tr>
           <?php }?>
 
@@ -1317,8 +1342,7 @@
 <link rel="stylesheet" href="/css/alertify.default.css" id="toggleCSS" />
 
 <script type="text/javascript">
-
-     $('#save_hours').click(function(){
+    $('#save_hours').click(function(){
         var dateObj = $('#datepicker').datepicker('getDate');
         alert("Guardando Registros al Sistema. Gracias");
         var dateFrom = $.datepicker.formatDate('mm/dd/yy', dateObj);
@@ -1409,7 +1433,7 @@
 
 <div style="display:none" id="horaregistrada"></div>
 <div style="display:none" id="carga"></div>
-<div style="display:none"  id="carga_nueva"></div>
+<div  id="carga_nueva"></div>
 <div style="display:none"  id="carga_copiar"></div>
 <div style="display:none" id="carga_w1"></div>
 
@@ -1702,7 +1726,6 @@ $("#submit_work1").click(function(){
       document.location.href="/timesheet/index/calendar";
       var d=new Date(); 
       var fechacapturada=d.getDate()+ "-" + (d.getMonth() +1) + "-" + d.getFullYear()+','+d.getHours()+':'+d.getMinutes()+':'+d.getSeconds(); 
-      //alert(fechacapturada);
       url="/timesheet/index/guardarcomentarioequipo/estado/B/uid/"+uid+'/dni/'+dni+'/semanaid/'+semanaid+'/cargo/'+cargo+'/coment/'+coment+'/uid_validacion/'+uid+'/dni_validacion/'+dni+'/etapa/0'+'/fecha_calendario/'+fecha_calendario+'/fecha/'+fechacapturada;
          
       //alert(url);      
@@ -1748,5 +1771,91 @@ $("#submit_work1").click(function(){
       });
     });
   })
+
+  $(document).ready(function () {
+    sumarHorizontales();
+  })
+
+  function sumarHorizontales () {
+    max_horizontal = 50;
+    max_vertical = 50;
+    var matriz = new Array(max_horizontal);
+    for (i = 0; i < max_horizontal; i++)
+      matriz[i] = new Array(max_vertical);
+    $("[id*=valor]").each(function(indice, elemento) {
+      elemID = $(elemento).attr("id");
+      horizontal = elemID.slice(5,6);
+      vertical = elemID.slice(6,8);
+      matriz[horizontal][vertical] = $(elemento).val();
+    });
+    maximo = 0;
+    elemSuma = [];
+    horSuma = [];
+    
+    for (var ver = 0; ver < max_vertical; ver++) {
+      resSumah = 0;
+      for (var hor = 0; hor < max_horizontal; hor++) {
+        if (typeof matriz[hor][ver] !== 'undefined') {
+          if (isNaN(parseInt(matriz[hor][ver]))) {
+            matriz[hor][ver] = 0;
+          };
+          resSumah = resSumah + parseInt(matriz[hor][ver]);
+          maximov = ver+1;};
+          
+        };
+      horSuma.push(resSumah);
+    };
+    mostrarver = horSuma.slice(1, maximov);
+    $("[id*=suma-horizontal]").each(function(indice, elemento) {
+      $(elemento).html(mostrarver[indice]);
+    });
+  }
+
+
+</script>
+<script type="text/javascript">
+    $('#enviar_hojatiempo').click(function(){
+        var dateObj = $('#datepicker').datepicker('getDate');
+        alert("Guardando Registros al Sistema. Gracias");
+        var dateFrom = $.datepicker.formatDate('mm/dd/yy', dateObj);
+        var weekfrom = $.datepicker.iso8601Week(new Date(dateFrom));
+        var diasSemana = new Array("Domingo","Lunes","Martes","Miércoles","Jueves","Viernes","Sábado");
+        var day_select = diasSemana[dateObj.getDay()];
+        for (i = 0; i < diasSemana.length; i++) { 
+            if (diasSemana[i] == day_select) {
+                if (i == 0) {
+                    var num_day = 6;
+                    
+                } else {
+                    var num_day = i - 1;
+                };
+            };
+        };
+        fecha_capturadacalendario = mostrarFecha(dateObj,-num_day);
+        var d=new Date(); 
+        var fechaactualenvio=d.getDate()+ "-" + (d.getMonth() +1) + "-" + d.getFullYear()+','+d.getHours()+':'+d.getMinutes()+':'+d.getSeconds(); 
+        var uid="<?php echo $this->uid ?>";
+        var dni="<?php echo $this->dni ?>";
+        var semanaid="<?php echo $this->semana ?>";
+        var cargo="<?php echo $this->areaid ?>";
+        url_enviar_hojatiempo="/timesheet/aprobacion/enviarhojatiempo/estado/E/uid/"+uid+'/dni/'+dni+'/semanaid/'+semanaid+'/cargo/'+cargo+'/etapa/0'+'/fecha_envio/'+fechaactualenvio;
+        $.ajax({
+          type: "POST",
+          url: url_enviar_hojatiempo,
+          data: $(this).serialize(),
+          dataType: "html",
+          success: function(data){      
+              $("#carga_nueva").html(data);
+                $.ajax({
+                type   : 'post',
+                url    : '/timesheet/index/prueba/',
+                data   : $('#form_time').serialize(),
+                success: function(data){
+                  $("#registro").load("/timesheet/index/registro/fecha/" + fecha_capturadacalendario);
+                }
+              });     
+            }
+        });
+    });
 
 </script>
