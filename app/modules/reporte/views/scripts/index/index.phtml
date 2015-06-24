@@ -31,38 +31,28 @@
 		</div>
 		<div class="col-lg-4">
 			<h4>Usuarios</h4>
-			<select ng-disabled="reporte.select_usuarios" class="form-control m-bot15" ng-model="reporte.usuario_seleccionado" ng-change="reporte.getTareopersona(reporte.usuario_seleccionado)">
+			<select ng-disabled="reporte.disabled_children" class="form-control m-bot15" ng-model="reporte.usuario_seleccionado" ng-change="reporte.getTareopersona(reporte.usuario_seleccionado)">
 				<option value="todos" selected="selected">Todos</option>
 				<option value="{{usuario.uid}}" ng-repeat="usuario in reporte.usuarios track by $index">{{usuario.uid}}</option>
 			</select>
 		</div>
 		<div class="col-lg-4">
-			<h4>Cobrabilidad</h4>
-			<input ng-disabled="reporte.not_tareopersona" type="checkbox" ng-model="reporte.tipo_todo" ng-true-value="true" ng-false-value="false" ng-click="reporte.mostrarTodo()">Todos
+			<h4>Tipo de Actividad</h4>
+			<input ng-disabled="reporte.tareopersona_void" type="checkbox" ng-model="reporte.tipo_todo" ng-true-value="true" ng-false-value="false" ng-click="reporte.mostrarTodo()">Todos
 			<div ng-repeat="item in reporte.cobrabilidad">
-				<input ng-disabled="reporte.not_tareopersona" type="checkbox" ng-model="reporte.activo[item.text]" ng-true-value="true" ng-false-value="false" ng-click="reporte.notTodo()">{{item.text}}
+				<input ng-disabled="reporte.tareopersona_void" type="checkbox" ng-model="reporte.activo[item.text]" ng-true-value="true" ng-false-value="false" ng-click="reporte.notTodo()">{{item.text}}
 			</div>
 		</div>
 		<div class="col-lg-4">
-			<h4>Rango Fecha de Rendición</h4>
-			<div class="col-md-3 col-xs-11">
-				<div data-date-viewmode="years" data-date-format="dd-mm-yyyy" data-date="12-02-2012"  class="input-append date dpYears">
-                	<input type="text" readonly="" value="12-02-2012" size="16" class="form-control">
-                    	<span class="input-group-btn add-on">
-                    	<button class="btn btn-danger" type="button"><i class="fa fa-calendar"></i></button>
-                    	</span>
-            		</div>
-            	<span class="help-block">Seleccione fecha inicial</span>
-        	</div>
-        	<div class="col-md-3 col-xs-11">
-				<div data-date-viewmode="years" data-date-format="dd-mm-yyyy" data-date="12-02-2012"  class="input-append date dpYears">
-                	<input type="text" readonly="" value="12-02-2012" size="16" class="form-control">
-                    	<span class="input-group-btn add-on">
-                    	<button class="btn btn-danger" type="button"><i class="fa fa-calendar"></i></button>
-                    	</span>
-            		</div>
-            	<span class="help-block">Seleccione fecha final</span>
-        	</div>
+			<h4>Rango de Rendición</h4>
+			<div>
+	            <div class="input-group input-large" data-date="13/07/2013" data-date-format="mm/dd/yyyy">
+	                <input ng-disabled="reporte.disabled_children" type="text" ng-model="reporte.fecha_from" class="form-control dpd1" name="from">
+	                <span class="input-group-addon">a</span>
+	                <input ng-disabled="reporte.disabled_children" type="text" ng-model="reporte.fecha_to" class="form-control dpd2" name="to">
+	            </div>
+	            <span class="help-block">Seleccione fechas para rango de rendición</span>
+	        </div>
 		</div>
 	</div>
 	<div>

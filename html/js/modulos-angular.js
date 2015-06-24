@@ -11,16 +11,15 @@ controller('mainController', ['$http', function($http){
 	
 	//inicializando las variables necesarias relacionadas a la vista
 	reporte.cobrabilidad = [{'id': 'P', 'text': 'Facturable'}, {'id': 'G', 'text': 'No Facturable'}, {'id': 'A', 'text': 'Administración'}];
-	reporte.rango_fecha = ['Fecha de inicio', 'Fecha final'];
-	reporte.dias = ['11', '12', '13', '14'];
 	reporte.activo = {'Facturable': true, 'No Facturable': true, 'Administración': true};
 	reporte.tipo_todo = true;
 	reporte.cliente_seleccionado = 'todos';
 	reporte.usuario_seleccionado = 'todos';
 	reporte.gerente_seleccionado = 'todos';
 	reporte.text_proyectos = 'Seleccione un Cliente o Gerente para mostrar sus proyectos activos.';
-	reporte.select_usuarios = true;
-	reporte.not_tareopersona = true;
+	reporte.disabled_children = true;
+	reporte.tareopersona_void = true;
+	reporte.dias = ['11', '12', '13', '14'];
 	
 	//creando las variables que contendran los datos de respuesta del servidor
 	reporte.gerentes = [];
@@ -38,12 +37,12 @@ controller('mainController', ['$http', function($http){
 			uid = '';
 		};
 		dni = obtenerdni(uid);
-		reporte.not_tareopersona = false;
+		reporte.tareopersona_void = false;
 		$http.get('/reporte/index/tareopersona/uid/'+ uid +'/dni/' + dni)
 		.success(function (res) {
 			reporte.tareopersona = res;
 			if (reporte.tareopersona.length == 0) {
-				reporte.not_tareopersona = true;
+				reporte.tareopersona_void = true;
 			};
 			$("#wait").modal('hide');
 		})
@@ -66,7 +65,7 @@ controller('mainController', ['$http', function($http){
 	reporte.getProyectos = function (elementoid, por) {
 		reporte.proyectos = [];
 		reporte.usuarios = [];
-		reporte.select_usuarios = true;
+		reporte.disabled_children = true;
 		if (por == 'byCliente') {
 			reporte.gerente_seleccionado = 'todos';
 			$http.get('/reporte/index/proyectos/clienteid/' + elementoid)
@@ -133,6 +132,8 @@ controller('mainController', ['$http', function($http){
 
 	//ejecucion de algunas funciones al cargar la pagina
 	angular.element(document).ready(function () {
+		reporte.fecha_from = fechaActual();
+		reporte.fecha_to = fechaActual();
 		reporte.getClientes();
 		reporte.getGerentes();
 		//reporte.getUsuarios();
@@ -177,7 +178,7 @@ controller('mainController', ['$http', function($http){
 				}
 			})
 			if (reporte.usuarios.length != 0) {
-				reporte.select_usuarios = false;
+				reporte.disabled_children = false;
 			}
 		})
 	}
@@ -202,9 +203,26 @@ controller('mainController', ['$http', function($http){
 				}
 			};
 			if (reporte.usuarios.length == 0) {
-				reporte.select_usuarios = true;
+				reporte.disabled_children = true;
 			}
 		})
+	}
+
+	function fechaActual () {
+		var f = new Date();
+		var dd = f.getDate();
+		var mm = f.getMonth() + 1;
+		var yyyy = f.getFullYear();
+		
+		if(dd < 10) {
+    		dd = '0' + dd
+		} 
+
+		if(mm < 10) {
+    		mm = '0' + mm
+		} 
+
+		return dd + '-' + mm + '-' + yyyy;
 	}
 	
 }])
