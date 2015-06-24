@@ -11,16 +11,15 @@ controller('mainController', ['$http', function($http){
 	
 	//inicializando las variables necesarias relacionadas a la vista
 	reporte.cobrabilidad = [{'id': 'P', 'text': 'Facturable'}, {'id': 'G', 'text': 'No Facturable'}, {'id': 'A', 'text': 'Administración'}];
-	reporte.rango_fecha = ['Fecha de inicio', 'Fecha final'];
-	reporte.dias = ['11', '12', '13', '14'];
 	reporte.activo = {'Facturable': true, 'No Facturable': true, 'Administración': true};
 	reporte.tipo_todo = true;
 	reporte.cliente_seleccionado = 'todos';
 	reporte.usuario_seleccionado = 'todos';
 	reporte.gerente_seleccionado = 'todos';
 	reporte.text_proyectos = 'Seleccione un Cliente o Gerente para mostrar sus proyectos activos.';
-	reporte.select_usuarios = true;
-	reporte.not_tareopersona = true;
+	reporte.disabled_children = true;
+	reporte.tareopersona_void = true;
+	reporte.dias = ['11', '12', '13', '14'];
 	
 	//creando las variables que contendran los datos de respuesta del servidor
 	reporte.gerentes = [];
@@ -32,22 +31,6 @@ controller('mainController', ['$http', function($http){
 
 	
 	//funciones que realizaran peticiones al servidor para obtener rellenar los array
-	reporte.getTareopersona = function (uid) {
-		$("#wait").modal();
-		if (uid == 'todos') {
-			uid = '';
-		};
-		dni = obtenerdni(uid);
-		reporte.not_tareopersona = false;
-		$http.get('/reporte/index/tareopersona/uid/'+ uid +'/dni/' + dni)
-		.success(function (res) {
-			reporte.tareopersona = res;
-			if (reporte.tareopersona.length == 0) {
-				reporte.not_tareopersona = true;
-			};
-			$("#wait").modal('hide');
-		})
-	}
 
 	reporte.getGerentes = function () {
 		$http.get('/reporte/index/gerentes')
@@ -66,7 +49,7 @@ controller('mainController', ['$http', function($http){
 	reporte.getProyectos = function (elementoid, por) {
 		reporte.proyectos = [];
 		reporte.usuarios = [];
-		reporte.select_usuarios = true;
+		reporte.disabled_children = true;
 		if (por == 'byCliente') {
 			reporte.gerente_seleccionado = 'todos';
 			$http.get('/reporte/index/proyectos/clienteid/' + elementoid)
@@ -80,6 +63,7 @@ controller('mainController', ['$http', function($http){
 						reporte.proyectos.push(proyecto);
 					})
 				}
+				console.log(reporte.proyectos);
 			})
 		} else if (por == 'byGerente') {
 			reporte.cliente_seleccionado = 'todos';
@@ -105,11 +89,13 @@ controller('mainController', ['$http', function($http){
 		})
 	}
 
-	reporte.getUsuarios = function (proyecto, index) {
+	reporte.getData = function (proyecto, index) {
 		if (reporte.proyectos[index]['selected']) {
 			agregarUsuarios(proyecto);
+			agregarTareopersona(proyecto);
 		} else {
 			borrarUsuarios(proyecto);
+			borrarTareopersona(proyecto);
 		}
 	}
 
@@ -133,6 +119,8 @@ controller('mainController', ['$http', function($http){
 
 	//ejecucion de algunas funciones al cargar la pagina
 	angular.element(document).ready(function () {
+		reporte.fecha_from = fechaActual();
+		reporte.fecha_to = fechaActual();
 		reporte.getClientes();
 		reporte.getGerentes();
 		//reporte.getUsuarios();
@@ -151,6 +139,23 @@ controller('mainController', ['$http', function($http){
     	})
     	return dni;
     }
+
+    function fechaActual () {
+		var f = new Date();
+		var dd = f.getDate();
+		var mm = f.getMonth() + 1;
+		var yyyy = f.getFullYear();
+		
+		if(dd < 10) {
+    		dd = '0' + dd
+		} 
+
+		if(mm < 10) {
+    		mm = '0' + mm
+		} 
+
+		return dd + '-' + mm + '-' + yyyy;
+	}
 
     function agregarUsuarios (proyecto) {
 		$http.get('/reporte/index/usuarios/codigo_prop_proy/' + proyecto)
@@ -177,7 +182,7 @@ controller('mainController', ['$http', function($http){
 				}
 			})
 			if (reporte.usuarios.length != 0) {
-				reporte.select_usuarios = false;
+				reporte.disabled_children = false;
 			}
 		})
 	}
@@ -202,9 +207,38 @@ controller('mainController', ['$http', function($http){
 				}
 			};
 			if (reporte.usuarios.length == 0) {
-				reporte.select_usuarios = true;
+				reporte.disabled_children = true;
 			}
 		})
+	}
+
+	agregarTareopersona = function (codigo_prop_proy) {
+		$("#wait").modal();
+		reporte.tareopersona_void = false;
+		$http.get('/reporte/index/tareopersona/codigo_prop_proy/'+ codigo_prop_proy + '/desde/' + reporte.fecha_from + '/hasta/' + reporte.fecha_to)
+		.success(function (res) {
+			res.forEach(function (item) {
+				reporte.tareopersona.push(item);
+			})
+			if (reporte.tareopersona.length == 0) {
+				reporte.tareopersona_void = true;
+			}
+			$("#wait").modal('hide');
+			console.log(reporte.tareopersona);
+		})
+	}
+
+	borrarTareopersona = function (codigo_prop_proy) {
+		arrayTemp = reporte.tareopersona;
+		reporte.tareopersona = [];
+		arrayTemp.forEach(function (item) {
+			if (item.codigo_prop_proy != codigo_prop_proy) {
+				reporte.tareopersona.push(item);
+			}
+		})
+		if (reporte.tareopersona.length == 0) {
+			reporte.tareopersona_void = true;
+		}
 	}
 	
 }])

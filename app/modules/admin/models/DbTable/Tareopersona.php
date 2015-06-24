@@ -564,11 +564,11 @@ order by t.proyectoid,t.actividadid,t.tipo_actividad desc
     public function _getReporte($where=array()){
       try{
             $condicion = '';
-            if ($where['uid'] != null) {
-              $condicion = " where tareo.uid='".$where['uid']."' and tareo.dni='".$where['dni']."'";       
+            if ($where['codigo_prop_proy'] != null) {
+              $condicion = " where tareo.codigo_prop_proy='".$where['codigo_prop_proy']."'";       
             }
             
-            $sql=$this->_db->query("select tareo.dni, tareo.uid, equipo.rate_proyecto, pro.proyectoid, tareo.tipo_actividad, unimin.nombre, pro.nombre_proyecto, pro.estado
+            $sql=$this->_db->query("select tareo.codigo_prop_proy, tareo.dni, tareo.uid, equipo.rate_proyecto, pro.proyectoid, tareo.tipo_actividad, unimin.nombre, pro.nombre_proyecto, pro.estado
 from tareo_persona as tareo 
 inner join equipo as equipo
 on tareo.codigo_prop_proy=equipo.codigo_prop_proy and tareo.proyectoid=equipo.proyectoid and tareo.uid=equipo.uid
