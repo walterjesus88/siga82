@@ -28,7 +28,7 @@ class Admin_Model_DbTable_Usuariocategoria extends Zend_Db_Table_Abstract
 
     public function _getFilter($where=null,$attrib=null,$orders=null){
         try{            
-            if($where['uid']=='' || $where['dni']=='' ) return false;
+            //if($where['uid']=='' || $where['dni']=='' ) return false;
                 $select = $this->_db->select();
                 if ($attrib=='') $select->from("usuario_categoria");
                 else $select->from("usuario_categoria",$attrib);
@@ -113,6 +113,34 @@ class Admin_Model_DbTable_Usuariocategoria extends Zend_Db_Table_Abstract
             
 
 
+            $row=$sql->fetchAll();
+            return $row;           
+            }  
+            catch (Exception $ex){
+            print $ex->getMessage();
+        }
+    }
+
+    public function _getAprobadorxArea($where=array()){
+        try {
+                $wherestr= "aprobacion = '".$where['aprobacion']."' and estado='".$where['estado']."'
+                and estado_sistema='".$where['estado_sistema']."' 
+                ";
+                $row = $this->fetchRow($wherestr);
+                if($row) return $row->toArray();
+                return false;
+        } catch (Exception $e) {
+            print "Error: Read One Condition".$e->getMessage();
+        }
+    }
+
+    public function _getBuscarCodigoAprobacionesxEmpleado($uid,$dni)
+    {
+        try{
+            $sql=$this->_db->query("
+                select * from usuario_categoria 
+                where uid='$uid' and dni='$dni' and estado_sistema='A'
+            ");
             $row=$sql->fetchAll();
             return $row;           
             }  

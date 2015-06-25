@@ -1,6 +1,6 @@
 <section class="panel">
   <header class="panel-heading" style="padding-bottom : 10px">
-    <div><center>Lista de pendiente de aprobación de Hojas de Tiempo de Gerente Proyecto</center></div>
+    <div><center>Lista de pendiente de aprobación de Hojas de Tiempo de Jefes Area</center></div>
   </header>
 </section>
 <div class="inbox-body">
@@ -10,41 +10,37 @@
         <tr>  
           <th ><center># </center></th>
           <th >Hoja Tiempo</th>
-          <th >Estado</th>
           <th >Nombre</th>
-          <th >Usuario</th>
           <th >Semana</th>
           <th >Facturable</th>
           <th >No Facturable</th>
+          <th >Administrativa</th>
           <th >Total</th>
         </tr>
       </thead>
       <tbody>
         <?php
-          $c=1;             
-          foreach ($this->equipos_horas_aprobar as $equipo){  
-            $sumahorassemana = new Admin_Model_DbTable_Sumahorasemana();
-            $consultavalorsuma=$sumahorassemana->_getListarHojasdeTiempoxEquipoArea($equipo['uid'],$equipo['dni']);
-            if ($consultavalorsuma) {
-              foreach ($consultavalorsuma as $valorsuma) {
-                if (trim($valorsuma['estado'])=='1' or trim($valorsuma['estado'])==$this->aprobacion) { ?>
-                  <tr name="oculus" id="xx" class="unread">
-                    <td class="view-message  text-right"><?php echo $c ?></td>                  
+          $c=1;     
+            foreach ($this->lista_empleados_aprobar as $equipo_area){ 
+              foreach ($equipo_area as $valorsuma){ 
+                ?>
+                <tr name="oculus" id="xx" class="unread">
+                    <td class="view-message  text-right"><center><?php echo $c ?></center></td>                  
                     <td>   
                       <button id="detalletime_<?php echo $c?>" href="#modalsemana" class="btn btn-success" data-toggle="modal"  uid=<?php echo $valorsuma['uid']?> dni=<?php echo $valorsuma['dni']?> semanaid=<?php echo $valorsuma['semanaid']?>  >
                       ver detalle
                       </button>                                      
                     </td>
-                    <td class="view-message "><?php if($valorsuma['estado']=='1') {echo "Para Aprobación";}?></td>
                     <td class="view-message "><?php //echo $valorsuma['dni']
                       $equipo = explode(".", $valorsuma['uid']);
                       echo (ucwords($equipo[0])); echo " ";
                       echo (ucwords($equipo[1])); 
                     ?></td>
-                    <td class="view-message "><?php echo $valorsuma['uid']?></td>                            
+                   
                     <td class="view-message "><?php echo $valorsuma['semanaid']?></td>                               
                     <td class="view-message "><?php echo $valorsuma['billable']?></td>
                     <td class="view-message "><?php echo $valorsuma['nonbillable']?></td>
+                    <td class="view-message "><?php echo $valorsuma['adm']?></td>
                     <td class="view-message "><?php echo $valorsuma['h_total']?></td>
                   </tr>
                   <script type="text/javascript">
@@ -53,23 +49,23 @@
                         var uid=$(this).attr('uid');
                         var dni=$(this).attr('dni');
                         var semanaid=$(this).attr('semanaid');
-                        var url = "/timesheet/index/timesheetsemanagerente/uid/"+ uid+"/dni/"+dni+"/semanaid/"+semanaid; 
+                        var url = "/timesheet/aprobacion/mostrardetallehojatiempofiltro2/uid/"+ uid+"/dni/"+dni+"/semanaid/"+semanaid; 
                         $("#modaltimes").load(url);                                         
                         });
                     });
-                  </script>    
-                  <?php $c++;
-                }  
+                  </script>  
+                   <?php $c++;
+     
               }
             }
-        }?>
+         ?>
       </tbody>
     </table>
   </div>
   <div id="ver"></div>
   <div class="modal fade" id="modalsemana" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
-      <div class="modal-content" style="width: 1250px; top: 100%; margin-left: -250px; ">
+      <div class="modal-content" style="width: 1250px; top: 100%; margin-left: -150px; ">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
           <h4 class="modal-title">Aprobar Hoja de Tiempo</h4>
@@ -85,27 +81,3 @@
   </div>
 </div>
 <div id="modali"></div>
-<script type="text/javascript">
-$(document).ready(function(){
-  $("#filtro").on("click",function(){
-    var usuario= $("#user").val(); 
-    var dateinicio = $("#fechainicio").val(); 
-    var datefin= $("#fechafin").val(); 
-    var estado= $("#estado").val();    
-    url="/timesheet/index/filtros/usuario/"+usuario+'/dateinicio/'+dateinicio+'/datefin/'+datefin+'/estado/'+estado;
-    $.ajax({
-      type: "POST",
-      url: url,
-      data: $(this).serialize(),
-      dataType: "html",                                                 
-      error: function(){
-      alert("error petición ajax load");
-      },
-      success: function(data){
-        $("#ver").html(data);                                            
-        $("#uno").hide();                                            
-      }
-    });    
-  });
-});
-</script>

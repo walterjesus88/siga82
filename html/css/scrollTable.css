@@ -1,3 +1,7 @@
+/*Estilos agregados para mejorar la visualizacion de los elementos en pantalla
+Autor: Enzo
+
+*/
 .tableContainer {
     overflow: hidden;
 }
@@ -17,7 +21,7 @@
 .scrollContent {
     position: relative;
     display: block;
-    height: 400px;
+    max-height: 400px;
     overflow-y: auto;
     box-sizing: border-box;
     -webkit-box-sizing: border-box;
@@ -35,6 +39,52 @@
     -webkit-box-sizing: border-box;
     overflow: hidden;
     width: 60px;
-    height: 60px;
+    height: 50px;
     padding: 10px;
 }
+
+.fixed-calendar {
+    font-size: 8px;
+}
+
+.fixed-calendar a {
+    padding: 0px !important;
+    text-align: center !important;
+}
+
+
+
+/*De aqui comienza los estilos para la vista de reportes*/
+
+.div-reportes {
+    background: #ffffff;
+    padding: 10px;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.div-reportes .title-table{
+    display: block;
+    background: #2F608D;
+    color: #ffffff;
+}
+
+.table-inline {
+    display: inline-block;
+    margin: 0 100px 20px 0;
+}
+
+.scroll-content-small {
+    display: block;
+    max-height: 100px;
+    overflow: auto;
+    overflow-x: hidden; 
+}
+
+.scroll-content-high {
+    display: block;
+    max-height: 400px;
+    overflow: auto;
+    overflow-x: hidden; 
+}
+

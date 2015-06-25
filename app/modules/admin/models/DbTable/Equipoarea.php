@@ -2,7 +2,7 @@
 class Admin_Model_DbTable_Equipoarea extends Zend_Db_Table_Abstract
 {
     protected $_name = 'equipo_area';
-    protected $_primary = array("codigo_prop_proy","proyectoid","categoriaid","areaid");   
+    protected $_primary = array("codigo_prop_proy","proyectoid","areaid");   
 
      /* Lista toda las Personas */    
     public function _getEquipoareaAll(){
@@ -109,7 +109,7 @@ class Admin_Model_DbTable_Equipoarea extends Zend_Db_Table_Abstract
         public function _save($data)
     {
         try{
-            if ($data['areaid']=='' ||  $data['categoriaid']=='' ) return false;
+            if ($data['areaid']=='' ||  $data['proyectoid']==''  ||  $data['codigo_prop_proy']=='' ) return false;
             return $this->insert($data);
             return false;
         }catch (Exception $e){

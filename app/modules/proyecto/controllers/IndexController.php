@@ -147,6 +147,11 @@ class Proyecto_IndexController extends Zend_Controller_Action {
       $this->view->proyectoid = $proyectoid;
       $this->view->codigo_prop_proy = $codigo_prop_proy;
       $this->view->areaid = $areaid;
+
+  
+
+
+
       $bdarea_cat = new Admin_Model_DbTable_Areacategoria();
       $listcat=$bdarea_cat->_buscarCategoriaxAreaxProyecto($areaid);
       $this->view->categoria = $listcat;
@@ -175,14 +180,38 @@ class Proyecto_IndexController extends Zend_Controller_Action {
 
       public function updateequipoAction() {
 
-        $this->_helper->layout()->disableLayout();
+        //$this->_helper->layout()->disableLayout();
         $proyectoid= $this->_getParam("proyectoid");
         $codigo_prop_proy= $this->_getParam("codigo");
-        $dni= $this->_getParam("dni");
-        $uid= $this->_getParam("uid");
-        $areaid= $this->_getParam("areaid");
+        $dni= trim($this->_getParam("dni"));
+        $uid= trim($this->_getParam("uid"));
+        $areaid= trim($this->_getParam("areaid"));
         $rate= $this->_getParam("rate");
+        //$ratep= $this->_getParam("rate_proyecto");
         
+        // $nom= $this->_getParam("nombre");
+        
+        // echo $nom;
+         echo $rate;
+         echo "</br>";
+         echo $proyectoid;
+         echo "</br>";
+
+         echo $codigo_prop_proy;
+         echo "</br>";
+
+         echo $uid;
+         echo "</br>";
+
+         echo $dni;
+         echo "</br>";
+
+         echo $areaid;
+         echo "</br>";
+
+        // echo $areaid;
+        // exit();
+
          
         $pk  =   array(                        
                         'codigo_prop_proy'   =>$codigo_prop_proy,
@@ -196,7 +225,10 @@ class Proyecto_IndexController extends Zend_Controller_Action {
                         'rate_proyecto' =>  $rate
                      );
 
-          
+        
+        print_r($pk);
+        print_r($data);
+        //exit();
         $update_equipo=new Admin_Model_DbTable_Equipo();
         //$update_equipo->_update($data,$pk);
         
@@ -1223,6 +1255,9 @@ public function subiractividadesAction(){
 public function verAction() {
     $proyectoid= $this->_getParam("proyectoid");
     $codigo_prop_proy= $this->_getParam("codigo_prop_proy");
+    $this->view->codigoproyecto=$codigo_prop_proy;
+    $this->view->proyectoid=$proyectoid;
+
     $bandera= $this->_getParam("bandera");
     if ($bandera=='S')
     {
@@ -1236,12 +1271,19 @@ public function verAction() {
     $this->view->proyecto = $edit;
    /// print_r($edit);
 
-        $codigo=$this->_getParam('codigo_prop_proy');
-        $propuestaid=$edit['propuestaid'];
-        $revision=$edit['revision'];
-        $buscapropuesta = new Admin_Model_DbTable_Propuesta();
-        $busca=$buscapropuesta->_getPropuestaxIndices($codigo,$propuestaid,$revision);
-        $this->view->buscapropuesta = $busca; 
+    $codigo=$this->_getParam('codigo_prop_proy');
+    $propuestaid=$edit['propuestaid'];
+    $revision=$edit['revision'];
+    $buscapropuesta = new Admin_Model_DbTable_Propuesta();
+    $busca=$buscapropuesta->_getPropuestaxIndices($codigo,$propuestaid,$revision);
+    $this->view->buscapropuesta = $busca; 
+
+
+    $areacat=new Admin_Model_DbTable_Area();
+    $arcat=$areacat->_getAreaxProyecto();
+    $this->view->area = $arcat; 
+
+
 
   
 }   
@@ -1630,20 +1672,27 @@ public function cargartarea2Action() {
     $this->view->categoria = $listcat;
   }
   
+  /* al parecer no es necesario esta accion*/
   public function buscarpersonasxcategoriaAction() {
     $this->_helper->layout()->disablelayout();
     $areaid= $this->_getParam("areaid");
     $categoriaid= $this->_getParam("categoria");
     $proyectoid= $this->_getParam("proyectoid");
-    $codigo= $this->_getParam("codigo");
+    $codigo= $this->_getParam("codigo_prop_proy");
     $this->view->areaid = $areaid;
     $this->view->categoriaid = $categoriaid;
     $this->view->proyectoid = $proyectoid;
     $this->view->codigo = $codigo;
 
-    $bdarea_cat = new Admin_Model_DbTable_Usuariocategoria();
-    $listusuarios=$bdarea_cat->_buscarUsuarioxAreaxCategoria($areaid,$categoriaid);
-    $this->view->listusuarios = $listusuarios;
+    $wheres=array('areaid'=>$areaid);
+    $usercat=new Admin_Model_DbTable_Usuariocategoria();
+    $ucat=$usercat->_getFilter($wheres);
+    //$this->view->usercat = $ucat;
+    //print_r($ucat);
+
+   // $bdarea_cat = new Admin_Model_DbTable_Usuariocategoria();
+   // $listusuarios=$bdarea_cat->_buscarUsuarioxAreaxCategoria($areaid,$categoriaid);
+    $this->view->listusuarios = $ucat;
   }
 
   
@@ -1864,4 +1913,61 @@ public function cargartarea2Action() {
       print "Error: ".$e->getMessage();
     }
   }
+
+
+
+  public function guardarareaequipoAction(){
+    try
+    {
+      $this->_helper->layout()->disablelayout();      
+      $proyectoid= $this->_getParam("proyectoid");
+      $codigo_prop_proy= $this->_getParam("codigo_prop_proy");
+      //$categoriaid= $this->_getParam("cat");
+      $areaid= $this->_getParam("area");
+      $funcion= $this->_getParam("funcion");
+
+      $data['codigo_prop_proy']=$codigo_prop_proy;
+      $data['proyectoid']=$proyectoid;      
+      $data['categoriaid']='';
+      $data['areaid']=$areaid;   
+      $data['funcion']=$funcion;   
+      $data['fecha_creacion']=date("Y-m-d");
+      $data['estado']='A';
+   
+      //print_r($data);
+
+      $equiparea= new Admin_Model_DbTable_Equipoarea();
+      $gequiparea= $equiparea->_save($data);
+
+      if($gequiparea)
+      { ?>
+        <script>
+          //alert('ha sido creada la nueva area');
+        </script>
+      <?php }
+      exit();
+
+    }
+    catch (Exception $e) {
+      print "Error: ".$e->getMessage();
+    }
+  }
+
+public function hojaresumenAction() 
+{
+
+  $proyectoid= $this->_getParam("proyectoid");
+  $codigo_prop_proy= $this->_getParam("codigo_prop_proy");
+
+  $this->view->proyectoid=$proyectoid;
+  $this->view->codigo_prop_proy=$codigo_prop_proy;
+
+  $proyect = new Admin_Model_DbTable_Proyecto();
+  $verproyect=$proyect->_buscarProyectodetalles($proyectoid,$codigo_prop_proy);
+  print_r($verproyect);
+
+  $this->view->proyectdetail=$verproyect;
+
+}
+
 }

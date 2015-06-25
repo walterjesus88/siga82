@@ -50,7 +50,9 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
                         ->headScript()->appendFile('/js/jquery-ui.js')
                         ->headScript()->appendFile('/js/datepicker-es.js')
                         ->headScript()->appendFile('/js/count.js')
-                        ->headScript()->appendFile('/js/perfect-scrollbar.jquery.js');
+                        ->headScript()->appendFile('/js/perfect-scrollbar.jquery.js')
+                        ->headScript()->appendFile('/js/angular-1.4.0.js')
+                        ->headScript()->appendFile('/js/modulos-angular.js');
 
 
                             

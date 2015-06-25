@@ -92,8 +92,7 @@ order by t.proyectoid,t.actividadid,t.tipo_actividad desc
      {
         try{
             $sql=$this->_db->query("
-       
-select *,tareo.estado as estado_tareopersona   from tareo_persona as tareo 
+                select *,tareo.estado as estado_tareopersona   from tareo_persona as tareo 
                 inner join actividad as act
                 on tareo.actividadid=act.actividadid and tareo.codigo_actividad=act.codigo_actividad 
                     and tareo.codigo_prop_proy=act.codigo_prop_proy
@@ -102,8 +101,6 @@ select *,tareo.estado as estado_tareopersona   from tareo_persona as tareo
                      and tareo.proyectoid=pro.proyectoid 
                 where tareo.uid='$uid' and tareo.dni='$dni' and tareo.semanaid='$semanaid' 
                 and tareo.etapa like 'INICIO%'  order by act.propuestaid desc,tareo.proyectoid,tareo.actividadid,tipo_actividad desc 
-              
-
             ");
             $row=$sql->fetchAll();
             return $row;           
@@ -309,6 +306,21 @@ select *,tareo.estado as estado_tareopersona   from tareo_persona as tareo
         try{
             $sql=$this->_db->query("
               select * from tareo_persona_horas_reales('$semanaid','$fecha_tarea','$uid','$dni')
+            ");
+            $row=$sql->fetchAll();
+            return $row;           
+            }  
+            
+           catch (Exception $ex){
+           // print $ex->getMessage();
+        }
+    }
+
+    public function _getDuplicarTareo($fecha,$vsemana,$vuid)    
+     {
+        try{
+            $sql=$this->_db->query("
+              select * from duplicando_tareo('$fecha','$vsemana','$vuid')
             ");
             $row=$sql->fetchAll();
             return $row;           
@@ -533,8 +545,45 @@ select *,tareo.estado as estado_tareopersona   from tareo_persona as tareo
     }
 
 
+//Funcion que devuelve a los usuarios registrados en la tabla ordenados alfabeticamente y unicos
+    public function _getUsuarios(){
+      try{
+            $sql=$this->_db->query("
+              select  distinct uid, dni from tareo_persona order by uid");
+            $row=$sql->fetchAll();
+            return $row;           
+            }  
+            
+           catch (Exception $ex){
+            print $ex->getMessage();
+        }
+    }
+
+
+//Funcion que devuelve los datos requeridos para reporte
+    public function _getReporte($where=array()){
+      try{
+            $condicion = '';
+            if ($where['codigo_prop_proy'] != null) {
+              $condicion = " where tareo.codigo_prop_proy='".$where['codigo_prop_proy']."'";       
+            }
+            
+            $sql=$this->_db->query("select tareo.codigo_prop_proy, tareo.dni, tareo.uid, equipo.rate_proyecto, pro.proyectoid, tareo.tipo_actividad, unimin.nombre, pro.nombre_proyecto, pro.estado
+from tareo_persona as tareo 
+inner join equipo as equipo
+on tareo.codigo_prop_proy=equipo.codigo_prop_proy and tareo.proyectoid=equipo.proyectoid and tareo.uid=equipo.uid
+inner join proyecto as pro on tareo.codigo_prop_proy=pro.codigo_prop_proy and tareo.proyectoid=pro.proyectoid
+inner join unidad_minera as unimin on pro.unidad_mineraid=unimin.unidad_mineraid".$condicion);
+
+            $row=$sql->fetchAll();
+            return $row;           
+            }  
+            
+           catch (Exception $ex){
+            print $ex->getMessage();
+        }
+    }
+
+
 
 }
-
-
-

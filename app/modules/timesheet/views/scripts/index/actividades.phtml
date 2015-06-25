@@ -1,113 +1,160 @@
-<!--     <span style="font-weight:bold;">Actividad</span>
-
-  <ul class="nav nav-pills nav-stacked">
-<?php 
-    $actividades = $this->actividades;
-    foreach ($actividades as $data_actividad) { ?>
-        <li>
-            <a style="padding:5px 5px;"  class = "actividad" codigo-prop-proy="<?php echo $this->codigo_prop_proy ?>" proyectoid="<?php echo $this->proyectoid ?>" categoriaid="<?php echo $this->categoriaid ?>" actividadid = "<?php echo $data_actividad['actividadid'] ?>" revision = "<?php echo $data_actividad['revision'] ?>" propuestaid = "<?php echo $data_actividad['propuestaid'] ?>" href="##">
-                <i class="fa fa-rocket"></i>
-                <span><?php echo $data_actividad['nombre'] ?></span>
-            </a>
-        </li>
-        <script type="text/javascript">
-            $(".actividad").click(function(){
-                
-                 $("#actividades_hijos").html('');
-                 $("#actividades_tareas").html('');
-
-                var actividadid = $(this).attr('actividadid');
-                var proyectoid  = $(this).attr('proyectoid');
-                var codigo_prop_proy = $(this).attr('codigo-prop-proy');
-                var categoriaid = $(this).attr('categoriaid');
-                var revision = $(this).attr('revision');
-                var propuestaid = $(this).attr('propuestaid');
-                var fecha="<?php echo $this->fecha_consulta;?>";
-
-                $("#actividades_hijos").load("/timesheet/index/actividadeshijos/proyectoid/"+proyectoid+"/codigo_prop_proy/"+codigo_prop_proy+"/categoriaid/"+categoriaid+"/actividadid/"+actividadid+"/revision/"+revision+"/propuestaid/"+propuestaid+"/fecha/"+fecha);
-            });
-
-
-            //$("#actividades").html('');
-       
-        //$("#actividades_tareas").html('');
-
-
-        </script>
-        <?php
-    } ?>
-</ul>-->
+<!--Separando codigo php de la vista y codigo javascript-->
+<!--Tranfiriendo los datos de las actividades a un array en javascript-->
 <span style="font-weight:bold;">Actividad</span>
-
-  <ul class="nav nav-pills nav-stacked">
+<script>
+    var actividadArray = [];
 <?php
- 
     $actividades_hijos = $this->actividades;
-    $i=1;
-    foreach ($actividades_hijos as $data_tareo_hijos) { 
-        //$wheres=array('codigo_prop_proy'=>$this->codigo_prop_proy,'codigo_actividad'=>$data_tareo_hijos['codigo_actividad'],'proyectoid'=>$this->proyectoid,'actividadid'=>$data_tareo_hijos['actividadid'],'uid'=>$this->uid,'dni'=>$this->dni,'areaid'=>$this->areaid);
-        //$act= new Admin_Model_DbTable_Activaractividad();
-        //$activar= $act->_getExistePersonaActividad($wheres);
+    foreach ($actividades_hijos as $data_tareo_hijos) {
+        $wheres=array('codigo_prop_proy'=>$this->codigo_prop_proy,'codigo_actividad'=>$data_tareo_hijos['codigo_actividad'],'proyectoid'=>$this->proyectoid,'actividadid'=>$data_tareo_hijos['actividadid'],'uid'=>$this->uid,'dni'=>$this->dni,'areaid'=>$this->areaid);
+        $act= new Admin_Model_DbTable_Activaractividad();
+        $activar= $act->_getExistePersonaActividad($wheres);
         
-        //if ($activar) 
-        //{
-
+        if ($activar) 
+        {
 
         $tareopersona = new Admin_Model_DbTable_Tareopersona();
-     
-        $buscar_tarea=$tareopersona->_getTareoxPersonaxSemanaxActividadidxReplicon($this->uid,$this->dni,$this->semanaid,$data_tareo_hijos['actividad_padre'],$data_tareo_hijos['actividadid'],$data_tareo_hijos['codigo_actividad'],$this->codigo_prop_proy,$this->proyectoid,$data_tareo_hijos['revision']);
-
-        if ($buscar_tarea){?>
-            <li style="padding:5px 5px;color: #667fa0;"  >
-                
-                    <?php echo "-".$data_tareo_hijos['nombre'] ?>
-                    <input disabled name="" id="" type = "checkbox" class = "pull-right" value="" checked="true">
-                
-            </li>
-        <?php
-        } else {
-
-        ?>
-              <li style="padding:5px 5px;color: #667fa0;"  >
-                
-                    <?php echo "- ".$data_tareo_hijos['nombre'] ?>
-                    <input  name="tarea_h_<?php echo $data_tareo_hijos['actividadid'];?>" id="tarea_h_<?php echo $data_tareo_hijos['actividadid'];?>" type = "checkbox" class = "pull-right" value="" codigo-prop-proy="<?php echo $this->codigo_prop_proy ?>" proyectoid="<?php echo $this->proyectoid ?>" categoriaid="<?php echo $this->categoriaid ?>" actividadid = "<?php echo $data_tareo_hijos['actividadid'] ?>" revision = "<?php echo $data_tareo_hijos['revision'] ?>" propuestaid = "<?php echo $data_tareo_hijos['propuestaid'] ?>">
-                
-            </li>
-        <?php $i++;  }?>
-        <script type="text/javascript">
-            $(document).ready(function(){
-                $('[name^="tarea_h_<?php echo $data_tareo_hijos['actividadid'];?>"]').click(function(event) {
-                    if ($(this).is(":checked")) {
-                    
-                        var codigo = '<?php echo $this->codigo_prop_proy; ?>';
-                        var proyectoid='<?php echo $this->proyectoid; ?>';
-                        var categoriaid='<?php echo $this->categoriaid; ?>';
-                        var revision="<?php echo $data_tareo_hijos['revision']; ?>";
-                        var propuestaid="<?php echo $data_tareo_hijos['propuestaid']; ?>";
-                        var actividadid="<?php echo $data_tareo_hijos['actividadid']; ?>";
-                        var codigo_actividad="<?php echo $data_tareo_hijos['codigo_actividad']; ?>";
-                        var actividad_padre="<?php echo $data_tareo_hijos['actividad_padre']; ?>";
-                        var h_propuesta="<?php echo $data_tareo_hijos['h_propuesta']; ?>";
-
-                        var fecha = $("#fechasemana").text();
-
-                        url="/timesheet/index/guardartareopersona/codigo/"+codigo+"/proyectoid/"+proyectoid+"/revision/"+revision+"/categoriaid/"+categoriaid+"/propuestaid/"+propuestaid+"/actividadid/"+actividadid+"/codigo_actividad/"+codigo_actividad+"/actividad_padre/"+actividad_padre+"/h_propuesta/"+h_propuesta+"/fecha/"+fecha;
-
-                       // alert(url);
-                        $("#cargar").load(url);
-                 
-                
+        $buscar_tarea=$tareopersona->_getTareoxPersonaxSemanaxActividadidxReplicon($this->uid,$this->dni,$this->semanaid,$data_tareo_hijos['actividad_padre'],$data_tareo_hijos['actividadid'],$data_tareo_hijos['codigo_actividad'],$this->codigo_prop_proy,$this->proyectoid,$data_tareo_hijos['revision']); ?>
+            actividadObj = {}
+            actividadObj = {
+                'codigo': '<?php echo $this->codigo_prop_proy; ?>',
+                'nombre': "<?php echo $data_tareo_hijos['nombre'] ?>",
+                'proyectoid': '<?php echo $this->proyectoid; ?>',
+                'categoriaid': '<?php echo $this->categoriaid; ?>',
+                'revision': "<?php echo $data_tareo_hijos['revision']; ?>",
+                'propuestaid': "<?php echo $data_tareo_hijos['propuestaid']; ?>",
+                'actividadid': "<?php echo $data_tareo_hijos['actividadid']; ?>",
+                'codigo_actividad': "<?php echo $data_tareo_hijos['codigo_actividad']; ?>",
+                'actividad_padre': "<?php echo $data_tareo_hijos['actividad_padre']; ?>",
+                'h_propuesta': "<?php echo $data_tareo_hijos['h_propuesta']; ?>"
             }
-            
-        });    
-    }); 
-
-
-        </script>
-        <?php
-    
-    //}
-    } ?>
+             
+<?php   if ($buscar_tarea) {?>
+                actividadObj['estado'] = 'checked';
+                actividadArray.push(actividadObj);
+<?php   } else {?>
+                actividadObj['estado'] = 'unchecked';
+                actividadArray.push(actividadObj);
+<?php   }
+        }
+    }
+?>
+</script>
+<!--Fin de transferencia, apartir de aqui ya no se utiliza php-->
+<ul id="lista_actividades" class="nav nav-pills nav-stacked">
 </ul>
+<ul id="lista_tareas" class="nav nav-pills nav-stacked">
+</ul>
+<!--Codigo javascript para verificar condiciones y agregar elementos al DOM-->
+<script>
+//Dividir el array en dos dependiendo si es actividad o tarea
+        padreArray = [];
+        hijoArray = [];
+
+        actividadArray.forEach(function (item) {
+            if (item.actividad_padre == '0') {
+                padreArray.push(item);
+            } else {
+                hijoArray.push(item);
+            }
+        })
+
+//Verificar si es actividad final
+    padreArray.forEach(function (itempadre) {
+        itempadre['ultimo'] = 'SI';
+        hijoArray.forEach(function (itemhijo) {
+            if (itempadre.actividadid == itemhijo.actividad_padre){
+                itempadre['ultimo'] = 'NO';
+            }
+        }) 
+    })
+
+
+//Agregar actividades padre al DOM
+        padreArray.forEach(function (item) {
+            agregar = '';
+            
+
+            if (item.estado == 'checked') {
+                agregar = '<li style="padding:5px 5px;color: #667fa0;" class="actividad_padre"  actividadid="' + item.actividadid + '"> <a id="' + item.actividadid +'">' + item.nombre + '<input disabled name="" id="tarea_h_'+ item.actividadid + '" type = "checkbox" class = "pull-right" value="" checked="true">'  + '</a></li>';
+            } else {
+                agregar = '<li style="padding:5px 5px;color: #667fa0;" class="actividad_padre" actividadid="' + item.actividadid + '"> <a id="' + item.actividadid +'">' + item.nombre + '<input name="tarea_h_' + item.actividadid + '" id="tarea_h_'+ item.actividadid + '" type= "checkbox" class= "pull-right" value="" codigo-prop-proy="' + item.codigo + '" proyectoid="' + item.proyectoid + '" categoriaid="' + item.categoriaid + '" actividadid= "' + item.actividadid + '" revision= "' + item.revision + '" propuestaid= "' + item.propuestaid + '" codigo_actividad= "' + item.codigo_actividad + '">'  + '</a></li>';
+            }
+
+            $('#lista_actividades').append(agregar);  
+            if (item.ultimo == 'NO') {
+                $('#tarea_h_' + item.actividadid).hide();
+                $('#' + item.actividadid).attr('href','#');
+                $('#lista_tareas').html('');
+                $('#lista_tareas').append('<p id="titulo_lista_hijos">Tareas</p>');
+            }   
+        })
+
+
+//agregar actividades hijo al DOM
+        hijoArray.forEach(function (item) {
+                agregar = '';
+                    if (item.estado == 'checked') {
+                        agregar = '<li style="padding:5px 5px;color: #667fa0;" class="hijode' + item.actividad_padre + '">' + '<span class="actividad_padre" actividadid="' + item.actividadid + '">' + item.nombre + '</span>' + '<input disabled name="" id="" type = "checkbox" class = "pull-right" value="" checked="true">'  + '</li>';
+                    } else {
+                        agregar = '<li style="padding:5px 5px;color: #667fa0;" class="hijode' +item.actividad_padre+ '">' + '<span class="actividad_padre" actividadid="' + item.actividadid + '">' +item.nombre + '</span>' + '<input name="tarea_h_' + item.actividadid + '" id="tarea_h_'+ item.actividadid + '" type= "checkbox" class= "pull-right" value="" codigo-prop-proy="' + item.codigo + '" proyectoid="' + item.proyectoid + '" categoriaid="' + item.categoriaid + '" actividadid= "' + item.actividadid + '" revision= "' + item.revision + '" propuestaid= "' + item.propuestaid + '" codigo_actividad= "' + item.codigo_actividad + '">'  + '</li>';
+                    }
+                $('#lista_tareas').append(agregar);
+
+            })
+        $('#titulo_lista_hijos').hide();
+        $('[class^=hijode]').hide();
+    </script>
+
+<script type="text/javascript">
+    $(document).ready(function(){
+
+//Funcion que muestra las tareas hijas al hacer click en el padre
+        $('.actividad_padre').click(function(event){
+            padre = $(this).attr('actividadid');
+            $('#titulo_lista_hijos').show();
+            $('[class^=hijode]').hide();
+            $('.hijode' + padre).show();        
+        })
+
+//Funcion que agrega las tareas al registro cuando son checkeadas
+        $('[name^="tarea_h_"]').click(function(event) {
+            if ($(this).is(":checked")) {
+                var fecha = $("#fechasemana").text();
+                var dato = $(this).attr('codigo_actividad');
+                var dato2 = $(this).attr('actividadid');
+                actividadArray.forEach(function (item) {
+                    
+                    if (item.codigo_actividad == dato && item.actividadid == dato2) {
+                        acAg.push(item);
+                    }
+                })
+            }
+        });
+
+
+        $('[name^="tarea_h_"]').click(function(event) {
+            if (!$(this).is(":checked")) {
+                var fecha = $("#fechasemana").text();
+                var dato = $(this).attr('codigo_actividad');
+                var dato2 = $(this).attr('actividadid');
+                actividadArray.forEach(function (item) {
+                    
+                    if (item.codigo_actividad == dato && item.actividadid == dato2) {
+
+                        acAg.forEach(function (item) {
+                            if (item.codigo_actividad == dato && item.actividadid == dato2) {
+                                elem = acAg.indexOf(item);
+                                acAg.splice(elem, 1);
+                            }
+                        })
+                    }
+                })
+            }
+        });
+})
+</script>
+
+
 <div  style="display:none" id="cargar"> </div>
+

@@ -1,0 +1,239 @@
+<div ng-app="reporteApp" ng-controller="mainController as reporte" class="div-reportes">
+	
+	<div class="col-lg-12 m-bot15">
+		<h1>Reporte Tareopersona</h1>
+		<div>
+			<div class="col-lg-6">
+				<h4>Clientes</h4>
+				<select class="form-control m-bot15" ng-model="reporte.cliente_seleccionado" ng-change="reporte.getProyectos(reporte.cliente_seleccionado, 'byCliente')">
+					<option value="todos">Seleccione Cliente</option>
+					<option value="{{cliente.id}}" ng-repeat="cliente in reporte.clientes track by $index">{{cliente.nombre}}</option>
+				</select>
+			</div>
+			<div class="col-lg-6">
+				<h4>Gerentes</h4>
+				<select class="form-control m-bot15" ng-model="reporte.gerente_seleccionado" ng-change="reporte.getProyectos(reporte.gerente_seleccionado, 'byGerente')">
+					<option value="todos">Seleccione Gerente</option>
+					<option value="{{gerente.gerente_proyecto}}" ng-repeat="gerente in reporte.gerentes track by $index">{{gerente.gerente_proyecto}}</option>
+				</select>
+			</div>
+			
+			<div class="col-lg-12">
+				<h4>Proyectos</h4>
+				{{reporte.text_proyectos}}
+				<table>
+					<tr ng-repeat="proyecto in reporte.proyectos">
+						<th>{{proyecto.nombre_proyecto}}</th>
+						<th><input ng-model="reporte.proyectos[$index].selected" ng-change="reporte.getData(proyecto.codigo_prop_proy, $index)" ng-true-value="true" ng-false-value="false" type="checkbox"></th>
+					</tr>
+			</table>
+			</div>			
+		
+		</div>
+		<div class="col-lg-4">
+			<h4>Usuarios</h4>
+			<select ng-disabled="reporte.disabled_children" class="form-control m-bot15" ng-model="reporte.usuario_seleccionado">
+				<option value="todos" selected="selected">Todos</option>
+				<option value="{{usuario.uid}}" ng-repeat="usuario in reporte.usuarios track by $index">{{usuario.uid}}</option>
+			</select>
+		</div>
+		<div class="col-lg-4">
+			<h4>Tipo de Actividad</h4>
+			<input ng-disabled="reporte.tareopersona_void" type="checkbox" ng-model="reporte.tipo_todo" ng-true-value="true" ng-false-value="false" ng-click="reporte.mostrarTodo()">Todos
+			<div ng-repeat="item in reporte.cobrabilidad">
+				<input ng-disabled="reporte.tareopersona_void" type="checkbox" ng-model="reporte.activo[item.text]" ng-true-value="true" ng-false-value="false" ng-click="reporte.notTodo()">{{item.text}}
+			</div>
+		</div>
+		<div class="col-lg-4">
+			<h4>Rango de Rendición</h4>
+			<div>
+	            <div class="input-group input-large" data-date="13/07/2013" data-date-format="mm/dd/yyyy">
+	                <input ng-disabled="reporte.disabled_children" type="text" ng-model="reporte.fecha_from" class="form-control dpd1" name="from">
+	                <span class="input-group-addon">a</span>
+	                <input ng-disabled="reporte.disabled_children" type="text" ng-model="reporte.fecha_to" class="form-control dpd2" name="to">
+	            </div>
+	            <span class="help-block">Seleccione fechas para rango de rendición</span>
+	        </div>
+		</div>
+	</div>
+	<div ng-hide="reporte.tareopersona_void">
+		<table class="table table-bordered table-striped table-condensed">
+		<thead class="">
+			<th>
+				<div>
+					Usuario Id
+				</div>
+			</th>
+			<th>
+				<div>
+					Usuario
+				</div>
+			</th>
+			<th>
+				<div>
+					Rate del proyecto
+				</div>
+			</th>
+			<th>
+				<div>
+					Código de Proyecto
+				</div>
+			</th>
+			<th>
+				<div>
+					Cobrable/No Cobrable
+				</div>
+			</th>
+			<th>
+				<div>
+					Proyecto (Unidad minera - proyecto)
+				</div>
+			</th>
+			<th>
+				<div>
+					Status Proyecto
+				</div>
+			</th>
+			<th ng-repeat="dia in reporte.dias">
+				<div>
+					{{dia}}
+				</div>
+			</th>
+			<th>
+				<div>
+					Full Sumary
+				</div>
+			</th>
+		</thead>
+		<tbody class="">
+			<tr ng-repeat="fila in reporte.tareopersona" ng-show="reporte.activo[fila.tipo_actividad]">
+				<td>
+					<div>
+						{{fila.dni}}
+					</div>
+				</td>
+				<td>
+					<div>
+						{{fila.uid}}
+					</div>
+				</td>
+				<td>
+					<div>
+						{{fila.rate}}
+					</div>
+				</td>
+				<td>
+					<div>
+						{{fila.proyectoid}}
+					</div>
+				</td>
+				<td>
+					<div>
+						{{fila.tipo_actividad}}
+					</div>
+				</td>
+				<td>
+					<div>
+						{{fila.nombre + ' / ' +fila.nombre_proyecto}}
+					</div>
+				</td>
+				<td>
+					<div>
+						{{fila.estado}}
+					</div>
+				</td>
+				<td ng-repeat="dia in reporte.dias">
+					<div>
+						
+					</div>
+				</td>
+				<td>
+					<div>
+						{{fila.summary}}
+					</div>
+				</td>
+			</tr>
+		</tbody>
+		<tfoot class="">
+			<td>
+				<div>
+					Full Summary
+				</div>
+			</td>
+			<td>
+				<div></div>
+			</td>
+			<td>
+				<div></div>
+			</td>
+			<td>
+				<div></div>
+			</td>
+			<td>
+				<div></div>
+			</td>
+			<td>
+				<div></div>
+			</td>
+			<td>
+				<div></div>
+			</td>
+			<td ng-repeat="dia in reporte.dias">
+				<div>
+					
+				</div>
+			</td>
+			<td>
+				<div></div>
+			</td>
+		</tfoot>	
+		</table>
+		<div class="row-fluid">
+		<div class="span6">
+			<div class="dataTables_info">Showing 1 to 10 of 57 entries</div>
+		</div>
+		<div class="span6">
+			<div class="dataTables_paginate paging_bootstrap pagination">
+				<ul>
+					<li class="prev disabled"><a href="#">← Previous</a></li>
+					<li class="active"><a href="#">1</a></li>
+					<li><a href="#">2</a></li>
+					<li><a href="#">3</a></li>
+					<li><a href="#">4</a></li>
+					<li><a href="#">5</a></li>
+					<li class="next"><a href="#">Next → </a></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+	</div>
+
+	<div class="col-lg-12" ng-show="reporte.tareopersona_void">
+		<h2>
+			<center>	
+				No hay Tareo_persona que mostrar
+			</center>
+		</h2>
+	</div>
+
+</div>
+
+<!--script>
+  //Funcion para poner el scroll personalizado a las tablas
+  $('#usuarioScroll').ready(function ($) {
+    //$('.bodyScroll').addClass('scrollContent');
+    $('#usuarioScroll').perfectScrollbar();
+  });
+</script-->
+
+
+<!--div de modal para barra cargando-->
+<div class="modal fade" id="wait" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+  <div class="modal-dialog">
+      <div class="modal-content">
+          <div class="modal-body">
+			<img src="/img/ico-loading.gif" alt="">
+          </div>
+      </div>
+  </div>
+</div>

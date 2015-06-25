@@ -1,0 +1,435 @@
+
+  <section id="container" class="">
+    <?php $this->proyectdetail;
+
+    foreach ($this->proyectdetail as $proyect) {
+      # code...
+  
+    ?>
+                  <aside class="mid-side">
+                      <div class="chat-room-head">
+                          <h3>Informacion</h3>
+                     
+                      </div>
+
+                          <div class="group-rom">
+                              <div class="col-sm-2"><?php echo $proyect['nombre_proyecto'] ?>  </div>
+                              <div class="col-sm-5"><?php echo $proyect['descripcion'] ?></div>
+                              <div class="col-sm-2">
+                                <ul>    
+                                    <li>
+                                      <span>N de Proyecto</span>            
+                                    </li>
+                                    <li>
+                                      <span>N de Propuesta</span>            
+                                    </li>                                   
+                                </ul>
+                              </div>
+                              <div class="col-sm-3">
+                                 <ul>    
+                                    <li>
+                                      <span><?php echo $this->proyectoid ?></span>            
+                                    </li>
+                                    <li>
+                                      <span><?php echo $proyect['propuestaid'] ?></span>            
+                                    </li>                                   
+                                </ul>                             
+                              </div>
+
+                      
+                          </div>
+                          <div class="group-rom">
+                              <div class="col-sm-2 odd" >
+                                <p>Descripcion del Proyecto</p>
+                              </div>
+                              <div class="col-sm-8 odd" >
+                                <ul>    
+                                    <li>
+                                      <span><?php echo $proyect['descripcion'] ?></span>            
+                                    </li>                                                                  
+                                </ul>
+                              </div>                              
+                          </div>
+
+                          <div class="group-rom">
+                              <div class="col-sm-2">
+                                <ul class="chat-list">
+                                    <li class="active">
+                                        <a href="chat_room.html">                                
+                                            <span>Propietario</span>                                
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="chat_room.html">                          
+                                            <span>Unidad Minera</span>                           
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="chat_room.html">                            
+                                            <span>Tipo de Servicio</span>                               
+                                        </a>
+                                    </li>
+                                <ul>
+                              </div>
+                              <div class="col-sm-4">
+                                  <ul class="chat-list">
+                                    <li class="">
+                                        <a class="chat_room.html">                       
+                                                compania
+                                        </a>
+                                    </li>
+                                    <li class="">
+                                        <a class="chat_room.html">                                      
+                                                <?php echo $proyect['nombre'] ?>
+                                        </a>
+                                    </li>
+                                     <li class="">
+                                        <a class="chat_room.html">                                              
+                                                geotecnia
+                                        </a>
+                                    </li>
+                                  <ul>
+                              </div>
+                              <div class="col-sm-2">Planificado</div>
+                              <div class="col-sm-2">Real</div>
+                          </div>
+
+                          
+                              
+                          </div>
+                          <div class="group-rom">
+                              <div class="col-sm-2">
+                                  <ul>
+                                    <li class="">
+                                        <a class="lobby" href="lobby.html">                                      
+                                                Gerente del Proyecto
+                                        </a>
+                                    </li>
+                                     <li class="">
+                                        <a class="lobby" href="lobby.html">                                              
+                                                Jefe del Proyecto 1
+                                        </a>
+                                    </li>
+                                  </ul>
+                              </div>
+                              <div class="col-sm-4">
+                                  <ul>
+                                    <li class="">
+                                        <a class="lobby" href="lobby.html">                                      
+                                           
+                                          <?php echo $proyect['gerente_proyecto'] ?>   
+                                        </a>
+                                    </li>
+                                     <li class="">
+                                        <a class="lobby" href="lobby.html">                                              
+                                                
+                                        </a>
+                                    </li>
+                                  </ul>
+                              </div>
+                              <div class="col-sm-2">Fecha de Inicio</div>
+                              <div class="col-sm-1"><?php echo $proyect['fecha_inicio'] ?></div>
+                              <div class="col-sm-2">Fecha de Cierre</div>
+                              <div class="col-sm-1"><?php echo $proyect['fecha_cierre'] ?></div>
+                          </div>
+                          <div class="group-rom">
+                              <div class="col-sm-2">
+                                  <ul>
+                                    <li class="">
+                                        <a class="lobby" href="lobby.html">                                      
+                                                Jefe del Proyecto 2
+                                        </a>
+                                    </li>
+                                     <li class="">
+                                        <a class="lobby" href="lobby.html">                                              
+                                                Control Documentario
+                                        </a>
+                                    </li>
+                                  </ul>
+                              </div>
+                              <div class="col-sm-4">
+                                  <ul>
+                                    <li class="">
+                                        <a class="lobby" href="lobby.html">                                      
+                                                Nombre del Proyecto
+                                        </a>
+                                    </li>
+                                     <li class="">
+                                        <a class="lobby" href="lobby.html">                                              
+                                            <?php echo $proyect['control_documentario'] ?>   
+
+                                        </a>
+                                    </li>
+                                  </ul>
+                              </div>
+                              <div class="col-sm-2">Fecha de Inicio</div>
+
+                              <div class="col-sm-1">ddww</div>
+                              <div class="col-sm-2">Fecha de Cierre</div>
+                              <div class="col-sm-1">12:32</div>
+                          </div>
+
+                          <div class="group-rom">
+                            <div class="chat-room-head">
+                              <h3>Informacion Comercial</h3>                     
+                            </div>
+                          </div>
+
+                          <div class="group-rom">
+                              <div class="col-sm-4">
+                                 <ul>
+                                    <li class="">
+                                        <a class="lobby" href="lobby.html">                                      
+                                                Nombre Contacto
+                                        </a>
+                                    </li>
+                                     <li class="">
+                                        <a class="lobby" href="lobby.html">                                              
+                                                Cargo
+                                        </a>
+                                    </li>
+                                     <li class="">
+                                        <a class="lobby" href="lobby.html">                                              
+                                                Telefono
+                                        </a>
+                                    </li>
+                                     <li class="">
+                                        <a class="lobby" href="lobby.html">                                              
+                                                Celular 1
+                                        </a>
+                                    </li>
+                                     <li class="">
+                                        <a class="lobby" href="lobby.html">                                              
+                                                E-mail
+                                        </a>
+                                    </li>
+                                     <li class="">
+                                        <a class="lobby" href="lobby.html">                                              
+                                                Razon Social
+                                        </a>
+                                    </li>
+                                     <li class="">
+                                        <a class="lobby" href="lobby.html">                                              
+                                                RUC
+                                        </a>
+                                    </li>
+                                     <li class="">
+                                        <a class="lobby" href="lobby.html">                                              
+                                               Direccion Fiscal
+                                        </a>
+                                    </li>
+                                     <li class="">
+                                        <a class="lobby" href="lobby.html">                                              
+                                                Documento de Aprobacion
+                                        </a>
+                                    </li>
+                                     <li class="">
+                                        <a class="lobby" href="lobby.html">                                              
+                                                Comentarios
+                                        </a>
+                                    </li>
+                                     <li class="">
+                                        <a class="lobby" href="lobby.html">                                              
+                                                Foto Proyecto
+                                        </a>
+                                    </li>                                  
+                                  </ul>
+                              </div>
+                              <div class="col-sm-4">
+                                <ul>
+                                    <li class="">
+                                        <a class="lobby" href="lobby.html">                                      
+                                                Nombre del Proyecto
+                                        </a>
+                                    </li>
+                                    <li class="">
+                                        <a class="lobby" href="lobby.html">                                              
+                                                Nombre del Proyecto
+                                        </a>
+                                    </li>
+                                    <li class="">
+                                      <div class="col-sm-4">dd</div>
+                                      <div class="col-sm-4">dd</div>
+                                      <div class="col-sm-4">dd</div>
+                                    </li>
+                                    <li class="">
+                                      <div class="col-sm-4">dd</div>
+                                      <div class="col-sm-4">dd</div>
+                                      <div class="col-sm-4">dd</div>   
+                                    </li>
+                                     <li class="">
+                                        <a class="lobby" href="lobby.html">                                              
+                                                Nombre del Proyecto
+                                        </a>
+                                    </li>
+                                    <li class="">
+                                        <a class="lobby" href="lobby.html">                                              
+                                                Nombre del Proyecto
+                                        </a>
+                                    </li> 
+                                    <li class="">
+                                      <div class="col-sm-4">dd</div>
+                                      <div class="col-sm-4">dd</div>
+                                      <div class="col-sm-4">dd</div>  
+                                    </li>
+                                    <li class="">
+                                        <a class="lobby" href="lobby.html">                                              
+                                                Nombre del Proyecto
+                                        </a>
+                                    </li>
+                                    <li class="">
+                                      <div class="col-sm-4">dd</div>
+                                      <div class="col-sm-4">dd</div>
+                                      <div class="col-sm-4">dd</div>  
+                                    </li>
+                                    
+                                    <li class="">
+                                        <a class="lobby" href="lobby.html">                                              
+                                                Nombre del Proyecto
+                                        </a>
+                                    </li>
+                                    <li class="">
+                                        <a class="lobby" href="lobby.html">                                              
+                                                Nombre del Proyecto
+                                        </a>
+                                    </li>
+                                                                    
+                                </ul>
+                              </div>
+                              <div class="col-sm-4">
+                                <div class="col-sm-6">
+                                  <ul>
+                                    <li class="">
+                                        <a class="lobby" href="lobby.html">                                      
+                                                Presupuesto
+                                        </a>
+                                    </li>
+
+                                    <div class="col-sm-2">
+                                      <li class="">
+                                        <a class="lobby" href="lobby.html">                                              
+                                                Moneda
+                                        </a></br>
+                                        <a class="lobby" href="lobby.html">                                              
+                                                Honorarios
+                                        </a>
+                                      </li>
+                                    </div>
+
+                                
+                                    
+                                     <li class="">
+                                        <a class="lobby" href="lobby.html">                                              
+                                                Gastos
+                                        </a>
+                                    </li>
+                                     <li class="">
+                                        <a class="lobby" href="lobby.html">                                              
+                                                Laboratorio
+                                        </a>
+                                    </li>
+                                     <li class="">
+                                        <a class="lobby" href="lobby.html">                                              
+                                                Otros
+                                        </a>
+                                    </li>
+                                     <li class="">
+                                        <a class="lobby" href="lobby.html">                                              
+                                                Descuento
+                                        </a>
+                                    </li>
+                                     <li class="">
+                                        <a class="lobby" href="lobby.html">                                              
+                                                Total
+                                        </a>
+                                    </li>
+                                     <li class="">
+                                        <a class="lobby" href="lobby.html">                                              
+                                                SOC 01
+                                        </a>
+                                    </li>
+                                     <li class="">
+                                        <a class="lobby" href="lobby.html">                                              
+                                                SOC 02
+                                        </a>
+                                    </li>
+                                     <li class="">
+                                        <a class="lobby" href="lobby.html">                                              
+                                                SOC 03
+                                        </a>
+                                    </li>                                  
+                                  </ul>
+                                </div>
+
+                                <div class="col-sm-6">
+                                  <ul>
+                                    <li class="">
+                                        <a class="lobby" href="lobby.html">                                      
+                                                Nombre del Proyecto
+                                        </a>
+                                    </li>
+                                     <li class="">
+                                        <a class="lobby" href="lobby.html">                                              
+                                                Nombre del Proyecto
+                                        </a>
+                                    </li>
+                                     <li class="">
+                                        <a class="lobby" href="lobby.html">                                              
+                                                Nombre del Proyecto
+                                        </a>
+                                    </li>
+                                     <li class="">
+                                        <a class="lobby" href="lobby.html">                                              
+                                                Nombre del Proyecto
+                                        </a>
+                                    </li>
+                                     <li class="">
+                                        <a class="lobby" href="lobby.html">                                              
+                                                Nombre del Proyecto
+                                        </a>
+                                    </li>
+                                     <li class="">
+                                        <a class="lobby" href="lobby.html">                                              
+                                                Nombre del Proyecto
+                                        </a>
+                                    </li>
+                                     <li class="">
+                                        <a class="lobby" href="lobby.html">                                              
+                                                Nombre del Proyecto
+                                        </a>
+                                    </li>
+                                     <li class="">
+                                        <a class="lobby" href="lobby.html">                                              
+                                                Nombre del Proyecto
+                                        </a>
+                                    </li>
+                                     <li class="">
+                                        <a class="lobby" href="lobby.html">                                              
+                                                Nombre del Proyecto
+                                        </a>
+                                    </li>
+                                     <li class="">
+                                        <a class="lobby" href="lobby.html">                                              
+                                                Nombre del Proyecto
+                                        </a>
+                                    </li>
+                                     <li class="">
+                                        <a class="lobby" href="lobby.html">                                              
+                                                Nombre del Proyecto
+                                        </a>
+                                    </li>                                  
+                                  </ul>
+                                </div>
+                              </div>
+
+                          </div>
+
+
+
+                  </aside>
+     
+              </div>
+              <!-- page end-->
+    <?php  } ?>
+
+  </section>

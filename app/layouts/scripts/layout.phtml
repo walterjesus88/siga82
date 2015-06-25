@@ -255,7 +255,7 @@
                 
                       
                       <?php
-             if ($is_gerente == 'N' && $is_jefe == 'N' && $is_gerente_general != 'GERENTE' && $is_gerente_general != 'JEFE' && $is_gerente_general != 'GERENTE-AREA' && $is_area!='40' )  { 
+             if ($is_gerente == 'N' && $is_jefe == 'N' && $is_gerente_general != 'GERENTE' && $is_gerente_general != 'JEFE' && $is_gerente_general != 'GERENTE-AREA' && $is_area!='40'  &&  $is_gerente_general != 'GERENTE-GENERAL' )  { 
 
                       ?>
 
@@ -286,14 +286,15 @@
 
                       ?>
 
-<li class="sub-menu">
+                        <li class="sub-menu">
                             <a href="##" >
                                 <i class="fa fa-suitcase"></i>
                               <span>Hoja de Tiempo Jefe</span>
                             </a>
                             <ul class="sub">
-                                 <li><a  href="/timesheet/index/timesheetaprobacion">Aprobación</a></li>
+                                <li><a  href="/timesheet/index/timesheetaprobacion">Aprobación</a></li>
                                 <li><a  href="/timesheet/index/calendar">Rendición</a></li>
+                                <li><a  href="/timesheet/aprobacion/historiconivel4">Historico</a></li>
                             </ul>
                         </li>
                   <?php }?>
@@ -302,7 +303,7 @@
 
                       ?>
 
-<li class="sub-menu">
+                        <li class="sub-menu">
                             <a href="##" >
                                 <i class="fa fa-suitcase"></i>
                               <span>Hoja de Tiempo GP</span>
@@ -350,8 +351,6 @@
                             </ul>
                         </li>
                   <?php }?>
-
-
                         <!--
                         <li>
                             <a href="/timesheet/index/calendar">
@@ -465,7 +464,33 @@
                         </ul>
                     </li> -->
                     <!--multi level menu end-->
+                <li>
+                    <a id="mostrar-calendar" class="" data-toggle="modal" href="">
+                        <i class="fa fa-calendar"></i> 
+                        <span>Calendario</span>
+                    </a>
+                    <div id="toggle-calendar" class="fixed-calendar">
+                        <div class="">
+                            <div class="">
+                                <div class="">
+                                    <div class="">
+                                        <section class="panel">
+                                            <div class="panel-body">
+                                                <div id="datepicker"></div>
+                                            </div>
+                                        </section>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
 
+            <script>
+                
+            </script>
+                    
+                </li>
                 </ul>
               <!-- sidebar menu end-->
             </div>
@@ -549,6 +574,33 @@ $(document).ready(function(){
                                                                                   
                                                                            
         });
+
+    //$("#mostrar-calendar").hide();    
+    $('#mostrar-calendar').click(function(){
+        $('#toggle-calendar').toggle('slow');
+         $('#sidebar').animate({scrollTop: 2000}, 1000); 
+    });
                                                                    
 });
+
+
+$.datepicker.setDefaults($.datepicker.regional["es"]);
+$("#datepicker").datepicker
+({
+    maxDate:0, dateFormat:'dd/mm/yy', yearRange: '-100:+0',firstDay: 1,
+    //minDate: new Date(2015, 4, noSunday()),
+    minDate: new Date(2015,5,1),
+    //, "-99:+0"
+    //, changeMonth:true, changeYear: true,    
+});
+
+
+
+ function noMonth(){
+    var f = new Date();
+    //var day = f.getDay();  
+    //var fech=f.getFullYear()+"-"+(f.getMonth()+1) +"-"+f.getDate(); 
+   
+    return fech;
+  }
 </script>
