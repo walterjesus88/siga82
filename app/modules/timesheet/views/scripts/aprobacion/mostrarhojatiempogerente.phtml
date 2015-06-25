@@ -1,0 +1,72 @@
+<section class="panel">
+    <header class="panel-heading" style="padding-bottom : 10px">
+        <div><center>Lista de pendiente de aprobación de Hojas de Tiempo de Jefes Area</center></div>
+    </header>
+</section>
+<div class="inbox-body">
+    <div id="uno">
+    <table class="table table-inbox table-hover" id="myTable" >
+        <thead>
+            <tr>  
+                <th >#</th>    
+                <th >Hoja Tiempo</th>
+                <th >Nombre</th>
+                <th >Semana</th>
+                <th >Facturable</th>
+                <th >No Facturable</th>
+                <th >Administrativa</th>
+                <th >Total</th>
+            </tr>
+        </thead>
+        <tbody>
+        <?php
+        $c=1;
+        foreach ($this->lista_empleados_aprobar as $lista_empleados){ 
+            if ($lista_empleados) {
+                foreach ($lista_empleados as $lista_empleados_proyecto){ ?>
+                    <tr name="oculus" id="xx" class="unread">
+                        <td class="view-message  text-right"><center><?php echo $c ?></center></td>   
+                        <td>   
+                           <?php print_r($lista_empleados_proyecto)?>
+                        </td>
+                        <td>   
+                            <button id="detalletime_<?php echo $c?>" href="#modalsemana" class="btn btn-success" data-toggle="modal"  uid=<?php echo $lista_empleados_proyecto['uid_empleado']?> dni=<?php echo $lista_empleados_proyecto['dni_empleado']?> semanaid=<?php echo $lista_empleados_proyecto['semanaid']?>  >ver detalle </button>                                      
+                        </td>
+                       
+                    </tr>
+                    <script type="text/javascript">
+                        $(document).ready(function(){
+                          $("#detalletime_<?php echo $c?>").click(function(){
+                            var uid=$(this).attr('uid');
+                            var dni=$(this).attr('dni');
+                            var semanaid=$(this).attr('semanaid');
+                            var url = "/timesheet/aprobacion/mostrardetallehojatiempofiltro2/uid/"+ uid+"/dni/"+dni+"/semanaid/"+semanaid; 
+                            $("#modaltimes").load(url);                                         
+                            });
+                        });
+                    </script>  
+                <?php $c++;}
+            }
+        }?>
+        </tbody>
+    </table>
+  </div>
+<div id="ver"></div>
+<div class="modal fade" id="modalsemana" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content" style="width: 1250px; top: 100%; margin-left: -150px; ">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Aprobar Hoja de Tiempo</h4>
+            </div>
+            <div class="modal-body">
+                <div id="modaltimes"></div>
+            </div>
+            <div class="modal-footer">
+                <button  data-dismiss="modal" class="btn btn-default" type="button">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+<div id="modali"></div>

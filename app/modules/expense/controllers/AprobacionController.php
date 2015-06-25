@@ -1,4 +1,4 @@
-<?php
+    <?php
 
 class Expense_AprobacionController extends Zend_Controller_Action {
 

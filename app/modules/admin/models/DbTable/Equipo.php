@@ -287,6 +287,8 @@ public function _getDatosxProyectoxUidXEstadoxCliente($uid,$dni,$estado,$codigo_
         }
     }
 
+
+
 public function _getListarNivel4xNivel3($uid,$dni,$nivel_inferior,$nivel_superior,$areaid)
      {
         try{
@@ -531,4 +533,26 @@ public function _getListarEquipoxProyectoxGerente($uid,$dni)
             print $ex->getMessage();
         }
     }
+
+
+public function _getDatosxEquipoxProyecto($uid,$dni,$codigo_prop_proy,$proyectoid)
+     {
+        try{
+            $sql=$this->_db->query("
+         
+                select *
+                from equipo 
+                where uid = '$uid'  and
+                codigo_prop_proy='$codigo_prop_proy' and
+                proyectoid='$proyectoid' and dni='$dni'
+                    ");
+            $row=$sql->fetchAll();
+            return $row;           
+            }  
+            
+           catch (Exception $ex){
+            print $ex->getMessage();
+        }
+    }
+
 }
