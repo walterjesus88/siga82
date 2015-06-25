@@ -247,166 +247,30 @@ class Timesheet_AprobacionController extends Zend_Controller_Action {
                     }
                 }
             }
-
-/*      
-            $data['cargo']=$cargo;
-            $data2['cargo']=$cargo;
-            $data['semanaid']=$semana;
-            $data2['semanaid']=$semana;
-            $data['uid']=$uid;
-            $data['dni']=$dni;
-            $data2['uid']=$uid;
-            $data2['dni']=$dni;
-            $data['uid_validacion']=$uid_validacion;
-            $data['dni_validacion']=$dni_validacion;
-            $data['comentario']=$coment;
-            $data['estado_usuario']=$estado;
-            $time = time();
-            $datetime=date("d-m-Y (H:i:s)", $time);
-            $fecha_validacion=$datetime;
-
-            $data['fecha_validacion']=$fecha_validacion;
-            $data['etapa']=$etapa_validacion;
-
-            $where['uid']=$uid;
-            $where['dni']=$dni;
-            //$where['uid_validacion']=$uid_validacion;
-            //$where['dni_validacion']=$dni_validacion;
-            $where['cargo']=$cargo;
-            $where['semanaid']=$semana;
-            $vercoment= new Admin_Model_DbTable_Usuariovalidacion();
-            if($vcoment=$vercoment->_getOnexUsuario($where))
-            {
-
-                $pk = array('dni' => $dni  ,'uid' => $uid,'cargo' => $cargo ,'semanaid' => $semana, );
-                $count=$vercoment->_getUsuarioxValidacion($semana,$uid,$dni);
-                $data2['comentario']=$coment;
-                $data2['estado_usuario']=$estado;
-                $data2['fecha_validacion']=$fecha_validacion;
-                $data2['etapa']=$etapa_validacion;
-                $data2['orden']=count($count)+1;
-                $data2['estado']="A";
-                
-                $data2['uid_validacion']=$uid_validacion;
-                $data2['dni_validacion']=$dni_validacion;
-                $usercoment=$vercoment->_save($data2);
-                if ($usercoment){
-
-                $pk1 = array('dni' => $dni  ,'uid' => $uid,'cargo' => $cargo ,'semanaid' => $semana, 'orden' => count($count));
-                $data3['estado']="C";
-
-               // print_r($pk1);
-                //    $coment=new Admin_Model_DbTable_Usuariovalidacion();
-                    //$usecoment=$coment->_updateX($data2,$pk);
-                
-                    $usecoment=$vercoment->_updateXUsuario($data3,$pk1);
-                }
-                echo "update";
-                $sumahorassemana = new Admin_Model_DbTable_Sumahorasemana();
-                
-                 if ( $estado=='R'){
-                  $datos_actualizar_sumahoras1['estado']='0';   
-                  $datos_actualizar_sumahoras1['estado_real']='RECHAZADO';
-                  $str_actualizar_sumahoras1="semanaid='$semana' and uid='$uid' and dni='$dni'";
-                        $tareopersona = new Admin_Model_DbTable_Tareopersona();
-                        $datos_actualizar['estado']='A';
-                        $str_actualizar="semanaid='$semana' and uid='$uid' and dni='$dni' and   estado='C' ";
-                        $update_tareopersona=$tareopersona -> _update($datos_actualizar,$str_actualizar);
-
-                        $update=$sumahorassemana -> _update($datos_actualizar_sumahoras1,$str_actualizar_sumahoras1);
-                }
-                if ( $estado=='B'){
-                    $tareopersona = new Admin_Model_DbTable_Tareopersona();
-                    $datos_actualizar['estado']='C';
-                    $str_actualizar="semanaid='$semana' and uid='$uid' and dni='$dni' and   estado='A' ";
-                    $update_tareopersona=$tareopersona -> _update($datos_actualizar,$str_actualizar);  
-                    $vercoment= new Admin_Model_DbTable_Usuariovalidacion();
-                    $planificacion = new Admin_Model_DbTable_Planificacion();
-                    $proyectos=$planificacion->_getSemanaxGerenteProyecto($semana,$uid,$dni);
-                    print_r($proyectos);
-                    $validado=0;
-                    $novalidado=0;
-                        foreach ($proyectos as $datos) {
-                            $where_validador['uid_validacion']=$datos['uid'];
-                            $where_validador['dni_validacion']=$datos['dni'];
-                            $where_validador['estado_usuario']='B';
-                            $where_validador['etapa']='2';
-                            $where_validador['semanaid']=$semana; 
-                            $where_validador['uid']=$uid; 
-                            $where_validador['dni']=$dni; 
-
-                            $cant_validadores=$vercoment->_getOnexUsuarioxValidador($where_validador);
-                            print_r($cant_validadores);
-                            if ($cant_validadores){
-                                $validado++;
-                            }
-                            else
-                            {
-                                $novalidado++;
-                            }
-                                                
-                        }
-                             echo "cantidad d evlaidacioes"; echo $validado;
-                             echo "cantidad d eno validados";  echo $novalidado;
-                             echo "cantidad d evalidsdotres"; echo count($proyectos);
-
-                        if (count($proyectos)==$validado)
-                        {
-                               echo "apribadoooo";
-                            $datos_actualizar_validador['estado_real']='APROBADO';
-                            $str_actualizar_validador="semanaid='$semana' and uid='$uid' and dni='$dni' ";
-                            $update_validador=$sumahorassemana -> _update($datos_actualizar_validador,$str_actualizar_validador);
-                            $datos_actualizar_sumahoras2['estado']='2';
-                            $str_actualizar_sumahoras2="semanaid='$semana' and uid='$uid' and dni='$dni'";
-                            $update=$sumahorassemana -> _update($datos_actualizar_sumahoras2,$str_actualizar_sumahoras2);
-
-                        }
-                        else
-                        {
-                              echo "rechazadodoodod";
-                            $datos_actualizar_validador['estado_real']='PENDIENTE';
-                            $str_actualizar_validador="semanaid='$semana' and uid='$uid' and dni='$dni'";
-                            $update_validador=$sumahorassemana -> _update($datos_actualizar_validador,$str_actualizar_validador);
-                            $datos_actualizar_sumahoras3['estado']='3';
-                            $str_actualizar_sumahoras3="semanaid='$semana' and uid='$uid' and dni='$dni'";
-                            $update=$sumahorassemana -> _update($datos_actualizar_sumahoras3,$str_actualizar_sumahoras3);
-
-                        }   
-                    }
-
-            }
-            else
-            {//echo "no existe";
-                $coment=new Admin_Model_DbTable_Usuariovalidacion();
-              //$usercoment=$coment->_save($data);
-                //echo "save";
-                $sumahorassemana = new Admin_Model_DbTable_Sumahorasemana();
-                 if ( $estado=='R'){
-                  $datos_actualizar_sumahoras['estado']='0';   
-                        $tareopersona = new Admin_Model_DbTable_Tareopersona();
-                        $datos_actualizar['estado']='A';
-                        $str_actualizar="semanaid='$semana' and uid='$uid' and dni='$dni' and   estado='C' ";
-                        $update_tareopersona=$tareopersona -> _update($datos_actualizar,$str_actualizar);
-                }
-                 if ( $estado=='B'){
-                   $datos_actualizar_sumahoras['estado']='2';
-                         $tareopersona = new Admin_Model_DbTable_Tareopersona();
-                        $datos_actualizar['estado']='C';
-                        $str_actualizar="semanaid='$semana' and uid='$uid' and dni='$dni' and   estado='A' ";
-                        $update_tareopersona=$tareopersona -> _update($datos_actualizar,$str_actualizar);  
-                }
-
-                
-                
-                $str_actualizar_sumahoras="semanaid='$semana' and uid='$uid' and dni='$dni' 
-                ";
-                //$update=$sumahorassemana -> _update($datos_actualizar_sumahoras,$str_actualizar_sumahoras);
-            }*/
-
-            
         }
         catch (Exception $e) {
                 print "Error: ".$e->getMessage();
         }
     }
+
+    public function mostrarhojatiempogerenteAction(){
+        try {
+            $uid = $this->sesion->uid;
+            $dni = $this->sesion->dni;     
+            $lista_empleados_aprobar=array();        
+            $tabla_proyectos = new Admin_Model_DbTable_Proyecto();
+            $lista_proyectos_gerente=$tabla_proyectos->_getProyectosxGerente($uid);
+            if ($lista_proyectos_gerente){
+            $array_lista_proyectos_gerente=$lista_proyectos_gerente;}
+            foreach ($array_lista_proyectos_gerente as $proyectoid) {
+                $tabla_planificacion = new Admin_Model_DbTable_Planificacion();
+                $lista_equipo_proyecto_gerente=$tabla_planificacion-> _getEquipoxProyecto($proyectoid['codigo_prop_proy'],$proyectoid['proyectoid']);
+                $lista_empleados_aprobar[]=$lista_equipo_proyecto_gerente;
+            }
+            $this->view->lista_empleados_aprobar= $lista_empleados_aprobar;   
+        } catch (Exception $e) {
+            print "Error: ".$e->getMessage();
+        } 
+    }
+
 };
