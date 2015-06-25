@@ -184,7 +184,9 @@
           if ($area){
           ?>
               <div class="panel-group m-bot20" id="accordion">
-              <?php              
+              <?php          
+              print_r(count($area));
+              $countdatos=count($area);
               foreach ($area as $lista) { ?>
                 <div class="panel panel-default">
                   <div class="panel-heading">
@@ -607,6 +609,10 @@
         var funcion= $("#function").val();
         var codigo="<?php echo $this->codigoproyecto ?>";
         var proyecto="<?php echo $this->proyectoid ?>";
+        var countdatos="<?php echo $countdatos ?>";
+        var r_count=parseInt(countdatos)+1;
+
+        alert(r_count);
                  
         var url="/proyecto/index/guardarareaequipo/codigo_prop_proy/"+codigo+"/proyectoid/"+proyecto+"/funcion/"+funcion+"/area/"+areacat;
                      
@@ -616,7 +622,9 @@
         $('form').slideUp();
         //$(this).parent().children('#area_categoria').remove();
         //var i=100;
-        var template='<div class="panel panel-default">'+'<div class="panel-heading">'+'<h4 class="panel-title" >'+
+        var template='<a href="#3" class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" >dd </a>'+
+
+                     '<div class="panel panel-default">'+'<div class="panel-heading">'+'<h4 class="panel-title" >'+
                      '<tr>'+'<td style="font-size: 12px;">'+areacat+'-</td>'+'<td>'+nom+'</td>'+                    
                      '<td><input style="display:none" disabled type="text" name="areasx" id="areasx" value="'+areacat+'" size="5"></td>'+
                      '<span class="pull-right">'+
