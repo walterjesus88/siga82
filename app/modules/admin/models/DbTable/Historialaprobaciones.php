@@ -91,7 +91,7 @@ class Admin_Model_DbTable_Historialaprobaciones extends Zend_Db_Table_Abstract
     public function _updateX($data,$pk)
     {
         try{
-            if ($pk['semanaid']=='' || $pk['uid']=='' || $pk['dni']=='' || $pk['cargo']=='') return false;
+            if ($pk['semanaid']=='' || $pk['uid_empleado']=='' || $pk['dni_empleado']=='' || $pk['areaid_empleado']=='') return false;
             $where = " semanaid = '".$pk['semanaid']."' and uid = '".$pk['uid']."' and dni = '".$pk['dni']."' and cargo = '".$pk['cargo']."'";
             return $this->update($data, $where);
             return false;
@@ -194,5 +194,15 @@ class Admin_Model_DbTable_Historialaprobaciones extends Zend_Db_Table_Abstract
             print "Error: Read One Condition".$e->getMessage();
         }
     }
+
+    public function _update($data,$str=''){
+        try{
+            if ($str=="") return false;
+            return $this->update($data,$str);
+        }catch (Exception $ex){
+            print "Error: Actualizando un registro de Persona".$ex->getMessage();
+        }
+    }
+
 
 }

@@ -53,7 +53,6 @@ class Timesheet_AprobacionController extends Zend_Controller_Action {
             $areaid=$this->sesion->personal->ucatareaid;
             $categoriaid=$this->sesion->personal->ucatid;
             $codigoaprobacion_empleado = $this->sesion->personal->ucataprobacion;
-
             /*Datos Tabla Historial Aprobaciones*/
             $data['semanaid']=$semana;
             $data['uid_empleado']=$uid;
@@ -80,12 +79,17 @@ class Timesheet_AprobacionController extends Zend_Controller_Action {
                 }
                 else
                 {
-                    $numero_registro = count($buscar_registro);
+                    
+                    $numero_registro = count($buscar_registro)+1;
                     $data['numero_historial']=$numero_registro;
                     $guardar_historial_empleado = $tabla_historial_aprobaciones -> _save($data);
                     if ($guardar_historial_empleado)
                     {
                         echo "guardo satisfactoriamente despues de guardar";
+                        $tareopersona = new Admin_Model_DbTable_Tareopersona();
+                        $datos_actualizar['estado']='C';
+                        $str_actualizar="semanaid='$semana' and uid='$uid' and dni='$dni' and estado='A' ";
+                        $update_tareopersona=$tareopersona -> _update($datos_actualizar,$str_actualizar);  
                     }
                 }
             }
@@ -97,7 +101,12 @@ class Timesheet_AprobacionController extends Zend_Controller_Action {
                 if ($guardar_historial_empleado)
                     {
                         echo "guardo satisfactoriamente primera ves";
+                        $tareopersona = new Admin_Model_DbTable_Tareopersona();
+                        $datos_actualizar['estado']='C';
+                        $str_actualizar="semanaid='$semana' and uid='$uid' and dni='$dni' and estado='A' ";
+                        $update_tareopersona=$tareopersona -> _update($datos_actualizar,$str_actualizar);  
                     }
+
             }
          } catch (Exception $e) {
             print "Error: ".$e->getMessage();
@@ -178,17 +187,6 @@ class Timesheet_AprobacionController extends Zend_Controller_Action {
             $time = time();
             $fecha_envio=date("d-m-Y (H:i:s)", $time);
             
-            $data['semanaid']=$semana;
-            $data['uid_empleado']=$uid;
-            $data['dni_empleado']=$dni;
-            //$data['areaid_empleado']=$areaid;
-            $data['categoriaid_empleado']=$categoriaid;
-            $data['fecha_registro']=$fecha_envio;
-           //$data['codigoaprobacion_empleado']=$codigoaprobacion_empleado;
-            $data['estado_historial']=$estado_historial;
-            $data['etapa_validador']=$etapa_validador;
-            $data['comentario']=$comentario;
-
             $tabla_historial_aprobaciones= new Admin_Model_DbTable_Historialaprobaciones();
             $buscar_registro=$tabla_historial_aprobaciones->_getBuscarEmpleadoxSemana($semana,$uid,$dni);
             /*Buscar Registro en la tabla Aprobaciones*/
@@ -207,17 +205,49 @@ class Timesheet_AprobacionController extends Zend_Controller_Action {
                     echo "no existe";
                     $wheres_empleado = array('semanaid'=>$semana,'uid_empleado'=>$uid,'dni_empleado'=>$dni,'etapa_validador'=>'ENVIO','estado_historial'=>'A');
                     $buscar_historial_empleado = $tabla_historial_aprobaciones -> _getBuscarEmpleadoxSemanaxEstado($wheres_empleado);
-                    print_r($buscar_historial_empleado);
                     $numero_registro = count($buscar_registro);
-                    $data['numero_historial']=$numero_registro+1;
-                    //print_r($data);
-                    //$guardar_historial_empleado = $tabla_historial_aprobaciones -> _save($data);
-                    //if ($guardar_historial_empleado)
-                    //{
-                    //    echo "guardo satisfactoriamente despues de guardar";
-                    //}
+                    
+                    $datos_actualizar['estado_historial']='C';
+                    $str_actualizar="
+                        semanaid='$semana' and uid_empleado='$uid' and dni_empleado='$dni' 
+                        and etapa_validador='ENVIO' and estado_historial='A' 
+                        ";
+                    $update=$tabla_historial_aprobaciones -> _update($datos_actualizar,$str_actualizar);
+
+                    if ($update)
+                    {
+                        $data['numero_historial']=$numero_registro+1;
+                        $data['semanaid']=$semana;
+                        $data['uid_empleado']=$uid;
+                        $data['dni_empleado']=$dni;
+                        $data['uid_validador']=$uid_validador;
+                        $data['dni_validador']=$dni_validador;
+
+                        $data['areaid_empleado']=$buscar_historial_empleado['areaid_empleado'];
+                        $data['categoriaid_empleado']=$buscar_historial_empleado['categoriaid_empleado'];
+                        $data['fecha_registro']=$fecha_envio;
+                        $data['codigoaprobacion_empleado']=$buscar_historial_empleado['codigoaprobacion_empleado'];
+                        $data['codigoaprobacion_validador']=$this->sesion->personal->ucataprobacion;
+                        $data['estado_historial']=$estado_historial;
+                        $data['etapa_validador']=$etapa_validador;
+                        $data['comentario']=$comentario;
+                        print_r($data);
+                        $guardar_historial_empleado = $tabla_historial_aprobaciones -> _save($data);
+                        if ($guardar_historial_empleado)
+                        {
+                            echo "guardo satisfactoriamente";
+                            if ($estado_historial=='R')
+                            {
+                                $tareopersona = new Admin_Model_DbTable_Tareopersona();
+                                $datos_actualizar_tareo['estado']='A';
+                                $str_actualizar_tareo="semanaid='$semana' and uid='$uid' and dni='$dni' and estado='C' ";
+                                $update_tareopersona=$tareopersona -> _update($datos_actualizar_tareo,$str_actualizar_tareo);  
+                            }
+                        }
+                    }
                 }
             }
+
 /*      
             $data['cargo']=$cargo;
             $data2['cargo']=$cargo;
