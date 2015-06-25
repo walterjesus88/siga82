@@ -24,6 +24,8 @@
       // var url = "/proyecto/index/asignaractividad/proyectoid/"+ proyectoid+"/codigo_prop_proy/"+codigo_prop_proy;
       // $("#modaltimes").load(url);
      });
+     var numero=<?php echo $this->numero;?>;
+     $("#ingreso").load("/expense/index/ingreso/numero/"+numero);
     });
     </script> 
 
@@ -113,10 +115,10 @@
         $("#tareas").html('');
     });
 
-    $(".refresh").click(function(){
+    /*$(".refresh").click(function(){
         var numero = "<?php echo $this->numero?>";
         $("#ingreso").load("/expense/index/ingreso/numero/"+numero);
-    });
+    });*/
 
     $(".cliente").click(function(){
         $("#proyectos").html('');
