@@ -24,6 +24,8 @@
       // var url = "/proyecto/index/asignaractividad/proyectoid/"+ proyectoid+"/codigo_prop_proy/"+codigo_prop_proy;
       // $("#modaltimes").load(url);
      });
+     var numero=<?php echo $this->numero;?>;
+     $("#ingreso").load("/expense/index/ingreso/numero/"+numero);
     });
     </script> 
 
@@ -72,7 +74,7 @@
                                         var fecha = $("#fechasemana").text();
                                         var clienteid = '20451530535';
                                         var unidadid = '10';
-                                        //$("#proyectos").load("/timesheet/index/proyectos/clienteid/"+clienteid+"/unidadid/"+unidadid+"/fecha/"+fecha);
+                                        $("#proyectos").load("/timesheet/index/proyectos/clienteid/"+clienteid+"/unidadid/"+unidadid+"/fecha/"+fecha);
                                         $("#proyectos").load("/expense/index/proyectos/unidad_mineraid/"+unidadid+"/clienteid/"+clienteid+"/numero/"+numero);
 
                                     });
@@ -113,10 +115,10 @@
         $("#tareas").html('');
     });
 
-    $(".refresh").click(function(){
+    /*$(".refresh").click(function(){
         var numero = "<?php echo $this->numero?>";
         $("#ingreso").load("/expense/index/ingreso/numero/"+numero);
-    });
+    });*/
 
     $(".cliente").click(function(){
         $("#proyectos").html('');

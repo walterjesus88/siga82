@@ -20,17 +20,14 @@ class Expense_IndexController extends Zend_Controller_Action {
 
     }
     
-    public function registroAction(){
-    try {
+     public function nuevoAction() {
+     try {
+        
         $uid = $this->sesion->uid;
         $dni = $this->sesion->dni;
-        $equipo = new Admin_Model_DbTable_Equipo();
-        $data_equipo = $equipo->_getProyectosXuidXEstado($uid,'A');
-        $data_clientes = $equipo ->_getClienteXuidXEstado($uid,'A');
-        $this->view->clientes = $data_clientes;
-        $this->view->equipo = $data_equipo;
-
-        $where = array();
+       
+        
+            $where = array();
             $where['fecha'] = date("Y-m-d");
             $where['uid'] = $uid;
             $where['dni'] = $dni;
@@ -44,6 +41,30 @@ class Expense_IndexController extends Zend_Controller_Action {
             $data2['numero_completo'] = $ceros.$result['numero'];
             $rendicion->_update($data2,$result);
             $this->view->numero = $result['numero'];
+         
+
+       
+    } catch (Exception $e) {
+        print "Error: ".$e->getMessage();
+    }
+    }
+    
+
+    public function registroAction(){
+    try {
+        
+        $uid = $this->sesion->uid;
+        $dni = $this->sesion->dni;
+        $equipo = new Admin_Model_DbTable_Equipo();
+        $data_equipo = $equipo->_getProyectosXuidXEstado($uid,'A');
+        $data_clientes = $equipo ->_getClienteXuidXEstado($uid,'A');
+        $this->view->clientes = $data_clientes;        
+             
+        $numero=$this->_getParam('numero');
+        $this->view->numero = $numero; 
+         
+
+       
     } catch (Exception $e) {
         print "Error: ".$e->getMessage();
     }
