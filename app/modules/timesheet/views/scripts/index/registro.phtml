@@ -1780,15 +1780,16 @@ $("#submit_work1").click(function(){
     max_horizontal = 50;
     max_vertical = 50;
     var matriz = new Array(max_horizontal);
-    for (i = 0; i < max_horizontal; i++)
+    for (i = 0; i < max_horizontal; i++) {
       matriz[i] = new Array(max_vertical);
+    }
     $("[id*=valor]").each(function(indice, elemento) {
       elemID = $(elemento).attr("id");
       horizontal = elemID.slice(5,6);
       vertical = elemID.slice(6,8);
       matriz[horizontal][vertical] = $(elemento).val();
     });
-    maximo = 0;
+    maximov = 0;
     elemSuma = [];
     horSuma = [];
     
