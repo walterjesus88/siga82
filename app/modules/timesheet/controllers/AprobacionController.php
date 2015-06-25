@@ -72,6 +72,7 @@ class Timesheet_AprobacionController extends Zend_Controller_Action {
             {   
                 $wheres_empleado = array('semanaid'=>$semana,'uid_empleado'=>$uid,'dni_empleado'=>$dni,'etapa_validador'=>'ENVIO','estado_historial'=>'A');
                 $buscar_historial_empleado = $tabla_historial_aprobaciones -> _getBuscarEmpleadoxSemanaxEstado($wheres_empleado);
+                print_r($buscar_historial_empleado);
                 /*Buscar si tine un registro*/
                 if ($buscar_historial_empleado)
                 {
@@ -79,7 +80,6 @@ class Timesheet_AprobacionController extends Zend_Controller_Action {
                 }
                 else
                 {
-                    
                     $numero_registro = count($buscar_registro)+1;
                     $data['numero_historial']=$numero_registro;
                     $guardar_historial_empleado = $tabla_historial_aprobaciones -> _save($data);
@@ -257,16 +257,8 @@ class Timesheet_AprobacionController extends Zend_Controller_Action {
         try {
             $uid = $this->sesion->uid;
             $dni = $this->sesion->dni;     
-            $lista_empleados_aprobar=array();        
-            $tabla_proyectos = new Admin_Model_DbTable_Proyecto();
-            $lista_proyectos_gerente=$tabla_proyectos->_getProyectosxGerente($uid);
-            if ($lista_proyectos_gerente){
-            $array_lista_proyectos_gerente=$lista_proyectos_gerente;}
-            foreach ($array_lista_proyectos_gerente as $proyectoid) {
-                $tabla_planificacion = new Admin_Model_DbTable_Planificacion();
-                $lista_equipo_proyecto_gerente=$tabla_planificacion-> _getEquipoxProyecto($proyectoid['codigo_prop_proy'],$proyectoid['proyectoid']);
-                $lista_empleados_aprobar[]=$lista_equipo_proyecto_gerente;
-            }
+            $tabla_planificacion = new Admin_Model_DbTable_Planificacion();
+            $lista_empleados_aprobar = $tabla_planificacion->_getEquipoxSemanaxGerenteProyecto($uid,$dni);
             $this->view->lista_empleados_aprobar= $lista_empleados_aprobar;   
         } catch (Exception $e) {
             print "Error: ".$e->getMessage();

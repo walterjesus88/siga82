@@ -1760,7 +1760,6 @@ $("input.focusable").keydown(function(tecla){
         var semanaid="<?php echo $this->semana ?>";
         var cargo="<?php echo $this->areaid ?>";
         url_enviar_hojatiempo="/timesheet/aprobacion/enviarhojatiempo/estado/E/uid/"+uid+'/dni/'+dni+'/semanaid/'+semanaid+'/cargo/'+cargo+'/etapa/0'+'/fecha_envio/'+fechaactualenvio;
-        
         urlfecha="/timesheet/index/registro/fecha/" + fecha_inicio;
 
         $.ajax({

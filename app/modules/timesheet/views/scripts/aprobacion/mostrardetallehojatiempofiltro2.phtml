@@ -65,15 +65,9 @@
             $where['semanaid']=$this->semana;
             $where['uid_validacion']=$this->uid_validacion;
             $where['dni_validacion']=$this->dni_validacion;
-            //echo "usauio a validar:"; echo $this->uid;
-            //echo "validador: "; echo $this->uid_validacion;
             $this->uid_validacion;
             $vercoment= new Admin_Model_DbTable_Usuariovalidacion();
             $vcoment=$vercoment->_getOnexUsuarioxJefe($where); 
-            //print_r($vcoment);
-
-
-
             ?>
             <?php
             if($vcoment=$vercoment->_getOnexUsuarioxJefe($where))

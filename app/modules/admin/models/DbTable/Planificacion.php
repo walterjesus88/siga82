@@ -140,4 +140,28 @@ class Admin_Model_DbTable_Planificacion extends Zend_Db_Table_Abstract
         }
     }
 
+
+    public function _getEquipoxSemanaxGerenteProyecto($uid,$dni){
+        try {
+            $sql=$this->_db->query("
+                
+                select distinct p.uid,p.dni,p.semanaid,sum(p.h_totaldia) as total,sum(p.billable) as facturable,sum(p.nonbillable) as nofacturable,sum(p.adm) as administrativa from planificacion as p
+inner join historial_aprobaciones as h
+on p.semanaid=h.semanaid and p.uid=h.uid_empleado and p.dni=h.dni_empleado and p.areaid=h.areaid_empleado
+where p.proyectoid in (select distinct e.proyectoid from
+equipo as e where e.uid='$uid'and e.dni='$dni'  and e.nivel='0') and p.h_totaldia is not null
+and h.etapa_validador='FILTRO2' and h.estado_historial='A'
+GROUP BY p.uid,p.dni,p.semanaid
+
+                
+            ");
+            $row=$sql->fetchAll();
+            return $row;     
+
+        } catch (Exception $e) {
+            print "Error: Read One Condition".$e->getMessage();
+        }
+    }
+
+
 }

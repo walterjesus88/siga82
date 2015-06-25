@@ -6,12 +6,12 @@
 <?php
     $actividades_hijos = $this->actividades;
     foreach ($actividades_hijos as $data_tareo_hijos) {
-        /*$wheres=array('codigo_prop_proy'=>$this->codigo_prop_proy,'codigo_actividad'=>$data_tareo_hijos['codigo_actividad'],'proyectoid'=>$this->proyectoid,'actividadid'=>$data_tareo_hijos['actividadid'],'uid'=>$this->uid,'dni'=>$this->dni,'areaid'=>$this->areaid);
+        $wheres=array('codigo_prop_proy'=>$this->codigo_prop_proy,'codigo_actividad'=>$data_tareo_hijos['codigo_actividad'],'proyectoid'=>$this->proyectoid,'actividadid'=>$data_tareo_hijos['actividadid'],'uid'=>$this->uid,'dni'=>$this->dni,'areaid'=>$this->areaid);
         $act= new Admin_Model_DbTable_Activaractividad();
         $activar= $act->_getExistePersonaActividad($wheres);
         
         if ($activar) 
-        {*/
+        {
 
         $tareopersona = new Admin_Model_DbTable_Tareopersona();
         $buscar_tarea=$tareopersona->_getTareoxPersonaxSemanaxActividadidxReplicon($this->uid,$this->dni,$this->semanaid,$data_tareo_hijos['actividad_padre'],$data_tareo_hijos['actividadid'],$data_tareo_hijos['codigo_actividad'],$this->codigo_prop_proy,$this->proyectoid,$data_tareo_hijos['revision']); ?>
@@ -37,7 +37,7 @@
                 actividadArray.push(actividadObj);
 <?php   }
         }
-    //}
+    }
 ?>
 </script>
 <!--Fin de transferencia, apartir de aqui ya no se utiliza php-->

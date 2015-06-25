@@ -1,6 +1,6 @@
 <section class="panel">
     <header class="panel-heading" style="padding-bottom : 10px">
-        <div><center>Lista de pendiente de aprobación de Hojas de Tiempo de Jefes Area</center></div>
+        <div><center>Lista de pendiente de aprobación de Hojas de Tiempo para Gerente Proyecto</center></div>
     </header>
 </section>
 <div class="inbox-body">
@@ -21,18 +21,23 @@
         <tbody>
         <?php
         $c=1;
-        foreach ($this->lista_empleados_aprobar as $lista_empleados){ 
-            if ($lista_empleados) {
-                foreach ($lista_empleados as $lista_empleados_proyecto){ ?>
-                    <tr name="oculus" id="xx" class="unread">
-                        <td class="view-message  text-right"><center><?php echo $c ?></center></td>   
-                        <td>   
-                           <?php print_r($lista_empleados_proyecto)?>
-                        </td>
-                        <td>   
-                            <button id="detalletime_<?php echo $c?>" href="#modalsemana" class="btn btn-success" data-toggle="modal"  uid=<?php echo $lista_empleados_proyecto['uid_empleado']?> dni=<?php echo $lista_empleados_proyecto['dni_empleado']?> semanaid=<?php echo $lista_empleados_proyecto['semanaid']?>  >ver detalle </button>                                      
-                        </td>
-                       
+        foreach ($this->lista_empleados_aprobar as $lista_empleados_proyecto){ ?>
+            <tr name="oculus" id="xx" class="unread">
+                <td class="view-message  text-right"><center><?php echo $c ?></center></td>   
+                <td>   
+                    <button id="detalletime_<?php echo $c?>" href="#modalsemana" class="btn btn-success" data-toggle="modal"  uid=<?php echo $lista_empleados_proyecto['uid']?> dni=<?php echo $lista_empleados_proyecto['dni']?> semanaid=<?php echo $lista_empleados_proyecto['semanaid']?>  >ver detalle </button>
+                </td>
+                <td class="view-message "><?php //echo $valorsuma['dni']
+                    $equipo = explode(".", $lista_empleados_proyecto['uid']);
+                    echo (ucwords($equipo[0])); echo " ";
+                    echo (ucwords($equipo[1])); 
+                ?></td>
+                <td class="view-message "><?php echo $lista_empleados_proyecto['semanaid']?></td>
+                <td class="view-message "><?php echo $lista_empleados_proyecto['facturable']?></td>
+                <td class="view-message "><?php echo $lista_empleados_proyecto['nofacturable']?></td>
+                <td class="view-message "><?php echo $lista_empleados_proyecto['administrativa']?></td>
+                <td class="view-message "><?php echo $lista_empleados_proyecto['total']?></td>
+
                     </tr>
                     <script type="text/javascript">
                         $(document).ready(function(){
@@ -40,13 +45,12 @@
                             var uid=$(this).attr('uid');
                             var dni=$(this).attr('dni');
                             var semanaid=$(this).attr('semanaid');
-                            var url = "/timesheet/aprobacion/mostrardetallehojatiempofiltro2/uid/"+ uid+"/dni/"+dni+"/semanaid/"+semanaid; 
-                            $("#modaltimes").load(url);                                         
+                            var url = "/timesheet/aprobacion/mostrardetallegerente/uid/"+ uid+"/dni/"+dni+"/semanaid/"+semanaid; 
+                            $("#modaltimes").load(url);
                             });
                         });
                     </script>  
-                <?php $c++;}
-            }
+                <?php $c++;
         }?>
         </tbody>
     </table>
