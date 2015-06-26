@@ -1717,14 +1717,14 @@ $("input.focusable").keydown(function(tecla){
       resSumah = 0;
       for (var hor = 0; hor < max_horizontal; hor++) {
         if (typeof matriz[hor][ver] !== 'undefined') {
-          if (isNaN(parseInt(matriz[hor][ver]))) {
+          if (isNaN(parseFloat(matriz[hor][ver]))) {
             matriz[hor][ver] = 0;
           };
-          resSumah = resSumah + parseInt(matriz[hor][ver]);
+          resSumah = resSumah + parseFloat(matriz[hor][ver]);
           maximov = ver+1;};
           
         };
-      horSuma.push(resSumah);
+      horSuma.push(resSumah.toFixed(2));
     };
     mostrarver = horSuma.slice(1, maximov);
     $("[id*=suma-horizontal]").each(function(indice, elemento) {
