@@ -144,16 +144,13 @@ class Admin_Model_DbTable_Planificacion extends Zend_Db_Table_Abstract
     public function _getEquipoxSemanaxGerenteProyecto($uid,$dni){
         try {
             $sql=$this->_db->query("
-                
                 select distinct p.uid,p.dni,p.semanaid,sum(p.h_totaldia) as total,sum(p.billable) as facturable,sum(p.nonbillable) as nofacturable,sum(p.adm) as administrativa from planificacion as p
-inner join historial_aprobaciones as h
-on p.semanaid=h.semanaid and p.uid=h.uid_empleado and p.dni=h.dni_empleado and p.areaid=h.areaid_empleado
-where p.proyectoid in (select distinct e.proyectoid from
-equipo as e where e.uid='$uid'and e.dni='$dni'  and e.nivel='0') and p.h_totaldia is not null
-and h.etapa_validador='FILTRO2' and h.estado_historial='A'
-GROUP BY p.uid,p.dni,p.semanaid
-
-                
+                inner join historial_aprobaciones as h
+                on p.semanaid=h.semanaid and p.uid=h.uid_empleado and p.dni=h.dni_empleado and p.areaid=h.areaid_empleado
+                where p.proyectoid in (select distinct e.proyectoid from
+                equipo as e where e.uid='$uid'and e.dni='$dni'  and e.nivel='0') and p.h_totaldia is not null
+                and h.etapa_validador='FILTRO2' and h.estado_historial='A'
+                GROUP BY p.uid,p.dni,p.semanaid
             ");
             $row=$sql->fetchAll();
             return $row;     
@@ -163,5 +160,38 @@ GROUP BY p.uid,p.dni,p.semanaid
         }
     }
 
+    public function _getHorasxEquipoxSemanaxProyectosGerenteProyecto($uid_gerente,$dni_gerente,$uid_equipo,$dni_equipo,$semanaid){
+        try {
+            $sql=$this->_db->query("
+                select *,t.estado as estado_tareopersona
+                from planificacion as p
+                inner join tareo_persona as t
+                    on 
+                        p.semanaid=t.semanaid and p.uid=t.uid and p.dni=t.dni and p.areaid=t.areaid and 
+                        p.codigo_prop_proy=t.codigo_prop_proy and p.proyectoid=t.proyectoid
+                inner join actividad as act
+                    on 
+                        t.actividadid=act.actividadid and t.codigo_actividad=act.codigo_actividad 
+                        and t.codigo_prop_proy=act.codigo_prop_proy
+                        and t.revision=act.revision
+                inner join proyecto as pro 
+                    on 
+                        p.codigo_prop_proy=pro.codigo_prop_proy
+                        and p.proyectoid=pro.proyectoid 
 
+                where 
+                    p.proyectoid in (select distinct 
+                        e.proyectoid from equipo as e 
+                        where e.uid='$uid_gerente' and e.dni='$dni_gerente' and e.nivel='0') 
+                    and p.h_totaldia is not null
+                    and p.uid='$uid_equipo' and p.dni='$dni_equipo'and p.semanaid='$semanaid'
+                    and t.etapa like 'INICIO%'
+                order by act.propuestaid desc,t.proyectoid,t.actividadid,t.tipo_actividad desc 
+            ");
+            $row=$sql->fetchAll();
+            return $row;     
+        } catch (Exception $e) {
+            print "Error: Read One Condition".$e->getMessage();
+        }
+    }
 }
