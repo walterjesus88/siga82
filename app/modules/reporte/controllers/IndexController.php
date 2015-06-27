@@ -124,4 +124,15 @@ class Reporte_IndexController extends Zend_Controller_Action {
         $this->_helper->json->sendJson($respuesta);
     }
 
+    public function pruebaAction(){
+        $this->_helper->layout()->disableLayout();
+        $respuesta = [];
+        for ($i=0; $i < 20; $i++) { 
+            $fila['id'] = $i;
+            $fila['nombre'] = 'jaja';
+            $respuesta[$i] = $fila;
+        }
+        $this->_helper->json->sendJson($respuesta);
+    }
+
 }

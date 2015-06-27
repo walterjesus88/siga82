@@ -51,7 +51,11 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
                         ->headScript()->appendFile('/js/datepicker-es.js')
                         ->headScript()->appendFile('/js/count.js')
                         ->headScript()->appendFile('/js/perfect-scrollbar.jquery.js')
+                        ->headScript()->appendFile('/js/jquery.dataTables.js')
                         ->headScript()->appendFile('/js/angular-1.4.0.js')
+                        ->headScript()->appendFile('/js/ng-table.js')
+                        ->headScript()->appendFile('/js/angular-datatables.min.js')
+                        ->headScript()->appendFile('/js/angular-resource.js')
                         ->headScript()->appendFile('/js/modulos-angular.js');
 
 

@@ -3,12 +3,16 @@
 *
 * Description
 */
-angular.module('reporteApp', []).
-controller('mainController', ['$http', function($http){
+angular.module('reporteApp', ['datatables', 'ngResource', 'ngTable']).
+controller('mainController', ['$http', '$resource', 'ngTableParams', function($http, $resource, ngTableParams){
 
 	//obtener una referencia del scope para el funcionamiento del data binding
 	reporte = this;
-	
+
+	/*$resource('/reporte/index/tareopersona').query().$promise.then(function(persons) {
+        reporte.tareopersona = persons;
+    });*/
+
 	//inicializando las variables necesarias relacionadas a la vista
 	reporte.cobrabilidad = [{'id': 'P', 'text': 'Facturable'}, {'id': 'G', 'text': 'No Facturable'}, {'id': 'A', 'text': 'Administración'}];
 	reporte.activo = {'Facturable': true, 'No Facturable': true, 'Administración': true};
@@ -18,7 +22,6 @@ controller('mainController', ['$http', function($http){
 	reporte.gerente_seleccionado = 'todos';
 	reporte.text_proyectos = 'Seleccione un Cliente o Gerente para mostrar sus proyectos activos.';
 	reporte.disabled_children = true;
-	reporte.tareopersona_void = true;
 	reporte.dias = ['11', '12', '13', '14'];
 	
 	//creando las variables que contendran los datos de respuesta del servidor
@@ -63,7 +66,6 @@ controller('mainController', ['$http', function($http){
 						reporte.proyectos.push(proyecto);
 					})
 				}
-				console.log(reporte.proyectos);
 			})
 		} else if (por == 'byGerente') {
 			reporte.cliente_seleccionado = 'todos';
@@ -214,17 +216,24 @@ controller('mainController', ['$http', function($http){
 
 	agregarTareopersona = function (codigo_prop_proy) {
 		$("#wait").modal();
-		reporte.tareopersona_void = false;
+
 		$http.get('/reporte/index/tareopersona/codigo_prop_proy/'+ codigo_prop_proy + '/desde/' + reporte.fecha_from + '/hasta/' + reporte.fecha_to)
 		.success(function (res) {
 			res.forEach(function (item) {
 				reporte.tareopersona.push(item);
 			})
-			if (reporte.tareopersona.length == 0) {
-				reporte.tareopersona_void = true;
-			}
+
 			$("#wait").modal('hide');
-			console.log(reporte.tareopersona);
+
+			reporte.tableParams = new ngTableParams({
+		        page: 1,           
+		        count: 10
+		    }, {
+		        total: reporte.tareopersona.length,
+		        getData: function ($defer, params) {	
+		            $defer.resolve(reporte.tareopersona.slice((params.page() - 1) * params.count(), params.page() * params.count()));
+		        }
+		    })
 		})
 	}
 
@@ -236,9 +245,5 @@ controller('mainController', ['$http', function($http){
 				reporte.tareopersona.push(item);
 			}
 		})
-		if (reporte.tareopersona.length == 0) {
-			reporte.tareopersona_void = true;
-		}
 	}
-	
 }])
