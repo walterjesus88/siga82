@@ -160,29 +160,43 @@
           <p style="font-size: 12px;"> <?php print_r($this->proyecto['descripcion']); ?></p>
         </div>
         <h5 class="bold">Lista de Disciplinas</h5>
-        <a id="anadirarea" href="##" class="btn btn-info btn-xs" >Anadir</a>
-        <form action="">
-              
-          <select id="area_categoria" class="form-control input-sm m-bot15 col-lg-10">                        
-            <option>Seleccione el Area</option>
-            <?php  
-              foreach ($this->area as $data_area) {?>                        
-                <option value="<?php echo $data_area['areaid'].";-;".$data_area['nombre']?>"><?php  echo $data_area['nombre']?></option>
-                  <?php }?>
-                </select> 
-                <select id="function" class="form-control input-sm m-bot15 col-lg-10">
-                    <option value="SOPORTE">Soporte</option>
-                    <option value="PROYECTO">Proyecto</option> 
-          </select> 
 
-                <input value="Guardar" type="submit" />
-        </form>
           <?php 
           $bdequipoarea = new Admin_Model_DbTable_Equipoarea();
           $area=$bdequipoarea->_buscarAreasxProyecto($this->proyecto['codigo_prop_proy'],$this->proyecto['proyectoid']);
           $i=1;          
           if ($area){
+              //print_r(count($area));
+              $countdatos=count($area);
+              
           ?>
+            <div  id="fech" >
+              <input style="display:none" id="fechasemana" type="text" value="<?php echo $countdatos ?>">
+            </div>
+            <!-- este es el formulario -->
+            <a id="anadirarea" href="##" class="btn btn-info btn-xs" >Anadir</a>
+            <form action="">
+                  
+              <select id="area_categoria" class="form-control input-sm m-bot15 col-lg-10">                        
+                <option>Seleccione el Area</option>
+                <?php  
+                  foreach ($this->area as $data_area) {?>                        
+                    <option value="<?php echo $data_area['areaid'].";-;".$data_area['nombre']?>"><?php  echo $data_area['nombre']?></option>
+                      <?php }?>
+                    </select> 
+                    <select id="function" class="form-control input-sm m-bot15 col-lg-10">
+                        <option value="SOPORTE">Soporte</option>
+                        <option value="PROYECTO">Proyecto</option> 
+              </select> 
+
+                    <input value="Guardar" type="submit" />
+            </form>
+            <!-- fin de formulario-->
+
+
+
+
+
               <div class="panel-group m-bot20" id="accordion">
               <?php              
               foreach ($area as $lista) { ?>
@@ -499,7 +513,7 @@
                 <script type="text/javascript">
                   $(document).ready(function(){
                     $("#anadir_<?php echo $i?>").click(function(){
-                      alert("ffff");
+                      //alert("ffff");
                       var proyectoid = $(this).attr('proyectoid');
                       var codigo_prop_proy = $(this).attr('codigo-prop-proy');
                       var areaid = $(this).attr('areaid');
@@ -548,8 +562,8 @@
           var j=ev.id.charAt(8);
           var z=ev.id.charAt(9);
           var areax=i+j+z;
-          alert(i);    
-          alert(j);
+          //alert(i);    
+          //alert(j);
           //var areax = $("#areasx").val();
           var codigo="<?php echo $this->codigoproyecto ?>";
           var proyecto="<?php echo $this->proyectoid ?>";            
@@ -557,7 +571,7 @@
           //alert(areax);
           $("#myModal9").modal('show')
           var url = "/proyecto/index/buscarpersonasxcategoria/proyectoid/"+ proyecto+"/codigo_prop_proy/"+codigo+"/areaid/"+areax;
-          alert(url);
+          //alert(url);
           $("#modaltimes_rate").load(url);   
           //alert(x);
         }
@@ -569,8 +583,8 @@
           var j=ev.id.charAt(8);
           var z=ev.id.charAt(9);
           var areax=i+j+z;
-          alert(i);    
-          alert(j);
+          //alert(i);    
+          //alert(j);
           //var areax = $("#areasx").val();
           var codigo="<?php echo $this->codigoproyecto ?>";
           var proyecto="<?php echo $this->proyectoid ?>";            
@@ -578,9 +592,27 @@
           //alert(areax);
           $("#modalperson").modal('show')
           var url = "/proyecto/index/asignaractividad/proyectoid/"+ proyecto+"/codigo_prop_proy/"+codigo+"/areaid/"+areax;
-          alert(url);
+          //alert(url);
           $("#modaltimes").load(url); 
         }
+
+
+
+        function ver()
+        {
+          var nuevoCodigoHtml = 
+            '<td><input disabled type="text" name="nombre" id="nombre" value="areacat.trim()" size="15"></td>'+
+            '<td><input disabled type="text" name="categoria" id="categoria" value="areacat.trim()" size="8"</td>'+
+            '<td><input disabled type="text" name="rate" id="rate" value="areacat.trim()" size="5"</td>'+
+            '<td><input type="text" name="rate_proyecto" id="rate_proyecto" value="areacat.trim()" size="5"</td>'+'<td>En ediciónss</td>'+
+            '<td><input style="display:none" type="text" name="dnix" id="dnix" value="areacat.trim()" size="5"</td>'+
+            '<td><input style="display:none" type="text" name="uidx" id="uidx" value="areacat.trim()" size="5"</td>'+
+            '<td><input style="display:none" type="text" name="areaidx" id="areaidx" value="areacat.trim()" size="5"</td>';
+                                        
+                              //nodoTr.innerHTML = nuevoCodigoHtml;
+            $('#accordion').prepend($(nuevoCodigoHtml).fadeIn());
+        }
+
     </script>
 
     <script>
@@ -607,29 +639,37 @@
         var funcion= $("#function").val();
         var codigo="<?php echo $this->codigoproyecto ?>";
         var proyecto="<?php echo $this->proyectoid ?>";
+
+        var fechasemana= $("#fechasemana").val();
+        //alert(fechasemana);
+
+        campo = parseInt(fechasemana)+1;
+        //alert(campo);
+        document.getElementById('fechasemana').defaultValue=campo;
+        //alert('Dominio solicitado: '+campo);
                  
         var url="/proyecto/index/guardarareaequipo/codigo_prop_proy/"+codigo+"/proyectoid/"+proyecto+"/funcion/"+funcion+"/area/"+areacat;
                      
-        alert(areacat);  
-                      //alert(url);
-                      //$("#anadirareaproyecto").load(url);
+       /// alert(areacat);  
+
         $('form').slideUp();
         //$(this).parent().children('#area_categoria').remove();
         //var i=100;
-        var template='<div class="panel panel-default">'+'<div class="panel-heading">'+'<h4 class="panel-title" >'+
-                     '<tr>'+'<td style="font-size: 12px;">'+areacat+'-</td>'+'<td>'+nom+'</td>'+                    
+        var template=
+                     '<div class="panel panel-default">'+'<div class="panel-heading">'+'<h4 class="panel-title" >'+
+                     '<tr>'+'<a style="font-size: 12px;" class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#'+campo+'">'+  '<td style="font-size: 12px;">' +areacat+ '-</td>'+'<td>'+nom+'</td>' +'<a>'+
                      '<td><input style="display:none" disabled type="text" name="areasx" id="areasx" value="'+areacat+'" size="5"></td>'+
                      '<span class="pull-right">'+
+                     '<td><span  btn btn-danger btn-xs" onclick="ver()">Hppp</span></td>'+
                      '<td><span  id="anadir_'+areacat+'" class="editar btn btn-info btn-xs" onclick="anadir(this)">+</span></td>'+
                      '<td><span  id="anadir_'+areacat+'" class="editar btn btn-danger btn-xs" onclick="asigna(this)">H</span></td>'
                      +'</span>'+'<tr>'+'</h4>'+'</div>'+'</div>';
 
 
         //$(this).parent().innerHTML = template;
-
         //nube = '<a disabled="disabled"> <i style="color: #D6D6D8" class="fa fa-comment"></i></a>';
         $(this).parent().append(template);
-                              //$('#accordion').prepend($(template).fadeIn());
+
                          
         $.ajax({
              type: "POST",

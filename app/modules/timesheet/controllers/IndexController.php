@@ -233,8 +233,25 @@ class Timesheet_IndexController extends Zend_Controller_Action {
         {
             $idaprobador_filtro2= $list_aprobacion_filtro2['idaprobador_filtro2'];  
             $usuario_cat = new Admin_Model_DbTable_Usuariocategoria();
-            $wheres_ucat=array('aprobacion'=>$idaprobador_filtro2,'estado'=>'A','estado_sistema'=>'A');
-            $list_aprobador=$usuario_cat->_getAprobadorxArea($wheres_ucat); 
+            print_r($idaprobador_filtro2);
+            $codigo_aprobador = explode(".",$idaprobador_filtro2);
+            if (count($codigo_aprobador)=='3'){
+                $wheres_ucat=array('aprobacion'=>$idaprobador_filtro2,'estado'=>'A','estado_aprobacion'=>'R','areaid'=>$areaid);
+                $list_aprobador=$usuario_cat->_getAprobadorxArea($wheres_ucat);                 
+            }
+            if (count($codigo_aprobador)=='2'){
+                if ($codigo_aprobador[0]=='2')
+                {
+                    $datos_filtro2=array('aprobacion'=>$idaprobador_filtro2,'estado'=>'A','estado_aprobacion'=>'R');
+                    $list_aprobador=$usuario_cat->_getAprobadorxNivel2($datos_filtro2);                 
+                }
+                if ($codigo_aprobador[0]=='3')
+                {
+                    $wheres_ucat=array('aprobacion'=>$idaprobador_filtro2,'estado'=>'A','estado_aprobacion'=>'R','areaid'=>$areaid);
+                    $list_aprobador=$usuario_cat->_getAprobadorxArea($wheres_ucat);                 
+                }
+            }
+
             if ($list_aprobador)
             {
                 $aprobador_usuario = explode(".", $list_aprobador['uid']);
