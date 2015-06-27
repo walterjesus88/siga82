@@ -217,7 +217,7 @@ controller('mainController', ['$http', '$resource', 'ngTableParams', function($h
 	agregarTareopersona = function (codigo_prop_proy) {
 		$("#wait").modal();
 
-		$http.get('/reporte/index/tareopersona/codigo_prop_proy/'+ codigo_prop_proy + '/desde/' + reporte.fecha_from + '/hasta/' + reporte.fecha_to)
+		/*$http.get('/reporte/index/tareopersonajson/codigo_prop_proy/'+ codigo_prop_proy + '/desde/' + reporte.fecha_from + '/hasta/' + reporte.fecha_to)
 		.success(function (res) {
 			res.forEach(function (item) {
 				reporte.tareopersona.push(item);
@@ -226,14 +226,20 @@ controller('mainController', ['$http', '$resource', 'ngTableParams', function($h
 			$("#wait").modal('hide');
 
 			reporte.tableParams = new ngTableParams({
-		        page: 1,           
-		        count: 10
-		    }, {
-		        total: reporte.tareopersona.length,
-		        getData: function ($defer, params) {	
+		        page: 1, count: 10}, 
+		        {
+		        	total: reporte.tareopersona.length,
+		        	getData: function ($defer, params) {	
 		            $defer.resolve(reporte.tareopersona.slice((params.page() - 1) * params.count(), params.page() * params.count()));
 		        }
 		    })
+		})*/
+
+		$http.get('/reporte/index/tareopersonahtml/codigo_prop_proy/'+ codigo_prop_proy + '/desde/' + reporte.fecha_from + '/hasta/' + reporte.fecha_to)
+		.success(function (res) {
+			$('#container-tareopersona-table').html(res);
+			$("#wait").modal('hide');
+			$('#tareopersona-table').DataTable();
 		})
 	}
 

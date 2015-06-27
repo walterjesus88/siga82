@@ -26,7 +26,7 @@ class Reporte_IndexController extends Zend_Controller_Action {
     de la vista de reporte tarea persona. Para lo cual han sido parseados como json
     */
 
-    public function tareopersonaAction() {
+    public function tareopersonajsonAction() {
         $this->_helper->layout()->disableLayout();
         $tareopersona = new Admin_Model_DbTable_Tareopersona();
         $data['codigo_prop_proy'] = $this->_getParam('codigo_prop_proy');
@@ -62,6 +62,45 @@ class Reporte_IndexController extends Zend_Controller_Action {
         }
         
         $this->_helper->json->sendJson($respuesta);      
+    }
+
+    //Funcion que devuelve los datos de tareopersona en un archivo html
+    public function tareopersonahtmlAction(){
+        $this->_helper->layout()->disableLayout();
+        $tareopersona = new Admin_Model_DbTable_Tareopersona();
+        $data['codigo_prop_proy'] = $this->_getParam('codigo_prop_proy');
+        $todos_tareopersona = $tareopersona->_getReporte($data);
+
+        $respuesta = [];
+        $i = 0;
+              
+        foreach ($todos_tareopersona as $fila) {
+           if ($fila['tipo_actividad']=='P') {
+               $fila['tipo_actividad'] = 'Facturable';
+           } elseif ($fila['tipo_actividad']=='G') {
+               $fila['tipo_actividad'] = 'No Facturable';
+           } elseif ($fila['tipo_actividad']=='A') {
+               $fila['tipo_actividad'] = 'Administración';
+           }
+
+           if ($fila['estado']=='A') {
+               $fila['estado'] = 'Activo';
+           } elseif ($fila['estado']=='C') {
+               $fila['estado'] = 'Cerrado';
+           } elseif ($fila['estado']=='E') {
+               $fila['estado'] = 'Eliminado';
+           } elseif ($fila['estado']=='PA') {
+               $fila['estado'] = 'Paralizado';
+           } elseif ($fila['estado']=='CA') {
+               $fila['estado'] = 'Cancelado';
+           }
+
+           $respuesta[$i] = $fila;
+           $i++;
+           
+        }
+        
+        $this->view->tareopersona = $respuesta;
     }
 
     public function usuariosAction() {

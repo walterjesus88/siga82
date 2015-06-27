@@ -1,0 +1,116 @@
+<table id="tareopersona-table" class="table table-bordered table-striped table-condensed">
+	<thead class="">
+		<th>
+			<div>
+				Usuario Id
+			</div>
+		</th>
+		<th>
+			<div>
+				Usuario
+			</div>
+		</th>
+		<th>
+			<div>
+				Rate del proyecto
+			</div>
+		</th>
+		<th>
+			<div>
+				Código de Proyecto
+			</div>
+		</th>
+		<th>
+			<div>
+				Cobrable/No Cobrable
+			</div>
+		</th>
+		<th>
+			<div>
+				Proyecto (Unidad minera - proyecto)
+			</div>
+		</th>
+		<th>
+			<div>
+				Status Proyecto
+			</div>
+		</th>
+	</thead>
+	<tbody class="">
+
+	<?php foreach ($this->tareopersona as $fila) { ?>
+	
+		<tr>
+			<td>
+				<div>
+					<?php echo $fila['dni']; ?>
+				</div>
+			</td>
+			<td>
+				<div>
+					<?php echo $fila['uid']; ?>
+				</div>
+			</td>
+			<td>
+				<div>
+					<?php echo $fila['rate_proyecto']; ?>
+				</div>
+			</td>
+			<td>
+				<div>
+					<?php echo $fila['proyectoid']; ?>
+				</div>
+			</td>
+			<td>
+				<div>
+					<?php echo $fila['tipo_actividad']; ?>
+				</div>
+			</td>
+			<td>
+				<div>
+					<?php echo $fila['nombre'].' / '.$fila['nombre_proyecto']; ?>
+				</div>
+			</td>
+			<td>
+				<div>
+					<?php echo $fila['estado'] ?>
+				</div>
+			</td>
+		</tr>
+
+	<?php } ?>
+	</tbody>
+	<tfoot class="">
+		<td>
+			<div>
+				Full Summary
+			</div>
+		</td>
+		<td>
+			<div></div>
+		</td>
+		<td>
+			<div></div>
+		</td>
+		<td>
+			<div></div>
+		</td>
+		<td>
+			<div></div>
+		</td>
+		<td>
+			<div></div>
+		</td>
+		<td>
+			<div></div>
+		</td>
+		<td ng-repeat="dia in reporte.dias">
+			<div>
+				
+			</div>
+		</td>
+		<td>
+			<div></div>
+		</td>
+	</tfoot>	
+</table>
