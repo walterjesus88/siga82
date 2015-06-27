@@ -22,7 +22,7 @@ class Expense_IndexController extends Zend_Controller_Action {
     
      public function nuevoAction() {
      try {
-        
+        //$this->_helper->layout()->disableLayout();
         $uid = $this->sesion->uid;
         $dni = $this->sesion->dni;
        
@@ -62,7 +62,8 @@ class Expense_IndexController extends Zend_Controller_Action {
              
         $numero=$this->_getParam('numero');
         $this->view->numero = $numero; 
-         
+        $this->view->dni = $dni; 
+        $this->view->uid = $uid; 
 
        
     } catch (Exception $e) {
