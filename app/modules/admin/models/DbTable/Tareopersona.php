@@ -568,12 +568,18 @@ order by t.proyectoid,t.actividadid,t.tipo_actividad desc
               $condicion = " where tareo.codigo_prop_proy='".$where['codigo_prop_proy']."'";       
             }
             
-            $sql=$this->_db->query("select tareo.codigo_prop_proy, tareo.dni, tareo.uid, equipo.rate_proyecto, pro.proyectoid, tareo.tipo_actividad, unimin.nombre, pro.nombre_proyecto, pro.estado
-from tareo_persona as tareo 
-inner join equipo as equipo
-on tareo.codigo_prop_proy=equipo.codigo_prop_proy and tareo.proyectoid=equipo.proyectoid and tareo.uid=equipo.uid
-inner join proyecto as pro on tareo.codigo_prop_proy=pro.codigo_prop_proy and tareo.proyectoid=pro.proyectoid
-inner join unidad_minera as unimin on pro.unidad_mineraid=unimin.unidad_mineraid".$condicion);
+            $sql=$this->_db->query("select tareo.codigo_prop_proy, tareo.dni, tareo.uid, equipo.rate_proyecto, 
+                pro.proyectoid, tareo.tipo_actividad, unimin.nombre, pro.nombre_proyecto, pro.estado, 
+                sum(cast(tareo.h_real as float)) as h_real_total
+                from tareo_persona as tareo 
+                inner join equipo as equipo
+                on tareo.codigo_prop_proy=equipo.codigo_prop_proy and tareo.proyectoid=equipo.proyectoid and tareo.uid=equipo.uid
+                inner join proyecto as pro 
+                on tareo.codigo_prop_proy=pro.codigo_prop_proy and tareo.proyectoid=pro.proyectoid
+                inner join unidad_minera as unimin 
+                on pro.unidad_mineraid=unimin.unidad_mineraid".$condicion.
+                " group by tareo.codigo_prop_proy, tareo.uid, tareo.dni, equipo.rate_proyecto, 
+                pro.proyectoid, tareo.tipo_actividad, unimin.nombre, pro.nombre_proyecto, pro.estado");
 
             $row=$sql->fetchAll();
             return $row;           

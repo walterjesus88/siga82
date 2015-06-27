@@ -35,6 +35,11 @@
 				Status Proyecto
 			</div>
 		</th>
+		<th>
+			<div>
+				Horas Totales
+			</div>
+		</th>
 	</thead>
 	<tbody class="">
 
@@ -73,7 +78,12 @@
 			</td>
 			<td>
 				<div>
-					<?php echo $fila['estado'] ?>
+					<?php echo $fila['estado']; ?>
+				</div>
+			</td>
+			<td>
+				<div>
+					<?php echo (float) ($fila['h_real_total']); ?>
 				</div>
 			</td>
 		</tr>
@@ -103,11 +113,6 @@
 		</td>
 		<td>
 			<div></div>
-		</td>
-		<td ng-repeat="dia in reporte.dias">
-			<div>
-				
-			</div>
 		</td>
 		<td>
 			<div></div>

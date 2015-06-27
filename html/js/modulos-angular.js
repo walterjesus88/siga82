@@ -224,6 +224,7 @@ controller('mainController', ['$http', '$resource', 'ngTableParams', function($h
 			})
 
 			$("#wait").modal('hide');
+			$("#tareopersona-table").DataTable();
 
 			reporte.tableParams = new ngTableParams({
 		        page: 1, count: 10}, 
