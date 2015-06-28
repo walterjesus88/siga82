@@ -35,11 +35,6 @@
 				Status Proyecto
 			</div>
 		</th>
-		<th>
-			<div>
-				Horas Totales
-			</div>
-		</th>
 	</thead>
 	<tbody class="">
 
@@ -81,23 +76,24 @@
 					<?php echo $fila['estado']; ?>
 				</div>
 			</td>
-			<td>
-				<div>
-					<?php echo (float) ($fila['h_real_total']); ?>
-				</div>
-			</td>
+			
+			<?php foreach ($fila['data_horas'] as $hora) {?>
+				<td>
+					<div>
+						<?php echo $hora['h_real']; ?>
+					</div>
+				</td>
+			<?php /*endFor*/ } ?>
+			
 		</tr>
 
-	<?php } ?>
+	<?php /*endFor*/ } ?>
 	</tbody>
 	<tfoot class="">
 		<td>
 			<div>
 				Full Summary
 			</div>
-		</td>
-		<td>
-			<div></div>
 		</td>
 		<td>
 			<div></div>

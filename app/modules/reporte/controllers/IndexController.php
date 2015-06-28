@@ -14,6 +14,53 @@ class Reporte_IndexController extends Zend_Controller_Action {
         );
         Zend_Layout::startMvc($options);
     }
+
+    //Funcion que devuelve los datos de tareopersona segun proyecto, implementado por repeticion en 
+    //diferentes actions
+    protected function obtenerTareopersona($codigo_prop_proy){
+        $tareopersona = new Admin_Model_DbTable_Tareopersona();
+        $data['codigo_prop_proy'] = $codigo_prop_proy;
+        $todos_tareopersona = $tareopersona->_getReporte($data);
+
+        $respuesta = [];
+        $i = 0;
+              
+        foreach ($todos_tareopersona as $fila) {
+           if ($fila['tipo_actividad']=='P') {
+               $fila['tipo_actividad'] = 'Facturable';
+           } elseif ($fila['tipo_actividad']=='G') {
+               $fila['tipo_actividad'] = 'No Facturable';
+           } elseif ($fila['tipo_actividad']=='A') {
+               $fila['tipo_actividad'] = 'Administración';
+           }
+
+           if ($fila['estado']=='A') {
+               $fila['estado'] = 'Activo';
+           } elseif ($fila['estado']=='C') {
+               $fila['estado'] = 'Cerrado';
+           } elseif ($fila['estado']=='E') {
+               $fila['estado'] = 'Eliminado';
+           } elseif ($fila['estado']=='PA') {
+               $fila['estado'] = 'Paralizado';
+           } elseif ($fila['estado']=='CA') {
+               $fila['estado'] = 'Cancelado';
+           }
+
+           $data['codigo_prop_proy'] = $fila['codigo_prop_proy'];
+           $data['codigo_actividad'] = $fila['codigo_actividad'];
+           $data['uid'] = $fila['uid'];
+
+           $data_horas = $tareopersona->_getHorasxUidxCppxCa($data);
+
+           $fila['data_horas'] = $data_horas;
+
+           $respuesta[$i] = $fila;
+           $i++;
+        }
+
+        return $respuesta;
+        
+    }
     
 
     /*Accion que devuelve la vista principal contenida el el archivo
@@ -22,84 +69,22 @@ class Reporte_IndexController extends Zend_Controller_Action {
         
     }
 
-    /*Funcion que devuelde los registros con los campos necesarios para visualizacion
+    /*Action que devuelde los registros con los campos necesarios para visualizacion
     de la vista de reporte tarea persona. Para lo cual han sido parseados como json
     */
 
     public function tareopersonajsonAction() {
         $this->_helper->layout()->disableLayout();
-        $tareopersona = new Admin_Model_DbTable_Tareopersona();
-        $data['codigo_prop_proy'] = $this->_getParam('codigo_prop_proy');
-        $todos_tareopersona = $tareopersona->_getReporte($data);
-
-        $respuesta = [];
-        $i = 0;
-              
-        foreach ($todos_tareopersona as $fila) {
-           if ($fila['tipo_actividad']=='P') {
-               $fila['tipo_actividad'] = 'Facturable';
-           } elseif ($fila['tipo_actividad']=='G') {
-               $fila['tipo_actividad'] = 'No Facturable';
-           } elseif ($fila['tipo_actividad']=='A') {
-               $fila['tipo_actividad'] = 'Administración';
-           }
-
-           if ($fila['estado']=='A') {
-               $fila['estado'] = 'Activo';
-           } elseif ($fila['estado']=='C') {
-               $fila['estado'] = 'Cerrado';
-           } elseif ($fila['estado']=='E') {
-               $fila['estado'] = 'Eliminado';
-           } elseif ($fila['estado']=='PA') {
-               $fila['estado'] = 'Paralizado';
-           } elseif ($fila['estado']=='CA') {
-               $fila['estado'] = 'Cancelado';
-           }
-
-           $respuesta[$i] = $fila;
-           $i++;
-           
-        }
-        
+        $codigo_prop_proy = $this->_getParam('codigo_prop_proy');
+        $respuesta = $this->obtenerTareopersona($codigo_prop_proy);
         $this->_helper->json->sendJson($respuesta);      
     }
 
-    //Funcion que devuelve los datos de tareopersona en un archivo html
+    //Action que devuelve los datos de tareopersona en un archivo html
     public function tareopersonahtmlAction(){
         $this->_helper->layout()->disableLayout();
-        $tareopersona = new Admin_Model_DbTable_Tareopersona();
-        $data['codigo_prop_proy'] = $this->_getParam('codigo_prop_proy');
-        $todos_tareopersona = $tareopersona->_getReporte($data);
-
-        $respuesta = [];
-        $i = 0;
-              
-        foreach ($todos_tareopersona as $fila) {
-           if ($fila['tipo_actividad']=='P') {
-               $fila['tipo_actividad'] = 'Facturable';
-           } elseif ($fila['tipo_actividad']=='G') {
-               $fila['tipo_actividad'] = 'No Facturable';
-           } elseif ($fila['tipo_actividad']=='A') {
-               $fila['tipo_actividad'] = 'Administración';
-           }
-
-           if ($fila['estado']=='A') {
-               $fila['estado'] = 'Activo';
-           } elseif ($fila['estado']=='C') {
-               $fila['estado'] = 'Cerrado';
-           } elseif ($fila['estado']=='E') {
-               $fila['estado'] = 'Eliminado';
-           } elseif ($fila['estado']=='PA') {
-               $fila['estado'] = 'Paralizado';
-           } elseif ($fila['estado']=='CA') {
-               $fila['estado'] = 'Cancelado';
-           }
-
-           $respuesta[$i] = $fila;
-           $i++;
-           
-        }
-        
+        $codigo_prop_proy = $this->_getParam('codigo_prop_proy');
+        $respuesta = $this->obtenerTareopersona($codigo_prop_proy);
         $this->view->tareopersona = $respuesta;
     }
 
@@ -159,17 +144,6 @@ class Reporte_IndexController extends Zend_Controller_Action {
             $filares['nombre'] = $fila['nombre'];
             $respuesta[$i] = $filares;
             $i++; 
-        }
-        $this->_helper->json->sendJson($respuesta);
-    }
-
-    public function pruebaAction(){
-        $this->_helper->layout()->disableLayout();
-        $respuesta = [];
-        for ($i=0; $i < 20; $i++) { 
-            $fila['id'] = $i;
-            $fila['nombre'] = 'jaja';
-            $respuesta[$i] = $fila;
         }
         $this->_helper->json->sendJson($respuesta);
     }
