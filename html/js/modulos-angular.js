@@ -10,29 +10,34 @@ ngtable: un extension alternativa a datatables*/
 angular.module('reporteApp', ['datatables', 'ngTable']).
 controller('mainController', ['$http', 'ngTableParams', function($http, ngTableParams){
 
+	fecha_inicial_cad = '10-06-2015'
+	fecha_final_cad = '02-07-2015'
+	fecha_inicial_date = cadenaToFecha(fecha_inicial_cad)
+	fecha_final_date = cadenaToFecha(fecha_final_cad)
+
 	//obtener una referencia del scope para el funcionamiento del data binding
-	reporte = this;
+	reporte = this
 
 	//inicializando las variables necesarias relacionadas a la vista
-	reporte.tipo_actividad = [{'id': 'P', 'text': 'Facturable'}, {'id': 'G', 'text': 'No Facturable'}, {'id': 'A', 'text': 'Administración'}];
-	reporte.tipo_activo = {'Todo': true, 'Facturable': true, 'No Facturable': true, 'Administración': true};
-	reporte.cliente_seleccionado = 'todos';
-	reporte.usuario_seleccionado = 'todos';
-	reporte.gerente_seleccionado = 'todos';
-	reporte.tareopersona_void = true;
-	reporte.text_proyectos = 'Seleccione un Cliente o Gerente para mostrar sus proyectos activos.';
-	reporte.disabled_children = true;
-	reporte.fecha_from = {'cadena': '', 'date': new Date("June 10, 2015 00:00:00")};
-	reporte.fecha_to = {'cadena': '', 'date': new Date("Jule 2, 2015 00:00:00")};
-	reporte.dias = [];
+	reporte.tipo_actividad = [{'id': 'P', 'text': 'Facturable'}, {'id': 'G', 'text': 'No Facturable'}, {'id': 'A', 'text': 'Administración'}]
+	reporte.tipo_activo = {'Todo': true, 'Facturable': true, 'No Facturable': true, 'Administración': true}
+	reporte.cliente_seleccionado = 'todos'
+	reporte.usuario_seleccionado = 'todos'
+	reporte.gerente_seleccionado = 'todos'
+	reporte.tareopersona_void = true
+	reporte.text_proyectos = 'Seleccione un Cliente o Gerente para mostrar sus proyectos activos.'
+	reporte.disabled_children = true
+	reporte.fecha_from = {'cadena': fecha_inicial_cad, 'date': fecha_inicial_date}
+	reporte.fecha_to = {'cadena': fecha_final_cad, 'date': fecha_final_date}
+	reporte.dias = []
 		
 	//creando las variables que contendran los datos de respuesta del servidor
-	reporte.gerentes = [];
-	reporte.clientes = [];
-	reporte.unidadminera = [];
-	reporte.proyectos = [];
-	reporte.usuarios = [];
-	reporte.tareopersona = [];
+	reporte.gerentes = []
+	reporte.clientes = []
+	reporte.unidadminera = []
+	reporte.proyectos = []
+	reporte.usuarios = []
+	reporte.tareopersona = []
 	
 	//funciones que realizaran peticiones al servidor para obtener rellenar los array
 
@@ -123,8 +128,6 @@ controller('mainController', ['$http', 'ngTableParams', function($http, ngTableP
 
 	//ejecucion de algunas funciones al cargar la pagina
 	angular.element(document).ready(function () {
-		reporte.fecha_from.cadena = cadenaFecha(reporte.fecha_from.date)
-		reporte.fecha_to.cadena = cadenaFecha(reporte.fecha_to.date)
 		reporte.getClientes()
 		reporte.getGerentes()
 		reporte.dias = rellenarDias()       
@@ -174,6 +177,15 @@ controller('mainController', ['$http', 'ngTableParams', function($http, ngTableP
 		} 
 
 		return yyyy + '-' + mm + '-' + dd;
+	}
+
+	function cadenaToFecha (cadena) {
+		var fechas = cadena.split("-")
+		var f = new Date()
+		f.setDate(fechas[0])
+		f.setMonth(fechas[1] - 1)
+		f.setFullYear(fechas[2])
+		return f
 	}
 
 	//funciones para agregar o quitar usuarios de la lista segun los proyectos visibles
@@ -304,11 +316,15 @@ controller('mainController', ['$http', 'ngTableParams', function($http, ngTableP
 		return horas	
 	}
 
-	reporte.cambiarRangoDias = function () {
+	reporte.cambiarFecha = function () {
+		reporte.fecha_from.date = cadenaToFecha(reporte.fecha_from.cadena)
+		reporte.fecha_to.date = cadenaToFecha(reporte.fecha_to.cadena)
 		reporte.dias = rellenarDias()
-		console.log(reporte.dias)		
+		arrayTemp = []
 		reporte.tareopersona.forEach(function (item) {
-			item.dias = rellenarDiasTareopersona(item)
+			item.horas = rellenarDiasTareopersona(item)
+			arrayTemp.push(item)
 		})
+		reporte.tareopersona = arrayTemp
 	}
 }])
