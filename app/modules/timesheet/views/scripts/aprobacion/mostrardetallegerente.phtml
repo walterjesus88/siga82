@@ -31,7 +31,7 @@
             $fecha_= $dias[0];
             $fechaactual = $this->fecha;
             $fechaactual = date("Y-m-d", strtotime($fechaactual));
-            $actividades = $this->actividades;
+            $actividades = $this->lista_horas_equipo;
             $j=1;
             $sumahorassemana = new Admin_Model_DbTable_Sumahorasemana();
             $wheres=array('dni'=>$this->dni,'uid'=>$this->uid,'semanaid'=>$this->semana);
@@ -285,7 +285,7 @@
                     var semanaid="<?php echo $data_tareo['semanaid'] ?>";
                     var cargo="<?php echo $data_tareo['cargo'] ?>";
                     var categoriaid ="<?php echo $data_tareo['categoriaid'] ?>";
-                    url="/timesheet/aprobacion/aprobarhojatiempofiltro2/estado/A/uid/"+uid+"/dni/"+dni+"/semanaid/"+semanaid+'/cargo/'+cargo+'/coment/'+coment+'/uid_validacion/'+uid_validacion+'/dni_validacion/'+dni_validacion+'/etapa/FILTRO2'+'/fecha/'+fecha_actual+'/categoriaid/'+categoriaid;
+                    url="/timesheet/aprobacion/aprobarhojatiempogerente/estado/A/uid/"+uid+"/dni/"+dni+"/semanaid/"+semanaid+'/cargo/'+cargo+'/coment/'+coment+'/uid_validacion/'+uid_validacion+'/dni_validacion/'+dni_validacion+'/etapa/GP'+'/fecha/'+fecha_actual+'/categoriaid/'+categoriaid;
                     $("#comentariousers").load(url);
                     });
 
@@ -304,7 +304,7 @@
                     var semanaid="<?php echo $data_tareo['semanaid'] ?>";
                     var cargo="<?php echo $data_tareo['cargo'] ?>";
                     var categoriaid ="<?php echo $data_tareo['categoriaid'] ?>";
-                    url="/timesheet/aprobacion/aprobarhojatiempofiltro2/estado/R/uid/"+uid+"/dni/"+dni+"/semanaid/"+semanaid+'/cargo/'+cargo+'/coment/'+coment+'/uid_validacion/'+uid_validacion+'/dni_validacion/'+dni_validacion+'/etapa/FILTRO2'+'/fecha/'+fecha_actual+'/categoriaid/'+categoriaid;
+                    url="/timesheet/aprobacion/aprobarhojatiempogerente/estado/R/uid/"+uid+"/dni/"+dni+"/semanaid/"+semanaid+'/cargo/'+cargo+'/coment/'+coment+'/uid_validacion/'+uid_validacion+'/dni_validacion/'+dni_validacion+'/etapa/GP'+'/fecha/'+fecha_actual+'/categoriaid/'+categoriaid;
                     $("#comentariousers").load(url);
                     });
                 });

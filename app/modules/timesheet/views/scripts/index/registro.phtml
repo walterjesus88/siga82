@@ -293,6 +293,7 @@
                 $estado_usuario='A';
                 $data_equipo = $equipo->_getDatosxEquipoxProyecto($uid,$dni,$data_tareo['codigo_prop_proy'],$data_tareo['proyectoid']);
                 $categoriaid=$data_equipo[0]['categoriaid'];
+                
                 $areaid=$data_equipo[0]['areaid'];
                 $cargo=$data_equipo[0]['cargo'];
 
@@ -1759,7 +1760,6 @@ $("input.focusable").keydown(function(tecla){
         var semanaid="<?php echo $this->semana ?>";
         var cargo="<?php echo $this->areaid ?>";
         url_enviar_hojatiempo="/timesheet/aprobacion/enviarhojatiempo/estado/E/uid/"+uid+'/dni/'+dni+'/semanaid/'+semanaid+'/cargo/'+cargo+'/etapa/0'+'/fecha_envio/'+fechaactualenvio;
-        
         urlfecha="/timesheet/index/registro/fecha/" + fecha_inicio;
 
         $.ajax({

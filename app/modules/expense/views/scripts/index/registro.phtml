@@ -8,13 +8,13 @@
 
             <a class="btn btn-primary pull-right btn-sm" id="asigna" href="#" ><i class="fa fa-check-square-o"></i> Agregar </a>
 
-            <a class="btn btn-success pull-right btn-sm" href="/expense/index/historico" style="margin-right : 10px">
-                <i class="fa fa-list"></i> Pendientes
+            <a class="btn btn-danger pull-right btn-sm" id="cancelar" href="#" style="margin-right : 10px">
+                <i class="fa fa-list"></i> Cancelar
             </a>
         </span>
     </header>
 
-
+    <div id="borrar"></div>
 
     <script type="text/javascript">
     $(document).ready(function(){
@@ -27,6 +27,32 @@
      var numero=<?php echo $this->numero;?>;
      $("#ingreso").load("/expense/index/ingreso/numero/"+numero);
     });
+    
+    $("#cancelar").click(function(){
+        var uid = "<?php echo $this->uid?>";
+        var dni = "<?php echo $this->dni?>";
+        var numero = "<?php echo $this->numero?>";
+        var url="/expense/index/eliminarrendicion/uid/"+uid+"/dni/"+dni+"/numero/"+numero;
+        $("#borrar").load(url);
+        //$("#cancelar").attr("href","/expense/index/historico"); 
+        $(window).attr('location', "/expense/index/historico");
+    
+        /*var url="/expense/index/eliminarrendicion/uid/"+uid+"/dni/"+dni+"/numero/"+numero;
+                      
+        $.ajax({
+                type: "POST",
+                url: url,
+                data: $(this).serialize(),
+                dataType: "html",
+                success: function(data){      
+                    $("#cargrendi").html(data);     
+                    window.location.reload();            
+                }           
+        });*/
+                                                       
+                            
+    });
+    
     </script> 
 
 
