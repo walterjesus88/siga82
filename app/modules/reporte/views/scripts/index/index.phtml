@@ -39,18 +39,18 @@
 		</div>
 		<div class="col-lg-4">
 			<h4>Tipo de Actividad</h4>
-			<input ng-disabled="reporte.tareopersona_void" type="checkbox" ng-model="reporte.tipo_todo" ng-true-value="true" ng-false-value="false" ng-click="reporte.mostrarTodo()">Todos
-			<div ng-repeat="item in reporte.cobrabilidad">
-				<input ng-disabled="reporte.tareopersona_void" type="checkbox" ng-model="reporte.activo[item.text]" ng-true-value="true" ng-false-value="false" ng-click="reporte.notTodo()">{{item.text}}
+			<input ng-disabled="reporte.tareopersona_void" type="checkbox" ng-model="reporte.tipo_activo.Todo" ng-true-value="true" ng-false-value="false" ng-click="reporte.tipoActivoTodo()">Todos
+			<div ng-repeat="item in reporte.tipo_actividad">
+				<input ng-disabled="reporte.tareopersona_void" type="checkbox" ng-model="reporte.tipo_activo[item.text]" ng-true-value="true" ng-false-value="false" ng-click="reporte.tipoActivoHijo()">{{item.text}}
 			</div>
 		</div>
 		<div class="col-lg-4">
 			<h4>Rango de Rendición</h4>
 			<div>
 	            <div class="input-group input-large" data-date="13/07/2013" data-date-format="mm/dd/yyyy">
-	                <input ng-disabled="reporte.disabled_children" type="text" ng-model="reporte.fecha_from" class="form-control dpd1" name="from">
+	                <input ng-disabled="reporte.disabled_children" type="text" ng-model="reporte.fecha_from.cadena" ng-change="reporte.cambiarRangoDias()" class="form-control dpd1" name="from">
 	                <span class="input-group-addon">a</span>
-	                <input ng-disabled="reporte.disabled_children" type="text" ng-model="reporte.fecha_to" class="form-control dpd2" name="to">
+	                <input ng-disabled="reporte.disabled_children" type="text" ng-model="reporte.fecha_to.cadena" ng-change="reporte.cambiarRangoDias()" class="form-control dpd2" name="to">
 	            </div>
 	            <span class="help-block">Seleccione fechas para rango de rendición</span>
 	        </div>
@@ -94,9 +94,9 @@
 					Status Proyecto
 				</div>
 			</th>
-			<th ng-repeat="dia in reporte.dias">
+			<th ng-repeat="dia in reporte.dias track by $index">
 				<div>
-					{{dia}}
+					{{dia.cadena}}
 				</div>
 			</th>
 			<th>
@@ -106,7 +106,7 @@
 			</th>
 		</thead>
 		<tbody class="">
-			<tr ng-repeat="fila in reporte.tareopersona" ng-show="reporte.activo[fila.tipo_actividad]">
+			<tr ng-repeat="fila in reporte.tareopersona" ng-show="reporte.tipo_activo[fila.tipo_actividad]">
 				<td>
 					<div>
 						{{fila.dni}}
@@ -142,9 +142,9 @@
 						{{fila.estado}}
 					</div>
 				</td>
-				<td ng-repeat="dia in reporte.dias">
+				<td ng-repeat="hora in fila.horas track by $index">
 					<div>
-						
+						{{hora}}
 					</div>
 				</td>
 				<td>

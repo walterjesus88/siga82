@@ -2,28 +2,30 @@
 * reporteApp Module
 *
 * Description
+* Modulo sobre el manejo de los datos de reporte relacionados a tareopersona
 */
-angular.module('reporteApp', ['datatables', 'ngResource', 'ngTable']).
-controller('mainController', ['$http', '$resource', 'ngTableParams', function($http, $resource, ngTableParams){
+/*creacion de modulo con inyeccion de dependencias:
+datatables: una extension para manejar los datatables de jquery.
+ngtable: un extension alternativa a datatables*/
+angular.module('reporteApp', ['datatables', 'ngTable']).
+controller('mainController', ['$http', 'ngTableParams', function($http, ngTableParams){
 
 	//obtener una referencia del scope para el funcionamiento del data binding
 	reporte = this;
 
-	/*$resource('/reporte/index/tareopersona').query().$promise.then(function(persons) {
-        reporte.tareopersona = persons;
-    });*/
-
 	//inicializando las variables necesarias relacionadas a la vista
-	reporte.cobrabilidad = [{'id': 'P', 'text': 'Facturable'}, {'id': 'G', 'text': 'No Facturable'}, {'id': 'A', 'text': 'Administración'}];
-	reporte.activo = {'Facturable': true, 'No Facturable': true, 'Administración': true};
-	reporte.tipo_todo = true;
+	reporte.tipo_actividad = [{'id': 'P', 'text': 'Facturable'}, {'id': 'G', 'text': 'No Facturable'}, {'id': 'A', 'text': 'Administración'}];
+	reporte.tipo_activo = {'Todo': true, 'Facturable': true, 'No Facturable': true, 'Administración': true};
 	reporte.cliente_seleccionado = 'todos';
 	reporte.usuario_seleccionado = 'todos';
 	reporte.gerente_seleccionado = 'todos';
+	reporte.tareopersona_void = true;
 	reporte.text_proyectos = 'Seleccione un Cliente o Gerente para mostrar sus proyectos activos.';
 	reporte.disabled_children = true;
-	reporte.dias = ['11', '12', '13', '14'];
-	
+	reporte.fecha_from = {'cadena': '', 'date': new Date("June 10, 2015 00:00:00")};
+	reporte.fecha_to = {'cadena': '', 'date': new Date("Jule 2, 2015 00:00:00")};
+	reporte.dias = [];
+		
 	//creando las variables que contendran los datos de respuesta del servidor
 	reporte.gerentes = [];
 	reporte.clientes = [];
@@ -31,7 +33,6 @@ controller('mainController', ['$http', '$resource', 'ngTableParams', function($h
 	reporte.proyectos = [];
 	reporte.usuarios = [];
 	reporte.tareopersona = [];
-
 	
 	//funciones que realizaran peticiones al servidor para obtener rellenar los array
 
@@ -46,6 +47,13 @@ controller('mainController', ['$http', '$resource', 'ngTableParams', function($h
 		$http.get('/reporte/index/clientes')
 		.success(function (res) {
 			reporte.clientes = res;
+		})
+	}
+
+	reporte.getUnidadMinera = function (seleccionado) {
+		$http.get('/reporte/index/unidadminera/clienteid/' + seleccionado)
+		.success(function (res) {
+			reporte.unidadminera = res;
 		})
 	}
 
@@ -84,13 +92,6 @@ controller('mainController', ['$http', '$resource', 'ngTableParams', function($h
 		}		
 	}
 
-	reporte.getUnidadMinera = function (seleccionado) {
-		$http.get('/reporte/index/unidadminera/clienteid/' + seleccionado)
-		.success(function (res) {
-			reporte.unidadminera = res;
-		})
-	}
-
 	reporte.getData = function (proyecto, index) {
 		if (reporte.proyectos[index]['selected']) {
 			agregarUsuarios(proyecto);
@@ -103,50 +104,50 @@ controller('mainController', ['$http', '$resource', 'ngTableParams', function($h
 
 	
 	//funciones relacionadas a la vista para el manejo de eventos
-	reporte.mostrarTodo = function (id) {
-		if (reporte.tipo_todo) {
-			reporte.activo = {'Facturable': true, 'No Facturable': true, 'Administración': true};
+	//funciones para los marcar los checkbox de tipo_actividad
+	reporte.tipoActivoTodo = function (id) {
+		if (reporte.tipo_activo.Todo) {
+			reporte.tipo_activo = {'Todo': true, 'Facturable': true, 'No Facturable': true, 'Administración': true};
 		} else{
-			reporte.activo = {'Facturable': false, 'No Facturable': false, 'Administración': false};
+			reporte.tipo_activo = {'Todo': false, 'Facturable': false, 'No Facturable': false, 'Administración': false};
 		}
 	}
 
-	reporte.notTodo = function () {
-		if(reporte.activo['Facturable'] == true && reporte.activo['No Facturable']  == true && reporte.activo['Administración']  && true) {
-			reporte.tipo_todo = true;
+	reporte.tipoActivoHijo = function () {
+		if(reporte.tipo_activo['Facturable'] == true && reporte.tipo_activo['No Facturable']  == true && reporte.tipo_activo['Administración'] == true) {
+			reporte.tipo_activo.Todo = true;
 		} else {
-			reporte.tipo_todo = false;
+			reporte.tipo_activo.Todo = false;
 		}
 	}
 
 	//ejecucion de algunas funciones al cargar la pagina
 	angular.element(document).ready(function () {
-		reporte.fecha_from = fechaActual();
-		reporte.fecha_to = fechaActual();
-		reporte.getClientes();
-		reporte.getGerentes();
-		//reporte.getUsuarios();
-        //reporte.getTareopersona('');
-        
-    });
+		reporte.fecha_from.cadena = cadenaFecha(reporte.fecha_from.date)
+		reporte.fecha_to.cadena = cadenaFecha(reporte.fecha_to.date)
+		reporte.getClientes()
+		reporte.getGerentes()
+		reporte.dias = rellenarDias()       
+    })
 
     
 	//funciones diversas para una realizar operaciones comunes
+    //funcion para obtener el dni de los usuarios de acuerdo a su uid
     function obtenerdni (uid) {
-    	dni = '';
+    	dni = ''
     	reporte.usuarios.forEach(function (item) {
     		if (item.uid == uid) {
-    			dni = item.dni;
-    		};
+    			dni = item.dni
+    		}
     	})
-    	return dni;
+    	return dni
     }
 
-    function fechaActual () {
-		var f = new Date();
-		var dd = f.getDate();
-		var mm = f.getMonth() + 1;
-		var yyyy = f.getFullYear();
+    //funciones para convertir en cadena uan fecha con formato dd-mm-yyyy y yyyy-mm-dd respectivamente
+    function cadenaFecha (fecha) {
+		var dd = fecha.getDate();
+		var mm = fecha.getMonth() + 1;
+		var yyyy = fecha.getFullYear();
 		
 		if(dd < 10) {
     		dd = '0' + dd
@@ -159,6 +160,23 @@ controller('mainController', ['$http', '$resource', 'ngTableParams', function($h
 		return dd + '-' + mm + '-' + yyyy;
 	}
 
+	function cadenaFechaInv (fecha) {
+		var dd = fecha.getDate();
+		var mm = fecha.getMonth() + 1;
+		var yyyy = fecha.getFullYear();
+		
+		if(dd < 10) {
+    		dd = '0' + dd
+		} 
+
+		if(mm < 10) {
+    		mm = '0' + mm
+		} 
+
+		return yyyy + '-' + mm + '-' + dd;
+	}
+
+	//funciones para agregar o quitar usuarios de la lista segun los proyectos visibles
     function agregarUsuarios (proyecto) {
 		$http.get('/reporte/index/usuarios/codigo_prop_proy/' + proyecto)
 		.success(function (res) {
@@ -214,43 +232,83 @@ controller('mainController', ['$http', '$resource', 'ngTableParams', function($h
 		})
 	}
 
-	agregarTareopersona = function (codigo_prop_proy) {
-		$("#wait").modal();
+	//funciones para agregar o eliminar tareopersonas de la tabla segun los proyectos seleccionados
+	function agregarTareopersona (codigo_prop_proy) {
+		$("#wait").modal()
 
-		/*$http.get('/reporte/index/tareopersonajson/codigo_prop_proy/'+ codigo_prop_proy + '/desde/' + reporte.fecha_from + '/hasta/' + reporte.fecha_to)
+		//solicitud al servidor por un objeto json que contenga tareopersona
+		$http.get('/reporte/index/tareopersonajson/codigo_prop_proy/'+ codigo_prop_proy)
 		.success(function (res) {
 			res.forEach(function (item) {
-				reporte.tareopersona.push(item);
+				item.horas = rellenarDiasTareopersona(item)
+				reporte.tareopersona.push(item)
 			})
+			$("#wait").modal('hide')
 
-			$("#wait").modal('hide');
-			$("#tareopersona-table").DataTable();
+			if (reporte.tareopersona.length == 0) {
+				reporte.tareopersona_void = true
+			} else{
+				reporte.tareopersona_void = false
+			}
+		})
 
-			reporte.tableParams = new ngTableParams({
-		        page: 1, count: 10}, 
-		        {
-		        	total: reporte.tareopersona.length,
-		        	getData: function ($defer, params) {	
-		            $defer.resolve(reporte.tareopersona.slice((params.page() - 1) * params.count(), params.page() * params.count()));
-		        }
-		    })
-		})*/
-
-		$http.get('/reporte/index/tareopersonahtml/codigo_prop_proy/'+ codigo_prop_proy + '/desde/' + reporte.fecha_from + '/hasta/' + reporte.fecha_to)
+		//solicitud al servidor de una pagina web que contenga la tabla de tareopersona
+		/*$http.get('/reporte/index/tareopersonahtml/codigo_prop_proy/'+ codigo_prop_proy + '/desde/' + reporte.fecha_from + '/hasta/' + reporte.fecha_to)
 		.success(function (res) {
 			$('#container-tareopersona-table').html(res);
 			$("#wait").modal('hide');
 			$('#tareopersona-table').DataTable();
-		})
+		})*/
 	}
 
-	borrarTareopersona = function (codigo_prop_proy) {
+	function borrarTareopersona (codigo_prop_proy) {
 		arrayTemp = reporte.tareopersona;
 		reporte.tareopersona = [];
 		arrayTemp.forEach(function (item) {
 			if (item.codigo_prop_proy != codigo_prop_proy) {
 				reporte.tareopersona.push(item);
 			}
+		})
+	}
+
+	//funciones para el manejo de los dias visibles en la tabla tareopersona
+	function rellenarDias () {
+		var dias = []
+		var inicial = reporte.fecha_from.date
+		var ultimo = reporte.fecha_to.date
+		var dias_sem = ['Dom', 'Lun', 'Mar', 'Mie', 'Jue', 'Vie', 'Sab']
+		var dias_trans = Math.floor((ultimo.getTime() - inicial.getTime()) / (1000 * 60 * 60 * 24)) + 1
+		var fecha = inicial
+		for (var i = 0; i < dias_trans; i++) {
+			var dia = {'cadena': '', 'fecha': new Date()}
+			dia.cadena = dias_sem[fecha.getDay()].toString() + ' ' + fecha.getDate()
+			dia.fecha = cadenaFechaInv(fecha)
+			dias[i] = dia
+
+			fecha.setDate(fecha.getDate() + 1)
+		}
+		return dias
+	}
+
+	function rellenarDiasTareopersona (tareopersona) {
+		var horas = []
+		for (var i = 0; i < reporte.dias.length; i++) {
+			hora = '0'
+			tareopersona.data_horas.forEach(function (item) {
+				if (reporte.dias[i].fecha == item.fecha_tarea) {
+					hora = item.h_real
+				}
+			})
+			horas.push(hora)
+		}
+		return horas	
+	}
+
+	reporte.cambiarRangoDias = function () {
+		reporte.dias = rellenarDias()
+		console.log(reporte.dias)		
+		reporte.tareopersona.forEach(function (item) {
+			item.dias = rellenarDiasTareopersona(item)
 		})
 	}
 }])
