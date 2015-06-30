@@ -1740,7 +1740,12 @@ public function cargartarea2Action() {
       $where = array( 'proyectoid' => $proyectoid,'codigo_prop_proy'=>$codigo_prop_proy,'estado' =>'P','isproyecto'=>'S');
       $veract = new Admin_Model_DbTable_Actividad();
       $viewactivity=$veract->_getFilter($where);
-      $this->view->actividades = $viewactivity;
+      //$this->view->actividades = $viewactivity;
+
+      $actividadpadre= new Admin_Model_DbTable_Actividad();
+      $list=$actividadpadre->_getActividadesOrdenadas($proyectoid,$codigo_prop_proy);
+      $this->view->actividades = $list;
+
       $wherekip = array( 'proyectoid' => $proyectoid,'codigo_prop_proy'=>$codigo_prop_proy,'estado' =>'A','areaid'=>$areaid);    
       $verequipo= new Admin_Model_DbTable_Equipo();
       $viewequipo=$verequipo->_getFilter($wherekip);

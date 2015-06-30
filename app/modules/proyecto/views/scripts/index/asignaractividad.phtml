@@ -127,7 +127,7 @@
                     <a href="#"><?php echo $listaequipo['uid'];echo " ";echo $listaequipo['cargo'];echo " ";echo $listaequipo['areaid']; ?></a>
                   </td>-->
                     <td style="width: 50px;padding-top: 1px;padding-right: 1px;padding-bottom: 1px;padding-left: 1px;" style="width: 150px; font-size: 10px;" id="nomact_<?php echo $c?>">                    
-                        <?php echo $listaactividad['nombre']; ?>
+                        <?php echo "<strong>"; echo $listaactividad['actividadid']; echo "</strong>"; echo " -  "; echo $listaactividad['nombre']; ?>
 
                     </td>  
                      <?php
@@ -141,13 +141,16 @@
                         $act= new Admin_Model_DbTable_Activaractividad();
                         $activar= $act->_getOne($wheres);
 
+
                       ?>
                         <td style="width: 150px;padding-top: 1px;padding-right: 1px;padding-bottom: 1px;padding-left: 1px;" >
                           <?php
+
                           if($activar['estado']=='A')
-                          {
+                          {    
                           ?>
                           <input id="agrega_<?php echo $c?><?php echo $i?>" type="checkbox"  checked="checked" name="agreg[<?php echo $c?>][<?php echo $i?>]" value="<?php echo $i ?><?php echo $c ?>">
+
                           <!-- <input class ='one-turno-course' index='1' type="checkbox" id="A" name="turno[<?php echo $i?>]" value="<?php echo $c ?>" checked> -->
                           <?php 
                           }
