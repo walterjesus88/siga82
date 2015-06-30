@@ -11,81 +11,95 @@ angular.module('reporteApp', ['datatables', 'ngTable']).
 controller('mainController', ['$http', 'ngTableParams', function($http, ngTableParams){
 
 	//obtener una referencia del scope para el funcionamiento del data binding
-	reporte = this;
+	reporte = this
+
+	//inicializando variables para el rango de fecha
+	var fecha_inicial_cad = '10-06-2015'
+	var fecha_inicial_date = cadenaToFecha(fecha_inicial_cad)
+	var fecha_final_date = new Date()
+	var fecha_final_cad = cadenaFecha(fecha_final_date)
+
 
 	//inicializando las variables necesarias relacionadas a la vista
-	reporte.tipo_actividad = [{'id': 'P', 'text': 'Facturable'}, {'id': 'G', 'text': 'No Facturable'}, {'id': 'A', 'text': 'Administración'}];
-	reporte.tipo_activo = {'Todo': true, 'Facturable': true, 'No Facturable': true, 'Administración': true};
-	reporte.cliente_seleccionado = 'todos';
-	reporte.usuario_seleccionado = 'todos';
-	reporte.gerente_seleccionado = 'todos';
-	reporte.tareopersona_void = true;
-	reporte.text_proyectos = 'Seleccione un Cliente o Gerente para mostrar sus proyectos activos.';
-	reporte.disabled_children = true;
-	reporte.fecha_from = {'cadena': '', 'date': new Date("June 10, 2015 00:00:00")};
-	reporte.fecha_to = {'cadena': '', 'date': new Date("Jule 2, 2015 00:00:00")};
-	reporte.dias = [];
+	reporte.tipo_actividad = [{'id': 'P', 'text': 'Facturable'}, {'id': 'G', 'text': 'No Facturable'}, {'id': 'A', 'text': 'Administración'}]
+	reporte.tipo_activo = {'Todo': true, 'Facturable': true, 'No Facturable': true, 'Administración': true}
+	reporte.agrupado = [{'text': 'por Días', 'value': 'xdias'}, {'text': 'por Semanas', 'value': 'xsemanas'}, {'text': 'por Meses', 'value': 'xmeses'}]
+	reporte.cliente_seleccionado = 'todos'
+	reporte.usuario_seleccionado = '.'
+	reporte.gerente_seleccionado = 'todos'
+	reporte.agrupado_seleccionado = 'xdias'
+	reporte.tareopersona_void = true
+	reporte.text_proyectos = 'Seleccione un Cliente o Gerente para mostrar sus proyectos activos.'
+	reporte.disabled_children = true
+	reporte.fecha_from = {'cadena': fecha_inicial_cad, 'date': fecha_inicial_date}
+	reporte.fecha_to = {'cadena': fecha_final_cad, 'date': fecha_final_date}
+	reporte.dias = []
+	reporte.semanas = []
+	reporte.meses = []
+	reporte.dias_visible = true
+	reporte.semanas_visible = false
+	reporte.meses_visible = false	
 		
 	//creando las variables que contendran los datos de respuesta del servidor
-	reporte.gerentes = [];
-	reporte.clientes = [];
-	reporte.unidadminera = [];
-	reporte.proyectos = [];
-	reporte.usuarios = [];
-	reporte.tareopersona = [];
+	reporte.gerentes = []
+	reporte.clientes = []
+	reporte.unidadminera = []
+	reporte.proyectos = []
+	reporte.usuarios = []
+	reporte.tareopersona = []
 	
 	//funciones que realizaran peticiones al servidor para obtener rellenar los array
 
 	reporte.getGerentes = function () {
 		$http.get('/reporte/index/gerentes')
 		.success(function (res) {
-			reporte.gerentes = res;
+			reporte.gerentes = res
 		})
 	}
 
 	reporte.getClientes = function () {
 		$http.get('/reporte/index/clientes')
 		.success(function (res) {
-			reporte.clientes = res;
+			reporte.clientes = res
 		})
 	}
 
 	reporte.getUnidadMinera = function (seleccionado) {
 		$http.get('/reporte/index/unidadminera/clienteid/' + seleccionado)
 		.success(function (res) {
-			reporte.unidadminera = res;
+			reporte.unidadminera = res
 		})
 	}
 
 	reporte.getProyectos = function (elementoid, por) {
-		reporte.proyectos = [];
-		reporte.usuarios = [];
-		reporte.disabled_children = true;
+		reporte.proyectos = []
+		reporte.usuarios = []
+		reporte.disabled_children = true
 		if (por == 'byCliente') {
-			reporte.gerente_seleccionado = 'todos';
+			reporte.gerente_seleccionado = 'todos'
 			$http.get('/reporte/index/proyectos/clienteid/' + elementoid)
 			.success(function (res) {
 				if (res.length == 0) {
-					reporte.text_proyectos = 'El Cliente seleccionado no tiene proyectos actualmente';
+					reporte.text_proyectos = 'El Cliente seleccionado no tiene proyectos actualmente'
 				} else {
 					res.forEach(function (proyecto) {
-						reporte.text_proyectos = '';
-						proyecto['selected'] = false;
-						reporte.proyectos.push(proyecto);
+						reporte.text_proyectos = ''
+						proyecto['selected'] = false
+						reporte.proyectos.push(proyecto)
 					})
 				}
 			})
 		} else if (por == 'byGerente') {
-			reporte.cliente_seleccionado = 'todos';
+			reporte.cliente_seleccionado = 'todos'
 			$http.get('/reporte/index/proyectos/gerenteid/' + elementoid)
 			.success(function (res) {
 				if (res.length == 0) {
-					reporte.text_proyectos = 'El Gerente seleccionado no tiene proyectos actualmente';
+					reporte.text_proyectos = 'El Gerente seleccionado no tiene proyectos actualmente'
 				} else {
 					res.forEach(function (proyecto) {
-						reporte.text_proyectos = '';
-						proyecto['selected'] = false;
-						reporte.proyectos.push(proyecto);
+						reporte.text_proyectos = ''
+						proyecto['selected'] = false
+						reporte.proyectos.push(proyecto)
 					})
 				}
 			})
@@ -94,11 +108,11 @@ controller('mainController', ['$http', 'ngTableParams', function($http, ngTableP
 
 	reporte.getData = function (proyecto, index) {
 		if (reporte.proyectos[index]['selected']) {
-			agregarUsuarios(proyecto);
-			agregarTareopersona(proyecto);
+			agregarUsuarios(proyecto)
+			agregarTareopersona(proyecto)
 		} else {
-			borrarUsuarios(proyecto);
-			borrarTareopersona(proyecto);
+			borrarUsuarios(proyecto)
+			borrarTareopersona(proyecto)
 		}
 	}
 
@@ -107,27 +121,26 @@ controller('mainController', ['$http', 'ngTableParams', function($http, ngTableP
 	//funciones para los marcar los checkbox de tipo_actividad
 	reporte.tipoActivoTodo = function (id) {
 		if (reporte.tipo_activo.Todo) {
-			reporte.tipo_activo = {'Todo': true, 'Facturable': true, 'No Facturable': true, 'Administración': true};
+			reporte.tipo_activo = {'Todo': true, 'Facturable': true, 'No Facturable': true, 'Administración': true}
 		} else{
-			reporte.tipo_activo = {'Todo': false, 'Facturable': false, 'No Facturable': false, 'Administración': false};
+			reporte.tipo_activo = {'Todo': false, 'Facturable': false, 'No Facturable': false, 'Administración': false}
 		}
 	}
 
 	reporte.tipoActivoHijo = function () {
 		if(reporte.tipo_activo['Facturable'] == true && reporte.tipo_activo['No Facturable']  == true && reporte.tipo_activo['Administración'] == true) {
-			reporte.tipo_activo.Todo = true;
+			reporte.tipo_activo.Todo = true
 		} else {
-			reporte.tipo_activo.Todo = false;
+			reporte.tipo_activo.Todo = false
 		}
 	}
 
 	//ejecucion de algunas funciones al cargar la pagina
 	angular.element(document).ready(function () {
-		reporte.fecha_from.cadena = cadenaFecha(reporte.fecha_from.date)
-		reporte.fecha_to.cadena = cadenaFecha(reporte.fecha_to.date)
 		reporte.getClientes()
 		reporte.getGerentes()
-		reporte.dias = rellenarDias()       
+		reporte.dias = rellenarDias()  
+		reporte.meses = rellenarMeses()     
     })
 
     
@@ -145,9 +158,9 @@ controller('mainController', ['$http', 'ngTableParams', function($http, ngTableP
 
     //funciones para convertir en cadena uan fecha con formato dd-mm-yyyy y yyyy-mm-dd respectivamente
     function cadenaFecha (fecha) {
-		var dd = fecha.getDate();
-		var mm = fecha.getMonth() + 1;
-		var yyyy = fecha.getFullYear();
+		var dd = fecha.getDate()
+		var mm = fecha.getMonth() + 1
+		var yyyy = fecha.getFullYear()
 		
 		if(dd < 10) {
     		dd = '0' + dd
@@ -157,13 +170,13 @@ controller('mainController', ['$http', 'ngTableParams', function($http, ngTableP
     		mm = '0' + mm
 		} 
 
-		return dd + '-' + mm + '-' + yyyy;
+		return dd + '-' + mm + '-' + yyyy
 	}
 
 	function cadenaFechaInv (fecha) {
-		var dd = fecha.getDate();
-		var mm = fecha.getMonth() + 1;
-		var yyyy = fecha.getFullYear();
+		var dd = fecha.getDate()
+		var mm = fecha.getMonth() + 1
+		var yyyy = fecha.getFullYear()
 		
 		if(dd < 10) {
     		dd = '0' + dd
@@ -173,7 +186,25 @@ controller('mainController', ['$http', 'ngTableParams', function($http, ngTableP
     		mm = '0' + mm
 		} 
 
-		return yyyy + '-' + mm + '-' + dd;
+		return yyyy + '-' + mm + '-' + dd
+	}
+
+	function cadenaToFecha (cadena) {
+		var fechas = cadena.split("-")
+		var f = new Date()
+		f.setDate(fechas[0])
+		f.setMonth(fechas[1] - 1)
+		f.setFullYear(fechas[2])
+		return f
+	}
+
+	function cadenaToFechaInv (cadena) {
+		var fechas = cadena.split("-")
+		var f = new Date()
+		f.setDate(fechas[2])
+		f.setMonth(fechas[1] - 1)
+		f.setFullYear(fechas[0])
+		return f
 	}
 
 	//funciones para agregar o quitar usuarios de la lista segun los proyectos visibles
@@ -182,27 +213,27 @@ controller('mainController', ['$http', 'ngTableParams', function($http, ngTableP
 		.success(function (res) {
 			res.forEach(function (item) {
 				//inicializar la varible existe
-				existe = 0;
+				existe = 0
 				//verificar si usuario existe en la lista
 				for (var i = 0; i < reporte.usuarios.length; i++) {
 					if (item.uid == reporte.usuarios[i].uid) {
-						existe = 1;
+						existe = 1
 					}
 				}
 				//si existe agregar el numero de proyectos en 1, sino aumentarlo al array
 				if (existe == 1) {
 					for (var i = 0; i < reporte.usuarios.length; i++) {
 						if (item.uid == reporte.usuarios[i].uid) {
-							reporte.usuarios[i]['num_pro'] = reporte.usuarios[i]['num_pro'] + 1;
+							reporte.usuarios[i]['num_pro'] = reporte.usuarios[i]['num_pro'] + 1
 						}
 					}
 				} else {
 					item['num_pro'] = 1;
-					reporte.usuarios.push(item);
+					reporte.usuarios.push(item)
 				}
 			})
 			if (reporte.usuarios.length != 0) {
-				reporte.disabled_children = false;
+				reporte.disabled_children = false
 			}
 		})
 	}
@@ -214,20 +245,20 @@ controller('mainController', ['$http', 'ngTableParams', function($http, ngTableP
 				//disminuir en 1 el num_pro de los elementos que aparecen en la lista
 				for (var i = 0; i < reporte.usuarios.length; i++) {
 					if (item.uid == reporte.usuarios[i].uid) {
-						reporte.usuarios[i]['num_pro'] = reporte.usuarios[i]['num_pro'] - 1;
+						reporte.usuarios[i]['num_pro'] = reporte.usuarios[i]['num_pro'] - 1
 					}
 				}
 			})
 			//eliminar a todos los usuarios que tengan 0 proyectos
-			arrayTemp = reporte.usuarios;
-			reporte.usuarios = [];
+			arrayTemp = reporte.usuarios
+			reporte.usuarios = []
 			for (var i = 0; i < arrayTemp.length; i++) {
 				if (parseInt(arrayTemp[i]['num_pro']) != 0) {
-					reporte.usuarios.push(arrayTemp[i]);
+					reporte.usuarios.push(arrayTemp[i])
 				}
 			};
 			if (reporte.usuarios.length == 0) {
-				reporte.disabled_children = true;
+				reporte.disabled_children = true
 			}
 		})
 	}
@@ -241,6 +272,7 @@ controller('mainController', ['$http', 'ngTableParams', function($http, ngTableP
 		.success(function (res) {
 			res.forEach(function (item) {
 				item.horas = rellenarDiasTareopersona(item)
+				item.horasxmeses = rellenarMesesTareopersona(item)
 				reporte.tareopersona.push(item)
 			})
 			$("#wait").modal('hide')
@@ -262,11 +294,11 @@ controller('mainController', ['$http', 'ngTableParams', function($http, ngTableP
 	}
 
 	function borrarTareopersona (codigo_prop_proy) {
-		arrayTemp = reporte.tareopersona;
-		reporte.tareopersona = [];
+		arrayTemp = reporte.tareopersona
+		reporte.tareopersona = []
 		arrayTemp.forEach(function (item) {
 			if (item.codigo_prop_proy != codigo_prop_proy) {
-				reporte.tareopersona.push(item);
+				reporte.tareopersona.push(item)
 			}
 		})
 	}
@@ -284,7 +316,6 @@ controller('mainController', ['$http', 'ngTableParams', function($http, ngTableP
 			dia.cadena = dias_sem[fecha.getDay()].toString() + ' ' + fecha.getDate()
 			dia.fecha = cadenaFechaInv(fecha)
 			dias[i] = dia
-
 			fecha.setDate(fecha.getDate() + 1)
 		}
 		return dias
@@ -304,11 +335,69 @@ controller('mainController', ['$http', 'ngTableParams', function($http, ngTableP
 		return horas	
 	}
 
-	reporte.cambiarRangoDias = function () {
-		reporte.dias = rellenarDias()
-		console.log(reporte.dias)		
-		reporte.tareopersona.forEach(function (item) {
-			item.dias = rellenarDiasTareopersona(item)
+	function rellenarMeses () {
+		var meses = []
+		var nombres = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Setiembre', 'Noviembre', 'Diciembre']
+		var mes = ''
+		reporte.dias.forEach(function (dia) {
+			if (cadenaToFechaInv(dia.fecha).getMonth() != mes) {
+				mes = cadenaToFechaInv(dia.fecha).getMonth()
+				meses.push(nombres[mes])
+			}
 		})
+		return meses
+	}
+
+	function rellenarMesesTareopersona (tareopersona) {
+		var horasxmeses = []
+		var nombres = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Setiembre', 'Octobre', 'Noviembre', 'Diciembre']
+		for (var i = 0; i < reporte.meses.length; i++) {
+			var hora = 0
+			var mes1 = reporte.meses[i]
+			tareopersona.data_horas.forEach(function (item) {
+				var mes2 = nombres[cadenaToFechaInv(item.fecha_tarea).getMonth()]
+				console.log(mes2)
+				if (mes1 == mes2) {
+					if (isNaN(parseFloat(item.h_real)) || item.h_real == '' || item.h_real == null || item.h_real == undefined) {
+						adicional = 0
+					} else {
+						adicional = parseFloat(item.h_real)
+					}
+					hora = hora + adicional
+				}
+			})
+			horasxmeses.push(hora)
+		}
+		return horasxmeses
+	}
+
+	reporte.cambiarFecha = function () {
+		reporte.fecha_from.date = cadenaToFecha(reporte.fecha_from.cadena)
+		reporte.fecha_to.date = cadenaToFecha(reporte.fecha_to.cadena)
+		reporte.dias = rellenarDias()
+		reporte.meses = rellenarMeses()
+		arrayTemp = []
+		reporte.tareopersona.forEach(function (item) {
+			item.horas = rellenarDiasTareopersona(item)
+			item.horasxmeses = rellenarMesesTareopersona(item)
+			arrayTemp.push(item)
+		})
+		reporte.tareopersona = arrayTemp
+	}
+
+	reporte.cambiarAgrupamiento = function () {
+		if (reporte.agrupado_seleccionado == 'xdias') {
+			reporte.dias_visible = true
+			reporte.semanas_visible = false
+			reporte.meses_visible = false
+		} else if (reporte.agrupado_seleccionado == 'xsemanas') {
+			reporte.dias_visible = false
+			reporte.semanas_visible = true
+			reporte.meses_visible = false
+		} else if (reporte.agrupado_seleccionado == 'xmeses') {
+			reporte.dias_visible = false
+			reporte.semanas_visible = false
+			reporte.meses_visible = true
+		}
 	}
 }])
