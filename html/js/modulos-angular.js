@@ -13,25 +13,6 @@ controller('mainController', ['$http', function($http){
 	//obtener una referencia del scope para el funcionamiento del data binding
 	reporte = this
 
-	reporte.persons = [{
-    "id": 860,
-    "firstName": "Superman",
-    "lastName": "Yoda"
-}, {
-    "id": 870,
-    "firstName": "Foo",
-    "lastName": "Whateveryournameis"
-}, {
-    "id": 590,
-    "firstName": "Toto",
-    "lastName": "Titi"
-}, {
-    "id": 803,
-    "firstName": "Luke",
-    "lastName": "Kyle"
-}
-]
-
 	//inicializando variables para el rango de fecha
 	var fecha_inicial_cad = '10-06-2015'
 	var fecha_inicial_date = cadenaToFecha(fecha_inicial_cad)
