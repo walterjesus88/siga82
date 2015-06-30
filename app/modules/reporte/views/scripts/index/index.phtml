@@ -54,6 +54,12 @@
 	            </div>
 	            <span class="help-block">Seleccione fechas para rango de rendición</span>
 	        </div>
+	        <h4>Granularidad</h4>
+	        <div>
+	        	<select ng-model="reporte.agrupado_seleccionado" ng-change="reporte.cambiarAgrupamiento()" class="form-control m-bot15" ng-disabled="reporte.disabled_children">
+	        		<option value="{{item.value}}" ng-repeat="item in reporte.agrupado">{{item.text}}</option>
+	        	</select>
+	        </div>
 		</div>
 	</div>
 	<div id="container-tareopersona-table">
@@ -94,9 +100,19 @@
 					Status Proyecto
 				</div>
 			</th>
-			<th ng-repeat="dia in reporte.dias track by $index">
+			<th ng-repeat="dia in reporte.dias track by $index" ng-show="reporte.dias_visible">
 				<div>
 					{{dia.cadena}}
+				</div>
+			</th>
+			<th ng-repeat="semana in reporte.semanas track by $index" ng-show="reporte.semanas_visible">
+				<div>
+					{{semana.cadena}}
+				</div>
+			</th>
+			<th ng-repeat="mes in reporte.meses track by $index" ng-show="reporte.meses_visible">
+				<div>
+					{{mes}}
 				</div>
 			</th>
 			<th>
@@ -142,7 +158,17 @@
 						{{fila.estado}}
 					</div>
 				</td>
-				<td ng-repeat="hora in fila.horas track by $index">
+				<td ng-repeat="hora in fila.horas track by $index" ng-show="reporte.dias_visible">
+					<div>
+						{{hora}}
+					</div>
+				</td>
+				<td ng-repeat="hora in fila.horasxsemanas track by $index" ng-show="reporte.semanas_visible">
+					<div>
+						{{hora}}
+					</div>
+				</td>
+				<td ng-repeat="hora in fila.horasxmeses track by $index" ng-show="reporte.meses_visible">
 					<div>
 						{{hora}}
 					</div>
@@ -178,7 +204,17 @@
 			<td>
 				<div></div>
 			</td>
-			<td ng-repeat="dia in reporte.dias">
+			<td ng-repeat="dia in reporte.dias" ng-show="reporte.dias_visible">
+				<div>
+					
+				</div>
+			</td>
+			<td ng-repeat="semana in reporte.semanas" ng-show="reporte.semanas_visible">
+				<div>
+					
+				</div>
+			</td>
+			<td ng-repeat="mes in reporte.meses" ng-show="reporte.meses_visible">
 				<div>
 					
 				</div>

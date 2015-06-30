@@ -10,26 +10,35 @@ ngtable: un extension alternativa a datatables*/
 angular.module('reporteApp', ['datatables', 'ngTable']).
 controller('mainController', ['$http', 'ngTableParams', function($http, ngTableParams){
 
-	fecha_inicial_cad = '10-06-2015'
-	fecha_final_cad = '02-07-2015'
-	fecha_inicial_date = cadenaToFecha(fecha_inicial_cad)
-	fecha_final_date = cadenaToFecha(fecha_final_cad)
-
 	//obtener una referencia del scope para el funcionamiento del data binding
 	reporte = this
+
+	//inicializando variables para el rango de fecha
+	var fecha_inicial_cad = '10-06-2015'
+	var fecha_inicial_date = cadenaToFecha(fecha_inicial_cad)
+	var fecha_final_date = new Date()
+	var fecha_final_cad = cadenaFecha(fecha_final_date)
+
 
 	//inicializando las variables necesarias relacionadas a la vista
 	reporte.tipo_actividad = [{'id': 'P', 'text': 'Facturable'}, {'id': 'G', 'text': 'No Facturable'}, {'id': 'A', 'text': 'Administración'}]
 	reporte.tipo_activo = {'Todo': true, 'Facturable': true, 'No Facturable': true, 'Administración': true}
+	reporte.agrupado = [{'text': 'por Días', 'value': 'xdias'}, {'text': 'por Semanas', 'value': 'xsemanas'}, {'text': 'por Meses', 'value': 'xmeses'}]
 	reporte.cliente_seleccionado = 'todos'
 	reporte.usuario_seleccionado = '.'
 	reporte.gerente_seleccionado = 'todos'
+	reporte.agrupado_seleccionado = 'xdias'
 	reporte.tareopersona_void = true
 	reporte.text_proyectos = 'Seleccione un Cliente o Gerente para mostrar sus proyectos activos.'
 	reporte.disabled_children = true
 	reporte.fecha_from = {'cadena': fecha_inicial_cad, 'date': fecha_inicial_date}
 	reporte.fecha_to = {'cadena': fecha_final_cad, 'date': fecha_final_date}
 	reporte.dias = []
+	reporte.semanas = []
+	reporte.meses = []
+	reporte.dias_visible = true
+	reporte.semanas_visible = false
+	reporte.meses_visible = false	
 		
 	//creando las variables que contendran los datos de respuesta del servidor
 	reporte.gerentes = []
@@ -130,7 +139,8 @@ controller('mainController', ['$http', 'ngTableParams', function($http, ngTableP
 	angular.element(document).ready(function () {
 		reporte.getClientes()
 		reporte.getGerentes()
-		reporte.dias = rellenarDias()       
+		reporte.dias = rellenarDias()  
+		reporte.meses = rellenarMeses()     
     })
 
     
@@ -185,6 +195,15 @@ controller('mainController', ['$http', 'ngTableParams', function($http, ngTableP
 		f.setDate(fechas[0])
 		f.setMonth(fechas[1] - 1)
 		f.setFullYear(fechas[2])
+		return f
+	}
+
+	function cadenaToFechaInv (cadena) {
+		var fechas = cadena.split("-")
+		var f = new Date()
+		f.setDate(fechas[2])
+		f.setMonth(fechas[1] - 1)
+		f.setFullYear(fechas[0])
 		return f
 	}
 
@@ -253,6 +272,7 @@ controller('mainController', ['$http', 'ngTableParams', function($http, ngTableP
 		.success(function (res) {
 			res.forEach(function (item) {
 				item.horas = rellenarDiasTareopersona(item)
+				item.horasxmeses = rellenarMesesTareopersona(item)
 				reporte.tareopersona.push(item)
 			})
 			$("#wait").modal('hide')
@@ -296,7 +316,6 @@ controller('mainController', ['$http', 'ngTableParams', function($http, ngTableP
 			dia.cadena = dias_sem[fecha.getDay()].toString() + ' ' + fecha.getDate()
 			dia.fecha = cadenaFechaInv(fecha)
 			dias[i] = dia
-
 			fecha.setDate(fecha.getDate() + 1)
 		}
 		return dias
@@ -316,15 +335,69 @@ controller('mainController', ['$http', 'ngTableParams', function($http, ngTableP
 		return horas	
 	}
 
+	function rellenarMeses () {
+		var meses = []
+		var nombres = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Setiembre', 'Noviembre', 'Diciembre']
+		var mes = ''
+		reporte.dias.forEach(function (dia) {
+			if (cadenaToFechaInv(dia.fecha).getMonth() != mes) {
+				mes = cadenaToFechaInv(dia.fecha).getMonth()
+				meses.push(nombres[mes])
+			}
+		})
+		return meses
+	}
+
+	function rellenarMesesTareopersona (tareopersona) {
+		var horasxmeses = []
+		var nombres = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Setiembre', 'Octobre', 'Noviembre', 'Diciembre']
+		for (var i = 0; i < reporte.meses.length; i++) {
+			var hora = 0
+			var mes1 = reporte.meses[i]
+			tareopersona.data_horas.forEach(function (item) {
+				var mes2 = nombres[cadenaToFechaInv(item.fecha_tarea).getMonth()]
+				console.log(mes2)
+				if (mes1 == mes2) {
+					if (isNaN(parseFloat(item.h_real)) || item.h_real == '' || item.h_real == null || item.h_real == undefined) {
+						adicional = 0
+					} else {
+						adicional = parseFloat(item.h_real)
+					}
+					hora = hora + adicional
+				}
+			})
+			horasxmeses.push(hora)
+		}
+		return horasxmeses
+	}
+
 	reporte.cambiarFecha = function () {
 		reporte.fecha_from.date = cadenaToFecha(reporte.fecha_from.cadena)
 		reporte.fecha_to.date = cadenaToFecha(reporte.fecha_to.cadena)
 		reporte.dias = rellenarDias()
+		reporte.meses = rellenarMeses()
 		arrayTemp = []
 		reporte.tareopersona.forEach(function (item) {
 			item.horas = rellenarDiasTareopersona(item)
+			item.horasxmeses = rellenarMesesTareopersona(item)
 			arrayTemp.push(item)
 		})
 		reporte.tareopersona = arrayTemp
+	}
+
+	reporte.cambiarAgrupamiento = function () {
+		if (reporte.agrupado_seleccionado == 'xdias') {
+			reporte.dias_visible = true
+			reporte.semanas_visible = false
+			reporte.meses_visible = false
+		} else if (reporte.agrupado_seleccionado == 'xsemanas') {
+			reporte.dias_visible = false
+			reporte.semanas_visible = true
+			reporte.meses_visible = false
+		} else if (reporte.agrupado_seleccionado == 'xmeses') {
+			reporte.dias_visible = false
+			reporte.semanas_visible = false
+			reporte.meses_visible = true
+		}
 	}
 }])
