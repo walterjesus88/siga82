@@ -337,16 +337,12 @@ class Timesheet_AprobacionController extends Zend_Controller_Action {
                     $wheres_empleado = array('semanaid'=>$semana,'uid_empleado'=>$uid,'dni_empleado'=>$dni,'etapa_validador'=>'FILTRO2','estado_historial'=>'A');
                     $buscar_historial_empleado = $tabla_historial_aprobaciones -> _getBuscarEmpleadoxSemanaxEstado($wheres_empleado);
                     $numero_registro = count($buscar_registro);
-                    //print_r($buscar_historial_empleado);
-                    
-                    
                     $datos_actualizar['estado_historial']='C';
                     $str_actualizar="
                         semanaid='$semana' and uid_empleado='$uid' and dni_empleado='$dni' and etapa_validador='FILTRO2'
                         and estado_historial='A'
                         ";
                     $update=$tabla_historial_aprobaciones -> _update($datos_actualizar,$str_actualizar);
-                    /*
                     if ($update)
                     {
                         $data['numero_historial']=$numero_registro+1;
@@ -360,24 +356,37 @@ class Timesheet_AprobacionController extends Zend_Controller_Action {
                         $data['categoriaid_empleado']=$buscar_historial_empleado['categoriaid_empleado'];
                         $data['fecha_registro']=$fecha_envio;
                         $data['codigoaprobacion_empleado']=$buscar_historial_empleado['codigoaprobacion_empleado'];
-                        $data['codigoaprobacion_validador']=$this->sesion->personal->ucataprobacion;
+                        $data['codigoaprobacion_validador']='2.0';
                         $data['estado_historial']=$estado_historial;
                         $data['etapa_validador']=$etapa_validador;
                         $data['comentario']=$comentario;
-                        print_r($data);
                         $guardar_historial_empleado = $tabla_historial_aprobaciones -> _save($data);
                         if ($guardar_historial_empleado)
                         {
                             echo "guardo satisfactoriamente";
                             if ($estado_historial=='R')
                             {
-                                $tareopersona = new Admin_Model_DbTable_Tareopersona();
-                                $datos_actualizar_tareo['estado']='A';
-                                $str_actualizar_tareo="semanaid='$semana' and uid='$uid' and dni='$dni' and estado='C' ";
-                                $update_tareopersona=$tareopersona -> _update($datos_actualizar_tareo,$str_actualizar_tareo);  
+                                $tabla_planificacion = new Admin_Model_DbTable_Planificacion();
+                                $lista_horas_equipo = $tabla_planificacion->_getHorasxEquipoxSemanaxProyectosGerenteProyecto($uid_validador,$dni_validador,$uid,$dni,$semana);
+                                foreach ($lista_horas_equipo as $actividades_rechazar) {
+                                    $codigo=$actividades_rechazar['codigo_prop_proy'];
+                                    $proyectoid=$actividades_rechazar['proyectoid']; 
+                                    $revision=$actividades_rechazar['revision'];
+                                    $propuestaid=$actividades_rechazar['propuestaid'];
+                                    $actividadid=$actividades_rechazar['actividadid'];
+                                    $tareopersona = new Admin_Model_DbTable_Tareopersona();
+                                    $datos_actualizar_tareo['estado']='A';
+                                    $str_actualizar_tareo="semanaid='$semana' and uid='$uid' and dni='$dni' 
+                                    and estado='C' and codigo_prop_proy='$codigo' 
+                                    and proyectoid='$proyectoid' 
+                                    and revision='$revision' 
+                                    and actividadid='$actividadid' 
+                                    ";
+                                    $update_tareopersona=$tareopersona -> _update($datos_actualizar_tareo,$str_actualizar_tareo);  
+                                }
                             }
                         }
-                    }*/
+                    }
                 }
             }
         }

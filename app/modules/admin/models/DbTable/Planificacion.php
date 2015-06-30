@@ -75,7 +75,7 @@ class Admin_Model_DbTable_Planificacion extends Zend_Db_Table_Abstract
         try {
             $sql=$this->_db->query("
                 select distinct e.uid,e.dni from planificacion as p inner join equipo as e  
-                on e.codigo_prop_proy=p.codigo_prop_proy and e.proyectoid=p.proyectoid and e.nivel='0' and e.cargo='GER-PROY'
+                on e.codigo_prop_proy=p.codigo_prop_proy and e.proyectoid=p.proyectoid and e.nivel='0' 
                 where p.semanaid='$semanaid'  and p.uid='$uid' and p.dni='$dni' and p.proyectoid!='1'and p.areaid='$areaid' 
                 and p.h_totaldia is not null
 
