@@ -33,8 +33,8 @@
 		<div class="col-lg-4">
 			<h4>Usuarios</h4>
 			<select ng-disabled="reporte.disabled_children" class="form-control m-bot15" ng-model="reporte.usuario_seleccionado">
-				<option value="todos" selected="selected">Todos</option>
-				<option value="{{usuario.uid}}" ng-repeat="usuario in reporte.usuarios track by $index">{{usuario.uid}}</option>
+				<option value="." selected="selected">Todos</option>
+				<option value="{{usuario.uid}}" ng-repeat="usuario in reporte.usuarios track by $index | orderBy: 'uid'">{{usuario.uid}}</option>
 			</select>
 		</div>
 		<div class="col-lg-4">
@@ -106,7 +106,7 @@
 			</th>
 		</thead>
 		<tbody class="">
-			<tr ng-repeat="fila in reporte.tareopersona" ng-show="reporte.tipo_activo[fila.tipo_actividad]">
+			<tr ng-repeat="fila in reporte.tareopersona | filter: reporte.usuario_seleccionado" ng-show="reporte.tipo_activo[fila.tipo_actividad]">
 				<td>
 					<div>
 						{{fila.dni}}

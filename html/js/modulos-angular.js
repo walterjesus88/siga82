@@ -22,7 +22,7 @@ controller('mainController', ['$http', 'ngTableParams', function($http, ngTableP
 	reporte.tipo_actividad = [{'id': 'P', 'text': 'Facturable'}, {'id': 'G', 'text': 'No Facturable'}, {'id': 'A', 'text': 'Administración'}]
 	reporte.tipo_activo = {'Todo': true, 'Facturable': true, 'No Facturable': true, 'Administración': true}
 	reporte.cliente_seleccionado = 'todos'
-	reporte.usuario_seleccionado = 'todos'
+	reporte.usuario_seleccionado = '.'
 	reporte.gerente_seleccionado = 'todos'
 	reporte.tareopersona_void = true
 	reporte.text_proyectos = 'Seleccione un Cliente o Gerente para mostrar sus proyectos activos.'
@@ -44,53 +44,53 @@ controller('mainController', ['$http', 'ngTableParams', function($http, ngTableP
 	reporte.getGerentes = function () {
 		$http.get('/reporte/index/gerentes')
 		.success(function (res) {
-			reporte.gerentes = res;
+			reporte.gerentes = res
 		})
 	}
 
 	reporte.getClientes = function () {
 		$http.get('/reporte/index/clientes')
 		.success(function (res) {
-			reporte.clientes = res;
+			reporte.clientes = res
 		})
 	}
 
 	reporte.getUnidadMinera = function (seleccionado) {
 		$http.get('/reporte/index/unidadminera/clienteid/' + seleccionado)
 		.success(function (res) {
-			reporte.unidadminera = res;
+			reporte.unidadminera = res
 		})
 	}
 
 	reporte.getProyectos = function (elementoid, por) {
-		reporte.proyectos = [];
-		reporte.usuarios = [];
-		reporte.disabled_children = true;
+		reporte.proyectos = []
+		reporte.usuarios = []
+		reporte.disabled_children = true
 		if (por == 'byCliente') {
-			reporte.gerente_seleccionado = 'todos';
+			reporte.gerente_seleccionado = 'todos'
 			$http.get('/reporte/index/proyectos/clienteid/' + elementoid)
 			.success(function (res) {
 				if (res.length == 0) {
-					reporte.text_proyectos = 'El Cliente seleccionado no tiene proyectos actualmente';
+					reporte.text_proyectos = 'El Cliente seleccionado no tiene proyectos actualmente'
 				} else {
 					res.forEach(function (proyecto) {
-						reporte.text_proyectos = '';
-						proyecto['selected'] = false;
-						reporte.proyectos.push(proyecto);
+						reporte.text_proyectos = ''
+						proyecto['selected'] = false
+						reporte.proyectos.push(proyecto)
 					})
 				}
 			})
 		} else if (por == 'byGerente') {
-			reporte.cliente_seleccionado = 'todos';
+			reporte.cliente_seleccionado = 'todos'
 			$http.get('/reporte/index/proyectos/gerenteid/' + elementoid)
 			.success(function (res) {
 				if (res.length == 0) {
-					reporte.text_proyectos = 'El Gerente seleccionado no tiene proyectos actualmente';
+					reporte.text_proyectos = 'El Gerente seleccionado no tiene proyectos actualmente'
 				} else {
 					res.forEach(function (proyecto) {
-						reporte.text_proyectos = '';
-						proyecto['selected'] = false;
-						reporte.proyectos.push(proyecto);
+						reporte.text_proyectos = ''
+						proyecto['selected'] = false
+						reporte.proyectos.push(proyecto)
 					})
 				}
 			})
@@ -99,11 +99,11 @@ controller('mainController', ['$http', 'ngTableParams', function($http, ngTableP
 
 	reporte.getData = function (proyecto, index) {
 		if (reporte.proyectos[index]['selected']) {
-			agregarUsuarios(proyecto);
-			agregarTareopersona(proyecto);
+			agregarUsuarios(proyecto)
+			agregarTareopersona(proyecto)
 		} else {
-			borrarUsuarios(proyecto);
-			borrarTareopersona(proyecto);
+			borrarUsuarios(proyecto)
+			borrarTareopersona(proyecto)
 		}
 	}
 
@@ -112,17 +112,17 @@ controller('mainController', ['$http', 'ngTableParams', function($http, ngTableP
 	//funciones para los marcar los checkbox de tipo_actividad
 	reporte.tipoActivoTodo = function (id) {
 		if (reporte.tipo_activo.Todo) {
-			reporte.tipo_activo = {'Todo': true, 'Facturable': true, 'No Facturable': true, 'Administración': true};
+			reporte.tipo_activo = {'Todo': true, 'Facturable': true, 'No Facturable': true, 'Administración': true}
 		} else{
-			reporte.tipo_activo = {'Todo': false, 'Facturable': false, 'No Facturable': false, 'Administración': false};
+			reporte.tipo_activo = {'Todo': false, 'Facturable': false, 'No Facturable': false, 'Administración': false}
 		}
 	}
 
 	reporte.tipoActivoHijo = function () {
 		if(reporte.tipo_activo['Facturable'] == true && reporte.tipo_activo['No Facturable']  == true && reporte.tipo_activo['Administración'] == true) {
-			reporte.tipo_activo.Todo = true;
+			reporte.tipo_activo.Todo = true
 		} else {
-			reporte.tipo_activo.Todo = false;
+			reporte.tipo_activo.Todo = false
 		}
 	}
 
@@ -148,9 +148,9 @@ controller('mainController', ['$http', 'ngTableParams', function($http, ngTableP
 
     //funciones para convertir en cadena uan fecha con formato dd-mm-yyyy y yyyy-mm-dd respectivamente
     function cadenaFecha (fecha) {
-		var dd = fecha.getDate();
-		var mm = fecha.getMonth() + 1;
-		var yyyy = fecha.getFullYear();
+		var dd = fecha.getDate()
+		var mm = fecha.getMonth() + 1
+		var yyyy = fecha.getFullYear()
 		
 		if(dd < 10) {
     		dd = '0' + dd
@@ -160,13 +160,13 @@ controller('mainController', ['$http', 'ngTableParams', function($http, ngTableP
     		mm = '0' + mm
 		} 
 
-		return dd + '-' + mm + '-' + yyyy;
+		return dd + '-' + mm + '-' + yyyy
 	}
 
 	function cadenaFechaInv (fecha) {
-		var dd = fecha.getDate();
-		var mm = fecha.getMonth() + 1;
-		var yyyy = fecha.getFullYear();
+		var dd = fecha.getDate()
+		var mm = fecha.getMonth() + 1
+		var yyyy = fecha.getFullYear()
 		
 		if(dd < 10) {
     		dd = '0' + dd
@@ -176,7 +176,7 @@ controller('mainController', ['$http', 'ngTableParams', function($http, ngTableP
     		mm = '0' + mm
 		} 
 
-		return yyyy + '-' + mm + '-' + dd;
+		return yyyy + '-' + mm + '-' + dd
 	}
 
 	function cadenaToFecha (cadena) {
@@ -194,27 +194,27 @@ controller('mainController', ['$http', 'ngTableParams', function($http, ngTableP
 		.success(function (res) {
 			res.forEach(function (item) {
 				//inicializar la varible existe
-				existe = 0;
+				existe = 0
 				//verificar si usuario existe en la lista
 				for (var i = 0; i < reporte.usuarios.length; i++) {
 					if (item.uid == reporte.usuarios[i].uid) {
-						existe = 1;
+						existe = 1
 					}
 				}
 				//si existe agregar el numero de proyectos en 1, sino aumentarlo al array
 				if (existe == 1) {
 					for (var i = 0; i < reporte.usuarios.length; i++) {
 						if (item.uid == reporte.usuarios[i].uid) {
-							reporte.usuarios[i]['num_pro'] = reporte.usuarios[i]['num_pro'] + 1;
+							reporte.usuarios[i]['num_pro'] = reporte.usuarios[i]['num_pro'] + 1
 						}
 					}
 				} else {
 					item['num_pro'] = 1;
-					reporte.usuarios.push(item);
+					reporte.usuarios.push(item)
 				}
 			})
 			if (reporte.usuarios.length != 0) {
-				reporte.disabled_children = false;
+				reporte.disabled_children = false
 			}
 		})
 	}
@@ -226,20 +226,20 @@ controller('mainController', ['$http', 'ngTableParams', function($http, ngTableP
 				//disminuir en 1 el num_pro de los elementos que aparecen en la lista
 				for (var i = 0; i < reporte.usuarios.length; i++) {
 					if (item.uid == reporte.usuarios[i].uid) {
-						reporte.usuarios[i]['num_pro'] = reporte.usuarios[i]['num_pro'] - 1;
+						reporte.usuarios[i]['num_pro'] = reporte.usuarios[i]['num_pro'] - 1
 					}
 				}
 			})
 			//eliminar a todos los usuarios que tengan 0 proyectos
-			arrayTemp = reporte.usuarios;
-			reporte.usuarios = [];
+			arrayTemp = reporte.usuarios
+			reporte.usuarios = []
 			for (var i = 0; i < arrayTemp.length; i++) {
 				if (parseInt(arrayTemp[i]['num_pro']) != 0) {
-					reporte.usuarios.push(arrayTemp[i]);
+					reporte.usuarios.push(arrayTemp[i])
 				}
 			};
 			if (reporte.usuarios.length == 0) {
-				reporte.disabled_children = true;
+				reporte.disabled_children = true
 			}
 		})
 	}
@@ -274,11 +274,11 @@ controller('mainController', ['$http', 'ngTableParams', function($http, ngTableP
 	}
 
 	function borrarTareopersona (codigo_prop_proy) {
-		arrayTemp = reporte.tareopersona;
-		reporte.tareopersona = [];
+		arrayTemp = reporte.tareopersona
+		reporte.tareopersona = []
 		arrayTemp.forEach(function (item) {
 			if (item.codigo_prop_proy != codigo_prop_proy) {
-				reporte.tareopersona.push(item);
+				reporte.tareopersona.push(item)
 			}
 		})
 	}
