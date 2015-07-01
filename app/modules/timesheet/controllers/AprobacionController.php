@@ -72,11 +72,19 @@ class Timesheet_AprobacionController extends Zend_Controller_Action {
             {   
                 $wheres_empleado = array('semanaid'=>$semana,'uid_empleado'=>$uid,'dni_empleado'=>$dni,'etapa_validador'=>'ENVIO','estado_historial'=>'A');
                 $buscar_historial_empleado = $tabla_historial_aprobaciones -> _getBuscarEmpleadoxSemanaxEstado($wheres_empleado);
-                print_r($buscar_historial_empleado);
+                //print_r($buscar_historial_empleado);
                 /*Buscar si tine un registro*/
                 if ($buscar_historial_empleado)
                 {
                     echo "existe";
+                    $tabla_planificacion = new Admin_Model_DbTable_Planificacion();
+                    $lista_proyectos_empleado=$tabla_planificacion->_getProyectosxSemana($semana,$uid,$dni);
+                    print_r($lista_proyectos_empleado);
+                    foreach ($lista_proyectos_empleado as $proyectos_empleado) {
+                        print_r($proyectos_empleado);
+                        echo "<br>";
+                        # code...
+                    }
                 }
                 else
                 {
@@ -92,7 +100,8 @@ class Timesheet_AprobacionController extends Zend_Controller_Action {
                         $update_tareopersona=$tareopersona -> _update($datos_actualizar,$str_actualizar);  
 
                         $tabla_planificacion = new Admin_Model_DbTable_Planificacion();
-
+                        $lista_proyectos_empleado=$tabla_planificacion->_getProyectosxSemana($semana,$uid,$dni);
+                        print_r($lista_proyectos_empleado);
                         //$datos_actualizar_planificacion['estado']='E';
                         //$str_actualizar_planificacion="semanaid='$semana' and uid='$uid' and dni='$dni'";
                         //$update_planificacion=$tabla_planificacion -> _update($datos_actualizar_planificacion,$str_actualizar_planificacion);  
