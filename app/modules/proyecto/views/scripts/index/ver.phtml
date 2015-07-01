@@ -69,7 +69,7 @@
       <a id="save" class="btn btn-success btn-xs" href="#">Lista de Entregables</a>
       <a id="save" class="btn btn-success btn-xs" href="#">Valorizacion</a>
       <a id="save" class="btn btn-success btn-xs" href="#">EDP</a>
-      <a id="hojaresumen" class="btn btn-success btn-xs" href="/proyecto/index/hojaresumen/codigo_prop_proy/<?php echo $this->codigo_prop_proy ?>/proyectoid/<?php echo $this->proyectoid ?>">Hoja de Resumen</a>
+      <a id="hojaresumen" class="btn btn-success btn-xs" href="/proyecto/index/hojaresumen/codigo_prop_proy/<?php echo $this->codigoproyecto ?>/proyectoid/<?php echo $this->proyectoid ?>">Hoja de Resumen</a>
 
     </section>
 
@@ -160,20 +160,7 @@
           <p style="font-size: 12px;"> <?php print_r($this->proyecto['descripcion']); ?></p>
         </div>
         <h5 class="bold">Lista de Disciplinas</h5>
-
-          <?php 
-          $bdequipoarea = new Admin_Model_DbTable_Equipoarea();
-          $area=$bdequipoarea->_buscarAreasxProyecto($this->proyecto['codigo_prop_proy'],$this->proyecto['proyectoid']);
-          $i=1;          
-          if ($area){
-              //print_r(count($area));
-              $countdatos=count($area);
-              
-          ?>
-            <div  id="fech" >
-              <input style="display:none" id="fechasemana" type="text" value="<?php echo $countdatos ?>">
-            </div>
-            <!-- este es el formulario -->
+                  <!-- este es el formulario -->
             <a id="anadirarea" href="##" class="btn btn-info btn-xs" >Anadir</a>
             <form action="">
                   
@@ -193,8 +180,19 @@
             </form>
             <!-- fin de formulario-->
 
-
-
+          <?php 
+          $bdequipoarea = new Admin_Model_DbTable_Equipoarea();
+          $area=$bdequipoarea->_buscarAreasxProyecto($this->proyecto['codigo_prop_proy'],$this->proyecto['proyectoid']);
+          $i=1;          
+          if ($area){
+              //print_r(count($area));
+              $countdatos=count($area);
+              //print $countdatos;            
+              
+          ?>
+            <div  id="fech" >
+              <input style="display:none" id="fechasemana" type="text" value="<?php echo $countdatos ?>">
+            </div>
 
 
               <div class="panel-group m-bot20" id="accordion">
@@ -545,7 +543,13 @@
 
               <?php $i++; 
                 } 
-              }?>
+              }
+              $countdatos=0;
+              ?>
+              <div  id="fech" >
+                <input style="display:none" id="fechasemana" type="text" value="<?php echo $countdatos ?>">
+              </div>
+              
 
             </div>
           </div>
@@ -631,6 +635,7 @@
 
       function procesarFormulario(ev)
       {
+        //ev.preventDefault();
         var areacatx= $("#area_categoria").val();
         tmp=areacatx.split(";-;");
         areacat=tmp[0];
@@ -650,27 +655,7 @@
                  
         var url="/proyecto/index/guardarareaequipo/codigo_prop_proy/"+codigo+"/proyectoid/"+proyecto+"/funcion/"+funcion+"/area/"+areacat;
                      
-       /// alert(areacat);  
 
-        $('form').slideUp();
-        //$(this).parent().children('#area_categoria').remove();
-        //var i=100;
-        var template=
-                     '<div class="panel panel-default">'+'<div class="panel-heading">'+'<h4 class="panel-title" >'+
-                     '<tr>'+'<a style="font-size: 12px;" class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#'+campo+'">'+  '<td style="font-size: 12px;">' +areacat+ '-</td>'+'<td>'+nom+'</td>' +'<a>'+
-                     '<td><input style="display:none" disabled type="text" name="areasx" id="areasx" value="'+areacat+'" size="5"></td>'+
-                     '<span class="pull-right">'+
-                     '<td><span  btn btn-danger btn-xs" onclick="ver()">Hppp</span></td>'+
-                     '<td><span  id="anadir_'+areacat+'" class="editar btn btn-info btn-xs" onclick="anadir(this)">+</span></td>'+
-                     '<td><span  id="anadir_'+areacat+'" class="editar btn btn-danger btn-xs" onclick="asigna(this)">H</span></td>'
-                     +'</span>'+'<tr>'+'</h4>'+'</div>'+'</div>';
-
-
-        //$(this).parent().innerHTML = template;
-        //nube = '<a disabled="disabled"> <i style="color: #D6D6D8" class="fa fa-comment"></i></a>';
-        $(this).parent().append(template);
-
-                         
         $.ajax({
              type: "POST",
              url: url,
@@ -682,18 +667,40 @@
               },
               success: function(data)
               {   
-                //$("#anadirareaproyecto").empty();
-                //$("#anadirareaproyecto").append(data);
+                //e.preventDefault();
+                $("#anadirareaproyecto").empty();
+                $("#anadirareaproyecto").html(data);
                 //$("#accordion").append("<li>"+"person.name"+"("+")"+"</li");
               }
         });
+        //alert(url);  
+        //$(this).parent().children('#area_categoria').remove();
+        //var i=100;
+        var template=
+                     '<div class="panel panel-default">'+'<div class="panel-heading">'+'<h4 class="panel-title" >'+
+                     '<tr>'+'<a style="font-size: 12px;" class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#'+campo+'">'+  '<td style="font-size: 12px;">' +areacat+ '-</td>'+'<td>'+nom+'</td>' +'<a>'+
+                     '<td><input style="display:none" disabled type="text" name="areasx" id="areasx" value="'+areacat+'" size="5"></td>'+
+                     '<span class="pull-right">'+
+                     '<td><span  btn btn-danger btn-xs" onclick="ver()">.</span></td>'+
+                     '<td><span  id="anadir_'+areacat+'" class="editar btn btn-info btn-xs" onclick="anadir(this)">+</span></td>'+
+                     '<td><span  id="anadir_'+areacat+'" class="editar btn btn-danger btn-xs" onclick="asigna(this)">H</span></td>'
+                     +'</span>'+'<tr>'+'</h4>'+'</div>'+'</div>';
+
+
+        //$(this).parent().innerHTML = template;
+        //nube = '<a disabled="disabled"> <i style="color: #D6D6D8" class="fa fa-comment"></i></a>';
+        $(this).parent().append(template);                       
+
+
+        $('form').slideUp();
+
       } 
     });
 </script>
         
     <div id="destinos"></div>
     <!-- sirve para editar-->
-
+<!-- 
 
 <html>
         <head>
@@ -724,10 +731,10 @@
           </style>  
           <body> 
           <!--     Nombre: <span class="editText">Fulanito de tal</span>  -->
-            <div id="destino"></div>
+   <!--         <div id="destino"></div>
           </body>  
       </html>
-
+ -->
 
 <!-- page end-->
 <div class="modal fade modal-dialog-center top-modal-with-space" id="myModalequipo" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -801,7 +808,7 @@
             
         </div>
         <div class="modal-footer">
-          <button data-dismiss="modal" class="btn btn-default" type="button">Cerrar</button>
+          <button data-dismiss="modal" id="cerrar_anadir" class="btn btn-default" type="button">Cerrar</button>
           <button id="guardar_contacto" class="btn btn-warning" type="button"> Guardar</button>
         </div>
       </div>
@@ -809,10 +816,16 @@
   </div>
 </div>
 
+<script type="text/javascript">
+   $("#cerrar_anadir").click(function(){
+      window.location.reload();
+   });
+
+</script>
 
 
 
-<div id="anadirareaproyecto">gg</div>
+<div id="anadirareaproyecto"></div>
 
 <script>
 
@@ -904,24 +917,8 @@ $(".modal-body #DNI").val( myDNI );
 
 </script>
 
-<div id="#carguexx">fwfw</div>
-
-<script type="text/javascript">
-  // $("#hojaresumen").click(function()
-  //   {
-  //     alert("gr");
-  //     var codigo_prop_proy="<?php echo $this->codigoproyecto?>";
-  //     var proyectoid="<?php echo $this->proyectoid?>";
-  //     //alert(codigo);
-  //     //alert(proyectoid);
-  //     var url="/proyecto/index/hojaresumen/codigo_prop_proy/"+codigo_prop_proy+"/proyectoid/"+proyectoid;
-  //     alert(url);
-  //     $("#carguexx").load(url);
-  // });
-</script>
 
 
-    <ul id="put">dDDDDDDDDDDDd</ul>
 
 
 

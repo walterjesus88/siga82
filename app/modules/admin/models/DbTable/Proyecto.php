@@ -147,14 +147,17 @@ class Admin_Model_DbTable_Proyecto extends Zend_Db_Table_Abstract
         try{
             $sql=$this->_db->query("
                select pro.codigo_prop_proy,pro.descripcion,pro.gerente_proyecto,pro.control_documentario,pro.fecha_inicio,pro.fecha_cierre,pro.nombre_proyecto,pro.propuestaid,pro.proyectoid,cli.nombre_comercial,uni.nombre,
-               pro.nombre_proyecto,pro.gerente_proyecto ,pro.clienteid
-               from proyecto as pro 
-               inner join cliente as cli on
-                        pro.clienteid=cli.clienteid 
+               uni.unidad_mineraid,pro.nombre_proyecto,pro.gerente_proyecto,pro.clienteid,cli.ruc
+               from proyecto as pro  
+
+               inner join cliente as cli 
+               on pro.clienteid=cli.clienteid 
+
                inner join unidad_minera as uni
                on uni.unidad_mineraid=pro.unidad_mineraid
              
                where codigo_prop_proy='14.10.140-1101.10.10-B' and proyectoid='1101.10.10'
+               
                 ");
             $row=$sql->fetchAll();
             return $row;           

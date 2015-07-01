@@ -356,7 +356,6 @@ controller('mainController', ['$http', function($http){
 			var mes1 = reporte.meses[i]
 			tareopersona.data_horas.forEach(function (item) {
 				var mes2 = nombres[cadenaToFechaInv(item.fecha_tarea).getMonth()]
-				console.log(mes2)
 				if (mes1 == mes2) {
 					if (isNaN(parseFloat(item.h_real)) || item.h_real == '' || item.h_real == null || item.h_real == undefined) {
 						adicional = 0
