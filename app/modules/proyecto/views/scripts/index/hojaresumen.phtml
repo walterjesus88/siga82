@@ -168,7 +168,7 @@
 
                           <!-- ------------------------------------------ C O N T A C T O S ------------------------------------------------------- -->
                           <?php 
-                          $contact=$this->contact
+                          $contact=$this->contact[0]
                           ?>
                       
 
@@ -177,7 +177,7 @@
                               <h3>Informacion Comercial</h3>                     
                             </div>
                             <div >
-                              <h5><a name="multiple-select" class="anchor" href="#multiple-select">Multiple Select</a></h5>
+                              <h5><a name="multiple-select" class="anchor" href="#multiple-select">Escoja un contacto</a></h5>
                               <div class="side-by-side clearfix">
                                 <div>                                  
                                   <select id="contact" data-placeholder="Choose a Country..." style="width:350px;" multiple tabindex="3">
@@ -195,12 +195,12 @@
                               $(document).ready(function(){
                                 $("#contact").click(function(){
                                   var valor=$(this).val();
-                                  alert(valor);
+                                  //alert(valor);
                                 });
                               });
                           </script>
 
-                          <?php foreach ($this->contact as $contacto) {?> 
+                          <?php //foreach ($this->contact as $contacto[0]) {?> 
                           <div class="group-rom">                               
                               <div class="col-sm-4"> Nombre del Contacto </div>
                               <div class="col-sm-4"><?php echo $contact['ape_paterno'];echo " ";echo $contact['ape_materno'];echo " ";echo $contact['nombre1'] ?></div>
@@ -539,7 +539,7 @@
                               <div class="col-sm-6"> No hay campo en la BD.</div>
                             
                           </div>
-                          <?php  } ?> 
+                          <?php  //} ?> 
 
                   </aside>
      
