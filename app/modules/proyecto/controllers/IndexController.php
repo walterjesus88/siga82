@@ -1685,8 +1685,10 @@ public function cargartarea2Action() {
     $this->view->codigo = $codigo;
 
     $wheres=array('areaid'=>$areaid);
+
+    $order = array('uid ASC');
     $usercat=new Admin_Model_DbTable_Usuariocategoria();
-    $ucat=$usercat->_getFilter($wheres);
+    $ucat=$usercat->_getFilter($wheres,$attrib=null,$order);
     //$this->view->usercat = $ucat;
     //print_r($ucat);
 
@@ -1940,17 +1942,36 @@ public function cargartarea2Action() {
       $data['estado']='A';
    
       //print_r($data);
+      $where = array('codigo_prop_proy' =>$codigo_prop_proy, 'proyectoid' =>$proyectoid , 'areaid' =>$areaid );
 
       $equiparea= new Admin_Model_DbTable_Equipoarea();
-      $gequiparea= $equiparea->_save($data);
 
-      if($gequiparea)
+      $eki=$equiparea->_getOne($where);
+
+      if($eki)
       { ?>
-        <script>
-          //alert('ha sido creada la nueva area');
+        <script type="text/javascript">
+          alert("ya esta contenido ese area");
+          window.location.reload();
+
         </script>
-      <?php }
-      exit();
+      <?php
+      }
+      else
+      {
+
+        $gequiparea= $equiparea->_save($data);
+        if($gequiparea)
+        { ?>
+          <script>
+            //alert('ha sido creada la nueva area');
+          </script>
+        <?php }
+
+      }
+
+   
+      
 
     }
     catch (Exception $e) {
@@ -1969,9 +1990,19 @@ public function hojaresumenAction()
 
   $proyect = new Admin_Model_DbTable_Proyecto();
   $verproyect=$proyect->_buscarProyectodetalles($proyectoid,$codigo_prop_proy);
-  print_r($verproyect);
+  //print_r($verproyect);
+
+  $cliente=$verproyect[0]['clienteid'];
+
+  $where = array('clienteid' =>$cliente);
+
+  $contact = new Admin_Model_DbTable_Contacto();
+  $cc=$contact->_getFilter($where);
+
+  //print_r($cc[0]);
 
   $this->view->proyectdetail=$verproyect;
+  $this->view->contact=$cc;
 
 }
 

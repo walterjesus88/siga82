@@ -527,8 +527,7 @@ public function _getListarEquipoxProyectoxGerente($uid,$dni)
             $sql=$this->_db->query("select uid, dni from equipo where codigo_prop_proy='".$proyecto."' and estado='".$estado."' and nivel='".$nivel."'");
             $row=$sql->fetchAll();
             return $row;           
-            }  
-            
+            }            
            catch (Exception $ex){
             print $ex->getMessage();
         }

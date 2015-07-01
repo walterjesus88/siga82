@@ -143,8 +143,8 @@ class Admin_Model_DbTable_Contacto extends Zend_Db_Table_Abstract
         try{
             //if($where['eid']=='' || $where['oid']=='') return false;
                 $select = $this->_db->select();
-                if ($attrib=='') $select->from("perfil_puesto");
-                else $select->from("perfil_puesto",$attrib);
+                if ($attrib=='') $select->from("contacto");
+                else $select->from("contacto",$attrib);
                 foreach ($where as $atri=>$value){
                     $select->where("$atri = ?", $value);                    
                 }
@@ -158,7 +158,7 @@ class Admin_Model_DbTable_Contacto extends Zend_Db_Table_Abstract
                 if ($rows) return $rows;
                 return false;
         }catch (Exception $e){
-            print "Error: Read Filter Course ".$e->getMessage();
+            print "Error: Read Filter Contacto ".$e->getMessage();
         }
     }
 
