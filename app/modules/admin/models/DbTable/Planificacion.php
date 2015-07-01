@@ -207,4 +207,20 @@ class Admin_Model_DbTable_Planificacion extends Zend_Db_Table_Abstract
         }
     }
 
+    public function _getProyectosxSemana($semanaid,$uid,$dni){
+        try {
+            $sql=$this->_db->query("
+               select * from planificacion
+               where semanaid='$semanaid'  and uid='$uid' and dni='$dni' and h_totaldia is not null
+               
+            ");
+            $row=$sql->fetchAll();
+            return $row;     
+
+        } catch (Exception $e) {
+            print "Error: Read One Condition".$e->getMessage();
+        }
+    }
+
+
 }
