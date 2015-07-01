@@ -85,11 +85,17 @@ class Timesheet_AprobacionController extends Zend_Controller_Action {
                     $guardar_historial_empleado = $tabla_historial_aprobaciones -> _save($data);
                     if ($guardar_historial_empleado)
                     {
-                        echo "guardo satisfactoriamente despues de guardar";
+                        echo "guardo satisfactoriamente";
                         $tareopersona = new Admin_Model_DbTable_Tareopersona();
                         $datos_actualizar['estado']='C';
                         $str_actualizar="semanaid='$semana' and uid='$uid' and dni='$dni' and estado='A' ";
                         $update_tareopersona=$tareopersona -> _update($datos_actualizar,$str_actualizar);  
+
+                        $tabla_planificacion = new Admin_Model_DbTable_Planificacion();
+
+                        //$datos_actualizar_planificacion['estado']='E';
+                        //$str_actualizar_planificacion="semanaid='$semana' and uid='$uid' and dni='$dni'";
+                        //$update_planificacion=$tabla_planificacion -> _update($datos_actualizar_planificacion,$str_actualizar_planificacion);  
                     }
                 }
             }
@@ -105,6 +111,15 @@ class Timesheet_AprobacionController extends Zend_Controller_Action {
                         $datos_actualizar['estado']='C';
                         $str_actualizar="semanaid='$semana' and uid='$uid' and dni='$dni' and estado='A' ";
                         $update_tareopersona=$tareopersona -> _update($datos_actualizar,$str_actualizar);  
+
+
+                        $tabla_planificacion = new Admin_Model_DbTable_Planificacion();
+                        $lista_proyectos_empleado=$tabla_planificacion->_getProyectosxSemana($semana,$uid,$dni);
+                        print_r($lista_proyectos_empleado);
+
+                        //$datos_actualizar_planificacion['estado']='E';
+                        //$str_actualizar_planificacion="semanaid='$semana' and uid='$uid' and dni='$dni'";
+                        //$update_planificacion=$tabla_planificacion -> _update($datos_actualizar_planificacion,$str_actualizar_planificacion);  
                     }
 
             }
@@ -260,6 +275,8 @@ class Timesheet_AprobacionController extends Zend_Controller_Action {
             $tabla_planificacion = new Admin_Model_DbTable_Planificacion();
             $lista_empleados_aprobar = $tabla_planificacion->_getEquipoxSemanaxGerenteProyecto($uid,$dni);
             $this->view->lista_empleados_aprobar= $lista_empleados_aprobar;   
+
+            
         } catch (Exception $e) {
             print "Error: ".$e->getMessage();
         } 
