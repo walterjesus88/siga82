@@ -34,10 +34,9 @@
                                       <span><?php echo $proyect['propuestaid'] ?></span>            
                                     </li>                                   
                                 </ul>                             
-                              </div>
-
-                      
+                              </div>                      
                           </div>
+
                           <div class="group-rom">
                               <div class="col-sm-2 odd" >
                                 <p>Descripcion del Proyecto</p>
@@ -92,11 +91,8 @@
                               </div>
                               <div class="col-sm-2">Planificado</div>
                               <div class="col-sm-2">Real</div>
-                          </div>
-
-                          
-                              
-                          </div>
+                          </div>                          
+                       
                           <div class="group-rom">
                               <div class="col-sm-2">
                                   <ul>
@@ -132,6 +128,7 @@
                               <div class="col-sm-2">Fecha de Cierre</div>
                               <div class="col-sm-1"><?php echo $proyect['fecha_cierre'] ?></div>
                           </div>
+
                           <div class="group-rom">
                               <div class="col-sm-2">
                                   <ul>
@@ -169,262 +166,380 @@
                               <div class="col-sm-1">12:32</div>
                           </div>
 
+                          <!-- ------------------------------------------ C O N T A C T O S ------------------------------------------------------- -->
+                          <?php 
+                          $contact=$this->contact
+                          ?>
+                      
+
                           <div class="group-rom">
                             <div class="chat-room-head">
                               <h3>Informacion Comercial</h3>                     
                             </div>
+                            <div >
+                              <h5><a name="multiple-select" class="anchor" href="#multiple-select">Multiple Select</a></h5>
+                              <div class="side-by-side clearfix">
+                                <div>                                  
+                                  <select id="contact" data-placeholder="Choose a Country..." style="width:350px;" multiple tabindex="3">
+                                    <option value="United States">United States</option>
+                                    <?php foreach ($this->contact as $contacto) {?> 
+                                    <option value="<?php echo $contacto['contactoid']?>"><?php  echo $contacto['ape_paterno'];echo " ";echo $contacto['ape_materno'];echo " ";echo $contacto['nombre1'];echo " ";echo $contacto['nombre2']?></option>
+                                   
+                                    <?php } ?>
+                                  </select>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <script type="text/javascript">
+                              $(document).ready(function(){
+                                $("#contact").click(function(){
+                                  var valor=$(this).val();
+                                  alert(valor);
+                                });
+                              });
+                          </script>
+
+                          <?php foreach ($this->contact as $contacto) {?> 
+                          <div class="group-rom">                               
+                              <div class="col-sm-4"> Nombre del Contacto </div>
+                              <div class="col-sm-4"><?php echo $contact['ape_paterno'];echo " ";echo $contact['ape_materno'];echo " ";echo $contact['nombre1'] ?></div>
+                              <div class="col-sm-4">Presupuesto</div>                       
                           </div>
 
                           <div class="group-rom">
+                               
+                              <div class="col-sm-4">cargo </div>
+                              <div class="col-sm-4"><?php echo $contact['puesto_trabajo'] ?></div>
+                              
                               <div class="col-sm-4">
-                                 <ul>
-                                    <li class="">
-                                        <a class="lobby" href="lobby.html">                                      
-                                                Nombre Contacto
-                                        </a>
-                                    </li>
-                                     <li class="">
-                                        <a class="lobby" href="lobby.html">                                              
-                                                Cargo
-                                        </a>
-                                    </li>
-                                     <li class="">
-                                        <a class="lobby" href="lobby.html">                                              
-                                                Telefono
-                                        </a>
-                                    </li>
-                                     <li class="">
-                                        <a class="lobby" href="lobby.html">                                              
-                                                Celular 1
-                                        </a>
-                                    </li>
-                                     <li class="">
-                                        <a class="lobby" href="lobby.html">                                              
-                                                E-mail
-                                        </a>
-                                    </li>
-                                     <li class="">
-                                        <a class="lobby" href="lobby.html">                                              
-                                                Razon Social
-                                        </a>
-                                    </li>
-                                     <li class="">
-                                        <a class="lobby" href="lobby.html">                                              
-                                                RUC
-                                        </a>
-                                    </li>
-                                     <li class="">
-                                        <a class="lobby" href="lobby.html">                                              
-                                               Direccion Fiscal
-                                        </a>
-                                    </li>
-                                     <li class="">
-                                        <a class="lobby" href="lobby.html">                                              
-                                                Documento de Aprobacion
-                                        </a>
-                                    </li>
-                                     <li class="">
-                                        <a class="lobby" href="lobby.html">                                              
-                                                Comentarios
-                                        </a>
-                                    </li>
-                                     <li class="">
-                                        <a class="lobby" href="lobby.html">                                              
-                                                Foto Proyecto
-                                        </a>
-                                    </li>                                  
-                                  </ul>
-                              </div>
-                              <div class="col-sm-4">
-                                <ul>
-                                    <li class="">
-                                        <a class="lobby" href="lobby.html">                                      
-                                                Nombre del Proyecto
-                                        </a>
-                                    </li>
-                                    <li class="">
-                                        <a class="lobby" href="lobby.html">                                              
-                                                Nombre del Proyecto
-                                        </a>
-                                    </li>
-                                    <li class="">
-                                      <div class="col-sm-4">dd</div>
-                                      <div class="col-sm-4">dd</div>
-                                      <div class="col-sm-4">dd</div>
-                                    </li>
-                                    <li class="">
-                                      <div class="col-sm-4">dd</div>
-                                      <div class="col-sm-4">dd</div>
-                                      <div class="col-sm-4">dd</div>   
-                                    </li>
-                                     <li class="">
-                                        <a class="lobby" href="lobby.html">                                              
-                                                Nombre del Proyecto
-                                        </a>
-                                    </li>
-                                    <li class="">
-                                        <a class="lobby" href="lobby.html">                                              
-                                                Nombre del Proyecto
-                                        </a>
-                                    </li> 
-                                    <li class="">
-                                      <div class="col-sm-4">dd</div>
-                                      <div class="col-sm-4">dd</div>
-                                      <div class="col-sm-4">dd</div>  
-                                    </li>
-                                    <li class="">
-                                        <a class="lobby" href="lobby.html">                                              
-                                                Nombre del Proyecto
-                                        </a>
-                                    </li>
-                                    <li class="">
-                                      <div class="col-sm-4">dd</div>
-                                      <div class="col-sm-4">dd</div>
-                                      <div class="col-sm-4">dd</div>  
-                                    </li>
-                                    
-                                    <li class="">
-                                        <a class="lobby" href="lobby.html">                                              
-                                                Nombre del Proyecto
-                                        </a>
-                                    </li>
-                                    <li class="">
-                                        <a class="lobby" href="lobby.html">                                              
-                                                Nombre del Proyecto
-                                        </a>
-                                    </li>
-                                                                    
-                                </ul>
-                              </div>
-                              <div class="col-sm-4">
-                                <div class="col-sm-6">
-                                  <ul>
-                                    <li class="">
-                                        <a class="lobby" href="lobby.html">                                      
-                                                Presupuesto
-                                        </a>
-                                    </li>
-
-                                    <div class="col-sm-2">
-                                      <li class="">
-                                        <a class="lobby" href="lobby.html">                                              
-                                                Moneda
-                                        </a></br>
-                                        <a class="lobby" href="lobby.html">                                              
-                                                Honorarios
-                                        </a>
+                                <div class="col-sm-6">                                
+                                  <ul>    
+                                      <li>
+                                        <span>Moneda</span>            
                                       </li>
-                                    </div>
-
-                                
-                                    
-                                     <li class="">
-                                        <a class="lobby" href="lobby.html">                                              
-                                                Gastos
-                                        </a>
-                                    </li>
-                                     <li class="">
-                                        <a class="lobby" href="lobby.html">                                              
-                                                Laboratorio
-                                        </a>
-                                    </li>
-                                     <li class="">
-                                        <a class="lobby" href="lobby.html">                                              
-                                                Otros
-                                        </a>
-                                    </li>
-                                     <li class="">
-                                        <a class="lobby" href="lobby.html">                                              
-                                                Descuento
-                                        </a>
-                                    </li>
-                                     <li class="">
-                                        <a class="lobby" href="lobby.html">                                              
-                                                Total
-                                        </a>
-                                    </li>
-                                     <li class="">
-                                        <a class="lobby" href="lobby.html">                                              
-                                                SOC 01
-                                        </a>
-                                    </li>
-                                     <li class="">
-                                        <a class="lobby" href="lobby.html">                                              
-                                                SOC 02
-                                        </a>
-                                    </li>
-                                     <li class="">
-                                        <a class="lobby" href="lobby.html">                                              
-                                                SOC 03
-                                        </a>
-                                    </li>                                  
+                                      <li>
+                                        <span>Honorarios</span>            
+                                      </li>                                   
                                   </ul>
                                 </div>
-
                                 <div class="col-sm-6">
-                                  <ul>
-                                    <li class="">
-                                        <a class="lobby" href="lobby.html">                                      
-                                                Nombre del Proyecto
-                                        </a>
+                                  <ul>    
+                                    <li>
+                                      <span><?php echo $this->proyectoid ?></span>            
                                     </li>
-                                     <li class="">
-                                        <a class="lobby" href="lobby.html">                                              
-                                                Nombre del Proyecto
-                                        </a>
-                                    </li>
-                                     <li class="">
-                                        <a class="lobby" href="lobby.html">                                              
-                                                Nombre del Proyecto
-                                        </a>
-                                    </li>
-                                     <li class="">
-                                        <a class="lobby" href="lobby.html">                                              
-                                                Nombre del Proyecto
-                                        </a>
-                                    </li>
-                                     <li class="">
-                                        <a class="lobby" href="lobby.html">                                              
-                                                Nombre del Proyecto
-                                        </a>
-                                    </li>
-                                     <li class="">
-                                        <a class="lobby" href="lobby.html">                                              
-                                                Nombre del Proyecto
-                                        </a>
-                                    </li>
-                                     <li class="">
-                                        <a class="lobby" href="lobby.html">                                              
-                                                Nombre del Proyecto
-                                        </a>
-                                    </li>
-                                     <li class="">
-                                        <a class="lobby" href="lobby.html">                                              
-                                                Nombre del Proyecto
-                                        </a>
-                                    </li>
-                                     <li class="">
-                                        <a class="lobby" href="lobby.html">                                              
-                                                Nombre del Proyecto
-                                        </a>
-                                    </li>
-                                     <li class="">
-                                        <a class="lobby" href="lobby.html">                                              
-                                                Nombre del Proyecto
-                                        </a>
-                                    </li>
-                                     <li class="">
-                                        <a class="lobby" href="lobby.html">                                              
-                                                Nombre del Proyecto
-                                        </a>
-                                    </li>                                  
+                                    <li>
+                                      <span><?php echo $proyect['propuestaid'] ?></span>            
+                                    </li>                                   
+                                  </ul>                                
+                                </div>                                                         
+                              </div>                          
+                          </div>
+                       
+                          <div class="group-rom">
+                               
+                              <div class="col-sm-4">Telefono </div>
+                              <div class="col-sm-4">                                  
+
+                                <div class="col-sm-4">
+                                  <?php echo $contact['telefono'] ?>
+                                </div>
+
+                                <div class="col-sm-4">Anexo
+                                </div>
+
+
+                                <div class="col-sm-4">
+                                  <?php echo $contact['anexo'] ?>
+                                </div>
+
+                              
+                              </div>
+                              
+                              <div class="col-sm-4">
+                                <div class="col-sm-6">                                
+                                  <ul>    
+                                      <li>
+                                        <span>Gastos</span>            
+                                      </li>
+                                      <li>
+                                        <span>Laboratorio</span>            
+                                      </li>                                   
                                   </ul>
                                 </div>
-                              </div>
-
+                                <div class="col-sm-6">
+                                  <ul>    
+                                    <li>
+                                      <span>ffff</span>            
+                                    </li>
+                                    <li>
+                                      <span>ee</span>            
+                                    </li>                                   
+                                  </ul>                                
+                                </div>                                                         
+                              </div>                          
                           </div>
 
 
+                          <div class="group-rom">
+                               
+                              <div class="col-sm-4">Celular 1 </div>
+                              <div class="col-sm-4">
+                                <div class="col-sm-4">
+                                  <?php echo $contact['numero1'] ?>
+                                </div>
+
+                                <div class="col-sm-4">Celular 2
+                                </div>
+
+                                <div class="col-sm-4"> 
+                                  <?php echo $contact['numero2'] ?>
+                                </div>
+
+                              </div>
+                              
+                              <div class="col-sm-4">
+                                <div class="col-sm-6">                                
+                                  <ul>    
+                                      <li>
+                                        <span>Otros</span>            
+                                      </li>
+                                      <li>
+                                        <span>Descuentos</span>            
+                                      </li>                                   
+                                  </ul>
+                                </div>
+                                <div class="col-sm-6">
+                                  <ul>    
+                                    <li>
+                                      <span>ffff</span>            
+                                    </li>
+                                    <li>
+                                      <span>ee</span>            
+                                    </li>                                   
+                                  </ul>                                
+                                </div>                                                         
+                              </div>
+                          
+                          </div>
+
+                          <div class="group-rom">
+                               
+                              <div class="col-sm-4">email </div>
+                              <div class="col-sm-4"><?php echo $contact['correo'] ?></div>
+                              
+                              <div class="col-sm-4">
+                                <div class="col-sm-6">                                
+                                  <ul>    
+                                      <li>
+                                        <span>total</span>            
+                                      </li>
+                                      <li>
+                                        <span>SOC 01</span>            
+                                      </li>                                   
+                                  </ul>
+                                </div>
+                                <div class="col-sm-6">
+                                  <ul>    
+                                    <li>
+                                      <span><?php echo $this->proyectoid ?></span>            
+                                    </li>
+                                    <li>
+                                      <span><?php echo $proyect['propuestaid'] ?></span>            
+                                    </li>                                   
+                                  </ul>                                
+                                </div>                                                         
+                              </div>
+                          
+                          </div>
+
+                          <div class="group-rom">
+                               
+                              <div class="col-sm-4">Razon social </div>
+                              <div class="col-sm-4"><?php echo $proyect['nombre_comercial'] ?></div>
+                              
+                              <div class="col-sm-4">
+                                <div class="col-sm-6">                                
+                                  <ul>    
+                                      <li>
+                                        <span>SOC 02</span>            
+                                      </li>
+                                      <li>
+                                        <span>SOC 03</span>            
+                                      </li>                                   
+                                  </ul>
+                                </div>
+                                <div class="col-sm-6">
+                                  <ul>    
+                                    <li>
+                                      <span>  <?php echo $this->proyectoid ?></span>            
+                                    </li>
+                                    <li>
+                                      <span><?php echo $proyect['propuestaid'] ?></span>            
+                                    </li>                                   
+                                  </ul>                                
+                                </div>                                                         
+                              </div>
+                          
+                          </div>
+
+
+
+                          <div class="group-rom">
+                               
+                              <div class="col-sm-4">ruc </div>
+                              <div class="col-sm-4">
+                                <div class="col-sm-4">
+                                  <?php echo $proyect['ruc'] ?>
+                                </div>
+
+                                <div class="col-sm-4">Telefono
+                                </div>
+
+                                <div class="col-sm-4">  No especifica contacto o cliente(no hay campo)
+                                </div>
+
+                              </div>
+                              
+                              <div class="col-sm-4">
+                                <div class="col-sm-6">                                
+                                  <ul>    
+                                      <li>
+                                        <span>Otros</span>            
+                                      </li>
+                                                            
+                                  </ul>
+                                </div>
+                                <div class="col-sm-6">                                
+                                  <ul>    
+                                      <li>
+                                        <span>Otros</span>            
+                                      </li>
+                                                            
+                                  </ul>
+                                </div>                                             
+                              </div>
+                          
+                          </div>
+
+
+                          <div class="group-rom">
+                               
+                              <div class="col-sm-4"> Direccion Fiscal  </div>
+                              <div class="col-sm-4"><?php echo $contact['direccion'] ?></div>
+                              <div class="col-sm-4">
+                                <div class="col-sm-6">
+                                  <ul>    
+                                      <li>
+                                        <span>Adelanto %</span>            
+                                      </li>
+                                                                    
+                                  </ul>
+                                </div>
+                                <div class="col-sm-6">
+                                   <ul>    
+                                      
+                                      <li>
+                                        <span><?php echo $proyect['propuestaid'] ?></span>            
+                                      </li>                                   
+                                  </ul>                             
+                                </div>
+                              </div>
+                          </div>
+
+                         <div class="group-rom">
+                               
+                              <div class="col-sm-4">Documento de Aprobacion </div>
+                              <div class="col-sm-4">
+                                <div class="col-sm-4">
+                                 No hay campo en la BD
+                                </div>
+
+                                <div class="col-sm-4">Numero de Documento
+                                </div>
+
+                                <div class="col-sm-4">   No hay campo en la BD
+                                </div>
+
+                              </div>
+                              
+                              <div class="col-sm-4">
+                                <div class="col-sm-6">                                
+                                  <ul>    
+                                      <li>
+                                        <span>Tipo de Contrato</span>            
+                                      </li>
+                                                            
+                                  </ul>
+                                </div>
+                                <div class="col-sm-6">                                
+                                  <ul>    
+                                      <li>
+                                        <span>Otros</span>            
+                                      </li>
+                                                            
+                                  </ul>
+                                </div>                                             
+                              </div>
+                          
+                          </div>
+
+                          <div class="group-rom">
+                               
+                              <div class="col-sm-4"> Comentarios  </div>
+                              <div class="col-sm-4"> No hay campo en la BD</div>
+                              <div class="col-sm-4">
+                                <div class="col-sm-6">
+                                  <ul>    
+                                      <li>
+                                        <span>Plazo de Pagos de Facturas %</span>            
+                                      </li>
+                                                                    
+                                  </ul>
+                                </div>
+                                <div class="col-sm-6">
+                                   <ul>    
+                                      
+                                      <li>
+                                        <span>ddddd</span>            
+                                      </li>                                   
+                                  </ul>                             
+                                </div>
+                              </div>
+                          </div>
+
+
+                          <div class="group-rom">
+                               
+                              <div class="col-sm-4"> Foto Proyecto (link ruta)  </div>
+                              <div class="col-sm-4">No hay campo en la BD</div>
+                              <div class="col-sm-4">
+                                <div class="col-sm-6">
+                                  <ul>    
+                                      <li>
+                                        <span>Plazo de Pagos de Facturas %</span>            
+                                      </li>
+                                                                    
+                                  </ul>
+                                </div>
+                                <div class="col-sm-6">
+                                   <ul>    
+                                      
+                                      <li>
+                                        <span>ddddd</span>            
+                                      </li>                                   
+                                  </ul>                             
+                                </div>
+                              </div>
+                          </div>
+
+                          <div class="group-rom">
+                               
+                              <div class="col-sm-6"> observaciones  No hay campo en la BD  </div>
+                              <div class="col-sm-6"> No hay campo en la BD.</div>
+                            
+                          </div>
+                          <?php  } ?> 
 
                   </aside>
      
