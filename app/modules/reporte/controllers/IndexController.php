@@ -14,22 +14,12 @@ class Reporte_IndexController extends Zend_Controller_Action {
         );
         Zend_Layout::startMvc($options);
     }
-    
 
-    /*Accion que devuelve la vista principal contenida el el archivo
-    ../views/scripts/index/index.phtml*/
-    public function indexAction() {
-        
-    }
-
-    /*Funcion que devuelde los registros con los campos necesarios para visualizacion
-    de la vista de reporte tarea persona. Para lo cual han sido parseados como json
-    */
-
-    public function tareopersonaAction() {
-        $this->_helper->layout()->disableLayout();
+    //Funcion que devuelve los datos de tareopersona segun proyecto, implementado por repeticion en 
+    //diferentes actions
+    protected function obtenerTareopersona($codigo_prop_proy){
         $tareopersona = new Admin_Model_DbTable_Tareopersona();
-        $data['codigo_prop_proy'] = $this->_getParam('codigo_prop_proy');
+        $data['codigo_prop_proy'] = $codigo_prop_proy;
         $todos_tareopersona = $tareopersona->_getReporte($data);
 
         $respuesta = [];
@@ -56,12 +46,46 @@ class Reporte_IndexController extends Zend_Controller_Action {
                $fila['estado'] = 'Cancelado';
            }
 
+           $data['codigo_prop_proy'] = $fila['codigo_prop_proy'];
+           $data['codigo_actividad'] = $fila['codigo_actividad'];
+           $data['uid'] = $fila['uid'];
+
+           $data_horas = $tareopersona->_getHorasxUidxCppxCa($data);
+
+           $fila['data_horas'] = $data_horas;
+
            $respuesta[$i] = $fila;
            $i++;
-           
         }
+
+        return $respuesta;
         
+    }
+    
+
+    /*Accion que devuelve la vista principal contenida el el archivo
+    ../views/scripts/index/index.phtml*/
+    public function indexAction() {
+        
+    }
+
+    /*Action que devuelde los registros con los campos necesarios para visualizacion
+    de la vista de reporte tarea persona. Para lo cual han sido parseados como json
+    */
+
+    public function tareopersonajsonAction() {
+        $this->_helper->layout()->disableLayout();
+        $codigo_prop_proy = $this->_getParam('codigo_prop_proy');
+        $respuesta = $this->obtenerTareopersona($codigo_prop_proy);
         $this->_helper->json->sendJson($respuesta);      
+    }
+
+    //Action que devuelve los datos de tareopersona en un archivo html
+    public function tareopersonahtmlAction(){
+        $this->_helper->layout()->disableLayout();
+        $codigo_prop_proy = $this->_getParam('codigo_prop_proy');
+        $respuesta = $this->obtenerTareopersona($codigo_prop_proy);
+        $this->view->tareopersona = $respuesta;
     }
 
     public function usuariosAction() {

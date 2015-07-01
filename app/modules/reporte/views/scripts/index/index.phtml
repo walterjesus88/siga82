@@ -1,5 +1,5 @@
 <div ng-app="reporteApp" ng-controller="mainController as reporte" class="div-reportes">
-	
+
 	<div class="col-lg-12 m-bot15">
 		<h1>Reporte Tareopersona</h1>
 		<div>
@@ -33,32 +33,39 @@
 		<div class="col-lg-4">
 			<h4>Usuarios</h4>
 			<select ng-disabled="reporte.disabled_children" class="form-control m-bot15" ng-model="reporte.usuario_seleccionado">
-				<option value="todos" selected="selected">Todos</option>
-				<option value="{{usuario.uid}}" ng-repeat="usuario in reporte.usuarios track by $index">{{usuario.uid}}</option>
+				<option value="." selected="selected">Todos</option>
+				<option value="{{usuario.uid}}" ng-repeat="usuario in reporte.usuarios track by $index | orderBy: 'uid'">{{usuario.uid}}</option>
 			</select>
 		</div>
 		<div class="col-lg-4">
 			<h4>Tipo de Actividad</h4>
-			<input ng-disabled="reporte.tareopersona_void" type="checkbox" ng-model="reporte.tipo_todo" ng-true-value="true" ng-false-value="false" ng-click="reporte.mostrarTodo()">Todos
-			<div ng-repeat="item in reporte.cobrabilidad">
-				<input ng-disabled="reporte.tareopersona_void" type="checkbox" ng-model="reporte.activo[item.text]" ng-true-value="true" ng-false-value="false" ng-click="reporte.notTodo()">{{item.text}}
+			<input ng-disabled="reporte.tareopersona_void" type="checkbox" ng-model="reporte.tipo_activo.Todo" ng-true-value="true" ng-false-value="false" ng-click="reporte.tipoActivoTodo()">Todos
+			<div ng-repeat="item in reporte.tipo_actividad">
+				<input ng-disabled="reporte.tareopersona_void" type="checkbox" ng-model="reporte.tipo_activo[item.text]" ng-true-value="true" ng-false-value="false" ng-click="reporte.tipoActivoHijo()">{{item.text}}
 			</div>
 		</div>
 		<div class="col-lg-4">
 			<h4>Rango de Rendición</h4>
 			<div>
 	            <div class="input-group input-large" data-date="13/07/2013" data-date-format="mm/dd/yyyy">
-	                <input ng-disabled="reporte.disabled_children" type="text" ng-model="reporte.fecha_from" class="form-control dpd1" name="from">
+	                <input ng-disabled="reporte.disabled_children" type="text" ng-model="reporte.fecha_from.cadena" ng-change="reporte.cambiarFecha()" class="form-control dpd1" name="from">
 	                <span class="input-group-addon">a</span>
-	                <input ng-disabled="reporte.disabled_children" type="text" ng-model="reporte.fecha_to" class="form-control dpd2" name="to">
+	                <input ng-disabled="reporte.disabled_children" type="text" ng-model="reporte.fecha_to.cadena" ng-change="reporte.cambiarFecha()" class="form-control dpd2" name="to">
 	            </div>
 	            <span class="help-block">Seleccione fechas para rango de rendición</span>
 	        </div>
+	        <h4>Granularidad</h4>
+	        <div>
+	        	<select ng-model="reporte.agrupado_seleccionado" ng-change="reporte.cambiarAgrupamiento()" class="form-control m-bot15" ng-disabled="reporte.disabled_children">
+	        		<option value="{{item.value}}" ng-repeat="item in reporte.agrupado">{{item.text}}</option>
+	        	</select>
+	        </div>
 		</div>
 	</div>
-	<div ng-hide="reporte.tareopersona_void">
-		<table class="table table-bordered table-striped table-condensed">
-		<thead class="">
+
+	<div id="container-tareopersona-table">
+		<table datatable="ng" class="table table-bordered table-striped table-condensed">
+		<thead>
 			<th>
 				<div>
 					Usuario Id
@@ -94,9 +101,19 @@
 					Status Proyecto
 				</div>
 			</th>
-			<th ng-repeat="dia in reporte.dias">
+			<th ng-repeat="dia in reporte.dias track by $index" ng-show="reporte.dias_visible">
 				<div>
-					{{dia}}
+					{{dia.cadena}}
+				</div>
+			</th>
+			<th ng-repeat="semana in reporte.semanas track by $index" ng-show="reporte.semanas_visible">
+				<div>
+					{{semana.cadena}}
+				</div>
+			</th>
+			<th ng-repeat="mes in reporte.meses track by $index" ng-show="reporte.meses_visible">
+				<div>
+					{{mes}}
 				</div>
 			</th>
 			<th>
@@ -106,7 +123,7 @@
 			</th>
 		</thead>
 		<tbody class="">
-			<tr ng-repeat="fila in reporte.tareopersona" ng-show="reporte.activo[fila.tipo_actividad]">
+			<tr ng-repeat="fila in reporte.tareopersona | filter: reporte.usuario_seleccionado" ng-show="reporte.tipo_activo[fila.tipo_actividad]">
 				<td>
 					<div>
 						{{fila.dni}}
@@ -119,7 +136,7 @@
 				</td>
 				<td>
 					<div>
-						{{fila.rate}}
+						{{fila.rate_proyecto}}
 					</div>
 				</td>
 				<td>
@@ -142,9 +159,19 @@
 						{{fila.estado}}
 					</div>
 				</td>
-				<td ng-repeat="dia in reporte.dias">
+				<td ng-repeat="hora in fila.horas track by $index" ng-show="reporte.dias_visible">
 					<div>
-						
+						{{hora}}
+					</div>
+				</td>
+				<td ng-repeat="hora in fila.horasxsemanas track by $index" ng-show="reporte.semanas_visible">
+					<div>
+						{{hora}}
+					</div>
+				</td>
+				<td ng-repeat="hora in fila.horasxmeses track by $index" ng-show="reporte.meses_visible">
+					<div>
+						{{hora}}
 					</div>
 				</td>
 				<td>
@@ -178,7 +205,17 @@
 			<td>
 				<div></div>
 			</td>
-			<td ng-repeat="dia in reporte.dias">
+			<td ng-repeat="dia in reporte.dias" ng-show="reporte.dias_visible">
+				<div>
+					
+				</div>
+			</td>
+			<td ng-repeat="semana in reporte.semanas" ng-show="reporte.semanas_visible">
+				<div>
+					
+				</div>
+			</td>
+			<td ng-repeat="mes in reporte.meses" ng-show="reporte.meses_visible">
 				<div>
 					
 				</div>
@@ -188,44 +225,8 @@
 			</td>
 		</tfoot>	
 		</table>
-		<div class="row-fluid">
-		<div class="span6">
-			<div class="dataTables_info">Showing 1 to 10 of 57 entries</div>
-		</div>
-		<div class="span6">
-			<div class="dataTables_paginate paging_bootstrap pagination">
-				<ul>
-					<li class="prev disabled"><a href="#">← Previous</a></li>
-					<li class="active"><a href="#">1</a></li>
-					<li><a href="#">2</a></li>
-					<li><a href="#">3</a></li>
-					<li><a href="#">4</a></li>
-					<li><a href="#">5</a></li>
-					<li class="next"><a href="#">Next → </a></li>
-				</ul>
-			</div>
-		</div>
 	</div>
-	</div>
-
-	<div class="col-lg-12" ng-show="reporte.tareopersona_void">
-		<h2>
-			<center>	
-				No hay Tareo_persona que mostrar
-			</center>
-		</h2>
-	</div>
-
 </div>
-
-<!--script>
-  //Funcion para poner el scroll personalizado a las tablas
-  $('#usuarioScroll').ready(function ($) {
-    //$('.bodyScroll').addClass('scrollContent');
-    $('#usuarioScroll').perfectScrollbar();
-  });
-</script-->
-
 
 <!--div de modal para barra cargando-->
 <div class="modal fade" id="wait" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">

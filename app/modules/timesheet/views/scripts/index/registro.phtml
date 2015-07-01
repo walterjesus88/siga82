@@ -293,6 +293,7 @@
                 $estado_usuario='A';
                 $data_equipo = $equipo->_getDatosxEquipoxProyecto($uid,$dni,$data_tareo['codigo_prop_proy'],$data_tareo['proyectoid']);
                 $categoriaid=$data_equipo[0]['categoriaid'];
+                
                 $areaid=$data_equipo[0]['areaid'];
                 $cargo=$data_equipo[0]['cargo'];
 
@@ -1699,15 +1700,16 @@ $("input.focusable").keydown(function(tecla){
     max_horizontal = 50;
     max_vertical = 50;
     var matriz = new Array(max_horizontal);
-    for (i = 0; i < max_horizontal; i++)
+    for (i = 0; i < max_horizontal; i++) {
       matriz[i] = new Array(max_vertical);
+    }
     $("[id*=valor]").each(function(indice, elemento) {
       elemID = $(elemento).attr("id");
       horizontal = elemID.slice(5,6);
       vertical = elemID.slice(6,8);
       matriz[horizontal][vertical] = $(elemento).val();
     });
-    maximo = 0;
+    maximov = 0;
     elemSuma = [];
     horSuma = [];
     
@@ -1715,14 +1717,14 @@ $("input.focusable").keydown(function(tecla){
       resSumah = 0;
       for (var hor = 0; hor < max_horizontal; hor++) {
         if (typeof matriz[hor][ver] !== 'undefined') {
-          if (isNaN(parseInt(matriz[hor][ver]))) {
+          if (isNaN(parseFloat(matriz[hor][ver]))) {
             matriz[hor][ver] = 0;
           };
-          resSumah = resSumah + parseInt(matriz[hor][ver]);
+          resSumah = resSumah + parseFloat(matriz[hor][ver]);
           maximov = ver+1;};
           
         };
-      horSuma.push(resSumah);
+      horSuma.push(resSumah.toFixed(2));
     };
     mostrarver = horSuma.slice(1, maximov);
     $("[id*=suma-horizontal]").each(function(indice, elemento) {
@@ -1758,7 +1760,6 @@ $("input.focusable").keydown(function(tecla){
         var semanaid="<?php echo $this->semana ?>";
         var cargo="<?php echo $this->areaid ?>";
         url_enviar_hojatiempo="/timesheet/aprobacion/enviarhojatiempo/estado/E/uid/"+uid+'/dni/'+dni+'/semanaid/'+semanaid+'/cargo/'+cargo+'/etapa/0'+'/fecha_envio/'+fechaactualenvio;
-        
         urlfecha="/timesheet/index/registro/fecha/" + fecha_inicio;
 
         $.ajax({

@@ -404,6 +404,9 @@ public function _getTareasxActividadPadrexCategoria($proyectoid,$codigo,$propues
         }
     }
 
+    
+
+
     public function _getActividadesHijasxReplicon($proyectoid,$codigo,$propuestaid,$revision,$actividadid)
      {
         try{
@@ -447,6 +450,23 @@ public function _getTareasxActividadPadrexCategoria($proyectoid,$codigo,$propues
             $row=$sql->fetchAll();
             return $row;           
             }  
+           catch (Exception $ex){
+            print $ex->getMessage();
+        }
+    }
+
+    public function _getActividadesOrdenadas($proyectoid,$codigo)
+     {
+        try{
+            $sql=$this->_db->query("
+               select * from actividad 
+               where proyectoid='$proyectoid' and codigo_prop_proy='$codigo' 
+                  order by orden asc;
+            ");
+            $row=$sql->fetchAll();
+            return $row;           
+            }  
+            
            catch (Exception $ex){
             print $ex->getMessage();
         }
