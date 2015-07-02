@@ -156,7 +156,7 @@ class Admin_Model_DbTable_Proyecto extends Zend_Db_Table_Abstract
                inner join unidad_minera as uni
                on uni.unidad_mineraid=pro.unidad_mineraid
              
-               where codigo_prop_proy='14.10.140-1101.10.10-B' and proyectoid='1101.10.10'
+               where codigo_prop_proy='$codigo_prop_proy' and proyectoid='$proyecto'
                
                 ");
             $row=$sql->fetchAll();

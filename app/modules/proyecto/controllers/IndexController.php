@@ -1992,17 +1992,26 @@ public function hojaresumenAction()
   $verproyect=$proyect->_buscarProyectodetalles($proyectoid,$codigo_prop_proy);
   //print_r($verproyect);
 
-  $cliente=$verproyect[0]['clienteid'];
-
-  $where = array('clienteid' =>$cliente);
-
-  $contact = new Admin_Model_DbTable_Contacto();
-  $cc=$contact->_getFilter($where);
-
-  //print_r($cc[0]);
 
   $this->view->proyectdetail=$verproyect;
-  $this->view->contact=$cc;
+
+  if($verproyect)
+  {
+
+    $cliente=$verproyect[0]['clienteid'];
+
+    $where = array('clienteid' =>$cliente);
+    //print_r($where);
+
+    $contact = new Admin_Model_DbTable_Contacto();
+    $cc=$contact->_getFilter($where);
+
+    //print_r($cc[0]);
+
+    $this->view->contact=$cc;
+  }
+
+
 
 }
 
