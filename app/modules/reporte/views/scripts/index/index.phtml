@@ -23,7 +23,7 @@
 				{{reporte.text_proyectos}}
 				<table>
 					<tr ng-repeat="proyecto in reporte.proyectos">
-						<th>{{proyecto.nombre_proyecto}}</th>
+						<th>{{proyecto.codigo_prop_proy}} - {{proyecto.nombre_proyecto}}</th>
 						<th><input ng-model="reporte.proyectos[$index].selected" ng-change="reporte.getData(proyecto.codigo_prop_proy, $index)" ng-true-value="true" ng-false-value="false" type="checkbox"></th>
 					</tr>
 			</table>
@@ -64,7 +64,7 @@
 	</div>
 
 	<div id="container-tareopersona-table">
-		<table datatable="ng" class="table table-bordered table-striped table-condensed">
+		<table datatable="ng" dt-instance="reporte.dtInstance" class="table table-bordered table-striped table-condensed">
 		<thead>
 			<th>
 				<div>

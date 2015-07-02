@@ -570,7 +570,7 @@ order by t.proyectoid,t.actividadid,t.tipo_actividad desc
             
             $sql=$this->_db->query("select tareo.codigo_prop_proy, tareo.codigo_actividad, tareo.dni, 
                 tareo.uid, equipo.rate_proyecto, pro.proyectoid, tareo.tipo_actividad, unimin.nombre, 
-                pro.nombre_proyecto, pro.estado, sum(cast(tareo.h_real as float)) as h_real_total
+                pro.nombre_proyecto, pro.estado, sum(cast((case when tareo.h_real='' then '0' else tareo.h_real end) as float)) as h_real_total
                 from tareo_persona as tareo 
                 inner join equipo as equipo
                 on tareo.codigo_prop_proy=equipo.codigo_prop_proy and tareo.proyectoid=equipo.proyectoid and tareo.uid=equipo.uid

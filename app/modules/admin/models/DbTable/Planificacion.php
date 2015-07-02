@@ -131,6 +131,7 @@ class Admin_Model_DbTable_Planificacion extends Zend_Db_Table_Abstract
                 inner join historial_aprobaciones as h
                 on p.semanaid=h.semanaid and p.uid=h.uid_empleado and p.dni=h.dni_empleado and p.areaid=h.areaid_empleado
                 where p.proyectoid='$proyectoid' and p.codigo_prop_proy = '$codigo_proyecto' and h.etapa_validador='FILTRO2' and estado_historial='A'
+
             ");
             $row=$sql->fetchAll();
             return $row;     
@@ -194,4 +195,32 @@ class Admin_Model_DbTable_Planificacion extends Zend_Db_Table_Abstract
             print "Error: Read One Condition".$e->getMessage();
         }
     }
+
+ 
+
+    public function _update($data,$str=''){
+        try{
+            if ($str=="") return false;
+            return $this->update($data,$str);
+        }catch (Exception $ex){
+           // print "Error: Actualizando un registro de Propuesta".$ex->getMessage();
+        }
+    }
+
+    public function _getProyectosxSemana($semanaid,$uid,$dni){
+        try {
+            $sql=$this->_db->query("
+               select * from planificacion
+               where semanaid='$semanaid'  and uid='$uid' and dni='$dni' and h_totaldia is not null
+               
+            ");
+            $row=$sql->fetchAll();
+            return $row;     
+
+        } catch (Exception $e) {
+            print "Error: Read One Condition".$e->getMessage();
+        }
+    }
+
+
 }

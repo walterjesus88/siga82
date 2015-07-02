@@ -13,6 +13,8 @@ controller('mainController', ['$http', function($http){
 	//obtener una referencia del scope para el funcionamiento del data binding
 	reporte = this
 
+	reporte.dtInstance = {}
+
 	//inicializando variables para el rango de fecha
 	var fecha_inicial_cad = '10-06-2015'
 	var fecha_inicial_date = cadenaToFecha(fecha_inicial_cad)
@@ -74,6 +76,7 @@ controller('mainController', ['$http', function($http){
 	reporte.getProyectos = function (elementoid, por) {
 		reporte.proyectos = []
 		reporte.usuarios = []
+		reporte.tareopersona = []
 		reporte.disabled_children = true
 		if (por == 'byCliente') {
 			reporte.gerente_seleccionado = 'todos'
@@ -214,9 +217,10 @@ controller('mainController', ['$http', function($http){
 			res.forEach(function (item) {
 				//inicializar la varible existe
 				existe = 0
+				item.uid = cambiarFormatoUsuario(item.uid)
 				//verificar si usuario existe en la lista
 				for (var i = 0; i < reporte.usuarios.length; i++) {
-					if (item.uid == reporte.usuarios[i].uid) {
+					if ((item.uid) == reporte.usuarios[i].uid) {
 						existe = 1
 					}
 				}
@@ -242,6 +246,7 @@ controller('mainController', ['$http', function($http){
 		$http.get('/reporte/index/usuarios/codigo_prop_proy/' + proyecto)
 		.success(function (res) {
 			res.forEach(function (item) {
+				item.uid = cambiarFormatoUsuario(item.uid)
 				//disminuir en 1 el num_pro de los elementos que aparecen en la lista
 				for (var i = 0; i < reporte.usuarios.length; i++) {
 					if (item.uid == reporte.usuarios[i].uid) {
@@ -273,6 +278,7 @@ controller('mainController', ['$http', function($http){
 			res.forEach(function (item) {
 				item.horas = rellenarDiasTareopersona(item)
 				item.horasxmeses = rellenarMesesTareopersona(item)
+				item.uid = cambiarFormatoUsuario(item.uid)
 				reporte.tareopersona.push(item)
 			})
 			$("#wait").modal('hide')
@@ -324,10 +330,14 @@ controller('mainController', ['$http', function($http){
 	function rellenarDiasTareopersona (tareopersona) {
 		var horas = []
 		for (var i = 0; i < reporte.dias.length; i++) {
-			hora = '0'
+			hora = '--'
 			tareopersona.data_horas.forEach(function (item) {
 				if (reporte.dias[i].fecha == item.fecha_tarea) {
-					hora = item.h_real
+					if (item.h_real == '' || item.h_real == undefined) {
+						hora = '--'
+					} else {
+						hora = item.h_real
+					}
 				}
 			})
 			horas.push(hora)
@@ -356,7 +366,6 @@ controller('mainController', ['$http', function($http){
 			var mes1 = reporte.meses[i]
 			tareopersona.data_horas.forEach(function (item) {
 				var mes2 = nombres[cadenaToFechaInv(item.fecha_tarea).getMonth()]
-				console.log(mes2)
 				if (mes1 == mes2) {
 					if (isNaN(parseFloat(item.h_real)) || item.h_real == '' || item.h_real == null || item.h_real == undefined) {
 						adicional = 0
@@ -371,10 +380,24 @@ controller('mainController', ['$http', function($http){
 		return horasxmeses
 	}
 
+	function cambiarFormatoUsuario (uid) {
+		var cont = uid.indexOf(".")
+		if (cont != -1) {
+			var datos = uid.split(".")
+			var nombre = datos[0].charAt(0).toUpperCase() + datos[0].slice(1)
+			var apellido = datos[1].charAt(0).toUpperCase() + datos[1].slice(1)
+			return nombre + ' ' + apellido
+		} else {
+			return uid.charAt(0).toUpperCase() + uid.slice(1)
+		}	
+	}
+
 	reporte.cambiarFecha = function () {
 		reporte.fecha_from.date = cadenaToFecha(reporte.fecha_from.cadena)
 		reporte.fecha_to.date = cadenaToFecha(reporte.fecha_to.cadena)
+		reporte.dias = []
 		reporte.dias = rellenarDias()
+		reporte.meses = []
 		reporte.meses = rellenarMeses()
 		arrayTemp = []
 		reporte.tareopersona.forEach(function (item) {
@@ -383,6 +406,7 @@ controller('mainController', ['$http', function($http){
 			arrayTemp.push(item)
 		})
 		reporte.tareopersona = arrayTemp
+		reporte.dtInstance.rerender()
 	}
 
 	reporte.cambiarAgrupamiento = function () {
