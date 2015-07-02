@@ -1,4 +1,4 @@
-<div ng-app="reporteApp" ng-controller="mainController as reporte" class="div-reportes">
+<div style="overflow: scroll" ng-app="reporteApp" ng-controller="mainController as reporte" class="div-reportes">
 
 	<div class="col-lg-12 m-bot15">
 		<h1>Reporte Tareopersona</h1>
@@ -205,19 +205,19 @@
 			<td>
 				<div></div>
 			</td>
-			<td ng-repeat="dia in reporte.dias" ng-show="reporte.dias_visible">
+			<td ng-repeat="horaxdia in reporte.dias_suma track by $index" ng-show="reporte.dias_visible">
 				<div>
-					
+					{{horaxdia}}
 				</div>
 			</td>
-			<td ng-repeat="semana in reporte.semanas" ng-show="reporte.semanas_visible">
+			<td ng-repeat="horaxsemana in reporte.semanas_suma track by $index" ng-show="reporte.semanas_visible">
 				<div>
-					
+					{{horaxsemana}}
 				</div>
 			</td>
-			<td ng-repeat="mes in reporte.meses" ng-show="reporte.meses_visible">
+			<td ng-repeat="horaxmes in reporte.meses_suma track by $index" ng-show="reporte.meses_visible">
 				<div>
-					
+					{{horaxmes}}
 				</div>
 			</td>
 			<td>

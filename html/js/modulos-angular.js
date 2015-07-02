@@ -38,6 +38,7 @@ controller('mainController', ['$http', function($http){
 	reporte.dias = []
 	reporte.semanas = []
 	reporte.meses = []
+	reporte.dias_suma = []
 	reporte.dias_visible = true
 	reporte.semanas_visible = false
 	reporte.meses_visible = false	
@@ -282,10 +283,12 @@ controller('mainController', ['$http', function($http){
 				item.horasxsemanas = rellenarSemanasTareopersona(item)
 				item.horas_total = sumarHorizontal(item)
 				item.uid = cambiarFormatoUsuario(item.uid)
-				reporte.tareopersona.push(item)
+				reporte.tareopersona.push(item)	
 			})
 			$("#wait").modal('hide')
-
+			reporte.dias_suma = sumarVerticalDias()
+			reporte.semanas_suma = sumarVerticalSemanas()
+			reporte.meses_suma = sumarVerticalMeses()
 			if (reporte.tareopersona.length == 0) {
 				reporte.tareopersona_void = true
 			} else{
@@ -302,6 +305,9 @@ controller('mainController', ['$http', function($http){
 				reporte.tareopersona.push(item)
 			}
 		})
+		reporte.dias_suma = sumarVerticalDias()
+		reporte.semanas_suma = sumarVerticalSemanas()
+		reporte.meses_suma = sumarVerticalMeses()
 	}
 
 	//funciones para el manejo de los dias visibles en la tabla tareopersona
@@ -364,9 +370,6 @@ controller('mainController', ['$http', function($http){
 			tareopersona.data_horas.forEach(function (item) {
 				var mes2 = nombres[cadenaToFechaInv(item.fecha_tarea).getMonth()]
 				var dia = cadenaToFechaInv(item.fecha_tarea)
-				console.log(inicial)
-				console.log(dia)
-				console.log(ultimo)
 				if (mes1 == mes2 && inicial <= dia && dia <= ultimo) {
 					if (isNaN(parseFloat(item.h_real)) || item.h_real == '' || item.h_real == null || item.h_real == undefined) {
 						adicional = 0
@@ -376,6 +379,9 @@ controller('mainController', ['$http', function($http){
 					hora = hora + adicional
 				}
 			})
+			if (hora == 0) {
+				hora = '--'
+			}
 			horasxmeses.push(hora)
 		}
 		return horasxmeses
@@ -412,6 +418,9 @@ controller('mainController', ['$http', function($http){
 					hora = hora + adicional
 				}
 			})
+			if (hora == 0) {
+				hora = '--'
+			}
 			horasxsemanas.push(hora)
 		}
 		return horasxsemanas
@@ -465,8 +474,12 @@ controller('mainController', ['$http', function($http){
 			item.horas = rellenarDiasTareopersona(item)
 			item.horasxmeses = rellenarMesesTareopersona(item)
 			item.horasxsemanas = rellenarSemanasTareopersona(item)
+			item.horas_total = sumarHorizontal(item)
 			arrayTemp.push(item)
 		})
+		reporte.dias_suma = sumarVerticalDias()
+		reporte.semanas_suma = sumarVerticalSemanas()
+		reporte.meses_suma = sumarVerticalMeses()
 		reporte.tareopersona = arrayTemp
 		reporte.dtInstance.rerender()
 	}
@@ -495,5 +508,53 @@ controller('mainController', ['$http', function($http){
 			}
 		})
 		return suma
+	}
+
+	function sumarVerticalDias () {
+		var suma_ver = []
+		var i = 0
+		reporte.dias.forEach(function (dia) {
+			var suma = 0
+			reporte.tareopersona.forEach(function (tareopersona) {
+				if (tareopersona.horas[i] != '--') {
+					suma = suma + parseInt(tareopersona.horas[i])
+				}
+			})
+			i = i + 1
+			suma_ver.push(suma)
+		})
+		return suma_ver
+	}
+
+	function sumarVerticalSemanas () {
+		var suma_ver = []
+		var i = 0
+		reporte.semanas.forEach(function (semana) {
+			var suma = 0
+			reporte.tareopersona.forEach(function (tareopersona) {
+				if (tareopersona.horasxsemanas[i] != '--') {
+					suma = suma + parseInt(tareopersona.horasxsemanas[i])
+				}
+			})
+			i = i + 1
+			suma_ver.push(suma)
+		})
+		return suma_ver
+	}
+
+	function sumarVerticalMeses () {
+		var suma_ver = []
+		var i = 0
+		reporte.meses.forEach(function (mes) {
+			var suma = 0
+			reporte.tareopersona.forEach(function (tareopersona) {
+				if (tareopersona.horasxmeses[i] != '--') {
+					suma = suma + parseInt(tareopersona.horasxmeses[i])
+				}
+			})
+			i = i + 1
+			suma_ver.push(suma)
+		})
+		return suma_ver
 	}
 }])
