@@ -144,7 +144,7 @@ controller('mainController', ['$http', function($http){
 		reporte.getGerentes()
 		reporte.dias = rellenarDias()  
 		reporte.meses = rellenarMeses() 
-		reporte.semanas = rellenarSemanas()    
+		reporte.semanas = rellenarSemanas()   
     })
 
     
@@ -280,6 +280,7 @@ controller('mainController', ['$http', function($http){
 				item.horas = rellenarDiasTareopersona(item)
 				item.horasxmeses = rellenarMesesTareopersona(item)
 				item.horasxsemanas = rellenarSemanasTareopersona(item)
+				item.horas_total = sumarHorizontal(item)
 				item.uid = cambiarFormatoUsuario(item.uid)
 				reporte.tareopersona.push(item)
 			})
@@ -358,9 +359,15 @@ controller('mainController', ['$http', function($http){
 		for (var i = 0; i < reporte.meses.length; i++) {
 			var hora = 0
 			var mes1 = reporte.meses[i]
+			var inicial = cadenaToFecha(reporte.fecha_from.cadena)
+			var ultimo = cadenaToFecha(reporte.fecha_to.cadena)
 			tareopersona.data_horas.forEach(function (item) {
 				var mes2 = nombres[cadenaToFechaInv(item.fecha_tarea).getMonth()]
-				if (mes1 == mes2) {
+				var dia = cadenaToFechaInv(item.fecha_tarea)
+				console.log(inicial)
+				console.log(dia)
+				console.log(ultimo)
+				if (mes1 == mes2 && inicial <= dia && dia <= ultimo) {
 					if (isNaN(parseFloat(item.h_real)) || item.h_real == '' || item.h_real == null || item.h_real == undefined) {
 						adicional = 0
 					} else {
@@ -391,9 +398,12 @@ controller('mainController', ['$http', function($http){
 		for (var i = 0; i < reporte.semanas.length; i++) {
 			var hora = 0
 			var semana1 = parseInt(reporte.semanas[i].slice(7))
+			var inicial = cadenaToFecha(reporte.fecha_from.cadena)
+			var ultimo = cadenaToFecha(reporte.fecha_to.cadena)
 			tareopersona.data_horas.forEach(function (item) {
 				var semana2 = obtenerSemana(cadenaToFechaInv(item.fecha_tarea))
-				if (semana1 == semana2) {
+				var dia = cadenaToFechaInv(item.fecha_tarea)
+				if (semana1 == semana2 && inicial <= dia && dia <= ultimo) {
 					if (isNaN(parseFloat(item.h_real)) || item.h_real == '' || item.h_real == null || item.h_real == undefined) {
 						adicional = 0
 					} else {
@@ -475,5 +485,15 @@ controller('mainController', ['$http', function($http){
 			reporte.semanas_visible = false
 			reporte.meses_visible = true
 		}
+	}
+
+	function sumarHorizontal (tareopersona, xfecha) {
+		var suma = 0
+		tareopersona.horas.forEach(function (item) {
+			if (item != '--') {
+				suma = suma + parseFloat(item)
+			}
+		})
+		return suma
 	}
 }])
