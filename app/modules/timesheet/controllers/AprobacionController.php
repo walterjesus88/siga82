@@ -64,6 +64,7 @@ class Timesheet_AprobacionController extends Zend_Controller_Action {
             $data['estado_historial']='A';
             $data['etapa_validador']='ENVIO';
             $data['comentario']='Enviado Hoja de Tiempo para aprobacion';
+            $data['comentario_estado']=$estado;
 
             $tabla_historial_aprobaciones= new Admin_Model_DbTable_Historialaprobaciones();
             $buscar_registro=$tabla_historial_aprobaciones->_getBuscarEmpleadoxSemana($semana,$uid,$dni);
@@ -255,6 +256,7 @@ class Timesheet_AprobacionController extends Zend_Controller_Action {
                         $data['estado_historial']=$estado_historial;
                         $data['etapa_validador']=$etapa_validador;
                         $data['comentario']=$comentario;
+                        $data['comentario_estado']=$estado_historial;
                         //print_r($data);
                         $guardar_historial_empleado = $tabla_historial_aprobaciones -> _save($data);
                         if ($guardar_historial_empleado)
@@ -376,100 +378,67 @@ class Timesheet_AprobacionController extends Zend_Controller_Action {
                 if ($buscar_historial_empleado_gerente)
                 {
                     echo "existe";
-                    //print_r($buscar_historial_empleado_gerente);
                 }
                 else
                 {   
                     print_r($wheres_empleado_gerente);
                     echo "no existessss";
-                    $wheres_empleado = array('semanaid'=>$semana,'uid_empleado'=>$uid,'dni_empleado'=>$dni,'etapa_validador'=>'FILTRO2','estado_historial'=>'A');
+                    $wheres_empleado = array('semanaid'=>$semana,'uid_empleado'=>$uid,'dni_empleado'=>$dni,'etapa_validador'=>'ENVIO','estado_historial'=>'C');
 
                     $buscar_historial_empleado = $tabla_historial_aprobaciones -> _getBuscarEmpleadoxSemanaxEstado($wheres_empleado);
+                    print_r($buscar_historial_empleado);
                     $numero_registro = count($buscar_registro);
-                    $datos_actualizar['estado_historial']='C';
-                    $str_actualizar="
-                        semanaid='$semana' and uid_empleado='$uid' and dni_empleado='$dni' and etapa_validador='FILTRO2'
-                        and estado_historial='A'
-                        ";
-                    $update=$tabla_historial_aprobaciones -> _update($datos_actualizar,$str_actualizar);
-                    if ($update)
+                    $data['numero_historial']=$numero_registro+1;
+                    $data['semanaid']=$semana;
+                    $data['uid_empleado']=$uid;
+                    $data['dni_empleado']=$dni;
+                    $data['uid_validador']=$uid_validador;
+                    $data['dni_validador']=$dni_validador;
+                    $data['areaid_empleado']=$buscar_historial_empleado['areaid_empleado'];
+                    $data['categoriaid_empleado']=$buscar_historial_empleado['categoriaid_empleado'];
+                    $data['fecha_registro']=$fecha_envio;
+                    $data['codigoaprobacion_empleado']=$buscar_historial_empleado['codigoaprobacion_empleado'];
+                    $data['codigoaprobacion_validador']='2.0';
+                    $data['estado_historial']=$estado_historial;
+                    $data['etapa_validador']=$etapa_validador;
+                    $data['comentario']=$comentario;
+                    $data['comentario_estado']=$estado_historial;
+                    $guardar_historial_empleado = $tabla_historial_aprobaciones -> _save($data);
+                    if ($guardar_historial_empleado)
                     {
-                        $data['numero_historial']=$numero_registro+1;
-                        $data['semanaid']=$semana;
-                        $data['uid_empleado']=$uid;
-                        $data['dni_empleado']=$dni;
-                        $data['uid_validador']=$uid_validador;
-                        $data['dni_validador']=$dni_validador;
-
-                        $data['areaid_empleado']=$buscar_historial_empleado['areaid_empleado'];
-                        $data['categoriaid_empleado']=$buscar_historial_empleado['categoriaid_empleado'];
-                        $data['fecha_registro']=$fecha_envio;
-                        $data['codigoaprobacion_empleado']=$buscar_historial_empleado['codigoaprobacion_empleado'];
-                        $data['codigoaprobacion_validador']='2.0';
-                        $data['estado_historial']=$estado_historial;
-                        $data['etapa_validador']=$etapa_validador;
-                        $data['comentario']=$comentario;
-                        $guardar_historial_empleado = $tabla_historial_aprobaciones -> _save($data);
-                        if ($guardar_historial_empleado)
+                        echo "guardo satisfactoriamente";
+                        if ($estado_historial=='R')
                         {
-                            echo "guardo satisfactoriamente";
-                            if ($estado_historial=='R')
-                            {
-                                /*$tabla_planificacion = new Admin_Model_DbTable_Planificacion();
-                                $lista_horas_equipo = $tabla_planificacion->_getHorasxEquipoxSemanaxProyectosGerenteProyecto($uid_validador,$dni_validador,$uid,$dni,$semana);
-                                foreach ($lista_horas_equipo as $actividades_rechazar) {
-                                    $codigo=$actividades_rechazar['codigo_prop_proy'];
-                                    $proyectoid=$actividades_rechazar['proyectoid']; 
-                                    $revision=$actividades_rechazar['revision'];
-                                    $propuestaid=$actividades_rechazar['propuestaid'];
-                                    $actividadid=$actividades_rechazar['actividadid'];
-                                    $tareopersona = new Admin_Model_DbTable_Tareopersona();
-                                    $datos_actualizar_tareo['estado']='A';
-                                    $str_actualizar_tareo="semanaid='$semana' and uid='$uid' and dni='$dni' 
-                                    and estado='C' and codigo_prop_proy='$codigo' 
-                                    and proyectoid='$proyectoid' 
-                                    and revision='$revision' 
-                                    and actividadid='$actividadid' 
-                                    ";
-                                    $update_tareopersona=$tareopersona -> _update($datos_actualizar_tareo,$str_actualizar_tareo);
-                                }*/
+                            $tareopersona = new Admin_Model_DbTable_Tareopersona();
+                            $datos_actualizar_tareo['estado']='A';
+                            $str_actualizar_tareo="semanaid='$semana' and uid='$uid' and dni='$dni' and estado='C' ";
+                            $update_tareopersona=$tareopersona -> _update($datos_actualizar_tareo,$str_actualizar_tareo);  
+                            
+                            $tabla_planificacion = new Admin_Model_DbTable_Planificacion();
+                            $lista_proyectos_empleado=$tabla_planificacion->_getProyectosxSemana($semana,$uid,$dni);
+                            $datos_actualizar_planificacion['estado']='R';
+                            $str_actualizar_planificacion="semanaid='$semana' and uid='$uid' and dni='$dni'";
+                            echo ($str_actualizar_planificacion);
+                            $update_planificacion=$tabla_planificacion -> _update($datos_actualizar_planificacion,$str_actualizar_planificacion);
 
-                                
-
-
-                                $tareopersona = new Admin_Model_DbTable_Tareopersona();
-                                $str_actualizar['estado']='A';
-                                $datos_actualizar="semanaid='$semana' and uid='$uid' and dni='$dni' and estado='C' ";
-                                $update_tareopersona=$tareopersona -> _update($datos_actualizar,$str_actualizar);  
-                                $tabla_planificacion = new Admin_Model_DbTable_Planificacion();
-                                $lista_proyectos_empleado=$tabla_planificacion->_getProyectosxSemana($semana,$uid,$dni);
-                                $datos_actualizar_planificacion['estado']='R';
-                                $str_actualizar_planificacion="semanaid='$semana' and uid='$uid' and dni='$dni'";
-                                $update_planificacion=$tabla_planificacion -> _update($datos_actualizar_planificacion,$str_actualizar_planificacion);
+                            $datos_actualizar_aprobaciones['estado_historial']='RGP';
+                            $str_actualizar_aprobaciones="
+                                semanaid='$semana' and uid_empleado='$uid' and dni_empleado='$dni' 
+                            ";
+                            $update=$tabla_historial_aprobaciones -> _update($datos_actualizar_aprobaciones,$str_actualizar_aprobaciones);
+                        }
+                        if ($estado_historial=='A')
+                        {
+                            $tabla_planificacion = new Admin_Model_DbTable_Planificacion();
+                            $lista_proyectos_empleado=$tabla_planificacion->_getListarProyectosxSemanaxGerenteProyecto($uid_validador,$dni_validador,$uid,$dni,$semana);
+                            foreach ($lista_proyectos_empleado as $proyectos_empleado) {
+                                $proyectoid=$proyectos_empleado['proyectoid'];
+                                $datos_actualizar_planificacion['estado']='AGP';
+                                $str_actualizar_planificacion="semanaid='$semana' and uid='$uid' and dni='$dni' and proyectoid='$proyectoid' ";
+                                print_r($str_actualizar_planificacion);
+                                $update_planificacion=$tabla_planificacion -> _update($datos_actualizar_planificacion,$str_actualizar_planificacion);       
                             }
-                            if ($estado_historial=='A')
-                            {
-                                //$tabla_planificacion = new Admin_Model_DbTable_Planificacion();
-                                //$proyectoid=$proyectos_empleado['proyectoid'];
-                                //$datos_actualizar_planificacion['estado']='AGA';
-                                //$str_actualizar_planificacion="semanaid='$semana' and uid='$uid' and dni='$dni'";
-                                //$update_planificacion=$tabla_planificacion -> _update($datos_actualizar_planificacion,$str_actualizar_planificacion);       
 
-                                $tabla_planificacion = new Admin_Model_DbTable_Planificacion();
-                                $lista_proyectos_empleado=$tabla_planificacion->_getListarProyectosxSemanaxGerenteProyecto($uid_validador,$dni_validador,$uid,$dni,$semana);
-                                /*Esto parte comentada es para poner estado deacuerdo al proyecto mas adelante*/
-                                foreach ($lista_proyectos_empleado as $proyectos_empleado) {
-                                    //if ($proyectos_empleado['estado']=='R' or $proyectos_empleado['estado']=='RGP' $proyectos_empleado['estado']=='' or $proyectos_empleado['estado'] is null)
-                                    //{
-                                        $proyectoid=$proyectos_empleado['proyectoid'];
-                                        $datos_actualizar_planificacion['estado']='AGP';
-                                        $str_actualizar_planificacion="semanaid='$semana' and uid='$uid' and dni='$dni' and proyectoid='$proyectoid' ";
-                                        
-                                        $update_planificacion=$tabla_planificacion -> _update($datos_actualizar_planificacion,$str_actualizar_planificacion);       
-                                    //}
-                                }
-
-                            }
                         }
                     }
                 }

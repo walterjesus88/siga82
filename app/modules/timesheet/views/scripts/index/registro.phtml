@@ -1377,47 +1377,54 @@
 
 <div class="col-lg-10 "  style="padding-top: 10px;padding-bottom: 10px;padding-right: 10px;padding-left: 10px;">
 <?php 
-  $sumahorassemana = new Admin_Model_DbTable_Sumahorasemana();
-  $wheres=array('dni'=>$this->dni,'uid'=>$this->uid,'semanaid'=>$this->semana);
-  $tareosemana=$sumahorassemana->_getOne($wheres);
-  $estado_horas=$tareosemana['estado'];
+  $tabla_aprobaciones = new Admin_Model_DbTable_Historialaprobaciones();
   $uid=$this->uid;
   $dni=$this->dni;
   $semanaid=$this->semana;
-  $vercoment= new Admin_Model_DbTable_Usuariovalidacion();
-  if($vcoment=$vercoment->_getUsuarioxValidacion($semanaid,$uid,$dni))
-   // print_r($vcoment);
+  if($aprobaciones=$tabla_aprobaciones-> _getBuscarEmpleadoxSemana($semanaid,$uid,$dni))
   {?>
   <table class="table alert-info">
     <tr>
-      <th style="width: 20%;">  Usuario</th>
-      <th style="width: 15%;" > Estado</th>
-      <th style="width: 15%;"> Fecha</th>
-      <th style="width: 40%;"> Comentario</th>
+      <th style="width: 20%;">Rol</th>
+      <th style="width: 20%;">Usuario</th>
+      <th style="width: 15%;" >Estado</th>
+      <th style="width: 15%;">Fecha</th>
+      <th style="width: 40%;">Comentario</th>
     </tr>
     <?php
-    foreach ($vcoment as $historico) {
+    foreach ($aprobaciones as $historico) {
       //print_r($historico);?>
     <tr>
       <td>
-        <?php print_r($historico['uid_validacion'])?>  
+        <?php if ($historico['etapa_validador']=='ENVIO'){
+            echo "Usuario";}
+            if ($historico['etapa_validador']=='FILTRO2'){
+            echo "Jefe Inmediato";}
+            if ($historico['etapa_validador']=='GP'){
+            echo "Gerente Proyecto";}
+        ?>  
       </td>
+      <td>
+        <?php if ($historico['comentario_estado']=='E'){
+            print_r($historico['uid_empleado']);}
+            if ($historico['comentario_estado']!='E'){
+            print_r($historico['uid_validador']);}
+        ?>  
+
+      </td>
+      
       <td>
         <?php 
-          if ($historico['etapa']=='0'){
-            echo "Enviado Aprobacion";}
-          if ($historico['etapa']=='1' and $historico['estado_usuario']=='B'){
-            echo "Aprobado por el Jefe Area";}  
-          if ($historico['etapa']=='1' and $historico['estado_usuario']=='R'){
-            echo "Rechazado por el Jefe Area";}  
-            if ($historico['etapa']=='2' and $historico['estado_usuario']=='R'){
-            echo "Rechazado por el Gerente Proyecto";}  
-                if ($historico['etapa']=='2' and $historico['estado_usuario']=='B'){
-            echo "Aprobado por el Gerente Proyecto";}  
-        //print_r($historico['estado_usuario'])?>  
+          if ($historico['comentario_estado']=='E'){
+            echo "Enviado para Aprobacion";}
+          if ($historico['comentario_estado']=='A' ){
+            echo "Aprobado";}  
+          if ($historico['comentario_estado']=='R' ){
+            echo "Rechazado";}  
+        ?>  
       </td>
       <td>
-        <?php print_r($historico['fecha_validacion'])?>  
+        <?php print_r($historico['fecha_registro'])?>  
       </td>
       <td>
         <?php print_r($historico['comentario'])?>  

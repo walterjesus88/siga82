@@ -123,7 +123,7 @@ class Admin_Model_DbTable_Historialaprobaciones extends Zend_Db_Table_Abstract
             $sql=$this->_db->query("
                 select  * from historial_aprobaciones 
                 where semanaid='$semana' and uid_empleado='$uid'
-                and dni_empleado='$dni' 
+                and dni_empleado='$dni' order by numero_historial
 
             ");
             // print_r($sql);
