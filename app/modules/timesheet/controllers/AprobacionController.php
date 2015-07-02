@@ -72,7 +72,6 @@ class Timesheet_AprobacionController extends Zend_Controller_Action {
             {   
                 $wheres_empleado = array('semanaid'=>$semana,'uid_empleado'=>$uid,'dni_empleado'=>$dni,'etapa_validador'=>'ENVIO','estado_historial'=>'A');
                 $buscar_historial_empleado = $tabla_historial_aprobaciones -> _getBuscarEmpleadoxSemanaxEstado($wheres_empleado);
-                //print_r($buscar_historial_empleado);
                 /*Buscar si tine un registro*/
                 if ($buscar_historial_empleado)
                 {
@@ -93,14 +92,16 @@ class Timesheet_AprobacionController extends Zend_Controller_Action {
                         $update_tareopersona=$tareopersona -> _update($datos_actualizar,$str_actualizar);  
                         $tabla_planificacion = new Admin_Model_DbTable_Planificacion();
                         $lista_proyectos_empleado=$tabla_planificacion->_getProyectosxSemana($semana,$uid,$dni);
-                        foreach ($lista_proyectos_empleado as $proyectos_empleado) {
-                            if ($proyectos_empleado['estado']=='R' or $proyectos_empleado['estado']=='RGP' $proyectos_empleado['estado']=='' or $proyectos_empleado['estado'] is null)
-                            {
+                        /*Esto parte comentada es para poner estado deacuerdo al proyecto mas adelante*/
+                        //foreach ($lista_proyectos_empleado as $proyectos_empleado) {
+                            //if ($proyectos_empleado['estado']=='R' or $proyectos_empleado['estado']=='RGP' $proyectos_empleado['estado']=='' or $proyectos_empleado['estado'] is null)
+                            //{
                                 $datos_actualizar_planificacion['estado']='E';
-                                $str_actualizar_planificacion="semanaid='$semana' and uid='$uid' and dni='$dni' and proyectoid='' ";
+                                //$str_actualizar_planificacion="semanaid='$semana' and uid='$uid' and dni='$dni' and proyectoid='$proyectoid' ";
+                                $str_actualizar_planificacion="semanaid='$semana' and uid='$uid' and dni='$dni'";
                                 $update_planificacion=$tabla_planificacion -> _update($datos_actualizar_planificacion,$str_actualizar_planificacion);       
-                            }
-                        }
+                            ///}
+                        //}
                     }
                 }
             }
@@ -118,14 +119,17 @@ class Timesheet_AprobacionController extends Zend_Controller_Action {
                         $update_tareopersona=$tareopersona -> _update($datos_actualizar,$str_actualizar);  
                         $tabla_planificacion = new Admin_Model_DbTable_Planificacion();
                         $lista_proyectos_empleado=$tabla_planificacion->_getProyectosxSemana($semana,$uid,$dni);
-                        foreach ($lista_proyectos_empleado as $proyectos_empleado) {
-                            if ($proyectos_empleado['estado']=='R' or $proyectos_empleado['estado']=='RGP' $proyectos_empleado['estado']=='' or $proyectos_empleado['estado'] is null)
-                            {
+                        /*Esto parte comentada es para poner estado deacuerdo al proyecto mas adelante*/
+                        //foreach ($lista_proyectos_empleado as $proyectos_empleado) {
+                            //if ($proyectos_empleado['estado']=='R' or $proyectos_empleado['estado']=='RGP' $proyectos_empleado['estado']=='' or $proyectos_empleado['estado'] is null)
+                            //{
+                                //$proyectoid=$proyectos_empleado['proyectoid']
                                 $datos_actualizar_planificacion['estado']='E';
-                                $str_actualizar_planificacion="semanaid='$semana' and uid='$uid' and dni='$dni' and proyectoid='' ";
+                                //$str_actualizar_planificacion="semanaid='$semana' and uid='$uid' and dni='$dni' and proyectoid='$proyectoid' ";
+                                $str_actualizar_planificacion="semanaid='$semana' and uid='$uid' and dni='$dni'";
                                 $update_planificacion=$tabla_planificacion -> _update($datos_actualizar_planificacion,$str_actualizar_planificacion);       
-                            }
-                        }
+                            //}
+                        //}
                     }
             }
          } catch (Exception $e) {
@@ -262,6 +266,27 @@ class Timesheet_AprobacionController extends Zend_Controller_Action {
                                 $datos_actualizar_tareo['estado']='A';
                                 $str_actualizar_tareo="semanaid='$semana' and uid='$uid' and dni='$dni' and estado='C' ";
                                 $update_tareopersona=$tareopersona -> _update($datos_actualizar_tareo,$str_actualizar_tareo);  
+
+                                $tabla_planificacion = new Admin_Model_DbTable_Planificacion();
+                                $lista_proyectos_empleado=$tabla_planificacion->_getProyectosxSemana($semana,$uid,$dni);
+                                //foreach ($lista_proyectos_empleado as $proyectos_empleado) {
+                                    //if ($proyectos_empleado['estado']=='R' or $proyectos_empleado['estado']=='RGP' or $proyectos_empleado['estado']=='E')
+                                    //{
+                                        //$proyectoid=$proyectos_empleado['proyectoid'];
+                                        $datos_actualizar_planificacion['estado']='R';
+                                        //$str_actualizar_planificacion="semanaid='$semana' and uid='$uid' and dni='$dni' and proyectoid='$proyectoid' ";
+                                        $str_actualizar_planificacion="semanaid='$semana' and uid='$uid' and dni='$dni'";
+                                        $update_planificacion=$tabla_planificacion -> _update($datos_actualizar_planificacion,$str_actualizar_planificacion);       
+                                    //}
+                                //}
+                            }
+                            if ($estado_historial=='A')
+                            {
+                                $tabla_planificacion = new Admin_Model_DbTable_Planificacion();
+                                //$proyectoid=$proyectos_empleado['proyectoid'];
+                                $datos_actualizar_planificacion['estado']='A';
+                                $str_actualizar_planificacion="semanaid='$semana' and uid='$uid' and dni='$dni'";
+                                $update_planificacion=$tabla_planificacion -> _update($datos_actualizar_planificacion,$str_actualizar_planificacion);       
                             }
                         }
                     }
@@ -278,7 +303,7 @@ class Timesheet_AprobacionController extends Zend_Controller_Action {
             $uid = $this->sesion->uid;
             $dni = $this->sesion->dni;     
             $tabla_planificacion = new Admin_Model_DbTable_Planificacion();
-            $lista_empleados_aprobar = $tabla_planificacion->_getEquipoxSemanaxGerenteProyecto($uid,$dni);
+            $lista_empleados_aprobar = $tabla_planificacion->_getListarEquipoxAprobacionxGerenteProyecto($uid,$dni);
             $this->view->lista_empleados_aprobar= $lista_empleados_aprobar;   
 
             
@@ -346,17 +371,19 @@ class Timesheet_AprobacionController extends Zend_Controller_Action {
             {   
                 $wheres_empleado_gerente = array('semanaid'=>$semana,'uid_empleado'=>$uid,'dni_empleado'=>$dni,'etapa_validador'=>'GP','estado_historial'=>'A','uid_validador'=>$uid_validador,'dni_validador'=>$dni_validador);
                 $buscar_historial_empleado_gerente = $tabla_historial_aprobaciones -> _getBuscarEmpleadoxSemanaxEstadoxAprobacionGP($wheres_empleado_gerente);
-
+                print_r($buscar_historial_empleado_gerente);
                 /*Buscar si tine un registro*/
                 if ($buscar_historial_empleado_gerente)
                 {
                     echo "existe";
-                    print_r($buscar_historial_empleado_gerente);
+                    //print_r($buscar_historial_empleado_gerente);
                 }
                 else
                 {   
-                    echo "no existe";
+                    print_r($wheres_empleado_gerente);
+                    echo "no existessss";
                     $wheres_empleado = array('semanaid'=>$semana,'uid_empleado'=>$uid,'dni_empleado'=>$dni,'etapa_validador'=>'FILTRO2','estado_historial'=>'A');
+
                     $buscar_historial_empleado = $tabla_historial_aprobaciones -> _getBuscarEmpleadoxSemanaxEstado($wheres_empleado);
                     $numero_registro = count($buscar_registro);
                     $datos_actualizar['estado_historial']='C';
@@ -388,7 +415,7 @@ class Timesheet_AprobacionController extends Zend_Controller_Action {
                             echo "guardo satisfactoriamente";
                             if ($estado_historial=='R')
                             {
-                                $tabla_planificacion = new Admin_Model_DbTable_Planificacion();
+                                /*$tabla_planificacion = new Admin_Model_DbTable_Planificacion();
                                 $lista_horas_equipo = $tabla_planificacion->_getHorasxEquipoxSemanaxProyectosGerenteProyecto($uid_validador,$dni_validador,$uid,$dni,$semana);
                                 foreach ($lista_horas_equipo as $actividades_rechazar) {
                                     $codigo=$actividades_rechazar['codigo_prop_proy'];
@@ -404,8 +431,44 @@ class Timesheet_AprobacionController extends Zend_Controller_Action {
                                     and revision='$revision' 
                                     and actividadid='$actividadid' 
                                     ";
-                                    $update_tareopersona=$tareopersona -> _update($datos_actualizar_tareo,$str_actualizar_tareo);  
+                                    $update_tareopersona=$tareopersona -> _update($datos_actualizar_tareo,$str_actualizar_tareo);
+                                }*/
+
+                                
+
+
+                                $tareopersona = new Admin_Model_DbTable_Tareopersona();
+                                $str_actualizar['estado']='A';
+                                $datos_actualizar="semanaid='$semana' and uid='$uid' and dni='$dni' and estado='C' ";
+                                $update_tareopersona=$tareopersona -> _update($datos_actualizar,$str_actualizar);  
+                                $tabla_planificacion = new Admin_Model_DbTable_Planificacion();
+                                $lista_proyectos_empleado=$tabla_planificacion->_getProyectosxSemana($semana,$uid,$dni);
+                                $datos_actualizar_planificacion['estado']='R';
+                                $str_actualizar_planificacion="semanaid='$semana' and uid='$uid' and dni='$dni'";
+                                $update_planificacion=$tabla_planificacion -> _update($datos_actualizar_planificacion,$str_actualizar_planificacion);
+                            }
+                            if ($estado_historial=='A')
+                            {
+                                //$tabla_planificacion = new Admin_Model_DbTable_Planificacion();
+                                //$proyectoid=$proyectos_empleado['proyectoid'];
+                                //$datos_actualizar_planificacion['estado']='AGA';
+                                //$str_actualizar_planificacion="semanaid='$semana' and uid='$uid' and dni='$dni'";
+                                //$update_planificacion=$tabla_planificacion -> _update($datos_actualizar_planificacion,$str_actualizar_planificacion);       
+
+                                $tabla_planificacion = new Admin_Model_DbTable_Planificacion();
+                                $lista_proyectos_empleado=$tabla_planificacion->_getListarProyectosxSemanaxGerenteProyecto($uid_validador,$dni_validador,$uid,$dni,$semana);
+                                /*Esto parte comentada es para poner estado deacuerdo al proyecto mas adelante*/
+                                foreach ($lista_proyectos_empleado as $proyectos_empleado) {
+                                    //if ($proyectos_empleado['estado']=='R' or $proyectos_empleado['estado']=='RGP' $proyectos_empleado['estado']=='' or $proyectos_empleado['estado'] is null)
+                                    //{
+                                        $proyectoid=$proyectos_empleado['proyectoid'];
+                                        $datos_actualizar_planificacion['estado']='AGP';
+                                        $str_actualizar_planificacion="semanaid='$semana' and uid='$uid' and dni='$dni' and proyectoid='$proyectoid' ";
+                                        
+                                        $update_planificacion=$tabla_planificacion -> _update($datos_actualizar_planificacion,$str_actualizar_planificacion);       
+                                    //}
                                 }
+
                             }
                         }
                     }
