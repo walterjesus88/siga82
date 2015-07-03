@@ -222,7 +222,7 @@ order by t.proyectoid,t.actividadid,t.tipo_actividad desc
             if ($str=="") return false;
             return $this->update($data,$str);
         }catch (Exception $ex){
-           // print "Error: Actualizando un registro de Propuesta".$ex->getMessage();
+            print "Error: Actualizando un registro de Propuesta".$ex->getMessage();
         }
     }
 

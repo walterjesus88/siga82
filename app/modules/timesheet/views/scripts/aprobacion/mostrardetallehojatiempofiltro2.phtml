@@ -255,6 +255,40 @@
                     if($buscar_tarea[0]['h_real']=='0') { echo "";} else { print_r($buscar_tarea[0]['h_real']);}
                     }?>" >
 
+                                        <?php
+                      if($buscar_tarea)
+                      { 
+                        if(trim($buscar_tarea[0]['h_real'])=='' or $buscar_tarea[0]['h_real']=='0' or $buscar_tarea[0]['h_real']==null){
+                        }
+                        else
+                        {
+                          if(trim($buscar_tarea[0]['comentario'])=='' or trim($buscar_tarea[0]['comentario'])==null) {
+                        ?>
+                        <!-- data-toggle="modal" href="#myModalcomentario" -->
+                       
+                        <a   <?php if ($data_tareo['estado_tareopersona']=='C') { ?> disabled="disabled" <?php } else {?> id="coment<?php echo $i ?><?php echo $j?>"  hora="<?php echo $buscar_tarea[0]['h_real'] ?>" etapa="<?php echo $buscar_tarea[0]['etapa'] ?>" tipo-actividad="<?php echo $buscar_tarea[0]['tipo_actividad'] ?>" actividad-generalid="<?php echo $buscar_tarea[0]['actividad_generalid'] ?>" codigo-prop-proy="<?php echo $data_tareo['codigo_prop_proy'] ?>" proyectoid="<?php echo $data_tareo['proyectoid'] ?>" actividad-padre="<?php echo $buscar_tarea[0]['actividad_padre'] ?>" fecha-tarea="<?php echo $buscar_tarea[0]['fecha_tarea'] ?>" codigo-actividad="<?php echo $buscar_tarea[0]['codigo_actividad'] ?>" actividadid="<?php echo $buscar_tarea[0]['actividadid'] ?>" revision="<?php echo $buscar_tarea[0]['revision'] ?>" semanaid="<?php echo $buscar_tarea[0]['semanaid'] ?>" uid="<?php echo $data_tareo['uid'] ?>" dni="<?php echo $data_tareo['dni'] ?>" cargo="<?php echo $buscar_tarea[0]['cargo'] ?>" fecha-planificacion="<?php echo $buscar_tarea[0]['fecha_planificacion'] ?>"  <?php }?>
+                        comentario="<?php echo $buscar_tarea[0]['comentario'] ?>" 
+
+                       >
+                       <i style="color: #D6D6D8" class="fa fa-comment"></i></a>                   
+
+                      <?php }
+                        else
+                            {?>
+
+                              <a   <?php if ($data_tareo['estado_tareopersona']=='C') { ?> disabled="disabled" <?php } else {?> id="coment<?php echo $i ?><?php echo $j?>"  hora="<?php echo $buscar_tarea[0]['h_real'] ?>" etapa="<?php echo $buscar_tarea[0]['etapa'] ?>" tipo-actividad="<?php echo $buscar_tarea[0]['tipo_actividad'] ?>" actividad-generalid="<?php echo $buscar_tarea[0]['actividad_generalid'] ?>" codigo-prop-proy="<?php echo $data_tareo['codigo_prop_proy'] ?>" proyectoid="<?php echo $data_tareo['proyectoid'] ?>" actividad-padre="<?php echo $buscar_tarea[0]['actividad_padre'] ?>" fecha-tarea="<?php echo $buscar_tarea[0]['fecha_tarea'] ?>" codigo-actividad="<?php echo $buscar_tarea[0]['codigo_actividad'] ?>" actividadid="<?php echo $buscar_tarea[0]['actividadid'] ?>" revision="<?php echo $buscar_tarea[0]['revision'] ?>" semanaid="<?php echo $buscar_tarea[0]['semanaid'] ?>" uid="<?php echo $data_tareo['uid'] ?>" dni="<?php echo $data_tareo['dni'] ?>" cargo="<?php echo $buscar_tarea[0]['cargo'] ?>" fecha-planificacion="<?php echo $buscar_tarea[0]['fecha_planificacion'] ?>"  <?php }?>
+                        comentario="<?php echo $buscar_tarea[0]['comentario'] ?>" 
+
+                       >
+                       <i style="color: #485BBD" class="fa fa-comment"></i></a>                   
+
+                      <?php
+                            }
+                          } 
+                        }
+                      ?>
+                      
+
                 </center>
               </td>
                 <?php 
@@ -363,6 +397,85 @@
 
           </table>
         
+        <div class="col-lg-10 "  style="padding-top: 10px;padding-bottom: 10px;padding-right: 10px;padding-left: 10px;">
+
+
+         <table  class="display table table-bordered table-striped" id="dynamic-table">
+      <thead>
+          <tr>
+            <th style="width: 10%;">Fecha  </th>
+            <th style="width: 30%;" >Proyecto </th> 
+            <th style="width: 20%;" > Actividad: Tarea</th> 
+            <th style="width: 5%;" > hora</th> 
+            <th style="width: 35%;" > Comentario</th> 
+          </tr>
+         
+            
+      </thead>
+      <tbody id="agregarComentario">
+             
+          <?php           
+            $uid=$this->uid;            
+            $dni=$this->dni;
+            $semana=$this->semana;
+    
+            $tareopersona = new Admin_Model_DbTable_Tareopersona();
+            $wheres=array('dni'=>$dni,'uid'=>$uid,'semanaid'=>$semana);                
+            $tpercoment=$tareopersona->_getFilter($wheres);
+            if ($tpercoment) {
+              foreach ($tpercoment as $value) {              
+                if(trim($value['comentario'])!='' and trim($value['h_real'])!=''){
+                ?>
+                <tr>
+                 
+                  <th>
+                     <?php echo $value['fecha_tarea']; ?>
+                  </th>
+                  <th>
+                    <?php 
+                     //codigo_prop_proy, proyectoid
+                     $wherep=array('codigo_prop_proy'=>$value['codigo_prop_proy'],'proyectoid'=>$value['proyectoid']); 
+                     $nompro=new Admin_Model_DbTable_Proyecto();
+                     $npro=$nompro->_getOne($wherep);
+                     echo $value['proyectoid'];
+                     echo " ";
+                     echo $npro['nombre_proyecto'];
+                    ?>
+                  </th>
+                  <th>
+                     <?php //echo $value['actividadid'];
+                     //codigo_prop_proy, codigo_actividad, actividadid, revision
+                      $wherea=array('codigo_prop_proy'=>$value['codigo_prop_proy'],'codigo_actividad'=>$value['codigo_actividad'],'actividadid'=>$value['actividadid'],'revision'=>$value['revision']);                
+
+                      $nomact = new Admin_Model_DbTable_Actividad();
+                      $noma=$nomact->_getOne($wherea);
+                      echo $noma['nombre'];
+
+                     ?>
+                  </th>
+                  <th>
+                     <?php echo $value['h_real']; ?>
+                  </th>               
+                  <th>                    
+                      <?php echo $value['comentario']; ?>                                             
+                  </th>             
+                
+                </tr>
+                <?php  
+                }              
+              }
+            }
+            //}
+              // $newDate = date("Y-m-d", strtotime($fecha));
+              // $nuevafecha = strtotime ('+1 day' , strtotime ( $newDate ) ) ;
+              // $fecha = date ('d-m-Y', $nuevafecha );
+            
+            // }
+            ?>
+      </tbody>
+
+  </table>
+
         </div>
       </div>
     </section>

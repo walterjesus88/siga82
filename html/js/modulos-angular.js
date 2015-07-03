@@ -38,6 +38,7 @@ controller('mainController', ['$http', function($http){
 	reporte.dias = []
 	reporte.semanas = []
 	reporte.meses = []
+	reporte.dias_suma = []
 	reporte.dias_visible = true
 	reporte.semanas_visible = false
 	reporte.meses_visible = false	
@@ -143,7 +144,8 @@ controller('mainController', ['$http', function($http){
 		reporte.getClientes()
 		reporte.getGerentes()
 		reporte.dias = rellenarDias()  
-		reporte.meses = rellenarMeses()     
+		reporte.meses = rellenarMeses() 
+		reporte.semanas = rellenarSemanas()   
     })
 
     
@@ -232,7 +234,7 @@ controller('mainController', ['$http', function($http){
 						}
 					}
 				} else {
-					item['num_pro'] = 1;
+					item['num_pro'] = 1
 					reporte.usuarios.push(item)
 				}
 			})
@@ -261,7 +263,7 @@ controller('mainController', ['$http', function($http){
 				if (parseInt(arrayTemp[i]['num_pro']) != 0) {
 					reporte.usuarios.push(arrayTemp[i])
 				}
-			};
+			}
 			if (reporte.usuarios.length == 0) {
 				reporte.disabled_children = true
 			}
@@ -278,25 +280,21 @@ controller('mainController', ['$http', function($http){
 			res.forEach(function (item) {
 				item.horas = rellenarDiasTareopersona(item)
 				item.horasxmeses = rellenarMesesTareopersona(item)
+				item.horasxsemanas = rellenarSemanasTareopersona(item)
+				item.horas_total = sumarHorizontal(item)
 				item.uid = cambiarFormatoUsuario(item.uid)
-				reporte.tareopersona.push(item)
+				reporte.tareopersona.push(item)	
 			})
 			$("#wait").modal('hide')
-
+			reporte.dias_suma = sumarVerticalDias()
+			reporte.semanas_suma = sumarVerticalSemanas()
+			reporte.meses_suma = sumarVerticalMeses()
 			if (reporte.tareopersona.length == 0) {
 				reporte.tareopersona_void = true
 			} else{
 				reporte.tareopersona_void = false
 			}
 		})
-
-		//solicitud al servidor de una pagina web que contenga la tabla de tareopersona
-		/*$http.get('/reporte/index/tareopersonahtml/codigo_prop_proy/'+ codigo_prop_proy + '/desde/' + reporte.fecha_from + '/hasta/' + reporte.fecha_to)
-		.success(function (res) {
-			$('#container-tareopersona-table').html(res);
-			$("#wait").modal('hide');
-			$('#tareopersona-table').DataTable();
-		})*/
 	}
 
 	function borrarTareopersona (codigo_prop_proy) {
@@ -307,6 +305,9 @@ controller('mainController', ['$http', function($http){
 				reporte.tareopersona.push(item)
 			}
 		})
+		reporte.dias_suma = sumarVerticalDias()
+		reporte.semanas_suma = sumarVerticalSemanas()
+		reporte.meses_suma = sumarVerticalMeses()
 	}
 
 	//funciones para el manejo de los dias visibles en la tabla tareopersona
@@ -364,9 +365,12 @@ controller('mainController', ['$http', function($http){
 		for (var i = 0; i < reporte.meses.length; i++) {
 			var hora = 0
 			var mes1 = reporte.meses[i]
+			var inicial = cadenaToFecha(reporte.fecha_from.cadena)
+			var ultimo = cadenaToFecha(reporte.fecha_to.cadena)
 			tareopersona.data_horas.forEach(function (item) {
 				var mes2 = nombres[cadenaToFechaInv(item.fecha_tarea).getMonth()]
-				if (mes1 == mes2) {
+				var dia = cadenaToFechaInv(item.fecha_tarea)
+				if (mes1 == mes2 && inicial <= dia && dia <= ultimo) {
 					if (isNaN(parseFloat(item.h_real)) || item.h_real == '' || item.h_real == null || item.h_real == undefined) {
 						adicional = 0
 					} else {
@@ -375,9 +379,73 @@ controller('mainController', ['$http', function($http){
 					hora = hora + adicional
 				}
 			})
+			if (hora == 0) {
+				hora = '--'
+			}
 			horasxmeses.push(hora)
 		}
 		return horasxmeses
+	}
+
+	function rellenarSemanas () {
+		var semanas = []
+		var semana = ''
+		reporte.dias.forEach(function (dia) {
+			if (obtenerSemana(cadenaToFechaInv(dia.fecha)) != semana) {
+				semana = obtenerSemana(cadenaToFechaInv(dia.fecha))
+				semanas.push('Semana ' + semana)
+			}
+		})
+		return semanas
+	}
+
+	function rellenarSemanasTareopersona (tareopersona) {
+		var horasxsemanas = []
+		for (var i = 0; i < reporte.semanas.length; i++) {
+			var hora = 0
+			var semana1 = parseInt(reporte.semanas[i].slice(7))
+			var inicial = cadenaToFecha(reporte.fecha_from.cadena)
+			var ultimo = cadenaToFecha(reporte.fecha_to.cadena)
+			tareopersona.data_horas.forEach(function (item) {
+				var semana2 = obtenerSemana(cadenaToFechaInv(item.fecha_tarea))
+				var dia = cadenaToFechaInv(item.fecha_tarea)
+				if (semana1 == semana2 && inicial <= dia && dia <= ultimo) {
+					if (isNaN(parseFloat(item.h_real)) || item.h_real == '' || item.h_real == null || item.h_real == undefined) {
+						adicional = 0
+					} else {
+						adicional = parseFloat(item.h_real)
+					}
+					hora = hora + adicional
+				}
+			})
+			if (hora == 0) {
+				hora = '--'
+			}
+			horasxsemanas.push(hora)
+		}
+		return horasxsemanas
+	}
+
+	function obtenerSemana (fecha) {
+		var consta = [2, 1, 7, 6, 5, 4, 3]
+		var dia = fecha.getDate()
+		var mes = fecha.getMonth()
+		var ano = fecha.getFullYear()
+		var dia_pri = new Date(ano, 0, 1)
+		dia_pri = dia_pri.getDay()
+		dia_pri = consta[parseInt(dia_pri)]
+		var tiempo0 = new Date(ano, 0, dia_pri)
+		dia = dia + dia_pri
+		var tiempo1 = new Date(ano, mes, dia)
+		var lapso = tiempo1 - tiempo0
+		var semanas = Math.floor(lapso / 1000 / 60 / 60 / 24 / 7)
+		if (dia_pri == 1) {
+			semanas = semanas + 1
+		}
+		if (semanas == 0) {
+			semanas = 52
+		}
+		return semanas
 	}
 
 	function cambiarFormatoUsuario (uid) {
@@ -399,12 +467,19 @@ controller('mainController', ['$http', function($http){
 		reporte.dias = rellenarDias()
 		reporte.meses = []
 		reporte.meses = rellenarMeses()
+		reporte.semanas = []
+		reporte.semanas = rellenarSemanas()
 		arrayTemp = []
 		reporte.tareopersona.forEach(function (item) {
 			item.horas = rellenarDiasTareopersona(item)
 			item.horasxmeses = rellenarMesesTareopersona(item)
+			item.horasxsemanas = rellenarSemanasTareopersona(item)
+			item.horas_total = sumarHorizontal(item)
 			arrayTemp.push(item)
 		})
+		reporte.dias_suma = sumarVerticalDias()
+		reporte.semanas_suma = sumarVerticalSemanas()
+		reporte.meses_suma = sumarVerticalMeses()
 		reporte.tareopersona = arrayTemp
 		reporte.dtInstance.rerender()
 	}
@@ -423,5 +498,63 @@ controller('mainController', ['$http', function($http){
 			reporte.semanas_visible = false
 			reporte.meses_visible = true
 		}
+	}
+
+	function sumarHorizontal (tareopersona, xfecha) {
+		var suma = 0
+		tareopersona.horas.forEach(function (item) {
+			if (item != '--') {
+				suma = suma + parseFloat(item)
+			}
+		})
+		return suma
+	}
+
+	function sumarVerticalDias () {
+		var suma_ver = []
+		var i = 0
+		reporte.dias.forEach(function (dia) {
+			var suma = 0
+			reporte.tareopersona.forEach(function (tareopersona) {
+				if (tareopersona.horas[i] != '--') {
+					suma = suma + parseInt(tareopersona.horas[i])
+				}
+			})
+			i = i + 1
+			suma_ver.push(suma)
+		})
+		return suma_ver
+	}
+
+	function sumarVerticalSemanas () {
+		var suma_ver = []
+		var i = 0
+		reporte.semanas.forEach(function (semana) {
+			var suma = 0
+			reporte.tareopersona.forEach(function (tareopersona) {
+				if (tareopersona.horasxsemanas[i] != '--') {
+					suma = suma + parseInt(tareopersona.horasxsemanas[i])
+				}
+			})
+			i = i + 1
+			suma_ver.push(suma)
+		})
+		return suma_ver
+	}
+
+	function sumarVerticalMeses () {
+		var suma_ver = []
+		var i = 0
+		reporte.meses.forEach(function (mes) {
+			var suma = 0
+			reporte.tareopersona.forEach(function (tareopersona) {
+				if (tareopersona.horasxmeses[i] != '--') {
+					suma = suma + parseInt(tareopersona.horasxmeses[i])
+				}
+			})
+			i = i + 1
+			suma_ver.push(suma)
+		})
+		return suma_ver
 	}
 }])
