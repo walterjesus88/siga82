@@ -557,4 +557,8 @@ controller('mainController', ['$http', function($http){
 		})
 		return suma_ver
 	}
+
+	reporte.imprimir = function () {
+		$('#tareopersona-table').tableExport({type:'pdf', htmlContent:'false', pdfFontSize:6, pdfLeftMargin:10, escape:'false'})
+	}
 }])
