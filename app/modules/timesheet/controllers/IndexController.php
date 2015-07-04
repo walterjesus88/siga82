@@ -209,6 +209,10 @@ class Timesheet_IndexController extends Zend_Controller_Action {
         $this->view->semana = $semana;
         $datos_tareopersona=$tareo_persona->_getTareoxPersonaxSemana($uid,$dni,$semana);
         $datos_tareopersona_NB=$tareo_persona->_getTareoxPersonaxSemanaxNB($uid,$dni,$semana);
+        $wheres_hojatiempo_empleado=array('uid'=>$uid,'dni'=>$dni,'semanaid'=>$semana);
+        $estado_hojatiempo=$tareo_persona->_getEstado_HojaTiempo($wheres_hojatiempo_empleado);
+        print_r($estado_hojatiempo);
+
         //$data_tareo = $tareo->_getTareoXUid($where);
         $this->view->actividades= $datos_tareopersona;
         // print_r($this->sesion->is_gerente);
@@ -227,37 +231,23 @@ class Timesheet_IndexController extends Zend_Controller_Action {
         }
 
         $wheres_filtro2=array('idaprobacion'=>$buscar_aprobador,'estado_filtro2'=>'A');
-
         $list_aprobacion_filtro2=$aprobacion->_getOnefiltro2($wheres_filtro2); 
+
         if ($list_aprobacion_filtro2)
         {
             $idaprobador_filtro2= $list_aprobacion_filtro2['idaprobador_filtro2'];  
             $usuario_cat = new Admin_Model_DbTable_Usuariocategoria();
-            print_r($idaprobador_filtro2);
-            $codigo_aprobador = explode(".",$idaprobador_filtro2);
-            if (count($codigo_aprobador)=='3'){
-                $wheres_ucat=array('aprobacion'=>$idaprobador_filtro2,'estado'=>'A','estado_aprobacion'=>'R','areaid'=>$areaid);
-                $list_aprobador=$usuario_cat->_getAprobadorxArea($wheres_ucat);                 
-            }
-            if (count($codigo_aprobador)=='2'){
-                if ($codigo_aprobador[0]=='2')
-                {
-                    $datos_filtro2=array('aprobacion'=>$idaprobador_filtro2,'estado'=>'A','estado_aprobacion'=>'R');
-                    $list_aprobador=$usuario_cat->_getAprobadorxNivel2($datos_filtro2);                 
-                }
-                if ($codigo_aprobador[0]=='3')
-                {
-                    $wheres_ucat=array('aprobacion'=>$idaprobador_filtro2,'estado'=>'A','estado_aprobacion'=>'R','areaid'=>$areaid);
-                    $list_aprobador=$usuario_cat->_getAprobadorxArea($wheres_ucat);                 
-                }
-            }
-
+            
+            $wheres_ucat=array('aprobacion'=>$idaprobador_filtro2,'estado'=>'A');
+            $list_aprobador=$usuario_cat->_getAprobadorxEmpleado($wheres_ucat);   
+            
             if ($list_aprobador)
             {
                 $aprobador_usuario = explode(".", $list_aprobador['uid']);
                 $this->view->aprobador_filtro2=ucwords($aprobador_usuario[0])." ".ucwords($aprobador_usuario[1]);
             }
         }
+
         $planificacion = new Admin_Model_DbTable_Planificacion();
         $proyectos=$planificacion->_getOnexSemanaxGerenteProyecto($semana,$uid,$dni,$areaid);
         $k=0;
@@ -269,6 +259,7 @@ class Timesheet_IndexController extends Zend_Controller_Action {
           $k++;
         }
         $this->view->gerentes_proyectos=$gerentes_proyectos;
+
 
 
 

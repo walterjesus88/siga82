@@ -605,5 +605,15 @@ order by t.proyectoid,t.actividadid,t.tipo_actividad desc
     }
 
 
-
+    public function _getEstado_HojaTiempo($where=array()){
+      try {
+        $sql = $this->_db->query("select distinct (estado) where uid='".$where['uid']."' and
+          dni='".$where['dni']."' and semanaid='".$where['semanaid'].
+          "';");
+        $row=$sql->fetchAll();
+        return $row;  
+      } catch (Exception $ex) {
+        print $ex->getMessage();
+      }
+    }
 }

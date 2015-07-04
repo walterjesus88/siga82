@@ -165,6 +165,20 @@ class Admin_Model_DbTable_Usuariocategoria extends Zend_Db_Table_Abstract
     }
 
 
+    public function _getAprobadorxEmpleado($where=array()){
+        try {
+                $wherestr= "aprobacion = '".$where['aprobacion']."' and estado='".$where['estado']."'
+                
+                
+                ";
+                $row = $this->fetchRow($wherestr);
+                if($row) return $row->toArray();
+                return false;
+        } catch (Exception $e) {
+            print "Error: Read One Condition".$e->getMessage();
+        }
+    }
+
 
 
 
