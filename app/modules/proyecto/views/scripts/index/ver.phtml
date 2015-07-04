@@ -702,39 +702,6 @@
     <!-- sirve para editar-->
 <!-- 
 
-<html>
-        <head>
-              <title>Ejemplo</title>
-             <script> 
-                  $(function(){  
-                      $('.editText').dblclick( function(){  
-                          var text = $(this).text();  
-                          $(this).empty().html('<input type="text" value="'+text+'">').find('input').focus();  
-                      }).keypress( function(e){  
-                          if(e.keyCode == 13){  
-                              var text1 = $('input', this).val();
-                              alert(text1);  
-                              $(this).html( text1 );  
-                             /*enviar informacion:*/
-                             e.preventDefault();
-                             $("#destino").load("/proyecto/index/updateequipo/", {nombre: "Juan", edad: 45}, function(){
-                            alert("Campo actualizado");
-                });
-                          }  
-                      });  
-                  });  
-              </script>  
-          </head>  
-          <style>  
-              body{font-family:Arial; font-size:12px}  
-              .rateproyectos{padding:5px; border:1px solid #ccc; background:#f4f4f4}  
-          </style>  
-          <body> 
-          <!--     Nombre: <span class="editText">Fulanito de tal</span>  -->
-   <!--         <div id="destino"></div>
-          </body>  
-      </html>
- -->
 
 <!-- page end-->
 <div class="modal fade modal-dialog-center top-modal-with-space" id="myModalequipo" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">

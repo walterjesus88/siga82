@@ -1,3 +1,6 @@
+<script src="/js/alertify1.4.1.min.js"></script>
+<link rel="stylesheet" href="/css/alertify1.4.1/alertify.min.css" />
+<link rel="stylesheet" href="/css/alertify1.4.1/alertify.rtl.css" id="toggleCSS" />
 
   <section id="container" class="">
     <?php $this->proyectdetail;
@@ -203,10 +206,155 @@
                                 </div>
                               </div>
                               <?php }else{  ?>
-                                  <button type="button" data-dismiss="modal" aria-hidden="true">Agregar Contacto</button> 
+                                  <button type="button" data-dismiss="modal" aria-hidden="true">Agregar Contacto</button>
+                                  <a href="#" id="prompt">Prompt Dialog</a><br>
+
+                                  <div class="modal fade modal-dialog-center top-modal-with-space" id="myModalcontacto" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                      <div class="">
+                                        <div class="modal-content">
+                                          <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                            <h4 class="modal-title">Crear un Contacto</h4>
+                                          </div>
+                                          <div class="modal-body">
+                                            <div id="modaltimes_equipo">
+                                             
+                                              <form role="form" class="form-horizontal tasi-form">
+                                                  <div class="form-group">
+                                                    <label class="col-lg-2 control-label">Cliente</label>
+                                                    <div class="col-lg-4">
+                                                      <select class="form-control input-sm m-bot15 ">
+                                                          <?php  foreach ($this->cliente as $cliente) {?> 
+                                                             <option value="<?php echo $cliente['clienteid']?>"><?php  echo $cliente['nombre_comercial']?></option>
+                                                          <?php }  ?>
+                                                      </select>
+                                                    </div>
+                                                    <label class="col-lg-2 control-label">Tipo de Cliente</label>
+                                                    <div class="col-lg-4">
+                                                      <select class="form-control input-sm m-bot15 ">
+                                                          <option>cliente</option>
+                                                          <option>potencial cliente</option>
+                                                          <option>contratistas</option>
+                                                      </select>
+                                                    </div>
+                                                  </div>
+                                                  <div class="form-group">
+                                                  
+                                                    <label class="col-lg-2 control-label">email</label>
+                                                    <div class="col-lg-4">
+                                                          <input type="email" placeholder="" id="nomunidad" class="form-control">           
+                                                    </div>
+                                                    <label class="col-lg-2 control-label">Puesto de Trabajo</label>
+                                                    <div class="col-lg-4">
+                                                      <input type="text" placeholder="" id="puesto_trabajo" class="form-control">
+                                                    </div>
+                                                  </div>
+                                               
+                                                  <div class="form-group has-error">
+                                                      <label class="col-lg-2 control-label">dni</label>
+                                                      <div class="col-lg-4">
+                                                          <input type="text" placeholder="" id="dni" class="form-control">
+                                                        
+                                                      </div>
+                                                      <label class="col-lg-2 control-label">Estado</label>
+                                                      <div class="col-lg-4">
+                                                        <select class="form-control input-sm m-bot15 ">
+                                                            <option>Activo</option>
+                                                            <option>Inactivo</option>                                                      
+                                                        </select>
+                                                      </div>
+                                                  </div>
+                                                 
+                                                  <div class="form-group">
+                                                    <label class="col-lg-2 control-label">Unidad Minera</label>
+                                                    <div class="col-lg-4">
+                                                      <select class="form-control input-sm m-bot15 ">
+                                                          <option>Option 1</option>
+                                                          <option>Option 2</option>
+                                                          <option>Option 3</option>
+                                                      </select>
+                                                    </div>
+                                                    <label class="col-lg-2 control-label">Nombre Unidad Minera</label>
+                                                      <div class="col-lg-4">
+                                                          <input type="text" placeholder="" id="nomunidad" class="form-control">
+                                                  
+                                                      </div>
+                                                  </div>
+                                               
+                                                  <div class="form-group has-warning">
+                                                      <label class="col-lg-2 control-label">Direccion</label>
+                                                      <div class="col-lg-10">
+                                                          <input type="text" placeholder="" id="direccion" class="form-control">           
+                                                      </div>
+                                                  </div>
+                                                  <div class="form-group has-warning">
+                                                      <label class="col-lg-2 control-label">Anexo</label>
+                                                      <div class="col-lg-4">
+                                                          <input type="text" placeholder="" id="anexo" class="form-control">           
+                                                      </div>
+                                                      <label class="col-lg-2 control-label">Telefono</label>
+                                                      <div class="col-lg-4">
+                                                          <input type="text" placeholder="" id="telefono" class="form-control">           
+                                                      </div>
+                                                  </div>
+                                                  
+                                                  <div class="form-group has-warning">
+                                                      <label class="col-lg-2 control-label">Apellido Paterno</label>
+                                                      <div class="col-lg-4">
+                                                          <input type="text" placeholder="" id="paterno" class="form-control">           
+                                                      </div>
+                                                      <label class="col-lg-2 control-label">Apellido Materno</label>
+                                                      <div class="col-lg-4">
+                                                          <input type="text" placeholder="" id="materno" class="form-control">           
+                                                      </div>
+                                                  </div>
+                                              
+                                                  <div class="form-group has-warning">
+                                                      <label class="col-lg-2 control-label">Nombres</label>
+                                                      <div class="col-lg-10">
+                                                          <input type="text" placeholder="" id="nombre" class="form-control">           
+                                                      </div>
+                                                  </div>
+                                                  <div class="form-group has-warning">
+                                                      <label class="col-lg-2 control-label">Celular 1</label>
+                                                      <div class="col-lg-4">
+                                                          <input type="text" placeholder="" id="celular1" class="form-control">           
+                                                      </div>
+                                                      <label class="col-lg-2 control-label">Celular 2</label>
+                                                      <div class="col-lg-4">
+                                                          <input type="text" placeholder="" id="celular2" class="form-control">           
+                                                      </div>
+                                                  </div>
+
+                                                  <div class="form-group">
+                                                      <div class="col-lg-offset-2 col-lg-10">
+                                                          <button class="btn btn-danger" type="submit">Submit</button>
+                                                      </div>
+                                                  </div>
+                                                  
+                                              </form>
+
+                                            </div>
+                                          </div>
+                                          <div class="modal-footer">
+                                            <button data-dismiss="modal" class="btn btn-default" type="button">Cerrar</button>
+                                           
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>                                 
+
                                   <?php  } ?>
                             </div>
                           </div>
+                          <script type="text/javascript">
+                          $("#prompt").on( 'click', function () {
+                            $("#myModalcontacto").modal('show')
+                            });
+                          </script>
+
                           <script type="text/javascript">
                               $(document).ready(function(){
                                 $("#contact").click(function(){
