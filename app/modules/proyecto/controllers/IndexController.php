@@ -2011,6 +2011,11 @@ public function hojaresumenAction()
     $this->view->contact=$cc;
   }
 
+  $clientes = new Admin_Model_DbTable_Cliente();
+  $nombreliente=$clientes->_getClienteAll();
+  $this->view->cliente=$nombreliente;
+
+
 
 
 }

@@ -222,5 +222,48 @@ class Admin_Model_DbTable_Planificacion extends Zend_Db_Table_Abstract
         }
     }
 
+    public function _getListarEquipoxAprobacionxGerenteProyecto($uid,$dni){
+        try {
+            $sql=$this->_db->query("
+                select distinct p.uid,p.dni,p.semanaid,sum(p.h_totaldia) as total,sum(p.billable) as facturable,sum(p.nonbillable) as nofacturable,sum(p.adm) as administrativa
+                from planificacion as p
+                where 
+                    p.proyectoid in (select distinct 
+                        e.proyectoid from equipo as e 
+                        where e.uid='$uid'and e.dni='$dni'  and e.nivel='0') 
+                    and p.h_totaldia is not null and p.estado='A'
+                    GROUP BY p.uid,p.dni,p.semanaid
+
+            ");
+            $row=$sql->fetchAll();
+            return $row;     
+
+        } catch (Exception $e) {
+            print "Error: Read One Condition".$e->getMessage();
+        }
+    }
+
+
+    public function _getListarProyectosxSemanaxGerenteProyecto($uid_gerente,$dni_gerente,$uid_equipo,$dni_equipo,$semanaid){
+        try {
+            $sql=$this->_db->query("
+                select *
+                from planificacion as p
+                where 
+                    p.proyectoid in (select distinct 
+                        e.proyectoid from equipo as e 
+                        where e.uid='$uid_gerente' and e.dni='$dni_gerente' and e.nivel='0') 
+                    and p.h_totaldia is not null
+                    and p.uid='$uid_equipo' and p.dni='$dni_equipo' and p.semanaid='$semanaid'
+                    
+                
+            ");
+            $row=$sql->fetchAll();
+            return $row;     
+        } catch (Exception $e) {
+            print "Error: Read One Condition".$e->getMessage();
+        }
+    }
+
 
 }

@@ -57,8 +57,12 @@
   <?php 
   if ($this->aprobacion)
   {
-    echo "<strong>";echo "Aprobadores: "; echo "</strong>";echo "<br>";
+    echo "<strong>";echo "Aprobadores: "; echo "</strong>";
+    
+    if ($this->aprobador_filtro2) {
+    echo "<br>";
     echo "<strong>";echo "JI: ";echo "</strong>";echo $this->aprobador_filtro2;
+    }
     echo "<br>";
     if ($this->gerentes_proyectos)
     {
@@ -1374,152 +1378,173 @@
         
     });
 </script>
+<!-- MUESTRA EL HISTORIAL DE APROBACIONES Y COMENTARIOS DE LA TABLA TAREO_PERSONA -->
+<div class="row">
+    <div class="tab-content">
+        <div class="tab-pane active" id="tab_1">
+            <div class="panel-group" id="accordion1">
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                            <a href="#accordion1_1" data-parent="#accordion1" data-toggle="collapse" class="accordion-toggle" aria-expanded="true">
+                                1. Historial de Aprobaciones
+                            </a>
+                        </h4>
+                    </div>
+                    <div class="panel-collapse collapse" id="accordion1_1" aria-expanded="true">
+                        <div class="panel-body">
+                            <?php 
+                            $tabla_aprobaciones = new Admin_Model_DbTable_Historialaprobaciones();
+                            $uid=$this->uid;
+                            $dni=$this->dni;
+                            $semanaid=$this->semana;
+                            if($aprobaciones=$tabla_aprobaciones-> _getBuscarEmpleadoxSemana($semanaid,$uid,$dni))
+                            {?>
+                            <table class="display table table-bordered table-striped" id="dynamic-table">
+                                <tr>
+                                    <th style="width: 20%;">Rol</th>
+                                    <th style="width: 20%;">Usuario</th>
+                                    <th style="width: 15%;" >Estado</th>
+                                    <th style="width: 15%;">Fecha</th>
+                                    <th style="width: 40%;">Comentario</th>
+                                </tr>
+                                <?php
+                                foreach ($aprobaciones as $historico) {
+                                  //print_r($historico);?>
+                                    <tr>
+                                        <td>
+                                            <?php if ($historico['etapa_validador']=='ENVIO'){
+                                            echo "Usuario";}
+                                            if ($historico['etapa_validador']=='FILTRO2'){
+                                            echo "Jefe Inmediato";}
+                                            if ($historico['etapa_validador']=='GP'){
+                                            echo "Gerente Proyecto";}
+                                            ?>  
+                                        </td>
+                                        <td>
+                                            <?php if ($historico['comentario_estado']=='E'){
+                                            print_r($historico['uid_empleado']);}
+                                            if ($historico['comentario_estado']!='E'){
+                                            print_r($historico['uid_validador']);}
+                                            ?>  
+                                        </td>
+                                        <td>
+                                            <?php 
+                                            if ($historico['comentario_estado']=='E'){
+                                            echo "Enviado para Aprobacion";}
+                                            if ($historico['comentario_estado']=='A' ){
+                                            echo "Aprobado";}  
+                                            if ($historico['comentario_estado']=='R' ){
+                                            echo "Rechazado";}  
+                                            ?>  
+                                        </td>
+                                        <td>
+                                            <?php print_r($historico['fecha_registro'])?>  
+                                        </td>
+                                        <td>
+                                            <?php print_r($historico['comentario'])?>  
+                                        </td>
+                                    </tr>
+                                    <?php
+                                    }
+                                }
+                                ?>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel panel-success">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                            <a href="#accordion1_2" data-parent="#accordion1" data-toggle="collapse" class="accordion-toggle collapsed" aria-expanded="false">
+                                2. Historial Comentarios
+                            </a>
+                        </h4>
+                    </div>
+                    <div class="panel-collapse collapse" id="accordion1_2" aria-expanded="false" style="height: 0px;">
+                        <div class="panel-body">
+                            <table  class="display table table-bordered table-striped" id="dynamic-table">
+                                <thead>
+                                  <tr>
+                                    <th style="width: 10%;">Fecha  </th>
+                                    <th style="width: 30%;" >Proyecto </th> 
+                                    <th style="width: 20%;" > Actividad: Tarea</th> 
+                                    <th style="width: 5%;" > hora</th> 
+                                    <th style="width: 35%;" > Comentario</th> 
+                                  </tr>
+                                 
+                                    
+                                </thead>
+                                <tbody id="agregarComentario">
+                                     
+                                  <?php           
+                                    $uid=$this->uid;            
+                                    $dni=$this->dni;
+                                    $semana=$this->semana;
 
-<div class="col-lg-10 "  style="padding-top: 10px;padding-bottom: 10px;padding-right: 10px;padding-left: 10px;">
-<?php 
-  $sumahorassemana = new Admin_Model_DbTable_Sumahorasemana();
-  $wheres=array('dni'=>$this->dni,'uid'=>$this->uid,'semanaid'=>$this->semana);
-  $tareosemana=$sumahorassemana->_getOne($wheres);
-  $estado_horas=$tareosemana['estado'];
-  $uid=$this->uid;
-  $dni=$this->dni;
-  $semanaid=$this->semana;
-  $vercoment= new Admin_Model_DbTable_Usuariovalidacion();
-  if($vcoment=$vercoment->_getUsuarioxValidacion($semanaid,$uid,$dni))
-   // print_r($vcoment);
-  {?>
-  <table class="table alert-info">
-    <tr>
-      <th style="width: 20%;">  Usuario</th>
-      <th style="width: 15%;" > Estado</th>
-      <th style="width: 15%;"> Fecha</th>
-      <th style="width: 40%;"> Comentario</th>
-    </tr>
-    <?php
-    foreach ($vcoment as $historico) {
-      //print_r($historico);?>
-    <tr>
-      <td>
-        <?php print_r($historico['uid_validacion'])?>  
-      </td>
-      <td>
-        <?php 
-          if ($historico['etapa']=='0'){
-            echo "Enviado Aprobacion";}
-          if ($historico['etapa']=='1' and $historico['estado_usuario']=='B'){
-            echo "Aprobado por el Jefe Area";}  
-          if ($historico['etapa']=='1' and $historico['estado_usuario']=='R'){
-            echo "Rechazado por el Jefe Area";}  
-            if ($historico['etapa']=='2' and $historico['estado_usuario']=='R'){
-            echo "Rechazado por el Gerente Proyecto";}  
-                if ($historico['etapa']=='2' and $historico['estado_usuario']=='B'){
-            echo "Aprobado por el Gerente Proyecto";}  
-        //print_r($historico['estado_usuario'])?>  
-      </td>
-      <td>
-        <?php print_r($historico['fecha_validacion'])?>  
-      </td>
-      <td>
-        <?php print_r($historico['comentario'])?>  
-      </td>
-    </tr>
-    <?php
-    }
-  }
-?>
-</table>
+                                    $tareopersona = new Admin_Model_DbTable_Tareopersona();
+                                    $wheres=array('dni'=>$dni,'uid'=>$uid,'semanaid'=>$semana);                
+                                    $tpercoment=$tareopersona->_getFilter($wheres);
+                                    if ($tpercoment) {
+                                      foreach ($tpercoment as $value) {              
+                                        if(trim($value['comentario'])!='' and trim($value['h_real'])!=''){
+                                        ?>
+                                        <tr>
+                                         
+                                          <th>
+                                             <?php echo $value['fecha_tarea']; ?>
+                                          </th>
+                                          <th>
+                                            <?php 
+                                             //codigo_prop_proy, proyectoid
+                                             $wherep=array('codigo_prop_proy'=>$value['codigo_prop_proy'],'proyectoid'=>$value['proyectoid']); 
+                                             $nompro=new Admin_Model_DbTable_Proyecto();
+                                             $npro=$nompro->_getOne($wherep);
+                                             echo $value['proyectoid'];
+                                             echo " ";
+                                             echo $npro['nombre_proyecto'];
+                                            ?>
+                                          </th>
+                                          <th>
+                                             <?php //echo $value['actividadid'];
+                                             //codigo_prop_proy, codigo_actividad, actividadid, revision
+                                              $wherea=array('codigo_prop_proy'=>$value['codigo_prop_proy'],'codigo_actividad'=>$value['codigo_actividad'],'actividadid'=>$value['actividadid'],'revision'=>$value['revision']);                
+
+                                              $nomact = new Admin_Model_DbTable_Actividad();
+                                              $noma=$nomact->_getOne($wherea);
+                                              echo $noma['nombre'];
+
+                                             ?>
+                                          </th>
+                                          <th>
+                                             <?php echo $value['h_real']; ?>
+                                          </th>               
+                                          <th>                    
+                                              <?php echo $value['comentario']; ?>                                             
+                                          </th>             
+                                        
+                                        </tr>
+                                        <?php  
+                                        }              
+                                      }
+                                    }
+                                    //}
+                                      // $newDate = date("Y-m-d", strtotime($fecha));
+                                      // $nuevafecha = strtotime ('+1 day' , strtotime ( $newDate ) ) ;
+                                      // $fecha = date ('d-m-Y', $nuevafecha );
+                                    
+                                    // }
+                                    ?>
+                                </tbody>
+
+                                </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>   
 </div>
-
-<div style="display:none" id="horaregistrada"></div>
-<div style="display:none" id="carga"></div>
-<div  id="carga_nueva"></div>
-<div style="display:none"  id="carga_copiar"></div>
-<div style="display:none" id="carga_w1"></div>
-
-
-
-  <article class="postg">
-  </article>
-
-  <article class="post">
-  <table  class="display table table-bordered table-striped" id="dynamic-table">
-      <thead>
-          <tr>
-            <th style="width: 10%;">Fecha  </th>
-            <th style="width: 30%;" >Proyecto </th> 
-            <th style="width: 20%;" > Actividad: Tarea</th> 
-            <th style="width: 5%;" > hora</th> 
-            <th style="width: 35%;" > Comentario</th> 
-          </tr>
-         
-            
-      </thead>
-      <tbody id="agregarComentario">
-             
-          <?php           
-            $uid=$this->uid;            
-            $dni=$this->dni;
-            $semana=$this->semana;
-    
-            $tareopersona = new Admin_Model_DbTable_Tareopersona();
-            $wheres=array('dni'=>$dni,'uid'=>$uid,'semanaid'=>$semana);                
-            $tpercoment=$tareopersona->_getFilter($wheres);
-            if ($tpercoment) {
-              foreach ($tpercoment as $value) {              
-                if(trim($value['comentario'])!='' and trim($value['h_real'])!=''){
-                ?>
-                <tr>
-                 
-                  <th>
-                     <?php echo $value['fecha_tarea']; ?>
-                  </th>
-                  <th>
-                    <?php 
-                     //codigo_prop_proy, proyectoid
-                     $wherep=array('codigo_prop_proy'=>$value['codigo_prop_proy'],'proyectoid'=>$value['proyectoid']); 
-                     $nompro=new Admin_Model_DbTable_Proyecto();
-                     $npro=$nompro->_getOne($wherep);
-                     echo $value['proyectoid'];
-                     echo " ";
-                     echo $npro['nombre_proyecto'];
-                    ?>
-                  </th>
-                  <th>
-                     <?php //echo $value['actividadid'];
-                     //codigo_prop_proy, codigo_actividad, actividadid, revision
-                      $wherea=array('codigo_prop_proy'=>$value['codigo_prop_proy'],'codigo_actividad'=>$value['codigo_actividad'],'actividadid'=>$value['actividadid'],'revision'=>$value['revision']);                
-
-                      $nomact = new Admin_Model_DbTable_Actividad();
-                      $noma=$nomact->_getOne($wherea);
-                      echo $noma['nombre'];
-
-                     ?>
-                  </th>
-                  <th>
-                     <?php echo $value['h_real']; ?>
-                  </th>               
-                  <th>                    
-                      <?php echo $value['comentario']; ?>                                             
-                  </th>             
-                
-                </tr>
-                <?php  
-                }              
-              }
-            }
-            //}
-              // $newDate = date("Y-m-d", strtotime($fecha));
-              // $nuevafecha = strtotime ('+1 day' , strtotime ( $newDate ) ) ;
-              // $fecha = date ('d-m-Y', $nuevafecha );
-            
-            // }
-            ?>
-      </tbody>
-
-  </table>
-
-</article>
-</section>
 
 
 
