@@ -57,81 +57,7 @@ controller('mainController', ['$http', function($http){
 	reporte.proyectos = []
 	reporte.usuarios = []
 	reporte.tareopersona = []
-	
-	//funciones que realizaran peticiones al servidor para obtener rellenar los array
 
-	reporte.getGerentes = function () {
-		$http.get('/reporte/index/gerentes')
-		.success(function (res) {
-			reporte.gerentes = res
-		})
-	}
-
-	reporte.getClientes = function () {
-		$http.get('/reporte/index/clientes')
-		.success(function (res) {
-			reporte.clientes = res
-		})
-	}
-
-	reporte.getUnidadMinera = function (seleccionado) {
-		$http.get('/reporte/index/unidadminera/clienteid/' + seleccionado)
-		.success(function (res) {
-			reporte.unidadminera = res
-		})
-	}
-
-	//solicitud de proyectos por cliente o por gerente
-	reporte.getProyectosByCliente = function (clienteid) {
-		reporte.proyectos = []
-		reporte.usuarios = []
-		reporte.tareopersona = []
-		reporte.disabled_children = true
-		reporte.gerente_seleccionado = 'todos'
-		$http.get('/reporte/index/proyectos/clienteid/' + clienteid)
-		.success(function (res) {
-			if (res.length == 0) {
-				reporte.text_proyectos = 'El Cliente seleccionado no tiene proyectos actualmente.'
-			} else {
-				res.forEach(function (proyecto) {
-					reporte.text_proyectos = ''
-					proyecto['selected'] = false
-					reporte.proyectos.push(proyecto)
-				})
-			}
-		})
-	}
-	reporte.getProyectosByGerente = function (gerenteid) {
-		reporte.proyectos = []
-		reporte.usuarios = []
-		reporte.tareopersona = []
-		reporte.disabled_children = true
-		reporte.cliente_seleccionado = 'todos'
-		$http.get('/reporte/index/proyectos/gerenteid/' + gerenteid)
-		.success(function (res) {
-			if (res.length == 0) {
-				reporte.text_proyectos = 'El Gerente seleccionado no tiene proyectos actualmente'
-			} else {
-				res.forEach(function (proyecto) {
-					reporte.text_proyectos = ''
-					proyecto['selected'] = false
-					reporte.proyectos.push(proyecto)
-				})
-			}
-		})	
-	}
-
-	reporte.getData = function (proyecto, index) {
-		if (reporte.proyectos[index]['selected']) {
-			reporte.agregarUsuarios(proyecto)
-			reporte.agregarTareopersona(proyecto)
-		} else {
-			reporte.borrarUsuarios(proyecto)
-			reporte.borrarTareopersona(proyecto)
-		}
-	}
-
-	
 	//funciones relacionadas a la vista para el manejo de eventos
 	//funciones para los marcar los checkbox de tipo_actividad y agrupamiento visible
 	reporte.tipoActivoTodo = function (id) {
@@ -203,16 +129,81 @@ controller('mainController', ['$http', function($http){
 		reporte.meses = meses
 		reporte.semanas = semanas
 	}
+	
+	//funciones que realizaran peticiones al servidor para obtener rellenar los array
 
-	//ejecucion de algunas funciones al cargar la pagina
-	angular.element(document).ready(function () {
-		//solicitud de clientes y gerentes al cargar la pagina
-		reporte.getClientes()
-		reporte.getGerentes()
-		//rellenar los array de dias, semanas y meses deacuerdo a las fechas por defecto
-		reporte.rellenarFechas()
-    })
+	reporte.getGerentes = function () {
+		$http.get('/reporte/index/gerentes')
+		.success(function (res) {
+			reporte.gerentes = res
+		})
+	}
 
+	reporte.getClientes = function () {
+		$http.get('/reporte/index/clientes')
+		.success(function (res) {
+			reporte.clientes = res
+		})
+	}
+
+	reporte.getUnidadMinera = function (seleccionado) {
+		$http.get('/reporte/index/unidadminera/clienteid/' + seleccionado)
+		.success(function (res) {
+			reporte.unidadminera = res
+		})
+	}
+
+	//solicitud de proyectos por cliente o por gerente
+	reporte.getProyectosByCliente = function (clienteid) {
+		reporte.proyectos = []
+		reporte.usuarios = []
+		reporte.tareopersona = []
+		reporte.disabled_children = true
+		reporte.gerente_seleccionado = 'todos'
+		$http.get('/reporte/index/proyectos/clienteid/' + clienteid)
+		.success(function (res) {
+			if (res.length == 0) {
+				reporte.text_proyectos = 'El Cliente seleccionado no tiene proyectos actualmente.'
+			} else {
+				res.forEach(function (proyecto) {
+					reporte.text_proyectos = ''
+					proyecto['selected'] = false
+					reporte.proyectos.push(proyecto)
+				})
+			}
+		})
+	}
+
+	reporte.getProyectosByGerente = function (gerenteid) {
+		reporte.proyectos = []
+		reporte.usuarios = []
+		reporte.tareopersona = []
+		reporte.disabled_children = true
+		reporte.cliente_seleccionado = 'todos'
+		$http.get('/reporte/index/proyectos/gerenteid/' + gerenteid)
+		.success(function (res) {
+			if (res.length == 0) {
+				reporte.text_proyectos = 'El Gerente seleccionado no tiene proyectos actualmente'
+			} else {
+				res.forEach(function (proyecto) {
+					reporte.text_proyectos = ''
+					proyecto['selected'] = false
+					reporte.proyectos.push(proyecto)
+				})
+			}
+		})	
+	}
+
+	//obtener los datos de usuario y tareopersona por proyecto
+	reporte.getData = function (proyecto, index) {
+		if (reporte.proyectos[index]['selected']) {
+			reporte.agregarUsuarios(proyecto)
+			reporte.agregarTareopersona(proyecto)
+		} else {
+			reporte.borrarUsuarios(proyecto)
+			reporte.borrarTareopersona(proyecto)
+		}
+	}
     
 	//funciones para agregar o quitar usuarios de la lista segun los proyectos visibles
     reporte.agregarUsuarios = function (proyecto) {
@@ -283,16 +274,12 @@ controller('mainController', ['$http', function($http){
 		$http.get('/reporte/index/tareopersonajson/codigo_prop_proy/'+ proyecto)
 		.success(function (res) {
 			res.forEach(function (item) {
-				item.horas = rellenarDiasTareopersona(item)
-				item.horasxmeses = rellenarMesesTareopersona(item)
-				item.horasxsemanas = rellenarSemanasTareopersona(item)
-				item.horas_total = sumarHorizontal(item)
-				item.uid = item.uid.changeFormat()
-				reporte.tareopersona.push(item)
+				tareo = new Tareopersona(item.codigo_prop_proy, item.codigo_actividad, item.dni, item.uid, item.rate_proyecto, item.proyectoid, item.tipo_actividad, item.nombre, item.nombre_proyecto, item.estado, item.h_real_total, item.data_horas)
+				tareo.uid = tareo.uid.changeFormat()
+				tareo.setHoras()
+				reporte.tareopersona.push(tareo)
 			})
-			reporte.dias_suma = sumarVerticalDias()
-			reporte.semanas_suma = sumarVerticalSemanas()
-			reporte.meses_suma = sumarVerticalMeses()
+			reporte.sumarVerticales()
 			//verificar tamaño del array para habilitar o deshabilitar los elementos del DOM asociados
 			if (reporte.tareopersona.length == 0) {
 				reporte.tareopersona_void = true
@@ -312,133 +299,43 @@ controller('mainController', ['$http', function($http){
 				reporte.tareopersona.push(item)
 			}
 		})
-		reporte.dias_suma = sumarVerticalDias()
-		reporte.semanas_suma = sumarVerticalSemanas()
-		reporte.meses_suma = sumarVerticalMeses()
+		reporte.sumarVerticales()
 	}
 
-	//funciones para el manejo de los dias visibles en la tabla tareopersona
-	function rellenarDiasTareopersona (tareopersona) {
-		var horas = []
-		for (var i = 0; i < reporte.dias.length; i++) {
-			hora = '--'
-			tareopersona.data_horas.forEach(function (item) {
-				if (reporte.dias[i].fecha == item.fecha_tarea) {
-					if (item.h_real == '' || item.h_real == undefined) {
-						hora = '--'
-					} else {
-						hora = item.h_real
-					}
-				}
-			})
-			horas.push(hora)
-		}
-		return horas	
-	}
-
-	function rellenarMesesTareopersona (tareopersona) {
-		var horasxmeses = []
-		var nombres = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Setiembre', 'Octobre', 'Noviembre', 'Diciembre']
-		for (var i = 0; i < reporte.meses.length; i++) {
-			var hora = 0
-			var mes1 = reporte.meses[i]
-			var inicial = reporte.fecha_from.cadena.toDate()
-			var ultimo = reporte.fecha_to.cadena.toDate()
-			tareopersona.data_horas.forEach(function (item) {
-				var mes2 = nombres[item.fecha_tarea.toDate().getMonth()]
-				var dia = item.fecha_tarea.toDate()
-				if (mes1 == mes2 && inicial <= dia && dia <= ultimo) {
-					if (isNaN(parseFloat(item.h_real)) || item.h_real == '' || item.h_real == null || item.h_real == undefined) {
-						adicional = 0
-					} else {
-						adicional = parseFloat(item.h_real)
-					}
-					hora = hora + adicional
-				}
-			})
-			if (hora == 0) {
-				hora = '--'
-			}
-			horasxmeses.push(hora)
-		}
-		return horasxmeses
-	}
-
-	function rellenarSemanasTareopersona (tareopersona) {
-		var horasxsemanas = []
-		for (var i = 0; i < reporte.semanas.length; i++) {
-			var hora = 0
-			var semana1 = parseInt(reporte.semanas[i].slice(7))
-			var inicial = reporte.fecha_from.cadena.toDate()
-			var ultimo = reporte.fecha_to.cadena.toDate()
-			tareopersona.data_horas.forEach(function (item) {
-				var semana2 = item.fecha_tarea.toDate().getWeek()
-				var dia = item.fecha_tarea.toDate()
-				if (semana1 == semana2 && inicial <= dia && dia <= ultimo) {
-					if (isNaN(parseFloat(item.h_real)) || item.h_real == '' || item.h_real == null || item.h_real == undefined) {
-						adicional = 0
-					} else {
-						adicional = parseFloat(item.h_real)
-					}
-					hora = hora + adicional
-				}
-			})
-			if (hora == 0) {
-				hora = '--'
-			}
-			horasxsemanas.push(hora)
-		}
-		return horasxsemanas
-	}
-
+	//funcion para cambio de fechas y recalcular los dias visibles
 	reporte.cambiarFecha = function () {
 		reporte.fecha_from.date = reporte.fecha_from.cadena.toDate()
 		reporte.fecha_to.date = reporte.fecha_to.cadena.toDate()
 		reporte.rellenarFechas()
 		arrayTemp = []
-		reporte.tareopersona.forEach(function (item) {
-			item.horas = rellenarDiasTareopersona(item)
-			item.horasxmeses = rellenarMesesTareopersona(item)
-			item.horasxsemanas = rellenarSemanasTareopersona(item)
-			item.horas_total = sumarHorizontal(item)
-			arrayTemp.push(item)
+		reporte.tareopersona.forEach(function (tareopersona) {
+			tareopersona.setHoras()
+			arrayTemp.push(tareopersona)
 		})
-		reporte.dias_suma = sumarVerticalDias()
-		reporte.semanas_suma = sumarVerticalSemanas()
-		reporte.meses_suma = sumarVerticalMeses()
 		reporte.tareopersona = arrayTemp
+		reporte.sumarVerticales()
 		reporte.dtInstance.rerender()
 	}
 
-	function sumarHorizontal (tareopersona, xfecha) {
-		var suma = 0
-		tareopersona.horas.forEach(function (item) {
-			if (item != '--') {
-				suma = suma + parseFloat(item)
-			}
-		})
-		return suma
-	}
-
-	function sumarVerticalDias () {
-		var suma_ver = []
+	//funcion para la suma de columnas segun dia, semana y mes
+	reporte.sumarVerticales = function () {
+		var suma_dias = []
+		var suma_semanas = []
+		var suma_meses = []
 		var i = 0
+
 		reporte.dias.forEach(function (dia) {
 			var suma = 0
 			reporte.tareopersona.forEach(function (tareopersona) {
-				if (tareopersona.horas[i] != '--') {
-					suma = suma + parseInt(tareopersona.horas[i])
+				if (tareopersona.horasxdias[i] != '--') {
+					suma = suma + parseFloat(tareopersona.horasxdias[i])
 				}
 			})
 			i = i + 1
-			suma_ver.push(suma)
+			suma_dias.push(suma)
 		})
-		return suma_ver
-	}
-
-	function sumarVerticalSemanas () {
-		var suma_ver = []
-		var i = 0
+				
+		i = 0
 		reporte.semanas.forEach(function (semana) {
 			var suma = 0
 			reporte.tareopersona.forEach(function (tareopersona) {
@@ -447,14 +344,10 @@ controller('mainController', ['$http', function($http){
 				}
 			})
 			i = i + 1
-			suma_ver.push(suma)
+			suma_semanas.push(suma)
 		})
-		return suma_ver
-	}
-
-	function sumarVerticalMeses () {
-		var suma_ver = []
-		var i = 0
+		
+		i = 0
 		reporte.meses.forEach(function (mes) {
 			var suma = 0
 			reporte.tareopersona.forEach(function (tareopersona) {
@@ -463,14 +356,27 @@ controller('mainController', ['$http', function($http){
 				}
 			})
 			i = i + 1
-			suma_ver.push(suma)
+			suma_meses.push(suma)
 		})
-		return suma_ver
+
+		reporte.dias_suma = suma_dias
+		reporte.semanas_suma = suma_semanas
+		reporte.meses_suma = suma_meses
 	}
 
+	//funcion que permite la exportacion a pdf de la tabla
 	reporte.exportarPdf = function () {
 		$('#tareopersona-table').tableExport({type:'pdf', htmlContent:'false', pdfFontSize:6, pdfLeftMargin:10, escape:'false'})
 	}
+
+	//ejecucion de algunas funciones al cargar la pagina
+	angular.element(document).ready(function () {
+		//solicitud de clientes y gerentes al cargar la pagina
+		reporte.getClientes()
+		reporte.getGerentes()
+		//rellenar los array de dias, semanas y meses deacuerdo a las fechas por defecto
+		reporte.rellenarFechas()
+    })
 }])
 
 
@@ -525,7 +431,7 @@ Date.prototype.getWeek = function () {
 }
 
 //Agregando funciones a la clase String para convertir a fecha ,obtener mes y cambiar formato
-//respectivamente
+//de cadena uid a usuario respectivamente
 String.prototype.toDate = function () {
 	cadena = this.valueOf()
 	var datos = []
@@ -566,7 +472,7 @@ String.prototype.changeFormat = function () {
 }
 
 //definiendo objeto tareopersona
-var Tareopersona = function (codigo_prop_proy, codigo_actividad, dni, uid, rate_proyecto, proyectoid, tipo_actividad, um_nombre, nombre_proyecto, estado, h_real_total) {
+var Tareopersona = function (codigo_prop_proy, codigo_actividad, dni, uid, rate_proyecto, proyectoid, tipo_actividad, um_nombre, nombre_proyecto, estado, h_real_total, horas) {
 	this.codigo_prop_proy = codigo_prop_proy
 	this.codigo_actividad = codigo_actividad
 	this.dni = dni
@@ -578,13 +484,14 @@ var Tareopersona = function (codigo_prop_proy, codigo_actividad, dni, uid, rate_
 	this.nombre_proyecto = nombre_proyecto
 	this.estado = estado
 	this.h_real_total = h_real_total
-	this.horas = []
-	this.horasxdia = []
+	this.horas = horas
+	this.horasxdias = []
 	this.horasxsemanas = []
 	this.horasxmeses = []
 	this.horas_total = 0
 }
 
+//Metodo para rellenar las horas de tareopersona segun los dias escogidos
 Tareopersona.prototype.setHoras = function () {
 	var horasxdia = []
 	var horasxsemana = []
@@ -600,6 +507,8 @@ Tareopersona.prototype.setHoras = function () {
 			if (reporte.dias[i].fecha == item.fecha_tarea) {
 				if (item.h_real == '' || item.h_real == undefined || item.h_real == '0') {
 					horaxdia = '--'
+				} else if (item.h_real.indexOf(".00") != -1) {
+					horaxdia = item.h_real.slice(0, item.h_real.indexOf(".00"))
 				} else {
 					horaxdia = item.h_real
 				}
@@ -660,8 +569,8 @@ Tareopersona.prototype.setHoras = function () {
 		}
 	})
 
-	this.horasxdia = horasxdia
-	this.horasxsemanas = horasxsemanas
+	this.horasxdias = horasxdia
+	this.horasxsemanas = horasxsemana
 	this.horasxmeses = horasxmes
 	this.horas_total = suma
 }
