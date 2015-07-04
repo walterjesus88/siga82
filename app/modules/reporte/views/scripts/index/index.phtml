@@ -5,14 +5,14 @@
 		<div>
 			<div class="col-lg-6">
 				<h4>Clientes</h4>
-				<select class="form-control m-bot15" ng-model="reporte.cliente_seleccionado" ng-change="reporte.getProyectos(reporte.cliente_seleccionado, 'byCliente')">
+				<select class="form-control m-bot15" ng-model="reporte.cliente_seleccionado" ng-change="reporte.getProyectosByCliente(reporte.cliente_seleccionado)">
 					<option value="todos">Seleccione Cliente</option>
 					<option value="{{cliente.id}}" ng-repeat="cliente in reporte.clientes track by $index">{{cliente.nombre}}</option>
 				</select>
 			</div>
 			<div class="col-lg-6">
 				<h4>Gerentes</h4>
-				<select class="form-control m-bot15" ng-model="reporte.gerente_seleccionado" ng-change="reporte.getProyectos(reporte.gerente_seleccionado, 'byGerente')">
+				<select class="form-control m-bot15" ng-model="reporte.gerente_seleccionado" ng-change="reporte.getProyectosByGerente(reporte.gerente_seleccionado)">
 					<option value="todos">Seleccione Gerente</option>
 					<option value="{{gerente.gerente_proyecto}}" ng-repeat="gerente in reporte.gerentes track by $index">{{gerente.gerente_proyecto}}</option>
 				</select>
@@ -64,7 +64,7 @@
 	</div>
 
 	<div id="container-tareopersona-table">
-		<button class="btn btn-primary pull-right btn-xs" ng-click="reporte.imprimir()"><i class="fa fa-print"></i> Imprimir</button>
+		<button class="btn btn-primary pull-right btn-xs" ng-click="reporte.exportarPdf()"><i class="fa fa-print"></i> Exportar a PDF</button>
 		<table datatable="ng" dt-instance="reporte.dtInstance" class="table table-bordered table-striped table-condensed" id="tareopersona-table">
 		<thead>
 			<th>
