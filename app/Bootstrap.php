@@ -94,6 +94,8 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
                         ->headScript()->appendFile('/js/jspdf/jquery.base64.js')
                         ->headScript()->appendFile('/js/jspdf/libs/sprintf.js')
                         ->headScript()->appendFile('/js/jspdf/jspdf.js')
+                        ->headScript()->appendFile('/js/jspdf/jspdf.plugin.from_html.js')
+                        ->headScript()->appendFile('/js/jspdf/FileSaver.js')
                         ->headScript()->appendFile('/js/jspdf/libs/base64.js');
 
             $view->headTitle()->setSeparator(' - ');

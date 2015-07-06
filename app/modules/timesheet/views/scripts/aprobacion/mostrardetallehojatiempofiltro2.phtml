@@ -310,7 +310,10 @@
                 $(document).ready(function(){
                     $("#aprobar").on("click",function(){
                     alert('Aprobando Hoja de Tiempo');
-                    var coment=$("#comentario").val();
+                    //var coment=$("#comentario").val();
+                    var captura_comentario = $("#comentario").val();   
+                    var coment= captura_comentario.replace(/\s/g,"_");
+
                     var uid="<?php echo $this->uid ?>";
                     var dni="<?php echo $this->dni ?>";
                     var uid_validacion="<?php echo $this->uid_validacion ?>";
@@ -319,7 +322,8 @@
                     var semanaid="<?php echo $data_tareo['semanaid'] ?>";
                     var cargo="<?php echo $data_tareo['cargo'] ?>";
                     var categoriaid ="<?php echo $data_tareo['categoriaid'] ?>";
-                    url="/timesheet/aprobacion/aprobarhojatiempofiltro2/estado/A/uid/"+uid+"/dni/"+dni+"/semanaid/"+semanaid+'/cargo/'+cargo+'/coment/'+coment+'/uid_validacion/'+uid_validacion+'/dni_validacion/'+dni_validacion+'/etapa/FILTRO2'+'/fecha/'+fecha_actual+'/categoriaid/'+categoriaid;
+                    url="/timesheet/aprobacion/aprobarhojatiempofiltro2/estado/A/uid/"+uid+"/dni/"+dni+"/semanaid/"+semanaid+'/cargo/'+cargo+'/uid_validacion/'+uid_validacion+'/dni_validacion/'+dni_validacion+'/etapa/FILTRO2'+'/fecha/'+fecha_actual+'/categoriaid/'+categoriaid+'/coment/'+coment;
+                    alert(url);
                     $("#comentariousers").load(url);
                     });
 
@@ -329,7 +333,8 @@
                 $(document).ready(function(){
                   $("#observar").on("click",function(){
                     alert('Aprobando Hoja de Tiempo');
-                    var coment=$("#comentario").val();
+                    var captura_comentario = $("#comentario").val();   
+                    var coment= captura_comentario.replace(/\s/g,"_");
                     var uid="<?php echo $this->uid ?>";
                     var dni="<?php echo $this->dni ?>";
                     var uid_validacion="<?php echo $this->uid_validacion ?>";
@@ -339,6 +344,7 @@
                     var cargo="<?php echo $data_tareo['cargo'] ?>";
                     var categoriaid ="<?php echo $data_tareo['categoriaid'] ?>";
                     url="/timesheet/aprobacion/aprobarhojatiempofiltro2/estado/R/uid/"+uid+"/dni/"+dni+"/semanaid/"+semanaid+'/cargo/'+cargo+'/coment/'+coment+'/uid_validacion/'+uid_validacion+'/dni_validacion/'+dni_validacion+'/etapa/FILTRO2'+'/fecha/'+fecha_actual+'/categoriaid/'+categoriaid;
+                    alert(url);
                     $("#comentariousers").load(url);
                     });
                 });
@@ -465,12 +471,6 @@
                 }              
               }
             }
-            //}
-              // $newDate = date("Y-m-d", strtotime($fecha));
-              // $nuevafecha = strtotime ('+1 day' , strtotime ( $newDate ) ) ;
-              // $fecha = date ('d-m-Y', $nuevafecha );
-            
-            // }
             ?>
       </tbody>
 

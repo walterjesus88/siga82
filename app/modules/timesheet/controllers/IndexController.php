@@ -210,8 +210,14 @@ class Timesheet_IndexController extends Zend_Controller_Action {
         $datos_tareopersona=$tareo_persona->_getTareoxPersonaxSemana($uid,$dni,$semana);
         $datos_tareopersona_NB=$tareo_persona->_getTareoxPersonaxSemanaxNB($uid,$dni,$semana);
         $wheres_hojatiempo_empleado=array('uid'=>$uid,'dni'=>$dni,'semanaid'=>$semana);
-        $estado_hojatiempo=$tareo_persona->_getEstado_HojaTiempo($wheres_hojatiempo_empleado);
-        print_r($estado_hojatiempo);
+        $estado_hojatiempo=$tareo_persona->_getEstado_HojaTiempo($semana,$uid,$dni);
+        //print_r($wheres_hojatiempo_empleado);
+        if ($estado_hojatiempo)
+        {
+            $this->view->estado_hoja_tiempo= $estado_hojatiempo;    
+           
+        }
+        //print_r($estado_hojatiempo);
 
         //$data_tareo = $tareo->_getTareoXUid($where);
         $this->view->actividades= $datos_tareopersona;
@@ -239,7 +245,9 @@ class Timesheet_IndexController extends Zend_Controller_Action {
             $usuario_cat = new Admin_Model_DbTable_Usuariocategoria();
             
             $wheres_ucat=array('aprobacion'=>$idaprobador_filtro2,'estado'=>'A');
-            $list_aprobador=$usuario_cat->_getAprobadorxEmpleado($wheres_ucat);   
+            $list_aprobador=$usuario_cat->_getAprobadorxEmpleado($wheres_ucat);  
+
+
             
             if ($list_aprobador)
             {

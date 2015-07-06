@@ -605,7 +605,7 @@ order by t.proyectoid,t.actividadid,t.tipo_actividad desc
     }
 
 
-    public function _getEstado_HojaTiempo($where=array()){
+    /*public function _getEstado_HojaTiempo($where=array()){
       try {
         $sql = $this->_db->query("select distinct (estado) where uid='".$where['uid']."' and
           dni='".$where['dni']."' and semanaid='".$where['semanaid'].
@@ -615,5 +615,24 @@ order by t.proyectoid,t.actividadid,t.tipo_actividad desc
       } catch (Exception $ex) {
         print $ex->getMessage();
       }
+    }*/
+
+     public function _getEstado_HojaTiempo($semanaid,$uid,$dni)
+     {
+        try{
+            $sql=$this->_db->query("
+              select  distinct(estado) from tareo_persona 
+              where uid='$uid' and dni='$dni' and semanaid='$semanaid'
+          
+
+            ");
+            // print_r($sql);
+            $row=$sql->fetchAll();
+            return $row;           
+            }  
+            
+           catch (Exception $ex){
+            print $ex->getMessage();
+        }
     }
 }
