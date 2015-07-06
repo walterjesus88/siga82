@@ -64,7 +64,9 @@
 	</div>
 
 	<div id="container-tareopersona-table">
-		<button class="btn btn-primary pull-right btn-xs" ng-click="reporte.exportarPdf()"><i class="fa fa-print"></i> Exportar a PDF</button>
+		<button class="btn btn-secundary pull-right btn-xs" ng-click="reporte.exportarXls()"><i class="fa fa-save" ng-disabled="reporte.tareopersona_void"></i> Exportar a Excel</button>
+
+		<button class="btn btn-secundary pull-right btn-xs" ng-click="reporte.exportarPdf()"><i class="fa fa-print" ng-disabled="reporte.tareopersona_void"></i> Exportar a PDF</button>
 		
 		<table datatable="ng" dt-instance="reporte.dtInstance" class="table table-bordered table-striped table-condensed" id="tareopersona-table">
 		<thead>

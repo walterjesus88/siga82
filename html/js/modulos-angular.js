@@ -296,7 +296,7 @@ controller('mainController', ['$http', function($http){
 		reporte.tareopersona = []
 		arrayTemp.forEach(function (tareopersona) {
 			if (tareopersona.codigo_prop_proy != proyecto) {
-				reporte.tareopersona.push(item)
+				reporte.tareopersona.push(tareopersona)
 			}
 		})
 		reporte.sumarVerticales()
@@ -364,9 +364,91 @@ controller('mainController', ['$http', function($http){
 		reporte.meses_suma = suma_meses
 	}
 
-	//funcion que permite la exportacion a pdf de la tabla
-	reporte.exportarPdf = function () {
-		$('#tareopersona-table').tableExport({type:'pdf', htmlContent:'false', pdfFontSize:6, pdfLeftMargin:10, escape:'false'})
+	//funcion que permite la exportacion a excel de la tabla
+	reporte.exportarXls = function () {
+		$('#tareopersona-table').tableExport({type:'excel', escape:'false'})
+	}
+
+	reporte.exportarPdf = function (argument) {
+		var doc = new jsPDF('landscape')
+		doc.text(5, 10, 'Reporte Tareopersona')
+		doc.setFontSize(7)
+
+		doc.text(5, 15, 'CODIGO')
+		doc.text(20, 15, 'USUARIO')
+		doc.text(40, 15, 'RATE')
+		doc.text(50, 15, 'CODIGO PROYECTO')
+		doc.text(80, 15, 'TIPO')
+		doc.text(100, 15, 'NOMBRE PROYECTO')
+		doc.text(150, 15, 'ESTADO')
+		
+		if (reporte.dias_visible) {
+			var j = 1
+			reporte.dias.forEach(function (dia) {
+				doc.text((j * 5) + 160, 15, dia.cadena.toString())
+				j = j + 1
+			})
+		}
+
+		if (reporte.semanas_visible) {
+			var j = 1
+			reporte.semanas.forEach(function (semana) {
+				doc.text((j * 20) + 160, 15, semana.toString())
+				j = j + 1
+			})
+		}
+
+		if (reporte.meses_visible) {
+			var j = 1
+			reporte.meses.forEach(function (mes) {
+				doc.text((j * 20) + 160, 15, mes.toString())
+				j = j + 1
+			})
+		}
+
+		doc.text(280, 10, 'TOTAL')
+
+		for (var i = 0; i < reporte.tareopersona.length; i++) {
+			var vertical = ((i + 1) * 5) + 15
+
+			doc.text(5, vertical, reporte.tareopersona[i].dni)
+			doc.text(20, vertical, reporte.tareopersona[i].uid)
+			doc.text(40, vertical, reporte.tareopersona[i].rate_proyecto)
+			doc.text(50, vertical, reporte.tareopersona[i].codigo_prop_proy)
+			doc.text(80, vertical, reporte.tareopersona[i].tipo_actividad)
+			doc.text(100, vertical, (reporte.tareopersona[i].um_nombre + '/' + reporte.tareopersona[i].nombre_proyecto).slice(0, 40))
+			doc.text(150, vertical, reporte.tareopersona[i].estado)
+			
+			if (reporte.dias_visible) {
+				var j = 1
+				reporte.tareopersona[i].horasxdias.forEach(function (dia) {
+					doc.text((j * 5) + 160, vertical, dia.toString())
+					j = j + 1
+				})
+			}
+
+			if (reporte.semanas_visible) {
+				var j = 1
+				reporte.tareopersona[i].horasxsemanas.forEach(function (semana) {
+					doc.text((j * 20) + 160, vertical, semana.toString())
+					j = j + 1
+				})
+			}
+
+			if (reporte.meses_visible) {
+				var j = 1
+				reporte.tareopersona[i].horasxmeses.forEach(function (mes) {
+					doc.text((j * 20) + 160, vertical, mes.toString())
+					j = j + 1
+				})
+			}
+
+			doc.text(280, vertical, reporte.tareopersona[i].horas_total.toString())
+		}
+
+		var archivo = 'Reporte-' + new Date().Ddmmyyyy() + '.pdf'
+		doc.save(archivo)
+		//$('#tareopersona-table').tableExport({type:'pdf', pdfFontSize:'7', escape:'false'})
 	}
 
 	//ejecucion de algunas funciones al cargar la pagina
@@ -473,6 +555,10 @@ String.prototype.changeFormat = function () {
 
 //definiendo objeto tareopersona
 var Tareopersona = function (codigo_prop_proy, codigo_actividad, dni, uid, rate_proyecto, proyectoid, tipo_actividad, um_nombre, nombre_proyecto, estado, h_real_total, horas) {
+	if (rate_proyecto == null || rate_proyecto == '' || rate_proyecto == undefined) {
+		rate_proyecto = '--'
+	}
+
 	this.codigo_prop_proy = codigo_prop_proy
 	this.codigo_actividad = codigo_actividad
 	this.dni = dni
