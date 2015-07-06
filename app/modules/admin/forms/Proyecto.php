@@ -29,6 +29,7 @@ class Admin_Form_Proyecto extends Zend_Form{
     $fecha_inicio->setAttrib("maxlength", "100");
     $fecha_inicio->setAttrib('class', 'form-control');
     $fecha_inicio->setAttrib('class', 'default-date-picker');
+
     
 
 
@@ -61,10 +62,10 @@ class Admin_Form_Proyecto extends Zend_Form{
     $bdcliente = new Admin_Model_DbTable_Cliente(); 
     $listcliente=$bdcliente->_getClienteAll();
     foreach ($listcliente as $cliente ){
-        $clienteid->addMultiOption($cliente['clienteid'],$cliente['nombre']);
+        $clienteid->addMultiOption($cliente['clienteid'],$cliente['nombre_comercial']);
     }
 
-    $unidad_minera= new Zend_Form_Element_Select('unidad_minera');
+    $unidad_minera= new Zend_Form_Element_Select('unidad_mineraid');
     $unidad_minera->removeDecorator('Label')->removeDecorator("HtmlTag");
     $unidad_minera->setAttrib('class', 'form-control');
     $bdunidad_minera = new Admin_Model_DbTable_Unidadminera();
@@ -201,11 +202,14 @@ class Admin_Form_Proyecto extends Zend_Form{
     $fecha_probable_cierre->removeDecorator('Label')->removeDecorator("HtmlTag");
     $fecha_probable_cierre->setAttrib("maxlength", "100");
     $fecha_probable_cierre->setAttrib('class', 'form-control');
+    $fecha_probable_cierre->setAttrib('class', 'default-date-picker');
 
     $fecha_cierre= new Zend_Form_Element_Text('fecha_cierre');
     $fecha_cierre->removeDecorator('Label')->removeDecorator("HtmlTag");
     $fecha_cierre->setAttrib("maxlength", "100");
     $fecha_cierre->setAttrib('class', 'form-control');
+    $fecha_cierre->setAttrib('class', 'default-date-picker');
+
 
     $monto_total= new Zend_Form_Element_Text('monto_total');
     $monto_total->removeDecorator('Label')->removeDecorator("HtmlTag");
