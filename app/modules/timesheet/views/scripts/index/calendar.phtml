@@ -10,6 +10,9 @@
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                         <h4 class="modal-title">Agregar Actividades</h4>
                     </div>
+                    <script>
+                        acAg = [];
+                    </script>
                     <div class="modal-body" style="padding: 1px; ">
                         <div class="chat-room">
                             <aside  style="width:30%; text-align: left;">
@@ -138,18 +141,26 @@ $("#guardar_act").click(function(){
     fecha_inicio = mostrarFecha(dateObj,-num_day);
     var f = new Date(); 
     var fech=f.getFullYear()+"-"+(f.getMonth()+1) +"-"+f.getDate() ;
-    
-    console.log("fecha_inic"+fecha_inicio);
-    console.log("fech"+fech);
 
     $("#fechasemana").text( fecha_inicio );
-    $("#registro").load("/timesheet/index/registro/fecha/" + fecha_inicio); 
+    
+    acAg.forEach(function (item) {
+        var fecha = $("#fechasemana").text();
+        url = "/timesheet/index/guardartareopersona/codigo/" + item.codigo + "/proyectoid/" + item.proyectoid + "/revision/" + item.revision + "/categoriaid/" + item.categoriaid + "/propuestaid/" + item.propuestaid + "/actividadid/" + item.actividadid + "/codigo_actividad/" + item.codigo_actividad + "/actividad_padre/" + item.actividad_padre + "/h_propuesta/" + item.h_propuesta + "/fecha/" + fecha;
+        $("#cargar").load(url, function () {
+           $("#registro").load("/timesheet/index/registro/fecha/" + fecha_inicio);
+        });
+    })
+    acAg = []
+     
 });
 
 $.datepicker.setDefaults($.datepicker.regional["es"]);
 $("#datepicker").datepicker({
     firstDay: 1,
-    maxDate:0, dateFormat:'dd/mm/yy', yearRange: '-100:+0',    
+    maxDate:0, dateFormat:'dd/mm/yy', yearRange: '-100:+0',  
+    minDate: new Date(2015,5,1),  
+
     onSelect: function (date, inst) {
         var dateObj = $('#datepicker').datepicker('getDate');
         var dateFrom = $.datepicker.formatDate('mm/dd/yy', dateObj);
@@ -175,6 +186,7 @@ $("#datepicker").datepicker({
         $("#registro").load(url);
     },
 });
+
 
 
 function mostrarFecha(fecha,days){

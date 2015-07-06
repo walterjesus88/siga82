@@ -1,0 +1,7 @@
+<script type="text/javascript">
+    $(document).ready(function(){
+        var numero=<?php echo $this->numero;?>;
+        url="/expense/index/registro/numero/"+numero;
+        $(window).attr('location', url);
+    });
+</script>

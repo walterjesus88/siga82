@@ -172,6 +172,8 @@
                                 <?php }?>
                                 <?php if ($is_gerente=='S' or $dni == '08051678') { ?>
                                 <li><a  href="/proyecto/control/index">Lista</a></li>
+                                <li><a  href="/timesheet/aprobacion/mostrarhojatiempogerente">Aprobaciones HT</a></li>
+                                <li><a  href="/timesheet/aprobacion/mostrarhistoricohojatiempogerente">Historico HT</a></li>
                                 <?php }?>
                             </ul>
                         </li>
@@ -275,9 +277,9 @@
                               <span>Hoja de Tiempo Gerente</span>
                             </a>
                             <ul class="sub">
-                                <li><a  href="/timesheet/index/aprobaciongerenteoperaciones">Aprobación</a></li>
+                                <li><a  href="/timesheet/aprobacion/mostrarhojatiempofiltro2">Aprobación</a></li>
                                 <li><a  href="/timesheet/index/calendar">Rendición</a></li>
-                                <li><a  href="/timesheet/index/historicogerenteoperaciones">Historico</a></li>
+                                <li><a  href="/timesheet/aprobacion/mostrarhistoricohojatiempofiltro2">Historico</a></li>
                             </ul>
                         </li>
                     <?php }?>
@@ -292,9 +294,10 @@
                               <span>Hoja de Tiempo Jefe</span>
                             </a>
                             <ul class="sub">
-                                <li><a  href="/timesheet/index/timesheetaprobacion">Aprobación</a></li>
+                                <li><a  href="/timesheet/aprobacion/mostrarhojatiempofiltro2">Aprobación</a></li>
+
                                 <li><a  href="/timesheet/index/calendar">Rendición</a></li>
-                                <li><a  href="/timesheet/aprobacion/historiconivel4">Historico</a></li>
+                                <li><a  href="/timesheet/aprobacion/mostrarhistoricohojatiempofiltro2">Historico</a></li>
                             </ul>
                         </li>
                   <?php }?>
@@ -309,9 +312,14 @@
                               <span>Hoja de Tiempo GP</span>
                             </a>
                             <ul class="sub">
-                              <li><a  href="/timesheet/index/timesheetaprobaciongerente">Aprobación</a></li>
+                                <!--<li><a  href="/timesheet/index/timesheetaprobaciongerente">Aprobación</a></li>-->
+                                 <?php if ($dni == '10764215' or $dni == '10557029'  )  { ?>
+                                 <li><a  href="/timesheet/aprobacion/mostrarhojatiempofiltro2">Aprobación HT Areas Encargadas</a></li>
+                                 <li><a  href="/timesheet/aprobacion/mostrarhistoricohojatiempofiltro2">Historico HT Areas Encargadas</a></li>
+
+                                <?php } ?>                                 
                                 <li><a  href="/timesheet/index/calendar">Rendición</a></li>
-                                <li><a  href="/timesheet/index/timesheethistorico">Historico</a></li>
+                                <!--<li><a  href="/timesheet/index/timesheethistorico">Historico</a></li> -->
                             </ul>
                         </li>
                   <?php }?>
@@ -327,7 +335,7 @@
                               <span>Hoja de Tiempo Gerente Area</span>
                             </a>
                             <ul class="sub">
-                              <li><a  href="/timesheet/index/aprobaciongerentearea">Aprobación</a></li>
+                              <li><a  href="/timesheet/aprobacion/mostrarhojatiempofiltro2">Aprobación</a></li>
                                 <li><a  href="/timesheet/index/calendar">Rendición</a></li>
                                 <li><a  href="/timesheet/index/historicogerentearea">Historico</a></li>
                             </ul>
@@ -345,14 +353,12 @@
                               <span>Hoja de Tiempo Gerente</span>
                             </a>
                             <ul class="sub">
-                              <li><a  href="/timesheet/index/aprobaciongerentegeneral">Aprobación</a></li>
+                              <li><a  href="/timesheet/aprobacion/mostrarhojatiempofiltro2">Aprobación</a></li>
                                 <li><a  href="/timesheet/index/calendar">Rendición</a></li>
                                 <li><a  href="/timesheet/index/historicogerentegeneral">Historico</a></li>
                             </ul>
                         </li>
                   <?php }?>
-
-
                         <!--
                         <li>
                             <a href="/timesheet/index/calendar">
@@ -577,6 +583,7 @@ $(document).ready(function(){
                                                                            
         });
 
+    //$("#mostrar-calendar").hide();    
     $('#mostrar-calendar').click(function(){
         $('#toggle-calendar').toggle('slow');
          $('#sidebar').animate({scrollTop: 2000}, 1000); 
@@ -588,8 +595,20 @@ $(document).ready(function(){
 $.datepicker.setDefaults($.datepicker.regional["es"]);
 $("#datepicker").datepicker
 ({
-    maxDate:0, dateFormat:'dd/mm/yy', yearRange: '-100:+0',    
-    firstDay: 1
-
+    maxDate:0, dateFormat:'dd/mm/yy', yearRange: '-100:+0',firstDay: 1,
+    //minDate: new Date(2015, 4, noSunday()),
+    minDate: new Date(2015,5,1),
+    //, "-99:+0"
+    //, changeMonth:true, changeYear: true,    
 });
+
+
+
+ function noMonth(){
+    var f = new Date();
+    //var day = f.getDay();  
+    //var fech=f.getFullYear()+"-"+(f.getMonth()+1) +"-"+f.getDate(); 
+   
+    return fech;
+  }
 </script>

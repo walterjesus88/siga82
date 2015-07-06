@@ -121,6 +121,63 @@ class Admin_Model_DbTable_Usuariocategoria extends Zend_Db_Table_Abstract
         }
     }
 
+    public function _getAprobadorxArea($where=array()){
+        try {
+                $wherestr= "aprobacion = '".$where['aprobacion']."' and estado='".$where['estado']."'
+                and estado_aprobacion='".$where['estado_aprobacion']."' 
+                and areaid='".$where['areaid']."' 
+                ";
+                $row = $this->fetchRow($wherestr);
+                if($row) return $row->toArray();
+                return false;
+        } catch (Exception $e) {
+            print "Error: Read One Condition".$e->getMessage();
+        }
+    }
+
+    public function _getAprobadorxNivel2($where=array()){
+        try {
+                $wherestr= "aprobacion = '".$where['aprobacion']."' and estado='".$where['estado']."'
+                and estado_aprobacion='".$where['estado_aprobacion']."' 
+                
+                ";
+                $row = $this->fetchRow($wherestr);
+                if($row) return $row->toArray();
+                return false;
+        } catch (Exception $e) {
+            print "Error: Read One Condition".$e->getMessage();
+        }
+    }
+
+    public function _getBuscarCodigoAprobacionesxEmpleado($uid,$dni)
+    {
+        try{
+            $sql=$this->_db->query("
+                select * from usuario_categoria 
+                where uid='$uid' and dni='$dni' and estado_sistema='A'
+            ");
+            $row=$sql->fetchAll();
+            return $row;           
+            }  
+            catch (Exception $ex){
+            print $ex->getMessage();
+        }
+    }
+
+
+    public function _getAprobadorxEmpleado($where=array()){
+        try {
+                $wherestr= "aprobacion = '".$where['aprobacion']."' and estado='".$where['estado']."'
+                
+                
+                ";
+                $row = $this->fetchRow($wherestr);
+                if($row) return $row->toArray();
+                return false;
+        } catch (Exception $e) {
+            print "Error: Read One Condition".$e->getMessage();
+        }
+    }
 
 
 

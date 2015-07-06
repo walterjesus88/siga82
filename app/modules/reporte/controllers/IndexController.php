@@ -14,33 +14,138 @@ class Reporte_IndexController extends Zend_Controller_Action {
         );
         Zend_Layout::startMvc($options);
     }
+
+    //Funcion que devuelve los datos de tareopersona segun proyecto, implementado por repeticion en 
+    //diferentes actions
+    protected function obtenerTareopersona($codigo_prop_proy){
+        $tareopersona = new Admin_Model_DbTable_Tareopersona();
+        $data['codigo_prop_proy'] = $codigo_prop_proy;
+        $todos_tareopersona = $tareopersona->_getReporte($data);
+
+        $respuesta = [];
+        $i = 0;
+              
+        foreach ($todos_tareopersona as $fila) {
+           if ($fila['tipo_actividad']=='P') {
+               $fila['tipo_actividad'] = 'Facturable';
+           } elseif ($fila['tipo_actividad']=='G') {
+               $fila['tipo_actividad'] = 'No Facturable';
+           } elseif ($fila['tipo_actividad']=='A') {
+               $fila['tipo_actividad'] = 'Administración';
+           }
+
+           if ($fila['estado']=='A') {
+               $fila['estado'] = 'Activo';
+           } elseif ($fila['estado']=='C') {
+               $fila['estado'] = 'Cerrado';
+           } elseif ($fila['estado']=='E') {
+               $fila['estado'] = 'Eliminado';
+           } elseif ($fila['estado']=='PA') {
+               $fila['estado'] = 'Paralizado';
+           } elseif ($fila['estado']=='CA') {
+               $fila['estado'] = 'Cancelado';
+           }
+
+           $data['codigo_prop_proy'] = $fila['codigo_prop_proy'];
+           $data['codigo_actividad'] = $fila['codigo_actividad'];
+           $data['uid'] = $fila['uid'];
+
+           $data_horas = $tareopersona->_getHorasxUidxCppxCa($data);
+
+           $fila['data_horas'] = $data_horas;
+
+           $respuesta[$i] = $fila;
+           $i++;
+        }
+
+        return $respuesta;
+        
+    }
     
+
+    /*Accion que devuelve la vista principal contenida el el archivo
+    ../views/scripts/index/index.phtml*/
     public function indexAction() {
         
     }
 
-    /*Funcion que devuelde los registros con los campos necesarios para visualozacion
+    /*Action que devuelde los registros con los campos necesarios para visualizacion
     de la vista de reporte tarea persona. Para lo cual han sido parseados como json
     */
 
-    public function tareopersonaAction() {
+    public function tareopersonajsonAction() {
         $this->_helper->layout()->disableLayout();
-        $tareopersona = new Admin_Model_DbTable_Tareopersona();
-        $todos_tareopersona = $tareopersona->_getTareopersonall();
-        $respuesta = [];
-        $i = 0;
-        foreach ($todos_tareopersona as $fila) {
-            $proyecto = new Admin_Model_DbTable_Proyecto();
-            $pro = $proyecto->_show($fila['codigo_prop_proy']);
-            $fila['nombre_proyecto'] = $pro['nombre_proyecto'];
-            $respuesta[$i] = $fila;
-            $i++;
-        }
+        $codigo_prop_proy = $this->_getParam('codigo_prop_proy');
+        $respuesta = $this->obtenerTareopersona($codigo_prop_proy);
         $this->_helper->json->sendJson($respuesta);      
     }
 
-    public function proyectoAction() {
+    //Action que devuelve los datos de tareopersona en un archivo html
+    public function tareopersonahtmlAction(){
+        $this->_helper->layout()->disableLayout();
+        $codigo_prop_proy = $this->_getParam('codigo_prop_proy');
+        $respuesta = $this->obtenerTareopersona($codigo_prop_proy);
+        $this->view->tareopersona = $respuesta;
+    }
 
+    public function usuariosAction() {
+        $this->_helper->layout()->disableLayout();
+        $proyecto = $this->_getParam('codigo_prop_proy');
+        $equipo = new Admin_Model_DbTable_Equipo();
+        $usuarios = $equipo->_getUsuarioxProyectoxEstadoxNivel($proyecto, 'A', '4');
+        $this->_helper->json->sendJson($usuarios);
+    }
+
+    public function clientesAction(){
+        $this->_helper->layout()->disableLayout();
+        $cliente = new Admin_Model_DbTable_Cliente();
+        $clientes = $cliente->_getClienteAllOrdenado();
+        $respuesta = [];
+        $i = 0;
+        foreach ($clientes as $fila) {
+            $filares['id'] = $fila['clienteid'];
+            $filares['nombre'] = $fila['nombre_comercial'];
+            $respuesta[$i] = $filares;
+            $i++; 
+        }
+        $this->_helper->json->sendJson($respuesta);
+    }
+
+    public function gerentesAction(){
+        $this->_helper->layout()->disableLayout();
+        $proyecto = new Admin_Model_DbTable_Proyecto();
+        $gerentes = $proyecto->_getGerentes();
+        $this->_helper->json->sendJson($gerentes);
+    }
+
+    public function proyectosAction(){
+        $this->_helper->layout()->disableLayout();
+        if ($this->_getParam('clienteid') != '') {
+            $cliente = $this->_getParam('clienteid');
+            $proyecto = new Admin_Model_DbTable_Proyecto();
+            $proyectos = $proyecto->_getProyectoxCliente($cliente);
+        } elseif ($this->_getParam('gerenteid') != '') {
+            $gerente = $this->_getParam('gerenteid');
+            $proyecto = new Admin_Model_DbTable_Proyecto();
+            $proyectos = $proyecto->_getProyectosxGerente($gerente);
+        }
+        $this->_helper->json->sendJson($proyectos);
+    }
+
+    public function unidadmineraAction(){
+        $this->_helper->layout()->disableLayout();
+        $clienteid = $this->_getParam('clienteid');
+        $uni_min = new Admin_Model_DbTable_Unidadminera();
+        $uni_mins = $uni_min->_getUnidadmineraxcliente($clienteid);
+        $respuesta = [];
+        $i = 0;
+        foreach ($uni_mins as $fila) {
+            $filares['id'] = $fila['unidad_mineraid'];
+            $filares['nombre'] = $fila['nombre'];
+            $respuesta[$i] = $filares;
+            $i++; 
+        }
+        $this->_helper->json->sendJson($respuesta);
     }
 
 }

@@ -120,7 +120,7 @@ select e.codigo_prop_proy, e.proyectoid,e.estado,e.uid,e.dni,e.categoriaid,e.are
                
                 from equipo e inner join proyecto p
                 on e.codigo_prop_proy = p.codigo_prop_proy and e.proyectoid=p.proyectoid
-                where e.uid = '$uid' and e.dni='$dni' and e.estado = '$estado' and
+                where e.uid = '$uid' and e.dni='$dni' and e.estado = '$estado' and p.estado='$estado' and 
                 p.clienteid='$clienteid' order by e.proyectoid
 
 
@@ -198,7 +198,7 @@ public function _getProyectosAnddes()
                 ON e.codigo_prop_proy = p.codigo_prop_proy and e.proyectoid=p.proyectoid 
                 inner join cliente c on
                 p.clienteid=c.clienteid
-                where e.uid = '$uid' and e.dni='$dni' and e.estado = '$estado' order by c.nombre_comercial
+                where e.uid = '$uid' and e.dni='$dni' and p.estado='$estado' and e.estado = '$estado' order by c.nombre_comercial
                ");
             $row=$sql->fetchAll();
             return $row;           
@@ -300,6 +300,8 @@ public function _getDatosxProyectoxUidXEstadoxCliente($uid,$dni,$estado,$codigo_
             print $ex->getMessage();
         }
     }
+
+
 
 public function _getListarNivel4xNivel3($uid,$dni,$nivel_inferior,$nivel_superior,$areaid)
      {
@@ -529,7 +531,26 @@ public function _getListarEquipoxProyectoxGerente($uid,$dni)
         }
     }
 
-    public function _getDatosxEquipoxProyecto($uid,$dni,$codigo_prop_proy,$proyectoid)
+
+
+
+
+    //Metodo para obtener a los usuarios por proyecto
+    public function _getUsuarioxProyectoxEstadoxNivel($proyecto, $estado, $nivel)
+    {
+        try{
+            $sql=$this->_db->query("select uid, dni from equipo where codigo_prop_proy='".$proyecto."' and estado='".$estado."' and nivel='".$nivel."'");
+            $row=$sql->fetchAll();
+            return $row;           
+            }            
+           catch (Exception $ex){
+            print $ex->getMessage();
+        }
+    }
+
+
+public function _getDatosxEquipoxProyecto($uid,$dni,$codigo_prop_proy,$proyectoid)
+
      {
         try{
             $sql=$this->_db->query("
@@ -549,6 +570,5 @@ public function _getListarEquipoxProyectoxGerente($uid,$dni)
         }
     }
 
-    
 
 }

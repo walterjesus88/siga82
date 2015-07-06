@@ -1,13 +1,10 @@
 <!--Separando codigo php de la vista y codigo javascript-->
 <!--Tranfiriendo los datos de las actividades a un array en javascript-->
-
 <span style="font-weight:bold;">Actividad</span>
 <script>
     var actividadArray = [];
-
 <?php
     $actividades_hijos = $this->actividades;
-
     foreach ($actividades_hijos as $data_tareo_hijos) {
         $wheres=array('codigo_prop_proy'=>$this->codigo_prop_proy,'codigo_actividad'=>$data_tareo_hijos['codigo_actividad'],'proyectoid'=>$this->proyectoid,'actividadid'=>$data_tareo_hijos['actividadid'],'uid'=>$this->uid,'dni'=>$this->dni,'areaid'=>$this->areaid);
         $act= new Admin_Model_DbTable_Activaractividad();
@@ -15,11 +12,10 @@
         
         if ($activar) 
         {
+
+
         $tareopersona = new Admin_Model_DbTable_Tareopersona();
-
         $buscar_tarea=$tareopersona->_getTareoxPersonaxSemanaxActividadidxReplicon($this->uid,$this->dni,$this->semanaid,$data_tareo_hijos['actividad_padre'],$data_tareo_hijos['actividadid'],$data_tareo_hijos['codigo_actividad'],$this->codigo_prop_proy,$this->proyectoid,$data_tareo_hijos['revision']); ?>
-
-        
             actividadObj = {}
             actividadObj = {
                 'codigo': '<?php echo $this->codigo_prop_proy; ?>',
@@ -33,8 +29,7 @@
                 'actividad_padre': "<?php echo $data_tareo_hijos['actividad_padre']; ?>",
                 'h_propuesta': "<?php echo $data_tareo_hijos['h_propuesta']; ?>"
             }
-
-              
+             
 <?php   if ($buscar_tarea) {?>
                 actividadObj['estado'] = 'checked';
                 actividadArray.push(actividadObj);
@@ -47,19 +42,10 @@
 ?>
 </script>
 <!--Fin de transferencia, apartir de aqui ya no se utiliza php-->
-
-
-
-
 <ul id="lista_actividades" class="nav nav-pills nav-stacked">
 </ul>
-
 <ul id="lista_tareas" class="nav nav-pills nav-stacked">
-    
 </ul>
-
-
-
 <!--Codigo javascript para verificar condiciones y agregar elementos al DOM-->
 <script>
 //Dividir el array en dos dependiendo si es actividad o tarea
@@ -141,14 +127,33 @@
                 actividadArray.forEach(function (item) {
                     
                     if (item.codigo_actividad == dato && item.actividadid == dato2) {
-                        console.log('hola');
-                        url = "/timesheet/index/guardartareopersona/codigo/" + item.codigo + "/proyectoid/" + item.proyectoid + "/revision/" + item.revision + "/categoriaid/" + item.categoriaid + "/propuestaid/" + item.propuestaid + "/actividadid/" + item.actividadid + "/codigo_actividad/" + item.codigo_actividad + "/actividad_padre/" + item.actividad_padre + "/h_propuesta/" + item.h_propuesta + "/fecha/" + fecha;
-                        //alert(url);
-                        $("#cargar").load(url);
+                        acAg.push(item);
+                    }
+                })
+            }
+        });
+
+
+        $('[name^="tarea_h_"]').click(function(event) {
+            if (!$(this).is(":checked")) {
+                var fecha = $("#fechasemana").text();
+                var dato = $(this).attr('codigo_actividad');
+                var dato2 = $(this).attr('actividadid');
+                actividadArray.forEach(function (item) {
+                    
+                    if (item.codigo_actividad == dato && item.actividadid == dato2) {
+
+                        acAg.forEach(function (item) {
+                            if (item.codigo_actividad == dato && item.actividadid == dato2) {
+                                elem = acAg.indexOf(item);
+                                acAg.splice(elem, 1);
+                            }
+                        })
                     }
                 })
             }
         });
 })
 </script>
+
 <div  style="display:none" id="cargar"> </div>

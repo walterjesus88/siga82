@@ -183,18 +183,34 @@ class Proyecto_IndexController extends Zend_Controller_Action {
         //$this->_helper->layout()->disableLayout();
         $proyectoid= $this->_getParam("proyectoid");
         $codigo_prop_proy= $this->_getParam("codigo");
-        $dni= $this->_getParam("dni");
-        $uid= $this->_getParam("uid");
-        $areaid= $this->_getParam("areaid");
+        $dni= trim($this->_getParam("dni"));
+        $uid= trim($this->_getParam("uid"));
+        $areaid= trim($this->_getParam("areaid"));
         $rate= $this->_getParam("rate");
-        $ratep= $this->_getParam("rate_proyecto");
+        //$ratep= $this->_getParam("rate_proyecto");
         
-        echo $ratep;
-        echo $proyectoid;
-        echo $codigo_prop_proy;
-        echo "aca";
-        echo $areaid;
-        exit();
+        // $nom= $this->_getParam("nombre");
+        
+        // echo $nom;
+         echo $rate;
+         echo "</br>";
+         echo $proyectoid;
+         echo "</br>";
+
+         echo $codigo_prop_proy;
+         echo "</br>";
+
+         echo $uid;
+         echo "</br>";
+
+         echo $dni;
+         echo "</br>";
+
+         echo $areaid;
+         echo "</br>";
+
+        // echo $areaid;
+        // exit();
 
          
         $pk  =   array(                        
@@ -209,7 +225,10 @@ class Proyecto_IndexController extends Zend_Controller_Action {
                         'rate_proyecto' =>  $rate
                      );
 
-          
+        
+        print_r($pk);
+        print_r($data);
+        //exit();
         $update_equipo=new Admin_Model_DbTable_Equipo();
         //$update_equipo->_update($data,$pk);
         
@@ -305,20 +324,21 @@ class Proyecto_IndexController extends Zend_Controller_Action {
                                     'proyectoid'    => $proyectoid,
                                 ); 
                    
+                    print_r($formdata);
                     $updrec=new Admin_Model_DbTable_Proyecto();
                
                     if($updrec->_update($formdata,$pk))
                     {   ?>
                         <script>                  
-                          document.location.href="/proyecto/index/listar";
-                          
+                          //document.location.href="/proyecto/index/listar";
+                          alert("guardado");
                         </script>
                         <?php
                     }
                     else
                     {   ?>
                           <script>                  
-                          alert("Error al guardar verifique porfavor");
+                          //alert("Error al guardar verifique porfavor");
                           //document.location.href="/proyecto/index/listar";                                                 
                           </script>
                          <?php
@@ -1667,8 +1687,10 @@ public function cargartarea2Action() {
     $this->view->codigo = $codigo;
 
     $wheres=array('areaid'=>$areaid);
+
+    $order = array('uid ASC');
     $usercat=new Admin_Model_DbTable_Usuariocategoria();
-    $ucat=$usercat->_getFilter($wheres);
+    $ucat=$usercat->_getFilter($wheres,$attrib=null,$order);
     //$this->view->usercat = $ucat;
     //print_r($ucat);
 
@@ -1723,7 +1745,7 @@ public function cargartarea2Action() {
       $veract = new Admin_Model_DbTable_Actividad();
       $viewactivity=$veract->_getFilter($where);
       //$this->view->actividades = $viewactivity;
-      
+
       $actividadpadre= new Admin_Model_DbTable_Actividad();
       $list=$actividadpadre->_getActividadesOrdenadas($proyectoid,$codigo_prop_proy);
       $this->view->actividades = $list;
@@ -1923,21 +1945,203 @@ public function cargartarea2Action() {
    
       //print_r($data);
 
-      $equiparea= new Admin_Model_DbTable_Equipoarea();
-      $gequiparea= $equiparea->_save($data);
+      $where = array('codigo_prop_proy' =>$codigo_prop_proy, 'proyectoid' =>$proyectoid , 'areaid' =>$areaid );
 
-      if($gequiparea)
+
+      $equiparea= new Admin_Model_DbTable_Equipoarea();
+
+      $eki=$equiparea->_getOne($where);
+
+      if($eki)
       { ?>
-        <script>
-          //alert('guardando');
+
+        <script type="text/javascript">
+          alert("ya esta contenido ese area");
+          window.location.reload();
+
 
         </script>
-      <?php }
+      <?php
+      }
+      else
+      {
+
+        $gequiparea= $equiparea->_save($data);
+        if($gequiparea)
+        { ?>
+          <script>
+            //alert('ha sido creada la nueva area');
+          </script>
+        <?php }
+
+      }
+
+   
+      
 
     }
     catch (Exception $e) {
       print "Error: ".$e->getMessage();
     }
   }
+
+  public function hojaresumenAction() 
+  {
+
+    $proyectoid= $this->_getParam("proyectoid");
+    $codigo_prop_proy= $this->_getParam("codigo_prop_proy");
+
+    $this->view->proyectoid=$proyectoid;
+    $this->view->codigo_prop_proy=$codigo_prop_proy;
+
+    $proyect = new Admin_Model_DbTable_Proyecto();
+    $verproyect=$proyect->_buscarProyectodetalles($proyectoid,$codigo_prop_proy);
+    //print_r($verproyect);
+
+
+    $this->view->proyectdetail=$verproyect;
+
+    if($verproyect)
+    {
+
+      $cliente=$verproyect[0]['clienteid'];
+
+      $where = array('clienteid' =>$cliente);
+      //print_r($where);
+
+      $contact = new Admin_Model_DbTable_Contacto();
+      $cc=$contact->_getFilter($where);
+
+      //print_r($cc[0]);
+      $this->view->contact=$cc;
+
+      /* para visualizar el comntacto por defecto*/
+      $contactunico=$verproyect[0]['contactoid'];
+      $where = array('contactoid' =>$contactunico);
+      // //print_r($where);
+
+      $contunic = new Admin_Model_DbTable_Contacto();
+      $ccunico=$contunic->_getFilter($where);
+
+      //print_r($ccunico);
+      $this->view->contactunico=$ccunico[0];
+
+    }
+
+    $clientes = new Admin_Model_DbTable_Cliente();
+    $nombreliente=$clientes->_getClienteAll();
+    $this->view->cliente=$nombreliente;
+
+    $unidadm=new Admin_Model_DbTable_Unidadminera();
+    $uminera=$unidadm->_getUnidadmineraAll();
+    $this->view->unidad=$uminera;
+  }
+
+  public function imphojaresumenAction()
+  {
+    //this->_helper->layout()->disablelayout();    
+    
+    $proyectoid= $this->_getParam("proyectoid");
+    $codigo_prop_proy= $this->_getParam("codigo_prop_proy");
+
+    $this->view->proyectoid=$proyectoid;
+    $this->view->codigo_prop_proy=$codigo_prop_proy;
+    //$this->view->imp=$imp;
+
+    $proyect = new Admin_Model_DbTable_Proyecto();
+    $verproyect=$proyect->_buscarProyectodetalles($proyectoid,$codigo_prop_proy);
+    //print_r($verproyect);
+
+
+    $this->view->proyectdetail=$verproyect;
+
+    if($verproyect)
+    {
+
+
+      $contact=$verproyect[0]['contactoid'];
+      $where = array('contactoid' =>$contact);
+      // //print_r($where);
+
+      $contact = new Admin_Model_DbTable_Contacto();
+      $cc=$contact->_getFilter($where);
+
+      //print_r($cc);
+      $this->view->contact=$cc[0];
+      //exit();
+     // print_r($verproyect);
+    }
+
+    $clientes = new Admin_Model_DbTable_Cliente();
+    $nombreliente=$clientes->_getClienteAll();
+    $this->view->cliente=$nombreliente;
+
+    $unidadm=new Admin_Model_DbTable_Unidadminera();
+    $uminera=$unidadm->_getUnidadmineraAll();
+    $this->view->unidad=$uminera;
+  }
+
+  public function procesarcontactoAction()
+  {
+      
+      echo $codigo_prop_proy= $this->_getParam("codigo_prop_proy");
+      echo $proyectoid= $this->_getParam("proyectoid");
+      echo $cliente_contacto= $this->_getParam("cliente_contacto");
+      echo $tipo_cliente= $this->_getParam("tipo_cliente");
+      echo $email= $this->_getParam("email");
+      echo $puesto_trabajo= $this->_getParam("puesto_trabajo");
+      echo $dni= $this->_getParam("dni");
+      echo $estado_contacto= $this->_getParam("estado_contacto");
+      echo $unidad_contacto= $this->_getParam("unidad_contacto");
+      echo $nomunidad= $this->_getParam("nomunidad");
+      echo $direccion= $this->_getParam("direccion");
+      echo $anexo= $this->_getParam("anexo");
+      echo $telefono= $this->_getParam("telefono");
+      echo $paterno= $this->_getParam("paterno");
+      echo $materno= $this->_getParam("materno");
+      echo $nombre= $this->_getParam("nombre");
+      echo $celular1= $this->_getParam("celular1");
+      echo $celular2= $this->_getParam("celular2");
+      echo $isunidad= $this->_getParam("isunidad");
+
+
+
+      $where = array('clienteid' =>$cliente_contacto , 'tipo_cliente' => $tipo_cliente,'correo' => $email, 'puesto_trabajo' => $puesto_trabajo, 'dni' => $dni, 
+      'isunidad' => $isunidad , 'estado' =>$estado_contacto , 'unidad_mineraid' => $unidad_contacto , 'nombre_unidad' => $nomunidad , 
+      'direccion' => $direccion, 'anexo' => $anexo, 'telefono' =>$telefono, 'ape_paterno' => $paterno, 'ape_materno' =>$materno , 'nombre1' =>$nombre , 'numero1' =>$celular1 ,'numero2' => $celular2,  );
+
+      print_r($where);
+
+      $newcontact=new Admin_Model_DbTable_Contacto();
+      $ncontact=$newcontact->_save($where);
+
+      if($ncontact)
+      {
+        //echo "ffffffff"; 
+        $pk = array('codigo_prop_proy' =>$codigo_prop_proy ,'proyectoid' =>$proyectoid  );
+        $data = array('clienteid' =>$cliente_contacto ,'unidad_mineraid' => $unidad_contacto,  );
+        $actproyecto= new Admin_Model_DbTable_Proyecto();
+        $updcontactproyect=$actproyecto->_update($data,$pk);
+      }
+      
+      exit();
+  }
+
+  public function updatecontactoproyectAction()
+  {
+      echo $codigo_prop_proy= $this->_getParam("codigo_prop_proy");
+      echo $proyectoid= $this->_getParam("proyectoid");
+      echo $valor= $this->_getParam("valor");
+      echo $contactoid=str_replace("cont_","",$valor);
+      //exit();
+      
+      $pk = array('codigo_prop_proy' =>$codigo_prop_proy ,'proyectoid' =>$proyectoid  );
+      $data = array('contactoid' =>$contactoid);
+      $actproyecto= new Admin_Model_DbTable_Proyecto();
+      $updcontactproyect=$actproyecto->_update($data,$pk);
+      if($updcontactproyect)
+        {echo "gg";}
+  }
+
 
 }
