@@ -1,101 +1,72 @@
 <script type="text/javascript" src="/js/jquery-ui-1.9.2.custom.min.js"></script>
 <script type="text/javascript" src="/js/bootstrap.min.js"></script>
 <form name="f2">
-  <div id="Proyecto_Activa">
-   <a href="/proyecto/index/asignaractividad/proyectoid/<?php echo $this->proyectoid ?>/codigo_prop_proy/<?php echo $this->codigo_prop_proy ?>/areaid/<?php echo $this->areaid ?>"> </a>
-
-   
+    <div id="Proyecto_Activa">
+    <a href="/proyecto/index/asignaractividad/proyectoid/<?php echo $this->proyectoid ?>/codigo_prop_proy/<?php echo $this->codigo_prop_proy ?>/areaid/<?php echo $this->areaid ?>"> </a>
     <table class="table p-table" style="padding: 1px;">
         <thead>
             <tr>  
-                <th style="width: 250px;">Actividades
-                <!--<select id="select_generalp_<?php echo $j?>" class="form-control input-sm m-bot15 col-lg-10">                        
-                    <option>Seleccione el Area</option>
-                    <?php  
-                        foreach ($this->area as $data_area) {?>
-                    <option value="<?php echo $data_area['areaid']?>"><?php  echo $data_area['nombre']?></option>
-                  <?php }?>
-                </select> -->
+                <th style="width: 250px;">
+                    Actividades
                 </th>
-              <?php
+                <?php
                 $c=0;
                 $cont=count($this->actividades);
-                //echo $cont;
-                /*  foreach ($this->actividades as $listaactividad)
-                {?>
-                <td class="p-name" id="nomact_<?php echo $c?>">                    
-                    <?php echo $listaactividad['nombre']; ?>
-                </td>                                            
-                <?php $c++; }*/
                 foreach ($this->equipo as $listaequipo) 
-                {?>
-                    <th style="width: 50px;padding-top: 1px;padding-right: 1px;padding-bottom: 1px;padding-left: 1px;" style="width: 150px; font-size: 10px;" class="p-name" id="nomact_<?php echo $c?>">                    
-                        
+                    {?>
+                    <th style="width: 50px;padding-top: 1px;padding-right: 1px;padding-bottom: 1px;padding-left: 1px;" style="width: 150px; font-size: 10px;" class="p-name" id="nomact_<?php echo $c?>">
                         <a href="#"><?php echo $listaequipo['uid'];?></a>
-
                         <?php
-                        // $wheres=array('codigo_prop_proy'=>$listaequipo['codigo_prop_proy'],'proyectoid'=>$listaequipo['proyectoid'],'uid'=>$listaequipo['uid'],'dni'=>$listaequipo['dni'],'estado'=>'A','areaid'=>$listaequipo['areaid'],'categoriaid'=>$listaequipo['categoriaid']);
-                         $codigo_prop_proy=$listaequipo['codigo_prop_proy'];
-                         $proyectoid=$listaequipo['proyectoid'];
-                         $uid=$listaequipo['uid'];
-                         $dni=$listaequipo['dni'];
-                         $estado='A';
-                         $areaid=$listaequipo['areaid'];
-                         $categoriaid=$listaequipo['categoriaid'];
-
-                         $acti= new Admin_Model_DbTable_Activaractividad();
-                         $activr= $acti-> _getConteoactivar($codigo_prop_proy,$proyectoid,$uid,$dni,$estado,$areaid,$categoriaid);
-                         //echo $activr[0]['count'];
-                         //print_r($activr);
+                            $codigo_prop_proy=$listaequipo['codigo_prop_proy'];
+                            $proyectoid=$listaequipo['proyectoid'];
+                            $uid=$listaequipo['uid'];
+                            $dni=$listaequipo['dni'];
+                            $estado='A';
+                            $areaid=$listaequipo['areaid'];
+                            $categoriaid=$listaequipo['categoriaid'];
+                            $acti= new Admin_Model_DbTable_Activaractividad();
+                            $activr= $acti-> _getConteoactivar($codigo_prop_proy,$proyectoid,$uid,$dni,$estado,$areaid,$categoriaid);
                         ?>
                         <?php
-                         if($cont==$activr[0]['count'])
-                         { ?>
-                          <!-- <a href="javascript:deseleccionar_todo()">Marcar ninguno</a> -->
-                          <input name="todoagrega" id="todoagrega_<?php echo $c ?>" value="A_<?php echo $c?>" type="checkbox" checked>
+                            
+                            if($cont==$activr[0]['count'])
+                                { ?>
+                                    <input name="todoagrega" id="todoagrega_<?php echo $c ?>" value="A_<?php echo $c?>" type="checkbox" checked>
                          <?php }
-                         else
-                         { ?>
-                          <!-- <a href="javascript:seleccionar_todo()">Marcar todos</a> -->
-                          <input name="todoagrega" id="todoagrega_<?php echo $c ?>" value="A_<?php echo $c?>" type="checkbox" >
+                            else
+                                { ?>
+                                    <input name="todoagrega" id="todoagrega_<?php echo $c ?>" value="A_<?php echo $c?>" type="checkbox" >
                         <?php  }
                         ?>               
-
-
                         <script type="text/javascript"> 
-                          $("#todoagrega_<?php echo $c ?>").click(function(){
-                          
-                              var j="<?php echo $c ?>";
-                              var toten="<?php echo $cont ?>";
-                              if($("#todoagrega_<?php echo $c?>").is(':checked')) 
-                              {  
+                            $("#todoagrega_<?php echo $c ?>").click(function(){
+                                var j="<?php echo $c ?>";
+                                var toten="<?php echo $cont ?>";
+                                if($("#todoagrega_<?php echo $c?>").is(':checked')) 
+                                {  
                                     for (i = 0; i < toten; i++){          
                                         document.getElementById("agrega_"+i+j).checked=1;
-                                        //alert("#agrega_"+i+j);
                                     }
                                     estado='A';
                                     console.log('act');                   
-                              } else {    
+                                } else {    
                                     for (i = 0; i < toten; i++){      
                                         document.getElementById("agrega_"+i+j).checked=0;
-                                        //alert("#agrega_"+i+j);
                                     }
                                     estado='I';
                                     console.log('desact'); 
-                              }
-                              var codigo_prop_proy="<?php echo $listaequipo['codigo_prop_proy'] ?>";
-                              var cargo="<?php echo $listaequipo['cargo'] ?>";
-                              var areaid="<?php echo $listaequipo['areaid'] ?>";
-                              var uid="<?php echo $listaequipo['uid'] ?>";
-                              var dni="<?php echo $listaequipo['dni'] ?>";
-                              var proyectoid="<?php echo $listaequipo['proyectoid'] ?>";
-                              var categoriaid="<?php echo $listaequipo['categoriaid'] ?>";
-                              var areaid="<?php echo $listaequipo['areaid'] ?>";
-                              var cargo="<?php echo $listaequipo['cargo'] ?>";   
-
-                              url="/proyecto/index/agregartodoactividad/cargo/"+cargo+"/areaid/"+areaid+"/uid/"+uid+"/dni/"+dni+"/proyectoid/"+proyectoid+"/categoriaid/"+ categoriaid+"/codigo_prop_proy/"+codigo_prop_proy+"/estado/"+estado;       
-                             
-                              $.ajax({
+                                }
+                                var codigo_prop_proy="<?php echo $listaequipo['codigo_prop_proy'] ?>";
+                                var cargo="<?php echo $listaequipo['cargo'] ?>";
+                                var areaid="<?php echo $listaequipo['areaid'] ?>";
+                                var uid="<?php echo $listaequipo['uid'] ?>";
+                                var dni="<?php echo $listaequipo['dni'] ?>";
+                                var proyectoid="<?php echo $listaequipo['proyectoid'] ?>";
+                                var categoriaid="<?php echo $listaequipo['categoriaid'] ?>";
+                                var areaid="<?php echo $listaequipo['areaid'] ?>";
+                                var cargo="<?php echo $listaequipo['cargo'] ?>";   
+                                url="/proyecto/index/agregartodoactividad/cargo/"+cargo+"/areaid/"+areaid+"/uid/"+uid+"/dni/"+dni+"/proyectoid/"+proyectoid+"/categoriaid/"+ categoriaid+"/codigo_prop_proy/"+codigo_prop_proy+"/estado/"+estado;       
+                                $.ajax({
                                     type: "POST",
                                     url: url,
                                     data: $(this).serialize(),
@@ -104,13 +75,9 @@
                                     {                                     
                                       
                                     }
-                              });
-                  
-                          });
+                                });
+                            });
                         </script>
-
-                  
-
                     </th>                                            
                 <?php $c++; } ?>
             </tr>
@@ -118,93 +85,79 @@
         <tbody style="font-size: 10px;">
         <?php
             $c=0;
-            //foreach ($this->equipo as $listaequipo) 
             foreach ($this->actividades as $listaactividad)
                 {         
                 ?>
                 <tr>
-                  <!--<td class="p-name">                
-                    <a href="#"><?php echo $listaequipo['uid'];echo " ";echo $listaequipo['cargo'];echo " ";echo $listaequipo['areaid']; ?></a>
-                  </td>-->
                     <td style="width: 50px;padding-top: 1px;padding-right: 1px;padding-bottom: 1px;padding-left: 1px;" style="width: 150px; font-size: 10px;" id="nomact_<?php echo $c?>">                    
                         <?php echo "<strong>"; echo $listaactividad['actividadid']; echo "</strong>"; echo " -  "; echo $listaactividad['nombre']; ?>
 
                     </td>  
-                     <?php
-                       $i=0;              
-                      //foreach ($this->actividades as $listaactividad)
-                       foreach ($this->equipo as $listaequipo) 
-                      {
+                    <?php
+                        $i=0;              
+                        foreach ($this->equipo as $listaequipo) 
+                        {
+                            $wheres=array('codigo_prop_proy'=>$listaactividad['codigo_prop_proy'],'codigo_actividad'=>$listaactividad['codigo_actividad'],'proyectoid'=>$listaequipo['proyectoid'],'actividadid'=>$listaactividad['actividadid'],'uid'=>$listaequipo['uid'],'dni'=>$listaequipo['dni'],'cargo'=>$listaequipo['cargo'],'areaid'=>$listaequipo['areaid'],'categoriaid'=>$listaequipo['categoriaid']);
+                            $act= new Admin_Model_DbTable_Activaractividad();
+                            $activar= $act->_getOne($wheres);
+                        ?>
+                            <td style="width: 150px;padding-top: 1px;padding-right: 1px;padding-bottom: 1px;padding-left: 1px;" >
+                            <?php
+                            $partir_actividad =$activar['actividadid'];
+                            $porciones = explode(".", $partir_actividad);
+                            //print_r($porciones);
+   
 
-                        $wheres=array('codigo_prop_proy'=>$listaactividad['codigo_prop_proy'],'codigo_actividad'=>$listaactividad['codigo_actividad'],'proyectoid'=>$listaequipo['proyectoid'],'actividadid'=>$listaactividad['actividadid'],'uid'=>$listaequipo['uid'],'dni'=>$listaequipo['dni'],'cargo'=>$listaequipo['cargo'],'areaid'=>$listaequipo['areaid'],'categoriaid'=>$listaequipo['categoriaid']);
+                            if($activar['estado']=='A')
+                            {    
+                            ?>
+                                <input id="agrega_<?php echo $c?><?php echo $i?>" type="checkbox"  checked="checked" name="agreg[<?php echo $c?>][<?php echo $i?>]" value="<?php echo $i ?><?php echo $c ?>">
+                            <?php 
+                            }
+                            else
+                            {
+                            ?>
+                                <input id="agrega_<?php echo $c?><?php echo $i?>" type="checkbox" name="agreg[<?php echo $c?>][<?php echo $i?>]" value="<?php echo $i ?><?php echo $c ?>" >
+                            <?php
+                            }
+                            ?>
+                            <script type="text/javascript">
+                                var checkboxValues = "";
+                                $('input[name="agreg[]"]:checked').each(function() {
+                                    checkboxValues += $(this).val() + ",";
+                                });
+                                //eliminamos la última coma.
+                                checkboxValues = checkboxValues.substring(0, checkboxValues.length-1);
+                                //si todos los checkbox están seleccionados devuelve 1,2,3,4,5
+                                console.log(checkboxValues);
+                            </script>
 
-                        $act= new Admin_Model_DbTable_Activaractividad();
-                        $activar= $act->_getOne($wheres);
-
-
-                      ?>
-                        <td style="width: 150px;padding-top: 1px;padding-right: 1px;padding-bottom: 1px;padding-left: 1px;" >
-                          <?php
-
-                          if($activar['estado']=='A')
-                          {    
-                          ?>
-                          <input id="agrega_<?php echo $c?><?php echo $i?>" type="checkbox"  checked="checked" name="agreg[<?php echo $c?>][<?php echo $i?>]" value="<?php echo $i ?><?php echo $c ?>">
-
-                          <!-- <input class ='one-turno-course' index='1' type="checkbox" id="A" name="turno[<?php echo $i?>]" value="<?php echo $c ?>" checked> -->
-                          <?php 
-                          }
-                          else
-                          {
-                          ?>
-                          <input id="agrega_<?php echo $c?><?php echo $i?>" type="checkbox" name="agreg[<?php echo $c?>][<?php echo $i?>]" value="<?php echo $i ?><?php echo $c ?>" >
-                          <?php
-                          }
-                          ?>
-
-                          <script type="text/javascript">
-                            var checkboxValues = "";
-                            $('input[name="agreg[]"]:checked').each(function() {
-                              checkboxValues += $(this).val() + ",";
-                            });
-                            //eliminamos la última coma.
-                    
-
-                            checkboxValues = checkboxValues.substring(0, checkboxValues.length-1);
-                            //si todos los checkbox están seleccionados devuelve 1,2,3,4,5
-                            console.log(checkboxValues);
-                          </script>
-
-                          <script type="text/javascript">                         
-                           $("#agrega_<?php echo $c?><?php echo $i?>").click(function(){ 
-                                
+                            <script type="text/javascript">                         
+                                $("#agrega_<?php echo $c?><?php echo $i?>").click(function(){ 
                                 //alert("<?php echo $c?><?php echo $i ?>");
                                 if($("#agrega_<?php echo $c?><?php echo $i?>").is(':checked')) {  
-                                    
                                     estado='A';
                                     console.log('act'); 
                                 } else {    
                                     estado='I';
                                     console.log('desact'); 
-                              }
-                              //alert("fff");
-                              var cargo="<?php echo $listaequipo['cargo'] ?>";
-                              var areaid="<?php echo $listaequipo['areaid'] ?>";
-                              var uid="<?php echo $listaequipo['uid'] ?>";
-                              var dni="<?php echo $listaequipo['dni'] ?>";
-                              var proyectoid="<?php echo $listaequipo['proyectoid'] ?>";
-                              var categoriaid="<?php echo $listaequipo['categoriaid'] ?>";
-                              var areaid="<?php echo $listaequipo['areaid'] ?>";
-                              var cargo="<?php echo $listaequipo['cargo'] ?>";
-                              var actividadid="<?php echo $listaactividad['actividadid'] ?>";
-                              var revision="<?php echo $listaactividad['revision'] ?>";
-                              var actividad_padre="<?php echo $listaactividad['actividad_padre'] ?>";
-                              var codigo_actividad="<?php echo $listaactividad['codigo_actividad'] ?>";
-                              var codigo_prop_proy="<?php echo $listaactividad['codigo_prop_proy'] ?>";
-
-                              url="/proyecto/index/agregaactividad/cargo/"+cargo+"/areaid/"+areaid+"/uid/"+uid+"/dni/"+dni+"/proyectoid/"+proyectoid+"/categoriaid/"+ categoriaid+"/actividadid/"+actividadid+"/revision/"+revision+"/actividad_padre/"+actividad_padre+"/codigo_actividad/"+codigo_actividad+"/codigo_prop_proy/"+codigo_prop_proy+"/estado/"+estado;
-                              //alert(url);
-                              $.ajax({
+                                }
+                                var cargo="<?php echo $listaequipo['cargo'] ?>";
+                                var areaid="<?php echo $listaequipo['areaid'] ?>";
+                                var uid="<?php echo $listaequipo['uid'] ?>";
+                                var dni="<?php echo $listaequipo['dni'] ?>";
+                                var proyectoid="<?php echo $listaequipo['proyectoid'] ?>";
+                                var categoriaid="<?php echo $listaequipo['categoriaid'] ?>";
+                                var areaid="<?php echo $listaequipo['areaid'] ?>";
+                                var cargo="<?php echo $listaequipo['cargo'] ?>";
+                                var actividadid="<?php echo $listaactividad['actividadid'] ?>";
+                                var revision="<?php echo $listaactividad['revision'] ?>";
+                                var actividad_padre="<?php echo $listaactividad['actividad_padre'] ?>";
+                                var codigo_actividad="<?php echo $listaactividad['codigo_actividad'] ?>";
+                                var codigo_prop_proy="<?php echo $listaactividad['codigo_prop_proy'] ?>";
+                                url="/proyecto/index/agregaactividad/cargo/"+cargo+"/areaid/"+areaid+"/uid/"+uid+"/dni/"+dni+"/proyectoid/"+proyectoid+"/categoriaid/"+ categoriaid+"/actividadid/"+actividadid+"/revision/"+revision+"/actividad_padre/"+actividad_padre+"/codigo_actividad/"+codigo_actividad+"/codigo_prop_proy/"+codigo_prop_proy+"/estado/"+estado;
+                              
+                                $.ajax({
                                     type: "POST",
                                     url: url,
                                     data: $(this).serialize(),
@@ -217,8 +170,6 @@
                               });
                            });                   
                           </script>
-
-                       
                         </td>
                      <?php
                       $i++;
@@ -233,44 +184,3 @@
   </div>
   <div id="cargact"></div>
 </form>
-
-
-<form name="f1"> 
-<!-- Nombre: <input type="text" name="nombre"> 
-<br> 
-<input type="checkbox" name="ch1"> Opcion 1 
-<br> 
-<input type="checkbox" name="ch2"> Opcion 2 
-<br> 
-<input type="checkbox" name="ch3"> Opcion 3 
-<br> 
-<input type="checkbox" name="ch4"> Opcion 4 
-<br> 
-//Otro campo de formulario: 
-<select name=otro> 
-<option value="1">Seleccion 1 
-<option value="2">Seleccion 2 
-</select> 
-<br> 
-<input type="submit"> 
-<br> 
-<br> 
-<a href="javascript:seleccionar_todo()">Marcar todos</a> | 
-<a href="javascript:deseleccionar_todo()">Marcar ninguno</a>  -->
-</form>
-
-<script type="text/javascript">
-  // function seleccionar_todo(){ 
-  //   for (i=0;i<document.f2.elements.length;i++) 
-  //     if(document.f2.elements[i].type == "checkbox")  
-  //        document.f2.elements[i].checked=1 
-  //   } 
-</script>
-
-<script type="text/javascript">
-//   function deseleccionar_todo(){ 
-//    for (i=0;i<document.f1.elements.length;i++) 
-//       if(document.f2.elements[i].type == "checkbox")  
-//          document.f2.elements[i].checked=0 
-// }
-</script>

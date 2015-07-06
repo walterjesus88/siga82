@@ -193,6 +193,30 @@ class Timesheet_AprobacionController extends Zend_Controller_Action {
         }
     }
 
+     public function mostrarhistoricohojatiempofiltro2Action(){
+        try {
+            $uid = $this->sesion->uid;
+            $dni = $this->sesion->dni;     
+
+            $tabla_usuariocategoria= new Admin_Model_DbTable_Usuariocategoria();
+            $codigosaprobaciones_empleado = $tabla_usuariocategoria->_getBuscarCodigoAprobacionesxEmpleado($uid,$dni);
+            
+            $lista_empleados_aprobar=array();
+            foreach ($codigosaprobaciones_empleado as $codigoaprobaciones) {
+                $tabla_aprobacion = new Admin_Model_DbTable_Aprobacion();
+                $codigos_paraaprobar=$tabla_aprobacion-> _getCodigoAprobacionxAprobadorfiltro2($codigoaprobaciones['aprobacion'],'A');
+                foreach ($codigos_paraaprobar as $codigo_aprobar) {
+                    $tabla_historial_aprobaciones= new Admin_Model_DbTable_Historialaprobaciones();       
+                    $listar_historial_aprobaciones = $tabla_historial_aprobaciones -> _getBuscarEmpleadoxHojatiempohistorico('FILTRO2',$codigo_aprobar['idaprobacion']);
+                    $lista_empleados_aprobar[]=$listar_historial_aprobaciones;
+                }
+            }
+            $this->view->lista_empleados_aprobar= $lista_empleados_aprobar;   
+        } catch (Exception $e) {
+            print "Error: ".$e->getMessage();
+        } 
+    }
+
     public function aprobarhojatiempofiltro2Action(){
         try {
 
@@ -203,7 +227,9 @@ class Timesheet_AprobacionController extends Zend_Controller_Action {
             $categoriaid = $this->_getParam('categoriaid');
             $cargo = $this->_getParam('cargo');
             $semana = $this->_getParam('semanaid');
-            $comentario = $this->_getParam('coment');
+            $comentario_capturado = $this->_getParam('coment');
+            $comentario = str_replace("_"," ",$comentario_capturado);
+
             $estado_historial   = $this->_getParam('estado');
             $uid_validador=$this->_getParam('uid_validacion');
             $dni_validador=$this->_getParam('dni_validacion');
@@ -222,12 +248,12 @@ class Timesheet_AprobacionController extends Zend_Controller_Action {
                 /*Buscar si tine un registro*/
                 if ($buscar_historial_empleado_filtro2)
                 {
-                    echo "existe";
-                    print_r($buscar_historial_empleado_filtro2);
+                    //echo "existe";
+                    //print_r($buscar_historial_empleado_filtro2);
                 }
                 else
                 {   
-                    echo "no existe";
+                   // echo "no existe";
                     $wheres_empleado = array('semanaid'=>$semana,'uid_empleado'=>$uid,'dni_empleado'=>$dni,'etapa_validador'=>'ENVIO','estado_historial'=>'A');
                     $buscar_historial_empleado = $tabla_historial_aprobaciones -> _getBuscarEmpleadoxSemanaxEstado($wheres_empleado);
                     $numero_registro = count($buscar_registro);
@@ -257,11 +283,11 @@ class Timesheet_AprobacionController extends Zend_Controller_Action {
                         $data['etapa_validador']=$etapa_validador;
                         $data['comentario']=$comentario;
                         $data['comentario_estado']=$estado_historial;
-                        //print_r($data);
+                        ////print_r($data);
                         $guardar_historial_empleado = $tabla_historial_aprobaciones -> _save($data);
                         if ($guardar_historial_empleado)
                         {
-                            echo "guardo satisfactoriamente";
+                            //echo "guardo satisfactoriamente";
                             if ($estado_historial=='R')
                             {
                                 $tareopersona = new Admin_Model_DbTable_Tareopersona();
@@ -357,7 +383,10 @@ class Timesheet_AprobacionController extends Zend_Controller_Action {
             $categoriaid = $this->_getParam('categoriaid');
             $cargo = $this->_getParam('cargo');
             $semana = $this->_getParam('semanaid');
-            $comentario = $this->_getParam('coment');
+            //$comentario = $this->_getParam('coment');
+            $comentario_capturado = $this->_getParam('coment');
+            $comentario = str_replace("_"," ",$comentario_capturado);
+
             $estado_historial   = $this->_getParam('estado');
             $uid_validador=$this->_getParam('uid_validacion');
             $dni_validador=$this->_getParam('dni_validacion');
@@ -373,20 +402,20 @@ class Timesheet_AprobacionController extends Zend_Controller_Action {
             {   
                 $wheres_empleado_gerente = array('semanaid'=>$semana,'uid_empleado'=>$uid,'dni_empleado'=>$dni,'etapa_validador'=>'GP','estado_historial'=>'A','uid_validador'=>$uid_validador,'dni_validador'=>$dni_validador);
                 $buscar_historial_empleado_gerente = $tabla_historial_aprobaciones -> _getBuscarEmpleadoxSemanaxEstadoxAprobacionGP($wheres_empleado_gerente);
-                print_r($buscar_historial_empleado_gerente);
+                //print_r($buscar_historial_empleado_gerente);
                 /*Buscar si tine un registro*/
                 if ($buscar_historial_empleado_gerente)
                 {
-                    echo "existe";
+                   // echo "existe";
                 }
                 else
                 {   
-                    print_r($wheres_empleado_gerente);
-                    echo "no existessss";
+                    //print_r($wheres_empleado_gerente);
+                    //echo "no existessss";
                     $wheres_empleado = array('semanaid'=>$semana,'uid_empleado'=>$uid,'dni_empleado'=>$dni,'etapa_validador'=>'ENVIO','estado_historial'=>'C');
 
                     $buscar_historial_empleado = $tabla_historial_aprobaciones -> _getBuscarEmpleadoxSemanaxEstado($wheres_empleado);
-                    print_r($buscar_historial_empleado);
+                    //print_r($buscar_historial_empleado);
                     $numero_registro = count($buscar_registro);
                     $data['numero_historial']=$numero_registro+1;
                     $data['semanaid']=$semana;
@@ -406,7 +435,7 @@ class Timesheet_AprobacionController extends Zend_Controller_Action {
                     $guardar_historial_empleado = $tabla_historial_aprobaciones -> _save($data);
                     if ($guardar_historial_empleado)
                     {
-                        echo "guardo satisfactoriamente";
+                       // echo "guardo satisfactoriamente";
                         if ($estado_historial=='R')
                         {
                             $tareopersona = new Admin_Model_DbTable_Tareopersona();
@@ -435,7 +464,7 @@ class Timesheet_AprobacionController extends Zend_Controller_Action {
                                 $proyectoid=$proyectos_empleado['proyectoid'];
                                 $datos_actualizar_planificacion['estado']='AGP';
                                 $str_actualizar_planificacion="semanaid='$semana' and uid='$uid' and dni='$dni' and proyectoid='$proyectoid' ";
-                                print_r($str_actualizar_planificacion);
+                                //print_r($str_actualizar_planificacion);
                                 $update_planificacion=$tabla_planificacion -> _update($datos_actualizar_planificacion,$str_actualizar_planificacion);       
                             }
 

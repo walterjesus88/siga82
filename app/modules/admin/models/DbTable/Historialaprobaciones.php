@@ -225,4 +225,26 @@ class Admin_Model_DbTable_Historialaprobaciones extends Zend_Db_Table_Abstract
     }
 
 
+    public function _getBuscarEmpleadoxHojatiempohistorico($etapa_validador,$codigoaprobacion_empleado)
+    {
+        try{
+            $sql=$this->_db->query("
+              
+                select  * from historial_aprobaciones as historial
+                inner join suma_controlsemana as controlsemana
+                    on historial.semanaid=controlsemana.semanaid and historial.uid_empleado=controlsemana.uid 
+                    and historial.dni_empleado=controlsemana.dni 
+                where historial.etapa_validador='$etapa_validador' and historial.estado_historial in ('A','RGP','R')
+                and historial.codigoaprobacion_empleado='$codigoaprobacion_empleado'
+                order by historial.semanaid asc
+            ");
+            $row=$sql->fetchAll();
+            return $row;           
+            }  
+           catch (Exception $ex){
+            print $ex->getMessage();
+        }
+    }
+
+
 }
