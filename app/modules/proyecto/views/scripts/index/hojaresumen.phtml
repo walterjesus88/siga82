@@ -4,6 +4,7 @@
 
   <section id="container" class="">
     <?php $this->proyectdetail;
+    if($this->proyectdetail){
 
     foreach ($this->proyectdetail as $proyect) {
       # code...
@@ -12,7 +13,7 @@
                   <aside class="mid-side">
                       <div class="chat-room-head">
                           <center><h3>Informacion</h3></center>
-                     
+                          <a class="btn btn-success" href="/proyecto/index/imphojaresumen/codigo_prop_proy/<?php echo $this->codigo_prop_proy?>/proyectoid/<?php echo $this->proyectoid ?>" id="imprimir">Imprimir</a>
                       </div>
 
                           <div class="group-rom panel-body room-box">
@@ -21,7 +22,7 @@
                                   <li class="active" >Nombre del Proyecto</li>
                                 </ul>
                               </div>
-                              <div class="col-sm-5"><?php echo $proyect['descripcion'] ?></div>
+                              <div class="col-sm-5"><?php echo $proyect['nombre_proyecto'] ?></div>
                               <div class="col-sm-2">
                                 <ul class="chat-list">    
                                     <li class="active">
@@ -182,8 +183,7 @@
                   </aside>
 
                   <!-- ------------------------------------------ C O N T A C T O S ------------------------------------------------------- -->
-                    
-                      
+             
                   <aside >
 
                           <div class="group-rom">
@@ -192,6 +192,7 @@
                             </div>
                             <div >
                               <?php if($this->contact) { ?>
+                              <a class="btn btn-success" href="#" id="prompt">Agregar + Contactos</a><br>
                               <h5><a name="multiple-select" class="anchor" href="#multiple-select">Escoja un contacto</a></h5>
                               <div class="side-by-side clearfix">
                                 <div>                                  
@@ -205,9 +206,11 @@
                                   </select>
                                 </div>
                               </div>
-                              <?php }else{  ?>
-                                  <button type="button" data-dismiss="modal" aria-hidden="true">Agregar Contacto</button>
-                                  <a href="#" id="prompt">Prompt Dialog</a><br>
+                              <?php }
+                              else{  ?>
+                                  <label class="col-lg-2 control-label">No se encontraron contactos agregue uno</label> 
+                                  <a class="btn btn-success" href="#" id="prompt">Agregar Contacto</a><br>
+                              <?php } ?>
 
                                   <div class="modal fade modal-dialog-center top-modal-with-space" id="myModalcontacto" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                                     <div class="modal-dialog">
@@ -218,32 +221,35 @@
                                             <h4 class="modal-title">Crear un Contacto</h4>
                                           </div>
                                           <div class="modal-body">
-                                            <div id="modaltimes_equipo">
+                                            <div id="modaltimes_contacto">
                                              
-                                              <form role="form" class="form-horizontal tasi-form">
+                                              <form role="form" id="/proyecto/index/procesarcontacto/" class="form-horizontal tasi-form">
                                                   <div class="form-group">
                                                     <label class="col-lg-2 control-label">Cliente</label>
                                                     <div class="col-lg-4">
-                                                      <select class="form-control input-sm m-bot15 ">
+                                                      <select disabled id="cliente_contacto" class="form-control input-sm m-bot15 ">
+                                                          <option value="<?php echo $proyect['clienteid']?>"><?php  echo $proyect['nombre_comercial']?></option>
                                                           <?php  foreach ($this->cliente as $cliente) {?> 
                                                              <option value="<?php echo $cliente['clienteid']?>"><?php  echo $cliente['nombre_comercial']?></option>
                                                           <?php }  ?>
                                                       </select>
                                                     </div>
-                                                    <label class="col-lg-2 control-label">Tipo de Cliente</label>
+                                                    <label class="col-lg-2 control-label">Unidad Minera</label>
                                                     <div class="col-lg-4">
-                                                      <select class="form-control input-sm m-bot15 ">
-                                                          <option>cliente</option>
-                                                          <option>potencial cliente</option>
-                                                          <option>contratistas</option>
+                                                      <select disabled id="unidad_contacto" class="form-control input-sm m-bot15 ">
+                                                      unidad
+                                                          <option value="<?php echo $proyect['unidad_mineraid']?>"><?php  echo $proyect['nombre']?></option>        
+                                                          <?php  foreach ($this->unidad as $unidad) {?> 
+                                                          <option value="<?php echo $unidad['unidad_mineraid']?>"><?php  echo $unidad['nombre']?></option>
+                                                          <?php }  ?>
                                                       </select>
-                                                    </div>
+                                                    </div>                                                    
                                                   </div>
+
                                                   <div class="form-group">
-                                                  
                                                     <label class="col-lg-2 control-label">email</label>
                                                     <div class="col-lg-4">
-                                                          <input type="email" placeholder="" id="nomunidad" class="form-control">           
+                                                          <input type="email" placeholder="" id="email" class="form-control">           
                                                     </div>
                                                     <label class="col-lg-2 control-label">Puesto de Trabajo</label>
                                                     <div class="col-lg-4">
@@ -259,27 +265,27 @@
                                                       </div>
                                                       <label class="col-lg-2 control-label">Estado</label>
                                                       <div class="col-lg-4">
-                                                        <select class="form-control input-sm m-bot15 ">
-                                                            <option>Activo</option>
-                                                            <option>Inactivo</option>                                                      
+                                                        <select id="estado_contacto" class="form-control input-sm m-bot15 ">
+                                                            <option value="A" >Activo</option>
+                                                            <option value="I">Inactivo</option>                                                      
                                                         </select>
                                                       </div>
                                                   </div>
                                                  
                                                   <div class="form-group">
-                                                    <label class="col-lg-2 control-label">Unidad Minera</label>
+                                                   
+                                                    <label class="col-lg-2 control-label">Nombre Unidad Minera</label>
                                                     <div class="col-lg-4">
-                                                      <select class="form-control input-sm m-bot15 ">
-                                                          <option>Option 1</option>
-                                                          <option>Option 2</option>
-                                                          <option>Option 3</option>
+                                                          <input type="text" placeholder="" id="nomunidad" class="form-control">                           
+                                                    </div>
+                                                    <label class="col-lg-2 control-label">Tipo de Cliente</label>
+                                                    <div class="col-lg-4">
+                                                      <select id="tipo_cliente" class="form-control input-sm m-bot15 ">
+                                                          <option value="cliente">cliente</option>
+                                                          <option value="potencial cliente">potencial cliente</option>
+                                                          <option value="contratistas">contratistas</option>
                                                       </select>
                                                     </div>
-                                                    <label class="col-lg-2 control-label">Nombre Unidad Minera</label>
-                                                      <div class="col-lg-4">
-                                                          <input type="text" placeholder="" id="nomunidad" class="form-control">
-                                                  
-                                                      </div>
                                                   </div>
                                                
                                                   <div class="form-group has-warning">
@@ -290,12 +296,15 @@
                                                   </div>
                                                   <div class="form-group has-warning">
                                                       <label class="col-lg-2 control-label">Anexo</label>
-                                                      <div class="col-lg-4">
+                                                      <div class="col-lg-3">
                                                           <input type="text" placeholder="" id="anexo" class="form-control">           
                                                       </div>
                                                       <label class="col-lg-2 control-label">Telefono</label>
-                                                      <div class="col-lg-4">
+                                                      <div class="col-lg-3">
                                                           <input type="text" placeholder="" id="telefono" class="form-control">           
+                                                      </div>
+                                                      <div class="col-lg-2">
+                                                        <input type="radio" id="isunidad" name="isunidad" value="S"> Es unindad<br>
                                                       </div>
                                                   </div>
                                                   
@@ -329,7 +338,7 @@
 
                                                   <div class="form-group">
                                                       <div class="col-lg-offset-2 col-lg-10">
-                                                          <button class="btn btn-danger" type="submit">Submit</button>
+                                                          <button id="submit_contacto" class="btn btn-danger" type="submit">Submit</button>
                                                       </div>
                                                   </div>
                                                   
@@ -346,21 +355,116 @@
                                     </div>
                                   </div>                                 
 
-                                  <?php  } ?>
+                                
                             </div>
                           </div>
+
+                          
+
                           <script type="text/javascript">
                           $("#prompt").on( 'click', function () {
                             $("#myModalcontacto").modal('show')
+                              $("#submit_contacto").click(function(){
+                                var cliente_contacto=$("#cliente_contacto").val();
+                                var tipo_cliente=$("#tipo_cliente").val();
+                                var email=$("#email").val();
+                                var puesto_trabajo=$("#puesto_trabajo").val();
+                                var dni=$("#dni").val();
+                                var estado_contacto=$("#estado_contacto").val();
+                                var unidad_contacto=$("#unidad_contacto").val();
+                                var nomunidad=$("#nomunidad").val();
+                                var direccion=$("#direccion").val();
+                                var anexo=$("#anexo").val();
+                                var telefono=$("#telefono").val();
+                                var paterno=$("#paterno").val();
+                                var materno=$("#materno").val();
+                                var nombre=$("#nombre").val();
+                                var celular1=$("#celular1").val();
+                                var celular2=$("#celular2").val();
+                                var codigo_prop_proy=("<?php echo $this->codigo_prop_proy?>");
+                                var proyectoid=("<?php echo $this->proyectoid ?>");
+
+                                if( $('#isunidad').attr('checked') ){
+                                    var isunidad=$('input:radio[name=isunidad]:checked').val();
+                                    alert('isunidad');
+                                }
+                                else
+                                {
+                                    var isunidad='N';
+                                }
+                                //if(isunidad)
+                                //{isuni=isunidad}else{isuni='N'}
+
+                                var url="/proyecto/index/procesarcontacto/cliente_contacto/"+cliente_contacto+"/tipo_cliente/"+tipo_cliente+"/email/"+email+"/puesto_trabajo/"+puesto_trabajo+"/dni/"+dni+"/estado_contacto/"+estado_contacto+"/unidad_contacto/"+unidad_contacto+"/nomunidad/"+nomunidad+"/direccion/"+direccion+"/anexo/"+anexo+"/telefono/"+telefono+"/paterno/"+paterno+"/materno/"+materno+"/celular1/"+celular1+"/celular2/"+celular2+"/isunidad/"+isunidad+"/codigo_prop_proy/"+codigo_prop_proy+"/proyectoid/"+proyectoid;
+                                alert(url);
+                                //console.log("lol");
+                                  $.ajax({
+                                         type: "POST",
+                                         url: url,
+                                          data: $(this).serialize(),
+                                          dataType: "html",                                                 
+                                          error: function()
+                                          {
+                                            alert("error petición ajax load");
+                                          },
+                                          success: function(data)
+                                          {   
+                                            
+                                            //$("#savecontact").html(data);
+                                            window.location.reload();
+                                          }
+                                    });
+                              });
                             });
                           </script>
 
                           <script type="text/javascript">
                               $(document).ready(function(){
+
                                 $("#contact").click(function(){
+                                  $("#contactounico").hide();
                                   var valor=$(this).val();
-                                    //alert(valor);
-                                    $("#"+valor).show();
+                                  var codigo_prop_proy=("<?php echo $this->codigo_prop_proy?>");
+                                  var proyectoid=("<?php echo $this->proyectoid ?>");
+                                  //alert(valor);
+                                  var ii = new Array();                                 
+                                  <?php $ii= json_encode($this->contact) ?>;
+                                  var jsvar  = '<?php echo $ii; ?>';
+                              
+                                  var contact = JSON.parse(jsvar);
+                                  //console.log(contact.length);
+                                  //console.log(contact[0]['contactoid'] );
+                                    for (var i = 0; i < contact.length; i++) {
+
+                                        console.log("cont_"+contact[i]['contactoid']);
+                                        cont="cont_"+contact[i]['contactoid'];
+                                        if (cont != valor) {
+                                            $("#"+cont).hide();
+                                            
+                                        }   
+                                    }                                
+                                    $("#"+valor).show();                                
+
+                                    var url="/proyecto/index/updatecontactoproyect/cliente_contacto/"+"/codigo_prop_proy/"+codigo_prop_proy+"/proyectoid/"+proyectoid+"/valor/"+valor;
+                                    //alert(url);
+
+                                    $.ajax({
+                                         type: "POST",
+                                         url: url,
+                                          data: $(this).serialize(),
+                                          dataType: "html",                                                 
+                                          error: function()
+                                          {
+                                            alert("error petición ajax load");
+                                          },
+                                          success: function(data)
+                                          {  
+                                            
+                                         
+                                          }
+                                    });
+
+
                                 });
                               });
                           </script>                                           
@@ -369,8 +473,8 @@
                           //print_r($this->contact);
                           if($this->contact) {
                           foreach ($this->contact as $contact) { ?>
-                        
-                          <div style="display:none"  id="cont_<?php echo $contact['contactoid']?>">
+                          <div style="display:none" id="cont_<?php echo $contact['contactoid']?>">
+                            <div id="pru" >
                       
                             <div class="group-rom panel-body room-box ">                       
                                 <div class="col-sm-4  ">
@@ -635,7 +739,7 @@
                                   <div class="col-sm-6">                                
                                     <ul class="chat-list">    
                                         <li class="active">
-                                          <span>Otros</span>            
+                                          <span>Total + SOC</span>            
                                         </li>
                                                               
                                     </ul>
@@ -643,7 +747,7 @@
                                   <div class="col-sm-6">                                
                                     <ul>    
                                         <li>
-                                          <span>Otros</span>            
+                                          <span></span>            
                                         </li>
                                                               
                                     </ul>
@@ -653,8 +757,12 @@
 
                             <div class="group-rom panel-body room-box">
                                  
-                                <div class="col-sm-4"> 
-                                  <p><span>Direccion Fiscal</span></p>  
+                                <div class="col-sm-4">
+                                  <ul class="chat-list">    
+                                    <li class="active">
+                                      <p><span>Direccion Fiscal</span></p>
+                                    </li>
+                                  </ul>   
                                 </div>
                                 <div class="col-sm-4"><?php echo $contact['direccion'] ?></div>
                                 <div class="col-sm-4">
@@ -799,11 +907,464 @@
                             </div>
 
                           </div> 
-                          <?php } }?>
+                        </div>
+                          <?php } }
+                     
+                          $contactunico=$this->contactunico;
+                          
+                          ?>
+
+                  </aside>
+                  <aside>
+                         <div id="contactounico">
+                            <div id="pru" >
+                      
+                            <div class="group-rom panel-body room-box ">                       
+                                <div class="col-sm-4  ">
+                                  <ul class="chat-list">
+                                    <li class="active"> 
+                                      <p><span>Nombre del Contacto</span></p> 
+                                    </li>
+                                  </ul> 
+                                </div>
+                                <div class="col-sm-4 "><?php echo $contactunico['ape_paterno'];echo " ";echo $contactunico['ape_materno'];echo " ";echo $contactunico['nombre1'] ?></div>
+                                <div class="col-sm-4 ">
+                                  <ul class="chat-list">    
+                                    <li class="active">
+                                      <center><p><span >Presupuesto</span></p></center>
+                                    </li>
+                                  </ul>                                
+                                </div>                       
+                            </div>
+
+
+                            <div class="group-rom panel-body room-box" >
+                                 
+                                <div class="col-sm-4">
+                                  <ul class="chat-list">
+                                    <li class="active"> 
+                                      <p><span>Cargo</span></p> 
+                                    </li>
+                                  </ul> 
+                                </div>
+                                <div class="col-sm-4"><?php echo $contactunico['puesto_trabajo'] ?></div>
+                                
+                                <div class="col-sm-4">
+                                  <div class="col-sm-6">                                
+                                    <ul class="chat-list">    
+                                        <li class="active">
+                                          <span>Moneda</span>            
+                                        </li>
+                                        <li class="active">
+                                          <span>Honorarios</span>            
+                                        </li>                                   
+                                    </ul>
+                                  </div>
+                                  <div class="col-sm-6">
+                                    <ul>    
+                                      <li>
+                                        <span>Dolares(USD)</span>            
+                                      </li>
+                                      <li>
+                                        <span><?php echo $proyect['propuestaid'] ?></span>            
+                                      </li>                                   
+                                    </ul>                                
+                                  </div>                                                         
+                                </div>                          
+                            </div>
+                         
+                            <div class="group-rom panel-body room-box">
+                                 
+                                <div class="col-sm-2">
+                                  <ul class="chat-list">    
+                                    <li class="active">
+                                      <p><span>Telefono</span></p> 
+                                    </li>
+                                  </ul>   
+                                </div>
+                                <div class="col-sm-6">                                  
+
+                                  <div class="col-sm-4">
+                                    <?php echo $contactunico['telefono'] ?>
+                                  </div>
+
+                                  <div class="col-sm-4">
+                                    <ul class="chat-list">    
+                                      <li class="active">
+                                        <p><span>Anexo</span></p>                                  
+                                      </li>
+                                    </ul>
+                                  </div>
+
+                                  <div class="col-sm-4">
+                                    <?php echo $contactunico['anexo'] ?>
+                                  </div>
+                                </div>
+                                
+                                <div class="col-sm-4">
+                                  <div class="col-sm-6">                                
+                                    <ul class="chat-list">    
+                                        <li  class="active">
+                                          <span>Gastos</span>            
+                                        </li>
+                                        <li class="active">
+                                          <span>Laboratorio</span>            
+                                        </li>                                   
+                                    </ul>
+                                  </div>
+                                  <div class="col-sm-6">
+                                    <ul>    
+                                      <li>
+                                        <span>ffff</span>            
+                                      </li>
+                                      <li>
+                                        <span>ee</span>            
+                                      </li>                                   
+                                    </ul>                                
+                                  </div>                                                         
+                                </div>                          
+                            </div>
+
+
+                            <div class="group-rom panel-body room-box">
+                                 
+                                <div class="col-sm-2">
+                                  <ul class="chat-list">    
+                                    <li  class="active">
+                                      <p><span>Celular 1</span></p> 
+                                    </li>
+                                  </ul>
+                                </div>
+                                <div class="col-sm-6">
+
+                                  <div class="col-sm-4">
+                                    <?php echo $contactunico['numero1'] ?>
+                                  </div>
+
+                                  <div class="col-sm-4">
+                                    <ul class="chat-list">    
+                                      <li class="active">
+                                        <p><span>Celular 2</span></p> 
+                                      </li>
+                                    </ul>
+                                  </div>
+
+                                  <div class="col-sm-4"> 
+                                    <?php echo $contactunico['numero2'] ?>
+                                  </div>
+
+                                </div>
+                                
+                                <div class="col-sm-4">
+                                  <div class="col-sm-6">                                
+                                    <ul class="chat-list">    
+                                        <li class="active">
+                                          <span>Otros</span>            
+                                        </li>
+                                        <li class="active">
+                                          <span>Descuentos</span>            
+                                        </li>                                   
+                                    </ul>
+                                  </div>
+                                  <div class="col-sm-6">
+                                    <ul>    
+                                      <li>
+                                        <span>ffff</span>            
+                                      </li>
+                                      <li>
+                                        <span>ee</span>            
+                                      </li>                                   
+                                    </ul>                                
+                                  </div>                                                         
+                                </div>                          
+                            </div>
+
+                            <div class="group-rom panel-body room-box">
+                                 
+                                <div class="col-sm-4">
+                                  <ul class="chat-list">    
+                                    <li class="active">
+                                      <p><span>Email</span></p> 
+                                    </li>
+                                  </ul>
+                                </div>
+                                <div class="col-sm-4"><?php echo $contactunico['correo'] ?></div>
+                                
+                                <div class="col-sm-4">
+                                  <div class="col-sm-6">                                
+                                    <ul class="chat-list">    
+                                        <li class="active">
+                                          <span>Total</span>            
+                                        </li>
+                                        <li  class="active">
+                                          <span>SOC 01</span>            
+                                        </li>                                   
+                                    </ul>
+                                  </div>
+                                  <div class="col-sm-6">
+                                    <ul>    
+                                      <li>
+                                        <span><?php echo $this->proyectoid ?></span>            
+                                      </li>
+                                      <li>
+                                        <span><?php echo $proyect['propuestaid'] ?></span>            
+                                      </li>                                   
+                                    </ul>                                
+                                  </div>                                                         
+                                </div>
+                            
+                            </div>
+
+                            <div class="group-rom panel-body room-box">
+                                 
+                                <div class="col-sm-4">
+                                  <ul class="chat-list">    
+                                    <li class="active">
+                                      <p><span>Razon social</span></p>                                
+                                    </li>
+                                  </ul>
+                                </div>
+                                <div class="col-sm-4"><?php echo $proyect['nombre_comercial'] ?></div>
+                                
+                                <div class="col-sm-4">
+                                  <div class="col-sm-6">                                
+                                    <ul class="chat-list">    
+                                        <li class="active">
+                                          <span>SOC 02</span>            
+                                        </li>
+                                        <li class="active">
+                                          <span>SOC 03</span>            
+                                        </li>                                   
+                                    </ul>
+                                  </div>
+                                  <div class="col-sm-6">
+                                    <ul>    
+                                      <li>
+                                        <span>  <?php echo $this->proyectoid ?></span>            
+                                      </li>
+                                      <li>
+                                        <span><?php echo $proyect['propuestaid'] ?></span>            
+                                      </li>                                   
+                                    </ul>                                
+                                  </div>                                                         
+                                </div>                          
+                            </div>
+
+                            <div class="group-rom panel-body room-box">
+                                 
+                                <div class="col-sm-2">
+                                  <ul class="chat-list">    
+                                    <li class="active">
+                                      <p><span>RUC</span></p>  
+                                    </li>
+                                  </ul>                                                                 
+                                </div>
+                                <div class="col-sm-6">
+                                  <div class="col-sm-4">
+                                    <?php echo $proyect['ruc'] ?>
+                                  </div>
+
+                                  <div class="col-sm-4">
+                                    <ul class="chat-list">    
+                                      <li class="active">
+                                        <p><span>Telefono</span></p>
+                                      </li>
+                                    </ul>
+                                  </div>
+
+                                  <div class="col-sm-4"> 
+                                    <p><span> No especifica contacto o cliente(no hay campo)</span></p> 
+                                  </div>
+
+                                </div>
+                                
+                                <div class="col-sm-4">
+                                  <div class="col-sm-6">                                
+                                    <ul class="chat-list">    
+                                        <li class="active">
+                                          <span>Total + SOC</span>            
+                                        </li>
+                                                              
+                                    </ul>
+                                  </div>
+                                  <div class="col-sm-6">                                
+                                    <ul>    
+                                        <li>
+                                          <span></span>            
+                                        </li>
+                                                              
+                                    </ul>
+                                  </div>                                             
+                                </div>                          
+                            </div>
+
+                            <div class="group-rom panel-body room-box">
+                                 
+                                <div class="col-sm-4">
+                                  <ul class="chat-list">    
+                                    <li class="active">
+                                      <p><span>Direccion Fiscal</span></p>
+                                    </li>
+                                  </ul>   
+                                </div>
+                                <div class="col-sm-4"><?php echo $contactunico['direccion'] ?></div>
+                                <div class="col-sm-4">
+                                  <div class="col-sm-6">
+                                    <ul class="chat-list">    
+                                        <li class="active">
+                                          <span>Adelanto %</span>            
+                                        </li>
+                                                                      
+                                    </ul>
+                                  </div>
+                                  <div class="col-sm-6">
+                                     <ul>    
+                                        
+                                        <li>
+                                          <span><?php echo $proyect['propuestaid'] ?></span>            
+                                        </li>                                   
+                                    </ul>                             
+                                  </div>
+                                </div>
+                            </div>
+
+                            <div class="group-rom panel-body room-box">
+                                 
+                                <div class="col-sm-2">
+                                  <ul class="chat-list">    
+                                    <li class="active">
+                                      <p><span>Documento de Aprobacion</span></p>                                   
+                                    </li>
+                                  </ul>
+                                </div>
+                                <div class="col-sm-6">
+                                  <div class="col-sm-4">
+                                    <p><span>No hay campo en la BD</span></p>
+                                  </div>
+
+                                  <div class="col-sm-4">
+                                    <ul class="chat-list">    
+                                      <li class="active">
+                                        <p><span>Numero de Documento</span></p>                                    
+                                      </li>
+                                    </ul>
+                                  </div>
+
+                                  <div class="col-sm-4">
+                                    <p><span>  No hay campo en la BD</span></p>
+                                  </div>
+                                </div>
+                                
+                                <div class="col-sm-4">
+                                  <div class="col-sm-6">                                
+                                    <ul class="chat-list">    
+                                        <li class="active">
+                                          <span>Tipo de Contrato</span>            
+                                        </li>                                                              
+                                    </ul>
+                                  </div>
+                                  <div class="col-sm-6">                                
+                                    <ul>    
+                                        <li>
+                                          <span>Otros</span>            
+                                        </li>
+                                                              
+                                    </ul>
+                                  </div>                                             
+                                </div>
+                            </div>
+
+                            <div class="group-rom panel-body room-box">
+                                 
+                                <div class="col-sm-4">
+                                  <ul class="chat-list">    
+                                    <li class="active">
+                                      <p><span>Comentarios</span></p>                                   
+                                    </li>
+                                  </ul>
+                                </div>
+                                <div class="col-sm-4"> 
+                                  <p><span>No hay campo en la BD</span></p>                                   
+                                </div>
+                                <div class="col-sm-4">
+                                  <div class="col-sm-6">
+                                    <ul class="chat-list">    
+                                        <li class="active">
+                                          <span>Plazo de Pagos de Facturas %</span>        
+                                        </li>                                                                      
+                                    </ul>
+                                  </div>
+                                  <div class="col-sm-6">
+                                     <ul>    
+                                        
+                                        <li>
+                                          <span>ddddd</span>            
+                                        </li>                                   
+                                    </ul>                             
+                                  </div>
+                                </div>
+                            </div>
+
+                            <div class="group-rom panel-body room-box">
+                                 
+                                <div class="col-sm-4">
+                                  <ul class="chat-list">    
+                                    <li class="active"> 
+                                      <span>Foto Proyecto (link ruta) </span>
+                                    </li>
+                                  </ul>
+                                </div>
+                                <div class="col-sm-4">
+                                  <span>No hay campo en la BD</span>                                    
+                                </div>
+                                <div class="col-sm-4">
+                                  <div class="col-sm-6">
+                                    <ul class="chat-list">    
+                                        <li class="active">
+                                          <span>Fecha de Corte</span>            
+                                        </li>
+                                                                      
+                                    </ul>
+                                  </div>
+                                  <div class="col-sm-6">
+                                     <ul>    
+                                        
+                                        <li>
+                                          <span>ddddd</span>            
+                                        </li>                                   
+                                    </ul>                             
+                                  </div>
+                                </div>
+                            </div>
+
+                            <div class="group-rom panel-body room-box">                                 
+                                <div class="col-sm-4">
+                                  <ul class="chat-list">    
+                                    <li class="active"> 
+                                      <span> Observaciones </span>            
+                                    </li>
+                                  </ul>
+                                </div>
+                                <div class="col-sm-8"> 
+                                  <span>No hay campo en la BD.</span></div>                              
+                            </div>
+
+                          </div> 
+
                   </aside>
      
-              </div>
+              
               <!-- page end-->
-    <?php  } ?>
+    <?php  } }
+    else
+    { ?>
+      <h4><?php echo "actualize su cliente o unidadminera al parecer el error reside ahi" ;?></h4>
+    <?php
+    }
+    ?>
 
   </section>
+
+
+
+
