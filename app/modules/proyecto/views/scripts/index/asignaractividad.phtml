@@ -128,7 +128,7 @@
                   </td>-->
                     <td style="width: 50px;padding-top: 1px;padding-right: 1px;padding-bottom: 1px;padding-left: 1px;" style="width: 150px; font-size: 10px;" id="nomact_<?php echo $c?>">                    
                         <?php echo "<strong>"; echo $listaactividad['actividadid']; echo "</strong>"; echo " -  "; echo $listaactividad['nombre']; ?>
-
+                        <?php echo strlen($listaactividad['actividadid']) ?>
                     </td>  
                      <?php
                        $i=0;              
@@ -140,24 +140,37 @@
 
                         $act= new Admin_Model_DbTable_Activaractividad();
                         $activar= $act->_getOne($wheres);
-
+                        //print_r($activar);
 
                       ?>
                         <td style="width: 150px;padding-top: 1px;padding-right: 1px;padding-bottom: 1px;padding-left: 1px;" >
                           <?php
-
-                          if($activar['estado']=='A')
-                          {    
+                          if($activar['estado']=='A' )
+                          {  
+                            if(strlen($activar['actividadid'])>1)
+                            { ?>
+                              <input id="agrega_<?php echo $c?><?php echo $i?>" type="checkbox"  checked="checked" name="agreg[<?php echo $c?>][<?php echo $i?>]" value="<?php echo $i ?><?php echo $c ?>">
+                            <?php }
+                            else
+                            { ?>
+                              <input style="display:none" disabled id="agrega_<?php echo $c?><?php echo $i?>" type="checkbox"  checked="checked" name="agreg[<?php echo $c?>][<?php echo $i?>]" value="<?php echo $i ?><?php echo $c ?>">
+                            <?php }
+                    
                           ?>
-                          <input id="agrega_<?php echo $c?><?php echo $i?>" type="checkbox"  checked="checked" name="agreg[<?php echo $c?>][<?php echo $i?>]" value="<?php echo $i ?><?php echo $c ?>">
-
                           <!-- <input class ='one-turno-course' index='1' type="checkbox" id="A" name="turno[<?php echo $i?>]" value="<?php echo $c ?>" checked> -->
                           <?php 
                           }
                           else
-                          {
-                          ?>
-                          <input id="agrega_<?php echo $c?><?php echo $i?>" type="checkbox" name="agreg[<?php echo $c?>][<?php echo $i?>]" value="<?php echo $i ?><?php echo $c ?>" >
+                          { ?>
+                            <input id="uagrega_<?php echo $c?><?php echo $i?>" type="checkbox" name="agreg[<?php echo $c?>][<?php echo $i?>]" value="<?php echo $i ?><?php echo $c ?>" >
+                            <p>ggg</p>
+                            <?php 
+
+                            echo $activar['actividadid'];
+                            
+                            ?>
+                                                   
+                        
                           <?php
                           }
                           ?>
