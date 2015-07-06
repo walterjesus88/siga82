@@ -2,7 +2,8 @@
 class Admin_Model_DbTable_Contacto extends Zend_Db_Table_Abstract
 {
     protected $_name = 'contacto';
-    protected $_primary = array("contactoid", "areaid", "clienteid");
+    protected $_primary = array("contactoid", "clienteid");
+    protected $_sequence ="s_contacto";
 
 
     public function _getContactoAll(){
@@ -114,10 +115,10 @@ class Admin_Model_DbTable_Contacto extends Zend_Db_Table_Abstract
 
    
 
-        public function _save($data)
+    public function _save($data)
     {
         try{
-            if ($data['areaid']=='' ||  $data['clienteid']=='' ) return false;
+            //if ($data['areaid']=='' ||  $data['clienteid']=='' ) return false;
             return $this->insert($data);
             return false;
         }catch (Exception $e){
@@ -143,8 +144,8 @@ class Admin_Model_DbTable_Contacto extends Zend_Db_Table_Abstract
         try{
             //if($where['eid']=='' || $where['oid']=='') return false;
                 $select = $this->_db->select();
-                if ($attrib=='') $select->from("perfil_puesto");
-                else $select->from("perfil_puesto",$attrib);
+                if ($attrib=='') $select->from("contacto");
+                else $select->from("contacto",$attrib);
                 foreach ($where as $atri=>$value){
                     $select->where("$atri = ?", $value);                    
                 }
@@ -158,7 +159,7 @@ class Admin_Model_DbTable_Contacto extends Zend_Db_Table_Abstract
                 if ($rows) return $rows;
                 return false;
         }catch (Exception $e){
-            print "Error: Read Filter Course ".$e->getMessage();
+            print "Error: Read Filter Contacto ".$e->getMessage();
         }
     }
 

@@ -222,7 +222,7 @@ order by t.proyectoid,t.actividadid,t.tipo_actividad desc
             if ($str=="") return false;
             return $this->update($data,$str);
         }catch (Exception $ex){
-           // print "Error: Actualizando un registro de Propuesta".$ex->getMessage();
+            print "Error: Actualizando un registro de Propuesta".$ex->getMessage();
         }
     }
 
@@ -545,8 +545,94 @@ order by t.proyectoid,t.actividadid,t.tipo_actividad desc
     }
 
 
+//Funcion que devuelve a los usuarios registrados en la tabla ordenados alfabeticamente y unicos
+    public function _getUsuarios(){
+      try{
+            $sql=$this->_db->query("
+              select  distinct uid, dni from tareo_persona order by uid");
+            $row=$sql->fetchAll();
+            return $row;           
+            }  
+            
+           catch (Exception $ex){
+            print $ex->getMessage();
+        }
+    }
 
+
+//Funcion que devuelve los datos requeridos para reporte
+    public function _getReporte($where=array()){
+      try{
+            $condicion = '';
+            if ($where['codigo_prop_proy'] != null) {
+              $condicion = " where tareo.codigo_prop_proy='".$where['codigo_prop_proy']."'";       
+            }
+            
+            $sql=$this->_db->query("select tareo.codigo_prop_proy, tareo.codigo_actividad, tareo.dni, 
+                tareo.uid, equipo.rate_proyecto, pro.proyectoid, tareo.tipo_actividad, unimin.nombre, 
+                pro.nombre_proyecto, pro.estado, sum(cast((case when tareo.h_real='' then '0' else tareo.h_real end) as float)) as h_real_total
+                from tareo_persona as tareo 
+                inner join equipo as equipo
+                on tareo.codigo_prop_proy=equipo.codigo_prop_proy and tareo.proyectoid=equipo.proyectoid and tareo.uid=equipo.uid
+                inner join proyecto as pro 
+                on tareo.codigo_prop_proy=pro.codigo_prop_proy and tareo.proyectoid=pro.proyectoid
+                inner join unidad_minera as unimin 
+                on pro.unidad_mineraid=unimin.unidad_mineraid".$condicion.
+                " group by tareo.codigo_prop_proy, tareo.codigo_actividad, tareo.uid, tareo.dni, 
+                equipo.rate_proyecto, pro.proyectoid, tareo.tipo_actividad, unimin.nombre, 
+                pro.nombre_proyecto, pro.estado");
+
+            $row=$sql->fetchAll();
+            return $row;           
+            }  
+            
+           catch (Exception $ex){
+            print $ex->getMessage();
+        }
+    }
+
+    //Funcion que devuelve las horas reales de cada persona por proyecto por actividad
+    public function _getHorasxUidxCppxCa($where=array()){
+      try {
+        $sql = $this->_db->query("select semanaid, fecha_tarea, h_real from tareo_persona where uid='".$where['uid']."' and
+          codigo_prop_proy='".$where['codigo_prop_proy']."' and codigo_actividad='".$where['codigo_actividad'].
+          "';");
+        $row=$sql->fetchAll();
+        return $row;  
+      } catch (Exception $ex) {
+        print $ex->getMessage();
+      }
+    }
+
+
+    /*public function _getEstado_HojaTiempo($where=array()){
+      try {
+        $sql = $this->_db->query("select distinct (estado) where uid='".$where['uid']."' and
+          dni='".$where['dni']."' and semanaid='".$where['semanaid'].
+          "';");
+        $row=$sql->fetchAll();
+        return $row;  
+      } catch (Exception $ex) {
+        print $ex->getMessage();
+      }
+    }*/
+
+     public function _getEstado_HojaTiempo($semanaid,$uid,$dni)
+     {
+        try{
+            $sql=$this->_db->query("
+              select  distinct(estado) from tareo_persona 
+              where uid='$uid' and dni='$dni' and semanaid='$semanaid'
+          
+
+            ");
+            // print_r($sql);
+            $row=$sql->fetchAll();
+            return $row;           
+            }  
+            
+           catch (Exception $ex){
+            print $ex->getMessage();
+        }
+    }
 }
-
-
-

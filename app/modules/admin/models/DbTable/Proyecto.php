@@ -19,20 +19,23 @@ class Admin_Model_DbTable_Proyecto extends Zend_Db_Table_Abstract
     //Funcion para obtener un proyecto en particular para el modulo de reportes
     public function _show($id)
     {
-        /*try{
-            $sql=$this->_db->query("
-               select * from proyecto where codigo_prop_proy = '$id'");
+        $where = "codigo_prop_proy = '".$id."'";
+        $row = $this->fetchRow($where);
+        if ($row) return $row->toArray();
+    }
+
+    //para obtener todos los proyectos de un cliente especifico
+    public function _getProyectoxCliente($cliente){
+        try{
+            $sql=$this->_db->query("select codigo_prop_proy, nombre_proyecto, clienteid 
+                from proyecto where clienteid='".$cliente."' order by codigo_prop_proy;");
             $row=$sql->fetchAll();
             return $row;           
             }  
             
            catch (Exception $ex){
             print $ex->getMessage();
-        }*/
-
-        $where = "codigo_prop_proy = '".$id."'";
-        $row = $this->fetchRow($where);
-        if ($row) return $row->toArray();
+        }
     }
 
     public function _getOne($pk=null)
@@ -140,6 +143,31 @@ class Admin_Model_DbTable_Proyecto extends Zend_Db_Table_Abstract
         }
     }
 
+    public function _buscarProyectodetalles($proyecto,$codigo_prop_proy){
+        try{
+            $sql=$this->_db->query("
+               select pro.codigo_prop_proy,pro.descripcion,pro.gerente_proyecto,pro.control_documentario,pro.fecha_inicio,pro.fecha_cierre,pro.nombre_proyecto,pro.propuestaid,pro.proyectoid,cli.nombre_comercial,uni.nombre,
+               uni.unidad_mineraid,pro.nombre_proyecto,pro.gerente_proyecto,pro.clienteid,cli.ruc,pro.contactoid
+               from proyecto as pro  
+
+               inner join cliente as cli 
+               on pro.clienteid=cli.clienteid 
+
+               inner join unidad_minera as uni
+               on uni.unidad_mineraid=pro.unidad_mineraid
+             
+               where codigo_prop_proy='$codigo_prop_proy' and proyectoid='$proyecto'
+               
+                ");
+            $row=$sql->fetchAll();
+            return $row;           
+            }  
+            
+           catch (Exception $ex){
+            print $ex->getMessage();
+        }
+    }
+
     public function _listProyectoxRepliconxEstado($proyecto,$estado){
         try{
             $sql=$this->_db->query("
@@ -160,11 +188,9 @@ class Admin_Model_DbTable_Proyecto extends Zend_Db_Table_Abstract
         try{
             $sql=$this->_db->query("
                 select * from proyecto
-<<<<<<< HEAD
+
                 where not proyectoid in ('1','2','3','4','5','1590.10.01','1590.10.02','1590.10.03') order by proyectoid desc;
-=======
-                where not proyectoid in ('1','2','3','4','5') order by proyectoid desc;
->>>>>>> dea1dbfd3deb3c3cd5925b1e563362787e11c039
+
                 ");
             $row=$sql->fetchAll();
             return $row;           
@@ -175,16 +201,26 @@ class Admin_Model_DbTable_Proyecto extends Zend_Db_Table_Abstract
         }
     }
 
-        public function _getProyectosxGerente($gerente){
+    public function _getProyectosxGerente($gerente){
         try{
             $sql=$this->_db->query("
                 select * from proyecto
-<<<<<<< HEAD
                 where not proyectoid in ('1','2','3','4','5','1590.10.01','1590.10.02','1590.10.03') and gerente_proyecto='$gerente' order by proyectoid asc;
-=======
-                where not proyectoid in ('1','2','3','4','5') and gerente_proyecto='$gerente' order by proyectoid asc;
->>>>>>> dea1dbfd3deb3c3cd5925b1e563362787e11c039
+
                 ");
+            $row=$sql->fetchAll();
+            return $row;           
+            }  
+            
+           catch (Exception $ex){
+            print $ex->getMessage();
+        }
+    }
+
+    public function _getGerentes(){
+         try{
+            $sql=$this->_db->query("select distinct usu.dni, pro.gerente_proyecto from proyecto as pro inner join
+                usuario as usu on pro.gerente_proyecto = usu.uid order by pro.gerente_proyecto;");
             $row=$sql->fetchAll();
             return $row;           
             }  

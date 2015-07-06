@@ -15,6 +15,20 @@ class Admin_Model_DbTable_Equipoarea extends Zend_Db_Table_Abstract
         }
     }
 
+    public function _getOne($where=array()){
+        try{
+            if ($where['codigo_prop_proy']=='' || $where['proyectoid']=='' || $where['areaid']=='' ) return false;
+            $wherestr=" codigo_prop_proy = '".$where['codigo_prop_proy']."' and  proyectoid='".$where['proyectoid']."' and areaid='".$where['areaid']."' ";
+            $row = $this->fetchRow($wherestr);
+            if($row) return $row->toArray();
+            return false;
+        }catch (Exception $e){
+            print "Error: Read One Add_reportacad_adm ".$e->getMessage();
+        }
+    }
+
+
+
     public function _getFilter($where=null,$attrib=null,$orders=null){
         try{
             if($where['codigo_prop_proy']=='' || $where['proyectoid']=='' || $where['categoriaid']=='') return false;
@@ -61,16 +75,10 @@ class Admin_Model_DbTable_Equipoarea extends Zend_Db_Table_Abstract
     public function _buscarAreasxProyecto($codigo,$proyectoid)
      {
         try{
-            $sql=$this->_db->query("
-
-        
-                select distinct eq.areaid,a.orden,a.nombre from equipo_area as eq inner join area as a on eq.areaid=a.areaid
-               where eq.codigo_prop_proy='$codigo' and eq.proyectoid='$proyectoid'
-
-               order by a.orden
-
-             
-
+            $sql=$this->_db->query("        
+            select distinct eq.areaid,a.orden,a.nombre from equipo_area as eq inner join area as a on eq.areaid=a.areaid
+            where eq.codigo_prop_proy='$codigo' and eq.proyectoid='$proyectoid'
+            order by a.orden 
             ");
             $row=$sql->fetchAll();
             return $row;           
@@ -106,7 +114,7 @@ class Admin_Model_DbTable_Equipoarea extends Zend_Db_Table_Abstract
 
    
 
-        public function _save($data)
+    public function _save($data)
     {
         try{
             if ($data['areaid']=='' ||  $data['proyectoid']==''  ||  $data['codigo_prop_proy']=='' ) return false;

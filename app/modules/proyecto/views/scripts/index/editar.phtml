@@ -90,6 +90,16 @@
 					<?php echo $this->form->unidad_red ?>
 				</div>
 
+				<div class="col-md-3">				
+					<h5 class="text-muted">Unidad Minera</h5>
+					<?php echo $this->form->unidad_mineraid ?>
+				</div>
+
+				<div class="col-md-3">				
+					<h5 class="text-muted">Cliente</h5>
+					<?php echo $this->form->clienteid ?>
+				</div>
+
 				<div class="col-md-3">
 					
 					<h5 class="text-muted">Ruta</h5>
@@ -141,32 +151,18 @@
 			<div class="row">
 					
 				<div class="col-md-4">
-					<div data-date-viewmode="years" data-date-format="dd-mm-yyyy" data-date="12-02-2015"  class="input-append date dpYears">
+					<div >
 						<h5 class="text-muted">Fecha Inicio</h5>
 						<p><?php echo $this->form->fecha_inicio ?>
-						<span class="input-group-btn add-on">
-			            <button class="btn btn-danger" type="button"><i class="fa fa-calendar"></i></button>
-			            </span></p>
+						
 		            </div>
-				</div>
+				</div>				
 
 				<div class="col-md-4">
-					<div data-date-viewmode="years" data-date-format="dd-mm-yyyy" data-date="12-02-2015"  class="input-append date dpYears">
-						<h5 class="text-muted">Fecha Probable Cierre</h5>
-						<p><?php echo $this->form->fecha_probable_cierre ?>
-						<span class="input-group-btn add-on">
-			            <button class="btn btn-danger" type="button"><i class="fa fa-calendar"></i></button>
-			            </span></p>
-		            </div>
-				</div>
-
-				<div class="col-md-4">
-					<div data-date-viewmode="years" data-date-format="dd-mm-yyyy" data-date="12-02-2015"  class="input-append date dpYears">
-						<h5 class="text-muted">Fecha Cierre</h5>
+					<div >
+						<h5 >Fecha Cierre</h5>
 						<p><?php echo $this->form->fecha_cierre ?>
-						<span class="input-group-btn add-on">
-			            <button class="btn btn-danger" type="button"><i class="fa fa-calendar"></i></button>
-			            </span></p>
+				
 		            </div>
 				</div>	
 				

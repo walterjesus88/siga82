@@ -287,6 +287,8 @@ public function _getDatosxProyectoxUidXEstadoxCliente($uid,$dni,$estado,$codigo_
         }
     }
 
+
+
 public function _getListarNivel4xNivel3($uid,$dni,$nivel_inferior,$nivel_superior,$areaid)
      {
         try{
@@ -505,6 +507,43 @@ public function _getListarEquipoxProyectoxGerente($uid,$dni)
                 select uid,dni from usuario_categoria where aprobacion like '4.B1.%';
 
 
+                    ");
+            $row=$sql->fetchAll();
+            return $row;           
+            }  
+            
+           catch (Exception $ex){
+            print $ex->getMessage();
+        }
+    }
+
+
+
+
+    //Metodo para obtener a los usuarios por proyecto
+    public function _getUsuarioxProyectoxEstadoxNivel($proyecto, $estado, $nivel)
+    {
+        try{
+            $sql=$this->_db->query("select uid, dni from equipo where codigo_prop_proy='".$proyecto."' and estado='".$estado."' and nivel='".$nivel."'");
+            $row=$sql->fetchAll();
+            return $row;           
+            }            
+           catch (Exception $ex){
+            print $ex->getMessage();
+        }
+    }
+
+
+public function _getDatosxEquipoxProyecto($uid,$dni,$codigo_prop_proy,$proyectoid)
+     {
+        try{
+            $sql=$this->_db->query("
+         
+                select *
+                from equipo 
+                where uid = '$uid'  and
+                codigo_prop_proy='$codigo_prop_proy' and
+                proyectoid='$proyectoid' and dni='$dni'
                     ");
             $row=$sql->fetchAll();
             return $row;           

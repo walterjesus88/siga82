@@ -1,91 +1,75 @@
-<div ng-app="reporteApp" ng-controller="mainController as reporte" class="div-reportes">
-	<h1>Reporte Tareopersona</h1>        
-	<a href="#" ng-click="reporte.getTareopersona()">Hola</a>
-	<div>
-		<div class="table-inline">
-			<table class="table-bordered">
-				<thead class="title-table">
-					<th>
-						<div>
-							Cobrabilidad
-						</div>
-					</th>
-				</thead>
-				<tbody class="scroll-content-small">
-					<tr ng-repeat="cobrabilidad in reporte.cobrabilidad">
-						<td>
-							<div>
-								{{cobrabilidad}}
-							</div>
-						</td>
+<div style="overflow: scroll" ng-app="reporteApp" ng-controller="mainController as reporte" class="div-reportes">
+
+	<div class="col-lg-12 m-bot15">
+		<h1>Reporte Tareopersona</h1>
+		<div>
+			<div class="col-lg-6">
+				<h4>Clientes</h4>
+				<select class="form-control m-bot15" ng-model="reporte.cliente_seleccionado" ng-change="reporte.getProyectosByCliente(reporte.cliente_seleccionado)">
+					<option value="todos">Seleccione Cliente</option>
+					<option value="{{cliente.id}}" ng-repeat="cliente in reporte.clientes track by $index">{{cliente.nombre}}</option>
+				</select>
+			</div>
+			<div class="col-lg-6">
+				<h4>Gerentes</h4>
+				<select class="form-control m-bot15" ng-model="reporte.gerente_seleccionado" ng-change="reporte.getProyectosByGerente(reporte.gerente_seleccionado)">
+					<option value="todos">Seleccione Gerente</option>
+					<option value="{{gerente.gerente_proyecto}}" ng-repeat="gerente in reporte.gerentes track by $index">{{gerente.gerente_proyecto}}</option>
+				</select>
+			</div>
+			
+			<div class="col-lg-12">
+				<h4>Proyectos</h4>
+				{{reporte.text_proyectos}}
+				<table>
+					<tr ng-repeat="proyecto in reporte.proyectos">
+						<th>{{proyecto.codigo_prop_proy}} - {{proyecto.nombre_proyecto}}</th>
+						<th><input ng-model="reporte.proyectos[$index].selected" ng-change="reporte.getData(proyecto.codigo_prop_proy, $index)" ng-true-value="true" ng-false-value="false" type="checkbox"></th>
 					</tr>
-				</tbody>
 			</table>
+			</div>			
+		
 		</div>
-		<div class="table-inline">
-			<table class="table-bordered">
-				<thead class="title-table">
-					<th>
-						<div>
-							Rango Fecha Rendición
-						</div>
-					</th>
-				</thead>
-				<tbody class="scroll-content-small">
-					<tr ng-repeat="fecha in reporte.rango_fecha">
-						<td>
-							<div>
-								{{fecha}}
-							</div>
-						</td>
-					</tr>
-				</tbody>
-			</table>
+		<div class="col-lg-4">
+			<h4>Usuarios</h4>
+			<select ng-disabled="reporte.disabled_children" class="form-control m-bot15" ng-model="reporte.usuario_seleccionado">
+				<option value="." selected="selected">Todos</option>
+				<option value="{{usuario.uid}}" ng-repeat="usuario in reporte.usuarios track by $index | orderBy: 'uid'">{{usuario.uid}}</option>
+			</select>
 		</div>
-		<div class="table-inline">
-			<table class="table-bordered">
-				<thead class="title-table"> 
-					<th>
-						<div>
-							Formato de Nombres de Proyecto
-						</div>
-					</th>
-				</thead>
-				<tbody class="scroll-content-small">
-					<tr ng-repeat="formato in reporte.formato_proyecto">
-						<td>
-							<div>
-								{{formato}}
-							</div>
-						</td>
-					</tr>
-				</tbody>
-			</table>
+		<div class="col-lg-4">
+			<h4>Tipo de Actividad</h4>
+			<input ng-disabled="reporte.tareopersona_void" type="checkbox" ng-model="reporte.tipo_activo.Todo" ng-true-value="true" ng-false-value="false" ng-click="reporte.tipoActivoTodo()">Todos
+			<div ng-repeat="item in reporte.tipo_actividad">
+				<input ng-disabled="reporte.tareopersona_void" type="checkbox" ng-model="reporte.tipo_activo[item.text]" ng-true-value="true" ng-false-value="false" ng-click="reporte.tipoActivoHijo()">{{item.text}}
+			</div>
 		</div>
-		<div class="table-inline">
-			<table class="table-bordered">
-				<thead class="title-table">
-					<th>
-						<div>
-							Usuarios
-						</div>
-					</th>
-				</thead>
-				<tbody class="scroll-content-small" id="usuarioScroll" >
-					<tr ng-repeat="usuario in reporte.usuarios track by $index">
-						<td>
-							<div>
-								{{usuario}}
-							</div>
-						</td>
-					</tr>
-				</tbody>	
-			</table>
+		<div class="col-lg-4">
+			<h4>Rango de Rendición</h4>
+			<div>
+	            <div class="input-group input-large" data-date="13/07/2013" data-date-format="mm/dd/yyyy">
+	                <input ng-disabled="reporte.disabled_children" type="text" ng-model="reporte.fecha_from.cadena" ng-change="reporte.cambiarFecha()" class="form-control dpd1" name="from">
+	                <span class="input-group-addon">hasta</span>
+	                <input ng-disabled="reporte.disabled_children" type="text" ng-model="reporte.fecha_to.cadena" ng-change="reporte.cambiarFecha()" class="form-control dpd2" name="to">
+	            </div>
+	            <span class="help-block">Seleccione fechas para rango de rendición</span>
+	        </div>
+	        <h4>Granularidad</h4>
+	        <div>
+	        	<select ng-model="reporte.agrupado_seleccionado" ng-change="reporte.cambiarAgrupamiento()" class="form-control m-bot15" ng-disabled="reporte.disabled_children">
+	        		<option value="{{item.value}}" ng-repeat="item in reporte.agrupado">{{item.text}}</option>
+	        	</select>
+	        </div>
 		</div>
 	</div>
-	<div>
-		<table class="table-bordered">
-		<thead class="title-table">
+
+	<div id="container-tareopersona-table">
+		<button class="btn btn-secundary pull-right btn-xs" ng-click="reporte.exportarXls()"><i class="fa fa-save" ng-disabled="reporte.tareopersona_void"></i> Exportar a Excel</button>
+
+		<button class="btn btn-secundary pull-right btn-xs" ng-click="reporte.exportarPdf()"><i class="fa fa-print" ng-disabled="reporte.tareopersona_void"></i> Exportar a PDF</button>
+		
+		<table datatable="ng" dt-instance="reporte.dtInstance" class="table table-bordered table-striped table-condensed" id="tareopersona-table">
+		<thead>
 			<th>
 				<div>
 					Usuario Id
@@ -121,70 +105,90 @@
 					Status Proyecto
 				</div>
 			</th>
-			<th ng-repeat="dia in reporte.dias">
+			<th ng-repeat="dia in reporte.dias track by $index" ng-show="reporte.dias_visible">
 				<div>
-					{{dia}}
+					{{dia.cadena}}
+				</div>
+			</th>
+			<th ng-repeat="semana in reporte.semanas track by $index" ng-show="reporte.semanas_visible">
+				<div>
+					{{semana}}
+				</div>
+			</th>
+			<th ng-repeat="mes in reporte.meses track by $index" ng-show="reporte.meses_visible">
+				<div>
+					{{mes}}
 				</div>
 			</th>
 			<th>
 				<div>
-					Full Sumary
+					Total
 				</div>
 			</th>
 		</thead>
-		<tbody class="scroll-content-high">
-			<tr ng-repeat="fila in reporte.tareopersona">
+		<tbody class="">
+			<tr ng-repeat="tareopersona in reporte.tareopersona | filter: reporte.usuario_seleccionado" ng-show="reporte.tipo_activo[tareopersona.tipo_actividad]">
 				<td>
 					<div>
-						{{fila.dni}}
+						{{tareopersona.dni}}
 					</div>
 				</td>
 				<td>
 					<div>
-						{{fila.uid}}
+						{{tareopersona.uid}}
 					</div>
 				</td>
 				<td>
 					<div>
-						{{fila.rate}}
+						{{tareopersona.rate_proyecto}}
 					</div>
 				</td>
 				<td>
 					<div>
-						{{fila.proyectoid}}
+						{{tareopersona.proyectoid}}
 					</div>
 				</td>
 				<td>
 					<div>
-						{{fila.cobra}}
+						{{tareopersona.tipo_actividad}}
 					</div>
 				</td>
 				<td>
 					<div>
-						{{fila.nombre_proyecto}}
+						{{tareopersona.um_nombre + ' / ' + tareopersona.nombre_proyecto}}
 					</div>
 				</td>
 				<td>
 					<div>
-						{{fila.etapa}}
+						{{tareopersona.estado}}
 					</div>
 				</td>
-				<td ng-repeat="dia in reporte.dias">
+				<td ng-repeat="hora in tareopersona.horasxdias track by $index" ng-show="reporte.dias_visible">
 					<div>
-						
+						{{hora}}
+					</div>
+				</td>
+				<td ng-repeat="hora in tareopersona.horasxsemanas track by $index" ng-show="reporte.semanas_visible">
+					<div>
+						{{hora}}
+					</div>
+				</td>
+				<td ng-repeat="hora in tareopersona.horasxmeses track by $index" ng-show="reporte.meses_visible">
+					<div>
+						{{hora}}
 					</div>
 				</td>
 				<td>
 					<div>
-						{{fila.summary}}
+						{{tareopersona.horas_total}}
 					</div>
 				</td>
 			</tr>
 		</tbody>
-		<tfoot class="title-table">
+		<tfoot class="">
 			<td>
 				<div>
-					Full Summary
+					Total
 				</div>
 			</td>
 			<td>
@@ -205,9 +209,19 @@
 			<td>
 				<div></div>
 			</td>
-			<td ng-repeat="dia in reporte.dias">
+			<td ng-repeat="horaxdia in reporte.dias_suma track by $index" ng-show="reporte.dias_visible">
 				<div>
-					
+					{{horaxdia}}
+				</div>
+			</td>
+			<td ng-repeat="horaxsemana in reporte.semanas_suma track by $index" ng-show="reporte.semanas_visible">
+				<div>
+					{{horaxsemana}}
+				</div>
+			</td>
+			<td ng-repeat="horaxmes in reporte.meses_suma track by $index" ng-show="reporte.meses_visible">
+				<div>
+					{{horaxmes}}
 				</div>
 			</td>
 			<td>
@@ -216,20 +230,15 @@
 		</tfoot>	
 		</table>
 	</div>
-
 </div>
 
-<!--script>
-  //Funcion para poner el scroll personalizado a las tablas
-  $('#usuarioScroll').ready(function ($) {
-    //$('.bodyScroll').addClass('scrollContent');
-    $('#usuarioScroll').perfectScrollbar();
-  });
-</script-->
-
-
-
-
-
-
-
+<!--div de modal para barra cargando-->
+<div class="modal fade" id="wait" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+  <div class="modal-dialog">
+      <div class="modal-content">
+          <div class="modal-body">
+			<img src="/img/ico-loading.gif" alt="">
+          </div>
+      </div>
+  </div>
+</div>

@@ -1,5 +1,5 @@
-<!-- hla -->
 <section class="panel">
+  <!-- Titulo de la semana de la hoja de tiempo-->
   <div class="col-lg-2 alert-info"  style="padding-top: 10px;padding-bottom: 10px;padding-right: 10px;padding-left: 10px;">
    <strong>Semana <?php echo $this->semana; echo ": ";?></strong>
     <?php
@@ -11,41 +11,8 @@
       echo "<br>";
       echo $fechainicio; echo " al "; echo $fechafinal;?>
       <br>
-      <?php 
-      $sumahorassemana = new Admin_Model_DbTable_Sumahorasemana();
-      $wheres=array('dni'=>$this->dni,'uid'=>$this->uid,'semanaid'=>$this->semana);
-      $tareosemana=$sumahorassemana->_getOne($wheres);
-      $estado_horas=$tareosemana['estado'];
-      $estado_real=$tareosemana['estado_real'];
-      ?>
-
-      <?php if (trim($estado_horas)=='P' or trim($estado_horas)=='2.B0' or trim($estado_horas)=='3.B1') {?>
-        <strong>Hoja de Tiempo Espera de Aprobacion</strong> 
-      <?php }?>
-      <?php if (trim($estado_horas)=='0' and trim($estado_horas)=='' ) {?>
-        <strong>Hoja de Tiempo Rechazada por Jeje Area</strong> 
-      <?php }?>
-        <?php if (trim($estado_real)=='RECHAZADO' and trim($estado_horas)=='0' ) {?>
-      <strong>Hoja de Tiempo Rechazada por Gerente Proyecto</strong> 
-      <?php }?>
-      <?php if (trim($estado_real)=='PENDIENTE') {?>
-      <strong>Hoja de Tiempo Pendiente Aprobación por otro Gerente Proyecto</strong> 
-      <?php }?>
-
-      
-      <?php if (trim($estado_real)=='APROBADO') {?>
-      <strong>Hoja de Tiempo Aprobada</strong> 
-      <?php }?>
-      <?php if (trim($estado_horas)=='1') {?>
-      <strong>Hoja de Tiempo Aprobada por Jefe Area, espera Gerente de Proyecto</strong> 
-      <?php }?>
-       <?php if (trim($estado_horas)=='2' and trim($estado_real)=='APROBADO') {?>
-      <strong>Hoja de Tiempo Aprobada</strong> 
-      <?php }?>
-      <?php if (trim($estado_horas)=='' ) {?>
-      <strong>Hoja de Tiempo Activa</strong> 
-      <?php }?>
   </div>
+  <!-- Titulo del resumen de horas facturables, nofacturables y administrativas-->
   <div class="col-lg-5" style="padding-top: 5px;">
     <button data-toggle="button" class="btn btn-white">
       <?php 
@@ -84,201 +51,97 @@
       ?>
     </button>
   </div>
+  <!-- Titulo de los Aprobadores d ela Hoja de Tiempo-->
   <div class="col-lg-2" style="padding-top: 2px;">
 
- <?php 
+  <?php 
   if ($this->aprobacion)
   {
-    $buscar_aprobador=$this->aprobacion;
-    $aprobacion = new Admin_Model_DbTable_Aprobacion();
-    $wheres=array('idaprobacion'=>$buscar_aprobador,'estado'=>'A');
-    $list_aprobacion=$aprobacion->_getOne($wheres); 
-    $aprobador= $list_aprobacion['idaprobador'];
-    $usuario_cat = new Admin_Model_DbTable_Usuariocategoria();
-    $wheres_ucat=array('aprobacion'=>$aprobador,'estado'=>'A','estado_sistema'=>'A');
-    $list_aprobador=$usuario_cat->_getOne($wheres_ucat); 
-    echo "<strong>";echo "Aprobadores: "; echo "</strong>";echo "<br>";
-    if ($list_aprobador){
-    $aprobador_usuario = explode(".", $list_aprobador['uid']);
+    echo "<strong>";echo "Aprobadores: "; echo "</strong>";
     
-    echo (ucwords($aprobador_usuario[0])); echo " ";
-    echo (ucwords($aprobador_usuario[1])); echo "<br>";
+    if ($this->aprobador_filtro2) {
+    echo "<br>";
+    echo "<strong>";echo "JI: ";echo "</strong>";echo $this->aprobador_filtro2;
     }
-    $planificacion = new Admin_Model_DbTable_Planificacion();
-    $proyectos=$planificacion->_getOnexSemanaxGerenteProyecto($this->semana,$this->uid,$this->dni,$this->areaid);
-
-    foreach ($proyectos as $datos) {
-      //print_r($datos['uid']);
-      $porciones = explode(".", $datos['uid']);
-      echo "GP: ";
-      echo (ucwords($porciones[0])); echo " ";
-      echo (ucwords($porciones[1])); echo "<br>";
-    }
+    echo "<br>";
+    if ($this->gerentes_proyectos)
+    {
+      foreach ($this->gerentes_proyectos as $gerente_proyecto)
+      {
+        echo "<strong>";echo "GP: ";echo "</strong>";
+        echo($gerente_proyecto);echo "<br>";
+      }
+    } 
   }
- ?> 
-    
-    <?php 
 
-    //echo $this->cargo;
-    /*
-
-    if ($this->is_gerente=='S' and $this->cargo!='GERENTE-GENERAL' and $this->cargo!='JEFE') 
-    {
-      echo "Aprobado: "; echo "<br>";
-      echo "Carlos Cesar"; echo "<br>";
-
- $planificacion = new Admin_Model_DbTable_Planificacion();
-    $proyectos=$planificacion->_getOnexSemanaxGerenteProyecto($this->semana,$this->uid,$this->dni,$this->areaid);
-
-     foreach ($proyectos as $datos) {
-       //print_r($datos['uid']);
-       $porciones = explode(".", $datos['uid']);
-       echo "GP: ";
-       echo (ucwords($porciones[0])); echo " ";
-        echo (ucwords($porciones[1])); echo "<br>";
-      }    
-    }
-    
-    if ($this->cargo=='GERENTE') 
-    {
-      echo "Aprobado: "; echo "<br>";
-      echo "Denys Parra"; echo "<br>";
-
-      $planificacion = new Admin_Model_DbTable_Planificacion();
-    $proyectos=$planificacion->_getOnexSemanaxGerenteProyecto($this->semana,$this->uid,$this->dni,$this->areaid);
-
-     foreach ($proyectos as $datos) {
-       //print_r($datos['uid']);
-       $porciones = explode(".", $datos['uid']);
-       echo "GP: ";
-       echo (ucwords($porciones[0])); echo " ";
-        echo (ucwords($porciones[1])); echo "<br>";
-      }      
-
-    }
-
-     if ($this->cargo=='GERENTE-GENERAL') 
-    {
-      echo "Aprobado: "; echo "<br>";
-    $planificacion = new Admin_Model_DbTable_Planificacion();
-    $proyectos=$planificacion->_getOnexSemanaxGerenteProyecto($this->semana,$this->uid,$this->dni,$this->areaid);
-
-     foreach ($proyectos as $datos) {
-       //print_r($datos['uid']);
-       $porciones = explode(".", $datos['uid']);
-       echo "GP: ";
-       echo (ucwords($porciones[0])); echo " ";
-        echo (ucwords($porciones[1])); echo "<br>";
-      }
-
-     
-    }*/
-
-
-/*APROBADORES PARA LOS JEFES DE AREA*/  
-  if ($this->cargo=='JEFE' && $this->areaid=!'27' && $this->areaid!='16' ) 
-    {
-      echo "<strong>"; echo "Aprobadores: "; echo "</strong>"; echo "<br>";
-      $usuariocategoria = new Admin_Model_DbTable_Usuariocategoria();
-      $datos_usuario=$usuariocategoria->_getGerenteAreaxJefeArea($this->areaid,'GERENTE-AREA');
-      if ($datos_usuario)
-      {
-        $gerente_area = explode(".", $datos_usuario[0]['uid']);
-        echo "GA: ";
-        echo (ucwords($gerente_area[0])); echo " ";
-        echo (ucwords($gerente_area[1])); echo "<br>";
-      }   
-        $planificacion = new Admin_Model_DbTable_Planificacion();
-        $proyectos=$planificacion->_getOnexSemanaxGerenteProyecto($this->semana,$this->uid,$this->dni,$this->areaid);
-
-        foreach ($proyectos as $datos) {
-          //print_r($datos['uid']);
-          $porciones = explode(".", $datos['uid']);
-          echo "GP: ";
-          echo (ucwords($porciones[0])); echo " ";
-          echo (ucwords($porciones[1])); echo "<br>";
-        }
-    }
-  if ($this->cargo=='EQUIPO' and $this->areaid!='26') 
-    {
-      $planificacion = new Admin_Model_DbTable_Planificacion();
-      $proyectos=$planificacion->_getOnexSemanaxGerenteProyecto($this->semana,$this->uid,$this->dni,$this->area_empresa);
-      echo "<strong>"; echo "Aprobadores: "; echo "</strong>"; echo "<br>";
-      $usuariocategoria = new Admin_Model_DbTable_Usuariocategoria();
-      $datos_usuario=$usuariocategoria->_getCargoxArea($this->area_empresa,'JEFE');
-      if ($datos_usuario)
-      {
-        $jefe_area = explode(".", $datos_usuario[0]['uid']);
-        echo "JA: ";
-        echo (ucwords($jefe_area[0])); echo " ";
-        echo (ucwords($jefe_area[1])); echo "<br>";
-        foreach ($proyectos as $datos) {
-        //print_r($datos['uid']);
-        $porciones = explode(".", $datos['uid']);
-        echo "GP: ";
-        echo (ucwords($porciones[0])); echo " ";
-        echo (ucwords($porciones[1])); echo "<br>";
-        }
-      }
-    }
-  ?>
+  ?> 
   </div>
-  <?php 
-    $sumahorassemana = new Admin_Model_DbTable_Sumahorasemana();
-    $wheres=array('dni'=>$this->dni,'uid'=>$this->uid,'semanaid'=>$this->semana);
-    $tareosemana=$sumahorassemana->_getOne($wheres);
-    $estado_horas=$tareosemana['estado'];
-  
-  ?>
   <div class="panel-body" style="padding-top: 10px;padding-bottom: 0px;">
-  <?php if (trim($estado_horas)=='P' or trim($estado_horas)=='1' or trim($estado_horas)=='2' or trim($estado_horas)=='2.B0' or trim($estado_horas)=='3.B1' ) {?>
-    <a id = "" class="btn btn-primary pull-right btn-xs"  href="" style="margin-right : 10px">
+    <!--<a id = "" class="btn btn-primary pull-right btn-xs"  href="" style="margin-right : 10px">
       <i class="fa fa-print"></i> Imprimir
     </a>
     <a id = "submit_copiar" class="btn btn-default pull-right btn-xs" href="#" style="margin-right : 10px">
       <i class="fa fa-check-square"></i> Copiar 
     </a>
-    <?php }?>
-  <?php if (trim($estado_horas)!='P' && trim($estado_horas)!='1' && trim($estado_horas)!='2' && trim($estado_horas)!='2.B0' && trim($estado_horas)!='3.B1') {?>
     <a id = "submit_work" class="btn btn-default pull-right btn-xs" href="#" style="margin-right : 10px">
-      <i class="fa fa-check-square"></i> Enviar 
-    </a><?php }?>
-     
-  <?php if (trim($estado_horas)!='P' && trim($estado_horas)!='1' && trim($estado_horas)!='2' && trim($estado_horas)!='2.B0' && trim($estado_horas)!='3.B1') {?>
-    <!--<a id = "save_work" class="btn btn-info pull-right btn-xs"  style="margin-right : 10px">
-      <i class="fa fa-save"></i> Guardar
+      <i class="fa fa-check-square"></i> Enviar Anterior
     </a>-->
+    <?php if ($this->estado_hoja_tiempo) { 
+      
+
+
+      if($this->estado_hoja_tiempo[0]['estado']=='C') {?>
+<a id = "" class="btn btn-primary pull-right btn-xs"  href="" style="margin-right : 10px">
+      <i class="fa fa-print"></i> Imprimir
+    </a>
+
+      <?php
+
+      }
+      if($this->estado_hoja_tiempo[0]['estado']=='A') {
+
+      ?>
+
+    <a id = "enviar_hojatiempo" class="btn btn-default pull-right btn-xs" href="#" style="margin-right : 10px">
+      <i class="fa fa-check-square"></i> Enviar 
+    </a>
     <a id = "save_hours" class="btn btn-info pull-right btn-xs"  style="margin-right : 10px">
       <i class="fa fa-save"></i> Guardar
     </a>
-
-    <?php }?>
-  <?php if (trim($estado_horas)!='P' && trim($estado_horas)!='1' && trim($estado_horas)!='2' && trim($estado_horas)!='2.B0' && trim($estado_horas)!='3.B1') {?>
     <a id = "add_work" class="btn btn-success pull-right btn-xs" data-toggle="modal" href="#agregar" style="margin-right : 10px">
       <i class="fa fa-check-square-o"></i> Agregar
-    </a><?php }?>
+    </a>
+
+    <?php }} else { ?>
+
+    <a id = "enviar_hojatiempo" class="btn btn-default pull-right btn-xs" href="#" style="margin-right : 10px">
+      <i class="fa fa-check-square"></i> Enviar 
+    </a>
+    <a id = "save_hours" class="btn btn-info pull-right btn-xs"  style="margin-right : 10px">
+      <i class="fa fa-save"></i> Guardar
+    </a>
+    <a id = "add_work" class="btn btn-success pull-right btn-xs" data-toggle="modal" href="#agregar" style="margin-right : 10px">
+      <i class="fa fa-check-square-o"></i> Agregar
+    </a>
+
+    <?php }?>
   </div>
-  
-   
 
 </section>
 <div class="row">
 
 <form action="" id="form_time" class="form-horizontal">
-
   <div class="col-sm-12">
     <section class="panel">
       <div class="panel-body">
-
-
         <div class="adv-table tableContainer">
           <table  class="display table table-bordered table-striped scrollTable">
           <thead class="fixedHeader">
             <tr>
             <th style="width: 5%;">  </th>
             <th style="width: 60%;" >Proyecto / Actividad: Tarea</th>
-            <th style="width: 10%; padding: 0"><div class="div-celda" style="width: 100px;">Tipo</div></th>
-            <th style="width: 10%; padding: 0"><div class="div-celda" style="width: 100px;">Tarea</div></th>
+            <th style="width: 10%; padding: 0"><div class="div-celda" style="width: 80px;">Tipo</div></th>
+            <th style="width: 10%; padding: 0"><div class="div-celda" style="width: 80px;">Tarea</div></th>
             <?php 
               $fecha = $this->fecha;
               $fecha_mostrar = $this->fecha_mostrar;
@@ -293,6 +156,11 @@
                   $nuevafecha = strtotime ( '+1 day' , strtotime ( $newDate ) ) ;
                   $fecha = date ( 'd-m-Y' , $nuevafecha );
                 }?>
+                <td style="padding: 0">
+                	<div class="div-celda">
+                		Total
+                	</div>
+                </td>
             </tr>
           </thead>
           <tbody id="bodyScroll">
@@ -307,7 +175,8 @@
             { ?>      
             <tr class="gradeX" id ="tr_tareo_<?php echo $j?>">
               <?php if ($data_tareo['estado_tareopersona']!='C') { ?>  
-              <td style="width: 5%;"> 
+              <td style="width: 5%; padding: 0">
+               <div class="div-celda" style="width: 25px"> 
                 <?php if ($data_tareo['tipo_actividad']=='G') {?>
                   <a <?php if ($data_tareo['estado_tareopersona']=='C') { ?> disabled <?php }?> id ="crear_tareag_<?php echo $j?>"><i class="fa fa-plus-square-o"></i></a>
                   <a title="Eliminar" id ="eliminar_tareo_<?php echo $j?>" ><i class="fa fa-minus-square-o"></i></a><?php }
@@ -319,6 +188,7 @@
                   <a ><i class="fa fa-plus-square-o"></i></a>
                   <a <?php if ($data_tareo['estado_tareopersona']=='C') { ?> disabled <?php }?> title="Eliminar" id ="eliminar_tareo_<?php echo $j?>" ><i class="fa fa-minus-square-o"></i></a>                                   
                 <?php }?>
+               </div>
               </td>
               <?php } else {?> 
 
@@ -327,7 +197,8 @@
               <?php } ?>
 
              
-              <td style="width: 60%;">
+              <td style="width: 60%; padding: 0">
+               <div class="div-celda" style="width: 100%">
                 <?php  
                   $buscaunidad = new Admin_Model_DbTable_Unidadminera();
                   $buscanombre_unidad=$buscaunidad->_getUnidadmineraxid($data_tareo['clienteid'],$data_tareo['unidad_mineraid']);
@@ -337,10 +208,11 @@
                     { $unidad_minera =$data_tareo['unidad_mineraid']; }
 
                 echo "<strong>"; echo $data_tareo['proyectoid']; echo "</strong>"; echo " "; echo "<strong>"; echo $unidad_minera; echo "</strong>"; echo " "; echo $data_tareo['nombre_proyecto'];  echo " "; echo $data_tareo['actividadid']; echo " ";echo $data_tareo['nombre'] ?>
+               </div>
               </td>            
 
               <td style="width: 10%; padding: 0;">
-              <div class="div-celda" style="width: 100px;">
+              <div class="div-celda" style="width: 80px;">
                 <?php if ($data_tareo['tipo_actividad']=='G') {?>
                   
 
@@ -363,7 +235,7 @@
               </td>            
 
               <td style="width: 10%; padding: 0;"> 
-              <div class="div-celda" style="width: 100px;">
+              <div class="div-celda" style="width: 80px;">
                 <?php if ($data_tareo['tipo_actividad']=='G') {
                   $dbactividadgeneral= new Admin_Model_DbTable_Actividadgeneral();
                   $datosactgeneral = $dbactividadgeneral->_getActividadgeneralxId($data_tareo['actividad_generalid']);
@@ -450,21 +322,23 @@
                 // echo $uid;echo "<br>";
                 $dni=$this->dni;
                 //  echo $dni;echo "<br>";
-               
-                
+
                 $equipo = new Admin_Model_DbTable_Equipo();
                 $estado_usuario='A';
-                $data_equipo = $equipo->_getDatosxProyectoxUidXEstadoxCliente($uid,$dni,$estado_usuario,$data_tareo['codigo_prop_proy'],$data_tareo['proyectoid']);
+                $data_equipo = $equipo->_getDatosxEquipoxProyecto($uid,$dni,$data_tareo['codigo_prop_proy'],$data_tareo['proyectoid']);
                 $categoriaid=$data_equipo[0]['categoriaid'];
+                
                 $areaid=$data_equipo[0]['areaid'];
                 $cargo=$data_equipo[0]['cargo'];
+
+
              
 
                  //echo $categoriaid; echo "<br>";
                 $tareopersona = new Admin_Model_DbTable_Tareopersona();
                 $buscar_tarea=$tareopersona->_getTareoxProyectoxTareaxDia($proyectoid,$codigo,$revision,$actividadid,$actividad_padre,$semanaid,$fecha_tarea,$fecha_planificacion,$uid,$dni,$cargo,$resultado);
              
-                //print_r($data_tareo);echo "<br>";
+                //print_r($buscar_tarea);echo "<br>";
                 //print_r($buscar_tarea[0]['asignado']);
 
                 //$k=$a[$i][$j];
@@ -743,6 +617,7 @@
                           //alert(mostrar[i]);
                           $("#fecha_"+i).html(parseFloat(mostrar[i]).toFixed(2));
                         };
+                        sumarHorizontales();
 
                         var hora_real=$("#valor<?php echo $i?><?php echo $j?>").val(); 
 
@@ -936,7 +811,11 @@
                 <?php }
                 ?>
 
-
+				<td style="padding: 0">
+                	<div id="suma-horizontal<?php echo $j?>" class="div-celda">
+                		
+                	</div>
+                </td>
             </tr>
 
               <script type="text/javascript">
@@ -1038,8 +917,6 @@
                     var fecha = $("#fechasemana").text();
 
                     var url="/timesheet/index/updateetapanb/codigo/"+codigo_prop_proy+"/codigo_actividad/"+codigo_actividad+"/actividadid/"+actividadid+"/revision/"+revision+"/actividad_padre/"+actividad_padre+"/proyectoid/"+proyectoid+"/semanaid/"+semanaid+"/fecha_tarea/"+fecha_tarea+"/asignado/"+asignado+"/areaid/"+areaid+"/categoriaid/"+categoriaid+"/dni/"+dni+"/cargo/"+cargo+"/tipo_actividad/"+tipo_actividad+"/etapa/"+etapa+"/fecha_planificacion/"+fecha_planificacion+"/tarea_general/"+tarea_general+"/fecha/"+fecha+"/actividad_generalid/"+actividad_generalid+"/ban/0";
-
-
                     //alert(url);
                    
                     if (isNaN(tarea_general)) {
@@ -1047,10 +924,7 @@
                            alert('la actividad esta duplicada, cargue nuevamente la pagina');
                            //e.preventDefault();
                     }else{ 
-
-                    
-
-                     var dateObj = $('#datepicker').datepicker('getDate');
+                    var dateObj = $('#datepicker').datepicker('getDate');
                     var dateFrom = $.datepicker.formatDate('mm/dd/yy', dateObj);
                     var weekfrom = $.datepicker.iso8601Week(new Date(dateFrom));
                     var diasSemana = new Array("Domingo","Lunes","Martes","Miércoles","Jueves","Viernes","Sábado");
@@ -1445,8 +1319,8 @@
           <tr >
             <th style="width: 5%;"></th>
             <th style="width: 60%;" ></th>
-            <th style="width: 10%; padding: 0;"><div class="div-celda" style="width: 100px;"></div></th>
-            <th style="width: 10%; padding: 0;"><div class="div-celda" style="width: 100px;"></div></th>
+            <th style="width: 10%; padding: 0;"><div class="div-celda" style="width: 80px;"></div></th>
+            <th style="width: 10%; padding: 0;"><div class="div-celda" style="width: 80px;"></div></th>
             <?php 
               $uid=$this->uid;
                 // echo $uid;echo "<br>";
@@ -1481,6 +1355,11 @@
                 }
 
               ?>
+              <td style="padding: 0">
+                	<div class="div-celda">
+                		Total
+                	</div>
+                </td>
           </tr>
           <?php }?>
 
@@ -1499,8 +1378,7 @@
 <link rel="stylesheet" href="/css/alertify.default.css" id="toggleCSS" />
 
 <script type="text/javascript">
-
-     $('#save_hours').click(function(){
+    $('#save_hours').click(function(){
         var dateObj = $('#datepicker').datepicker('getDate');
         alert("Guardando Registros al Sistema. Gracias");
         var dateFrom = $.datepicker.formatDate('mm/dd/yy', dateObj);
@@ -1530,155 +1408,173 @@
         
     });
 </script>
- 
+<!-- MUESTRA EL HISTORIAL DE APROBACIONES Y COMENTARIOS DE LA TABLA TAREO_PERSONA -->
+<div class="row">
+    <div class="tab-content">
+        <div class="tab-pane active" id="tab_1">
+            <div class="panel-group" id="accordion1">
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                            <a href="#accordion1_1" data-parent="#accordion1" data-toggle="collapse" class="accordion-toggle" aria-expanded="true">
+                                1. Historial de Aprobaciones
+                            </a>
+                        </h4>
+                    </div>
+                    <div class="panel-collapse collapse" id="accordion1_1" aria-expanded="true">
+                        <div class="panel-body">
+                            <?php 
+                            $tabla_aprobaciones = new Admin_Model_DbTable_Historialaprobaciones();
+                            $uid=$this->uid;
+                            $dni=$this->dni;
+                            $semanaid=$this->semana;
+                            if($aprobaciones=$tabla_aprobaciones-> _getBuscarEmpleadoxSemana($semanaid,$uid,$dni))
+                            {?>
+                            <table class="display table table-bordered table-striped" id="dynamic-table">
+                                <tr>
+                                    <th style="width: 20%;">Rol</th>
+                                    <th style="width: 20%;">Usuario</th>
+                                    <th style="width: 15%;" >Estado</th>
+                                    <th style="width: 15%;">Fecha</th>
+                                    <th style="width: 40%;">Comentario</th>
+                                </tr>
+                                <?php
+                                foreach ($aprobaciones as $historico) {
+                                  //print_r($historico);?>
+                                    <tr>
+                                        <td>
+                                            <?php if ($historico['etapa_validador']=='ENVIO'){
+                                            echo "Usuario";}
+                                            if ($historico['etapa_validador']=='FILTRO2'){
+                                            echo "Jefe Inmediato";}
+                                            if ($historico['etapa_validador']=='GP'){
+                                            echo "Gerente Proyecto";}
+                                            ?>  
+                                        </td>
+                                        <td>
+                                            <?php if ($historico['comentario_estado']=='E'){
+                                            print_r($historico['uid_empleado']);}
+                                            if ($historico['comentario_estado']!='E'){
+                                            print_r($historico['uid_validador']);}
+                                            ?>  
+                                        </td>
+                                        <td>
+                                            <?php 
+                                            if ($historico['comentario_estado']=='E'){
+                                            echo "Enviado para Aprobacion";}
+                                            if ($historico['comentario_estado']=='A' ){
+                                            echo "Aprobado";}  
+                                            if ($historico['comentario_estado']=='R' ){
+                                            echo "Rechazado";}  
+                                            ?>  
+                                        </td>
+                                        <td>
+                                            <?php print_r($historico['fecha_registro'])?>  
+                                        </td>
+                                        <td>
+                                            <?php print_r($historico['comentario'])?>  
+                                        </td>
+                                    </tr>
+                                    <?php
+                                    }
+                                }
+                                ?>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel panel-success">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                            <a href="#accordion1_2" data-parent="#accordion1" data-toggle="collapse" class="accordion-toggle collapsed" aria-expanded="false">
+                                2. Historial Comentarios
+                            </a>
+                        </h4>
+                    </div>
+                    <div class="panel-collapse collapse" id="accordion1_2" aria-expanded="false" style="height: 0px;">
+                        <div class="panel-body">
+                            <table  class="display table table-bordered table-striped" id="dynamic-table">
+                                <thead>
+                                  <tr>
+                                    <th style="width: 10%;">Fecha  </th>
+                                    <th style="width: 30%;" >Proyecto </th> 
+                                    <th style="width: 20%;" > Actividad: Tarea</th> 
+                                    <th style="width: 5%;" > hora</th> 
+                                    <th style="width: 35%;" > Comentario</th> 
+                                  </tr>
+                                 
+                                    
+                                </thead>
+                                <tbody id="agregarComentario">
+                                     
+                                  <?php           
+                                    $uid=$this->uid;            
+                                    $dni=$this->dni;
+                                    $semana=$this->semana;
 
+                                    $tareopersona = new Admin_Model_DbTable_Tareopersona();
+                                    $wheres=array('dni'=>$dni,'uid'=>$uid,'semanaid'=>$semana);                
+                                    $tpercoment=$tareopersona->_getFilter($wheres);
+                                    if ($tpercoment) {
+                                      foreach ($tpercoment as $value) {              
+                                        if(trim($value['comentario'])!='' and trim($value['h_real'])!=''){
+                                        ?>
+                                        <tr>
+                                         
+                                          <th>
+                                             <?php echo $value['fecha_tarea']; ?>
+                                          </th>
+                                          <th>
+                                            <?php 
+                                             //codigo_prop_proy, proyectoid
+                                             $wherep=array('codigo_prop_proy'=>$value['codigo_prop_proy'],'proyectoid'=>$value['proyectoid']); 
+                                             $nompro=new Admin_Model_DbTable_Proyecto();
+                                             $npro=$nompro->_getOne($wherep);
+                                             echo $value['proyectoid'];
+                                             echo " ";
+                                             echo $npro['nombre_proyecto'];
+                                            ?>
+                                          </th>
+                                          <th>
+                                             <?php //echo $value['actividadid'];
+                                             //codigo_prop_proy, codigo_actividad, actividadid, revision
+                                              $wherea=array('codigo_prop_proy'=>$value['codigo_prop_proy'],'codigo_actividad'=>$value['codigo_actividad'],'actividadid'=>$value['actividadid'],'revision'=>$value['revision']);                
 
-<div class="col-lg-10 "  style="padding-top: 10px;padding-bottom: 10px;padding-right: 10px;padding-left: 10px;">
-<?php 
-  $sumahorassemana = new Admin_Model_DbTable_Sumahorasemana();
-  $wheres=array('dni'=>$this->dni,'uid'=>$this->uid,'semanaid'=>$this->semana);
-  $tareosemana=$sumahorassemana->_getOne($wheres);
-  $estado_horas=$tareosemana['estado'];
-  $uid=$this->uid;
-  $dni=$this->dni;
-  $semanaid=$this->semana;
-  $vercoment= new Admin_Model_DbTable_Usuariovalidacion();
-  if($vcoment=$vercoment->_getUsuarioxValidacion($semanaid,$uid,$dni))
+                                              $nomact = new Admin_Model_DbTable_Actividad();
+                                              $noma=$nomact->_getOne($wherea);
+                                              echo $noma['nombre'];
 
-   // print_r($vcoment);
-  {?>
-  <table class="table alert-info">
-    <tr>
-      <th style="width: 20%;">  Usuario</th>
-      <th style="width: 15%;" > Estado</th>
-      <th style="width: 15%;"> Fecha</th>
-      <th style="width: 40%;"> Comentario</th>
-    </tr>
-    <?php
-    foreach ($vcoment as $historico) {
-      //print_r($historico);?>
-    <tr>
-      <td>
-        <?php print_r($historico['uid_validacion'])?>  
-      </td>
-      <td>
-        <?php 
-          if ($historico['etapa']=='0'){
-            echo "Enviado Aprobacion";}
-          if ($historico['etapa']=='1' and $historico['estado_usuario']=='B'){
-            echo "Aprobado por el Jefe Area";}  
-          if ($historico['etapa']=='1' and $historico['estado_usuario']=='R'){
-            echo "Rechazado por el Jefe Area";}  
-            if ($historico['etapa']=='2' and $historico['estado_usuario']=='R'){
-            echo "Rechazado por el Gerente Proyecto";}  
-                if ($historico['etapa']=='2' and $historico['estado_usuario']=='B'){
-            echo "Aprobado por el Gerente Proyecto";}  
-        //print_r($historico['estado_usuario'])?>  
-      </td>
-      <td>
-        <?php print_r($historico['fecha_validacion'])?>  
-      </td>
-      <td>
-        <?php print_r($historico['comentario'])?>  
-      </td>
-    </tr>
-    <?php
-    }
-  }
-?>
-</table>
+                                             ?>
+                                          </th>
+                                          <th>
+                                             <?php echo $value['h_real']; ?>
+                                          </th>               
+                                          <th>                    
+                                              <?php echo $value['comentario']; ?>                                             
+                                          </th>             
+                                        
+                                        </tr>
+                                        <?php  
+                                        }              
+                                      }
+                                    }
+                                    //}
+                                      // $newDate = date("Y-m-d", strtotime($fecha));
+                                      // $nuevafecha = strtotime ('+1 day' , strtotime ( $newDate ) ) ;
+                                      // $fecha = date ('d-m-Y', $nuevafecha );
+                                    
+                                    // }
+                                    ?>
+                                </tbody>
+
+                                </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>   
 </div>
-
-<div style="display:none" id="horaregistrada"></div>
-<div style="display:none" id="carga"></div>
-<div style="display:none"  id="carga_nueva"></div>
-<div style="display:none"  id="carga_copiar"></div>
-<div style="display:none" id="carga_w1"></div>
-
-
-
-  <article class="postg">
-  </article>
-
-  <article class="post">
-  <table  class="display table table-bordered table-striped" id="dynamic-table">
-      <thead>
-          <tr>
-            <th style="width: 10%;">Fecha  </th>
-            <th style="width: 30%;" >Proyecto </th> 
-            <th style="width: 20%;" > Actividad: Tarea</th> 
-            <th style="width: 5%;" > hora</th> 
-            <th style="width: 35%;" > Comentario</th> 
-          </tr>
-         
-            
-      </thead>
-      <tbody id="agregarComentario">
-             
-          <?php           
-            $uid=$this->uid;            
-            $dni=$this->dni;
-            $semana=$this->semana;
-    
-            $tareopersona = new Admin_Model_DbTable_Tareopersona();
-            $wheres=array('dni'=>$dni,'uid'=>$uid,'semanaid'=>$semana);                
-            $tpercoment=$tareopersona->_getFilter($wheres);
-            if ($tpercoment) {
-              foreach ($tpercoment as $value) {              
-                if(trim($value['comentario'])!='' and trim($value['h_real'])!=''){
-                ?>
-                <tr>
-                 
-                  <th>
-                     <?php echo $value['fecha_tarea']; ?>
-                  </th>
-                  <th>
-                    <?php 
-                     //codigo_prop_proy, proyectoid
-                     $wherep=array('codigo_prop_proy'=>$value['codigo_prop_proy'],'proyectoid'=>$value['proyectoid']); 
-                     $nompro=new Admin_Model_DbTable_Proyecto();
-                     $npro=$nompro->_getOne($wherep);
-                     echo $value['proyectoid'];
-                     echo " ";
-                     echo $npro['nombre_proyecto'];
-                    ?>
-                  </th>
-                  <th>
-                     <?php //echo $value['actividadid'];
-                     //codigo_prop_proy, codigo_actividad, actividadid, revision
-                      $wherea=array('codigo_prop_proy'=>$value['codigo_prop_proy'],'codigo_actividad'=>$value['codigo_actividad'],'actividadid'=>$value['actividadid'],'revision'=>$value['revision']);                
-
-                      $nomact = new Admin_Model_DbTable_Actividad();
-                      $noma=$nomact->_getOne($wherea);
-                      echo $noma['nombre'];
-
-                     ?>
-                  </th>
-                  <th>
-                     <?php echo $value['h_real']; ?>
-                  </th>               
-                  <th>                    
-                      <?php echo $value['comentario']; ?>                                             
-                  </th>             
-                
-                </tr>
-                <?php  
-                }              
-              }
-            }
-            //}
-              // $newDate = date("Y-m-d", strtotime($fecha));
-              // $nuevafecha = strtotime ('+1 day' , strtotime ( $newDate ) ) ;
-              // $fecha = date ('d-m-Y', $nuevafecha );
-            
-            // }
-            ?>
-      </tbody>
-
-  </table>
-
-</article>
-</section>
 
 
 
@@ -1816,47 +1712,6 @@ $("input.focusable").keydown(function(tecla){
     $(sig).focus();
   };
 });
-
-
-
-$("#save_work").click(function(){
-  alert("Guardando la Hoja de Tiempo");
-  /* var dateObj = new Date();
-    //var dateObj = $('#datepicker').datepicker('getDate');
-    var dateFrom = $.datepicker.formatDate('mm/dd/yy', dateObj);
-    var weekfrom = $.datepicker.iso8601Week(new Date(dateFrom));
-    var diasSemana = new Array("Domingo","Lunes","Martes","Miércoles","Jueves","Viernes","Sábado");
-    var day_select = diasSemana[dateObj.getDay()];
-    for (i = 0; i < diasSemana.length; i++) { 
-        if (diasSemana[i] == day_select) {
-            if (i == 0) {
-                var num_day = 6;
-                
-            } else {
-                var num_day = i - 1;
-            };
-        };
-    };
-    var f = new Date(); 
-    var fech=f.getFullYear()+"-"+(f.getMonth()+1) +"-"+f.getDate() ;
-         $("#fechasemana").text( fech );
-      
-    fecha_inicio = mostrarFecha(dateObj,-num_day);  */
-    document.location.href="/timesheet/index/calendar";
-});
-
-$("#submit_work1").click(function(){
-  alert("Enviando Hoja de Tiempo para Aprobacion");
-  var fecha="<?php echo $this->fecha?>";
-  var semana="<?php echo $this->semana?>";
-  var fecha_calendario = $("#fechasemana").text();
-  
-  var url="/timesheet/index/enviartimesheet/fecha_calendario/"+fecha_calendario;
-  //alert(url);
-  $("#carga_nueva").load(url);
- document.location.href="/timesheet/index/calendar";
-});
-
 </script>
 
 <script>
@@ -1865,45 +1720,6 @@ $("#submit_work1").click(function(){
     $('#bodyScroll').addClass('scrollContent');
     $('#bodyScroll').perfectScrollbar();
   });
-</script>
-
-<script type="text/javascript">        
-  $(document).ready(function(){
-    $("#submit_work").on("click",function(){
-      var fecha_calendario = $("#fechasemana").text();
-      //var url1="/timesheet/index/enviartimesheet/fecha_calendario/"+fecha_calendario;
-      //$("#carga_nueva").load(url1);
-      alert('Enviando Hoja de Tiempo');
-      var coment='Envio';
-      var uid="<?php echo $this->uid ?>";
-      var dni="<?php echo $this->dni ?>";
-      var uid_validacion="<?php echo $this->uid ?>";
-      var dni_validacion="<?php echo $this->dni ?>";
-      var semanaid="<?php echo $this->semana ?>";
-      var cargo="<?php echo $this->areaid ?>";
-      document.location.href="/timesheet/index/calendar";
-      var d=new Date(); 
-      var fechacapturada=d.getDate()+ "-" + (d.getMonth() +1) + "-" + d.getFullYear()+','+d.getHours()+':'+d.getMinutes()+':'+d.getSeconds(); 
-      //alert(fechacapturada);
-      url="/timesheet/index/guardarcomentarioequipo/estado/B/uid/"+uid+'/dni/'+dni+'/semanaid/'+semanaid+'/cargo/'+cargo+'/coment/'+coment+'/uid_validacion/'+uid+'/dni_validacion/'+dni+'/etapa/0'+'/fecha_calendario/'+fecha_calendario+'/fecha/'+fechacapturada;
-         
-      //alert(url);      
-      $.ajax({
-        type: "POST",
-        url: url,
-        data: $(this).serialize(),
-        dataType: "html",                                                 
-        error: function(){
-            alert("error petición ajax load");
-        },
-        success: function(data){      
-            $("#carga_nueva").empty();
-            $("#carga_nueva").html(data);           
-        }
-      });
-    });
-  })
-
 </script>
 
 <script type="text/javascript">        
@@ -1930,5 +1746,95 @@ $("#submit_work1").click(function(){
       });
     });
   })
+
+  $(document).ready(function () {
+    sumarHorizontales();
+  })
+
+  function sumarHorizontales () {
+    max_horizontal = 50;
+    max_vertical = 50;
+    var matriz = new Array(max_horizontal);
+    for (i = 0; i < max_horizontal; i++) {
+      matriz[i] = new Array(max_vertical);
+    }
+    $("[id*=valor]").each(function(indice, elemento) {
+      elemID = $(elemento).attr("id");
+      horizontal = elemID.slice(5,6);
+      vertical = elemID.slice(6,8);
+      matriz[horizontal][vertical] = $(elemento).val();
+    });
+    maximov = 0;
+    elemSuma = [];
+    horSuma = [];
+    
+    for (var ver = 0; ver < max_vertical; ver++) {
+      resSumah = 0;
+      for (var hor = 0; hor < max_horizontal; hor++) {
+        if (typeof matriz[hor][ver] !== 'undefined') {
+          if (isNaN(parseFloat(matriz[hor][ver]))) {
+            matriz[hor][ver] = 0;
+          };
+          resSumah = resSumah + parseFloat(matriz[hor][ver]);
+          maximov = ver+1;};
+          
+        };
+      horSuma.push(resSumah.toFixed(2));
+    };
+    mostrarver = horSuma.slice(1, maximov);
+    $("[id*=suma-horizontal]").each(function(indice, elemento) {
+      $(elemento).html(mostrarver[indice]);
+    });
+  }
+
+
+</script>
+<script type="text/javascript">
+    $('#enviar_hojatiempo').click(function(){
+        var dateObj = $('#datepicker').datepicker('getDate');
+        alert("Enviando Hoja de Tiempo. Gracias");
+        var dateFrom = $.datepicker.formatDate('mm/dd/yy', dateObj);
+        var weekfrom = $.datepicker.iso8601Week(new Date(dateFrom));
+        var diasSemana = new Array("Domingo","Lunes","Martes","Miércoles","Jueves","Viernes","Sábado");
+        var day_select = diasSemana[dateObj.getDay()];
+        for (i = 0; i < diasSemana.length; i++) { 
+            if (diasSemana[i] == day_select) {
+                if (i == 0) {
+                    var num_day = 6;
+                    
+                } else {
+                    var num_day = i - 1;
+                };
+            };
+        };
+        fecha_capturadacalendario = mostrarFecha(dateObj,-num_day);
+        var d=new Date(); 
+        var fechaactualenvio=d.getDate()+ "-" + (d.getMonth() +1) + "-" + d.getFullYear()+','+d.getHours()+':'+d.getMinutes()+':'+d.getSeconds(); 
+        var uid="<?php echo $this->uid ?>";
+        var dni="<?php echo $this->dni ?>";
+        var semanaid="<?php echo $this->semana ?>";
+        var cargo="<?php echo $this->areaid ?>";
+        url_enviar_hojatiempo="/timesheet/aprobacion/enviarhojatiempo/estado/E/uid/"+uid+'/dni/'+dni+'/semanaid/'+semanaid+'/cargo/'+cargo+'/etapa/0'+'/fecha_envio/'+fechaactualenvio;
+        urlfecha="/timesheet/index/registro/fecha/" + fecha_inicio;
+
+        $.ajax({
+          type: "POST",
+          url: url_enviar_hojatiempo,
+          data: $(this).serialize(),
+          dataType: "html",
+          success: function(data){      
+              $("#carga_nueva").html(data);
+                $.ajax({
+                type   : 'post',
+                url    : urlfecha,
+                data   : $('#form_time').serialize(),
+                success: function(data){
+                  $("#registro").html(data);     
+
+                }
+              });     
+            }
+        });
+    });
 
 </script>

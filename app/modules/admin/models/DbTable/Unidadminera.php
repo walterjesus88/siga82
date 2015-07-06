@@ -52,6 +52,22 @@ class Admin_Model_DbTable_Unidadminera extends Zend_Db_Table_Abstract
     }
 
 
+    public function _getUnidadmineraxcliente($clienteid)
+     {
+        try{
+            $sql=$this->_db->query("
+               select * from unidad_minera 
+               where clienteid='$clienteid' order by nombre asc;");
+            $row=$sql->fetchAll();
+            return $row;           
+            }  
+            
+           catch (Exception $ex){
+            print $ex->getMessage();
+        }
+    }
+
+
 
     public function _getOne($where=array()){
         try{

@@ -12,7 +12,7 @@ if ($equipo) { ?>
                     <i class="fa fa-rocket"></i>
                     <span><?php echo $data_equipo['proyectoid']. ' - ' .$data_equipo['nombre_proyecto'] ?></span>
                 </a> -->
-                <a style="padding:7px 7px;" href="##">
+                <a style="padding:7px 7px;" href="##" class="seleccionado">
                     <span><?php echo $data_equipo['proyectoid']. ' - ' .$data_equipo['nombre_proyecto'] ?></span>
                     <input class="pull-right proyecto_selected" type="checkbox" codigo-prop-proy="<?php echo $data_equipo['codigo_prop_proy'] ?>" proyectoid="<?php echo $data_equipo['proyectoid'] ?>" categoriaid="<?php echo $data_equipo['categoriaid'] ?>" areaid = "<?php echo $data_equipo['areaid'] ?>" cargo = "<?php echo $data_equipo['cargo'] ?>"  revision = "<?php echo $data_equipo['revision'] ?>">
                 </a>
@@ -35,6 +35,7 @@ if ($equipo) { ?>
         } ?>
     </ul>
     <div id="saveproyect"></div>
+    <div id="nuevoregistro"></div>
 
     <script type="text/javascript">
         $('.proyecto_selected').click(function(event) {
@@ -46,11 +47,18 @@ if ($equipo) { ?>
                 var cargo = $(this).attr('cargo');
                 var revision = $(this).attr('revision');
                 var numero = "<?php echo $this->numero?>";
+                
+                /*if(!numero){
+                    $("#nuevoregistro").load("/expense/index/nuevo/");                    
+                }*/
+                
                 url="/expense/index/guardargastopersona/codigo-prop-proy/"+codigo_prop_proy+"/proyectoid/"+proyectoid+"/categoriaid/"+categoriaid+"/areaid/"+areaid+"/cargo/"+cargo+"/revision/"+revision+"/numero/"+numero;
                 $("#saveproyect").load(url);
                 $("#ingreso").load("/expense/index/ingreso/numero/"+numero);
+                
             }
         });
+        
     </script>
     <?php    
 } else { ?>
