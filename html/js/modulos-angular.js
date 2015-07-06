@@ -491,25 +491,8 @@ Date.prototype.Ddmmyyyy = function () {
 }
 
 Date.prototype.getWeek = function () {
-	var consta = [2, 1, 7, 6, 5, 4, 3]
-	var dia = this.getDate()
-	var mes = this.getMonth()
-	var ano = this.getFullYear()
-	var dia_pri = new Date(ano, 0, 1)
-	dia_pri = dia_pri.getDay()
-	dia_pri = consta[parseInt(dia_pri)]
-	var tiempo0 = new Date(ano, 0, dia_pri)
-	dia = dia + dia_pri
-	var tiempo1 = new Date(ano, mes, dia)
-	var lapso = tiempo1 - tiempo0
-	var semanas = Math.floor(lapso / 1000 / 60 / 60 / 24 / 7)
-	if (dia_pri == 1) {
-		semanas = semanas + 1
-	}
-	if (semanas == 0) {
-		semanas = 52
-	}
-	return semanas
+	var semana = $.datepicker.iso8601Week(this)
+	return semana
 }
 
 //Agregando funciones a la clase String para convertir a fecha ,obtener mes y cambiar formato
