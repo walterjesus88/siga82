@@ -5,14 +5,14 @@
 		<div>
 			<div class="col-lg-6">
 				<h4>Clientes</h4>
-				<select class="form-control m-bot15" ng-model="reporte.cliente_seleccionado" ng-change="reporte.getProyectos(reporte.cliente_seleccionado, 'byCliente')">
+				<select class="form-control m-bot15" ng-model="reporte.cliente_seleccionado" ng-change="reporte.getProyectosByCliente(reporte.cliente_seleccionado)">
 					<option value="todos">Seleccione Cliente</option>
 					<option value="{{cliente.id}}" ng-repeat="cliente in reporte.clientes track by $index">{{cliente.nombre}}</option>
 				</select>
 			</div>
 			<div class="col-lg-6">
 				<h4>Gerentes</h4>
-				<select class="form-control m-bot15" ng-model="reporte.gerente_seleccionado" ng-change="reporte.getProyectos(reporte.gerente_seleccionado, 'byGerente')">
+				<select class="form-control m-bot15" ng-model="reporte.gerente_seleccionado" ng-change="reporte.getProyectosByGerente(reporte.gerente_seleccionado)">
 					<option value="todos">Seleccione Gerente</option>
 					<option value="{{gerente.gerente_proyecto}}" ng-repeat="gerente in reporte.gerentes track by $index">{{gerente.gerente_proyecto}}</option>
 				</select>
@@ -49,7 +49,7 @@
 			<div>
 	            <div class="input-group input-large" data-date="13/07/2013" data-date-format="mm/dd/yyyy">
 	                <input ng-disabled="reporte.disabled_children" type="text" ng-model="reporte.fecha_from.cadena" ng-change="reporte.cambiarFecha()" class="form-control dpd1" name="from">
-	                <span class="input-group-addon">a</span>
+	                <span class="input-group-addon">hasta</span>
 	                <input ng-disabled="reporte.disabled_children" type="text" ng-model="reporte.fecha_to.cadena" ng-change="reporte.cambiarFecha()" class="form-control dpd2" name="to">
 	            </div>
 	            <span class="help-block">Seleccione fechas para rango de rendición</span>
@@ -64,7 +64,9 @@
 	</div>
 
 	<div id="container-tareopersona-table">
-		<table datatable="ng" dt-instance="reporte.dtInstance" class="table table-bordered table-striped table-condensed">
+		<button class="btn btn-primary pull-right btn-xs" ng-click="reporte.exportarPdf()"><i class="fa fa-print"></i> Exportar a PDF</button>
+		
+		<table datatable="ng" dt-instance="reporte.dtInstance" class="table table-bordered table-striped table-condensed" id="tareopersona-table">
 		<thead>
 			<th>
 				<div>
@@ -118,65 +120,65 @@
 			</th>
 			<th>
 				<div>
-					Full Sumary
+					Total
 				</div>
 			</th>
 		</thead>
 		<tbody class="">
-			<tr ng-repeat="fila in reporte.tareopersona | filter: reporte.usuario_seleccionado" ng-show="reporte.tipo_activo[fila.tipo_actividad]">
+			<tr ng-repeat="tareopersona in reporte.tareopersona | filter: reporte.usuario_seleccionado" ng-show="reporte.tipo_activo[tareopersona.tipo_actividad]">
 				<td>
 					<div>
-						{{fila.dni}}
+						{{tareopersona.dni}}
 					</div>
 				</td>
 				<td>
 					<div>
-						{{fila.uid}}
+						{{tareopersona.uid}}
 					</div>
 				</td>
 				<td>
 					<div>
-						{{fila.rate_proyecto}}
+						{{tareopersona.rate_proyecto}}
 					</div>
 				</td>
 				<td>
 					<div>
-						{{fila.proyectoid}}
+						{{tareopersona.proyectoid}}
 					</div>
 				</td>
 				<td>
 					<div>
-						{{fila.tipo_actividad}}
+						{{tareopersona.tipo_actividad}}
 					</div>
 				</td>
 				<td>
 					<div>
-						{{fila.nombre + ' / ' +fila.nombre_proyecto}}
+						{{tareopersona.um_nombre + ' / ' + tareopersona.nombre_proyecto}}
 					</div>
 				</td>
 				<td>
 					<div>
-						{{fila.estado}}
+						{{tareopersona.estado}}
 					</div>
 				</td>
-				<td ng-repeat="hora in fila.horas track by $index" ng-show="reporte.dias_visible">
+				<td ng-repeat="hora in tareopersona.horasxdias track by $index" ng-show="reporte.dias_visible">
 					<div>
 						{{hora}}
 					</div>
 				</td>
-				<td ng-repeat="hora in fila.horasxsemanas track by $index" ng-show="reporte.semanas_visible">
+				<td ng-repeat="hora in tareopersona.horasxsemanas track by $index" ng-show="reporte.semanas_visible">
 					<div>
 						{{hora}}
 					</div>
 				</td>
-				<td ng-repeat="hora in fila.horasxmeses track by $index" ng-show="reporte.meses_visible">
+				<td ng-repeat="hora in tareopersona.horasxmeses track by $index" ng-show="reporte.meses_visible">
 					<div>
 						{{hora}}
 					</div>
 				</td>
 				<td>
 					<div>
-						{{fila.horas_total}}
+						{{tareopersona.horas_total}}
 					</div>
 				</td>
 			</tr>
@@ -184,7 +186,7 @@
 		<tfoot class="">
 			<td>
 				<div>
-					Full Summary
+					Total
 				</div>
 			</td>
 			<td>
