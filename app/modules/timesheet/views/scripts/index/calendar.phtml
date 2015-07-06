@@ -141,18 +141,18 @@ $("#guardar_act").click(function(){
     fecha_inicio = mostrarFecha(dateObj,-num_day);
     var f = new Date(); 
     var fech=f.getFullYear()+"-"+(f.getMonth()+1) +"-"+f.getDate() ;
-    
-    console.log("fecha_inic"+fecha_inicio);
-    console.log("fech"+fech);
 
     $("#fechasemana").text( fecha_inicio );
-    console.log(acAg);
+    
     acAg.forEach(function (item) {
         var fecha = $("#fechasemana").text();
         url = "/timesheet/index/guardartareopersona/codigo/" + item.codigo + "/proyectoid/" + item.proyectoid + "/revision/" + item.revision + "/categoriaid/" + item.categoriaid + "/propuestaid/" + item.propuestaid + "/actividadid/" + item.actividadid + "/codigo_actividad/" + item.codigo_actividad + "/actividad_padre/" + item.actividad_padre + "/h_propuesta/" + item.h_propuesta + "/fecha/" + fecha;
-    $("#cargar").load(url);
+        $("#cargar").load(url, function () {
+           $("#registro").load("/timesheet/index/registro/fecha/" + fecha_inicio);
+        });
     })
-    $("#registro").load("/timesheet/index/registro/fecha/" + fecha_inicio); 
+    acAg = []
+     
 });
 
 $.datepicker.setDefaults($.datepicker.regional["es"]);

@@ -2,7 +2,8 @@
 class Admin_Model_DbTable_Contacto extends Zend_Db_Table_Abstract
 {
     protected $_name = 'contacto';
-    protected $_primary = array("contactoid", "areaid", "clienteid");
+    protected $_primary = array("contactoid", "clienteid");
+    protected $_sequence ="s_contacto";
 
 
     public function _getContactoAll(){
@@ -114,10 +115,10 @@ class Admin_Model_DbTable_Contacto extends Zend_Db_Table_Abstract
 
    
 
-        public function _save($data)
+    public function _save($data)
     {
         try{
-            if ($data['areaid']=='' ||  $data['clienteid']=='' ) return false;
+            //if ($data['areaid']=='' ||  $data['clienteid']=='' ) return false;
             return $this->insert($data);
             return false;
         }catch (Exception $e){

@@ -89,7 +89,14 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
                         ->headScript()->appendFile('/js/jquery-ui.js')
                         ->headScript()->appendFile('/js/datepicker-es.js')
                         ->headScript()->appendFile('/js/count.js')
-                        ->headScript()->appendFile('/js/perfect-scrollbar.jquery.js');
+                        ->headScript()->appendFile('/js/perfect-scrollbar.jquery.js')
+                        ->headScript()->appendFile('/js/jspdf/tableExport.js')
+                        ->headScript()->appendFile('/js/jspdf/jquery.base64.js')
+                        ->headScript()->appendFile('/js/jspdf/libs/sprintf.js')
+                        ->headScript()->appendFile('/js/jspdf/jspdf.js')
+                        ->headScript()->appendFile('/js/jspdf/jspdf.plugin.from_html.js')
+                        ->headScript()->appendFile('/js/jspdf/FileSaver.js')
+                        ->headScript()->appendFile('/js/jspdf/libs/base64.js');
 
             $view->headTitle()->setSeparator(' - ');
             $view->headTitle('Sistema de Planificación y Control | Anddes');
