@@ -1103,8 +1103,9 @@ public function subiractividadesAction(){
   try {
     /*$proyectoid= $this->_getParam("proyectoid");
     $codigo_prop_proy= $this->_getParam("codigo_prop_proy");*/
-    $proyectoid='1508.10.01';
-    $codigo_prop_proy='15.10.091-1508.10.01-D';
+    $proyectoid='1502.10.06';
+    
+    $codigo_prop_proy='15.10.097-1502.10.06-C';
     $editproyect= new Admin_Model_DbTable_Proyecto();
     $where = array(
                       'codigo_prop_proy'    => $codigo_prop_proy,
@@ -1721,7 +1722,12 @@ public function cargartarea2Action() {
       $where = array( 'proyectoid' => $proyectoid,'codigo_prop_proy'=>$codigo_prop_proy,'estado' =>'P','isproyecto'=>'S');
       $veract = new Admin_Model_DbTable_Actividad();
       $viewactivity=$veract->_getFilter($where);
-      $this->view->actividades = $viewactivity;
+      //$this->view->actividades = $viewactivity;
+      
+      $actividadpadre= new Admin_Model_DbTable_Actividad();
+      $list=$actividadpadre->_getActividadesOrdenadas($proyectoid,$codigo_prop_proy);
+      $this->view->actividades = $list;
+
       $wherekip = array( 'proyectoid' => $proyectoid,'codigo_prop_proy'=>$codigo_prop_proy,'estado' =>'A','areaid'=>$areaid);    
       $verequipo= new Admin_Model_DbTable_Equipo();
       $viewequipo=$verequipo->_getFilter($wherekip);
@@ -1915,7 +1921,7 @@ public function cargartarea2Action() {
       $data['fecha_creacion']=date("Y-m-d");
       $data['estado']='A';
    
-      print_r($data);
+      //print_r($data);
 
       $equiparea= new Admin_Model_DbTable_Equipoarea();
       $gequiparea= $equiparea->_save($data);
@@ -1923,7 +1929,8 @@ public function cargartarea2Action() {
       if($gequiparea)
       { ?>
         <script>
-          alert('sssaa');
+          //alert('guardando');
+
         </script>
       <?php }
 

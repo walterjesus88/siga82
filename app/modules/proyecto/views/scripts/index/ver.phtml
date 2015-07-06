@@ -42,7 +42,8 @@
           </div>
           <div class="bio-row">
             <p><span class="bold">Estado</span>: <span class="label label-primary"></span><?php 
-              if ($this->proyecto['estado']=='A') { echo "Activo" ;}?>
+              if ($this->proyecto['estado']=='A') { echo "Activo" ;}
+              if ($this->proyecto['estado']=='CA') { echo "Cancelado" ;}?>
             </p>
           </div>
           <div class="bio-row">
@@ -488,7 +489,7 @@
              
                   var url="/proyecto/index/guardarareaequipo/codigo_prop_proy/"+codigo+"/proyectoid/"+proyecto+"/funcion/"+funcion+"/area/"+areacat;
                  
-                  alert(url);
+                  //alert(url);
                   //$("#anadirareaproyecto").load(url);
                   $('form').slideUp(); 
                      // var template='
@@ -527,7 +528,7 @@
 
               });
 </script>
-<div id="anadirareaproyecto">gg</div>
+<div id="anadirareaproyecto"></div>
 
 <script>
 

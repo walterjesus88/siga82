@@ -3,8 +3,6 @@
 <form name="f2">
   <div id="Proyecto_Activa">
    <a href="/proyecto/index/asignaractividad/proyectoid/<?php echo $this->proyectoid ?>/codigo_prop_proy/<?php echo $this->codigo_prop_proy ?>/areaid/<?php echo $this->areaid ?>"> </a>
-
-   
     <table class="table p-table" style="padding: 1px;">
         <thead>
             <tr>  
@@ -29,9 +27,20 @@
                 <?php $c++; }*/
                 foreach ($this->equipo as $listaequipo) 
                 {?>
-                    <th style="width: 50px;padding-top: 1px;padding-right: 1px;padding-bottom: 1px;padding-left: 1px;" style="width: 150px; font-size: 10px;" class="p-name" id="nomact_<?php echo $c?>">                    
+                    <th style="width: 50px;padding-top: 1px;padding-right: 1px;padding-bottom: 1px;padding-left: 1px;" style="width: 150px; font-size: 9px;" class="p-name" id="nomact_<?php echo $c?>">                    
                         
-                        <a href="#"><?php echo $listaequipo['uid'];?></a>
+                        <a style="width: 50px; font-size: 10px;" href="#"><?php 
+                            $porciones = explode(".", $listaequipo['uid']);
+                            if ($listaequipo['uid']=='administracion1' or $listaequipo['uid']=='administracion2' or $listaequipo['uid']=='administracion3' or $listaequipo['uid']=='administracion4' )
+                            {
+                              echo $listaequipo['uid'];
+                            }
+                            else
+                            {
+                              echo ucwords($porciones[0]); echo "<br>";
+                              echo ucwords($porciones[1]);
+                            }
+                         ?></a>
 
                         <?php
                         // $wheres=array('codigo_prop_proy'=>$listaequipo['codigo_prop_proy'],'proyectoid'=>$listaequipo['proyectoid'],'uid'=>$listaequipo['uid'],'dni'=>$listaequipo['dni'],'estado'=>'A','areaid'=>$listaequipo['areaid'],'categoriaid'=>$listaequipo['categoriaid']);
@@ -126,10 +135,13 @@
                   <!--<td class="p-name">                
                     <a href="#"><?php echo $listaequipo['uid'];echo " ";echo $listaequipo['cargo'];echo " ";echo $listaequipo['areaid']; ?></a>
                   </td>-->
-                    <td style="width: 50px;padding-top: 1px;padding-right: 1px;padding-bottom: 1px;padding-left: 1px;" style="width: 150px; font-size: 10px;" id="nomact_<?php echo $c?>">                    
-                        <?php echo $listaactividad['nombre']; ?>
+                    
+                         <td style="width: 50px;padding-top: 1px;padding-right: 1px;padding-bottom: 1px;padding-left: 1px;" style="width: 150px; font-size: 10px;" id="nomact_<?php echo $c?>">                    
+                        <?php echo "<strong>"; echo $listaactividad['actividadid']; echo "</strong>"; echo " -  "; echo $listaactividad['nombre']; ?>
 
-                    </td>  
+                    </td>
+
+
                      <?php
                        $i=0;              
                       //foreach ($this->actividades as $listaactividad)
