@@ -86,6 +86,22 @@
     <a id = "submit_work" class="btn btn-default pull-right btn-xs" href="#" style="margin-right : 10px">
       <i class="fa fa-check-square"></i> Enviar Anterior
     </a>-->
+    <?php if ($this->estado_hoja_tiempo) { 
+      
+
+
+      if($this->estado_hoja_tiempo[0]['estado']=='C') {?>
+<a id = "" class="btn btn-primary pull-right btn-xs"  href="" style="margin-right : 10px">
+      <i class="fa fa-print"></i> Imprimir
+    </a>
+
+      <?php
+
+      }
+      if($this->estado_hoja_tiempo[0]['estado']=='A') {
+
+      ?>
+
     <a id = "enviar_hojatiempo" class="btn btn-default pull-right btn-xs" href="#" style="margin-right : 10px">
       <i class="fa fa-check-square"></i> Enviar 
     </a>
@@ -95,6 +111,20 @@
     <a id = "add_work" class="btn btn-success pull-right btn-xs" data-toggle="modal" href="#agregar" style="margin-right : 10px">
       <i class="fa fa-check-square-o"></i> Agregar
     </a>
+
+    <?php }} else { ?>
+
+    <a id = "enviar_hojatiempo" class="btn btn-default pull-right btn-xs" href="#" style="margin-right : 10px">
+      <i class="fa fa-check-square"></i> Enviar 
+    </a>
+    <a id = "save_hours" class="btn btn-info pull-right btn-xs"  style="margin-right : 10px">
+      <i class="fa fa-save"></i> Guardar
+    </a>
+    <a id = "add_work" class="btn btn-success pull-right btn-xs" data-toggle="modal" href="#agregar" style="margin-right : 10px">
+      <i class="fa fa-check-square-o"></i> Agregar
+    </a>
+
+    <?php }?>
   </div>
 
 </section>
