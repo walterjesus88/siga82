@@ -1,9 +1,9 @@
 <?php
-    $dir = APPLICATION_LIBRARY."/pdf/MPDF57/mpdf.php";
-    include_once($dir);
-    ob_start();
-    $sesion1  = Zend_Auth::getInstance();
-    $sesion = $sesion1->getStorage()->read();
+ //   $dir = APPLICATION_LIBRARY."/pdf/MPDF57/mpdf.php";
+ //   include_once($dir);
+ //   ob_start();
+ //   $sesion1  = Zend_Auth::getInstance();
+ //   $sesion = $sesion1->getStorage()->read();
 ?>
 
 <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -16,7 +16,7 @@
     </tr>   
     <tr> 
         <th style="width: 10%;text-align: center;color: #fff;background-color:rgba(0, 105, 173, 1)"> SIG AND </th>         
-        <th style="width: 30%;text-align: center;"> 10-AND-42-FOR-0100 / r0/ <?php echo date('d-m-y')?> </th>
+        <th style="width: 30%;text-align: center;"> 10-AND-42-FOR-0100 / R0/ <?php echo date('d-m-y')?> </th>
     </tr>    
 </table>
 <?php 
@@ -34,6 +34,23 @@ list($año, $mes, $dia) = split('[-]', $data_rendicion['fecha']);
             <th style="width: 70px">Fecha</th>
             <th><?php echo $dia.'-'.$mes.'-'.$año;?></th>
         </tr>
+        <tr>
+            <th style="width: 100px">Usuario Rendición</th>
+            <th style="width: 120px"><?php if($data_rendicion['uid']=='administracion1')
+                { echo "Patricia Velasquez";}
+                if($data_rendicion['uid']=='administracion2')
+                { echo "Silvia Vasquez";}
+                if($data_rendicion['uid']=='administracion3')
+                { echo "Karla Briceño";}
+                if($data_rendicion['uid']=='administracion4')
+                { echo "Jhon gutierrez";}
+                if($data_rendicion['uid']!='administracion4' and $data_rendicion['uid']!='administracion3' and $data_rendicion['uid']!='administracion2' and $data_rendicion['uid']!='administracion1' )
+                { $porciones = explode(".", $data_rendicion['uid']);
+                  echo (ucwords($porciones[0])); echo " ";echo (ucwords($porciones[1]));}
+            ?></th>
+
+            
+        </tr>
     </table>
 </div>
 <hr color="black" size=3>
@@ -41,12 +58,25 @@ list($año, $mes, $dia) = split('[-]', $data_rendicion['fecha']);
     <div class="col-sm-12">
     <?php 
     $gasto = $this->gasto;
+    
     if ($gasto) {
         $j = 0;
         foreach ($gasto as $data_gasto) { ?>
             <section class="panel">
                 <header class="panel-heading modal-header" style="padding : 7px">
-                      <?php echo $data_gasto['proyectoid']. ' - ' .$data_gasto['nombre_proyecto'] ?>
+                      <?php echo $data_gasto['proyectoid']. ' - ' .$data_gasto['nombre_proyecto'] ;
+                        echo "<br>";
+                        echo "<strong>"; 
+                        echo "Gerente Proyecto: ";
+                        echo "</strong>";
+                        $editproyect= new Admin_Model_DbTable_Proyecto();
+                        $where = array(
+                        'proyectoid'    =>  $data_gasto['proyectoid'],
+                        );
+                        $edit = $editproyect->_getOnexcodigoproyecto($where);
+                        $porciones = explode(".", $edit['gerente_proyecto']);
+                        echo (ucwords($porciones[0])); echo " ";echo (ucwords($porciones[1]));
+                      ?>
                 </header>
                 <div class="panel-body">
                     <div class="adv-table">
