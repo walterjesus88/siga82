@@ -138,6 +138,21 @@ class Admin_Model_DbTable_Activaractividad extends Zend_Db_Table_Abstract
         }
     }
 
-
+    public function _getActividadesxCppxPixUid($codigo_prop_proy, $proyectoid, $uid){
+        try{
+            $sql=$this->_db->query("
+              select acv.codigo_prop_proy, acv.codigo_actividad, acv.actividadid, act.proyectoid, acv.actividad_padre, act.nombre, 
+                acv.categoriaid, act.propuestaid, acv.revision, act.h_propuesta
+                from actividad as act inner join activar_actividad as acv on act.codigo_prop_proy = acv.codigo_prop_proy 
+                and act.proyectoid = acv.proyectoid and act.codigo_actividad = acv.codigo_actividad and act.actividadid = acv.actividadid "
+                ."where acv.codigo_prop_proy = '".$codigo_prop_proy."' and acv.proyectoid = '".$proyectoid."' and acv.uid = '".$uid."'");
+            $row=$sql->fetchAll();
+            return $row;           
+            }  
+            
+           catch (Exception $ex){
+            print $ex->getMessage();
+        }
+    }
 
 }
