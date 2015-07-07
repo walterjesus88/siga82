@@ -368,6 +368,8 @@
                     var categoriaid ="<?php echo $data_tareo['categoriaid'] ?>";
                     url="/timesheet/aprobacion/aprobarhojatiempogerente/estado/A/uid/"+uid+"/dni/"+dni+"/semanaid/"+semanaid+'/cargo/'+cargo+'/coment/'+coment+'/uid_validacion/'+uid_validacion+'/dni_validacion/'+dni_validacion+'/etapa/GP'+'/fecha/'+fecha_actual+'/categoriaid/'+categoriaid;
                     $("#comentariousers").load(url);
+                     $("#aprobar").hide();
+                              $("#observar").hide();
                     });
 
                 })
@@ -391,6 +393,8 @@
                     var categoriaid ="<?php echo $data_tareo['categoriaid'] ?>";
                     url="/timesheet/aprobacion/aprobarhojatiempogerente/estado/R/uid/"+uid+"/dni/"+dni+"/semanaid/"+semanaid+'/cargo/'+cargo+'/coment/'+coment+'/uid_validacion/'+uid_validacion+'/dni_validacion/'+dni_validacion+'/etapa/GP'+'/fecha/'+fecha_actual+'/categoriaid/'+categoriaid;
                     $("#comentariousers").load(url);
+                     $("#aprobar").hide();
+                              $("#observar").hide();
                     });
                 });
            </script>
