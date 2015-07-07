@@ -1809,6 +1809,22 @@ public function cargartarea2Action() {
           $data['estado']=$estado;
           $data['actividad_padre']=$actividad_padre;    
           $gactiv= $act->_save($data);
+
+          $data_padre['codigo_prop_proy']=$codigo_prop_proy;
+          $data_padre['proyectoid']=$proyectoid;
+          $data_padre['codigo_actividad']=$actividad_padre;
+          $data_padre['actividadid']=$actividad_padre; 
+          $data_padre['revision']=$revision;
+          $data_padre['cargo']=$cargo;
+          $data_padre['categoriaid']=$categoriaid;
+          $data_padre['areaid']=$areaid;
+          $data_padre['uid']=$uid;
+          $data_padre['dni']=$dni;
+          $data_padre['fecha']=date("Y-m-d");
+          $data_padre['estado']=$estado;
+          $data_padre['actividad_padre']='0';    
+
+          $gactiv= $act->_save($data_padre);
         }
      } 
       catch (Exception $e) {
@@ -1860,7 +1876,11 @@ public function cargartarea2Action() {
           $data['fecha']=date("Y-m-d");
           $data['estado']=$estado;
           $data['actividad_padre']=$actividad_padre;    
+
           $gactiv= $act->_save($data);
+
+
+
         }
      } 
       catch (Exception $e) {
@@ -1884,23 +1904,28 @@ public function cargartarea2Action() {
       $activar= $act->_getRepliconActividades($proyectoid,$codigo_prop_proy);
       for($i=0;$i<count($activar);$i++)
       {
-        $codigo_actividad = $activar[$i]['codigo_actividad'];
-        $actividadid = $activar[$i]['actividadid'];
-        $revision = $activar[$i]['revision'];
-        $actividad_padre = $activar[$i]['actividad_padre'];
-        $wheres=array('codigo_prop_proy'=>$codigo_prop_proy,'codigo_actividad'=>$activar[$i]['codigo_actividad'],
-               'proyectoid'=>$proyectoid,'actividadid'=>$activar[$i]['actividadid'],'uid'=>$uid,'dni'=>$dni,'cargo'=>$cargo,
-               'areaid'=>$areaid,'categoriaid'=>$categoriaid);
-        $acti= new Admin_Model_DbTable_Activaractividad();
-        $veract= $acti->_getOne($wheres);
-        if($veract)
+        if(strlen($activar[$i]['actividadid'])>1)
         {
-          $datact['fecha']=date("Y-m-d");
-          $datact['estado']=$estado;
-          $upactiv= $acti->_updateX($datact,$wheres);
-        }
-        else
-        {
+          //print_r(strlen($activar[$i]['actividadid']));echo "</br>";
+          //print_r($activar[$i]['actividadid']);echo "</br>";
+
+          $codigo_actividad = $activar[$i]['codigo_actividad'];
+          $actividadid = $activar[$i]['actividadid'];
+          $revision = $activar[$i]['revision'];
+          $actividad_padre = $activar[$i]['actividad_padre'];
+          $wheres=array('codigo_prop_proy'=>$codigo_prop_proy,'codigo_actividad'=>$activar[$i]['codigo_actividad'],
+                 'proyectoid'=>$proyectoid,'actividadid'=>$activar[$i]['actividadid'],'uid'=>$uid,'dni'=>$dni,'cargo'=>$cargo,
+                 'areaid'=>$areaid,'categoriaid'=>$categoriaid);
+          $acti= new Admin_Model_DbTable_Activaractividad();
+          $veract= $acti->_getOne($wheres);
+          if($veract)
+          {
+            $datact['fecha']=date("Y-m-d");
+            $datact['estado']=$estado;
+            $upactiv= $acti->_updateX($datact,$wheres);
+          }
+          else
+          {
           $data['codigo_prop_proy']=$codigo_prop_proy;
           $data['proyectoid']=$proyectoid;
           $data['codigo_actividad']=$activar[$i]['codigo_actividad'];
@@ -1915,8 +1940,12 @@ public function cargartarea2Action() {
           $data['estado']=$estado;
           $data['actividad_padre']=$actividad_padre;
           $gactiv= $acti->_save($data);
+          
+          }
+
+      
         }
-      }
+      } 
     }
       catch (Exception $e) {
       print "Error: ".$e->getMessage();

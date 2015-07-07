@@ -5,7 +5,17 @@
     <section class="panel">
       <div class="panel-body">
         <div class="adv-table">
-          <table  class="display table table-bordered table-striped">
+          <div> 
+          <strong>Hoja Tiempo:</strong>
+
+          <?php $equipo = explode(".", $this->uid);
+                      echo (ucwords($equipo[0])); echo " ";
+                      echo (ucwords($equipo[1]));  ?> 
+                      <strong>Semana:</strong>
+          <?php echo $this->semana;  ?> 
+      
+            </div>
+          <table  class="display table">
           <thead>
             <tr >
             <th style="width: 5%;">  </th>
@@ -33,67 +43,31 @@
             $fechaactual = date("Y-m-d", strtotime($fechaactual));
             $actividades = $this->actividades;
             $j=1;
-            $sumahorassemana = new Admin_Model_DbTable_Sumahorasemana();
-            $wheres=array('dni'=>$this->dni,'uid'=>$this->uid,'semanaid'=>$this->semana);
-            $tareosemana=$sumahorassemana->_getOne($wheres);
-            $estado_real=$tareosemana['estado_real'];
-            $where['uid']=$this->uid;
-            $where['dni']=$this->dni;
-            $where['cargo']=$this->cargo;
-            $where['semanaid']=$this->semana;
-            $where['uid_validacion']=$this->uid_validacion;
-            $where['dni_validacion']=$this->dni_validacion;
-            $where['estado_usuario']='B';
-            $this->uid_validacion;
-            $vercoment= new Admin_Model_DbTable_Usuariovalidacion();
-            $vcoment=$vercoment->_getOnexUsuarioxJefexValidacion($where); 
-            if (trim($estado_real)=='PENDIENTE' and $vcoment['estado_usuario']=='B') {
-              }
-              else
-              {
-
+            $where_historial['uid_empleado']=$this->uid;
+            $where_historial['dni_empleado']=$this->dni;
+            $where_historial['etapa_validador']='FILTRO2';
+            $where_historial['semanaid']=$this->semana;
+            $where_historial['uid_validador']=$this->uid_validacion;
+            $where_historial['dni_validador']=$this->dni_validacion;
+            $where_historial['estado_historial']='A';
+            $tabla_historialusuario = new Admin_Model_DbTable_Historialaprobaciones();
+            $existe_historial=$tabla_historialusuario->_getBuscarEmpleadoxSemanaxEstadoxAprobacionGP($where_historial); 
             ?>
-            <label class="control-label col-md-2"> Ingrese Comentario: </label>
             <div class="col-md-4">
               <textarea style="width:320px" title="Ingrese un comentario aqui..." placeholder="Añade un comentario..." name="comentario" id="comentario"></textarea>
-            <!-- Ingrese Comentario: <input type="text" class="form-control" id="comentarioxx" name="lcomentario"><br> -->
             </div>
             <?php
-            $where['uid']=$this->uid;
-            $where['dni']=$this->dni;
-            $where['cargo']=$this->cargo;
-            $where['semanaid']=$this->semana;
-            $where['uid_validacion']=$this->uid_validacion;
-            $where['dni_validacion']=$this->dni_validacion;
-            $this->uid_validacion;
-            $vercoment= new Admin_Model_DbTable_Usuariovalidacion();
-            $vcoment=$vercoment->_getOnexUsuarioxJefe($where); 
-            ?>
-            <?php
-            if($vcoment=$vercoment->_getOnexUsuarioxJefe($where))
+            if($existe_historial)
             {              
-              if($vcoment['estado_usuario']=='B')
-              { ?>
-                <div class="col-md-3">
-                               
-                  <button id="observar" class="btn btn-warning" type="button">
-                    Observar Hoja 
-                  </button>   
-                </div>
-            <?php }
-              if($vcoment['estado_usuario']=='R') {
-                ?>
-                <div class="col-md-3">
-                  <button id="aprobar" class="btn btn-success" type="button">
-                    Aprobar Hoja 
-                  </button>  
-                  <button id="observar" class="btn btn-warning obs " type="button">
+               ?>
+              <div class="col-md-3">
+                <button id="observar" class="btn btn-warning obs " type="button">
                   Observar Hoja
                 </button>              
                 </div>
                 <?php
               }
-            }
+            
             else
             { ?>
                 <div class="col-md-3">
@@ -104,9 +78,9 @@
                   Observar Hoja
                 </button>  
                 </div>
-            <?php }}
+            <?php }
             ?>    
-           
+          
 
             <?php
             foreach ($actividades as $data_tareo) 
@@ -264,13 +238,7 @@
                         {
                           if(trim($buscar_tarea[0]['comentario'])=='' or trim($buscar_tarea[0]['comentario'])==null) {
                         ?>
-                        <!-- data-toggle="modal" href="#myModalcomentario" -->
-                       
-                        <a   <?php if ($data_tareo['estado_tareopersona']=='C') { ?> disabled="disabled" <?php } else {?> id="coment<?php echo $i ?><?php echo $j?>"  hora="<?php echo $buscar_tarea[0]['h_real'] ?>" etapa="<?php echo $buscar_tarea[0]['etapa'] ?>" tipo-actividad="<?php echo $buscar_tarea[0]['tipo_actividad'] ?>" actividad-generalid="<?php echo $buscar_tarea[0]['actividad_generalid'] ?>" codigo-prop-proy="<?php echo $data_tareo['codigo_prop_proy'] ?>" proyectoid="<?php echo $data_tareo['proyectoid'] ?>" actividad-padre="<?php echo $buscar_tarea[0]['actividad_padre'] ?>" fecha-tarea="<?php echo $buscar_tarea[0]['fecha_tarea'] ?>" codigo-actividad="<?php echo $buscar_tarea[0]['codigo_actividad'] ?>" actividadid="<?php echo $buscar_tarea[0]['actividadid'] ?>" revision="<?php echo $buscar_tarea[0]['revision'] ?>" semanaid="<?php echo $buscar_tarea[0]['semanaid'] ?>" uid="<?php echo $data_tareo['uid'] ?>" dni="<?php echo $data_tareo['dni'] ?>" cargo="<?php echo $buscar_tarea[0]['cargo'] ?>" fecha-planificacion="<?php echo $buscar_tarea[0]['fecha_planificacion'] ?>"  <?php }?>
-                        comentario="<?php echo $buscar_tarea[0]['comentario'] ?>" 
-
-                       >
-                       <i style="color: #D6D6D8" class="fa fa-comment"></i></a>                   
+                                        
 
                       <?php }
                         else
@@ -297,6 +265,12 @@
                   $fecha = date ( 'Y-m-d' , $nuevafecha );?>
                 <?php }
                 ?>
+                <td style="padding: 0">
+                  <div id="suma-horizontal<?php echo $j?>" class="div-celda">
+                    
+                  </div>
+                </td>
+                
             </tr>    
 
                
@@ -306,6 +280,75 @@
             }?>
            </tbody>
            <div   id="comentariousers"></div>
+
+           <script type="text/javascript">        
+  $(document).ready(function(){
+    $("#submit_copiar").on("click",function(){
+      var fecha_calendario = $("#fechasemana").text();
+      var semanaid="<?php echo $this->semana ?>";
+      
+      url="/timesheet/index/copiartareo/fecha_calendario/"+fecha_calendario+'/semanaid/'+semanaid;
+         
+      alert(url);      
+      $.ajax({
+        type: "POST",
+        url: url,
+        data: $(this).serialize(),
+        dataType: "html",                                                 
+        error: function(){
+            alert("error petición ajax load");
+        },
+        success: function(data){      
+            $("#carga_copiar").empty();
+            $("#carga_copiar").html(data);           
+        }
+      });
+    });
+  })
+
+  $(document).ready(function () {
+    sumarHorizontales();
+  })
+
+  function sumarHorizontales () {
+    max_horizontal = 50;
+    max_vertical = 50;
+    var matriz = new Array(max_horizontal);
+    for (i = 0; i < max_horizontal; i++) {
+      matriz[i] = new Array(max_vertical);
+    }
+    $("[id*=valor]").each(function(indice, elemento) {
+      elemID = $(elemento).attr("id");
+      horizontal = elemID.slice(5,6);
+      vertical = elemID.slice(6,8);
+      matriz[horizontal][vertical] = $(elemento).val();
+    });
+    maximov = 0;
+    elemSuma = [];
+    horSuma = [];
+    
+    for (var ver = 0; ver < max_vertical; ver++) {
+      resSumah = 0;
+      for (var hor = 0; hor < max_horizontal; hor++) {
+        if (typeof matriz[hor][ver] !== 'undefined') {
+          if (isNaN(parseFloat(matriz[hor][ver]))) {
+            matriz[hor][ver] = 0;
+          };
+          resSumah = resSumah + parseFloat(matriz[hor][ver]);
+          maximov = ver+1;};
+          
+        };
+      horSuma.push(resSumah.toFixed(2));
+    };
+    mostrarver = horSuma.slice(1, maximov);
+    $("[id*=suma-horizontal]").each(function(indice, elemento) {
+      $(elemento).html(mostrarver[indice]);
+    });
+  }
+
+
+</script>
+
            <script type="text/javascript">        
                 $(document).ready(function(){
                     $("#aprobar").on("click",function(){
@@ -323,8 +366,10 @@
                     var cargo="<?php echo $data_tareo['cargo'] ?>";
                     var categoriaid ="<?php echo $data_tareo['categoriaid'] ?>";
                     url="/timesheet/aprobacion/aprobarhojatiempofiltro2/estado/A/uid/"+uid+"/dni/"+dni+"/semanaid/"+semanaid+'/cargo/'+cargo+'/uid_validacion/'+uid_validacion+'/dni_validacion/'+dni_validacion+'/etapa/FILTRO2'+'/fecha/'+fecha_actual+'/categoriaid/'+categoriaid+'/coment/'+coment;
-                    alert(url);
+                   // alert(url);
                     $("#comentariousers").load(url);
+                     $("#aprobar").hide();
+                              $("#observar").hide();
                     });
 
                 })
@@ -344,8 +389,10 @@
                     var cargo="<?php echo $data_tareo['cargo'] ?>";
                     var categoriaid ="<?php echo $data_tareo['categoriaid'] ?>";
                     url="/timesheet/aprobacion/aprobarhojatiempofiltro2/estado/R/uid/"+uid+"/dni/"+dni+"/semanaid/"+semanaid+'/cargo/'+cargo+'/coment/'+coment+'/uid_validacion/'+uid_validacion+'/dni_validacion/'+dni_validacion+'/etapa/FILTRO2'+'/fecha/'+fecha_actual+'/categoriaid/'+categoriaid;
-                    alert(url);
+                   // alert(url);
                     $("#comentariousers").load(url);
+                     $("#aprobar").hide();
+                              $("#observar").hide();
                     });
                 });
            </script>
@@ -403,7 +450,7 @@
 
           </table>
         
-        <div class="col-lg-10 "  style="padding-top: 10px;padding-bottom: 10px;padding-right: 10px;padding-left: 10px;">
+        <div   style="padding-top: 10px;padding-bottom: 10px;padding-right: 10px;padding-left: 10px;">
 
 
          <table  class="display table table-bordered table-striped" id="dynamic-table">
@@ -415,7 +462,7 @@
             <th style="width: 5%;" > hora</th> 
             <th style="width: 35%;" > Comentario</th> 
           </tr>
-         
+
             
       </thead>
       <tbody id="agregarComentario">
