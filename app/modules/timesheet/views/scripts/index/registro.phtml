@@ -325,6 +325,7 @@
 
                 $equipo = new Admin_Model_DbTable_Equipo();
                 $estado_usuario='A';
+
                 $data_equipo = $equipo->_getDatosxEquipoxProyecto($uid,$dni,$data_tareo['codigo_prop_proy'],$data_tareo['proyectoid']);
                 $categoriaid=$data_equipo[0]['categoriaid'];
                 
