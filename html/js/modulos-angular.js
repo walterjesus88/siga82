@@ -17,7 +17,7 @@ controller('mainController', ['$http', function($http){
 	reporte.dtInstance = {}
 
 	//inicializando variables para el rango de fecha
-	var fecha_inicial_cad = '10-06-2015'
+	var fecha_inicial_cad = '01-01-2015'
 	var fecha_inicial_date = fecha_inicial_cad.toDate()
 	var fecha_final_date = new Date()
 	var fecha_final_cad = fecha_final_date.Ddmmyyyy()
@@ -103,7 +103,7 @@ controller('mainController', ['$http', function($http){
 		var nombres = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Setiembre', 'Noviembre', 'Diciembre']
 		var dias_trans = Math.floor((ultimo.getTime() - inicial.getTime()) / (1000 * 60 * 60 * 24)) + 1
 		var fecha = inicial
-		var mes = ''
+		var mes = -1
 		var semana = ''
 
 		for (var i = 0; i < dias_trans; i++) {
@@ -115,8 +115,10 @@ controller('mainController', ['$http', function($http){
 		}
 				
 		dias.forEach(function (dia) {
-			if (dia.fecha.toDate().getMonth() != mes) {
-				mes = dia.fecha.toDate().getMonth()
+			var f = dia.fecha.toDate()
+			var m = f.getMonth()
+			if (f.getMonth() != mes) {
+				mes = m
 				meses.push(nombres[mes])
 			}
 			if (dia.fecha.toDate().getWeek() != semana) {
@@ -191,7 +193,7 @@ controller('mainController', ['$http', function($http){
 					reporte.proyectos.push(proyecto)
 				})
 			}
-		})	
+		})
 	}
 
 	//obtener los datos de usuario y tareopersona por proyecto
@@ -199,6 +201,7 @@ controller('mainController', ['$http', function($http){
 		if (reporte.proyectos[index]['selected']) {
 			reporte.agregarUsuarios(proyecto)
 			reporte.agregarTareopersona(proyecto)
+			//reporte.cambiarFechaInicio(proyecto)
 		} else {
 			reporte.borrarUsuarios(proyecto)
 			reporte.borrarTareopersona(proyecto)
@@ -315,6 +318,20 @@ controller('mainController', ['$http', function($http){
 		reporte.tareopersona = arrayTemp
 		reporte.sumarVerticales()
 		reporte.dtInstance.rerender()
+	}
+
+	//funcion para poner como fecha_from a la fecha de inicio del proyecto
+	reporte.cambiarFechaInicio = function (proyecto) {
+		var f = new Date()
+		reporte.proyectos.forEach(function (item) {
+			if (item.codigo_prop_proy == proyecto) {
+				f = item.fecha_inicio.toDate()
+			}
+		})
+		if (f < reporte.fecha_from.date) {
+			reporte.fecha_from.cadena = f.Ddmmyyyy()
+			reporte.fecha_from.date = f
+		}
 	}
 
 	//funcion para la suma de columnas segun dia, semana y mes
@@ -507,11 +524,11 @@ String.prototype.toDate = function () {
 		datos[0] = dia 
 	}
 	var dd = parseInt(datos[0])
-	var mm = parseInt(datos[1])
+	var mm = parseInt(datos[1]) - 1
 	var yyyy = parseInt(datos[2])
 	var f = new Date()
 	f.setDate(dd)
-	f.setMonth(mm - 1)
+	f.setMonth(mm)
 	f.setFullYear(yyyy)
 	return f
 }
