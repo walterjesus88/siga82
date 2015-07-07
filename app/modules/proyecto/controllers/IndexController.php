@@ -1890,7 +1890,7 @@ public function cargartarea2Action() {
   public function agregartodoactividadAction(){
     try
     {
-      $cargo= $this->_getParam("cargo");
+      echo $cargo= $this->_getParam("cargo");
       $areaid= $this->_getParam("areaid");
       $uid= $this->_getParam("uid");
       $dni= $this->_getParam("dni");
@@ -1900,13 +1900,19 @@ public function cargartarea2Action() {
       $estado= $this->_getParam("estado");   
       $act= new Admin_Model_DbTable_Actividad();
       $activar= $act->_getRepliconActividades($proyectoid,$codigo_prop_proy);
+      //print_r($activar);
+
+      //exit();
+
       for($i=0;$i<count($activar);$i++)
       {
-        //if(strlen($activar[$i]['actividadid'])>1)
-        //{
+
+        if(($activar[$i]['hijo'])=='N')
+        {
           //print_r(strlen($activar[$i]['actividadid']));echo "</br>";
           //print_r($activar[$i]['actividadid']);echo "</br>";
-
+          //echo "ggg";
+          //exit();
           $codigo_actividad = $activar[$i]['codigo_actividad'];
           $actividadid = $activar[$i]['actividadid'];
           $revision = $activar[$i]['revision'];
@@ -1939,8 +1945,7 @@ public function cargartarea2Action() {
           $data['actividad_padre']=$actividad_padre;
           $gactiv= $acti->_save($data);
           
-        //}
-
+          }
       
         }
       } 
