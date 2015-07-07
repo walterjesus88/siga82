@@ -1879,8 +1879,6 @@ public function cargartarea2Action() {
 
           $gactiv= $act->_save($data);
 
-
-
         }
      } 
       catch (Exception $e) {
@@ -1904,8 +1902,8 @@ public function cargartarea2Action() {
       $activar= $act->_getRepliconActividades($proyectoid,$codigo_prop_proy);
       for($i=0;$i<count($activar);$i++)
       {
-        if(strlen($activar[$i]['actividadid'])>1)
-        {
+        //if(strlen($activar[$i]['actividadid'])>1)
+        //{
           //print_r(strlen($activar[$i]['actividadid']));echo "</br>";
           //print_r($activar[$i]['actividadid']);echo "</br>";
 
@@ -1941,7 +1939,7 @@ public function cargartarea2Action() {
           $data['actividad_padre']=$actividad_padre;
           $gactiv= $acti->_save($data);
           
-          }
+        //}
 
       
         }
