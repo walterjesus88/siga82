@@ -87,6 +87,7 @@ class Timesheet_IndexController extends Zend_Controller_Action {
         $this->view->semanaid = $semana;
         $actividad = new Admin_Model_DbTable_Actividad();
         $dato_padre=$actividad->_getRepliconActividades($proyectoid,$codigo_prop_proy);
+        
         $this->view->actividades = $dato_padre;    
         $this->view->proyectoid = $proyectoid;
         $this->view->codigo_prop_proy = $codigo_prop_proy;

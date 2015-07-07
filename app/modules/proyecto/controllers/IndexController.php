@@ -1808,6 +1808,22 @@ public function cargartarea2Action() {
           $data['estado']=$estado;
           $data['actividad_padre']=$actividad_padre;    
           $gactiv= $act->_save($data);
+
+          $data_padre['codigo_prop_proy']=$codigo_prop_proy;
+          $data_padre['proyectoid']=$proyectoid;
+          $data_padre['codigo_actividad']=$actividad_padre;
+          $data_padre['actividadid']=$actividad_padre; 
+          $data_padre['revision']=$revision;
+          $data_padre['cargo']=$cargo;
+          $data_padre['categoriaid']=$categoriaid;
+          $data_padre['areaid']=$areaid;
+          $data_padre['uid']=$uid;
+          $data_padre['dni']=$dni;
+          $data_padre['fecha']=date("Y-m-d");
+          $data_padre['estado']=$estado;
+          $data_padre['actividad_padre']='0';    
+
+          $gactiv= $act->_save($data_padre);
         }
      } 
       catch (Exception $e) {
@@ -1859,7 +1875,11 @@ public function cargartarea2Action() {
           $data['fecha']=date("Y-m-d");
           $data['estado']=$estado;
           $data['actividad_padre']=$actividad_padre;    
+
           $gactiv= $act->_save($data);
+
+
+
         }
      } 
       catch (Exception $e) {

@@ -201,7 +201,7 @@
                                 var codigo_actividad="<?php echo $listaactividad['codigo_actividad'] ?>";
                                 var codigo_prop_proy="<?php echo $listaactividad['codigo_prop_proy'] ?>";
                                 url="/proyecto/index/agregaactividad/cargo/"+cargo+"/areaid/"+areaid+"/uid/"+uid+"/dni/"+dni+"/proyectoid/"+proyectoid+"/categoriaid/"+ categoriaid+"/actividadid/"+actividadid+"/revision/"+revision+"/actividad_padre/"+actividad_padre+"/codigo_actividad/"+codigo_actividad+"/codigo_prop_proy/"+codigo_prop_proy+"/estado/"+estado;
-                              
+                                alert(url);
                                 $.ajax({
                                     type: "POST",
                                     url: url,
