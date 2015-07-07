@@ -21,7 +21,9 @@
         <tbody>
         <?php
         $c=1;
-        foreach ($this->lista_empleados_aprobar as $lista_empleados_proyecto){ ?>
+        foreach ($this->lista_empleados_aprobar as $lista_empleados_proyecto){ 
+            if ($lista_empleados_proyecto['uid']!=$this->uid_gerente){
+            ?>
             <tr name="oculus" id="xx" class="unread">
                 <td class="view-message  text-right"><center><?php echo $c ?></center></td>   
                 <td>   
@@ -51,7 +53,7 @@
                         });
                     </script>  
                 <?php $c++;
-        }?>
+        }}?>
         </tbody>
     </table>
   </div>
