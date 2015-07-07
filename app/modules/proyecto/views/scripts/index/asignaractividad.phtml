@@ -11,11 +11,31 @@
                 </th>
                 <?php
                 $c=0;
+                
                 $cont=count($this->actividades);
+                // $f=0;
+                // $cont=0;
+                // foreach ($this->actividades as $listaactividad)
+                // {
+                //   if(strlen($listaactividad['actividadid'])>1)
+                //   {
+                //     //print_r(strlen($listaactividad['actividadid']));
+                //     $cont=$cont+1;
+                //   }
+                //   $f++;
+                // }
+                //print_r($cont);
+
                 foreach ($this->equipo as $listaequipo) 
                     {?>
                     <th style="width: 50px;padding-top: 1px;padding-right: 1px;padding-bottom: 1px;padding-left: 1px;" style="width: 150px; font-size: 10px;" class="p-name" id="nomact_<?php echo $c?>">
-                        <a href="#"><?php echo $listaequipo['uid'];?></a>
+                        <a href="#"><?php //echo $listaequipo['uid'];
+
+                          $porciones = explode(".", $listaequipo['uid']);
+                          echo (ucwords($porciones[0])); echo " ";echo (ucwords($porciones[1]));
+
+                        ?></a>
+
                         <?php
                             $codigo_prop_proy=$listaequipo['codigo_prop_proy'];
                             $proyectoid=$listaequipo['proyectoid'];
@@ -26,6 +46,7 @@
                             $categoriaid=$listaequipo['categoriaid'];
                             $acti= new Admin_Model_DbTable_Activaractividad();
                             $activr= $acti-> _getConteoactivar($codigo_prop_proy,$proyectoid,$uid,$dni,$estado,$areaid,$categoriaid);
+                            //print_r($activr);
                         ?>
                         <?php
                             
@@ -103,7 +124,7 @@
 
                         $act= new Admin_Model_DbTable_Activaractividad();
                         $activar= $act->_getOne($wheres);
-                        //print_r($activar);
+                        //  print_r($activar);
                       ?>
                         <td style="width: 150px;padding-top: 1px;padding-right: 1px;padding-bottom: 1px;padding-left: 1px;" >
                           <?php
@@ -123,8 +144,19 @@
                           <?php 
                           }
                           else
-                          { ?>
-                            <input id="agrega_<?php echo $c?><?php echo $i?>" type="checkbox" name="agreg[<?php echo $c?>][<?php echo $i?>]" value="<?php echo $i ?><?php echo $c ?>" >
+                          { 
+                            if(strlen($listaactividad['actividadid'])>1)
+                            { ?>
+                               <input id="agrega_<?php echo $c?><?php echo $i?>" type="checkbox" name="agreg[<?php echo $c?>][<?php echo $i?>]" value="<?php echo $i ?><?php echo $c ?>" >
+                            <?php }
+                            else
+                            { ?>
+                               <input style="display:none" id="agrega_<?php echo $c?><?php echo $i?>" type="checkbox" name="agreg[<?php echo $c?>][<?php echo $i?>]" value="<?php echo $i ?><?php echo $c ?>" >
+                            <?php }
+                            
+                            ?>
+
+                           
                             <!-- <p>ggg</p> -->
                             <?php
                             //echo $activar['actividadid'];                            
