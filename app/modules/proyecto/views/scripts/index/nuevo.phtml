@@ -43,6 +43,7 @@
                                 
                                     <div class="bio-row"> 
                                     <span class="bold">Propuesta </span>                                   
+                                    
                                     <select  id="propuestaid" name="propuestaid" class="form-control">
                                         <option  value="">Seleccione..</option>
                                         <?php
@@ -51,7 +52,7 @@
                                             <option value="<?php echo $propuesta['propuestaid']?>"><?php echo $propuesta['nombre_propuesta']?></option>
                                             <?php
                                         }?>
-                                    </select>
+                                    </select>-
                                     </div> 
 
                                     <div class="bio-row">
@@ -90,22 +91,15 @@
                                     <div class="bio-row">
                                       <p><span class="bold">Control Proyecto</span> <?php print $this->form->control_proyecto;?></p>
                                     </div>
-
                                     <div class="bio-row">
                                       <p><span class="bold">Control Documentario </span> <?php print $this->form->control_documentario;?></p>
                                     </div>
-                       
                                     <div class="bio-row">
                                       <p><span class="bold">Estado </span> <?php print $this->form->estado;?></p>
                                     </div>
-
-                              
-
-                                   <div class="bio-row">
+                                    <div class="bio-row">
                                         <p><span class="bold">Fecha Inicio </span><?php print $this->form->fecha_inicio;?>
                                       </div>
-                                                               
-                                                              
                                     <div class="bio-row">
                                       <p><span class="bold">Descripción </span>: <?php print $this->form->descripcion;?></p>
                                     </div>
