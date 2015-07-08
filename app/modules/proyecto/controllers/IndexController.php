@@ -1810,13 +1810,40 @@ public function cargartarea2Action() {
               ,'uid'=>$uid,'dni'=>$dni,'cargo'=>$cargo,'areaid'=>$areaid,'categoriaid'=>$categoriaid);
       $act= new Admin_Model_DbTable_Activaractividad();
       $activar= $act->_getOne($wheres);
-      //print_r($wheres);
+        //EXISTE ACTIVIDAD
         if($activar)
         {
-
           $datact['fecha']=date("Y-m-d");
           $datact['estado']=$estado;
           $upactiv= $act->_updateX($datact,$wheres);
+
+          $wheres_padre=array('codigo_prop_proy'=>$codigo_prop_proy,'codigo_actividad'=>$codigo_actividad,'proyectoid'=>$proyectoid,'actividadid'=>$actividad_padre
+              ,'uid'=>$uid,'dni'=>$dni,'areaid'=>$areaid,'actividad_padre'=>'0');
+           $existe_padre= $act->_getExisteActividadPadre($wheres_padre);
+           if ($existe_padre)
+           {
+
+           }
+           else
+           {
+            $actividadpadre= new Admin_Model_DbTable_Actividad();
+            $wheres_actividadpadre=array('codigo_prop_proy'=>$codigo_prop_proy,'proyectoid'=>$proyectoid,'actividadid'=>$actividad_padre);
+            $list_actpadre=$actividadpadre->_getExisteActividadPadre($wheres_actividadpadre);
+            $data_padre['codigo_prop_proy']=$codigo_prop_proy;
+            $data_padre['proyectoid']=$proyectoid;
+            $data_padre['codigo_actividad']=$list_actpadre['codigo_actividad'];
+            $data_padre['actividadid']=$list_actpadre['actividadid']; 
+            $data_padre['revision']=$list_actpadre['revision']; 
+            $data_padre['cargo']=$cargo;
+            $data_padre['categoriaid']=$categoriaid;
+            $data_padre['areaid']=$areaid;
+            $data_padre['uid']=$uid;
+            $data_padre['dni']=$dni;
+            $data_padre['fecha']=date("Y-m-d");
+            $data_padre['estado']='A';
+            $data_padre['actividad_padre']=$list_actpadre['actividad_padre'];    
+            $gactiv= $act->_save($data_padre);
+           }
         }
         else
         {      
@@ -1834,22 +1861,86 @@ public function cargartarea2Action() {
           $data['estado']=$estado;
           $data['actividad_padre']=$actividad_padre;    
           $gactiv= $act->_save($data);
+          $wheres_padre=array('codigo_prop_proy'=>$codigo_prop_proy,'codigo_actividad'=>$codigo_actividad,'proyectoid'=>$proyectoid,'actividadid'=>$actividad_padre
+              ,'uid'=>$uid,'dni'=>$dni,'areaid'=>$areaid,'actividad_padre'=>'0');
+          $existe_padre= $act->_getExisteActividadPadre($wheres_padre);
+          if ($existe_padre)
+          {
+          }
+          else
+          {
+            $actividadpadre= new Admin_Model_DbTable_Actividad();
+            $wheres_actividadpadre=array('codigo_prop_proy'=>$codigo_prop_proy,'proyectoid'=>$proyectoid,'actividadid'=>$actividad_padre);
+            $list_actpadre=$actividadpadre->_getExisteActividadPadre($wheres_actividadpadre);
+            $data_padre['codigo_prop_proy']=$codigo_prop_proy;
+            $data_padre['proyectoid']=$proyectoid;
+            $data_padre['codigo_actividad']=$list_actpadre['codigo_actividad'];
+            $data_padre['actividadid']=$list_actpadre['actividadid']; 
+            $data_padre['revision']=$list_actpadre['revision']; 
+            $data_padre['cargo']=$cargo;
+            $data_padre['categoriaid']=$categoriaid;
+            $data_padre['areaid']=$areaid;
+            $data_padre['uid']=$uid;
+            $data_padre['dni']=$dni;
+            $data_padre['fecha']=date("Y-m-d");
+            $data_padre['estado']='A';
+            $data_padre['actividad_padre']=$list_actpadre['actividad_padre'];    
+            //print_r($data_padre);
+            $gactiv= $act->_save($data_padre);
+           }
+        }
 
-          // $data_padre['codigo_prop_proy']=$codigo_prop_proy;
-          // $data_padre['proyectoid']=$proyectoid;
-          // $data_padre['codigo_actividad']=$actividad_padre;
-          // $data_padre['actividadid']=$actividad_padre; 
-          // $data_padre['revision']=$revision;
-          // $data_padre['cargo']=$cargo;
-          // $data_padre['categoriaid']=$categoriaid;
-          // $data_padre['areaid']=$areaid;
-          // $data_padre['uid']=$uid;
-          // $data_padre['dni']=$dni;
-          // $data_padre['fecha']=date("Y-m-d");
-          // $data_padre['estado']=$estado;
-          // $data_padre['actividad_padre']='0';    
-
-          $gactiv= $act->_save($data_padre);
+        if ($estado=='I')
+        {
+          $contar_estado_inactivo= $act->_getConteoActividadesxEstado($codigo_prop_proy,$proyectoid,$uid,$dni,$areaid,'I',$actividad_padre);
+          $contar_actividades= $act->_getConteoActividadesxPadre($codigo_prop_proy,$proyectoid,$uid,$dni,$areaid,$actividad_padre);
+          /*if ($contar_estado_inactivo[0]['count']=='1')
+          {
+            $datos_actualizar['estado']='I';
+            $str_actualizar="codigo_prop_proy='$codigo_prop_proy' and proyectoid='$proyectoid' and actividadid='$actividad_padre' 
+            and actividad_padre='0' and uid='$uid' and dni='$dni' and areaid='$areaid' and actividad_padre='0' ";
+            $upactiv= $act-> _updateestado($datos_actualizar,$str_actualizar);
+          }*/
+          if ($contar_estado_inactivo==$contar_actividades)
+          {
+            $datos_actualizar['estado']='I';
+            $wheres_padre=array('codigo_prop_proy'=>$codigo_prop_proy,'codigo_actividad'=>$codigo_actividad,'proyectoid'=>$proyectoid,'actividadid'=>$actividad_padre
+              ,'uid'=>$uid,'dni'=>$dni,'areaid'=>$areaid,'actividad_padre'=>'0');
+            $existe_padre= $act->_getExisteActividadPadre($wheres_padre);
+            $str_actualizar="codigo_prop_proy='$codigo_prop_proy' and proyectoid='$proyectoid' and actividadid='$actividad_padre' 
+            and actividad_padre='0' and uid='$uid' and dni='$dni' and areaid='$areaid' and actividad_padre='0'  ";
+            $upactiv= $act-> _updateestado($datos_actualizar,$str_actualizar);
+            if ($upactiv)
+              {
+                echo "actualizadooooo ";
+              }
+          }
+        }
+        if ($estado=='A')
+        {
+          $contar_estado_activo= $act->_getConteoActividadesxEstado($codigo_prop_proy,$proyectoid,$uid,$dni,$areaid,'A',$actividad_padre);
+          $contar_actividades= $act->_getConteoActividadesxPadre($codigo_prop_proy,$proyectoid,$uid,$dni,$areaid,$actividad_padre);
+          if ($contar_estado_activo[0]['count']=='1')
+          {
+            $datos_actualizar['estado']='A';
+            $str_actualizar="codigo_prop_proy='$codigo_prop_proy' and proyectoid='$proyectoid' and actividadid='$actividad_padre' 
+            and actividad_padre='0' and uid='$uid' and dni='$dni' and areaid='$areaid' and actividad_padre='0' ";
+            $upactiv= $act-> _updateestado($datos_actualizar,$str_actualizar);
+          }
+          if ($contar_estado_activo==$contar_actividades)
+          {
+            $datos_actualizar['estado']='A';
+            $wheres_padre=array('codigo_prop_proy'=>$codigo_prop_proy,'codigo_actividad'=>$codigo_actividad,'proyectoid'=>$proyectoid,'actividadid'=>$actividad_padre
+             ,'uid'=>$uid,'dni'=>$dni,'areaid'=>$areaid,'actividad_padre'=>'0');
+            $existe_padre= $act->_getExisteActividadPadre($wheres_padre);
+            $str_actualizar="codigo_prop_proy='$codigo_prop_proy' and proyectoid='$proyectoid' and actividadid='$actividad_padre' 
+            and actividad_padre='0' and uid='$uid' and dni='$dni' and areaid='$areaid' and actividad_padre='0' ";
+            $upactiv= $act-> _updateestado($datos_actualizar,$str_actualizar);
+            if ($upactiv)
+            {
+              echo "actualizadooooo";
+            }
+          }
         }
      } 
       catch (Exception $e) {

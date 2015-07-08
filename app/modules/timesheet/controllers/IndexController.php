@@ -26,8 +26,17 @@ class Timesheet_IndexController extends Zend_Controller_Action {
         $equipo = new Admin_Model_DbTable_Equipo();
         //$data_equipo = $equipo->_getProyectosXuidXEstado($uid,'A');
         //$data_clientes = $equipo ->_getClienteXuidXEstado($uid,'A');
-        $data_clientes = $equipo ->_getClienteXEquipoXUsuario($uid, $dni ,'A');
+        /*clientes de la tabla equipo*/
+        //$data_clientes = $equipo ->_getClienteXEquipoXUsuario($uid, $dni ,'A');
+
+
+        $act= new Admin_Model_DbTable_Activaractividad();
+        $data_clientes = $act ->_getClientesXEmpleadoXEstadoActivo($uid, $dni ,'A');
+
+
+
         $this->view->datoscliente = $data_clientes;
+        //print_r($data_clientes);
         //$this->view->equipo = $data_equipo;
          } catch (Exception $e) {
             print "Error: ".$e->getMessage();
@@ -57,7 +66,8 @@ class Timesheet_IndexController extends Zend_Controller_Action {
         else
         {
             $equipo = new Admin_Model_DbTable_Equipo();
-            $data_equipo = $equipo->_getProyectosxEquipoxUsuarioXEstadoxCliente($uid,$dni,'A',$clienteid);    
+            $data_equipo = $equipo->_getProyectosxEquipoxUsuarioXEstadoxCliente($uid,$dni,'A',$clienteid);  
+            //print_r($data_equipo);
             //$data_equipo = $equipo->_getProyectosxUidXEstadoxCliente($uid,'A',$clienteid,$unidadid);    
             $this->view->equipo = $data_equipo;
             $this->view->fecha_consulta = $fecha_consulta;
@@ -91,7 +101,7 @@ class Timesheet_IndexController extends Zend_Controller_Action {
 
         //$actividad = new Admin_Model_DbTable_Actividad();
         //$dato_padre=$actividad->_getRepliconActividades($proyectoid,$codigo_prop_proy);
-        
+        //print_r($dato_padre);
         $this->view->actividades = $dato_padre;    
         $this->view->proyectoid = $proyectoid;
         $this->view->codigo_prop_proy = $codigo_prop_proy;
