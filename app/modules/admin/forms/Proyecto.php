@@ -27,8 +27,8 @@ class Admin_Form_Proyecto extends Zend_Form{
     $fecha_inicio= new Zend_Form_Element_Text('fecha_inicio');
     $fecha_inicio->removeDecorator('Label')->removeDecorator("HtmlTag");
     $fecha_inicio->setAttrib("maxlength", "100");
-    $fecha_inicio->setAttrib('class', 'form-control');
-    $fecha_inicio->setAttrib('class', 'default-date-picker');
+    $fecha_inicio->setAttrib('class', 'form-control default-date-picker');
+    //$fecha_inicio->setAttrib('class', 'form-control');
 
     
 
@@ -118,10 +118,10 @@ class Admin_Form_Proyecto extends Zend_Form{
     $tipo_proyecto->setLabel("Ingrese el Tipo de Documento: ");
     $tipo_proyecto->removeDecorator('Label');
     $tipo_proyecto->setAttrib('class','form-control');
-    $tipo_proyecto->addMultiOption('ING',"Ingeniería");
-    $tipo_proyecto->addMultiOption('GEO',"Geotécnia");
-    $tipo_proyecto->addMultiOption('CON',"Construcción");
-    $tipo_proyecto->addMultiOption('OTR',"Otros");
+    $tipo_proyecto->addMultiOption('Ingeniería',"Ingeniería");
+    $tipo_proyecto->addMultiOption('Geotécnia',"Geotécnia");
+    $tipo_proyecto->addMultiOption('Construcción',"Construcción");
+    $tipo_proyecto->addMultiOption('Otros',"Otros");
     $tipo_proyecto->setAttrib('class', 'form-control');
 
 
@@ -207,10 +207,8 @@ class Admin_Form_Proyecto extends Zend_Form{
     $fecha_cierre= new Zend_Form_Element_Text('fecha_cierre');
     $fecha_cierre->removeDecorator('Label')->removeDecorator("HtmlTag");
     $fecha_cierre->setAttrib("maxlength", "100");
-    $fecha_cierre->setAttrib('class', 'form-control');
-    $fecha_cierre->setAttrib('class', 'default-date-picker');
-
-
+    $fecha_cierre->setAttrib('class', 'form-control default-date-picker');
+  
     $monto_total= new Zend_Form_Element_Text('monto_total');
     $monto_total->removeDecorator('Label')->removeDecorator("HtmlTag");
     $monto_total->setAttrib("maxlength", "100");
