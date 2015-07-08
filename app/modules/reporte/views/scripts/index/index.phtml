@@ -127,7 +127,7 @@
 			</th>
 		</thead>
 		<tbody class="">
-			<tr ng-repeat="tareopersona in reporte.tareopersona | filter: reporte.usuario_seleccionado" ng-show="reporte.tipo_activo[tareopersona.tipo_actividad]">
+			<tr ng-repeat="tareopersona in reporte.tareopersona | filter: reporte.usuario_seleccionado" ng-show="tareopersona.visible">
 				<td>
 					<div>
 						{{tareopersona.dni}}

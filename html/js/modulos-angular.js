@@ -74,6 +74,18 @@ controller('mainController', ['$http', function($http){
 		} else {
 			reporte.tipo_activo.Todo = false
 		}
+
+		reporte.tareopersona.forEach(function (tareopersona) {
+			if (reporte.tipo_activo['Facturable'] == true && tareopersona.tipo_actividad == 'Facturable') {
+				tareopersona.visible = true
+			} else if (reporte.tipo_activo['No Facturable'] == true && tareopersona.tipo_actividad == 'No Facturable') {
+				tareopersona.visible = true
+			} else if (reporte.tipo_activo['Administración'] == true && tareopersona.tipo_actividad == 'Administración') {
+				tareopersona.visible = true
+			} else {
+				tareopersona.visible = false
+			}
+		})
 	}
 
 	reporte.cambiarAgrupamiento = function () {
@@ -333,7 +345,6 @@ controller('mainController', ['$http', function($http){
 			reporte.fecha_from.date = f
 		}
 		reporte.rellenarFechas()
-		console.log(reporte.meses)
 	}
 
 	//funcion para la suma de columnas segun dia, semana y mes
@@ -385,7 +396,8 @@ controller('mainController', ['$http', function($http){
 
 	//funcion que permite la exportacion a excel de la tabla
 	reporte.exportarXls = function () {
-		$('#tareopersona-table').tableExport({type:'excel', escape:'false'})
+		window.open('data:application/vnd.ms-excel,' + $('#tareopersona-table').html());
+		//$('#tareopersona-table').tableExport({type:'excel', escape:'false'})
 	}
 
 	reporte.exportarPdf = function (argument) {
@@ -580,6 +592,7 @@ var Tareopersona = function (codigo_prop_proy, codigo_actividad, dni, uid, rate_
 	this.horasxsemanas = []
 	this.horasxmeses = []
 	this.horas_total = 0
+	this.visible = true
 }
 
 //Metodo para rellenar las horas de tareopersona segun los dias escogidos
@@ -664,4 +677,10 @@ Tareopersona.prototype.setHoras = function () {
 	this.horasxsemanas = horasxsemana
 	this.horasxmeses = horasxmes
 	this.horas_total = suma
+
+	if (this.horas_total.toString() == '0') {
+		this.visible = false
+	} else {
+		this.visible = true
+	}
 }
