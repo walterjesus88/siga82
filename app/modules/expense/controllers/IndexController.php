@@ -427,6 +427,14 @@ class Expense_IndexController extends Zend_Controller_Action {
                 $where_cambio['fecha'] = $fecha[$i];
                 $where_cambio['tipo_moneda'] = 'Dolar Americano';
                 $dolar_tipo_cambio = $tipo_cambio->_getOne($where_cambio);
+                if ($dolar_tipo_cambio)
+                {
+                    $dolar_tipo_cambio=$dolar_tipo_cambio;
+                }
+                else
+                {
+                    $dolar_tipo_cambio='3.15';
+                }
                 $where_cambio['tipo_moneda'] = 'Dolar Canadiense';
                 $dolar_canadiense_tipo_cambio = $tipo_cambio->_getOne($where_cambio);
                 $where_cambio['tipo_moneda'] = 'Real';
@@ -730,7 +738,7 @@ class Expense_IndexController extends Zend_Controller_Action {
                 $wheretmp ['numero_rendicion'] = $numero;
                 $wheretmp ['proyectoid'] = $data_gasto[$i]['proyectoid'];
                 $data_gasto_final = $gasto->_getFilter($wheretmp,$attrib=null,$order);
-
+                //print_r($data_gasto_final);
                 $pk ['proyectoid'] = $data_gasto[$i]['proyectoid'];
                 $pk ['codigo_prop_proy'] = $data_gasto_final[0]['codigo_prop_proy'];
                 $proyecto = new Admin_Model_DbTable_Proyecto();

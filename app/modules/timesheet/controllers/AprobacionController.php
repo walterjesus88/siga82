@@ -330,6 +330,7 @@ class Timesheet_AprobacionController extends Zend_Controller_Action {
         try {
             $uid = $this->sesion->uid;
             $dni = $this->sesion->dni;     
+            $this->view->uid_gerente=$uid;
             $tabla_planificacion = new Admin_Model_DbTable_Planificacion();
             $lista_empleados_aprobar = $tabla_planificacion->_getListarEquipoxAprobacionxGerenteProyecto($uid,$dni);
             $this->view->lista_empleados_aprobar= $lista_empleados_aprobar;   
@@ -476,6 +477,30 @@ class Timesheet_AprobacionController extends Zend_Controller_Action {
         catch (Exception $e) {
                 print "Error: ".$e->getMessage();
         }
+    }
+
+    public function mostrarhistoricohojatiempogerenteAction(){
+        try {
+            $uid = $this->sesion->uid;
+            $dni = $this->sesion->dni;     
+
+            $tabla_usuariocategoria= new Admin_Model_DbTable_Usuariocategoria();
+            $codigosaprobaciones_empleado = $tabla_usuariocategoria->_getBuscarCodigoAprobacionesxEmpleado($uid,$dni);
+            
+            $lista_empleados_aprobar=array();
+            foreach ($codigosaprobaciones_empleado as $codigoaprobaciones) {
+                $tabla_aprobacion = new Admin_Model_DbTable_Aprobacion();
+                $codigos_paraaprobar=$tabla_aprobacion-> _getCodigoAprobacionxAprobadorfiltro2($codigoaprobaciones['aprobacion'],'A');
+                foreach ($codigos_paraaprobar as $codigo_aprobar) {
+                    $tabla_historial_aprobaciones= new Admin_Model_DbTable_Historialaprobaciones();       
+                    $listar_historial_aprobaciones = $tabla_historial_aprobaciones -> _getBuscarEmpleadoxHojatiempohistorico('GP',$codigo_aprobar['idaprobacion']);
+                    $lista_empleados_aprobar[]=$listar_historial_aprobaciones;
+                }
+            }
+            $this->view->lista_empleados_aprobar= $lista_empleados_aprobar;   
+        } catch (Exception $e) {
+            print "Error: ".$e->getMessage();
+        } 
     }
 
 };

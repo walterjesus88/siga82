@@ -1148,8 +1148,9 @@ public function subiractividadesAction(){
   try {
     /*$proyectoid= $this->_getParam("proyectoid");
     $codigo_prop_proy= $this->_getParam("codigo_prop_proy");*/
-    $proyectoid='1508.10.01';
-    $codigo_prop_proy='15.10.091-1508.10.01-D';
+    $proyectoid='1502.10.06';
+    
+    $codigo_prop_proy='15.10.097-1502.10.06-C';
     $editproyect= new Admin_Model_DbTable_Proyecto();
     $where = array(
                       'codigo_prop_proy'    => $codigo_prop_proy,
@@ -1833,6 +1834,22 @@ public function cargartarea2Action() {
           $data['estado']=$estado;
           $data['actividad_padre']=$actividad_padre;    
           $gactiv= $act->_save($data);
+
+          // $data_padre['codigo_prop_proy']=$codigo_prop_proy;
+          // $data_padre['proyectoid']=$proyectoid;
+          // $data_padre['codigo_actividad']=$actividad_padre;
+          // $data_padre['actividadid']=$actividad_padre; 
+          // $data_padre['revision']=$revision;
+          // $data_padre['cargo']=$cargo;
+          // $data_padre['categoriaid']=$categoriaid;
+          // $data_padre['areaid']=$areaid;
+          // $data_padre['uid']=$uid;
+          // $data_padre['dni']=$dni;
+          // $data_padre['fecha']=date("Y-m-d");
+          // $data_padre['estado']=$estado;
+          // $data_padre['actividad_padre']='0';    
+
+          $gactiv= $act->_save($data_padre);
         }
      } 
       catch (Exception $e) {
@@ -1884,7 +1901,9 @@ public function cargartarea2Action() {
           $data['fecha']=date("Y-m-d");
           $data['estado']=$estado;
           $data['actividad_padre']=$actividad_padre;    
+
           $gactiv= $act->_save($data);
+
         }
      } 
       catch (Exception $e) {
@@ -1896,7 +1915,7 @@ public function cargartarea2Action() {
   public function agregartodoactividadAction(){
     try
     {
-      $cargo= $this->_getParam("cargo");
+      echo $cargo= $this->_getParam("cargo");
       $areaid= $this->_getParam("areaid");
       $uid= $this->_getParam("uid");
       $dni= $this->_getParam("dni");
@@ -1906,13 +1925,19 @@ public function cargartarea2Action() {
       $estado= $this->_getParam("estado");   
       $act= new Admin_Model_DbTable_Actividad();
       $activar= $act->_getRepliconActividades($proyectoid,$codigo_prop_proy);
+      //print_r($activar);
+
+      //exit();
+
       for($i=0;$i<count($activar);$i++)
       {
-        if(strlen($activar[$i]['actividadid'])>1)
+
+        if(($activar[$i]['hijo'])=='N')
         {
           //print_r(strlen($activar[$i]['actividadid']));echo "</br>";
           //print_r($activar[$i]['actividadid']);echo "</br>";
-
+          //echo "ggg";
+          //exit();
           $codigo_actividad = $activar[$i]['codigo_actividad'];
           $actividadid = $activar[$i]['actividadid'];
           $revision = $activar[$i]['revision'];
@@ -1946,7 +1971,6 @@ public function cargartarea2Action() {
           $gactiv= $acti->_save($data);
           
           }
-
       
         }
       } 
@@ -1977,7 +2001,9 @@ public function cargartarea2Action() {
       $data['estado']='A';
    
       //print_r($data);
+
       $where = array('codigo_prop_proy' =>$codigo_prop_proy, 'proyectoid' =>$proyectoid , 'areaid' =>$areaid );
+
 
       $equiparea= new Admin_Model_DbTable_Equipoarea();
 
@@ -1985,9 +2011,11 @@ public function cargartarea2Action() {
 
       if($eki)
       { ?>
+
         <script type="text/javascript">
           alert("ya esta contenido ese area");
           window.location.reload();
+
 
         </script>
       <?php

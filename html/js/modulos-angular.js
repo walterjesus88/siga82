@@ -11,31 +11,31 @@ angular.module('reporteApp', ['datatables']).
 controller('mainController', ['$http', function($http){
 
 	//obtener una referencia del scope para el funcionamiento del data binding con la vista
-	reporte = this
+	reporte = this;
 
 	//linea para poder redibujar el datatable de angular
-	reporte.dtInstance = {}
+	reporte.dtInstance = {};
 
 	//inicializando variables para el rango de fecha
-	var fecha_inicial_cad = '10-06-2015'
-	var fecha_inicial_date = fecha_inicial_cad.toDate()
-	var fecha_final_date = new Date()
-	var fecha_final_cad = fecha_final_date.Ddmmyyyy()
+	var fecha_inicial_cad = '01-01-2015';
+	var fecha_inicial_date = fecha_inicial_cad.toDate();
+	var fecha_final_date = new Date();
+	var fecha_final_cad = fecha_final_date.Ddmmyyyy();
 
 
 	//inicializando las variables necesarias relacionadas a la vista
-	reporte.tipo_actividad = [{'id': 'P', 'text': 'Facturable'}, {'id': 'G', 'text': 'No Facturable'}, {'id': 'A', 'text': 'Administración'}]
-	reporte.tipo_activo = {'Todo': true, 'Facturable': true, 'No Facturable': true, 'Administración': true}
-	reporte.agrupado = [{'text': 'por Días', 'value': 'xdias'}, {'text': 'por Semanas', 'value': 'xsemanas'}, {'text': 'por Meses', 'value': 'xmeses'}]
-	reporte.tareopersona_void = true
-	reporte.text_proyectos = 'Seleccione un Cliente o Gerente para mostrar sus proyectos activos.'
-	reporte.disabled_children = true
+	reporte.tipo_actividad = [{'id': 'P', 'text': 'Facturable'}, {'id': 'G', 'text': 'No Facturable'}, {'id': 'A', 'text': 'Administración'}];
+	reporte.tipo_activo = {'Todo': true, 'Facturable': true, 'No Facturable': true, 'Administración': true};
+	reporte.agrupado = [{'text': 'por Días', 'value': 'xdias'}, {'text': 'por Semanas', 'value': 'xsemanas'}, {'text': 'por Meses', 'value': 'xmeses'}];
+	reporte.tareopersona_void = true;
+	reporte.text_proyectos = 'Seleccione un Cliente o Gerente para mostrar sus proyectos activos.';
+	reporte.disabled_children = true;
 	
 	//elementos seleccionados por defecto en los combobox
-	reporte.cliente_seleccionado = 'todos'
-	reporte.usuario_seleccionado = '.'
-	reporte.gerente_seleccionado = 'todos'
-	reporte.agrupado_seleccionado = 'xdias'
+	reporte.cliente_seleccionado = 'todos';
+	reporte.usuario_seleccionado = '.';
+	reporte.gerente_seleccionado = 'todos';
+	reporte.agrupado_seleccionado = 'xdias';
 	
 	//elementos por defecto de fecha y campos visibles por defecto
 	reporte.fecha_from = {'cadena': fecha_inicial_cad, 'date': fecha_inicial_date}
@@ -46,9 +46,9 @@ controller('mainController', ['$http', function($http){
 	reporte.dias_suma = []
 	reporte.semanas_suma = []
 	reporte.meses_suma = []
-	reporte.dias_visible = true
-	reporte.semanas_visible = false
-	reporte.meses_visible = false	
+	reporte.dias_visible = true;
+	reporte.semanas_visible = false;
+	reporte.meses_visible = false;
 		
 	//creando las variables que contendran los datos de respuesta del servidor
 	reporte.gerentes = []
@@ -100,10 +100,10 @@ controller('mainController', ['$http', function($http){
 		var inicial = reporte.fecha_from.date
 		var ultimo = reporte.fecha_to.date
 		var dias_sem = ['Dom', 'Lun', 'Mar', 'Mie', 'Jue', 'Vie', 'Sab']
-		var nombres = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Setiembre', 'Noviembre', 'Diciembre']
+		var nombres = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Setiembre', 'Octubre', 'Noviembre', 'Diciembre']
 		var dias_trans = Math.floor((ultimo.getTime() - inicial.getTime()) / (1000 * 60 * 60 * 24)) + 1
 		var fecha = inicial
-		var mes = ''
+		var mes = -1
 		var semana = ''
 
 		for (var i = 0; i < dias_trans; i++) {
@@ -115,8 +115,10 @@ controller('mainController', ['$http', function($http){
 		}
 				
 		dias.forEach(function (dia) {
-			if (dia.fecha.toDate().getMonth() != mes) {
-				mes = dia.fecha.toDate().getMonth()
+			var f = dia.fecha.toDate()
+			var m = f.getMonth()
+			if (f.getMonth() != mes) {
+				mes = m
 				meses.push(nombres[mes])
 			}
 			if (dia.fecha.toDate().getWeek() != semana) {
@@ -191,12 +193,13 @@ controller('mainController', ['$http', function($http){
 					reporte.proyectos.push(proyecto)
 				})
 			}
-		})	
+		})
 	}
 
 	//obtener los datos de usuario y tareopersona por proyecto
 	reporte.getData = function (proyecto, index) {
 		if (reporte.proyectos[index]['selected']) {
+			reporte.cambiarFechaInicio(proyecto)
 			reporte.agregarUsuarios(proyecto)
 			reporte.agregarTareopersona(proyecto)
 		} else {
@@ -315,6 +318,22 @@ controller('mainController', ['$http', function($http){
 		reporte.tareopersona = arrayTemp
 		reporte.sumarVerticales()
 		reporte.dtInstance.rerender()
+	}
+
+	//funcion para poner como fecha_from a la fecha de inicio del proyecto
+	reporte.cambiarFechaInicio = function (proyecto) {
+		var f = new Date()
+		reporte.proyectos.forEach(function (item) {
+			if (item.codigo_prop_proy == proyecto) {
+				f = item.fecha_inicio.toDate()
+			}
+		})
+		if (f < reporte.fecha_from.date) {
+			reporte.fecha_from.cadena = f.Ddmmyyyy()
+			reporte.fecha_from.date = f
+		}
+		reporte.rellenarFechas()
+		console.log(reporte.meses)
 	}
 
 	//funcion para la suma de columnas segun dia, semana y mes
@@ -499,6 +518,9 @@ Date.prototype.getWeek = function () {
 //de cadena uid a usuario respectivamente
 String.prototype.toDate = function () {
 	cadena = this.valueOf()
+	if (cadena.match(/\//)){
+    	cadena = cadena.replace(/\//g,"-",cadena)
+  	}
 	var datos = []
 	datos = cadena.split("-")
 	if (datos[0].length == 4) {
@@ -507,18 +529,18 @@ String.prototype.toDate = function () {
 		datos[0] = dia 
 	}
 	var dd = parseInt(datos[0])
-	var mm = parseInt(datos[1])
+	var mm = parseInt(datos[1]) - 1
 	var yyyy = parseInt(datos[2])
 	var f = new Date()
 	f.setDate(dd)
-	f.setMonth(mm - 1)
+	f.setMonth(mm)
 	f.setFullYear(yyyy)
 	return f
 }
 
 String.prototype.toMonth = function () {
 	var cadena = this.valueOf()
-	var nombres = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Setiembre', 'Noviembre', 'Diciembre']
+	var nombres = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Setiembre', 'Octubre', 'Noviembre', 'Diciembre']
 	var x = nombres.indexOf(cadena)
 	return x
 }

@@ -49,8 +49,10 @@
           <div class="bio-row">
             <p><span class="bold">Estado</span>: <span class="label label-primary"></span><?php 
               if ($this->proyecto['estado']=='A') { echo "Activo" ;}
+
               if ($this->proyecto['estado']=='CA') { echo "Cancelado" ;}
               ?>
+
             </p>
           </div>
           <div class="bio-row">
@@ -789,7 +791,6 @@
    });
 
 </script>
-
 
 
 <div id="anadirareaproyecto"></div>

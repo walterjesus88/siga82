@@ -455,6 +455,7 @@ public function _getTareasxActividadPadrexCategoria($proyectoid,$codigo,$propues
         }
     }
 
+
     public function _getActividadesOrdenadas($proyectoid,$codigo)
      {
         try{
