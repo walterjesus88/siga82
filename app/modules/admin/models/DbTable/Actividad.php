@@ -455,6 +455,7 @@ public function _getTareasxActividadPadrexCategoria($proyectoid,$codigo,$propues
         }
     }
 
+
     public function _getActividadesOrdenadas($proyectoid,$codigo)
      {
         try{
@@ -471,6 +472,28 @@ public function _getTareasxActividadPadrexCategoria($proyectoid,$codigo,$propues
             print $ex->getMessage();
         }
     }
+
+
+
+    public function _getExisteActividadPadre($where=array()){
+        try {
+                //if ($where["dni"]=='') return false;                
+                $wherestr= "codigo_prop_proy = '".$where['codigo_prop_proy']."' 
+                            and proyectoid='".$where['proyectoid']."'  and actividadid='".$where['actividadid']."'
+                            and  actividad_padre='0' 
+                             ";
+
+                //print_r($wherestr);
+
+                $row = $this->fetchRow($wherestr);
+
+                if($row) return $row->toArray();
+                return false;
+        } catch (Exception $e) {
+            print "Error: Read One Condition".$e->getMessage();
+        }
+    }
+
     
 }
 

@@ -13,26 +13,26 @@
                 $c=0;
                 
                 $cont=count($this->actividades);
-                // $f=0;
-                // $cont=0;
-                // foreach ($this->actividades as $listaactividad)
-                // {
-                //   if(strlen($listaactividad['actividadid'])>1)
-                //   {
-                //     //print_r(strlen($listaactividad['actividadid']));
-                //     $cont=$cont+1;
-                //   }
-                //   $f++;
-                // }
-                //print_r($cont);
+           /*     $f=0;
+                $cont=0;
+                foreach ($this->actividades as $listaactividad)
+                {
+                   echo $listaactividad['hijo'];
+                   if($listaactividad['hijo']=='N')
+                   {
+                     $cont=$cont+1;
+                   }
+                   $f++;
+                }
+                print_r($cont);*/
 
                 foreach ($this->equipo as $listaequipo) 
                     {?>
-                    <th style="width: 50px;padding-top: 1px;padding-right: 1px;padding-bottom: 1px;padding-left: 1px;" style="width: 150px; font-size: 10px;" class="p-name" id="nomact_<?php echo $c?>">
+                    <th style="width: 50px;padding-top: 1px;padding-right: 1px;padding-bottom: 1px;padding-left: 1px;" style="width: 150px; font-size: 10px;" class="p-name" id="nomact_<?php echo $c?>"><center>
                         <a href="#"><?php //echo $listaequipo['uid'];
 
                           $porciones = explode(".", $listaequipo['uid']);
-                          echo (ucwords($porciones[0])); echo " ";echo (ucwords($porciones[1]));
+                          echo (ucwords($porciones[0])); echo "<br>"; echo " ";echo (ucwords($porciones[1]));
 
                         ?></a>
 
@@ -49,7 +49,8 @@
                             //print_r($activr);
                         ?>
                         <?php
-                            
+                            //
+                            /*
                             if($cont==$activr[0]['count'])
                                 { ?>
                                     <input name="todoagrega" id="todoagrega_<?php echo $c ?>" value="A_<?php echo $c?>" type="checkbox" checked>
@@ -57,10 +58,11 @@
                             else
                                 { ?>
                                     <input name="todoagrega" id="todoagrega_<?php echo $c ?>" value="A_<?php echo $c?>" type="checkbox" >
-                        <?php  }
+                        <?php  }*/
                         ?>               
                         <script type="text/javascript"> 
                             $("#todoagrega_<?php echo $c ?>").click(function(){
+                                //alert('url1');
                                 var j="<?php echo $c ?>";
                                 var toten="<?php echo $cont ?>";
                                 if($("#todoagrega_<?php echo $c?>").is(':checked')) 
@@ -86,7 +88,10 @@
                                 var categoriaid="<?php echo $listaequipo['categoriaid'] ?>";
                                 var areaid="<?php echo $listaequipo['areaid'] ?>";
                                 var cargo="<?php echo $listaequipo['cargo'] ?>";   
-                                url="/proyecto/index/agregartodoactividad/cargo/"+cargo+"/areaid/"+areaid+"/uid/"+uid+"/dni/"+dni+"/proyectoid/"+proyectoid+"/categoriaid/"+ categoriaid+"/codigo_prop_proy/"+codigo_prop_proy+"/estado/"+estado;       
+                                url="/proyecto/index/agregartodoactividad/cargo/"+cargo+"/areaid/"+areaid+"/uid/"+uid+"/dni/"+dni+"/proyectoid/"+proyectoid+"/categoriaid/"+ categoriaid+"/codigo_prop_proy/"+codigo_prop_proy+"/estado/"+estado;
+
+                                //alert(url),
+
                                 $.ajax({
                                     type: "POST",
                                     url: url,
@@ -98,7 +103,7 @@
                                     }
                                 });
                             });
-                        </script>
+                        </script></center>
                     </th>                                            
                 <?php $c++; } ?>
             </tr>
@@ -111,8 +116,20 @@
                 ?>
                 <tr>
                     <td style="width: 50px;padding-top: 1px;padding-right: 1px;padding-bottom: 1px;padding-left: 1px;" style="width: 150px; font-size: 10px;" id="nomact_<?php echo $c?>">                    
-                        <?php echo "<strong>"; echo $listaactividad['actividadid']; echo "</strong>"; echo " -  "; echo $listaactividad['nombre']; ?>
-                        <?php echo strlen($listaactividad['actividadid']) ?>
+
+                        <?php 
+                        if ($listaactividad['hijo']=='S')
+                        {
+                            echo "<center>";
+                            echo "<strong>"; echo $listaactividad['actividadid']; echo "</strong>"; echo " -  "; echo $listaactividad['nombre'];    
+                            echo "</center>";
+                        }
+                        if ($listaactividad['hijo']=='N')
+                        {
+                            echo "<strong>"; echo $listaactividad['actividadid']; echo "</strong>"; echo " -  "; echo $listaactividad['nombre']; 
+                        }
+                        ?>
+                        <?php //echo strlen($listaactividad['actividadid']) ?>
                     </td>  
 
                      <?php
@@ -126,45 +143,34 @@
                         $activar= $act->_getOne($wheres);
                         //  print_r($activar);
                       ?>
-                        <td style="width: 150px;padding-top: 1px;padding-right: 1px;padding-bottom: 1px;padding-left: 1px;" >
+                        <td style="width: 150px;padding-top: 1px;padding-right: 1px;padding-bottom: 1px;padding-left: 1px;" > <center>
                           <?php
-                          if($activar['estado']=='A' )
-                          {  
-                            if(strlen($activar['actividadid'])>1)
-                            { ?>
-                              <input id="agrega_<?php echo $c?><?php echo $i?>" type="checkbox"  checked="checked" name="agreg[<?php echo $c?>][<?php echo $i?>]" value="<?php echo $i ?><?php echo $c ?>">
-                            <?php }
+                            if($listaactividad['hijo']=='N') 
+                            { 
+
+                              if($activar['estado']=='A' )
+                              {  
+                                 //print_r(strlen($activar['actividadid']));
+                                 ?>
+                                  <input id="agrega_<?php echo $c?><?php echo $i?>" type="checkbox"  checked="checked" name="agreg[<?php echo $c?>][<?php echo $i?>]" value="<?php echo $i ?><?php echo $c ?>">
+                             
+                                <?php 
+                              }
+                              else
+                              { ?>
+                               
+                                <input id="agrega_<?php echo $c?><?php echo $i?>" type="checkbox" name="agreg[<?php echo $c?>][<?php echo $i?>]" value="<?php echo $i ?><?php echo $c ?>" >
+                                <?php 
+                              }
+
+                            }
                             else
                             { ?>
-                              <input style="display:none" disabled id="agrega_<?php echo $c?><?php echo $i?>" type="checkbox"  checked="checked" name="agreg[<?php echo $c?>][<?php echo $i?>]" value="<?php echo $i ?><?php echo $c ?>">
-                            <?php }
-                    
-                          ?>
-                          <!-- <input class ='one-turno-course' index='1' type="checkbox" id="A" name="turno[<?php echo $i?>]" value="<?php echo $c ?>" checked> -->
-                          <?php 
-                          }
-                          else
-                          { 
-                            if(strlen($listaactividad['actividadid'])>1)
-                            { ?>
-                               <input id="agrega_<?php echo $c?><?php echo $i?>" type="checkbox" name="agreg[<?php echo $c?>][<?php echo $i?>]" value="<?php echo $i ?><?php echo $c ?>" >
-                            <?php }
-                            else
-                            { ?>
-                               <input style="display:none" id="agrega_<?php echo $c?><?php echo $i?>" type="checkbox" name="agreg[<?php echo $c?>][<?php echo $i?>]" value="<?php echo $i ?><?php echo $c ?>" >
-                            <?php }
-                            
+                                <input disabled style="display:none" id="agrega_<?php echo $c?><?php echo $i?>" type="checkbox" name="agreg[<?php echo $c?>][<?php echo $i?>]" value="<?php echo $i ?><?php echo $c ?>" >
+                            <?php 
+                            }
                             ?>
 
-                           
-                            <!-- <p>ggg</p> -->
-                            <?php
-                            //echo $activar['actividadid'];                            
-                            ?>                                                 
-                        
-                          <?php
-                          }
-                          ?>
 
                             <script type="text/javascript">
                                 var checkboxValues = "";
@@ -200,9 +206,13 @@
                                 var actividad_padre="<?php echo $listaactividad['actividad_padre'] ?>";
                                 var codigo_actividad="<?php echo $listaactividad['codigo_actividad'] ?>";
                                 var codigo_prop_proy="<?php echo $listaactividad['codigo_prop_proy'] ?>";
-                                url="/proyecto/index/agregaactividad/cargo/"+cargo+"/areaid/"+areaid+"/uid/"+uid+"/dni/"+dni+"/proyectoid/"+proyectoid+"/categoriaid/"+ categoriaid+"/actividadid/"+actividadid+"/revision/"+revision+"/actividad_padre/"+actividad_padre+"/codigo_actividad/"+codigo_actividad+"/codigo_prop_proy/"+codigo_prop_proy+"/estado/"+estado;
-                                alert(url);
-                                $.ajax({
+                                var hijo="<?php echo $listaactividad['hijo'] ?>";
+                                url="/proyecto/index/agregaactividad/cargo/"+cargo+"/areaid/"+areaid+"/uid/"+uid+"/dni/"+dni+"/proyectoid/"+proyectoid+"/categoriaid/"+ categoriaid+"/actividadid/"+actividadid+"/revision/"+revision+"/actividad_padre/"+actividad_padre+"/codigo_actividad/"+codigo_actividad+"/codigo_prop_proy/"+codigo_prop_proy+"/estado/"+estado+"/hijo/"+hijo;
+                                //alert(url);
+
+                                $("#cargact").load(url);
+
+                              /*  $.ajax({
                                     type: "POST",
                                     url: url,
                                     data: $(this).serialize(),
@@ -212,9 +222,9 @@
                                     // },
                                     success: function(data){
                                     }
-                              });
+                              });*/
                            });                   
-                          </script>
+                          </script></center>
                         </td>
                      <?php
                       $i++;
@@ -227,5 +237,5 @@
           </tbody>
     </table>
   </div>
-  <div id="cargact"></div>
+  <div style="display:none" id="cargact"></div>
 </form>

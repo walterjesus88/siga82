@@ -5,17 +5,17 @@
               <!-- page start-->
               <section class="panel">
                   <header class="panel-heading">
-                      Proyecto Nuevo
-                      <span class="pull-right">
-                          
-                                  
-                                      <a id="save" class="btn btn-success btn-xs" href="#">Guardar</a>
-                                      <!--<a id="save_seguir" class="btn btn-info btn-xs " href="#">Anadir mas/ver</a>-->
-                                      <a class="btn btn-info btn-xs" href="/proyecto/index/listar">Cancelar</a>
-                                  
-
-
-                      </span>
+                      <div class="chat-room-head">
+                          <center><h5> Proyecto Nuevo</h5>
+                          </center>
+                          <div>
+                                        
+                          </div>
+                      </div>
+                            <span class="pull-left">
+                                <a id="save" class="btn btn-success btn-xs" href="#">Guardar</a>                                        
+                                <a class="btn btn-info btn-xs" href="/proyecto/index/listar">Cancelar</a> 
+                            </span>
                   </header>
 
               </section>
@@ -29,19 +29,19 @@
                                   <form name="<?php echo $this->form->getName(); ?>" action="<?php echo $this->form->getAction(); ?>" method="post" enctype="application/x-www-form-urlencoded">
 
                    
-                                  <div class="bio-row">
+                                  <div class="bio-row form-group has-success">
                                     <div class="form-group">
                                       <label >Número de Proyecto</label>
                                      <?php print $this->form->proyectoid;?>
                                     </div>
                                   </div>
-                                  <div class="bio-row">
+                                  <div class="bio-row form-group has-success">
                                     <div class="form-group">
                                       <label >Nombre </label > <?php print $this->form->nombre_proyecto;?></p>
                                     </div>
                                   </div>
                                 
-                                    <div class="bio-row"> 
+                                  <div class="bio-row form-group has-success"> 
                                     <span class="bold">Propuesta </span>                                   
                                     
                                     <select  id="propuestaid" name="propuestaid" class="form-control">
@@ -52,58 +52,89 @@
                                             <option value="<?php echo $propuesta['propuestaid']?>"><?php echo $propuesta['nombre_propuesta']?></option>
                                             <?php
                                         }?>
-                                    </select>-
-                                    </div> 
+                                    </select>
+                                  </div> 
 
-                                    <div class="bio-row">
+                                    <div class="bio-row form-group has-success">
                                         <span class="bold">Código de Proyecto </span>
-                                        <select disabled id="cod_proy_prop" name="cod_proy_prop" class="form-control">
+                                        <?php print $this->form->codigo_prop_proy;?>
+
+                                      <!--   <select disabled id="cod_proy_prop" name="cod_proy_prop" class="form-control">
                                          
-                                        </select>
+                                        </select> -->
                                     </div>
 
-                                    <div class="bio-row">
+                                    <div class="bio-row form-group has-success">
                                         <span class="bold">Cliente </span>
-                                        <select disabled id="cliente" name="cliente" class="form-control">
-                                         
+                                        <select id="cliente" name="cliente" class="form-control">
+                                         <!-- codigo posible a cambiar-->
+                                         <option  value="">Seleccione..</option>
+                                          <?php
+                                          foreach ($this->clientes  as $cliente){
+                                              ?>
+                                              <option value="<?php echo $cliente['clienteid']?>"><?php echo $cliente['nombre_comercial']?></option>
+                                              <?php
+                                          }?>
+                                         <!-- -->
                                         </select>
                                     </div>
 
 
-                                    <div class="bio-row">
+                                    <div class="bio-row form-group has-success">
                                         <span class="bold">Unidad Minera </span>
-                                        <select disabled id="uminera" name="uminera" class="form-control">
-                                          
+                                        <select id="uminera" name="uminera" class="form-control">
+                                         <!-- codigo posible a cambiar-->
+                                         <option  value="">Seleccione..</option>
+                                          <?php
+                                          foreach ($this->unidadminera  as $unidad){
+                                              ?>
+                                              <option value="<?php echo $unidad['unidad_mineraid']?>"><?php echo $unidad['nombre']?></option>
+                                              <?php
+                                          }?>
+                                         <!-- -->
                                         </select>
                                     </div> 
  
 
-                                    <div class="bio-row">
+                                    <div class="bio-row form-group has-success">
                                         <span class="bold">Revisión </span>
-                                        <select disabled  id="revision" name="revision" class="form-control">                                          
-                                        </select>
+                                        <?php print $this->form->revision ;?>
+
+                                    <!--     <select disabled  id="revision" name="revision" class="form-control">                                          
+                                        </select> -->
                                     </div>  
 
-                                    <div class="bio-row">
-                                      <p><span class="bold">Gerente de Proyecto</span> <?php print $this->form->gerente_proyecto;?></p>
+                                    <div class="bio-row form-group has-success">
+                                      <p><span class="">Gerente de Proyecto</span> <?php print $this->form->gerente_proyecto;?></p>
                                     </div>
                           
-                                    <div class="bio-row">
-                                      <p><span class="bold">Control Proyecto</span> <?php print $this->form->control_proyecto;?></p>
+                                    <div class="bio-row form-group has-success">
+                                      <p><span class="">Control Proyecto</span> <?php print $this->form->control_proyecto;?></p>
                                     </div>
-                                    <div class="bio-row">
-                                      <p><span class="bold">Control Documentario </span> <?php print $this->form->control_documentario;?></p>
+
+
+                                    <div class="bio-row form-group has-success">
+                                      <p><span class="">Control Documentario </span> <?php print $this->form->control_documentario;?></p>
                                     </div>
-                                    <div class="bio-row">
+                       
+                                    <div class="bio-row form-group has-success">
                                       <p><span class="bold">Estado </span> <?php print $this->form->estado;?></p>
                                     </div>
-                                    <div class="bio-row">
-                                        <p><span class="bold">Fecha Inicio </span><?php print $this->form->fecha_inicio;?>
-                                      </div>
-                                    <div class="bio-row">
-                                      <p><span class="bold">Descripción </span>: <?php print $this->form->descripcion;?></p>
+                             
+                                    <div class="bio-row form-group has-success">
+                                        <p ><span class="bold">Monto Total </span><?php print $this->form->monto_total;?></p>
                                     </div>
-                                                  
+
+                                    <div class="bio-row form-group has-success">
+                                        <p ><span class="bold">Fecha Inicio </span><?php print $this->form->fecha_inicio;?></p>
+                                    </div>
+
+                                    <div class="bio-row form-group has-success">
+                                        <p ><span class="bold">Fecha Cierre </span><?php print $this->form->fecha_cierre;?></p>
+
+                                    </div>
+                                                 
+                                     
                               </div>
 
                           </div>
@@ -115,208 +146,35 @@
                   <div class="col-md-4">
                       <section class="panel">
                           <header class="panel-heading">
-                              Proyecto Detalles
+                              <h5><b> Proyecto Detalles</b></h5>
                           </header>
                       <div class="panel-body">
-                              <br/>
-
-                                    <div class="bio-row">
-                                      <p><span class="bold">tag: </span> <?php print $this->form->tag;?></p>
+                                    <div class="form-group has-success" >
+                                      <p><span class="">Tag: </span> <?php print $this->form->tag;?></p>
                                     </div>
 
-                                    <div class="bio-row">
-                                      <p><span class="bold">tipo de proyecto: </span> <?php print $this->form->tipo_proyecto;?></p>
+                                    <div class="form-group has-success">
+                                      <p><span class="">Tipo de Proyecto: </span> <?php print $this->form->tipo_proyecto;?></p>
                                     </div>
+
+                                    <div class="form-group has-success">
+                                      <p><span class="bold">Descripción </span>: <?php print $this->form->descripcion;?></p>
+                                    </div> 
+
+                                    <div class="form-group has-success">
+                                      <p><span class="bold">Observacion </span>: <?php print $this->form->observacion;?></p>
+                                    </div> 
+                                                
 
                               </form>
                               
-<!--     
-                              <h5 class="bold">Priority</h5>
-                              <ul class="nav nav-pills nav-stacked labels-info ">
-                                  <li><i class=" fa fa-circle text-danger"></i> High Priority</p></li>
-                              </ul>
-
-                              <br/>
-                              <h5 class="bold">Project files</h5>
-                              <ul class="list-unstyled p-files">
-                                  <li><a href=""><i class="fa fa-file-text"></i> Project-document.docx</a></li>
-                                  <li><a href=""><i class="fa fa-picture-o"></i> Logo-company.jpg</a></li>
-                                  <li><a href=""><i class="fa fa-mail-forward"></i> Email-from-flatbal.mln</a></li>
-                                  <li><a href=""><i class="fa fa-file"></i> Contract-10_12_2014.docx</a></li>
-                              </ul>
-                              <br/>
-
-                              <h5 class="bold">Project Tags</h5>
-                              <ul class="p-tag-list">
-                                  <li><a href=""><i class="fa fa-tag"></i> Dlor</a></li>
-                                  <li><a href=""><i class="fa fa-tag"></i> Lorem ipsum</a></li>
-                                  <li><a href=""><i class="fa fa-tag"></i> Google</a></li>
-                                  <li><a href=""><i class="fa fa-tag"></i> Excellent</a></li>
-                                  <li><a href=""><i class="fa fa-tag"></i> Dlor</a></li>
-                                  <li><a href=""><i class="fa fa-tag"></i> Lorem ipsum</a></li>
-                                  <li><a href=""><i class="fa fa-tag"></i> Google</a></li>
-                                  <li><a href=""><i class="fa fa-tag"></i> Excellent</a></li>
-                              </ul>
-
-                              <div class="text-center mtop20">
-                                  <a href="#" class="btn btn-sm btn-primary">Add files</a>
-                                  <a href="#" class="btn btn-sm btn-warning">Report contact</a>
-                              </div>
-                          </div> -->
 
                       </section>
                   </div>
               </div>
               <!-- page end-->
 
-      <!--main content end-->
-
-      <!-- Right Slidebar start -->
-      <div class="sb-slidebar sb-right sb-style-overlay">
-          <h5 class="side-title">Online Customers</h5>
-          <ul class="quick-chat-list">
-              <li class="online">
-                  <div class="media">
-                      <a href="#" class="pull-left media-thumb">
-                          <img alt="" src="img/chat-avatar2.jpg" class="media-object">
-                      </a>
-                      <div class="media-body">
-                          <strong>John Doe</strong>
-                          <small>Dream Land, AU</small>
-                      </div>
-                  </div><!-- media -->
-              </li>
-              <li class="online">
-                  <div class="media">
-                      <a href="#" class="pull-left media-thumb">
-                          <img alt="" src="img/chat-avatar.jpg" class="media-object">
-                      </a>
-                      <div class="media-body">
-                          <div class="media-status">
-                              <span class=" badge bg-important">3</span>
-                          </div>
-                          <strong>Jonathan Smith</strong>
-                          <small>United States</small>
-                      </div>
-                  </div><!-- media -->
-              </li>
-
-              <li class="online">
-                  <div class="media">
-                      <a href="#" class="pull-left media-thumb">
-                          <img alt="" src="img/pro-ac-1.png" class="media-object">
-                      </a>
-                      <div class="media-body">
-                          <div class="media-status">
-                              <span class=" badge bg-success">5</span>
-                          </div>
-                          <strong>Jane Doe</strong>
-                          <small>ABC, USA</small>
-                      </div>
-                  </div><!-- media -->
-              </li>
-              <li class="online">
-                  <div class="media">
-                      <a href="#" class="pull-left media-thumb">
-                          <img alt="" src="img/avatar1.jpg" class="media-object">
-                      </a>
-                      <div class="media-body">
-                          <strong>Anjelina Joli</strong>
-                          <small>Fockland, UK</small>
-                      </div>
-                  </div><!-- media -->
-              </li>
-              <li class="online">
-                  <div class="media">
-                      <a href="#" class="pull-left media-thumb">
-                          <img alt="" src="img/mail-avatar.jpg" class="media-object">
-                      </a>
-                      <div class="media-body">
-                          <div class="media-status">
-                              <span class=" badge bg-warning">7</span>
-                          </div>
-                          <strong>Mr Tasi</strong>
-                          <small>Dream Land, USA</small>
-                      </div>
-                  </div><!-- media -->
-              </li>
-          </ul>
-          <h5 class="side-title"> pending Task</h5>
-          <ul class="p-task tasks-bar">
-              <li>
-                  <a href="#">
-                      <div class="task-info">
-                          <div class="desc">Dashboard v1.3</div>
-                          <div class="percent">40%</div>
-                      </div>
-                      <div class="progress progress-striped">
-                          <div style="width: 40%" aria-valuemax="100" aria-valuemin="0" aria-valuenow="40" role="progressbar" class="progress-bar progress-bar-success">
-                              <span class="sr-only">40% Complete (success)</span>
-                          </div>
-                      </div>
-                  </a>
-              </li>
-              <li>
-                  <a href="#">
-                      <div class="task-info">
-                          <div class="desc">Database Update</div>
-                          <div class="percent">60%</div>
-                      </div>
-                      <div class="progress progress-striped">
-                          <div style="width: 60%" aria-valuemax="100" aria-valuemin="0" aria-valuenow="60" role="progressbar" class="progress-bar progress-bar-warning">
-                              <span class="sr-only">60% Complete (warning)</span>
-                          </div>
-                      </div>
-                  </a>
-              </li>
-              <li>
-                  <a href="#">
-                      <div class="task-info">
-                          <div class="desc">Iphone Development</div>
-                          <div class="percent">87%</div>
-                      </div>
-                      <div class="progress progress-striped">
-                          <div style="width: 87%" aria-valuemax="100" aria-valuemin="0" aria-valuenow="20" role="progressbar" class="progress-bar progress-bar-info">
-                              <span class="sr-only">87% Complete</span>
-                          </div>
-                      </div>
-                  </a>
-              </li>
-              <li>
-                  <a href="#">
-                      <div class="task-info">
-                          <div class="desc">Mobile App</div>
-                          <div class="percent">33%</div>
-                      </div>
-                      <div class="progress progress-striped">
-                          <div style="width: 33%" aria-valuemax="100" aria-valuemin="0" aria-valuenow="80" role="progressbar" class="progress-bar progress-bar-danger">
-                              <span class="sr-only">33% Complete (danger)</span>
-                          </div>
-                      </div>
-                  </a>
-              </li>
-              <li>
-                  <a href="#">
-                      <div class="task-info">
-                          <div class="desc">Dashboard v1.3</div>
-                          <div class="percent">45%</div>
-                      </div>
-                      <div class="progress progress-striped active">
-                          <div style="width: 45%" aria-valuemax="100" aria-valuemin="0" aria-valuenow="45" role="progressbar" class="progress-bar">
-                              <span class="sr-only">45% Complete</span>
-                          </div>
-                      </div>
-
-                  </a>
-              </li>
-              <li class="external">
-                  <a href="#">See All Tasks</a>
-              </li>
-          </ul>
-      </div>
-      <!-- Right Slidebar end -->
-
-      <!--footer start-->
+        <!--footer start-->
  <div id="loadingcourses"></div> 
       <!--footer end-->
 
@@ -333,11 +191,11 @@
     url3="/proyecto/index/revision/propuesta/"+propuestaid;
 
     $("#cod_proy_prop").html("Cargando....");
-    //alert(url);
-    $("#cod_proy_prop").load(url);
-    $("#cliente").load(url1);
-    $("#uminera").load(url2);
-    $("#revision").load(url3);
+    //alert(url1);
+    // $("#cod_proy_prop").load(url);
+    // $("#cliente").load(url1);
+    // $("#uminera").load(url2);
+    // $("#revision").load(url3);
 
     //alert(url1);
 
@@ -350,77 +208,58 @@
         var proyectoid = $("#proyectoid").val();
         var nombre_proyecto = $("#nombre_proyecto").val();
         var propuestaid = $("#propuestaid").val();   
-        var cod_proy_prop = $("#cod_proy_prop").val();   
-        var propuestaid = $("#propuestaid").val();   
-        var codeo = $("#codeo").val();         
+        var cod_proy_prop = $("#codigo_prop_proy").val();   
+     
+             
         var cliente = $("#cliente").val();   
         var uminera = $("#uminera").val();   
-        var control_proyecto = $("#control_proyecto").val();  
+
         var revision = $("#revision").val();  
         var gerente_proyecto = $("#gerente_proyecto").val();  
+        var control_proyecto = $("#control_proyecto").val();  
+        var control_documentario = $("#control_documentario").val();  
+        var estado = $("#estado").val(); 
+        var monto_total = $("#monto_total").val(); 
+        var fecha_inicio = $("#fecha_inicio").val();  
+        var fecha_cierre = $("#fecha_cierre").val();  
+
         var tag = $("#tag").val();  
         var tipo_proyecto = $("#tipo_proyecto").val();       
         var descripcion = $("#descripcion").val();  
-        var fecha_inicio = $("#fecha_inicio").val();  
-        var control_documentario = $("#control_documentario").val();  
-        var estado = $("#estado").val();  
+        var observacion = $("#observacion").val();  
 
 
-        url="/proyecto/index/nuevo/proyectoid/"+proyectoid+"/propuesta/"+propuestaid+"/nombre_proyecto/"+nombre_proyecto+"/cod_proy_prop/"+cod_proy_prop+"/proyectoid/"+proyectoid+"/cliente/"+cliente+"/uminera/"+uminera+"/control_proyecto/"+control_proyecto+"/revision/"+revision+"/descripcion/"+descripcion+"/fecha_inicio/"+fecha_inicio+"/control_documentario/"+control_documentario+"/estado/"+estado+"/gerente_proyecto/"+gerente_proyecto+"/tipo_proyecto/"+tipo_proyecto+"/tag/"+tag;
-      //  alert(url);
-        $("#loadingcourses").load(url);
-        $("#loadingcourses").hide();
-        location.href="/proyecto/index/listar/";
-/*          $.ajax({
-                type: 'POST',
-                url: url,
-                data: $(this).serialize(),
-                success: function(data) { 
-                    if (data.status==true) {
-                        $("#loadingcourses").html('<span class="text-success"><b>'+data.msg+'</b></span>');
-                        alert('ola');
-                    }
-                    else{
-                        $("#loadingcourses").html('<span class="text-danger"><b>'+data.msg+'</b></span>');
-                    };
-              
-                }
-            });    */    
-    });
-</script>
-
-
-
-<script type='text/javascript'>      
-  $("#save_seguir").click(function(){
-        var proyectoid = $("#proyectoid").val();
-        var nombre_proyecto = $("#nombre_proyecto").val();
-        var propuestaid = $("#propuestaid").val();   
-        var cod_proy_prop = $("#cod_proy_prop").val();   
-        var propuestaid = $("#propuestaid").val();   
-        var codeo = $("#codeo").val();         
-        var cliente = $("#cliente").val();   
-        var uminera = $("#uminera").val();   
-        var control_proyecto = $("#control_proyecto").val();  
-        var revision = $("#revision").val();  
-        var gerente_proyecto = $("#gerente_proyecto").val();  
-        var tag = $("#tag").val();  
-        var tipo_proyecto = $("#tipo_proyecto").val();       
-        var descripcion = $("#descripcion").val();  
-        var fecha_inicio = $("#fecha_inicio").val();  
-        var control_documentario = $("#control_documentario").val();  
-        var estado = $("#estado").val();  
-
-
-
-        url="/proyecto/index/nuevo/proyectoid/"+proyectoid+"/propuesta/"+propuestaid+"/nombre_proyecto/"+nombre_proyecto+"/cod_proy_prop/"+cod_proy_prop+"/proyectoid/"+proyectoid+"/cliente/"+cliente+"/uminera/"+uminera+"/control_proyecto/"+control_proyecto+"/revision/"+revision+"/descripcion/"+descripcion+"/fecha_inicio/"+fecha_inicio+"/control_documentario/"+control_documentario+"/estado/"+estado+"/gerente_proyecto/"+gerente_proyecto+"/tipo_proyecto/"+tipo_proyecto+"/tag/"+tag+"/E/1";
-        alert(url);
-        $("#loadingcourses").load(url);
-        $("#loadingcourses").hide();
-        location.href="/proyecto/index/editar/proyectoid/"+proyectoid+"/codigo_prop_proy/"+cod_proy_prop;
+        url="/proyecto/index/nuevo/proyectoid/"+proyectoid+"/propuesta/"+propuestaid+"/nombre_proyecto/"+nombre_proyecto+"/cod_proy_prop/"+cod_proy_prop+"/cliente/"+cliente+"/uminera/"+uminera+"/revision/"+revision+"/gerente_proyecto/"+gerente_proyecto+"/control_proyecto/"+control_proyecto+"/control_documentario/"+control_documentario+"/estado/"+estado+"/monto_total/"+monto_total+"/fecha_inicio/"+fecha_inicio+"/fecha_cierre/"+fecha_cierre+"/descripcion/"+descripcion+"/tipo_proyecto/"+tipo_proyecto+"/tag/"+tag+"/observacion/"+observacion;
+        //alert(url);
+        //$("#loadingcourses").load(url);
+        //$("#loadingcourses").hide();
+        //location.href="/proyecto/index/listar/";
+        confirmar=confirm("Confirme que desee guardar un Nuevo Proyecto ");
+        if (confirmar) 
+        {// si pulsamos en aceptar
+          alert('Se ha  agregado un nuevo proyecto ');
+          $.ajax({
+                  type: 'POST',
+                  url: url,
+                  data: $(this).serialize(),
+                  success: function(data) { 
+                      location.href="/proyecto/index/listar/";
+                  }
+          })
+        }    
+        else 
+        {
+        // si pulsamos en cancelar
+        alert('cancelado'); 
+        return false;
+        }
         
-      
+
     });
 </script>
+
+
+
+
 
 
