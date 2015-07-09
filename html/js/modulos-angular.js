@@ -337,7 +337,11 @@ controller('mainController', ['$http', function($http){
 		var f = new Date()
 		reporte.proyectos.forEach(function (item) {
 			if (item.codigo_prop_proy == proyecto) {
-				f = item.fecha_inicio.toDate()
+				if (item.fecha_inicio == '' || item.fecha_inicio == null || item.fecha_inicio == undefined) {
+					f = reporte.fecha_from.date
+				} else {
+					f = item.fecha_inicio.toDate()
+				}
 			}
 		})
 		if (f < reporte.fecha_from.date) {
