@@ -5,7 +5,6 @@
     if (!$auth->hasIdentity()) { 
         exit();
     }
-
     $sesion = $auth->getStorage()->read();
     $name = $sesion -> personal->alias;
     $rol = $sesion -> rid;
@@ -17,7 +16,6 @@
     $is_gerente_general= $sesion->personal->ucatcargo;    
     $is_jefe_area= $sesion->personal->ucatcargo;   
     $is_area= $sesion->personal->ucatareaid;
-
 ?>
 <html lang="es">
     <head>
@@ -31,7 +29,6 @@
         <link rel="shortcut icon" href="/img/favicon.ico" type="image/x-icon">
     </head>
     <body >
-    <!-- ng-app="angularSuma" ng-controller="sumaController as vm" -->
     <section id="container" >
         <!--header start-->
         <header class="header white-bg" >
@@ -41,8 +38,8 @@
             <!--logo start-->
             <a href="#" class="logo"><img width="150" src="/img/logo.jpg"></a>
             <!--logo end-->
-
-            <?php 
+            <?php
+             
             /*<div class="nav notify-row" id="top_menu">
                 <!--  notification start -->
                 <ul class="nav top-menu">

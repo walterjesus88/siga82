@@ -448,7 +448,7 @@ class Timesheet_AprobacionController extends Zend_Controller_Action {
                             $lista_proyectos_empleado=$tabla_planificacion->_getProyectosxSemana($semana,$uid,$dni);
                             $datos_actualizar_planificacion['estado']='R';
                             $str_actualizar_planificacion="semanaid='$semana' and uid='$uid' and dni='$dni'";
-                            echo ($str_actualizar_planificacion);
+                            //echo ($str_actualizar_planificacion);
                             $update_planificacion=$tabla_planificacion -> _update($datos_actualizar_planificacion,$str_actualizar_planificacion);
 
                             $datos_actualizar_aprobaciones['estado_historial']='RGP';
