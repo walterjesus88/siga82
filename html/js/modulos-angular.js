@@ -337,7 +337,11 @@ controller('mainController', ['$http', function($http){
 		var f = new Date()
 		reporte.proyectos.forEach(function (item) {
 			if (item.codigo_prop_proy == proyecto) {
-				f = item.fecha_inicio.toDate()
+				if (item.fecha_inicio == '' || item.fecha_inicio == null || item.fecha_inicio == undefined) {
+					f = reporte.fecha_from.date
+				} else {
+					f = item.fecha_inicio.toDate()
+				}
 			}
 		})
 		if (f < reporte.fecha_from.date) {
@@ -597,90 +601,96 @@ var Tareopersona = function (codigo_prop_proy, codigo_actividad, dni, uid, rate_
 
 //Metodo para rellenar las horas de tareopersona segun los dias escogidos
 Tareopersona.prototype.setHoras = function () {
-	var horasxdia = []
-	var horasxsemana = []
-	var horasxmes = []
-	var horaxdia = ''
-	var inicial = reporte.fecha_from.cadena.toDate()
-	var ultimo = reporte.fecha_to.cadena.toDate()
+	var horasxdia = [];
+	var horasxsemana = [];
+	var horasxmes = [];
+	var horaxdia = '';
+	var inicial = reporte.fecha_from.cadena.toDate();
+	var ultimo = reporte.fecha_to.cadena.toDate();
 	
 	//rellenar las horas por dia de tareopersona
 	for (var i = 0; i < reporte.dias.length; i++) {
-		horaxdia = '--'
+		horaxdia = '--';
 		this.horas.forEach(function (item) {
 			if (reporte.dias[i].fecha == item.fecha_tarea) {
 				if (item.h_real == '' || item.h_real == undefined || item.h_real == '0') {
-					horaxdia = '--'
+					horaxdia = '--';
 				} else if (item.h_real.indexOf(".00") != -1) {
-					horaxdia = item.h_real.slice(0, item.h_real.indexOf(".00"))
+					horaxdia = item.h_real.slice(0, item.h_real.indexOf(".00"));
 				} else {
-					horaxdia = item.h_real
-				}
-			}
-		})
-		horasxdia.push(horaxdia)
+					horaxdia = item.h_real;
+				};
+			};
+		});
+		horasxdia.push(horaxdia);
 	}
 	
 	//rellenar las horas por semana de tareopersona
 	for (var i = 0; i < reporte.semanas.length; i++) {
-		var horaxsemana = 0
-		var semana1 = parseInt(reporte.semanas[i].slice(7))
+		var horaxsemana = 0;
+		var semana1 = parseInt(reporte.semanas[i].slice(7));
 		this.horas.forEach(function (item) {
-			var semana2 = item.fecha_tarea.toDate().getWeek()
-			var dia = item.fecha_tarea.toDate()
+			var semana2 = item.fecha_tarea.toDate().getWeek();
+			var dia = item.fecha_tarea.toDate();
 			if (semana1 == semana2 && inicial <= dia && dia <= ultimo) {
 				if (isNaN(parseFloat(item.h_real)) || item.h_real == '' || item.h_real == null || item.h_real == undefined) {
-					adicional = 0
+					adicional = 0;
 				} else {
-					adicional = parseFloat(item.h_real)
+					adicional = parseFloat(item.h_real);
 				}
-				horaxsemana = horaxsemana + adicional
-			}
-		})
+				horaxsemana = horaxsemana + adicional;
+			};
+		});
 		if (horaxsemana == 0) {
-			horaxsemana = '--'
-		}
-		horasxsemana.push(horaxsemana)
+			horaxsemana = '--';
+		};
+		horasxsemana.push(horaxsemana);
 	}
 
 	//rellenar las horas por mes de tareopersona
 	for (var i = 0; i < reporte.meses.length; i++) {
-		var horaxmes = 0
-		var mes1 = reporte.meses[i].toMonth()
+		var horaxmes = 0;
+		var mes1 = reporte.meses[i].toMonth();
 		this.horas.forEach(function (item) {
-			var mes2 = item.fecha_tarea.toDate().getMonth()
-			var dia = item.fecha_tarea.toDate()
+			var mes2 = item.fecha_tarea.toDate().getMonth();
+			var dia = item.fecha_tarea.toDate();
 			if (mes1 == mes2 && inicial <= dia && dia <= ultimo) {
 				if (isNaN(parseFloat(item.h_real)) || item.h_real == '' || item.h_real == null || item.h_real == undefined) {
-					adicional = 0
+					adicional = 0;
 				} else {
-					adicional = parseFloat(item.h_real)
+					adicional = parseFloat(item.h_real);
 				}
-				horaxmes = horaxmes + adicional
-			}
-		})
+				horaxmes = horaxmes + adicional;
+			};
+		});
 		if (horaxmes == 0) {
-			horaxmes = '--'
-		}
-		horasxmes.push(horaxmes)
+			horaxmes = '--';
+		};
+		horasxmes.push(horaxmes);
 	}
 
 	//suma total de horas de tareopersona
-	var suma = 0
-	horasxdia.forEach(function (item) {
-		if (item != '--') {
-			suma = suma + parseFloat(item)
-		}
-	})
+	var suma = 0;
+	this.horas.forEach(function (item) {
+		var fecha_item = item.fecha_tarea.toDate();
+		if (fecha_item >= inicial && fecha_item <= ultimo) {
+			if (item.h_real == '' || item.h_real == undefined || item.h_real == '0') {
+				adicional = 0;
+			} else {
+				adicional = parseFloat(item.h_real);
+			}
+			suma = suma + adicional;
+		};
+	});
 
-	this.horasxdias = horasxdia
-	this.horasxsemanas = horasxsemana
-	this.horasxmeses = horasxmes
-	this.horas_total = suma
+	this.horasxdias = horasxdia;
+	this.horasxsemanas = horasxsemana;
+	this.horasxmeses = horasxmes;
+	this.horas_total = suma;
 
 	if (this.horas_total.toString() == '0') {
-		this.visible = false
+		this.visible = false;
 	} else {
-		this.visible = true
-	}
-}
+		this.visible = true;
+	};
+};
