@@ -26,7 +26,7 @@
 
 
   <div id="Proyecto_Activa">
-    <table class="table table-hover p-table">
+    <table class="table table-hover p-table datatable-order-search">
           <thead>
             <tr>  
                <th style="width: 10%;">Código</th>
@@ -549,4 +549,14 @@ $(document).ready(function(){
     $('select').customSelect();
     });
   });
+</script>
+
+<script>
+  $(document).ready(function() {
+    $('.datatable-order-search').dataTable( {
+        "paging":   false,
+        "ordering": true,
+        "info":     true
+    } );
+  } );
 </script>

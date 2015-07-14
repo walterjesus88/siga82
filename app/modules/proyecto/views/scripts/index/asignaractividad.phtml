@@ -1,5 +1,7 @@
 <script type="text/javascript" src="/js/jquery-ui-1.9.2.custom.min.js"></script>
 <script type="text/javascript" src="/js/bootstrap.min.js"></script>
+
+
 <?php if($this->equipo) { ?>
 <form name="f2">
     <div id="Proyecto_Activa">
@@ -26,17 +28,21 @@
                    $f++;
                 }
                 print_r($cont);*/
-                //echo "mmmmmmmmmmmmmmm";
-
+          
                 foreach ($this->equipo as $listaequipo) 
                     {?>
-                    <th style="width: 50px;padding-top: 1px;padding-right: 1px;padding-bottom: 1px;padding-left: 1px;" style="width: 150px; font-size: 10px;" class="p-name" id="nomact_<?php echo $c?>">
+                    <th style="width: 50px;padding-top: 1px;padding-right: 1px;padding-bottom: 1px;padding-left: 1px;" style="width: 150px; font-size: 10px;" class="p-name" id="nomact_<?php echo $c?>"><center>
                         <a href="#"><?php //echo $listaequipo['uid'];
 
                           $porciones = explode(".", $listaequipo['uid']);
-                                                   
-                          echo (ucwords($porciones[0])); echo " ";echo (ucwords($porciones[1]));
-                         
+                          //print_r($porciones);
+                          foreach ($porciones as $value) {
+                            # code...
+                            //print_r($value);
+                            echo (ucwords($value));  echo " ";
+                            //echo (ucwords($porciones[0])); echo "<br>"; echo " ";echo (ucwords($porciones[1]));
+                          }
+
 
                         ?></a>
 
@@ -53,7 +59,8 @@
                             //print_r($activr);
                         ?>
                         <?php
-                            
+                            //
+                            /*
                             if($cont==$activr[0]['count'])
                                 { ?>
                                     <input name="todoagrega" id="todoagrega_<?php echo $c ?>" value="A_<?php echo $c?>" type="checkbox" checked>
@@ -61,7 +68,7 @@
                             else
                                 { ?>
                                     <input name="todoagrega" id="todoagrega_<?php echo $c ?>" value="A_<?php echo $c?>" type="checkbox" >
-                        <?php  }
+                        <?php  }*/
                         ?>               
                         <script type="text/javascript"> 
                             $("#todoagrega_<?php echo $c ?>").click(function(){
@@ -106,7 +113,7 @@
                                     }
                                 });
                             });
-                        </script>
+                        </script></center>
                     </th>                                            
                 <?php $c++; } ?>
             </tr>
@@ -119,7 +126,19 @@
                 ?>
                 <tr>
                     <td style="width: 50px;padding-top: 1px;padding-right: 1px;padding-bottom: 1px;padding-left: 1px;" style="width: 150px; font-size: 10px;" id="nomact_<?php echo $c?>">                    
-                        <?php echo "<strong>"; echo $listaactividad['actividadid']; echo "</strong>"; echo " -  "; echo $listaactividad['nombre']; ?>
+
+                        <?php 
+                        if ($listaactividad['hijo']=='S')
+                        {
+                            echo "<center>";
+                            echo "<strong>"; echo $listaactividad['actividadid']; echo "</strong>"; echo " -  "; echo $listaactividad['nombre'];    
+                            echo "</center>";
+                        }
+                        if ($listaactividad['hijo']=='N')
+                        {
+                            echo "<strong>"; echo $listaactividad['actividadid']; echo "</strong>"; echo " -  "; echo $listaactividad['nombre']; 
+                        }
+                        ?>
                         <?php //echo strlen($listaactividad['actividadid']) ?>
                     </td>  
 
@@ -134,7 +153,7 @@
                         $activar= $act->_getOne($wheres);
                         //  print_r($activar);
                       ?>
-                        <td style="width: 150px;padding-top: 1px;padding-right: 1px;padding-bottom: 1px;padding-left: 1px;" >
+                        <td style="width: 150px;padding-top: 1px;padding-right: 1px;padding-bottom: 1px;padding-left: 1px;" > <center>
                           <?php
                             if($listaactividad['hijo']=='N') 
                             { 
@@ -199,8 +218,11 @@
                                 var codigo_prop_proy="<?php echo $listaactividad['codigo_prop_proy'] ?>";
                                 var hijo="<?php echo $listaactividad['hijo'] ?>";
                                 url="/proyecto/index/agregaactividad/cargo/"+cargo+"/areaid/"+areaid+"/uid/"+uid+"/dni/"+dni+"/proyectoid/"+proyectoid+"/categoriaid/"+ categoriaid+"/actividadid/"+actividadid+"/revision/"+revision+"/actividad_padre/"+actividad_padre+"/codigo_actividad/"+codigo_actividad+"/codigo_prop_proy/"+codigo_prop_proy+"/estado/"+estado+"/hijo/"+hijo;
-                                alert(url);
-                                $.ajax({
+                                //alert(url);
+
+                                $("#cargact").load(url);
+
+                              /*  $.ajax({
                                     type: "POST",
                                     url: url,
                                     data: $(this).serialize(),
@@ -210,9 +232,9 @@
                                     // },
                                     success: function(data){
                                     }
-                              });
+                              });*/
                            });                   
-                          </script>
+                          </script></center>
                         </td>
                      <?php
                       $i++;
@@ -225,6 +247,6 @@
           </tbody>
     </table>
   </div>
-  <div id="cargact"></div>
+
 </form>
 <?php } ?>
