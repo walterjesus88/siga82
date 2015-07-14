@@ -1,5 +1,6 @@
 <script type="text/javascript" src="/js/jquery-ui-1.9.2.custom.min.js"></script>
 <script type="text/javascript" src="/js/bootstrap.min.js"></script>
+<?php if($this->equipo) { ?>
 <form name="f2">
     <div id="Proyecto_Activa">
     <a href="/proyecto/index/asignaractividad/proyectoid/<?php echo $this->proyectoid ?>/codigo_prop_proy/<?php echo $this->codigo_prop_proy ?>/areaid/<?php echo $this->areaid ?>"> </a>
@@ -25,6 +26,7 @@
                    $f++;
                 }
                 print_r($cont);*/
+                //echo "mmmmmmmmmmmmmmm";
 
                 foreach ($this->equipo as $listaequipo) 
                     {?>
@@ -32,7 +34,9 @@
                         <a href="#"><?php //echo $listaequipo['uid'];
 
                           $porciones = explode(".", $listaequipo['uid']);
+                                                   
                           echo (ucwords($porciones[0])); echo " ";echo (ucwords($porciones[1]));
+                         
 
                         ?></a>
 
@@ -223,3 +227,4 @@
   </div>
   <div id="cargact"></div>
 </form>
+<?php } ?>
