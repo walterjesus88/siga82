@@ -166,9 +166,12 @@
                                 <?php if ($is_area=='26') { ?>
                                 <li><a  href="/proyecto/index/listar">Lista</a></li>
                                 <li><a  href="/proyecto/index/nuevo">Nuevo</a></li>
-                                <?php }?>
-                                <?php if ($is_gerente=='S' or $dni == '08051678') { ?>
-                                <li><a  href="/proyecto/control/index">Lista</a></li>
+                                <?php }?>                        
+
+
+                                <?php if ($is_gerente=='S' or $dni == '08051678' ) { ?>
+                                <!-- <li><a  href="/proyecto/control/index">Lista</a></li> -->
+                                <li><a  href="/proyecto/index/listar">Lista</a></li>
                                 <li><a  href="/timesheet/aprobacion/mostrarhojatiempogerente">Aprobaciones HT</a></li>
                                 <li><a  href="/timesheet/aprobacion/mostrarhistoricohojatiempogerente">Historico HT</a></li>
                                 <?php }?>
@@ -194,8 +197,9 @@
                                 <span>Proyecto</span>
                             </a>
                             <ul class="sub">
-                                <li><a  href="/admin">Lista</a></li>
-                                <li><a  href="/admin">Nuevo</a></li>
+                                <li><a  href="/proyecto/index/listar">Lista</a></li>
+                                <!-- <li><a  href="/admin">Lista</a></li> -->
+                                <!-- <li><a  href="/admin">Nuevo</a></li> -->
                             </ul>
                         </li>
 

@@ -60,7 +60,7 @@
                         ?>
                         <?php
                             //
-                            /*
+                            
                             if($cont==$activr[0]['count'])
                                 { ?>
                                     <input name="todoagrega" id="todoagrega_<?php echo $c ?>" value="A_<?php echo $c?>" type="checkbox" checked>
@@ -68,7 +68,7 @@
                             else
                                 { ?>
                                     <input name="todoagrega" id="todoagrega_<?php echo $c ?>" value="A_<?php echo $c?>" type="checkbox" >
-                        <?php  }*/
+                        <?php  }
                         ?>               
                         <script type="text/javascript"> 
                             $("#todoagrega_<?php echo $c ?>").click(function(){
@@ -218,7 +218,7 @@
                                 var codigo_prop_proy="<?php echo $listaactividad['codigo_prop_proy'] ?>";
                                 var hijo="<?php echo $listaactividad['hijo'] ?>";
                                 url="/proyecto/index/agregaactividad/cargo/"+cargo+"/areaid/"+areaid+"/uid/"+uid+"/dni/"+dni+"/proyectoid/"+proyectoid+"/categoriaid/"+ categoriaid+"/actividadid/"+actividadid+"/revision/"+revision+"/actividad_padre/"+actividad_padre+"/codigo_actividad/"+codigo_actividad+"/codigo_prop_proy/"+codigo_prop_proy+"/estado/"+estado+"/hijo/"+hijo;
-                                //alert(url);
+                                alert(url);
 
                                 $("#cargact").load(url);
 

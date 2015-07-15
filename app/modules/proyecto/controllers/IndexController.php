@@ -2,21 +2,81 @@
 
 class Proyecto_IndexController extends Zend_Controller_Action {
 
+    // public function init() {
+    // 	$options = array(
+    //         'layout' => 'layout',
+    //     );
+    //     Zend_Layout::startMvc($options);
+    // }
+
     public function init() {
-    	$options = array(
+      $sesion  = Zend_Auth::getInstance();
+        if(!$sesion->hasIdentity() ){
+            $this->_helper->redirector('index',"index",'default');
+        }
+        $login = $sesion->getStorage()->read();
+        $this->sesion = $login; 
+        $options = array(
             'layout' => 'layout',
         );
         Zend_Layout::startMvc($options);
+    
     }
+
+
+
 
     public function indexAction() {
     }
 
     public function listarAction() {
-        $listaproyecto = new Admin_Model_DbTable_Proyecto();
-        //$lista=$listaproyecto->_getProyectoAll();
-        $lista=$listaproyecto->_getProyectosTodosAnddes();
-        $this->view->listaproyecto = $lista;
+        //print_r($this->sesion);
+        //echo "ddd";
+        
+        $uid = $this->sesion->uid;
+        $dni = $this->sesion->dni;
+        $is_gerente=$this->sesion->is_gerente;
+        $is_area=$this->sesion->personal->ucatareaid;
+        //$isanddes= $this->sesion->isanddes;
+
+        //echo $uid;
+        //echo $dni;
+        //echo $cargo;
+        //print_r($personal);
+       // echo $is_area;
+        $this->view->is_area = $is_area;
+        $this->view->is_gerente = $is_gerente;
+        $this->view->dni = $dni;
+
+
+
+        if($is_gerente=='S' or $dni == '08051678')
+        {
+          $listaproyecto = new Admin_Model_DbTable_Proyecto();
+          $lista=$listaproyecto->_getProyectosxGerente($uid);
+          $this->view->listaproyecto = $lista;
+        } 
+        else
+        {
+          if($is_area=='26')
+          {
+            $listaproyecto = new Admin_Model_DbTable_Proyecto();
+              //$lista=$listaproyecto->_getProyectoAll();
+            $lista=$listaproyecto->_getProyectosTodosAnddes();
+            $this->view->listaproyecto = $lista;
+
+          }
+          else
+          {
+            $listaproyecto = new Admin_Model_DbTable_Equipo();
+            $estado='A';
+            $lista=$listaproyecto->_getProyectosXuidXEstado($uid,$estado);
+            $this->view->listaproyecto = $lista;
+          }
+
+        }
+
+        
     }
     
     public function nuevoAction() {
