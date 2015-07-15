@@ -246,5 +246,29 @@ class Admin_Model_DbTable_Historialaprobaciones extends Zend_Db_Table_Abstract
         }
     }
 
+   
+
+    public function _getListarHistoricoxAprobador($uid,$dni)
+    {
+        try{
+            $sql=$this->_db->query("
+              
+                select  * from historial_aprobaciones as historial 
+                inner join suma_controlsemana as controlsemana
+                    on historial.semanaid=controlsemana.semanaid and historial.uid_empleado=controlsemana.uid 
+                    and historial.dni_empleado=controlsemana.dni 
+                where historial.uid_validador='$uid' and historial.dni_validador='$dni'
+                 order by historial.semanaid asc
+            ");
+            $row=$sql->fetchAll();
+            return $row;           
+            }  
+           catch (Exception $ex){
+            print $ex->getMessage();
+        }
+    }
+
+    
+
 
 }
