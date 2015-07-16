@@ -120,7 +120,7 @@ $data_rendicion = $this->data_rendicion;
     <?php if ($data_rendicion['estado'] != "E") { ?>
     <div class="col-lg-2">
         <section class="panel">
-            <div class="panel-body" style="padding : 28px 15px 28px 15px">
+            <div class="panel-body" >
                 <a id="guardar_gastos" class="btn btn-success pull-right btn-sm" href="##">
                     <i class="fa fa-save"></i> Guardar
                 </a>
@@ -229,15 +229,15 @@ $data_rendicion = $this->data_rendicion;
                             <tbody>
                             <?php 
                             foreach ($data_gasto['actividades'] as $data_actividades) { ?>
-                                <tr class="gradeX">
+                                <tr class="gradeX" style="font-size:9px">
                                     <?php if ($data_rendicion['estado'] != "E") { ?>
                                     <td>
-                                        <a href="##" class="btn btn-warning btn-xs duplicar_actividad" title="Duplicar" gasto-persona-id="<?php echo $data_actividades['gasto_persona_id'] ?>" proyectoid="<?php echo $data_actividades['proyectoid']?>" codigo-prop-proy="<?php echo $data_actividades['codigo_prop_proy']?>" categoriaid="<?php echo $data_actividades['categoriaid']?>" areaid="<?php echo $data_actividades['areaid']?>" cargo="<?php echo $data_actividades['cargo']?>" revision="<?php echo $data_actividades['revision']?>" actividadid="<?php echo $data_actividades['actividadid']?>">
+                                        <a href="##" class="duplicar_actividad" title="Duplicar" gasto-persona-id="<?php echo $data_actividades['gasto_persona_id'] ?>" proyectoid="<?php echo $data_actividades['proyectoid']?>" codigo-prop-proy="<?php echo $data_actividades['codigo_prop_proy']?>" categoriaid="<?php echo $data_actividades['categoriaid']?>" areaid="<?php echo $data_actividades['areaid']?>" cargo="<?php echo $data_actividades['cargo']?>" revision="<?php echo $data_actividades['revision']?>" actividadid="<?php echo $data_actividades['actividadid']?>">
                                                 <i class="fa fa-plus-square-o"></i>
                                         </a>
                                             
-                                        <a href="##" class="btn btn-danger btn-xs delete_actividad" title="Eliminar" gasto-persona-id = "<?php echo $data_actividades['gasto_persona_id'] ?>" style="margin-top: 2px">
-                                            <strong>-</strong>
+                                        <a href="##" class="delete_actividad" title="Eliminar" gasto-persona-id = "<?php echo $data_actividades['gasto_persona_id'] ?>" style="margin-top: 2px">
+                                            <i class="fa fa-minus-square-o"></i>
                                         </a>
                                     </td>
                                         <?php
@@ -683,3 +683,10 @@ $data_rendicion = $this->data_rendicion;
 <?php 
 //} 
 ?>
+
+<style>
+
+.panel-body {
+padding: 2px;
+}
+</style>

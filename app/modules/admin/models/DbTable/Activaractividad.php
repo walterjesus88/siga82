@@ -259,7 +259,9 @@ class Admin_Model_DbTable_Activaractividad extends Zend_Db_Table_Abstract
                 inner join cliente c on
                 p.clienteid=c.clienteid
 
-                where e.uid = '$uid' and e.dni='$dni' and p.estado='$estado' and e.estado = '$estado' order by c.nombre_comercial
+                where e.uid = '$uid' and e.dni='$dni' and p.estado='$estado' and e.estado = '$estado' 
+                and not p.clienteid='20451530535'
+                order by c.nombre_comercial
 
 
 

@@ -1148,9 +1148,9 @@ public function subiractividadesAction(){
   try {
     /*$proyectoid= $this->_getParam("proyectoid");
     $codigo_prop_proy= $this->_getParam("codigo_prop_proy");*/
-    $proyectoid='1502.10.06';
+    $proyectoid='1116.10.17';
     
-    $codigo_prop_proy='15.10.097-1502.10.06-C';
+    $codigo_prop_proy='15.10.119-1116.10.17-D';
     $editproyect= new Admin_Model_DbTable_Proyecto();
     $where = array(
                       'codigo_prop_proy'    => $codigo_prop_proy,

@@ -178,7 +178,8 @@ public function _getProyectosAnddes()
                 ON e.codigo_prop_proy = p.codigo_prop_proy and e.proyectoid=p.proyectoid 
                 inner join cliente c on
                 p.clienteid=c.clienteid
-                where e.uid = '$uid' and e.estado = '$estado'
+                where e.uid = '$uid' and e.estado = '$estado' and not unidad_mineraid='10'
+                order by c.nombre_comercial
                ");
             $row=$sql->fetchAll();
             return $row;           
