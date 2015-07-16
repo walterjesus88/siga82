@@ -12,7 +12,7 @@ $(document).ready( function () {
 	oTest.fnWaitTest( 
 		"Search language is 'Search:' by default",
 		null,
-		function () { return oSettings.oLanguage.sSearch == "Search:"; }
+		function () { return oSettings.oLanguage.sSearch == "Seearch:"; }
 	);
 	
 	oTest.fnTest(

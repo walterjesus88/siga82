@@ -8,30 +8,29 @@
     <header class="panel-heading">
      Lista de Proyectos
     <span class="pull-right">
-      <a id="mostrar_activo" class=" btn btn-success btn-xs"> Activo</a>
-      <a id="mostrar_cerrado" class=" btn btn-warning  btn-xs"> Cerrado</a>
-      <a id="mostrar_cancelado" class=" btn btn-primary  btn-xs" style="background-color: #59ace2;color: #fff;"> Cancelado</a>
-      <a id="mostrar_paralizado" class=" btn btn-danger  btn-xs"> Paralizado</a>
-   <!--   <a id="mostrar_eliminado" class=" btn btn-default  btn-xs"> Eliminado</a>-->                                     
+        <a id="mostrar_activo" class=" btn btn-success btn-xs"> Activo</a>
+        <a id="mostrar_cerrado" class=" btn btn-warning  btn-xs"> Cerrado</a>
+        <a id="mostrar_cancelado" class=" btn btn-primary  btn-xs" style="background-color: #59ace2;color: #fff;"> Cancelado</a>
+        <a id="mostrar_paralizado" class=" btn btn-danger  btn-xs"> Paralizado</a>
     </span>
    </header>
-
-      <div class="panel-body">
+     <!--<div class="panel-body">
+       
         <div class="row">
-          <div class="col-md-12">   
-            <div class="input-group"><input id="buscar_proyecto" type="text" placeholder="Buscar Proyecto" class="input-sm form-control"> <span class="input-group-btn">
-              <button id="btn_buscar_proyecto" type="button" class="btn btn-sm btn-success"> Buscar</button> 
-              <?php if($is_area=='26' or  $is_gerente=='S' or $dni == '08051678')
-              { ?> 
-              <a href="/proyecto/index/nuevo" class=" btn btn-primary btn-sm" > Crear</a>
-              <?php } ?>
-              <!--                            
-              <a href="#" class=" btn btn-danger btn-sm " > Exportar</a> -->
-                </span>
+            <div class="col-md-12">   
+                <div class="input-group"><input id="buscar_proyecto" type="text" placeholder="Buscar Proyecto" class="input-sm form-control"> <span class="input-group-btn">
+                    <button id="btn_buscar_proyecto" type="button" class="btn btn-sm btn-success"> Buscar</button> 
+                    <?php if($is_area=='26' or  $is_gerente=='S' or $dni == '08051678')
+                    { ?> 
+                        <a href="/proyecto/index/nuevo" class=" btn btn-primary btn-sm" > Crear</a>
+                    <?php } ?>
+                    </span>
             </div>
           </div>       
+
         </div>
-      </div>
+
+      </div>-->
  
 
 
@@ -49,19 +48,17 @@
           </thead>
           <?php
             $c=0;
-          foreach ($this->listaproyecto as $lista) {
-               if ($lista['estado']=='A'){
-            ?>                   
-            <tr>
-               <td class="p-name">
-                
-                <a href="#"><?php echo $lista['proyectoid']; ?></a>  
-              </td>
-              <td>
-                 <?php
-                 $propuestaid=$lista['propuestaid'];
-                 $revision=$lista['revision'];
-                 $codigo=$lista['codigo_prop_proy'];
+            foreach ($this->listaproyecto as $lista) {
+                if ($lista['estado']=='A'){?>                   
+                <tr>
+                    <td class="p-name">
+                        <a href="#"><?php echo $lista['proyectoid']; ?></a>  
+                    </td>
+                    <td>
+                    <?php
+                    $propuestaid=$lista['propuestaid'];
+                    $revision=$lista['revision'];
+                    $codigo=$lista['codigo_prop_proy'];
 
                     $buscacliente = new Admin_Model_DbTable_Cliente();
                     //$buscanombre_cliente=$buscacliente->_getClientexPropuestaxRevisionxCodigo($propuestaid,$revision,$codigo);
@@ -104,7 +101,19 @@
                       </ul>
                   </div>
               </td>
-              <?php } ?>
+              <?php } 
+
+              else { ?>
+                <td>
+                       <li>Activo</li>  
+
+                </td>
+
+
+              <?php 
+
+
+}?>
 
          
               <?php 
@@ -125,12 +134,25 @@
                     <a href="/proyecto/index/ver/proyectoid/<?php echo $lista['proyectoid']?>/codigo_prop_proy/<?php echo $lista['codigo_prop_proy']?>" class="btn btn-primary btn-xs"><i class="fa fa-folder"></i></a>
                   </td>
                 <?php }
+                else
+                {
+                    echo "";
+
+                    ?>
+
+                    <td>
+                    <a ><i class="fa fa-folder"></i></a>
+                  </td>
+
+                    <?php
+                
              
               }
-              ?>
-          
+          }
+           
+          ?>
 
-              </tr>                            
+            
               <?php $c++;}}?>
     </table>
   </div>
@@ -654,7 +676,7 @@ $(document).ready(function(){
 
 
 
-<script src="js/common-scripts.js"></script>
+<script src="/js/common-scripts.js"></script>
 
 <script type="text/javascript">
   $(document).ready(function() {
