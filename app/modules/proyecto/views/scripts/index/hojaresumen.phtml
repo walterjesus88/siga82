@@ -14,7 +14,36 @@
                       <div class="chat-room-head">
                           <center><h3>Informacion</h3></center>
                           <a class="btn btn-success" href="/proyecto/index/imphojaresumen/codigo_prop_proy/<?php echo $this->codigo_prop_proy?>/proyectoid/<?php echo $this->proyectoid ?>" id="imprimir">Imprimir</a>
+                          <a class="btn btn-success"  id="generarresumen" href="#" id="imprimir">Generar</a>
                       </div>
+                          <select id="revision_hoja" class="form-control ">
+                            <option value="A">A</option>
+                            <option value="B">B</option>
+                            <option value="C">C</option>
+                            <option value="D">D</option>
+                            <option value="E">E</option>
+                            <option value="F">F</option>
+                            <option value="G">G</option>
+                            <option value="H">H</option>
+                            <option value="I">I</option>
+                            <option value="J">J</option>
+                            <option value="K">K</option>
+                            <option value="L">L</option>
+                            <option value="M">M</option>
+                            <option value="N">N</option>
+                            <option value="O">O</option>
+                            <option value="P">P</option>
+                            <option value="Q">Q</option>
+                            <option value="R">R</option>
+                            <option value="S">S</option>
+                            <option value="T">T</option>
+                            <option value="U">U</option>
+                            <option value="V">V</option>
+                            <option value="W">W</option>
+                            <option value="X">X</option>
+                            <option value="Y">Y</option>
+                            <option value="Z">Z</option>
+                          </select>
 
                           <div class="group-rom panel-body room-box">
                               <div class="col-sm-2">
@@ -1365,6 +1394,36 @@
 
   </section>
 
+
+<script type="text/javascript">
+  $(document).ready(function(){
+   $("#generarresumen").click(function(){
+                           
+      //var valor=$(this).val();
+      var revi_hoja=$("#revision_hoja").val()
+      ///codigo_prop_proy, proyectoid, revision_hojaresumen, propuestaid, revision_propuesta
+  
+      url="/proyecto/index/generarresumen/codigo_prop_proy/<?php echo $this->codigo_prop_proy?>/proyectoid/<?php echo $this->proyectoid ?>/revision_hojaresumen/"+revi_hoja+"/revision/<?php echo $this->revision ?>/propuestaid/<?php echo $this->propuestaid?>";
+      alert(url);             
+
+      $.ajax({
+        type: "POST",
+        url: url,
+        data: $(this).serialize(),
+        dataType: "html",                                                 
+        error: function()
+        {
+          alert("error petición ajax load");
+        },
+          success: function(data)
+        {                                
+        }
+      });
+
+    });
+  });
+</script>                                           
+                         
 
 
 
