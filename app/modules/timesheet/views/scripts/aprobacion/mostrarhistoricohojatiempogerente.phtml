@@ -21,8 +21,8 @@
       <tbody>
         <?php
           $c=1;     
-            foreach ($this->lista_empleados_aprobar as $equipo_area){ 
-              foreach ($equipo_area as $valorsuma){ 
+          //  foreach ($this->lista_empleados_aprobar as $equipo_area){ 
+              foreach ($this->lista_empleados_aprobar  as $valorsuma){ 
                 ?>
                 <tr name="oculus" id="xx" class="unread">
                     <td class="view-message  text-right"><center><?php echo $c ?></center></td>                  
@@ -49,7 +49,9 @@
                         var uid=$(this).attr('uid');
                         var dni=$(this).attr('dni');
                         var semanaid=$(this).attr('semanaid');
-                        var url = "/timesheet/aprobacion/mostrardetallehojatiempofiltro2/uid/"+ uid+"/dni/"+dni+"/semanaid/"+semanaid; 
+                        var url = "/timesheet/aprobacion/mostrardetallegerente/uid/"+ uid+"/dni/"+dni+"/semanaid/"+semanaid; 
+
+                        //var url = "/timesheet/aprobacion/mostrardetallehojatiempofiltro2/uid/"+ uid+"/dni/"+dni+"/semanaid/"+semanaid; 
                         $("#modaltimes").load(url);                                         
                         });
                     });
@@ -57,7 +59,7 @@
                    <?php $c++;
      
               }
-            }
+         //   }
          ?>
       </tbody>
     </table>
