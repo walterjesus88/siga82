@@ -9,6 +9,9 @@
     $name = $sesion -> personal->alias;
     $rol = $sesion -> rid;
     $dni = $sesion -> dni;
+    $uid = $sesion -> uid;
+    $areaid = $sesion -> personal -> ucatareaid;
+
     $is_gerente = $sesion->is_gerente;
     $is_jefe = $sesion->is_jefe;
     $is_responsable = $sesion->is_responsable;
@@ -39,8 +42,8 @@
             <a href="#" class="logo"><img width="150" src="/img/logo.jpg"></a>
             <!--logo end-->
             <?php
-             
-            /*<div class="nav notify-row" id="top_menu">
+            /* 
+            <div class="nav notify-row" id="top_menu">
                 <!--  notification start -->
                 <ul class="nav top-menu">
                     <!-- settings start -->
@@ -67,8 +70,9 @@
                             <span class="badge bg-warning">7</span>
                         </a>
                 <!--  notification end -->
-            </div>*/
-            ?>
+            </div>
+            */
+            ?> 
 
             <div class="top-nav ">
                 <!--search & user info start-->
@@ -109,403 +113,57 @@
                 <!-- sidebar menu start-->
                 <ul class="sidebar-menu" id="nav-accordion">
                     <li>
-                        <a class="active" href="/admin">
+                        <a class="active" href="/timesheet/index/calendar">
                             <i class="fa fa-home"></i>
                             <span>Inicio</span>
                         </a>
                     </li>
-
                     <?php 
-                     if ($rol == "PROPUESTA" ) { ?>
+                    $tabla_acl = new Admin_Model_DbTable_Acl();
+                    $data_acl = $tabla_acl->_getAclxUsuario($uid,$dni,$areaid);
+                    foreach ($data_acl as $nombre_menu) {
+                    ?> 
                         <li class="sub-menu">
-                            <a href="/propuesta/index/listar" >
+                            <a href="">
                                 <i class="fa fa-bar-chart-o"></i>
-                                <span>Propuestas</span>
+                                <span><?php print_r($nombre_menu['nombre_modulo'])?></span>
                             </a>
-                            <ul class="sub">
-                                <li><a  href="/propuesta/index/listar">Lista Propuestas</a></li>
-                                <li><a  href="/propuesta/index/nuevo">Nueva Propuesta</a></li>
-                            <li><a  href="/propuesta/index/transmittal">Lista Transmittal</a></li>
-                            </ul>
-                        </li>
-
-                        <li class="sub-menu">
-                            <a href="/proyecto/index/listar" >
-                                <i class="fa fa-archive"></i>
-                                <span>Proyectos</span>
-                            </a>
-                            <ul class="sub">
-                                <li><a  href="/proyecto/index/listar">Lista</a></li>
-                                <li><a  href="/proyecto/index/nuevo">Nuevo</a></li>
-                            </ul>
-                        </li>
-                    <?php
-                    }
-                    if ($rol == "PROYECTO") { ?>
-
-                    <?php if ($is_gerente == 'S' or $dni == '08051678' or $is_area=='26' or $is_area=='16'  ) { ?>
-
-                        <li class="sub-menu">
-                            <a href="/propuesta/index/listar" >
-                                <i class="fa fa-bar-chart-o"></i>
-                                <span>Propuestas</span>
-                            </a>
-                            <ul class="sub">
-                                <li><a  href="/propuesta/index/listar">Lista Propuestas</a></li>
-                                <li><a  href="/propuesta/index/nuevo">Nueva Propuesta</a></li>
-                            <li><a  href="/propuesta/index/transmittal">Lista Transmittal</a></li>
-                            </ul>
-                        </li>
-
-                        <li class="sub-menu">
-                            <a href="/proyecto/index/listar" >
-                                <i class="fa fa-archive"></i>
-                                <span>Proyecto</span>
-                            </a>
-                            <ul class="sub">
-                                <?php if ($is_area=='26') { ?>
-                                <li><a  href="/proyecto/index/listar">Lista</a></li>
-                                <li><a  href="/proyecto/index/nuevo">Nuevo</a></li>
-                                <?php }?>                        
-
-
-                                <?php if ($is_gerente=='S' or $dni == '08051678' ) { ?>
-                                <!-- <li><a  href="/proyecto/control/index">Lista</a></li> -->
-                                <li><a  href="/proyecto/index/listar">Lista</a></li>
-                                <li><a  href="/timesheet/aprobacion/mostrarhojatiempogerente">Aprobaciones HT</a></li>
-                                <li><a  href="/timesheet/aprobacion/mostrarhistoricohojatiempogerente">Historico HT</a></li>
+                            <ul class="sub" >
+                                <?php 
+                                    $data_vistaacl = $tabla_acl->_getAclxUsuarioxModulo($uid,$dni,$areaid,$nombre_menu['moduloid']);
+                                    foreach ($data_vistaacl as $nombre_submenu) {
+                                ?>
+                                    <li> <a  href="/<?php print_r($nombre_submenu['moduloid']); echo "/"; print_r($nombre_submenu['controlador']); echo "/"; print_r($nombre_submenu['vista']);?>"><?php print_r($nombre_submenu['descripcion_modulo']);?></a>
+                                    </li>
                                 <?php }?>
                             </ul>
-                        </li>
-                        <?php } else {?>
-                        
-                        <li class="sub-menu">
-                            <a href="/admin" >
-                                <i class="fa fa-bar-chart-o"></i>
-                                <span>Propuestas</span>
-                            </a>
-                            <ul class="sub">
-                                <li><a  href="/admin">Lista Propuestas</a></li>
-                                <li><a  href="/admin">Nueva Propuesta</a></li>
-                            <li><a  href="/admin">Lista Transmittal</a></li>
-                            </ul>
-                        </li>
-
-                        <li class="sub-menu">
-                            <a href="/admin" >
-                                <i class="fa fa-archive"></i>
-                                <span>Proyecto</span>
-                            </a>
-                            <ul class="sub">
-                                <li><a  href="/proyecto/index/listar">Lista</a></li>
-                                <!-- <li><a  href="/admin">Lista</a></li> -->
-                                <!-- <li><a  href="/admin">Nuevo</a></li> -->
-                            </ul>
-                        </li>
-
-                        <?php }?>
-
-                    <?php 
-                    } ?>
-                    
-                    <li class="sub-menu">
-                        <a href="/admin" >
-                            <i class="fa fa-check-square"></i>
-                            <span>Control de Proyectos</span>
-                        </a>
-                    </li>
-                    <li class="sub-menu">
-                        <a href="/admin" >
-                            <i class="fa fa-bookmark-o"></i>
-                            <span>Control Documentario</span>
-                        </a>
-                    </li>
-                   <!--
-                     <?php 
-
-                    if ($is_jefe == 'S') { ?>
-                        <li class="sub-menu">
-                            <a href="##" >
-                                <i class="fa fa-suitcase"></i>
-                              <span>Hoja de Tiempo</span>
-                            </a>
-                            <ul class="sub">
-                                <li><a  href="/timesheet/index/timesheetaprobacion">Aprobación</a></li>
-                                <li><a  href="/timesheet/index/calendar">Rendición</a></li>
-                            </ul>
-                        </li>
-                    <?php     
-                     } 
-
-
-                   //if ($is_gerente == 'S') { ?>   -->
-
-
-                  <!--    <li class="sub-menu">
-                            <a href="##" >
-                                <i class="fa fa-suitcase"></i>
-                              <span>Hoja de Tiempo GP</span>
-                            </a>
-                            <ul class="sub">
-                                <li><a  href="/timesheet/index/timesheetaprobaciongerente">Aprobación</a></li>
-                                <li><a  href="/timesheet/index/calendar">Rendición</a></li>
-                                <li><a  href="/timesheet/index/timesheethistorico">Historico</a></li>
-                            </ul>
-                        </li>-->
-
-
-                     
-                
-                      
-                      <?php
-             if ($is_gerente == 'N' && $is_jefe == 'N' && $is_gerente_general != 'GERENTE' && $is_gerente_general != 'JEFE' && $is_gerente_general != 'GERENTE-AREA' && $is_area!='40'  &&  $is_gerente_general != 'GERENTE-GENERAL' )  { 
-
-                      ?>
-
-
-                        <li>
-                            <a href="/timesheet/index/calendar">
-                                <i class="fa fa-money"></i>
-                                <span>Hoja de Tiempo Personal</span>
-                            </a>
-                        </li>
+                       </li>
                     <?php }?>
-  
-                        <?php if ($is_gerente_general == 'GERENTE'  )  { ?>
-                        <li class="sub-menu">
-                            <a href="##" >
-                                <i class="fa fa-suitcase"></i>
-                              <span>Hoja de Tiempo Gerente</span>
+                        <li >
+                            <a id="mostrar-calendar" class="" data-toggle="modal" href="">
+                                <i class="fa fa-calendar"></i> 
+                                <span>Calendario</span>
                             </a>
-                            <ul class="sub">
-                                <li><a  href="/timesheet/aprobacion/mostrarhojatiempofiltro2">Aprobación</a></li>
-                                <li><a  href="/timesheet/index/calendar">Rendición</a></li>
-                                <li><a  href="/timesheet/aprobacion/mostrarhistoricohojatiempofiltro2">Historico</a></li>
-                            </ul>
-                        </li>
-                    <?php }?>
-
-                    <?php if ($is_gerente_general == 'JEFE'  )  { 
-
-                      ?>
-
-                        <li class="sub-menu">
-                            <a href="##" >
-                                <i class="fa fa-suitcase"></i>
-                              <span>Hoja de Tiempo Jefe</span>
-                            </a>
-                            <ul class="sub">
-                                <li><a  href="/timesheet/aprobacion/mostrarhojatiempofiltro2">Aprobación</a></li>
-
-                                <li><a  href="/timesheet/index/calendar">Rendición</a></li>
-                                <li><a  href="/timesheet/aprobacion/mostrarhistoricohojatiempofiltro2">Historico</a></li>
-                            </ul>
-                        </li>
-                  <?php }?>
-
-                               <?php if ($is_gerente_general == 'GERENTE-PROY'  )  { 
-
-                      ?>
-
-                        <li class="sub-menu">
-                            <a href="##" >
-                                <i class="fa fa-suitcase"></i>
-                              <span>Hoja de Tiempo GP</span>
-                            </a>
-                            <ul class="sub">
-                                <!--<li><a  href="/timesheet/index/timesheetaprobaciongerente">Aprobación</a></li>-->
-                                 <?php if ($dni == '10764215' or $dni == '10557029'  )  { ?>
-                                 <li><a  href="/timesheet/aprobacion/mostrarhojatiempofiltro2">Aprobación HT Areas Encargadas</a></li>
-                                 <li><a  href="/timesheet/aprobacion/mostrarhistoricohojatiempofiltro2">Historico HT Areas Encargadas</a></li>
-
-                                <?php } ?>                                 
-                                <li><a  href="/timesheet/index/calendar">Rendición</a></li>
-                                <!--<li><a  href="/timesheet/index/timesheethistorico">Historico</a></li> -->
-                            </ul>
-                        </li>
-                  <?php }?>
-
-
-<?php if ($is_gerente_general == 'GERENTE-AREA'  )  { 
-
-                      ?>
-
-<li class="sub-menu">
-                            <a href="##" >
-                                <i class="fa fa-suitcase"></i>
-                              <span>Hoja de Tiempo Gerente Area</span>
-                            </a>
-                            <ul class="sub">
-                              <li><a  href="/timesheet/aprobacion/mostrarhojatiempofiltro2">Aprobación</a></li>
-                                <li><a  href="/timesheet/index/calendar">Rendición</a></li>
-                                <li><a  href="/timesheet/index/historicogerentearea">Historico</a></li>
-                            </ul>
-                        </li>
-                  <?php }?>
-
-
-                  <?php if ($is_gerente_general == 'GERENTE-GENERAL'  )  { 
-
-                      ?>
-
-<li class="sub-menu">
-                            <a href="##" >
-                                <i class="fa fa-suitcase"></i>
-                              <span>Hoja de Tiempo Gerente</span>
-                            </a>
-                            <ul class="sub">
-                              <li><a  href="/timesheet/aprobacion/mostrarhojatiempofiltro2">Aprobación</a></li>
-                                <li><a  href="/timesheet/index/calendar">Rendición</a></li>
-                                <li><a  href="/timesheet/index/historicogerentegeneral">Historico</a></li>
-                            </ul>
-                        </li>
-                  <?php }?>
-                        <!--
-                        <li>
-                            <a href="/timesheet/index/calendar">
-                                <i class="fa fa-money"></i>
-                                <span>Hoja de Tiempo Personal 2</span>
-                            </a>
-                        </li>-->
-
-                    <?php 
-                    if ($is_gerente == 'S') { ?>
-                        <li class="sub-menu">
-                            <a href="##" >
-                                <i class="fa fa-suitcase"></i>
-                                <span>Rendición Gastos</span>
-                            </a>
-                            <ul class="sub">
-                                <li><a  href="/expense/aprobacion/index">Aprobación</a></li>
-                                <li><a  href="/expense/index/historico">Rendición</a></li>
-                            </ul>
-                        </li>
-                    <?php     
-                     } else { ?>
-                        <li>
-                            <a href="/expense/index/historico">
-                                <i class="fa fa-money"></i>
-                                <span>Rendición Gastos</span>
-                            </a>
-                        </li>
-                    <?php 
-                    } ?>
-                    <?php 
-                    if ($is_gerente == 'S' or $is_gerente_general == 'GERENTE' ) { ?>
-
-                    <li class="sub-menu">
-                        <a href="/admin">
-                            <i class="fa fa-group"></i>
-                            <span>RR. HH.</span>
-                        </a>
-                        <ul class="sub">
-                            <li><a  href="/rrhh/index/listar">Lista Personal</a></li>
-                            <li><a  href="/admin">Rates</a></li>
-                        </ul>
-                    </li>
-                    <li class="sub-menu">
-                        <a href="/admin" >
-                            <i class="fa fa-suitcase"></i>
-                            <span>Comercial</span>
-                        </a>
-                        <ul class="sub">
-                            <li><a  href="/comercial/index/listar">Clientes</a></li>
-                            <li><a  href="/comercial/index/contacto">Contactos</a></li>
-                        </ul>
-                    </li>
-                    <li>
-                        <a href="/admin">
-                            <i class="fa fa-user"></i>
-                            <span>Administrador</span>
-                        </a>
-                    </li>
-                    <?php } else {?>
-
-                    <li class="sub-menu">
-                        <a href="/admin">
-                            <i class="fa fa-group"></i>
-                            <span>RR. HH.</span>
-                        </a>
-                        <ul class="sub">
-                            <li><a  href="/admin">Lista Personal</a></li>
-                            <li><a  href="/admin">Rates</a></li>
-                        </ul>
-                    </li>
-                    <li class="sub-menu">
-                        <a href="/admin" >
-                            <i class="fa fa-suitcase"></i>
-                            <span>Comercial</span>
-                        </a>
-                        <ul class="sub">
-                            <li><a  href="/admin">Clientes</a></li>
-                            <li><a  href="/admin">Contactos</a></li>
-                        </ul>
-                    </li>
-                    <li>
-                        <a href="/admin">
-                            <i class="fa fa-user"></i>
-                            <span>Administrador</span>
-                        </a>
-                    </li>
-
-                    <?php } ?>
-                    <!--multi level menu start-->
-                    <!-- <li class="sub-menu">
-                        <a href="javascript:;" >
-                            <i class="fa fa-sitemap"></i>
-                            <span>Menu 3</span>
-                        </a>
-                        <ul class="sub">
-                            <li><a  href="javascript:;">Menu Item 1</a></li>
-                            <li class="sub-menu">
-                                <a  href="boxed_page.html">Menu Item 2</a>
-                                <ul class="sub">
-                                    <li><a  href="javascript:;">Menu Item 2.1</a></li>
-                                    <li class="sub-menu">
-                                        <a  href="javascript:;">Menu Item 3</a>
-                                        <ul class="sub">
-                                            <li><a  href="javascript:;">Menu Item 3.1</a></li>
-                                            <li><a  href="javascript:;">Menu Item 3.2</a></li>
-                                        </ul>
-                                    </li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </li> -->
-                    <!--multi level menu end-->
-                <li>
-                    <a id="mostrar-calendar" class="" data-toggle="modal" href="">
-                        <i class="fa fa-calendar"></i> 
-                        <span>Calendario</span>
-                    </a>
-                    <div id="toggle-calendar" class="fixed-calendar">
-                        <div class="">
-                            <div class="">
-                                <div class="">
-                                    <div class="">
-                                        <section class="panel">
-                                            <div class="panel-body">
-                                                <div id="datepicker"></div>
-                                            </div>
-                                        </section>
-                                    </div>
-                                </div>
+                            <div id="toggle-calendar" class="fixed-calendar">
+                                
+                                   
+                                   
+                                            
+                                                <section class="panel">
+                                                    <div class="panel-body">
+                                                        <div id="datepicker"></div>
+                                                    </div>
+                                                </section>
+                                            
+                                    
+                                
                             </div>
-                        </div>
-                    </div>
-                    
-
-            <script>
-                
-            </script>
-                    
-                </li>
+                        </li>
                 </ul>
               <!-- sidebar menu end-->
             </div>
         </aside>
         <!--sidebar end-->
-
         <!--main content start-->
         <section id="main-content">
             <section class="wrapper">
@@ -513,7 +171,6 @@
             </section>
         </section>
         <!--main content end-->
-
         <!-- Right Slidebar start -->
         <!-- <div class="sb-slidebar sb-right sb-style-overlay">
             <h5 class="side-title">Calendario</h5>
@@ -538,24 +195,15 @@
     </body>   
 
 </html>
-
-
-
-
-
 <script type="text/javascript">
-$(document).ready(function(){
-                                
+    $(document).ready(function(){
         var consulta;                 
          //hacemos focus al campo de búsqueda
         $("#busqueda").focus();
-                                                                                                    
         //comprobamos si se pulsa una tecla
         $("#busqueda").keyup(function(e){
-                                     
               //obtenemos el texto introducido en el campo de búsqueda
               consulta = $("#busqueda").val();
-
               //alert(consulta);
               //hace la búsqueda                                                    
               $.ajax({
@@ -577,39 +225,29 @@ $(document).ready(function(){
                           $("#resultado").append(data);                                     
                           $("#res").hide();
                           $("#mensaje").hide();
-
                     }
               });
-                                                                                  
-                                                                           
         });
-
     //$("#mostrar-calendar").hide();    
     $('#mostrar-calendar').click(function(){
         $('#toggle-calendar').toggle('slow');
          $('#sidebar').animate({scrollTop: 2000}, 1000); 
     });
-                                                                   
 });
-
 
 $.datepicker.setDefaults($.datepicker.regional["es"]);
 $("#datepicker").datepicker
-({
-    maxDate:0, dateFormat:'dd/mm/yy', yearRange: '-100:+0',firstDay: 1,
-    //minDate: new Date(2015, 4, noSunday()),
-    minDate: new Date(2015,5,1),
-    //, "-99:+0"
-    //, changeMonth:true, changeYear: true,    
-});
-
-
-
- function noMonth(){
+    ({
+        maxDate:0, dateFormat:'dd/mm/yy', yearRange: '-100:+0',firstDay: 1,
+        //minDate: new Date(2015, 4, noSunday()),
+        minDate: new Date(2015,5,1),
+        //, "-99:+0"
+        //, changeMonth:true, changeYear: true,    
+    });
+function noMonth(){
     var f = new Date();
     //var day = f.getDay();  
     //var fech=f.getFullYear()+"-"+(f.getMonth()+1) +"-"+f.getDate(); 
-   
     return fech;
   }
 </script>

@@ -1,14 +1,6 @@
 <?php
 
 class Proyecto_IndexController extends Zend_Controller_Action {
-
-    // public function init() {
-    // 	$options = array(
-    //         'layout' => 'layout',
-    //     );
-    //     Zend_Layout::startMvc($options);
-    // }
-
     public function init() {
       $sesion  = Zend_Auth::getInstance();
         if(!$sesion->hasIdentity() ){
@@ -17,39 +9,22 @@ class Proyecto_IndexController extends Zend_Controller_Action {
         $login = $sesion->getStorage()->read();
         $this->sesion = $login; 
         $options = array(
-            'layout' => 'layout',
+            'layout' => 'inicio',
         );
         Zend_Layout::startMvc($options);
-    
     }
-
-
-
 
     public function indexAction() {
     }
 
     public function listarAction() {
-        //print_r($this->sesion);
-        //echo "ddd";
-        
         $uid = $this->sesion->uid;
         $dni = $this->sesion->dni;
         $is_gerente=$this->sesion->is_gerente;
         $is_area=$this->sesion->personal->ucatareaid;
-        //$isanddes= $this->sesion->isanddes;
-
-        //echo $uid;
-        //echo $dni;
-        //echo $cargo;
-        //print_r($personal);
-       // echo $is_area;
         $this->view->is_area = $is_area;
         $this->view->is_gerente = $is_gerente;
         $this->view->dni = $dni;
-
-
-
         if($is_gerente=='S' or $dni == '08051678')
         {
           $listaproyecto = new Admin_Model_DbTable_Proyecto();
@@ -64,50 +39,38 @@ class Proyecto_IndexController extends Zend_Controller_Action {
               //$lista=$listaproyecto->_getProyectoAll();
             $lista=$listaproyecto->_getProyectosTodosAnddes();
             $this->view->listaproyecto = $lista;
-
           }
           else
           {
             $listaproyecto = new Admin_Model_DbTable_Equipo();
+            $tabla_activaractividad = new Admin_Model_DbTable_Activaractividad();
             $estado='A';
-            $lista=$listaproyecto->_getProyectosXuidXEstado($uid,$estado);
+            $lista=$tabla_activaractividad->_getProyectosXEmpleadoXEstadoActivo($uid,$dni,'A');
+            //_getProyectosXuidXEstado($uid,$estado);
+
+            
             $this->view->listaproyecto = $lista;
           }
-
         }
-
-        
     }
     
     public function nuevoAction() {
 
         $propuestas = new Admin_Model_DbTable_Propuesta();
         $prop=$propuestas->_getPropuestaxnoproyectxganado(); 
-          //print_r($prop);
         $this->view->propuestas=$prop;
-
         $cliente=new Admin_Model_DbTable_Cliente();
         $todosclientes=$cliente->_getClienteAll();
         $this->view->clientes=$todosclientes;
-
         $uminera = new Admin_Model_DbTable_Unidadminera();
         $unidadminera=$uminera->_getUnidadmineraAll();
         $this->view->unidadminera=$unidadminera;
-
-
-
         $form= new Admin_Form_Proyecto();        
         $this->view->form=$form;   
-
         if ($this->getRequest()->isPost()) {
             $formdata = $this->getRequest()->getPost();
-              //if ($form->isValid($formdata)) {
-
             $codigo_prop_proy = $this->_getParam('cod_proy_prop');
             $proyectoid = $this->_getParam('proyectoid');
- 
-     
-
             $propuestaid = $this->_getParam('propuesta');
             $nombre_proyecto = $this->_getParam('nombre_proyecto');
             $control_proyecto = $this->_getParam('control_proyecto');
@@ -124,7 +87,6 @@ class Proyecto_IndexController extends Zend_Controller_Action {
             $tag = $this->_getParam('tag');
             $clienteid = $this->_getParam('cliente');
             $unidad_mineraid = $this->_getParam('uminera');
-     
             $formdata['proyectoid']=$proyectoid['0'];
             $formdata['propuestaid']=$propuestaid;
             $formdata['nombre_proyecto']=$nombre_proyecto;
@@ -136,8 +98,6 @@ class Proyecto_IndexController extends Zend_Controller_Action {
             $formdata['monto_total']=$monto_total;
             $formdata['unidad_mineraid']=$unidad_mineraid;
             $formdata['clienteid']=$clienteid;
-         
-     
             $formdata['fecha_cierre']=$fecha_cierre;
             $formdata['fecha_inicio']=$fecha_inicio;
             $formdata['control_documentario']=$control_documentario;
@@ -147,11 +107,8 @@ class Proyecto_IndexController extends Zend_Controller_Action {
             $formdata['tag']=$tag;
             $formdata['paisid']='01';
             $formdata['oid']='AND-10';
-
             print_r($formdata);//exit();
-           
             $newrec=new Admin_Model_DbTable_Proyecto();
-
                 if($newrec->_save($formdata))
                 {
                     echo "llego";
