@@ -1299,8 +1299,12 @@ public function subiractividadesAction(){
 public function verAction() {
     $proyectoid= $this->_getParam("proyectoid");
     $codigo_prop_proy= $this->_getParam("codigo_prop_proy");
+    $propuestaid= $this->_getParam("propuesta");
+    $revision= $this->_getParam("revision");
     $this->view->codigoproyecto=$codigo_prop_proy;
     $this->view->proyectoid=$proyectoid;
+    $this->view->propuestaid=$propuestaid;
+    $this->view->revision=$revision;
 
     $bandera= $this->_getParam("bandera");
     if ($bandera=='S')
@@ -2155,9 +2159,13 @@ public function cargartarea2Action() {
 
     $proyectoid= $this->_getParam("proyectoid");
     $codigo_prop_proy= $this->_getParam("codigo_prop_proy");
+    $propuestaid= $this->_getParam("propuestaid");
+    $revision= $this->_getParam("revision");
 
     $this->view->proyectoid=$proyectoid;
     $this->view->codigo_prop_proy=$codigo_prop_proy;
+    $this->view->propuestaid=$propuestaid;
+    $this->view->revision=$revision;
 
     $proyect = new Admin_Model_DbTable_Proyecto();
     $verproyect=$proyect->_buscarProyectodetalles($proyectoid,$codigo_prop_proy);
@@ -2307,6 +2315,29 @@ public function cargartarea2Action() {
       if($updcontactproyect)
         {echo "gg";}
   }
+
+  public function generarresumenAction()
+  {
+    echo $codigo_prop_proy= $this->_getParam("codigo_prop_proy");
+    echo "&";    
+    echo $proyectoid= $this->_getParam("proyectoid");
+    echo "&";
+    echo $revision= $this->_getParam("revision");
+    echo "&";
+    echo $revision_propuesta= $this->_getParam("revision_hojaresumen");
+    echo "&";
+    echo $propuestaid= $this->_getParam("propuestaid");
+
+
+    
+
+
+    
+      
+
+    exit();
+  }
+    
 
 
 }
