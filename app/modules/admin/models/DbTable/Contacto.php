@@ -6,6 +6,22 @@ class Admin_Model_DbTable_Contacto extends Zend_Db_Table_Abstract
     protected $_sequence ="s_contacto";
 
 
+    public function _getOne($where){
+        try {
+                //if ($where["dni"]=='') return false;                
+                $wherestr= "contactoid = '".$where['contactoid']."' ";
+                print_r($wherestr);
+                
+                $row = $this->fetchRow($wherestr);
+
+                if($row) return $row->toArray();
+                return false;
+        } catch (Exception $e) {
+            print "Error: Read One Condition".$e->getMessage();
+        }
+    }
+
+
     public function _getContactoAll(){
         try{
             $f = $this->fetchAll();

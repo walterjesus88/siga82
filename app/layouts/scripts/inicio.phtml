@@ -1,0 +1,253 @@
+<?php echo $this->doctype(); ?>
+<?php 
+    $auth = Zend_Auth::getInstance();
+
+    if (!$auth->hasIdentity()) { 
+        exit();
+    }
+    $sesion = $auth->getStorage()->read();
+    $name = $sesion -> personal->alias;
+    $rol = $sesion -> rid;
+    $dni = $sesion -> dni;
+    $uid = $sesion -> uid;
+    $areaid = $sesion -> personal -> ucatareaid;
+
+    $is_gerente = $sesion->is_gerente;
+    $is_jefe = $sesion->is_jefe;
+    $is_responsable = $sesion->is_responsable;
+    $is_gerente_area = $sesion->is_gerente_area;
+    $is_gerente_general= $sesion->personal->ucatcargo;    
+    $is_jefe_area= $sesion->personal->ucatcargo;   
+    $is_area= $sesion->personal->ucatareaid;
+?>
+<html lang="es">
+    <head>
+        <!-- Mobile Specific Metas -->
+        <?php echo $this->headTitle()?>
+        <?php echo $this->headMeta()?>
+        <?php echo $this->headLink()?>
+        <?php echo $this->headScript()?>
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+        <link href="http://fonts.googleapis.com/css?family=Cuprum:400italic,400,700italic,700" rel="stylesheet" type="text/css">
+        <link rel="shortcut icon" href="/img/favicon.ico" type="image/x-icon">
+    </head>
+    <body >
+    <section id="container" >
+        <!--header start-->
+        <header class="header white-bg" >
+            <div class="sidebar-toggle-box">
+                  <div class="fa fa-bars tooltips" data-placement="right" data-original-title="Navegación"></div>
+              </div>
+            <!--logo start-->
+            <a href="#" class="logo"><img width="150" src="/img/logo.jpg"></a>
+            <!--logo end-->
+            <?php
+            /* 
+            <div class="nav notify-row" id="top_menu">
+                <!--  notification start -->
+                <ul class="nav top-menu">
+                    <!-- settings start -->
+                    <li class="dropdown">
+                        <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                            <i class="fa fa-tasks"></i>
+                            <span class="badge bg-success">6</span>
+                        </a>
+                    </li>
+                    <!-- settings end -->
+                    <!-- inbox dropdown start-->
+                    <li id="header_inbox_bar" class="dropdown">
+                        <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                            <i class="fa fa-envelope-o"></i>
+                            <span class="badge bg-important">5</span>
+                        </a>
+                    </li>
+                    <!-- inbox dropdown end -->
+                    <!-- notification dropdown start-->
+                    <li id="header_notification_bar" class="dropdown">
+                        <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+
+                            <i class="fa fa-bell-o"></i>
+                            <span class="badge bg-warning">7</span>
+                        </a>
+                <!--  notification end -->
+            </div>
+            */
+            ?> 
+
+            <div class="top-nav ">
+                <!--search & user info start-->
+                <ul class="nav pull-right top-menu">
+                    <li>
+                        <input type="text" id="busqueda" class="form-control search" placeholder="Buscar">
+                    </li>
+
+                  
+
+                    <!-- user login dropdown start-->
+                    <li class="dropdown">
+                        <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                            <img src="/img/fotos-anddes/<?php print $dni ?>.jpg" style="border-radius : 50%; width : 29px ; height : 30px">
+                            <span class="username"><?php print $name ?></span>
+                            <b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu extended logout">
+                            <div class="log-arrow-up"></div>
+                            <li><a href="/rrhh/perfil/curriculum/dni/<?php print $dni ?>"><i class=" fa fa-suitcase"></i>Perfil</a></li>
+                            <li><a href="#"><i class="fa fa-cog"></i> Configuración</a></li>
+                            <li><a href="#"><i class="fa fa-bell-o"></i> Notificaciones</a></li>
+                            <li><a href="/logout"><i class="fa fa-key"></i> Salir</a></li>
+                        </ul>
+                    </li>
+                    <!-- <li class="sb-toggle-right">
+                        <i class="fa  fa-align-right"></i>
+                    </li> -->
+                    <!-- user login dropdown end -->
+                </ul>
+                <!--search & user info end-->
+            </div>
+        </header>
+      <!--header end-->
+
+      <aside>
+            <div id="sidebar"  class="nav-collapse ">
+                <!-- sidebar menu start-->
+                <ul class="sidebar-menu" id="nav-accordion">
+                    <li>
+                        <a class="active" href="/timesheet/index/calendar">
+                            <i class="fa fa-home"></i>
+                            <span>Inicio</span>
+                        </a>
+                    </li>
+                    <?php 
+                    $tabla_acl = new Admin_Model_DbTable_Acl();
+                    $data_acl = $tabla_acl->_getAclxUsuario($uid,$dni,$areaid);
+                    foreach ($data_acl as $nombre_menu) {
+                    ?> 
+                        <li class="sub-menu">
+                            <a href="">
+                                <i class="fa fa-bar-chart-o"></i>
+                                <span><?php print_r($nombre_menu['nombre_modulo'])?></span>
+                            </a>
+                            <ul class="sub" >
+                                <?php 
+                                    $data_vistaacl = $tabla_acl->_getAclxUsuarioxModulo($uid,$dni,$areaid,$nombre_menu['moduloid']);
+                                    foreach ($data_vistaacl as $nombre_submenu) {
+                                ?>
+                                    <li> <a  href="/<?php print_r($nombre_submenu['moduloid']); echo "/"; print_r($nombre_submenu['controlador']); echo "/"; print_r($nombre_submenu['vista']);?>"><?php print_r($nombre_submenu['descripcion_modulo']);?></a>
+                                    </li>
+                                <?php }?>
+                            </ul>
+                       </li>
+                    <?php }?>
+                        <li >
+                            <a id="mostrar-calendar" class="" data-toggle="modal" href="">
+                                <i class="fa fa-calendar"></i> 
+                                <span>Calendario</span>
+                            </a>
+                            <div id="toggle-calendar" class="fixed-calendar">
+                                
+                                   
+                                   
+                                            
+                                                <section class="panel">
+                                                    <div class="panel-body">
+                                                        <div id="datepicker"></div>
+                                                    </div>
+                                                </section>
+                                            
+                                    
+                                
+                            </div>
+                        </li>
+                </ul>
+              <!-- sidebar menu end-->
+            </div>
+        </aside>
+        <!--sidebar end-->
+        <!--main content start-->
+        <section id="main-content">
+            <section class="wrapper">
+                <?php print $this->layout()->content; ?>
+            </section>
+        </section>
+        <!--main content end-->
+        <!-- Right Slidebar start -->
+        <!-- <div class="sb-slidebar sb-right sb-style-overlay">
+            <h5 class="side-title">Calendario</h5>
+            <section class="panel">
+                <div class="panel-body">
+                    <div id="datepicker"></div>
+                </div>
+            </section>
+        </div> -->
+        <!-- Right Slidebar end -->
+
+        <footer class="site-footer" style="margin-top: 10%" >
+            <div class="text-center">
+                2015 &copy; Anddes Asociados
+                <a href="#" class="go-top"><i class="fa fa-angle-up"></i></a>
+            </div>
+        </footer>
+    </section>
+    <script src="/js/soon/plugins.js"></script>
+    <script src="/js/soon/custom.js"></script>
+    <script src="/js/common-scripts.js"></script>
+    </body>   
+
+</html>
+<script type="text/javascript">
+    $(document).ready(function(){
+        var consulta;                 
+         //hacemos focus al campo de búsqueda
+        $("#busqueda").focus();
+        //comprobamos si se pulsa una tecla
+        $("#busqueda").keyup(function(e){
+              //obtenemos el texto introducido en el campo de búsqueda
+              consulta = $("#busqueda").val();
+              //alert(consulta);
+              //hace la búsqueda                                                    
+              $.ajax({
+                    type: "POST",
+                    url: "/rrhh/index/busca/",
+                    data: "b="+consulta,
+                    dataType: "html",
+                    beforeSend: function()
+                    {
+                          $("#resultado").html("<p align='center'><img src='ajax-loader.gif'/></p>");
+                          //location.reload();
+                    },                    
+                    error: function(){
+                          alert("error petición ajax");
+                    },
+                    success: function(data){      
+                          console.log('ff');                                              
+                          $("#resultado").empty();
+                          $("#resultado").append(data);                                     
+                          $("#res").hide();
+                          $("#mensaje").hide();
+                    }
+              });
+        });
+    //$("#mostrar-calendar").hide();    
+    $('#mostrar-calendar').click(function(){
+        $('#toggle-calendar').toggle('slow');
+         $('#sidebar').animate({scrollTop: 2000}, 1000); 
+    });
+});
+
+$.datepicker.setDefaults($.datepicker.regional["es"]);
+$("#datepicker").datepicker
+    ({
+        maxDate:0, dateFormat:'dd/mm/yy', yearRange: '-100:+0',firstDay: 1,
+        //minDate: new Date(2015, 4, noSunday()),
+        minDate: new Date(2015,5,1),
+        //, "-99:+0"
+        //, changeMonth:true, changeYear: true,    
+    });
+function noMonth(){
+    var f = new Date();
+    //var day = f.getDay();  
+    //var fech=f.getFullYear()+"-"+(f.getMonth()+1) +"-"+f.getDate(); 
+    return fech;
+  }
+</script>

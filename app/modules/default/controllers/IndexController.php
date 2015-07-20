@@ -161,6 +161,7 @@ class IndexController extends Zend_Controller_Action {
 
                         /* Provisional */
                         if ($data->rid=='PROYECTO') {
+                            //print_r($data);
                             $this->_helper->redirector('calendar','index','timesheet');
                         }
                         elseif ($data->rid=='PROPUESTA') {

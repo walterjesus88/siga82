@@ -1,10 +1,15 @@
 <?php
 
 class Proyecto_IndexController extends Zend_Controller_Action {
-
     public function init() {
-    	$options = array(
-            'layout' => 'layout',
+      $sesion  = Zend_Auth::getInstance();
+        if(!$sesion->hasIdentity() ){
+            $this->_helper->redirector('index',"index",'default');
+        }
+        $login = $sesion->getStorage()->read();
+        $this->sesion = $login; 
+        $options = array(
+            'layout' => 'inicio',
         );
         Zend_Layout::startMvc($options);
     }
@@ -13,41 +18,59 @@ class Proyecto_IndexController extends Zend_Controller_Action {
     }
 
     public function listarAction() {
-        $listaproyecto = new Admin_Model_DbTable_Proyecto();
-        //$lista=$listaproyecto->_getProyectoAll();
-        $lista=$listaproyecto->_getProyectosTodosAnddes();
-        $this->view->listaproyecto = $lista;
+        $uid = $this->sesion->uid;
+        $dni = $this->sesion->dni;
+        $is_gerente=$this->sesion->is_gerente;
+        $is_area=$this->sesion->personal->ucatareaid;
+        $this->view->is_area = $is_area;
+        $this->view->is_gerente = $is_gerente;
+        $this->view->dni = $dni;
+        if($is_gerente=='S' or $dni == '08051678')
+        {
+          $listaproyecto = new Admin_Model_DbTable_Proyecto();
+          $lista=$listaproyecto->_getProyectosxGerente($uid);
+          $this->view->listaproyecto = $lista;
+        } 
+        else
+        {
+          if($is_area=='26')
+          {
+            $listaproyecto = new Admin_Model_DbTable_Proyecto();
+              //$lista=$listaproyecto->_getProyectoAll();
+            $lista=$listaproyecto->_getProyectosTodosAnddes();
+            $this->view->listaproyecto = $lista;
+          }
+          else
+          {
+            $listaproyecto = new Admin_Model_DbTable_Equipo();
+            $tabla_activaractividad = new Admin_Model_DbTable_Activaractividad();
+            $estado='A';
+            $lista=$tabla_activaractividad->_getProyectosXEmpleadoXEstadoActivo($uid,$dni,'A');
+            //_getProyectosXuidXEstado($uid,$estado);
+
+            
+            $this->view->listaproyecto = $lista;
+          }
+        }
     }
     
     public function nuevoAction() {
 
         $propuestas = new Admin_Model_DbTable_Propuesta();
         $prop=$propuestas->_getPropuestaxnoproyectxganado(); 
-          //print_r($prop);
         $this->view->propuestas=$prop;
-
         $cliente=new Admin_Model_DbTable_Cliente();
         $todosclientes=$cliente->_getClienteAll();
         $this->view->clientes=$todosclientes;
-
         $uminera = new Admin_Model_DbTable_Unidadminera();
         $unidadminera=$uminera->_getUnidadmineraAll();
         $this->view->unidadminera=$unidadminera;
-
-
-
         $form= new Admin_Form_Proyecto();        
         $this->view->form=$form;   
-
         if ($this->getRequest()->isPost()) {
             $formdata = $this->getRequest()->getPost();
-              //if ($form->isValid($formdata)) {
-
             $codigo_prop_proy = $this->_getParam('cod_proy_prop');
             $proyectoid = $this->_getParam('proyectoid');
- 
-     
-
             $propuestaid = $this->_getParam('propuesta');
             $nombre_proyecto = $this->_getParam('nombre_proyecto');
             $control_proyecto = $this->_getParam('control_proyecto');
@@ -64,7 +87,6 @@ class Proyecto_IndexController extends Zend_Controller_Action {
             $tag = $this->_getParam('tag');
             $clienteid = $this->_getParam('cliente');
             $unidad_mineraid = $this->_getParam('uminera');
-     
             $formdata['proyectoid']=$proyectoid['0'];
             $formdata['propuestaid']=$propuestaid;
             $formdata['nombre_proyecto']=$nombre_proyecto;
@@ -76,8 +98,6 @@ class Proyecto_IndexController extends Zend_Controller_Action {
             $formdata['monto_total']=$monto_total;
             $formdata['unidad_mineraid']=$unidad_mineraid;
             $formdata['clienteid']=$clienteid;
-         
-     
             $formdata['fecha_cierre']=$fecha_cierre;
             $formdata['fecha_inicio']=$fecha_inicio;
             $formdata['control_documentario']=$control_documentario;
@@ -87,11 +107,8 @@ class Proyecto_IndexController extends Zend_Controller_Action {
             $formdata['tag']=$tag;
             $formdata['paisid']='01';
             $formdata['oid']='AND-10';
-
             print_r($formdata);//exit();
-           
             $newrec=new Admin_Model_DbTable_Proyecto();
-
                 if($newrec->_save($formdata))
                 {
                     echo "llego";
@@ -1282,8 +1299,12 @@ public function subiractividadesAction(){
 public function verAction() {
     $proyectoid= $this->_getParam("proyectoid");
     $codigo_prop_proy= $this->_getParam("codigo_prop_proy");
+    $propuestaid= $this->_getParam("propuesta");
+    $revision= $this->_getParam("revision");
     $this->view->codigoproyecto=$codigo_prop_proy;
     $this->view->proyectoid=$proyectoid;
+    $this->view->propuestaid=$propuestaid;
+    $this->view->revision=$revision;
 
     $bandera= $this->_getParam("bandera");
     if ($bandera=='S')
@@ -2138,9 +2159,13 @@ public function cargartarea2Action() {
 
     $proyectoid= $this->_getParam("proyectoid");
     $codigo_prop_proy= $this->_getParam("codigo_prop_proy");
+    $propuestaid= $this->_getParam("propuestaid");
+    $revision= $this->_getParam("revision");
 
     $this->view->proyectoid=$proyectoid;
     $this->view->codigo_prop_proy=$codigo_prop_proy;
+    $this->view->propuestaid=$propuestaid;
+    $this->view->revision=$revision;
 
     $proyect = new Admin_Model_DbTable_Proyecto();
     $verproyect=$proyect->_buscarProyectodetalles($proyectoid,$codigo_prop_proy);
@@ -2174,6 +2199,15 @@ public function cargartarea2Action() {
       //print_r($ccunico);
       $this->view->contactunico=$ccunico[0];
 
+
+      $usercat= new Admin_Model_DbTable_Usuariocategoria();
+     
+      $order = array('uid ASC');
+
+      $ucat=$usercat->_getFilter($where=null,$attrib=null,$order);
+      $this->view->ucat=$ucat;
+
+
     }
 
     $clientes = new Admin_Model_DbTable_Cliente();
@@ -2183,6 +2217,18 @@ public function cargartarea2Action() {
     $unidadm=new Admin_Model_DbTable_Unidadminera();
     $uminera=$unidadm->_getUnidadmineraAll();
     $this->view->unidad=$uminera;
+
+    $hojaselect = new Admin_Model_DbTable_Hojaresumen();
+    $where = array('proyectoid' => $proyectoid, 'codigo_prop_proy' => $codigo_prop_proy,
+                   'propuestaid' => $propuestaid,'revision_propuesta' => $revision);
+
+    $hselect=$hojaselect->_getFilter($where);
+    //print_r($hselect);
+    $this->view->select_revision=$hselect;
+
+    //revision_hojaresumen
+
+
   }
 
   public function imphojaresumenAction()
@@ -2289,6 +2335,100 @@ public function cargartarea2Action() {
       $updcontactproyect=$actproyecto->_update($data,$pk);
       if($updcontactproyect)
         {echo "gg";}
+  }
+
+  public function generarresumenAction()
+  {
+    echo $codigo_prop_proy= $this->_getParam("codigo_prop_proy");
+    echo "&";    
+    echo $proyectoid= $this->_getParam("proyectoid");
+    echo "&";
+    echo $revision_propuesta= $this->_getParam("revision");
+    echo "&";
+    echo $revision_hojaresumen= $this->_getParam("revision_hojaresumen");
+    echo $propuestaid= $this->_getParam("propuestaid");
+    echo "&";
+    echo $contact= $this->_getParam("contact");
+
+
+    echo $gerente_proyecto= $this->_getParam("gerente_proyecto");
+    echo $jefe_proyecto1= $this->_getParam("jefe_proyecto1");
+    echo $jefe_proyecto2= $this->_getParam("jefe_proyecto2");
+    echo $control_documentario= $this->_getParam("control_documentario");
+    echo $fecha_inicio_planificado= $this->_getParam("fecha_inicio_planificado");
+    echo $fecha_fin_planificado= $this->_getParam("fecha_fin_planificado");
+    echo $fecha_inicio_real= $this->_getParam("fecha_inicio_real");
+    echo $fecha_fin_real= $this->_getParam("fecha_fin_real");
+
+    echo $adelanto= $this->_getParam("adelanto");
+    echo $comentario= $this->_getParam("comentario");
+    echo $tipo_contrato= $this->_getParam("tipo_contrato");
+    echo $observacion= $this->_getParam("observacion");
+
+
+
+    // $contacto= new Admin_Model_DbTable_Contacto();
+    // $wherecont = array('contactoid' =>$contact , );
+    // $cc=$contacto->_getOne($wherecont);
+
+    // print_r($cc);
+
+    $where = array('codigo_prop_proy' =>$codigo_prop_proy ,'proyectoid' =>$proyectoid , 'revision_propuesta' =>$revision_propuesta,
+                   'revision_hojaresumen' =>$revision_hojaresumen, 'propuestaid' =>$propuestaid  );
+
+    $hoja= new Admin_Model_DbTable_Hojaresumen();
+    $verhoja=$hoja->_getOne($where);
+
+    
+    if($verhoja)
+    {
+      echo "no llego";
+    }
+    else
+    {
+    
+      //echo $cc['clienteid'];
+      $data = array('codigo_prop_proy' =>$codigo_prop_proy ,'proyectoid' =>$proyectoid , 'revision_propuesta' =>$revision_propuesta,
+                   'revision_hojaresumen' =>$revision_hojaresumen, 'propuestaid' =>$propuestaid ,'contactoid' =>$contact , 
+                   'gerente_proyecto' =>$gerente_proyecto, 'jefe_proyecto1' =>$jefe_proyecto1 ,'jefe_proyecto2' =>$jefe_proyecto2 , 
+                   'control_documentario' =>$control_documentario, 'fecha_inicio_planificado' =>$fecha_inicio_planificado ,'fecha_fin_planificado' =>$fecha_fin_planificado , 
+                   'fecha_inicio_real' =>$fecha_inicio_real, 'fecha_fin_real' =>$fecha_fin_real ,
+                   'adelanto' =>$adelanto, 'comentarios' =>$comentario ,
+                   'tipo_contrato' =>$tipo_contrato, 'observacion' =>$observacion , );
+
+      print_r($data);
+      echo "llego";
+      $guardarhoja=$hoja->_save($data);
+      exit();
+
+    }
+
+
+    exit();
+  }
+    
+  public function historialresumenAction()
+  {
+    $this->_helper->layout()->disablelayout();    
+
+    $proyectoid= $this->_getParam("proyectoid");
+    $codigo_prop_proy= $this->_getParam("codigo_prop_proy");
+    $propuestaid= $this->_getParam("propuestaid");
+    $revision= $this->_getParam("revision");
+
+    $hoja= new Admin_Model_DbTable_Hojaresumen();  
+    $wherehistorial = array('codigo_prop_proy' =>$codigo_prop_proy,'proyectoid' =>$proyectoid,'propuestaid' =>$propuestaid, 'revision_propuesta' =>$revision);
+    $traerhistorial=$hoja->_buscarProyectodetalles($proyectoid,$codigo_prop_proy,$propuestaid,$revision);
+    $this->view->historialresumen=$traerhistorial;
+
+    //$proyect = new Admin_Model_DbTable_Proyecto();
+    //$verproyect=$proyect->_buscarProyectodetalles($proyectoid,$codigo_prop_proy);
+    //print_r($verproyect);
+
+
+  //  $this->view->proyectdetail=$verproyect;
+
+    print_r($traerhistorial);
   }
 
 

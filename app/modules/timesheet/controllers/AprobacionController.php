@@ -448,7 +448,7 @@ class Timesheet_AprobacionController extends Zend_Controller_Action {
                             $lista_proyectos_empleado=$tabla_planificacion->_getProyectosxSemana($semana,$uid,$dni);
                             $datos_actualizar_planificacion['estado']='R';
                             $str_actualizar_planificacion="semanaid='$semana' and uid='$uid' and dni='$dni'";
-                            echo ($str_actualizar_planificacion);
+                            //echo ($str_actualizar_planificacion);
                             $update_planificacion=$tabla_planificacion -> _update($datos_actualizar_planificacion,$str_actualizar_planificacion);
 
                             $datos_actualizar_aprobaciones['estado_historial']='RGP';
@@ -482,22 +482,28 @@ class Timesheet_AprobacionController extends Zend_Controller_Action {
     public function mostrarhistoricohojatiempogerenteAction(){
         try {
             $uid = $this->sesion->uid;
-            $dni = $this->sesion->dni;     
+            $dni = $this->sesion->dni;  
 
             $tabla_usuariocategoria= new Admin_Model_DbTable_Usuariocategoria();
             $codigosaprobaciones_empleado = $tabla_usuariocategoria->_getBuscarCodigoAprobacionesxEmpleado($uid,$dni);
             
             $lista_empleados_aprobar=array();
-            foreach ($codigosaprobaciones_empleado as $codigoaprobaciones) {
-                $tabla_aprobacion = new Admin_Model_DbTable_Aprobacion();
-                $codigos_paraaprobar=$tabla_aprobacion-> _getCodigoAprobacionxAprobadorfiltro2($codigoaprobaciones['aprobacion'],'A');
-                foreach ($codigos_paraaprobar as $codigo_aprobar) {
-                    $tabla_historial_aprobaciones= new Admin_Model_DbTable_Historialaprobaciones();       
-                    $listar_historial_aprobaciones = $tabla_historial_aprobaciones -> _getBuscarEmpleadoxHojatiempohistorico('GP',$codigo_aprobar['idaprobacion']);
-                    $lista_empleados_aprobar[]=$listar_historial_aprobaciones;
-                }
-            }
+
+            //foreach ($codigosaprobaciones_empleado as $codigoaprobaciones) {
+                //$tabla_aprobacion = new Admin_Model_DbTable_Aprobacion();
+             $tabla_historial_aprobaciones= new Admin_Model_DbTable_Historialaprobaciones();       
+                $lista_empleados_aprobar=$tabla_historial_aprobaciones-> _getListarHistoricoxAprobador($uid,$dni);
+
+               // $codigos_paraaprobar=$tabla_aprobacion-> _getCodigoAprobacionxAprobadorfiltro2($codigoaprobaciones['aprobacion'],'A');
+               // foreach ($codigos_paraaprobar as $codigo_aprobar) {
+                 //   $tabla_historial_aprobaciones= new Admin_Model_DbTable_Historialaprobaciones();       
+                 //   $listar_historial_aprobaciones = $tabla_historial_aprobaciones -> _getBuscarEmpleadoxHojatiempohistorico('GP',$codigo_aprobar['idaprobacion']);
+                 //   $lista_empleados_aprobar[]=$listar_historial_aprobaciones;
+               // }
+           // }
             $this->view->lista_empleados_aprobar= $lista_empleados_aprobar;   
+
+            
         } catch (Exception $e) {
             print "Error: ".$e->getMessage();
         } 

@@ -92,7 +92,7 @@ order by t.proyectoid,t.actividadid,t.tipo_actividad desc
      {
         try{
             $sql=$this->_db->query("
-                select *,tareo.estado as estado_tareopersona   from tareo_persona as tareo 
+                select *,tareo.estado as estado_tareopersona ,act.nombre as nombre_actividad  from tareo_persona as tareo 
                 inner join actividad as act
                 on tareo.actividadid=act.actividadid and tareo.codigo_actividad=act.codigo_actividad 
                     and tareo.codigo_prop_proy=act.codigo_prop_proy

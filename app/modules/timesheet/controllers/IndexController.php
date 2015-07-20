@@ -10,7 +10,7 @@ class Timesheet_IndexController extends Zend_Controller_Action {
         $login = $sesion->getStorage()->read();
         $this->sesion = $login; 
         $options = array(
-            'layout' => 'layout',
+            'layout' => 'inicio',
         );
         Zend_Layout::startMvc($options);
     }
@@ -238,7 +238,7 @@ class Timesheet_IndexController extends Zend_Controller_Action {
         $this->view->actividades= $datos_tareopersona;
         // print_r($this->sesion->is_gerente);
         $this->view->is_gerente=$this->sesion->is_gerente;
-        //print_r($datos_tareopersona);
+        
         $this->view->actividades_NB = $datos_tareopersona_NB;
 
         $buscar_aprobador=$this->sesion->personal->ucataprobacion;

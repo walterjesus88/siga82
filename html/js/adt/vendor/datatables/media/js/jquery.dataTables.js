@@ -10910,8 +10910,9 @@
 			 *      } );
 			 *    } );
 			 */
-			"sInfo": "Viendo _START_ a _END_ de _TOTAL_ entradas",
-	
+
+			"sInfo": "Registros _START_ al _END_ de _TOTAL_ en total",
+
 	
 			/**
 			 * Display information string for when the table is empty. Typically the
@@ -10931,8 +10932,8 @@
 			 *      } );
 			 *    } );
 			 */
-			"sInfoEmpty": "Viendo 0 a 0 de 0 entradas",
-	
+
+			"sInfoEmpty": "Registros 0 al 0 de 0 en total",
 	
 			/**
 			 * When a user filters the information in a table, this string is appended
@@ -10953,7 +10954,8 @@
 			 *      } );
 			 *    } );
 			 */
-			"sInfoFiltered": "(Filtrado desde _MAX_ entradas en total)",
+
+			"sInfoFiltered": "(Filtro de _MAX_ Registros en total)",
 	
 	
 			/**

@@ -2,7 +2,8 @@
 
 <?php 
 	$i=0;
-	if($this->listusuarios){
+	if($this->listusuarios){ ?>
+	<div class="conscroll"> <?php 
 	foreach ($this->listusuarios as $lista) {
 
        	 $wheres=array('codigo_prop_proy'=>$this->codigo,'proyectoid'=>$this->proyectoid,'uid'=>$lista['uid'],'dni'=>$lista['dni'],'areaid'=>$this->areaid);
@@ -11,31 +12,53 @@
          
 
 		?>
-		<ul>
-		<li>
-		<label class="checkbox-inline">
+			<ul id="menu" >
+				<li>
+				<label class="checkbox-inline">
+				</label>
 
-		<?php if($activar['estado']=='A') {?>
-   			<input  type="checkbox" id="persona_<?php echo $i;?>" type="checkbox"  checked="checked" >
+				<?php if($activar['estado']=='A') {?>
+		   			<input  type="checkbox" id="persona_<?php echo $i;?>" type="checkbox"  checked="checked" >
 
-		<?php }else { ?>
-			<input type="checkbox" id="persona_<?php echo $i;?>" value="1" name="persona_<?php echo $i;?>"   > 
-		<?php } ?>
+				<?php }else { ?>
+					<input type="checkbox" id="persona_<?php echo $i;?>" value="1" name="persona_<?php echo $i;?>"   > 
+				<?php } ?>
 
-			<input type="text" style="display:none" id="nombrepersona_<?php echo $i;?>" value="<?php print_r($lista['dni']);?>" name="nombrepersona_<?php echo $i;?>"   > 
-			<input type="text" style="display:none" id="uid_<?php echo $i;?>" value="<?php print_r($lista['uid']);?>" name="nombrepersona_<?php echo $i;?>"   > 
-			<input type="text" style="display:none" id="cargo_<?php echo $i;?>" value="<?php print_r($lista['cargo']);?>" name="nombrepersona_<?php echo $i;?>"   > 
+					<input type="text" style="display:none" id="nombrepersona_<?php echo $i;?>" value="<?php print_r($lista['dni']);?>" name="nombrepersona_<?php echo $i;?>"   > 
+					<input type="text" style="display:none" id="uid_<?php echo $i;?>" value="<?php print_r($lista['uid']);?>" name="nombrepersona_<?php echo $i;?>"   > 
+					<input type="text" style="display:none" id="cargo_<?php echo $i;?>" value="<?php print_r($lista['cargo']);?>" name="nombrepersona_<?php echo $i;?>" >					
 					
-
-					<?php 
-						//print_r($lista['uid']);
-						$porciones = explode(".", $lista['uid']);
-		                echo (ucwords($porciones[0])); echo " ";echo (ucwords($porciones[1]));
-					?>				
+						<?php 
+								//print_r($lista['uid']);
+							$porciones = explode(".", $lista['uid']);
+				            echo (ucwords($porciones[0])); echo " ";echo (ucwords($porciones[1]));
+						?>				
+				
+				</li>			
+			</ul>
 		
-		</label>
-		</li>			
-		</ul>
+	<style type="text/css">
+		.conscroll{
+	        height: 300px;
+	        width: 100%;
+	        padding: 15px;
+	        overflow: scroll;
+	        background-color: #cdd;
+	    }
+
+		* { margin: 0; padding: 0; }
+		ul#menu {
+			padding: 0;
+			height: 25px;
+			background: #dfd;
+		}
+
+		ul#menu li {
+			display: inline-block;
+	        width: 100%;			
+		}
+	</style>
+
 
 
 	<script type='text/javascript'>
@@ -96,6 +119,8 @@
 
 <?php
 $i++; 
- } }?>
+ } ?>
+</div>
+<?php }?>
 
 <div id="cargar"></div>

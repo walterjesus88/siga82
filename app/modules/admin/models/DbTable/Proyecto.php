@@ -189,9 +189,10 @@ class Admin_Model_DbTable_Proyecto extends Zend_Db_Table_Abstract
     public function _getProyectosTodosAnddes(){
         try{
             $sql=$this->_db->query("
-                select * from proyecto
-
-                where not proyectoid in ('1','2','3','4','5','1590.10.01','1590.10.02','1590.10.03') order by proyectoid desc;
+                select * from proyecto as p
+                inner join cliente as c on
+                p.clienteid=c.clienteid
+                where not p.proyectoid in ('1','2','3','4','5','1590.10.01','1590.10.02','1590.10.03') order by p.proyectoid desc;
 
                 ");
             $row=$sql->fetchAll();
@@ -206,9 +207,10 @@ class Admin_Model_DbTable_Proyecto extends Zend_Db_Table_Abstract
     public function _getProyectosxGerente($gerente){
         try{
             $sql=$this->_db->query("
-                select * from proyecto
-
-                where not proyectoid in ('1','2','3','4','5','1590.10.01','1590.10.02','1590.10.03') and gerente_proyecto='$gerente' order by proyectoid asc;
+                select * from proyecto as p
+                inner join cliente as c on
+                p.clienteid=c.clienteid
+                where p.gerente_proyecto='$gerente' order by p.proyectoid asc;
 
 
                 ");
