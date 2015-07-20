@@ -19,56 +19,29 @@ class Admin_Model_DbTable_Hojaresumen extends Zend_Db_Table_Abstract
         }
     }
 
-
-    // public function _getProyectoAll(){
-    //     try{
-    //         $f = $this->fetchAll();
-    //         if ($f) return $f->toArray ();
-    //         return false;
-    //     }catch (Exception $e){
-    //         print "Error: Al momento de leer todas las personas".$e->getMessage();
-    //     }
-    // }
-
-
-
-    // //Funcion para obtener un proyecto en particular para el modulo de reportes
-    // public function _show($id)
-    // {
-    //     $where = "codigo_prop_proy = '".$id."'";
-    //     $row = $this->fetchRow($where);
-    //     if ($row) return $row->toArray();
-    // }
-
-    // //para obtener todos los proyectos de un cliente especifico
-    // public function _getProyectoxCliente($cliente){
-    //     try{
-    //         $sql=$this->_db->query("select codigo_prop_proy, nombre_proyecto, clienteid 
-    //             from proyecto where clienteid='".$cliente."' order by codigo_prop_proy;");
-    //         $row=$sql->fetchAll();
-    //         return $row;           
-    //         }  
-            
-    //        catch (Exception $ex){
-    //         print $ex->getMessage();
-    //     }
-    // }
-
-
-
-    // public function _getOnexcodigoproyecto($pk=null)
-    // {
-    //     try{
-    //         if ($pk['proyectoid']=='' ) return false;
-    //         $where = "proyectoid='".$pk['proyectoid']."' ";
-    //         $row = $this->fetchRow($where);
-    //         if ($row) return $row->toArray();
-    //         return false;
-    //     }catch (Exception $ex){
-    //         print "Error: Get Info Distribution ".$ex->getMessage();
-    //     }
-    // }
-
+     /* Lista toda las Personas */
+    public function _getFilter($where=null,$attrib=null,$orders=null){
+        try{
+            //if($where['eid']=='' || $where['oid']=='') return false;
+                $select = $this->_db->select();
+                if ($attrib=='') $select->from("hoja_resumen");
+                else $select->from("hoja_resumen",$attrib);
+                foreach ($where as $atri=>$value){
+                    $select->where("$atri = ?", $value);                    
+                }
+                if ($orders<>null || $orders<>"") {
+                    if (is_array($orders))
+                        $select->order($orders);
+                }
+                $results = $select->query();
+                $rows = $results->fetchAll();
+                //print_r($results);
+                if ($rows) return $rows;
+                return false;
+        }catch (Exception $e){
+            print "Error: Read Filter competencia ".$e->getMessage();
+        }
+    }
 
     public function _save($data)
     {
@@ -93,75 +66,28 @@ class Admin_Model_DbTable_Hojaresumen extends Zend_Db_Table_Abstract
         }
     }
 
-    public function _delete($pk=null)
-    {
-        try{
-            if ($pk['codigo_prop_proy']=='' ||  $pk['proyectoid']=='' ) return false;
 
-            $where = "codigo_prop_proy = '".$pk['codigo_prop_proy']."' and proyectoid='".$pk['proyectoid']."' ";
-            return $this->delete( $where);
-            return false;
-        }catch (Exception $e){
-            print "Error: Update Distribution".$e->getMessage();
-        }
-    }
-
-    public function _buscarProyecto($proyecto){
+    public function _buscarProyectodetalles($proyectoid,$codigo_prop_proy,$propuestaid,$revision){
         try{
             $sql=$this->_db->query("
-                select pro.codigo_prop_proy,pro.proyectoid,
-                       pro.nombre_proyecto,pro.gerente_proyecto 
-                       from proyecto as pro 
-                inner join propuesta as prop
-                on pro.propuestaid=prop.propuestaid  and pro.codigo_prop_proy=prop.codigo_prop_proy and pro.revision=prop.revision
-                inner join cliente as cli on
-                prop.clienteid=cli.clienteid 
-                where lower(pro.nombre_proyecto) like '%$proyecto%' 
-                or lower(cli.nombre_comercial) like '%$proyecto%' 
-                order by pro.nombre_proyecto asc");
-            $row=$sql->fetchAll();
-            return $row;           
-            }  
-            
-           catch (Exception $ex){
-            print $ex->getMessage();
-        }
-    }
+                select 
+                pro.codigo_prop_proy,pro.proyectoid,pro.propuestaid,pro.revision,pro.nombre_proyecto,pro.descripcion,
+               hr.gerente_proyecto,hr.control_proyecto,hr.control_documentario,hr.estado_hojaresumen,hr.acta_conformidad,
+               hr.tipo_contrato,hr.forma_pago,hr.tipo_pago,hr.fecha_pago,hr.adelanto,hr.fecha_inicio_planificado,hr.fecha_fin_planificado,
+               hr.fecha_inicio_real,hr.fecha_fin_real,hr.comentarios,hr.revision_hojaresumen,hr.observacion,hr.jefe_proyecto1,hr.jefe_proyecto2,
+               cli.clienteid,cli.nombre_comercial,cli.direccion,cli.ruc,cli.tipo_cliente,
+               uni.unidad_mineraid,uni.nombre,uni.direccion
 
-    public function _buscarProyectoxReplicon($proyecto){
-        try{
-            $sql=$this->_db->query("
-                select pro.codigo_prop_proy,pro.proyectoid,
-                       pro.nombre_proyecto,pro.gerente_proyecto ,pro.clienteid
-                       from proyecto as pro 
-                inner join cliente as cli on
-                pro.clienteid=cli.clienteid 
-                where lower(pro.nombre_proyecto) like '%$proyecto%' 
-                or lower(cli.nombre_comercial) like '%$proyecto%' or pro.proyectoid like '%$proyecto%'
-                order by pro.nombre_proyecto asc");
-            $row=$sql->fetchAll();
-            return $row;           
-            }  
-            
-           catch (Exception $ex){
-            print $ex->getMessage();
-        }
-    }
-
-    public function _buscarProyectodetalles($proyecto,$codigo_prop_proy){
-        try{
-            $sql=$this->_db->query("
-               select pro.codigo_prop_proy,pro.descripcion,pro.gerente_proyecto,pro.control_documentario,pro.fecha_inicio,pro.fecha_cierre,pro.nombre_proyecto,pro.propuestaid,pro.proyectoid,cli.nombre_comercial,uni.nombre,
-               uni.unidad_mineraid,pro.nombre_proyecto,pro.gerente_proyecto,pro.clienteid,cli.ruc,pro.contactoid
-               from proyecto as pro  
-
-               inner join cliente as cli 
-               on pro.clienteid=cli.clienteid 
-
-               inner join unidad_minera as uni
-               on uni.unidad_mineraid=pro.unidad_mineraid
-             
-               where codigo_prop_proy='$codigo_prop_proy' and proyectoid='$proyecto'
+                from hoja_resumen as hr
+                inner join proyecto as pro
+                on hr.codigo_prop_proy=pro.codigo_prop_proy
+                inner join unidad_minera as uni
+                on uni.unidad_mineraid= pro.unidad_mineraid
+                inner join cliente as cli
+                on cli.clienteid=pro.clienteid
+                --inner join propuesta as propu
+                --on pro.codigo_prop_proy=propu.codigo_prop_proy and pro.propuestaid=propu.propuestaid and  pro.revision=propu.revision 
+                where hr.codigo_prop_proy='$codigo_prop_proy' and hr.proyectoid='$proyectoid' and hr.propuestaid='$propuestaid' and hr.revision_propuesta='$revision'
                
                 ");
             $row=$sql->fetchAll();
@@ -173,69 +99,6 @@ class Admin_Model_DbTable_Hojaresumen extends Zend_Db_Table_Abstract
         }
     }
 
-    public function _listProyectoxRepliconxEstado($proyecto,$estado){
-        try{
-            $sql=$this->_db->query("
-                select *
-                       from proyecto 
-                where estado='A'
-                order by pro.nombre_proyecto asc");
-            $row=$sql->fetchAll();
-            return $row;           
-            }  
-            
-           catch (Exception $ex){
-            print $ex->getMessage();
-        }
-    }
-
-    public function _getProyectosTodosAnddes(){
-        try{
-            $sql=$this->_db->query("
-                select * from proyecto
-
-                where not proyectoid in ('1','2','3','4','5','1590.10.01','1590.10.02','1590.10.03') order by proyectoid desc;
-
-                ");
-            $row=$sql->fetchAll();
-            return $row;           
-            }  
-            
-           catch (Exception $ex){
-            print $ex->getMessage();
-        }
-    }
-
-    public function _getProyectosxGerente($gerente){
-        try{
-            $sql=$this->_db->query("
-                select * from proyecto
-
-                where not proyectoid in ('1','2','3','4','5','1590.10.01','1590.10.02','1590.10.03') and gerente_proyecto='$gerente' order by proyectoid asc;
-
-
-                ");
-            $row=$sql->fetchAll();
-            return $row;           
-            }  
-            
-           catch (Exception $ex){
-            print $ex->getMessage();
-        }
-    }
-
-    public function _getGerentes(){
-         try{
-            $sql=$this->_db->query("select distinct usu.dni, pro.gerente_proyecto from proyecto as pro inner join
-                usuario as usu on pro.gerente_proyecto = usu.uid order by pro.gerente_proyecto;");
-            $row=$sql->fetchAll();
-            return $row;           
-            }  
-            
-           catch (Exception $ex){
-            print $ex->getMessage();
-        }
-    }
 
 }
 
