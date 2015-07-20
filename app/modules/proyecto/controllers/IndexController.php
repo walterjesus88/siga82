@@ -2421,13 +2421,7 @@ public function cargartarea2Action() {
     $traerhistorial=$hoja->_buscarProyectodetalles($proyectoid,$codigo_prop_proy,$propuestaid,$revision);
     $this->view->historialresumen=$traerhistorial;
 
-    //$proyect = new Admin_Model_DbTable_Proyecto();
-    //$verproyect=$proyect->_buscarProyectodetalles($proyectoid,$codigo_prop_proy);
-    //print_r($verproyect);
-
-
-  //  $this->view->proyectdetail=$verproyect;
-
+ 
     print_r($traerhistorial);
   }
 

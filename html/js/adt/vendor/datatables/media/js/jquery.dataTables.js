@@ -381,7 +381,7 @@
 		 * sZeroRecords - assuming that is given.
 		 */
 		if ( ! lang.sEmptyTable && zeroRecords &&
-			defaults.sEmptyTable === "No data available in table" )
+			defaults.sEmptyTable === "No hay datos disponibles en la tabla" )
 		{
 			_fnMap( lang, lang, 'sZeroRecords', 'sEmptyTable' );
 		}
@@ -10832,7 +10832,7 @@
 				 *      } );
 				 *    } );
 				 */
-				"sNext": "Next",
+				"sNext": "Siguiente",
 	
 	
 				/**
@@ -10855,7 +10855,7 @@
 				 *      } );
 				 *    } );
 				 */
-				"sPrevious": "Previous"
+				"sPrevious": "Anterior"
 			},
 	
 			/**
@@ -10878,7 +10878,7 @@
 			 *      } );
 			 *    } );
 			 */
-			"sEmptyTable": "No data available in table",
+			"sEmptyTable": "No hay datos disponibles en la tabla",
 	
 	
 			/**
@@ -10910,8 +10910,9 @@
 			 *      } );
 			 *    } );
 			 */
+
 			"sInfo": "Registros _START_ al _END_ de _TOTAL_ en total",
-	
+
 	
 			/**
 			 * Display information string for when the table is empty. Typically the
@@ -10931,8 +10932,8 @@
 			 *      } );
 			 *    } );
 			 */
+
 			"sInfoEmpty": "Registros 0 al 0 de 0 en total",
-	
 	
 			/**
 			 * When a user filters the information in a table, this string is appended
@@ -10953,6 +10954,7 @@
 			 *      } );
 			 *    } );
 			 */
+
 			"sInfoFiltered": "(Filtro de _MAX_ Registros en total)",
 	
 	
@@ -11071,7 +11073,7 @@
 			 *      } );
 			 *    } );
 			 */
-			"sLengthMenu": "Show _MENU_ entries",
+			"sLengthMenu": "Viendo _MENU_ entradas",
 	
 	
 			/**
@@ -11209,7 +11211,7 @@
 			 *      } );
 			 *    } );
 			 */
-			"sZeroRecords": "No matching records found"
+			"sZeroRecords": "No hay registros que coincidan con la búsqueda"
 		},
 	
 	
