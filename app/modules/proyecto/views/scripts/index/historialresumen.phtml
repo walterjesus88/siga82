@@ -12,7 +12,7 @@
           <div id="accordian">
               <ul>
                 <li>
-                  <h3><span class="icon-dashboard"></span><?php echo $proyect['codigo_prop_proy'];echo "";echo $proyect['revision_hojaresumen'];?></h3>
+                  <h3><span class="icon-dashboard"></span><?php echo $proyect['nombre_proyecto'];echo "---Revision de Hoja Resumen ";echo $proyect['revision_hojaresumen'];?></h3>
   
                   <ul>
                 <section id="container" class="">
@@ -179,7 +179,7 @@
                           <div id="cont_<?php echo $contact['contactoid']?>">                           
                             <tr>
                                 <td class="col-sm-2"><p><span>Nombre del Contacto</span></p></td>  
-                                <td class="col-sm-6 " colspan="3"><?php echo $contact['ape_paterno'];echo " ";echo $contact['ape_materno'];echo " ";echo $contact['nombre1'] ?></td>
+                                <td class="col-sm-6 " colspan="3"><?php echo $proyect['ape_paterno'];echo " ";echo $proyect['ape_materno'];echo " ";echo $proyect['nombre1'];echo " "; $proyect['nombre2']; ?></td>
                                 <td class="col-sm-4" colspan="4">                               
                                       <center><p><span >Presupuesto</span></p></center>                                                                
                                 </td>                       
@@ -190,7 +190,7 @@
                                 <td class="col-sm-2" rowspan="2">                               
                                       <p><span>Cargo</span></p>                                   
                                 </td>
-                                <td class="col-sm-6" rowspan="2" colspan="3"><?php echo $contact['puesto_trabajo'] ?></td>
+                                <td class="col-sm-6" rowspan="2" colspan="3"><?php echo $proyect['puesto_trabajo'] ?></td>
                                 
                                 <td class="col-sm-2" >                                  
                                           <span>Moneda</span>  
@@ -217,14 +217,14 @@
                                   <p><span>Telefono</span></p> 
                                 </td>
                                 <td class="col-sm-2" rowspan="2">
-                                    <?php echo $contact['telefono'] ?>
+                                    <?php echo $proyect['telefono'] ?>
                                 </td>
                                 <td class="col-sm-2" rowspan="2">
                                   <p><span>Anexo</span></p>                                  
                                 </td>
 
                                 <td class="col-sm-2" rowspan="2">
-                                    <?php echo $contact['anexo'] ?>                                  
+                                    <?php echo $proyect['anexo'] ?>                                  
                                 </td>
                                 
                                 <td class="col-sm-2">                                 
@@ -252,13 +252,13 @@
                                   <p><span>Celular 1</span></p>                                   
                                 </td>
                                 <td class="col-sm-2" rowspan="2">                                
-                                    <?php echo $contact['numero1'] ?>
+                                    <?php echo $proyect['numero1'] ?>
                                 </td>
                                 <td class="col-sm-2" rowspan="2">                                   
                                         <p><span>Celular 2</span></p>                                     
                                 </td>
                                 <td class="col-sm-2" rowspan="2"> 
-                                    <?php echo $contact['numero2'] ?>                                  
+                                    <?php echo $proyect['numero2'] ?>                                  
                                 </td>                                                              
                                 <td class="col-sm-2"> 
                                     <span>Otros</span>                                                                                                       
@@ -281,7 +281,7 @@
                                 <td class="col-sm-2" rowspan="2">
                                       <p><span>Email</span></p> 
                                 </td>
-                                <td class="col-sm-6" colspan="3" rowspan="2"><?php echo $contact['correo'] ?></td>                             
+                                <td class="col-sm-6" colspan="3" rowspan="2"><?php echo $proyect['correo'] ?></td>                             
                                 <td class="col-sm-2">  
                                           <span>Total</span>  
                                           
@@ -350,13 +350,13 @@
                                 <td class="col-sm-2"> 
                                   <p><span>Direccion Fiscal</span></p>  
                                 </td>
-                                <td class="col-sm-6" colspan="3"><?php echo $contact['direccion'] ?></div>
+                                <td class="col-sm-6" colspan="3"><?php echo $proyect['direccion'] ?></div>
                            
                                 <td class="col-sm-2">
                                   <span>Adelanto %</span>  
                                 </td>
                                 <td class="col-sm-2">                                  
-                                  <span><?php echo $proyect['propuestaid'] ?></span>            
+                                  <span><?php echo $proyect['adelanto'] ?></span>            
                                 </td>                               
                             </tr>
 
@@ -433,10 +433,7 @@
                   </aside>
 
                 </section>
-                    <li><a href="#">Reports</a></li>
-                    <li><a href="#">Search</a></li>
-                    <li><a href="#">Graphs</a></li>
-                    <li><a href="#">Settings</a></li>
+                  
                   </ul>
                 </li>
                 <!-- we will keep this LI open by default -->
@@ -478,7 +475,7 @@ body {
 #accordian {
   background: #004050;
   width: 100%;
-  margin: 100px auto 0 auto;
+  /*margin: 100px auto 0 auto;*/
   color: white;
   /*Some cool shadow and glow effect*/
   box-shadow: 
@@ -537,38 +534,3 @@ body {
 
     
 
-
-
-<!--                 <li class="active">
-                  <h3><span class="icon-tasks"></span>Tasks</h3>
-                  <ul>
-                    <li><a href="#">Today's tasks</a></li>
-                    <li><a href="#">Urgent</a></li>
-                    <li><a href="#">Overdues</a></li>
-                    <li><a href="#">Recurring</a></li>
-                    <li><a href="#">Settings</a></li>
-                  </ul>
-                </li>
-                <li>
-                  <h3><span class="icon-calendar"></span>Calendar</h3>
-                  <ul>
-                    <li><a href="#">Current Month</a></li>
-                    <li><a href="#">Current Week</a></li>
-                    <li><a href="#">Previous Month</a></li>
-                    <li><a href="#">Previous Week</a></li>
-                    <li><a href="#">Next Month</a></li>
-                    <li><a href="#">Next Week</a></li>
-                    <li><a href="#">Team Calendar</a></li>
-                    <li><a href="#">Private Calendar</a></li>
-                    <li><a href="#">Settings</a></li>
-                  </ul>
-                </li>
-                <li>
-                  <h3><span class="icon-heart"></span>Favourites</h3>
-                  <ul>
-                    <li><a href="#">Global favs</a></li>
-                    <li><a href="#">My favs</a></li>
-                    <li><a href="#">Team favs</a></li>
-                    <li><a href="#">Settings</a></li>
-                  </ul>
-                </li> -->

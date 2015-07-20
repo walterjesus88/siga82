@@ -15,12 +15,7 @@
       <li class="">
         <a data-toggle="tab" href="#historial">Historial</a>
       </li>
-      <li class="">
-        <a data-toggle="tab" href="#profile">Profile</a>
-      </li>
-      <li class="">
-        <a data-toggle="tab" href="#contact">Contact</a>
-      </li>
+   
     </ul>
   </header>
 
@@ -39,9 +34,12 @@
                         <aside class="mid-side">
                             <div class="chat-room-head">
                                 <center><h3>Informacion</h3></center>
-                                <a class="btn btn-success" href="/proyecto/index/imphojaresumen/codigo_prop_proy/<?php echo $this->codigo_prop_proy?>/proyectoid/<?php echo $this->proyectoid ?>" id="imprimir">Imprimir</a>
-                                <a class="btn btn-success"  id="generarresumen" href="#" >Generar</a>
+
                             </div>
+                            <div>
+                                <button  class="col-sm-2" class="btn btn-success" href="/proyecto/index/imphojaresumen/codigo_prop_proy/<?php echo $this->codigo_prop_proy?>/proyectoid/<?php echo $this->proyectoid ?>" id="imprimir">Imprimir</button>
+                                <button   class="col-sm-2" class="btn btn-success"  id="generarresumen" href="#" >Generar</button>
+                        
 
                             <?php $select=$this->select_revision; 
                                //print_r($select);
@@ -55,7 +53,7 @@
                               }
                              
                             ?>
-                                <select id="revision_hoja" class="form-control ">
+                                <select class="col-sm-2"  id="revision_hoja" class="form-control ">
                        
                                   <?php $j=0;
                                   foreach ($theVariable as $key) { ?>
@@ -63,7 +61,7 @@
                      
                                   <?php  $j++;  } ?>
                                 </select>
-
+                            </div>
                                 <div class="group-rom panel-body room-box">
                                     <div class="col-sm-2">
                                       <ul class="chat-list">
