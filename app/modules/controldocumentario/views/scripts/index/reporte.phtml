@@ -1,0 +1,61 @@
+<div class="panel" ng-app>
+  <h2>Generar reporte de Planificación</h2>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <th>
+        EDT
+      </th>
+      <th>
+        TIPO
+      </th>
+      <th>
+        DISCIPLINA
+      </th>
+      <th>
+        CÓDIGO ANDDES
+      </th>
+      <th>
+        CÓDIGO CLIENTE
+      </th>
+      <th>
+        DESCRIPCIÓN DE ENTREGABLES
+      </th>
+    </thead>
+    <tbody>
+      <tr ng-repeat="entregable in CD.entregables track by $index">
+        <td>
+          {{entregable.edt}}
+        </td>
+        <td>
+          {{entregable.tipo}}
+        </td>
+        <td>
+          {{entregable.disciplina}}
+        </td>
+        <td>
+          {{entregable.codigo_anddes}}
+        </td>
+        <td>
+          {{entregable.codigo_cliente}}
+        </td>
+        <td>
+          {{entregable.descripcion}}
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <div>
+    <ul>
+      <li><a href="#">Almanaque</a></li>
+      <li><a href="#">Filtrar x CD</a></li>
+      <li><a href="#">Filtrar x GP</a></li>
+    </ul>
+    <ul>
+      <li><a href="#">Agregar</a></li>
+      <li><a href="#">Editar</a></li>
+      <li><a href="#">Guardar</a></li>
+      <li><a href="#">Eliminar</a></li>
+      <li><a href="#">Imprimir</a></li>
+    </ul>
+  </div>
+</div>

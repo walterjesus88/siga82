@@ -1,0 +1,34 @@
+<div ng-app>
+  <div class="">
+    <div class="col-md-8 panel">
+      <div class="">
+        <p>
+          Proyecto: {{CD.proyecto_seleccionado.codigo}}
+        </p>
+        {{CD.proyecto_seleccionado.nombre}}
+      </div>
+      <div class="">
+        <span class="col-md-6 col-sm-12">Cliente: {{CD.proyecto_seleccionado.cliente}}</span>
+        <span class="col-md-6 col-sm-12">Unidad Minera: {{CD.proyecto_seleccionado.unidad_minera}}</span>
+        <span class="col-md-6 col-sm-12">Código: {{CD.proyecto_seleccionado.codigo}}</span>
+        <span class="col-md-6 col-sm-12">Estado: {{CD.proyecto_seleccionado.estado}}</span>
+        <span class="col-md-6 col-sm-12">Fecha Inicio: {{CD.proyecto_seleccionado.fecha_inicio}}</span>
+        <span class="col-md-6 col-sm-12">Fecha Cierre: {{CD.proyecto_seleccionado.fecha_cierre}}</span>
+      </div>
+    </div>
+    <div class="col-md-4 panel">
+
+    </div>
+  </div>
+  <nav class="col-md-12">
+    <ul>
+      <li><a href="#">Configurar TR</a></li>
+      <li><a href="#">Anddes</a></li>
+      <li><a href="#">Cliente</a></li>
+      <li><a href="#">Contratista</a></li>
+    </ul>
+  </nav>
+  <div ng-view>
+
+  </div>
+</div>

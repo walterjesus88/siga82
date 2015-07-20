@@ -1,0 +1,71 @@
+<div class="panel" ng-app>
+  <h2>Proyectos</h2>
+  <div>
+    <ul>
+      <li><a href="#">Activo</a></li>
+      <li><a href="#">Cerrado</a></li>
+      <li><a href="#">Cancelado</a></li>
+      <li><a href="#">Paralizado</a></li>
+    </ul>
+    <a href="#">Crear</a>
+  </div>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <th>
+        CÓDIGO
+      </th>
+      <th>
+        CLIENTE
+      </th>
+      <th>
+        NOMBRE
+      </th>
+      <th>
+        GERENTE DEL PROYECTO
+      </th>
+      <th>
+        CD DEL PROYECTO
+      </th>
+      <th>
+        ESTADO
+      </th>
+      <th>
+        ACCIONES
+      </th>
+    </thead>
+    <tbody>
+      <tr ng-repeat="proyecto in CD.proyectos track by $index">
+        <td>
+          {{proyecto.codigo}}
+        </td>
+        <td>
+          {{proyecto.cliente}}
+        </td>
+        <td>
+          {{proyecto.nombre}}
+        </td>
+        <td>
+          {{proyecto.gerente}}
+        </td>
+        <td>
+          {{proyecto.cd_proyecto}}
+        </td>
+        <td>
+          {{proyecto.estado}}
+        </td>
+        <td>
+          <ul>
+            <li><a href="#">Información</a></li>
+            <li><a href="#">Generar TR</a></li>
+            <li><a href="#">Generar RPT</a></li>
+          </ul>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <ul>
+    <li><a href="#">Editar</a></li>
+    <li><a href="#">Exportar</a></li>
+    <li><a href="#">Imprimir</a></li>
+  </ul>
+</div>

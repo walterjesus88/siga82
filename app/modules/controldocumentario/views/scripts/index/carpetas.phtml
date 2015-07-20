@@ -1,0 +1,72 @@
+<div class="panel" ng-app>
+  <h2>Ubicación Carpetas de Proyectos</h2>
+  <div class="col-md-6">
+    <table class="table table-bordered table-striped table-condensed">
+      <thead>
+        <th>
+          Integrantes
+        </th>
+        <th>
+          En Proceso
+        </th>
+        <th>
+          Stand By
+        </th>
+        <th>
+          Cancelado
+        </th>
+        <th>
+          Cerrado
+        </th>
+      </thead>
+      <tbody>
+        <tr ng-repeat="carpeta in CD.carpetas track by $index">
+          <td>
+            {{carpeta.nombre}}
+          </td>
+          <td>
+            {{carpeta.en_proceso}}
+          </td>
+          <td>
+            {{carpeta.stand_by}}
+          </td>
+          <td>
+            {{carpeta.cancelado}}
+          </td>
+          <td>
+            {{carpeta.cerrado}}
+          </td>
+        </tr>
+      </tbody>
+      <tfoot>
+        <td>
+          Sub Total
+        </td>
+        <td>
+          {{CD.cantidad_carpetas.en_proceso}}
+        </td>
+        <td>
+          {{CD.cantidad_carpetas.stand_by}}
+        </td>
+        <td>
+          {{CD.cantidad_carpetas.cancelado}}
+        </td>
+        <td>
+          {{CD.cantidad_carpetas.cerrado}}
+        </td>
+      </tfoot>
+    </table>
+  </div>
+  <div class="col-md-6">
+
+  </div>
+  <div class="col-md-12">
+    <ul>
+      <li><a href="#">Agregar</a></li>
+      <li><a href="#">Editar</a></li>
+      <li><a href="#">Guardar</a></li>
+      <li><a href="#">Eliminar</a></li>
+      <li><a href="#">Imprimir</a></li>
+    </ul>
+  </div>
+</div>
