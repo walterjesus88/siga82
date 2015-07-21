@@ -10,13 +10,18 @@
         
           ?>          
           <div id="accordian">
+
               <ul>
-                <li>
+                <li>           
+
+                  <a  class="col-sm-2" class="btn btn-success" href="/proyecto/index/imphojaresumen/codigo_prop_proy/<?php echo $proyect['codigo_prop_proy']?>/proyectoid/<?php echo $proyect['proyectoid'] ?>/revision_hojaresumen/<?php echo $proyect['revision_hojaresumen'] ?>/revision_propuesta/<?php echo $proyect['revision_propuesta'] ?>/propuestaid/<?php echo $proyect['propuestaid'] ?>" id="imprimir">Imprimir</a>
+                    
                   <h3><span class="icon-dashboard"></span><?php echo $proyect['nombre_proyecto'];echo "---Revision de Hoja Resumen ";echo $proyect['revision_hojaresumen'];?></h3>
+                 
   
                   <ul>
                 <section id="container" class="">
-                    <table style="width:100%; margin-bottom:20px;" border=" 1px">
+                  <table style="width:100%; margin-bottom:20px;" border=" 1px">
                  
                       <tr style='background:rgba(0, 105, 173, 1)'>
                         <th colspan='6' style='font-size:12px; '>Informacion</th>
@@ -162,274 +167,274 @@
                                 </td> 
                           </tr>
 
-              </table>
+                  </table>
                  
                   <!-- ------------------------------------------ C O N T A C T O S ------------------------------------------------------- -->
                     
-              <aside >
-              <table style="width:100%; margin-bottom:20px;" border=" 1px">
-                         
-                          <tr style='background:rgba(0, 105, 173, 1)'>
-                              <th colspan='6' style='font-size:12px; '>Informacion Comercial</th>
-                          </tr>
+                  <aside >
+                    <table style="width:100%; margin-bottom:20px;" border=" 1px">
+                                 
+                                  <tr style='background:rgba(0, 105, 173, 1)'>
+                                      <th colspan='6' style='font-size:12px; '>Informacion Comercial</th>
+                                  </tr>
 
-                          <?php $contact=$this->contact;
-                            //print_r($contact);
-                          ?>
-                          <div id="cont_<?php echo $contact['contactoid']?>">                           
-                            <tr>
-                                <td class="col-sm-2"><p><span>Nombre del Contacto</span></p></td>  
-                                <td class="col-sm-6 " colspan="3"><?php echo $proyect['ape_paterno'];echo " ";echo $proyect['ape_materno'];echo " ";echo $proyect['nombre1'];echo " "; $proyect['nombre2']; ?></td>
-                                <td class="col-sm-4" colspan="4">                               
-                                      <center><p><span >Presupuesto</span></p></center>                                                                
-                                </td>                       
-                            </tr>
-
-
-                            <tr>
-                                <td class="col-sm-2" rowspan="2">                               
-                                      <p><span>Cargo</span></p>                                   
-                                </td>
-                                <td class="col-sm-6" rowspan="2" colspan="3"><?php echo $proyect['puesto_trabajo'] ?></td>
-                                
-                                <td class="col-sm-2" >                                  
-                                          <span>Moneda</span>  
-                                  
-                                </td>
-                                <td class="col-sm-2">                                  
-                                        <span>Dolares(USD)</span> 
-                                                
-                                </td>                          
-                            </tr>
-
-                            <tr>
-                                <td class="col-sm-2">  
-                                          <span>Honorarios</span>
-                                </td>
-                                <td class="col-sm-2"> 
-                                        <span><?php echo $proyect['propuestaid'] ?></span>                
-                                </td>                          
-                            </tr>
-                         
-                            <!-- xxx-->
-                            <tr>                                 
-                                <td class="col-sm-2" rowspan="2">
-                                  <p><span>Telefono</span></p> 
-                                </td>
-                                <td class="col-sm-2" rowspan="2">
-                                    <?php echo $proyect['telefono'] ?>
-                                </td>
-                                <td class="col-sm-2" rowspan="2">
-                                  <p><span>Anexo</span></p>                                  
-                                </td>
-
-                                <td class="col-sm-2" rowspan="2">
-                                    <?php echo $proyect['anexo'] ?>                                  
-                                </td>
-                                
-                                <td class="col-sm-2">                                 
-                                      <span>Gastos</span>  
-                                </td>
-                                <td class="col-sm-2">                                    
-                                      <span>ffff</span>                                          
-                                </td>                                           
-                            </tr>
-
-                            <tr>  
-                                <td class="col-sm-2">
-                                      <span>Laboratorio</span>
-                                </td>
-
-                                <td class="col-sm-2">                                    
-                                                
-                                      <span>ee</span>                                                    
-                                </td>                                           
-                            </tr>
+                                  <?php $contact=$this->contact;
+                                    //print_r($contact);
+                                  ?>
+                                  <div id="cont_<?php echo $contact['contactoid']?>">                           
+                                    <tr>
+                                        <td class="col-sm-2"><p><span>Nombre del Contacto</span></p></td>  
+                                        <td class="col-sm-6 " colspan="3"><?php echo $proyect['ape_paterno'];echo " ";echo $proyect['ape_materno'];echo " ";echo $proyect['nombre1'];echo " "; $proyect['nombre2']; ?></td>
+                                        <td class="col-sm-4" colspan="4">                               
+                                              <center><p><span >Presupuesto</span></p></center>                                                                
+                                        </td>                       
+                                    </tr>
 
 
-                            <tr>                                 
-                                <td class="col-sm-2" rowspan="2">                           
-                                  <p><span>Celular 1</span></p>                                   
-                                </td>
-                                <td class="col-sm-2" rowspan="2">                                
-                                    <?php echo $proyect['numero1'] ?>
-                                </td>
-                                <td class="col-sm-2" rowspan="2">                                   
-                                        <p><span>Celular 2</span></p>                                     
-                                </td>
-                                <td class="col-sm-2" rowspan="2"> 
-                                    <?php echo $proyect['numero2'] ?>                                  
-                                </td>                                                              
-                                <td class="col-sm-2"> 
-                                    <span>Otros</span>                                                                                                       
-                                </td>
-                                <td class="col-sm-2">
-                                        <span>ffff</span>
-                                </td>                                                      
-                            </tr>
-
-                            <tr>                         
-                                <td class="col-sm-2"> 
-                                    <span>Descuentos</span>                                      
-                                </td>
-                                <td class="col-sm-2">
-                                    <span>ee</span>       
-                                </td>                                                      
-                            </tr>
-
-                            <tr >
-                                <td class="col-sm-2" rowspan="2">
-                                      <p><span>Email</span></p> 
-                                </td>
-                                <td class="col-sm-6" colspan="3" rowspan="2"><?php echo $proyect['correo'] ?></td>                             
-                                <td class="col-sm-2">  
-                                          <span>Total</span>  
+                                    <tr>
+                                        <td class="col-sm-2" rowspan="2">                               
+                                              <p><span>Cargo</span></p>                                   
+                                        </td>
+                                        <td class="col-sm-6" rowspan="2" colspan="3"><?php echo $proyect['puesto_trabajo'] ?></td>
+                                        
+                                        <td class="col-sm-2" >                                  
+                                                  <span>Moneda</span>  
                                           
-                                </td>
-                                <td class="col-sm-2">
-                                        <span><?php echo $this->proyectoid ?></span>                                      
-                                </td>                            
-                            </tr>
+                                        </td>
+                                        <td class="col-sm-2">                                  
+                                                <span>Dolares(USD)</span> 
+                                                        
+                                        </td>                          
+                                    </tr>
 
-                            <tr >             
-                                <td class="col-sm-2"> 
-                                          <span>SOC 01</span>
-                                </td>
-                                <td class="col-sm-2">                                    
-                                        <span><?php echo $proyect['propuestaid'] ?></span>                                                    
-                                </td>                            
-                            </tr>
+                                    <tr>
+                                        <td class="col-sm-2">  
+                                                  <span>Honorarios</span>
+                                        </td>
+                                        <td class="col-sm-2"> 
+                                                <span><?php echo $proyect['propuestaid'] ?></span>                
+                                        </td>                          
+                                    </tr>
+                                 
+                                    <!-- xxx-->
+                                    <tr>                                 
+                                        <td class="col-sm-2" rowspan="2">
+                                          <p><span>Telefono</span></p> 
+                                        </td>
+                                        <td class="col-sm-2" rowspan="2">
+                                            <?php echo $proyect['telefono'] ?>
+                                        </td>
+                                        <td class="col-sm-2" rowspan="2">
+                                          <p><span>Anexo</span></p>                                  
+                                        </td>
+
+                                        <td class="col-sm-2" rowspan="2">
+                                            <?php echo $proyect['anexo'] ?>                                  
+                                        </td>
+                                        
+                                        <td class="col-sm-2">                                 
+                                              <span>Gastos</span>  
+                                        </td>
+                                        <td class="col-sm-2">                                    
+                                              <span>ffff</span>                                          
+                                        </td>                                           
+                                    </tr>
+
+                                    <tr>  
+                                        <td class="col-sm-2">
+                                              <span>Laboratorio</span>
+                                        </td>
+
+                                        <td class="col-sm-2">                                    
+                                                        
+                                              <span>ee</span>                                                    
+                                        </td>                                           
+                                    </tr>
 
 
-                            <tr>                                 
-                                <td class="col-sm-2" rowspan="2">                               
-                                      <p><span>Razon social</span></p>                                                                
-                                </td>
-                                <td class="col-sm-6" colspan="3" rowspan="2"><?php echo $proyect['nombre_comercial'] ?></td>                                
-                                <td class="col-sm-2">  
-                                          <span>SOC 02</span>
-                                </td>
-                                <td class="col-sm-2">                               
-                                        <span><?php echo $this->proyectoid ?></span>       
-                                </td>                                                                                                                 
-                            </tr>
+                                    <tr>                                 
+                                        <td class="col-sm-2" rowspan="2">                           
+                                          <p><span>Celular 1</span></p>                                   
+                                        </td>
+                                        <td class="col-sm-2" rowspan="2">                                
+                                            <?php echo $proyect['numero1'] ?>
+                                        </td>
+                                        <td class="col-sm-2" rowspan="2">                                   
+                                                <p><span>Celular 2</span></p>                                     
+                                        </td>
+                                        <td class="col-sm-2" rowspan="2"> 
+                                            <?php echo $proyect['numero2'] ?>                                  
+                                        </td>                                                              
+                                        <td class="col-sm-2"> 
+                                            <span>Otros</span>                                                                                                       
+                                        </td>
+                                        <td class="col-sm-2">
+                                                <span>ffff</span>
+                                        </td>                                                      
+                                    </tr>
 
-                            <tr>                                                                                             
-                                <td class="col-sm-2"> 
-                                    <span>SOC 03</span>   
-                                </td>
-                                <td class="col-sm-2">                 
-                                  <span><?php echo $proyect['propuestaid'] ?></span>                                                       
-                                </td>                                                                                                         
-                            </tr>
-                            <tr>                                 
-                                <td class="col-sm-2">                              
-                                      <p><span>RUC</span></p>                                                                                              
-                                </td>
-                                <td class="col-sm-2">                                 
-                                    <?php echo $proyect['ruc'] ?>                                  
-                                </td>
+                                    <tr>                         
+                                        <td class="col-sm-2"> 
+                                            <span>Descuentos</span>                                      
+                                        </td>
+                                        <td class="col-sm-2">
+                                            <span>ee</span>       
+                                        </td>                                                      
+                                    </tr>
 
-                                <td class="col-sm-2">                               
-                                    <p><span>Telefono</span></p>                                
-                                </td>
+                                    <tr >
+                                        <td class="col-sm-2" rowspan="2">
+                                              <p><span>Email</span></p> 
+                                        </td>
+                                        <td class="col-sm-6" colspan="3" rowspan="2"><?php echo $proyect['correo'] ?></td>                             
+                                        <td class="col-sm-2">  
+                                                  <span>Total</span>  
+                                                  
+                                        </td>
+                                        <td class="col-sm-2">
+                                                <span><?php echo $this->proyectoid ?></span>                                      
+                                        </td>                            
+                                    </tr>
 
-                                <td class="col-sm-2"> 
-                                  <p><span> No especifica contacto o cliente(no hay campo)</span></p> 
-                                </td>
+                                    <tr >             
+                                        <td class="col-sm-2"> 
+                                                  <span>SOC 01</span>
+                                        </td>
+                                        <td class="col-sm-2">                                    
+                                                <span><?php echo $proyect['propuestaid'] ?></span>                                                    
+                                        </td>                            
+                                    </tr>
 
-                                <td class="col-sm-2">
-                                  <span>Total + SOC</span>   
-                                </td>
-                                <td class="col-sm-2">
-                                  <span>Otros</span>
-                                </td>  
-                            </tr>
 
-                            <tr>                                
-                                <td class="col-sm-2"> 
-                                  <p><span>Direccion Fiscal</span></p>  
-                                </td>
-                                <td class="col-sm-6" colspan="3"><?php echo $proyect['direccion'] ?></div>
-                           
-                                <td class="col-sm-2">
-                                  <span>Adelanto %</span>  
-                                </td>
-                                <td class="col-sm-2">                                  
-                                  <span><?php echo $proyect['adelanto'] ?></span>            
-                                </td>                               
-                            </tr>
+                                    <tr>                                 
+                                        <td class="col-sm-2" rowspan="2">                               
+                                              <p><span>Razon social</span></p>                                                                
+                                        </td>
+                                        <td class="col-sm-6" colspan="3" rowspan="2"><?php echo $proyect['nombre_comercial'] ?></td>                                
+                                        <td class="col-sm-2">  
+                                                  <span>SOC 02</span>
+                                        </td>
+                                        <td class="col-sm-2">                               
+                                                <span><?php echo $this->proyectoid ?></span>       
+                                        </td>                                                                                                                 
+                                    </tr>
 
-                            <tr>
-                                <td class="col-sm-2">
-                                      <p><span>Documento de Aprobacion</span></p> 
-                                </td>
+                                    <tr>                                                                                             
+                                        <td class="col-sm-2"> 
+                                            <span>SOC 03</span>   
+                                        </td>
+                                        <td class="col-sm-2">                 
+                                          <span><?php echo $proyect['propuestaid'] ?></span>                                                       
+                                        </td>                                                                                                         
+                                    </tr>
+                                    <tr>                                 
+                                        <td class="col-sm-2">                              
+                                              <p><span>RUC</span></p>                                                                                              
+                                        </td>
+                                        <td class="col-sm-2">                                 
+                                            <?php echo $proyect['ruc'] ?>                                  
+                                        </td>
 
-                                <td class="col-sm-2">                                  
-                                    <p><span>No hay campo en la BD</span></p>
-                                </td>
+                                        <td class="col-sm-2">                               
+                                            <p><span>Telefono</span></p>                                
+                                        </td>
 
-                                <td class="col-sm-2">
-                                        <p><span>Numero de Documento</span></p>                                    
-                                </td>
+                                        <td class="col-sm-2"> 
+                                          <p><span> No especifica contacto o cliente(no hay campo)</span></p> 
+                                        </td>
 
-                                <td class="col-sm-2">
-                                    <p><span>  No hay campo en la BD</span></p>
-                                </td>
+                                        <td class="col-sm-2">
+                                          <span>Total + SOC</span>   
+                                        </td>
+                                        <td class="col-sm-2">
+                                          <span>Otros</span>
+                                        </td>  
+                                    </tr>
 
-                                <td class="col-sm-2">
-                                    <span>Tipo de Contrato</span>            
-                                </td>
-                                <td class="col-sm-2">  
-                                    <span><?php echo $proyect['tipo_contrato'] ?></span> 
-                                </td> 
-                            </tr>
+                                    <tr>                                
+                                        <td class="col-sm-2"> 
+                                          <p><span>Direccion Fiscal</span></p>  
+                                        </td>
+                                        <td class="col-sm-6" colspan="3"><?php echo $proyect['direccion'] ?></div>
+                                   
+                                        <td class="col-sm-2">
+                                          <span>Adelanto %</span>  
+                                        </td>
+                                        <td class="col-sm-2">                                  
+                                          <span><?php echo $proyect['adelanto'] ?></span>            
+                                        </td>                               
+                                    </tr>
 
-                            <tr>                                 
-                                <td class="col-sm-2">                               
-                                  <p><span>Comentarios</span></p>                                   
-                                </td>
-                                <td class="col-sm-6" colspan="3"> 
-                                  <span><?php echo $proyect['comentarios'] ?></span>
-                                                                 
-                                </td>
-                                <td class="col-sm-2">                               
-                                    <span>Plazo de Pagos de Facturas %</span>        
-                                </td> 
-                                <td class="col-sm-2"> 
-                                    <span>ddddd</span>            
-                                </td>                               
-                            </tr>
+                                    <tr>
+                                        <td class="col-sm-2">
+                                              <p><span>Documento de Aprobacion</span></p> 
+                                        </td>
 
-                            <tr>                                 
-                                <td class="col-sm-2">
-                                  <span>Foto Proyecto (link ruta) </span>
-                                </td>
-                                <td class="col-sm-6" colspan="3">
-                                  <span>No hay campo en la BD</span>                                    
-                                </td>
-                                <td class="col-sm-2">
-                              
-                                    <span>Fecha de Corte</span>            
-                                </td>
-                                <td class="col-sm-2">
-                                    <span>no hay campo</span>            
-                                </td>                                
-                            </tr>
+                                        <td class="col-sm-2">                                  
+                                            <p><span>No hay campo en la BD</span></p>
+                                        </td>
 
-                            <tr >                                 
-                              <td class="col-sm-2">                               
-                                  <span> Observaciones </span>            
-                              </td>
-                              <td colspan="6" class="col-sm-10"> 
-                                <span><?php echo $proyect['observacion'] ?></span>
-                             
-                              </td>                              
-                            </tr>
+                                        <td class="col-sm-2">
+                                                <p><span>Numero de Documento</span></p>                                    
+                                        </td>
 
-                          
-                        </div>
-                  </table>    
+                                        <td class="col-sm-2">
+                                            <p><span>  No hay campo en la BD</span></p>
+                                        </td>
+
+                                        <td class="col-sm-2">
+                                            <span>Tipo de Contrato</span>            
+                                        </td>
+                                        <td class="col-sm-2">  
+                                            <span><?php echo $proyect['tipo_contrato'] ?></span> 
+                                        </td> 
+                                    </tr>
+
+                                    <tr>                                 
+                                        <td class="col-sm-2">                               
+                                          <p><span>Comentarios</span></p>                                   
+                                        </td>
+                                        <td class="col-sm-6" colspan="3"> 
+                                          <span><?php echo $proyect['comentarios'] ?></span>
+                                                                         
+                                        </td>
+                                        <td class="col-sm-2">                               
+                                            <span>Plazo de Pagos de Facturas %</span>        
+                                        </td> 
+                                        <td class="col-sm-2"> 
+                                            <span>ddddd</span>            
+                                        </td>                               
+                                    </tr>
+
+                                    <tr>                                 
+                                        <td class="col-sm-2">
+                                          <span>Foto Proyecto (link ruta) </span>
+                                        </td>
+                                        <td class="col-sm-6" colspan="3">
+                                          <span>No hay campo en la BD</span>                                    
+                                        </td>
+                                        <td class="col-sm-2">
+                                      
+                                            <span>Fecha de Corte</span>            
+                                        </td>
+                                        <td class="col-sm-2">
+                                            <span>no hay campo</span>            
+                                        </td>                                
+                                    </tr>
+
+                                    <tr >                                 
+                                      <td class="col-sm-2">                               
+                                          <span> Observaciones </span>            
+                                      </td>
+                                      <td colspan="6" class="col-sm-10"> 
+                                        <span><?php echo $proyect['observacion'] ?></span>
+                                     
+                                      </td>                              
+                                    </tr>
+
+                                  
+                                </div>
+                    </table>    
                   </aside>
 
                 </section>

@@ -2237,13 +2237,20 @@ public function cargartarea2Action() {
     
     $proyectoid= $this->_getParam("proyectoid");
     $codigo_prop_proy= $this->_getParam("codigo_prop_proy");
+    $revision_hojaresumen= $this->_getParam("revision_hojaresumen");
+    $revision= $this->_getParam("revision_propuesta");
+    $propuestaid= $this->_getParam("propuestaid");
 
     $this->view->proyectoid=$proyectoid;
     $this->view->codigo_prop_proy=$codigo_prop_proy;
     //$this->view->imp=$imp;
 
-    $proyect = new Admin_Model_DbTable_Proyecto();
-    $verproyect=$proyect->_buscarProyectodetalles($proyectoid,$codigo_prop_proy);
+ 
+
+    $hoja= new Admin_Model_DbTable_Hojaresumen();  
+ 
+    $verproyect=$hoja->_buscarProyectodetallesxhojaresumen($proyectoid,$codigo_prop_proy,$propuestaid,$revision,$revision_hojaresumen);
+  
     //print_r($verproyect);
 
 
@@ -2304,7 +2311,7 @@ public function cargartarea2Action() {
       'isunidad' => $isunidad , 'estado' =>$estado_contacto , 'unidad_mineraid' => $unidad_contacto , 'nombre_unidad' => $nomunidad , 
       'direccion' => $direccion, 'anexo' => $anexo, 'telefono' =>$telefono, 'ape_paterno' => $paterno, 'ape_materno' =>$materno , 'nombre1' =>$nombre , 'numero1' =>$celular1 ,'numero2' => $celular2,  );
 
-      print_r($where);
+      //print_r($where);
 
       $newcontact=new Admin_Model_DbTable_Contacto();
       $ncontact=$newcontact->_save($where);
@@ -2382,7 +2389,7 @@ public function cargartarea2Action() {
     
     if($verhoja)
     {
-      echo "no llego";
+      //echo "no llego";
     }
     else
     {
@@ -2396,8 +2403,8 @@ public function cargartarea2Action() {
                    'adelanto' =>$adelanto, 'comentarios' =>$comentario ,
                    'tipo_contrato' =>$tipo_contrato, 'observacion' =>$observacion , );
 
-      print_r($data);
-      echo "llego";
+      //print_r($data);
+      ///echo "llego";
       $guardarhoja=$hoja->_save($data);
       exit();
 
@@ -2422,7 +2429,7 @@ public function cargartarea2Action() {
     $this->view->historialresumen=$traerhistorial;
 
  
-    print_r($traerhistorial);
+    //print_r($traerhistorial);
   }
 
 

@@ -37,8 +37,8 @@
 
                             </div>
                             <div>
-                                <button  class="col-sm-2" class="btn btn-success" href="/proyecto/index/imphojaresumen/codigo_prop_proy/<?php echo $this->codigo_prop_proy?>/proyectoid/<?php echo $this->proyectoid ?>" id="imprimir">Imprimir</button>
-                                <button   class="col-sm-2" class="btn btn-success"  id="generarresumen" href="#" >Generar</button>
+                            
+                                <a  class="col-sm-2" class="btn btn-success"  id="generarresumen" href="#" >Generar</a>
                         
 
                             <?php $select=$this->select_revision; 
@@ -483,7 +483,7 @@
                                       //{isuni=isunidad}else{isuni='N'}
 
                                       var url="/proyecto/index/procesarcontacto/cliente_contacto/"+cliente_contacto+"/tipo_cliente/"+tipo_cliente+"/email/"+email+"/puesto_trabajo/"+puesto_trabajo+"/dni/"+dni+"/estado_contacto/"+estado_contacto+"/unidad_contacto/"+unidad_contacto+"/nomunidad/"+nomunidad+"/direccion/"+direccion+"/anexo/"+anexo+"/telefono/"+telefono+"/paterno/"+paterno+"/materno/"+materno+"/celular1/"+celular1+"/celular2/"+celular2+"/isunidad/"+isunidad+"/codigo_prop_proy/"+codigo_prop_proy+"/proyectoid/"+proyectoid;
-                                      alert(url);
+                                      //alert(url);
                                       //console.log("lol");
                                         $.ajax({
                                                type: "POST",
@@ -533,7 +533,7 @@
                                           $("#"+valor).show();                                
 
                                           var url="/proyecto/index/updatecontactoproyect/cliente_contacto/"+"/codigo_prop_proy/"+codigo_prop_proy+"/proyectoid/"+proyectoid+"/valor/"+valor;
-                                          alert(url);
+                                          //alert(url);
 
                                           $.ajax({
                                                type: "POST",
@@ -1504,7 +1504,27 @@
                            
       //var valor=$(this).val();
       var revi_hoja=$("#revision_hoja").val();
-      var contact="<?php echo $contactunico['contactoid'] ?>";
+      var contactox="<?php echo $contactunico['contactoid']?>";
+      alert(contactox);
+      var contact=$("#contact").val();
+
+
+      if(contact)
+      {
+        //alert("hay");
+        contact = contact[0].replace("cont_"," ");
+        contact=contact.trim();
+      }
+      else
+      {
+        //alert(" no  hay");
+        contact=contactox;
+
+      }
+
+      console.log(contact[0]);
+
+      //alert(contact);
      // var gerente_proyecto=document.getElementById('gerente_proyecto').getElementsByTagName('li')[0];
       var gerente_proyecto=$(".gerente_proyecto").val();
       var jefe_proyecto1=$(".jefe_proyecto1").val();
@@ -1519,9 +1539,10 @@
       var tipo_contrato=$("#tipo_contrato").val();
       var observacion=$("#observacion").val();
 
-      alert(contact);
+   
+      console.log(observacion);
       
-      alert(gerente_proyecto);
+      //alert(gerente_proyecto);
   
 
   
@@ -1529,7 +1550,7 @@
         +"/gerente_proyecto/"+gerente_proyecto+"/jefe_proyecto1/"+jefe_proyecto1+"/jefe_proyecto2/"+jefe_proyecto2+"/control_documentario/"+control_documentario+"/fecha_inicio_planificado/"+fecha_inicio_planificado+"/fecha_fin_planificado/"+fecha_fin_planificado+
           "/fecha_inicio_real/"+fecha_inicio_real+"/fecha_fin_real/"+fecha_fin_real+"/adelanto/"+adelanto+"/comentario/"+comentario+
           "/tipo_contrato/"+tipo_contrato+"/observacion/"+observacion;
-      alert(url);             
+      //alert(url);             
 
       $.ajax({
         type: "POST",
