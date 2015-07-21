@@ -10,7 +10,7 @@ class Timesheet_AprobacionController extends Zend_Controller_Action {
         $login = $sesion->getStorage()->read();
         $this->sesion = $login; 
         $options = array(
-            'layout' => 'layout',
+            'layout' => 'inicio',
         );
         Zend_Layout::startMvc($options);
     }

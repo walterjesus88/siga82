@@ -35,7 +35,6 @@
                 <th style="width: 10%;">Control Proyecto</th>
                 <th style="width: 10%;">Control Documentario</th>
                 <th style="width: 15%;">Estado</th>
-
                     <?php  
                     if($is_area=='26')
                     { ?>
@@ -49,8 +48,6 @@
                         <?php }
                        
                     } ?>
-
-                
             </tr>
             </thead>
             <?php
@@ -96,9 +93,10 @@
                     <?php if($is_area=='26' or  $is_gerente=='S' or $dni == '08051678')
                     { ?>
                     <td>
-                        <span class="label label-success label-mini">Activo</span>
+                        <a class=" btn btn-success btn-xs">Activo</a>
                         <div class="btn-group">
                             <button data-toggle="dropdown" class="btn btn-info dropdown-toggle btn-xs" type="button" aria-expanded="false">Modificar<span class="caret"></span></button>
+
                             <ul role="menu" class="dropdown-menu">
                                 <li><a href="/proyecto/index/cambiarestado/proyectoid/<?php echo $lista['proyectoid']?>/propuesta/<?php echo $lista['propuestaid']?>/nombre_proyecto/<?php echo $lista['nombre_proyecto']?>/codigo_prop_proy/<?php echo $lista['codigo_prop_proy']?>/estado/A/revision/<?php echo $lista['revision']?>/oid/<?php echo $lista['oid']?>/gerente_proyecto/<?php echo $lista['gerente_proyecto']?>/control_proyecto/<?php echo $lista['control_proyecto']?>/control_documentario/<?php echo $lista['control_documentario']?>/tipo_proyecto/<?php echo $lista['tipo_proyecto']?>/paisid/<?php echo $lista['paisid']?>/fecha_inicio/<?php echo $lista['fecha_inicio']?>">Activo</a></li>
                                 <li><a href="/proyecto/index/cambiarestado/proyectoid/<?php echo $lista['proyectoid']?>/propuesta/<?php echo $lista['propuestaid']?>/nombre_proyecto/<?php echo $lista['nombre_proyecto']?>/codigo_prop_proy/<?php echo $lista['codigo_prop_proy']?>/estado/C/revision/<?php echo $lista['revision']?>/oid/<?php echo $lista['oid']?>/gerente_proyecto/<?php echo $lista['gerente_proyecto']?>/control_proyecto/<?php echo $lista['control_proyecto']?>/control_documentario/<?php echo $lista['control_documentario']?>/tipo_proyecto/<?php echo $lista['tipo_proyecto']?>/paisid/<?php echo $lista['paisid']?>/fecha_inicio/<?php echo $lista['fecha_inicio']?>">Cerrado</a></li>
@@ -111,7 +109,7 @@
                     <?php } 
                     else { ?>
                     <td>
-                        <span class="label label-success label-mini">Activo</span>
+                       <a class=" btn btn-success btn-xs">Activo</a>
                     </td>
                     <?php } 
                     if($is_area=='26')
@@ -136,7 +134,7 @@
     </div>
 
     <div id="Proyecto_Cancelado">
-        <table class="table table-hover p-table">
+     <table class="table table-hover p-table datatable-order-search">
           <thead>
             <tr>  
               <th style="width: 10%;">Código</th>
@@ -222,7 +220,7 @@
 
 
   <div id="Proyecto_Paralizado">
-    <table class="table table-hover p-table">
+    <table class="table table-hover p-table datatable-order-search">
           <thead>
             <tr>  
           <th style="width: 10%;">Código</th>
@@ -308,7 +306,7 @@
 
 
   <div id="Proyecto_Cerrado">
-    <table class="table table-hover p-table">
+    <table class="table table-hover p-table datatable-order-search">
           <thead>
             <tr>  
             <th style="width: 10%;">Código</th>
@@ -394,7 +392,7 @@
 
 
   <div id="Proyecto_Eliminado">
-    <table class="table table-hover p-table">
+    <table class="table table-hover p-table datatable-order-search">
           <thead>
             <tr>  
              <th style="width: 10%;">Código</th>
@@ -477,7 +475,7 @@
 
 
     <div id="Proyecto_Total">
-    <table class="table table-hover p-table">
+  <table class="table table-hover p-table datatable-order-search">
           <thead>
             <tr>  
           <th style="width: 10%;">Código</th>
@@ -649,7 +647,7 @@ $(document).ready(function(){
   
 </script>
 <!--
-// conflicto con la barra d enavegacion lo deshabilite Davis
+// conflicto con la barra de navegacion lo deshabilite Davis
 <script src="/js/common-scripts.js"></script>
 -->
 <script type="text/javascript">

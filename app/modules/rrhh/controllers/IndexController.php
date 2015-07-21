@@ -3,7 +3,7 @@ class Rrhh_IndexController extends Zend_Controller_Action {
 
     public function init() {
     	$options = array(
-            'layout' => 'layout',
+            'layout' => 'index',
         );
         Zend_Layout::startMvc($options);
 
