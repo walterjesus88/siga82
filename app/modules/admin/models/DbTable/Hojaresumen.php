@@ -75,7 +75,7 @@ class Admin_Model_DbTable_Hojaresumen extends Zend_Db_Table_Abstract
                hr.gerente_proyecto,hr.control_proyecto,hr.control_documentario,hr.estado_hojaresumen,hr.acta_conformidad,
                hr.tipo_contrato,hr.forma_pago,hr.tipo_pago,hr.fecha_pago,hr.adelanto,hr.fecha_inicio_planificado,hr.fecha_fin_planificado,hr.contactoid,
                hr.fecha_inicio_real,hr.fecha_fin_real,hr.comentarios,hr.revision_hojaresumen,hr.observacion,hr.jefe_proyecto1,hr.jefe_proyecto2,
-               hr.adelanto,hr.tipo_contrato,
+               hr.adelanto,hr.tipo_contrato,hr.revision_propuesta,
                cli.clienteid,cli.nombre_comercial,cli.direccion,cli.ruc,cli.tipo_cliente,
                uni.unidad_mineraid,uni.nombre,uni.direccion,co.correo,co.direccion,co.anexo,co.telefono,co.ape_paterno,co.ape_materno,co.nombre1,co.nombre2,
                co.numero1,co.numero2,co.puesto_trabajo
@@ -93,6 +93,44 @@ class Admin_Model_DbTable_Hojaresumen extends Zend_Db_Table_Abstract
                 --inner join propuesta as propu
                 --on pro.codigo_prop_proy=propu.codigo_prop_proy and pro.propuestaid=propu.propuestaid and  pro.revision=propu.revision 
                 where hr.codigo_prop_proy='$codigo_prop_proy' and hr.proyectoid='$proyectoid' and hr.propuestaid='$propuestaid' and hr.revision_propuesta='$revision'
+               
+                ");
+            $row=$sql->fetchAll();
+            return $row;           
+            }  
+            
+           catch (Exception $ex){
+            print $ex->getMessage();
+        }
+    }
+
+    public function _buscarProyectodetallesxhojaresumen($proyectoid,$codigo_prop_proy,$propuestaid,$revision,$revision_hojaresumen){
+        try{
+            $sql=$this->_db->query("
+                select 
+                pro.codigo_prop_proy,pro.proyectoid,pro.propuestaid,pro.revision,pro.nombre_proyecto,pro.descripcion,
+               hr.gerente_proyecto,hr.control_proyecto,hr.control_documentario,hr.estado_hojaresumen,hr.acta_conformidad,
+               hr.tipo_contrato,hr.forma_pago,hr.tipo_pago,hr.fecha_pago,hr.adelanto,hr.fecha_inicio_planificado,hr.fecha_fin_planificado,hr.contactoid,
+               hr.fecha_inicio_real,hr.fecha_fin_real,hr.comentarios,hr.revision_hojaresumen,hr.observacion,hr.jefe_proyecto1,hr.jefe_proyecto2,
+               hr.adelanto,hr.tipo_contrato,
+               cli.clienteid,cli.nombre_comercial,cli.direccion,cli.ruc,cli.tipo_cliente,
+               uni.unidad_mineraid,uni.nombre,uni.direccion,co.correo,co.direccion,co.anexo,co.telefono,co.ape_paterno,co.ape_materno,co.nombre1,co.nombre2,
+               co.numero1,co.numero2,co.puesto_trabajo
+
+                from hoja_resumen as hr
+                inner join proyecto as pro
+                on hr.codigo_prop_proy=pro.codigo_prop_proy
+                inner join unidad_minera as uni
+                on uni.unidad_mineraid= pro.unidad_mineraid
+                inner join cliente as cli
+                on cli.clienteid=pro.clienteid
+
+                inner join contacto as co
+                on co.contactoid=hr.contactoid
+                --inner join propuesta as propu
+                --on pro.codigo_prop_proy=propu.codigo_prop_proy and pro.propuestaid=propu.propuestaid and  pro.revision=propu.revision 
+                where hr.codigo_prop_proy='$codigo_prop_proy' and hr.proyectoid='$proyectoid' and hr.propuestaid='$propuestaid' and 
+                hr.revision_propuesta='$revision' and  hr.revision_hojaresumen='$revision_hojaresumen'
                
                 ");
             $row=$sql->fetchAll();
