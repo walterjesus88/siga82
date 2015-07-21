@@ -493,6 +493,7 @@ class Timesheet_AprobacionController extends Zend_Controller_Action {
                 //$tabla_aprobacion = new Admin_Model_DbTable_Aprobacion();
              $tabla_historial_aprobaciones= new Admin_Model_DbTable_Historialaprobaciones();       
                 $lista_empleados_aprobar=$tabla_historial_aprobaciones-> _getListarHistoricoxAprobador($uid,$dni);
+              // print_r($lista_empleados_aprobar);
 
                // $codigos_paraaprobar=$tabla_aprobacion-> _getCodigoAprobacionxAprobadorfiltro2($codigoaprobaciones['aprobacion'],'A');
                // foreach ($codigos_paraaprobar as $codigo_aprobar) {
