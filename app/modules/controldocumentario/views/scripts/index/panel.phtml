@@ -1,0 +1,139 @@
+<div class="panel">
+
+	<header>
+		<h2>Panel de Control</h2>
+		<div class="pull-right">
+			<button type="button" class="btn btn-success">Activo</button>
+			<button type="button" class="btn btn-warning">Cerrado</button>
+	    <button type="button" class="btn btn-info">Cancelado</button>
+	    <button type="button" class="btn btn-danger">Paralizado</button>
+		</div>
+  </header>
+
+	<div class="col-md-6">
+		<div class="panel">
+			<h3>Cantidad de Proyectos</h3>
+			<table class="table table-bordered table-striped table-condensed">
+				<thead>
+					<th>
+						Cantidad de Py
+					</th>
+					<th>
+						En Proceso
+					</th>
+					<th>
+						Stand By
+					</th>
+					<th>
+						Cancelado
+					</th>
+					<th>
+						Cerrado
+					</th>
+				</thead>
+				<tbody>
+					<tr>
+						<td>
+							{{CD.cantidad_proyectos.total}}
+						</td>
+						<td>
+							{{CD.cantidad_proyectos.en_proceso}}
+						</td>
+						<td>
+							{{CD.cantidad_proyectos.stand_by}}
+						</td>
+						<td>
+							{{CD.cantidad_proyectos.cancelado}}
+						</td>
+						<td>
+							{{CD.cantidad_proyectos.cerrado}}
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			<h3>Carga Laboral Control Documentario</h3>
+			<table class="table table-bordered table-striped table-condensed">
+				<thead>
+					<th>
+						Integrantes
+					</th>
+					<th>
+						En Proceso
+					</th>
+					<th>
+						Stand By
+					</th>
+					<th>
+						Cancelado
+					</th>
+					<th>
+						Cerrado
+					</th>
+				</thead>
+				<tbody>
+					<tr ng-repeat="integrante in CD.integrantes track by $index">
+						<td>
+							{{integrante.nombre}}
+						</td>
+						<td>
+							{{integrante.en_proceso}}
+						</td>
+						<td>
+							{{integrante.stand_by}}
+						</td>
+						<td>
+							{{integrante.cancelado}}
+						</td>
+						<td>
+							{{integrante.cerrado}}
+						</td>
+					</tr>
+				</tbody>
+				<tfoot>
+					<td>
+						Sub Total
+					</td>
+					<td>
+						{{CD.cantidad_proyectos.en_proceso}}
+					</td>
+					<td>
+						{{CD.cantidad_proyectos.stand_by}}
+					</td>
+					<td>
+						{{CD.cantidad_proyectos.cancelado}}
+					</td>
+					<td>
+						{{CD.cantidad_proyectos.cerrado}}
+					</td>
+				</tfoot>
+			</table>
+		</div>
+	</div>
+
+	<div class="col-md-6">
+
+	</div>
+
+	<nav class="col-md-8 panel">
+		<div class="col-md-6 panel-body">
+			<a href="#/proyectos">
+				<button type="button" class="btn btn-default">Listar los Proyectos</button>
+			</a>
+		</div>
+		<div class="col-md-6 panel-body">
+			<a href="#/asignarcd">
+				<button type="button" class="btn btn-default">Asignar CD a Proyecto</button>
+			</a>
+		</div>
+		<div class="col-md-6 panel-body">
+			<a href="#/carpetas">
+				<button type="button" class="btn btn-default">Ubicación de Carpetas de Proyectos</button>
+			</a>
+		</div>
+		<div class="col-md-6 panel-body">
+			<a href="#/reporte">
+				<button type="button" class="btn btn-default">Generar Reporte de Planificación</button>
+			</a>
+		</div>
+	</nav>
+</div>

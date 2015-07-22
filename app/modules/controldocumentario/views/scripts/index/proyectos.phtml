@@ -1,14 +1,16 @@
 <div class="panel" ng-app>
-  <h2>Proyectos</h2>
-  <div>
-    <ul>
-      <li><a href="#">Activo</a></li>
-      <li><a href="#">Cerrado</a></li>
-      <li><a href="#">Cancelado</a></li>
-      <li><a href="#">Paralizado</a></li>
-    </ul>
-    <a href="#">Crear</a>
-  </div>
+  <header>
+    <h2>Proyectos</h2>
+    <div class="pull-right">
+      <button type="button" class="btn btn-success">Activo</button>
+  		<button type="button" class="btn btn-warning">Cerrado</button>
+      <button type="button" class="btn btn-info">Cancelado</button>
+      <button type="button" class="btn btn-danger">Paralizado</button>
+    </div>
+    <div class="">
+      <button type="button" class="btn btn-primary">Crear</button>
+    </div>
+  </header>
   <table class="table table-bordered table-striped table-condensed">
     <thead>
       <th>
@@ -63,9 +65,9 @@
       </tr>
     </tbody>
   </table>
-  <ul>
-    <li><a href="#">Editar</a></li>
-    <li><a href="#">Exportar</a></li>
-    <li><a href="#">Imprimir</a></li>
-  </ul>
+  <div class="panel">
+    <button type="button" class="btn btn-default">Editar</button>
+    <button type="button" class="btn btn-default">Exportar</button>
+    <button type="button" class="btn btn-default">Imprimir</button>
+  </div>
 </div>

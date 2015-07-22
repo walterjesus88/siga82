@@ -1,33 +1,66 @@
 <div ng-app>
-  <div class="">
-    <div class="col-md-8 panel">
-      <div class="">
-        <p>
-          Proyecto: {{CD.proyecto_seleccionado.codigo}}
-        </p>
-        {{CD.proyecto_seleccionado.nombre}}
-      </div>
-      <div class="">
-        <span class="col-md-6 col-sm-12">Cliente: {{CD.proyecto_seleccionado.cliente}}</span>
-        <span class="col-md-6 col-sm-12">Unidad Minera: {{CD.proyecto_seleccionado.unidad_minera}}</span>
-        <span class="col-md-6 col-sm-12">Código: {{CD.proyecto_seleccionado.codigo}}</span>
-        <span class="col-md-6 col-sm-12">Estado: {{CD.proyecto_seleccionado.estado}}</span>
-        <span class="col-md-6 col-sm-12">Fecha Inicio: {{CD.proyecto_seleccionado.fecha_inicio}}</span>
-        <span class="col-md-6 col-sm-12">Fecha Cierre: {{CD.proyecto_seleccionado.fecha_cierre}}</span>
+  <div class="panel">
+    <div class="col-md-8">
+      <div class="panel">
+        <header class="bio-graph-heading project-heading">
+          <strong>
+              Proyecto: {{CD.proyecto_seleccionado.codigo}}
+              {{CD.proyecto_seleccionado.nombre}}
+          </strong>
+        </header>
+        <div class="panel-body bio-graph-info">
+          <div class="bio-row">
+            <span class="bold">Cliente:</span>
+            {{CD.proyecto_seleccionado.cliente}}
+          </div>
+          <div class="bio-row">
+            <span class="bold">Unidad Minera:</span>
+            {{CD.proyecto_seleccionado.unidad_minera}}
+          </div>
+          <div class="bio-row">
+            <span class="bold">Código:</span>
+            {{CD.proyecto_seleccionado.codigo}}
+          </div>
+          <div class="bio-row">
+            <span class="bold">Estado:</span>
+            {{CD.proyecto_seleccionado.estado}}
+          </div>
+          <div class="bio-row">
+            <span class="bold">Fecha Inicio:</span>
+            {{CD.proyecto_seleccionado.fecha_inicio}}
+          </div>
+          <div class="bio-row">
+            <span class="bold">Fecha Cierre:</span>
+            {{CD.proyecto_seleccionado.fecha_cierre}}
+          </div>
+        </div>
       </div>
     </div>
-    <div class="col-md-4 panel">
-
-    </div>
+    <aside class="col-md-4">
+      <div class="panel">
+        <header class="panel-heading">
+          Descripción del Proyecto
+        </header>
+        <div class="panel-body">
+          <img ng-src="CD.proyecto_seleccionado.logo_cliente" alt="Logo Cliente" />
+          <p>
+          {{CD.proyecto_seleccionado.descripcion}}
+          </p>
+        </div>
+      </div>
+    </aside>
   </div>
-  <nav class="col-md-12">
-    <ul>
-      <li><a href="#">Configurar TR</a></li>
-      <li><a href="#">Anddes</a></li>
-      <li><a href="#">Cliente</a></li>
-      <li><a href="#">Contratista</a></li>
-    </ul>
-  </nav>
+  <div class="col-md-12">
+    <nav class="panel-heading tab-bg-dark-navy-blue">
+      <ul class="nav nav-tabs">
+        <li class="active"><a href="#">Configurar TR</a></li>
+        <li><a href="#">Anddes</a></li>
+        <li><a href="#">Cliente</a></li>
+        <li><a href="#">Contratista</a></li>
+      </ul>
+    </nav>
+  </div>
+
   <div ng-view>
 
   </div>

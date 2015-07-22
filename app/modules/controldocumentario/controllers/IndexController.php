@@ -23,38 +23,43 @@ class ControlDocumentario_IndexController extends Zend_Controller_Action {
 
     }
 
+    public function panelAction()
+    {
+      $this->_helper->layout()->disableLayout();
+    }
+
     public function proyectosAction()
     {
-
+      $this->_helper->layout()->disableLayout();
     }
 
     public function asignarcdAction()
     {
-
+      $this->_helper->layout()->disableLayout();
     }
 
     public function carpetasAction()
     {
-
+      $this->_helper->layout()->disableLayout();
     }
 
     public function reporteAction()
     {
-
+      $this->_helper->layout()->disableLayout();
     }
 
     public function proyectoingenieriaAction()
     {
-
+      $this->_helper->layout()->disableLayout();
     }
 
     public function configurartrAction()
     {
-
+      $this->_helper->layout()->disableLayout();
     }
 
     public function anddesAction()
     {
-      
+      $this->_helper->layout()->disableLayout();
     }
 }
