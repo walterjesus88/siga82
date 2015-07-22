@@ -2,7 +2,7 @@
 class Admin_Model_DbTable_Contacto extends Zend_Db_Table_Abstract
 {
     protected $_name = 'contacto';
-    protected $_primary = array("contactoid", "clienteid");
+    protected $_primary = array("contactoid");
     protected $_sequence ="s_contacto";
 
 
@@ -37,8 +37,7 @@ class Admin_Model_DbTable_Contacto extends Zend_Db_Table_Abstract
         try{
             $sql=$this->_db->query("
                select * from contacto
-               where constactoid='$contactoid' and areaid='$areaid' and clienteid='$clienteid'  
-
+               where constactoid='$contactoid' and areaid='$areaid' and clienteid='$clienteid' 
             ");
             $row=$sql->fetchAll();
             return $row;           
