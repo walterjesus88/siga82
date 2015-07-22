@@ -93,7 +93,22 @@ class Admin_Model_DbTable_Categoria extends Zend_Db_Table_Abstract
         }
     }
 
+    public function _getCategoriaOrdenado()
+     {
+        try{
+            $sql=$this->_db->query("
+               select * from categoria
+               order by nombre_categoria
 
+            ");
+            $row=$sql->fetchAll();
+            return $row;           
+            }  
+            
+           catch (Exception $ex){
+            print $ex->getMessage();
+        }
+    }
 
 
 }

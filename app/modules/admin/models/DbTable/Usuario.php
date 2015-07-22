@@ -45,6 +45,17 @@ class Admin_Model_DbTable_Usuario extends Zend_Db_Table_Abstract
         }
     }
 
+    public function _save($data)
+    {
+        try{
+            if ($data['dni']=='' ||  $data['uid']=='' ) return false;
+            return $this->insert($data);
+            return false;
+        }catch (Exception $e){
+                print "Error: Registration ".$e->getMessage();
+        }
+    }
+
 
 }
 
