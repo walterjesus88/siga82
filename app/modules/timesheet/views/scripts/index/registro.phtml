@@ -1,6 +1,23 @@
 <section class="panel">
   <!-- Titulo de la semana de la hoja de tiempo-->
-  <div class="col-lg-2 alert-info"  style="padding-top: 10px;padding-bottom: 10px;padding-right: 10px;padding-left: 10px;">
+  <?php if ($this->estado_hoja_tiempo) 
+      { 
+        if($this->estado_hoja_tiempo[0]['estado']=='A') 
+          {
+            $campo_area='danger';
+          }
+        if($this->estado_hoja_tiempo[0]['estado']=='C') 
+          {
+            $campo_area='success';
+          }
+      }
+      else
+      {
+        $campo_area='info';
+      }
+  ?>
+
+  <div class="col-lg-2 alert-<?php echo $campo_area?>"  style="padding-top: 10px;padding-bottom: 10px;padding-right: 10px;padding-left: 10px;">
     <strong>Hoja Tiempo </strong>
    <strong>Semana <?php echo $this->semana; echo ": ";?></strong>
     <?php
@@ -13,6 +30,7 @@
       echo $fechainicio; echo " al "; echo $fechafinal;?>
       <br>
   </div>
+
   <!-- Titulo del resumen de horas facturables, nofacturables y administrativas-->
   <div class="col-lg-5" style="padding-top: 5px;">
     <button data-toggle="button" class="btn btn-white">
@@ -26,7 +44,6 @@
       echo "HH Fact.";
       ?>
     </button>
-    
     <button data-toggle="button" class="btn btn-white">
       <?php 
       echo $sumar['nonbillable'];
@@ -35,7 +52,6 @@
 
       ?>
     </button>
-   
     <button data-toggle="button" class="btn btn-white info">
       <?php 
       $sumahorasxact=$sumahoras->_getSumaHorasxActividad($this->uid,$this->dni,$this->semana,'adm');
@@ -54,12 +70,10 @@
   </div>
   <!-- Titulo de los Aprobadores d ela Hoja de Tiempo-->
   <div class="col-lg-2" style="padding-top: 2px;">
-
   <?php 
   if ($this->aprobacion)
   {
     echo "<strong>";echo "Aprobadores: "; echo "</strong>";
-    
     if ($this->aprobador_filtro2) {
     echo "<br>";
     echo "<strong>";echo "JI: ";echo "</strong>";echo $this->aprobador_filtro2;
@@ -74,60 +88,44 @@
       }
     } 
   }
-
   ?> 
   </div>
   <div class="panel-body" style="padding-top: 10px;padding-bottom: 0px;">
-    <!--<a id = "" class="btn btn-primary pull-right btn-xs"  href="" style="margin-right : 10px">
-      <i class="fa fa-print"></i> Imprimir
-    </a>
-    <a id = "submit_copiar" class="btn btn-default pull-right btn-xs" href="#" style="margin-right : 10px">
-      <i class="fa fa-check-square"></i> Copiar 
-    </a>
-    <a id = "submit_work" class="btn btn-default pull-right btn-xs" href="#" style="margin-right : 10px">
-      <i class="fa fa-check-square"></i> Enviar Anterior
-    </a>-->
-    <?php if ($this->estado_hoja_tiempo) { 
-      
-
-
-      if($this->estado_hoja_tiempo[0]['estado']=='C') {?>
-<a id = "" class="btn btn-primary pull-right btn-xs"  href="" style="margin-right : 10px">
-      <i class="fa fa-print"></i> Imprimir
-    </a>
-
-      <?php
-
-      }
-      if($this->estado_hoja_tiempo[0]['estado']=='A') {
-
-      ?>
-
-    <a id = "enviar_hojatiempo" class="btn btn-default pull-right btn-xs" href="#" style="margin-right : 10px">
-      <i class="fa fa-check-square"></i> Enviar 
-    </a>
-    <a id = "save_hours" class="btn btn-info pull-right btn-xs"  style="margin-right : 10px">
-      <i class="fa fa-save"></i> Guardar
-    </a>
-    <a id = "add_work" class="btn btn-success pull-right btn-xs" data-toggle="modal" href="#agregar" style="margin-right : 10px">
-      <i class="fa fa-check-square-o"></i> Agregar
-    </a>
-
-    <?php }} else { ?>
-
-    <a id = "enviar_hojatiempo" class="btn btn-default pull-right btn-xs" href="#" style="margin-right : 10px">
-      <i class="fa fa-check-square"></i> Enviar 
-    </a>
-    <a id = "save_hours" class="btn btn-info pull-right btn-xs"  style="margin-right : 10px">
-      <i class="fa fa-save"></i> Guardar
-    </a>
-    <a id = "add_work" class="btn btn-success pull-right btn-xs" data-toggle="modal" href="#agregar" style="margin-right : 10px">
-      <i class="fa fa-check-square-o"></i> Agregar
-    </a>
-
-    <?php }?>
+   <?php if ($this->estado_hoja_tiempo) 
+      { 
+        if($this->estado_hoja_tiempo[0]['estado']=='C') 
+          {?>
+          <a id = "" class="btn btn-primary pull-right btn-xs"  href="" style="margin-right : 10px">
+            <i class="fa fa-print"></i> Imprimir
+          </a> <?php 
+          }
+        
+        if($this->estado_hoja_tiempo[0]['estado']=='A') 
+          {?>
+            <a id = "enviar_hojatiempo" class="btn btn-default pull-right btn-xs" href="#" style="margin-right : 10px">
+              <i class="fa fa-check-square"></i> Enviar 
+            </a>
+            <a id = "save_hours" class="btn btn-info pull-right btn-xs"  style="margin-right : 10px">
+              <i class="fa fa-save"></i> Guardar
+            </a>
+            <a id = "add_work" class="btn btn-success pull-right btn-xs" data-toggle="modal" href="#agregar" style="margin-right : 10px">
+              <i class="fa fa-check-square-o"></i> Agregar
+            </a><?php 
+          }
+      } 
+        else 
+      {?>
+        <a id = "enviar_hojatiempo" class="btn btn-default pull-right btn-xs" href="#" style="margin-right : 10px">
+          <i class="fa fa-check-square"></i> Enviar 
+        </a>
+        <a id = "save_hours" class="btn btn-info pull-right btn-xs"  style="margin-right : 10px">
+          <i class="fa fa-save"></i> Guardar
+        </a>
+        <a id = "add_work" class="btn btn-success pull-right btn-xs" data-toggle="modal" href="#agregar" style="margin-right : 10px">
+          <i class="fa fa-check-square-o"></i> Agregar
+        </a><?php 
+      }?>
   </div>
-
 </section>
 <div class="row">
 

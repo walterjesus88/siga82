@@ -1,6 +1,5 @@
 <?php
 class Rrhh_PerfilController extends Zend_Controller_Action {
-
     public function init() {
     	$options = array(
             'layout' => 'inicio',
@@ -57,19 +56,14 @@ class Rrhh_PerfilController extends Zend_Controller_Action {
 
     }
 
-
     public function cambiarpassAction(){
-
         $dni = $this->_getParam('dni');
-        //echo $dni;
-
         $dbper=new Admin_Model_DbTable_Persona();
         $where=array('dni'=>$dni);
         $datauser=$dbper->_getOne($where);        
         $this->view->lista_persona=$datauser;
         $veruser=new Admin_Model_DbTable_Usuario();       
         $user=$veruser->_getOne($where);
-        //echo $user['uid'];
         if($user)
         {
             $uid=$user['uid'];
@@ -110,26 +104,18 @@ class Rrhh_PerfilController extends Zend_Controller_Action {
         {
             echo "no tiene usuario";
         }
-    
-
     }
 
-
     public function curriculumAction(){
-
         $dn=$this->sesion->dni;
-
-
         $dni = $this->_getParam('dni');        
         $dbper=new Admin_Model_DbTable_Persona();
         $where=array('dni'=>$dni);
         $datauser=$dbper->_getOne($where);        
         $this->view->lista_persona=$datauser;
-
         $dbcurriculum=new Admin_Model_DbTable_Curriculum();
         $datacurriculum=$dbcurriculum->_getOne($where); 
         $this->view->lista_curriculum=$datacurriculum;
-
         $dbpuesto=new Admin_Model_DbTable_Puesto();
         $wherepuesto = array( 'dnipersona' => $dni, 'estado' => 'A');
         if($datapuesto=$dbpuesto->_getFilter($wherepuesto))
@@ -139,7 +125,6 @@ class Rrhh_PerfilController extends Zend_Controller_Action {
             $wherecomp=  array('puesto' => $datapuesto[0]['puestoid'], 'estado' => 'A' );
             $dbcompetencia= $dbcomp->_getFilter($wherecomp);
             $this->view->lista_competencia=$dbcompetencia;
-
             $dbfun = new Admin_Model_DbTable_Funcion();
             $wherefun=  array('puesto' => $datapuesto[0]['puestoid'] );            
             $dbfuncion= $dbfun->_getFilter($wherefun);
@@ -149,13 +134,9 @@ class Rrhh_PerfilController extends Zend_Controller_Action {
         $dbevaluacion=new Admin_Model_DbTable_Evaluacion();
         $dataevaluacion=$dbevaluacion->_getFilter($where); 
         $this->view->lista_evaluacion=$dataevaluacion;
-      
-
         $dbcapacitacion=new Admin_Model_DbTable_Capacitacion();
         $datacapacitacion=$dbcapacitacion->_getFilter($where); 
         $this->view->lista_capacitacion=$datacapacitacion;
-
-
 
         //--------------*esto es guardar------------//
         $dni = $this->_getParam('dni');
@@ -266,7 +247,6 @@ public function guardarusuarioAction() {
         $formdata['uid_registro']=$uid;
         $formdata['uid_modificacion']=$uid;
         $formdata['estado']='A';
-        
         $tabla_usuario=new Admin_Model_DbTable_Usuario();    
         if($tabla_usuario->_save($formdata))
         {

@@ -268,7 +268,23 @@ class Admin_Model_DbTable_Historialaprobaciones extends Zend_Db_Table_Abstract
         }
     }
 
-    
-
-
+    public function _getUltimasFilasxPersona($uid,$dni,$semanaid)
+    {
+        try{
+            $sql=$this->_db->query("
+              
+                select  * from historial_aprobaciones 
+                    where  uid_empleado='$uid' and  
+                    dni_empleado='$dni' 
+                    and semanaid='$semanaid' 
+                    order by numero_historial desc
+                    limit 1 
+            ");
+            $row=$sql->fetchAll();
+            return $row;           
+            }  
+           catch (Exception $ex){
+            print $ex->getMessage();
+        }
+    }
 }
