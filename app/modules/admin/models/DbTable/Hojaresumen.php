@@ -57,14 +57,36 @@ class Admin_Model_DbTable_Hojaresumen extends Zend_Db_Table_Abstract
     public function _update($data,$pk)
     {
         try{
-            if ($pk['codigo_prop_proy']=='' ||  $pk['proyectoid']=='' ) return false;
-            $where = "codigo_prop_proy = '".$pk['codigo_prop_proy']."' and proyectoid='".$pk['proyectoid']."' ";
+            
+           // if ($pk['codigo_prop_proy']=='' ||  $pk['proyectoid']==''  ||  $pk['revision_hojaresumen']=='' ||  $pk['propuestaid']=='' ||  $pk['revision_propuesta']=='' ) return false;
+            $where = "codigo_prop_proy = '".$pk['codigo_prop_proy']."' and proyectoid='".$pk['proyectoid']."' and revision_hojaresumen='".$pk['revision_hojaresumen']."'
+                    and propuestaid='".$pk['propuestaid']."' and revision_propuesta='".$pk['revision_propuesta']."' 
+             ";
+
+            print_r($where);
+            
             return $this->update($data, $where);
             return false;
         }catch (Exception $e){
-            print "Error: Update Distribution".$e->getMessage();
+            print "Error: Update hoja_resumen".$e->getMessage();
         }
     }
+
+
+
+    // public function _update($data,$pk)
+    // {
+    //     try{
+    //         if ($pk['codigo_prop_proy']=='' ||  $pk['proyectoid']=='' ) return false;
+
+    //         $where = "codigo_prop_proy = '".$pk['codigo_prop_proy']."' and proyectoid='".$pk['proyectoid']."' ";
+    //         return $this->update($data, $where);
+    //         return false;
+    //     }catch (Exception $e){
+    //         print "Error: Update Distribution".$e->getMessage();
+    //     }
+    // }
+
 
 
     public function _buscarProyectodetalles($proyectoid,$codigo_prop_proy,$propuestaid,$revision){
@@ -76,8 +98,8 @@ class Admin_Model_DbTable_Hojaresumen extends Zend_Db_Table_Abstract
                hr.tipo_contrato,hr.forma_pago,hr.tipo_pago,hr.fecha_pago,hr.adelanto,hr.fecha_inicio_planificado,hr.fecha_fin_planificado,hr.contactoid,
                hr.fecha_inicio_real,hr.fecha_fin_real,hr.comentarios,hr.revision_hojaresumen,hr.observacion,hr.jefe_proyecto1,hr.jefe_proyecto2,
                hr.adelanto,hr.tipo_contrato,hr.revision_propuesta,
-               cli.clienteid,cli.nombre_comercial,cli.direccion,cli.ruc,cli.tipo_cliente,
-               uni.unidad_mineraid,uni.nombre,uni.direccion,co.correo,co.direccion,co.anexo,co.telefono,co.ape_paterno,co.ape_materno,co.nombre1,co.nombre2,
+               cli.clienteid,cli.nombre_comercial,cli.direccion as direcli,cli.ruc,cli.tipo_cliente,
+               uni.unidad_mineraid,uni.nombre,uni.direccion as direuni ,co.correo,co.direccion as direcont,co.anexo,co.telefono,co.ape_paterno,co.ape_materno,co.nombre1,co.nombre2,
                co.numero1,co.numero2,co.puesto_trabajo
 
                 from hoja_resumen as hr
