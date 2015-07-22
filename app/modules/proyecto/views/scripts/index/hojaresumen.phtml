@@ -19,6 +19,7 @@
     </ul>
   </header>
 
+
   <div class="panel-body">
     <div class="tab-content">
       <div id="home-2" class="tab-pane active ">
@@ -34,10 +35,6 @@
                         <aside class="mid-side">
                             <div class="chat-room-head">
                                 <center><h3>Informacion</h3></center>
-
-                            </div>
-                            <div>
-                            
                                 <a  class="col-sm-2" class="btn btn-success"  id="generarresumen" href="#" >Generar</a>
                         
 
@@ -61,6 +58,11 @@
                      
                                   <?php  $j++;  } ?>
                                 </select>
+
+                            </div>
+                            <div>
+                            
+                       
                             </div>
                                 <div class="group-rom panel-body room-box">
                                     <div class="col-sm-2">
@@ -264,6 +266,7 @@
                                     </div>
                                     <div class="col-sm-2" >
                                         <input class="form-control default-date-picker " id="fecha_fin_real" type="text" >
+
                                     </div>
                                 </div>
 
@@ -865,7 +868,8 @@
                                            <ul>    
                                               
                                               <li>
-                                                <span><?php echo $proyect['propuestaid'] ?></span>            
+                                                <input class="" id="adelanto" type="text" >
+
                                               </li>                                   
                                           </ul>                             
                                         </div>
@@ -910,7 +914,8 @@
                                         <div class="col-sm-6">                                
                                           <ul>    
                                               <li>
-                                                <span>Otros</span>            
+                                                <input class="" id="tipo_contrato" type="text" >
+
                                               </li>
                                                                     
                                           </ul>
@@ -928,7 +933,7 @@
                                         </ul>
                                       </div>
                                       <div class="col-sm-4"> 
-                                        <p><span>No hay campo en la BD</span></p>                                   
+                                        <textarea name="textarea"  id="comentario"   rows="5" cols="50"></textarea>                                        
                                       </div>
                                       <div class="col-sm-4">
                                         <div class="col-sm-6">
@@ -990,7 +995,8 @@
                                         </ul>
                                       </div>
                                       <div class="col-sm-8"> 
-                                        <span>No hay campo en la BD.</span></div>                              
+                                        <textarea name="textarea"  id="observacion"  rows="5" cols="100"></textarea>
+                                      </div>                              
                                   </div>
 
                                 </div> 
@@ -1308,7 +1314,7 @@
                                            <ul>    
                                               
                                               <li>
-                                                <input class="" id="adelanto" type="text" >
+                                                <input class="" id="adelanto_" type="text" >
 
                                               </li>                                   
                                           </ul>                             
@@ -1354,7 +1360,7 @@
                                         <div class="col-sm-6">                                
                                           <ul>    
                                               <li>
-                                                <input class="" id="tipo_contrato" type="text" >
+                                                <input class="" id="tipo_contrato_" type="text" >
                                                 <!-- <span>Otros</span>  -->
                                               </li>                                                                    
                                           </ul>
@@ -1372,7 +1378,7 @@
                                         </ul>
                                       </div>
                                       <div class="col-sm-4"> 
-                                        <textarea name="textarea"  id="comentario"  rows="5" cols="50"></textarea>                            
+                                        <textarea name="textarea"  id="comentario_"  rows="5" cols="50"></textarea>                            
                                       </div>
                                       <div class="col-sm-4">
                                         <div class="col-sm-6">
@@ -1433,9 +1439,8 @@
                                           </li>
                                         </ul>
                                       </div>
-                                      <div class="col-sm-8"> 
-
-                                        <textarea name="textarea"  id="observacion"  rows="5" cols="100"></textarea>
+                                      <div class="col-sm-8">
+                                        <textarea name="textarea"  id="observacion_"  rows="5" cols="100"></textarea>
                                       </div>                              
                                   </div>
 
@@ -1500,30 +1505,24 @@
 
 <script type="text/javascript">
   $(document).ready(function(){
-   $("#generarresumen").click(function(){
-                           
+   $("#generarresumen").click(function(){                           
       //var valor=$(this).val();
       var revi_hoja=$("#revision_hoja").val();
       var contactox="<?php echo $contactunico['contactoid']?>";
-      alert(contactox);
+      //alert(contactox);
       var contact=$("#contact").val();
-
 
       if(contact)
       {
-        //alert("hay");
         contact = contact[0].replace("cont_"," ");
         contact=contact.trim();
       }
       else
       {
-        //alert(" no  hay");
         contact=contactox;
-
       }
 
-      console.log(contact[0]);
-
+      //console.log(contact[0]);
       //alert(contact);
      // var gerente_proyecto=document.getElementById('gerente_proyecto').getElementsByTagName('li')[0];
       var gerente_proyecto=$(".gerente_proyecto").val();
@@ -1534,23 +1533,22 @@
       var fecha_fin_planificado=$("#fecha_fin_planificado").val();
       var fecha_inicio_real=$("#fecha_inicio_real").val();
       var fecha_fin_real=$("#fecha_fin_real").val();
-      var adelanto=$("#adelanto").val();
-      var comentario=$("#comentario").val();
-      var tipo_contrato=$("#tipo_contrato").val();
-      var observacion=$("#observacion").val();
+      var adelanto=$("#adelanto_").val();
+      var comentario=$("#comentario_").val();
+      var tipo_contrato=$("#tipo_contrato_").val();
+      //svar observacionx=$("#observacion_").val();
+      var observacion=$("#observacion_").val();
 
-   
+      alert(comentario);
+
       console.log(observacion);
-      
-      //alert(gerente_proyecto);
-  
 
-  
+      //if(observacion){ observacion=observacion; console.log("obser"); } else { observacion=observacionx; }
       url="/proyecto/index/generarresumen/codigo_prop_proy/<?php echo $this->codigo_prop_proy?>/proyectoid/<?php echo $this->proyectoid ?>/revision_hojaresumen/"+revi_hoja+"/revision/<?php echo $this->revision ?>/propuestaid/<?php echo $this->propuestaid?>/contact/"+contact
         +"/gerente_proyecto/"+gerente_proyecto+"/jefe_proyecto1/"+jefe_proyecto1+"/jefe_proyecto2/"+jefe_proyecto2+"/control_documentario/"+control_documentario+"/fecha_inicio_planificado/"+fecha_inicio_planificado+"/fecha_fin_planificado/"+fecha_fin_planificado+
           "/fecha_inicio_real/"+fecha_inicio_real+"/fecha_fin_real/"+fecha_fin_real+"/adelanto/"+adelanto+"/comentario/"+comentario+
           "/tipo_contrato/"+tipo_contrato+"/observacion/"+observacion;
-      //alert(url);             
+      alert(url);             
 
       $.ajax({
         type: "POST",

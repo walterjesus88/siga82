@@ -20,11 +20,12 @@
                  
   
                   <ul>
-                <section id="container" class="">
+                <!-- <section id="container" class=""> -->
                   <table style="width:100%; margin-bottom:20px;" border=" 1px">
                  
                       <tr style='background:rgba(0, 105, 173, 1)'>
                         <th colspan='6' style='font-size:12px; '>Informacion</th>
+                      
                       </tr>
 
 
@@ -77,7 +78,7 @@
                                 </td>                           
                           </tr>    
 
-                             <tr>                       
+                          <tr>                       
                             
                             <td class="col-sm-2">                                             
                               <span>Unidad Minera</span> 
@@ -104,19 +105,31 @@
                                </td>                           
                          
                                 <td class="col-sm-4">
-                                          <?php echo $proyect['gerente_proyecto'] ?>  
+                                  <select  class="form-control" class="gerente_proyecto" name="gerente_proyecto" >
+                                    <option value="<?php echo $proyect['gerente_proyecto'] ?>"> <?php echo $proyect['gerente_proyecto'] ?></option>
+                                    <?php
+                                      foreach ( $this->ucat  as $gerente_proyecto){
+                                    ?>
+                                        <option value="<?php echo $gerente_proyecto['uid']?>"><?php echo $gerente_proyecto['uid']?></option>
+                                     <?php } ?>
+                                  </select> 
                                 </td>
 
-                                <td rowspan="2" class="col-sm-2">
+                                <td rowspan="2" class="col-sm-1">
                                   Fecha de Inicio
                                 </td>
                                                         
-                                <td class="col-sm-1" rowspan="2" ><?php echo $proyect['fecha_inicio_planificado'] ?></td>
-                                                 
                                 <td class="col-sm-2" rowspan="2" >
+                                    <input class="form-control default-date-picker " id="fecha_inicio_planificado" value="<?php echo $proyect['fecha_inicio_planificado'] ?>" type="text" > 
+
+                                </td>
+                                                 
+                                <td class="col-sm-1" rowspan="2" >
                                    Fecha de Cierre
                                 </td>                            
-                                <td class="col-sm-1" rowspan="2" ><?php echo $proyect['fecha_fin_planificado'] ?></td>
+                                <td class="col-sm-2" rowspan="2" >
+                                  <input class="form-control default-date-picker " id="fecha_inicio_real" value="<?php echo $proyect['fecha_inicio_real'] ?>" type="text" > 
+                                </td>
                          
                           </tr>
 
@@ -126,7 +139,15 @@
                                 </td>                          
                          
                                 <td class="col-sm-4">
-                                  <?php echo $proyect['jefe_proyecto1'] ?>                     
+                                  <select  class="form-control" class="jefe_proyecto1" name="jefe_proyecto1" >
+                                    <option  value="<?php echo $proyect['jefe_proyecto1'] ?>"> <?php echo $proyect['jefe_proyecto1'] ?></option>
+                                    <?php
+                                      foreach ( $this->ucat  as $jefe_proyecto1){
+                                    ?>
+                                        <option value="<?php echo $jefe_proyecto1['uid']?>"><?php echo $jefe_proyecto1['uid']?></option>
+                                     <?php } ?>
+                                  </select> 
+                                                      
                                 </td>
                           </tr>      
 
@@ -135,25 +156,35 @@
                                       Jefe del Proyecto 2 
                                 </td>
                              
-                                <td class="col-sm-4"  >                                                        
-                                  <?php echo $proyect['jefe_proyecto2'] ?>                     
+                                <td class="col-sm-4"  > 
+                                  <select  class="form-control" class="jefe_proyecto2" name="jefe_proyecto1">
+                                    <option  value="<?php echo $proyect['jefe_proyecto1'] ?>"><?php echo $proyect['jefe_proyecto2'] ?></option>
+                                    <?php
+                                      foreach ( $this->ucat  as $jefe_proyecto2){
+                                    ?>
+                                      <option value="<?php echo $jefe_proyecto2['uid']?>"><?php echo $jefe_proyecto2['uid']?></option>
+                                    <?php } ?>
+                                  </select> 
+                                                                                                   
+                                                      
                                   
                                 </td> 
 
-                                <td class="col-sm-2" rowspan="2" >                                                        
+                                <td class="col-sm-1" rowspan="2" >                                                        
                                       Fecha de Inicio 
                                 </td>                           
                       
-                                <td class="col-sm-1" rowspan="2" >
-                                  <?php echo $proyect['fecha_inicio_real'] ?>
+                                <td class="col-sm-2" rowspan="2" >
+                                  <input class="form-control default-date-picker " id="fecha_fin_planificado" value="<?php echo $proyect['fecha_fin_planificado'] ?>" type="text" >                                  
                                 </td>                           
                             
-                                <td class="col-sm-2" rowspan="2" >                                                                          
+                                <td class="col-sm-1" rowspan="2" >                                                                          
                                       Fecha de Cierre 
                                 </td>                             
                             
-                                <td class="col-sm-1" rowspan="2" >
-                                  <?php echo $proyect['fecha_fin_real'] ?> 
+                                <td class="col-sm-2" rowspan="2" >
+                                  <input class="form-control default-date-picker " id="fecha_fin_real" value="<?php echo $proyect['fecha_fin_real'] ?>" type="text">
+
                                 </td>        
                           </tr>
 
@@ -162,7 +193,16 @@
                                     Control Documentario
                                 </td>
                              
-                                <td class="col-sm-4">                                                        
+                                <td class="col-sm-4">
+                                  <select  class="form-control" class="control_documentario" name="control_documentario" >
+                                    <option value="<?php echo $proyect['jefe_proyecto1'] ?>"> <?php echo $proyect['control_documentario'] ?></option>
+                                    <?php
+                                      foreach ( $this->ucat  as $control_documentario){
+                                    ?>
+                                        <option value="<?php echo $control_documentario['uid']?>"><?php echo $control_documentario['uid']?></option>
+                                     <?php } ?>
+                                  </select> 
+                                                                                      
                                     <?php echo $proyect['control_documentario'] ?> 
                                 </td> 
                           </tr>
@@ -174,7 +214,7 @@
                   <aside >
                     <table style="width:100%; margin-bottom:20px;" border=" 1px">
                                  
-                                  <tr style='background:rgba(0, 105, 173, 1)'>
+     <!--                              <tr style='background:rgba(0, 105, 173, 1)'>
                                       <th colspan='6' style='font-size:12px; '>Informacion Comercial</th>
                                   </tr>
 
@@ -195,7 +235,9 @@
                                         <td class="col-sm-2" rowspan="2">                               
                                               <p><span>Cargo</span></p>                                   
                                         </td>
-                                        <td class="col-sm-6" rowspan="2" colspan="3"><?php echo $proyect['puesto_trabajo'] ?></td>
+                                        <td class="col-sm-6" rowspan="2" colspan="3">
+                                          <input class="form-control" id="puesto_trabajo" type="text" value="<?php echo $proyect['puesto_trabajo'] ?>" > 
+                                        </td>
                                         
                                         <td class="col-sm-2" >                                  
                                                   <span>Moneda</span>  
@@ -216,20 +258,20 @@
                                         </td>                          
                                     </tr>
                                  
-                                    <!-- xxx-->
+                              
                                     <tr>                                 
                                         <td class="col-sm-2" rowspan="2">
                                           <p><span>Telefono</span></p> 
                                         </td>
                                         <td class="col-sm-2" rowspan="2">
-                                            <?php echo $proyect['telefono'] ?>
+                                          <input class="form-control" id="telefono" type="text" value="<?php echo $proyect['telefono'] ?>" > 
                                         </td>
                                         <td class="col-sm-2" rowspan="2">
                                           <p><span>Anexo</span></p>                                  
                                         </td>
 
                                         <td class="col-sm-2" rowspan="2">
-                                            <?php echo $proyect['anexo'] ?>                                  
+                                          <input class="form-control"id="anexo" type="text" value="<?php echo $proyect['anexo'] ?>" >           
                                         </td>
                                         
                                         <td class="col-sm-2">                                 
@@ -238,9 +280,9 @@
                                         <td class="col-sm-2">                                    
                                               <span>ffff</span>                                          
                                         </td>                                           
-                                    </tr>
+                                    </tr> -->
 
-                                    <tr>  
+    <!--                                 <tr>  
                                         <td class="col-sm-2">
                                               <span>Laboratorio</span>
                                         </td>
@@ -257,13 +299,14 @@
                                           <p><span>Celular 1</span></p>                                   
                                         </td>
                                         <td class="col-sm-2" rowspan="2">                                
-                                            <?php echo $proyect['numero1'] ?>
+                                          <input class="form-control" id="numero1" type="text" value="<?php echo $proyect['numero1'] ?>" >
                                         </td>
                                         <td class="col-sm-2" rowspan="2">                                   
                                                 <p><span>Celular 2</span></p>                                     
                                         </td>
                                         <td class="col-sm-2" rowspan="2"> 
-                                            <?php echo $proyect['numero2'] ?>                                  
+                                          <input class="form-control" id="numero2" type="text" value="<?php echo $proyect['numero2'] ?>" >
+
                                         </td>                                                              
                                         <td class="col-sm-2"> 
                                             <span>Otros</span>                                                                                                       
@@ -286,7 +329,10 @@
                                         <td class="col-sm-2" rowspan="2">
                                               <p><span>Email</span></p> 
                                         </td>
-                                        <td class="col-sm-6" colspan="3" rowspan="2"><?php echo $proyect['correo'] ?></td>                             
+                                        <td class="col-sm-6" colspan="3" rowspan="2">
+                                          <input class="form-control" id="correo" type="text" value="<?php echo $proyect['correo'] ?>" >
+
+                                        </td>                             
                                         <td class="col-sm-2">  
                                                   <span>Total</span>  
                                                   
@@ -310,7 +356,11 @@
                                         <td class="col-sm-2" rowspan="2">                               
                                               <p><span>Razon social</span></p>                                                                
                                         </td>
-                                        <td class="col-sm-6" colspan="3" rowspan="2"><?php echo $proyect['nombre_comercial'] ?></td>                                
+                                        <td class="col-sm-6" colspan="3" rowspan="2">
+                                          <input class="form-control" id="nombre_comercial" type="text" value="<?php echo $proyect['nombre_comercial'] ?>" >
+                                          </input>   
+                                          
+                                        </td>                                
                                         <td class="col-sm-2">  
                                                   <span>SOC 02</span>
                                         </td>
@@ -329,10 +379,11 @@
                                     </tr>
                                     <tr>                                 
                                         <td class="col-sm-2">                              
-                                              <p><span>RUC</span></p>                                                                                              
+                                              <p><span>RUC</span></p>                                                                            
                                         </td>
-                                        <td class="col-sm-2">                                 
-                                            <?php echo $proyect['ruc'] ?>                                  
+                                        <td class="col-sm-2">  
+                                          <input class="form-control" id="ruc" type="text" value="<?php echo $proyect['ruc'] ?>" >
+                                          </input>                     
                                         </td>
 
                                         <td class="col-sm-2">                               
@@ -355,13 +406,19 @@
                                         <td class="col-sm-2"> 
                                           <p><span>Direccion Fiscal</span></p>  
                                         </td>
-                                        <td class="col-sm-6" colspan="3"><?php echo $proyect['direccion'] ?></div>
+                                        <td class="col-sm-6" colspan="3">
+                                          <input class="form-control" id="direccion" type="text" value="<?php echo $proyect['direccion'] ?>" >
+                                          </input>                                    
+                                        </div>
                                    
                                         <td class="col-sm-2">
                                           <span>Adelanto %</span>  
                                         </td>
-                                        <td class="col-sm-2">                                  
-                                          <span><?php echo $proyect['adelanto'] ?></span>            
+                                        <td class="col-sm-2"> 
+                                        <input class="form-control" id="adelanto" type="text" value="<?php echo $proyect['adelanto'] ?>" >
+                                          </input>  
+                                          <div id="adelanto"> <?php echo $proyect['adelanto'] ?></div>
+                                         
                                         </td>                               
                                     </tr>
 
@@ -386,7 +443,8 @@
                                             <span>Tipo de Contrato</span>            
                                         </td>
                                         <td class="col-sm-2">  
-                                            <span><?php echo $proyect['tipo_contrato'] ?></span> 
+                                            <input class="form-control" id="tipo_contrato" type="text" value="<?php echo $proyect['tipo_contrato'] ?>" >
+                                            </input>
                                         </td> 
                                     </tr>
 
@@ -394,10 +452,13 @@
                                         <td class="col-sm-2">                               
                                           <p><span>Comentarios</span></p>                                   
                                         </td>
+
                                         <td class="col-sm-6" colspan="3"> 
-                                          <span><?php echo $proyect['comentarios'] ?></span>
-                                                                         
+                                          <textarea name="textarea"  id="comentario"  rows="5" cols="100">
+                                            <?php echo $proyect['comentarios'] ?>
+                                          </textarea>                        
                                         </td>
+
                                         <td class="col-sm-2">                               
                                             <span>Plazo de Pagos de Facturas %</span>        
                                         </td> 
@@ -420,28 +481,31 @@
                                         <td class="col-sm-2">
                                             <span>no hay campo</span>            
                                         </td>                                
-                                    </tr>
+                                    </tr> -->
 
                                     <tr >                                 
                                       <td class="col-sm-2">                               
                                           <span> Observaciones </span>            
                                       </td>
                                       <td colspan="6" class="col-sm-10"> 
-                                        <span><?php echo $proyect['observacion'] ?></span>
-                                     
+                                        
+                                        <textarea name="textarea"  id="observacionoo"  rows="5" cols="100">
+                                          <?php echo $proyect['observacion'] ?>
+                                        </textarea>
+                                        
                                       </td>                              
                                     </tr>
 
                                   
-                                </div>
-                    </table>    
+                        
+                    </table>  
+
                   </aside>
 
-                </section>
-                  
+
                   </ul>
                 </li>
-                <!-- we will keep this LI open by default -->
+       
 
               </ul>
           </div>
@@ -450,92 +514,57 @@
 
         <?php } ?>
 
-            <script type="text/javascript">              
+
+ <input class="" id="lol" type="text" >
+     <td class="col-sm-6" colspan="3"> 
+                                          <textarea name="textarea"  id="comentarioxx"  rows="5" cols="100">
+                                          </textarea>                        
+                                        </td>
+
+                                           
+
+  <button id="guardar">Guardar</button>
+
+            <script type="text/javascript">
             $(document).ready(function(){
-              $("#accordian h3").click(function(){
-                //slide up all the link lists
-                $("#accordian ul ul").slideUp();
-                //slide down the link list below the h3 clicked - only if its closed
-                if(!$(this).next().is(":visible"))
-                {
-                  $(this).next().slideDown();
-                }
-              })
-            })
+              $("#guardar").click(function(){
+                  alert("edita");
+
+
+              var lol=$("#lol").val();
+              var observacion=$("#observacionoo").val();
+              var comentarioxx=$("#comentarioxx").val();
+              alert(lol);
+             
+              alert(observacion);
+              alert(comentarioxx);
+ 
+
+             console.log(lol);
+          
+
+
+              });
+            });
             </script>
 
-        <style type="text/css">
-        /*custom font for text*/
-@import url(http://fonts.googleapis.com/css?family=Nunito);
-/*CSS file for fontawesome - an iconfont we will be using. This CSS file imported contains the font-face declaration. More info: http://fortawesome.github.io/Font-Awesome/ */
-@import url(http://thecodeplayer.com/uploads/fonts/fontawesome/css/font-awesome.min.css);
 
-/*Basic reset*/
-* {margin: 0; padding: 0;}
+            <script type="text/javascript">              
+            // $(document).ready(function(){
+            //   $("#accordian h3").click(function(){
+            //     //slide up all the link lists
+            //     $("#accordian ul ul").slideUp();
+            //     //slide down the link list below the h3 clicked - only if its closed
+            //     if(!$(this).next().is(":visible"))
+            //     {
+            //       $(this).next().slideDown();
+            //     }
+            //   })
+            // })
+            </script>
 
-body {
-  background: #4EB889;
-  font-family: Nunito, arial, verdana;
-}
-#accordian {
-  background: #004050;
-  width: 100%;
-  /*margin: 100px auto 0 auto;*/
-  color: white;
-  /*Some cool shadow and glow effect*/
-  box-shadow: 
-    0 5px 15px 1px rgba(0, 0, 0, 0.6), 
-    0 0 200px 1px rgba(255, 255, 255, 0.5);
-}
-/*heading styles*/
-#accordian h3 {
-  font-size: 12px;
-  line-height: 34px;
-  padding: 0 10px;
-  cursor: pointer;
-  /*fallback for browsers not supporting gradients*/
-  background: #003040; 
-  background: linear-gradient(#003040, #002535);
-}
-/*heading hover effect*/
-#accordian h3:hover {
-  text-shadow: 0 0 1px rgba(255, 255, 255, 0.7);
-}
-/*iconfont styles*/
-#accordian h3 span {
-  font-size: 16px;
-  margin-right: 10px;
-}
-/*list items*/
-#accordian li {
-  list-style-type: none;
-}
-/*links*/
-#accordian ul ul li a {
-  color: white;
-  text-decoration: none;
-  font-size: 11px;
-  line-height: 27px;
-  display: block;
-  padding: 0 15px;
-  /*transition for smooth hover animation*/
-  transition: all 0.15s;
-}
-/*hover effect on links*/
-#accordian ul ul li a:hover {
-  background: #003545;
-  border-left: 5px solid lightgreen;
-}
-/*Lets hide the non active LIs by default*/
-#accordian ul ul {
-  display: none;
-}
-#accordian li.active ul {
-  display: block;
-}
+         
 
-
-        </style>    
-
+    
     
 

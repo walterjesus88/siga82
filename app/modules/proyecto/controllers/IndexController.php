@@ -2416,7 +2416,7 @@ public function cargartarea2Action() {
     
   public function historialresumenAction()
   {
-    $this->_helper->layout()->disablelayout();    
+    //$this->_helper->layout()->disablelayout();    
 
     $proyectoid= $this->_getParam("proyectoid");
     $codigo_prop_proy= $this->_getParam("codigo_prop_proy");
@@ -2427,6 +2427,11 @@ public function cargartarea2Action() {
     $wherehistorial = array('codigo_prop_proy' =>$codigo_prop_proy,'proyectoid' =>$proyectoid,'propuestaid' =>$propuestaid, 'revision_propuesta' =>$revision);
     $traerhistorial=$hoja->_buscarProyectodetalles($proyectoid,$codigo_prop_proy,$propuestaid,$revision);
     $this->view->historialresumen=$traerhistorial;
+
+    $usercat= new Admin_Model_DbTable_Usuariocategoria();
+    $order = array('uid ASC');
+    $ucat=$usercat->_getFilter($where=null,$attrib=null,$order);
+    $this->view->ucat=$ucat;
 
  
     //print_r($traerhistorial);
