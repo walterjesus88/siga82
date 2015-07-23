@@ -2143,9 +2143,7 @@ public function cargartarea2Action() {
           </script>
         <?php }
 
-      }
-
-   
+      }  
       
 
     }
@@ -2202,9 +2200,9 @@ public function cargartarea2Action() {
 
       $usercat= new Admin_Model_DbTable_Usuariocategoria();
      
-      $order = array('uid ASC');
+   
 
-      $ucat=$usercat->_getFilter($where=null,$attrib=null,$order);
+      $ucat=$usercat->_getUsuariocategoriaAllxUid();
       $this->view->ucat=$ucat;
 
 
@@ -2237,13 +2235,20 @@ public function cargartarea2Action() {
     
     $proyectoid= $this->_getParam("proyectoid");
     $codigo_prop_proy= $this->_getParam("codigo_prop_proy");
+    $revision_hojaresumen= $this->_getParam("revision_hojaresumen");
+    $revision= $this->_getParam("revision_propuesta");
+    $propuestaid= $this->_getParam("propuestaid");
 
     $this->view->proyectoid=$proyectoid;
     $this->view->codigo_prop_proy=$codigo_prop_proy;
     //$this->view->imp=$imp;
 
-    $proyect = new Admin_Model_DbTable_Proyecto();
-    $verproyect=$proyect->_buscarProyectodetalles($proyectoid,$codigo_prop_proy);
+ 
+
+    $hoja= new Admin_Model_DbTable_Hojaresumen();  
+ 
+    $verproyect=$hoja->_buscarProyectodetallesxhojaresumen($proyectoid,$codigo_prop_proy,$propuestaid,$revision,$revision_hojaresumen);
+  
     //print_r($verproyect);
 
 
@@ -2304,7 +2309,7 @@ public function cargartarea2Action() {
       'isunidad' => $isunidad , 'estado' =>$estado_contacto , 'unidad_mineraid' => $unidad_contacto , 'nombre_unidad' => $nomunidad , 
       'direccion' => $direccion, 'anexo' => $anexo, 'telefono' =>$telefono, 'ape_paterno' => $paterno, 'ape_materno' =>$materno , 'nombre1' =>$nombre , 'numero1' =>$celular1 ,'numero2' => $celular2,  );
 
-      print_r($where);
+      //print_r($where);
 
       $newcontact=new Admin_Model_DbTable_Contacto();
       $ncontact=$newcontact->_save($where);
@@ -2364,13 +2369,9 @@ public function cargartarea2Action() {
     echo $comentario= $this->_getParam("comentario");
     echo $tipo_contrato= $this->_getParam("tipo_contrato");
     echo $observacion= $this->_getParam("observacion");
-
-
-
     // $contacto= new Admin_Model_DbTable_Contacto();
     // $wherecont = array('contactoid' =>$contact , );
     // $cc=$contacto->_getOne($wherecont);
-
     // print_r($cc);
 
     $where = array('codigo_prop_proy' =>$codigo_prop_proy ,'proyectoid' =>$proyectoid , 'revision_propuesta' =>$revision_propuesta,
@@ -2382,7 +2383,7 @@ public function cargartarea2Action() {
     
     if($verhoja)
     {
-      echo "no llego";
+      //echo "no llego";
     }
     else
     {
@@ -2396,8 +2397,8 @@ public function cargartarea2Action() {
                    'adelanto' =>$adelanto, 'comentarios' =>$comentario ,
                    'tipo_contrato' =>$tipo_contrato, 'observacion' =>$observacion , );
 
-      print_r($data);
-      echo "llego";
+      //print_r($data);
+      ///echo "llego";
       $guardarhoja=$hoja->_save($data);
       exit();
 
@@ -2419,17 +2420,108 @@ public function cargartarea2Action() {
     $hoja= new Admin_Model_DbTable_Hojaresumen();  
     $wherehistorial = array('codigo_prop_proy' =>$codigo_prop_proy,'proyectoid' =>$proyectoid,'propuestaid' =>$propuestaid, 'revision_propuesta' =>$revision);
     $traerhistorial=$hoja->_buscarProyectodetalles($proyectoid,$codigo_prop_proy,$propuestaid,$revision);
+
+    //print_r($traerhistorial);
+
     $this->view->historialresumen=$traerhistorial;
 
-    //$proyect = new Admin_Model_DbTable_Proyecto();
-    //$verproyect=$proyect->_buscarProyectodetalles($proyectoid,$codigo_prop_proy);
-    //print_r($verproyect);
+    $usercat= new Admin_Model_DbTable_Usuariocategoria();
+    //$order = array('uid ASC');
+    //$ucat=$usercat->_getFilter($where=null,$attrib=null,$order);
+    $ucat=$usercat->_getUsuariocategoriaAllxUid();
+    $this->view->ucat=$ucat;
 
-
-  //  $this->view->proyectdetail=$verproyect;
-
-    print_r($traerhistorial);
+ 
+    //print_r($traerhistorial);
   }
+
+ public function updatehojaresumenAction()
+ {
+
+     $codigo_prop_proy= $this->_getParam("codigo_prop_proy");    
+     $proyectoid= $this->_getParam("proyectoid");
+     $revision_propuesta= $this->_getParam("revision_propuesta");
+     $revision_hojaresumen= $this->_getParam("revision_hojaresumen");
+     $propuestaid= $this->_getParam("propuestaid");
+   // echo $contact= $this->_getParam("contact");
+
+     $gerente_proyecto= $this->_getParam("gerente_proyecto");
+     $jefe_proyecto1= $this->_getParam("jefe_proyecto1");
+     $jefe_proyecto2= $this->_getParam("jefe_proyecto2");
+     $control_documentario= $this->_getParam("control_documentario");
+
+     $fecha_inicio_planificado= $this->_getParam("fecha_inicio_planificado");
+     $fecha_fin_planificado= $this->_getParam("fecha_fin_planificado");
+     $fecha_inicio_real= $this->_getParam("fecha_inicio_real");
+     $fecha_fin_real= $this->_getParam("fecha_fin_real");
+
+     $adelanto= $this->_getParam("adelanto");
+     $comentario= $this->_getParam("comentario");
+     $tipo_contrato= $this->_getParam("tipo_contrato");
+     $observacion= $this->_getParam("observacion");
+     $direccion= $this->_getParam("direccion");
+
+     $nombre_comercial= $this->_getParam("nombre_comercial");
+     $ruc= $this->_getParam("ruc");
+     $correo= $this->_getParam("correo");
+     $numero1= $this->_getParam("numero1");
+     $numero2= $this->_getParam("numero2");
+     $anexo= $this->_getParam("anexo");
+     $telefono= $this->_getParam("telefono");
+     $puesto_trabajo= $this->_getParam("puesto_trabajo");
+     $contactoid= $this->_getParam("contactoid");
+
+    
+    $pk = array('codigo_prop_proy' => $codigo_prop_proy,'proyectoid' => $proyectoid,'revision_hojaresumen' => $revision_hojaresumen,'propuestaid' => $propuestaid,
+          'revision_propuesta' => $revision_propuesta, );
+
+    $wherehoja = array(
+     'gerente_proyecto' => $gerente_proyecto,'jefe_proyecto1' => $jefe_proyecto1,'jefe_proyecto2' => $jefe_proyecto2,'control_documentario' => $control_documentario,
+     'fecha_inicio_planificado' => $fecha_inicio_planificado,'fecha_fin_planificado' => $fecha_fin_planificado,'fecha_inicio_real' => $fecha_inicio_real,'fecha_fin_real' => $fecha_fin_real,
+     'adelanto' => $adelanto, 'comentarios' => $comentario, 'tipo_contrato' => $tipo_contrato, 
+     'observacion' => $observacion,
+    );
+
+    // 'ruc' => $ruc,
+    $str = array('contactoid' => $contactoid,);
+    $wherecontacto = array('direccion' => $direccion,'correo' => $correo,
+     'numero1' => $numero1,'numero2' => $numero2,'anexo' => $anexo,'telefono' => $telefono,'puesto_trabajo' => $puesto_trabajo, );
+
+ // 'nombre_comercial' => $nombre_comercial,
+    
+    $uphoja= new Admin_Model_DbTable_Hojaresumen(); 
+    $uhoja=$uphoja->_update($wherehoja,$pk);
+                    //_update($data,$pk)
+
+    //print_r($uhoja);
+
+    if($uhoja)
+    { 
+      $updcontac=new Admin_Model_DbTable_Contacto();
+      $ucontact=$updcontac->_update($wherecontacto,$str);
+    ?>
+      <script>
+        alert("aaaa--aaa");
+      </script>
+    <?php
+    }
+    else
+    {
+    ?>
+      <script>
+        alert("bbbbb--bbbb");
+      </script>
+    <?php
+
+    }
+
+    exit();
+
+
+
+
+ }
+  
 
 
 }

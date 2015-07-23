@@ -73,7 +73,8 @@ class Admin_Model_DbTable_Area extends Zend_Db_Table_Abstract
         try{
             $sql=$this->_db->query("
                select * from area
-               where isproyecto='S'  
+               where isproyecto='S' 
+               order by  nombre
 
             ");
             $row=$sql->fetchAll();

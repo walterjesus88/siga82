@@ -28,20 +28,14 @@ class Timesheet_IndexController extends Zend_Controller_Action {
         //$data_clientes = $equipo ->_getClienteXuidXEstado($uid,'A');
         /*clientes de la tabla equipo*/
         //$data_clientes = $equipo ->_getClienteXEquipoXUsuario($uid, $dni ,'A');
-
-
         $act= new Admin_Model_DbTable_Activaractividad();
         $data_clientes = $act ->_getClientesXEmpleadoXEstadoActivo($uid, $dni ,'A');
-
-
-
         $this->view->datoscliente = $data_clientes;
         //print_r($data_clientes);
         //$this->view->equipo = $data_equipo;
-         } catch (Exception $e) {
+        } catch (Exception $e) {
             print "Error: ".$e->getMessage();
         } 
-
     }
 
     public function proyectosAction(){
@@ -52,9 +46,6 @@ class Timesheet_IndexController extends Zend_Controller_Action {
         $clienteid = $this->_getParam('clienteid');
         $unidadid = $this->_getParam('unidadid');
         $fecha_consulta = $this->_getParam('fecha');
-
-        
-       // print_r($data_equipo);
         if ($clienteid=='20451530535' && $unidadid=='10')
         {
             $equipo = new Admin_Model_DbTable_Equipo();

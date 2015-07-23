@@ -26,7 +26,7 @@
     </tr>  
     <tr>
  
-        <th style="width: 30%;">Fecha <?php print_r($pro[0]['fecha_cierre'])?>  </th>
+        <th style="width: 30%;">Fecha <?php print_r($pro[0]['fecha_fin_real'])?>  </th>
     </tr>   
     <tr> 
         <th style="width: 10%;text-align: center;color: #fff;background-color:rgba(0, 105, 173, 1)"> SIG AND </th>         
@@ -109,17 +109,13 @@
 
                              <tr>                       
                             
-                            <td class="col-sm-2">
-                                                                                                  
+                            <td class="col-sm-2">                                            
                               <span>Unidad Minera</span> 
-                               
                             </td>
 
-                               <td class="col-sm-4">
-                                                                                                         
-                                        <?php echo $proyect['nombre'] ?>                                     
-                                   
-                                </td>                             
+                            <td class="col-sm-4">                                               
+                                <?php echo $proyect['nombre'] ?>
+                            </td>                             
                                                    
                           </tr>
 
@@ -130,37 +126,31 @@
                               <span>Tipo de Servicio</span>
                                 
                             </td>
-                               <td class="col-sm-4">
-                                                                                                              
-                                        geotecnia                                       
-                                   
-                                </td>                             
-                                            
+                               <td class="col-sm-4">                                                                                       
+                                        geotecnia  
+                                </td>      
                           </tr>  
 
                           <tr>
-                                <td  class="col-sm-2">                                                                                                           
+                                <td  class="col-sm-2">                                                                                      
                                   Gerente del Proyecto                                  
-                               </td>                           
+                                </td>                           
                          
                                 <td class="col-sm-4">
-                                
                                           <?php echo $proyect['gerente_proyecto'] ?>  
-                                    
                                 </td>
 
                                 <td rowspan="2" class="col-sm-2">
                                   Fecha de Inicio
-                              
                                 </td>
                                                         
-                                <td class="col-sm-1" rowspan="2" ><?php echo $proyect['fecha_inicio'] ?></td>
+                                <td class="col-sm-1" rowspan="2" ><?php echo $proyect['fecha_inicio_planificado'] ?></td>
                                                  
                                 <td class="col-sm-2" rowspan="2" >
-                                   Fecha de Cierre
+                                   Fecha de Inicio
                                  
                                 </td>                            
-                                <td class="col-sm-1" rowspan="2" ><?php echo $proyect['fecha_inicio'] ?></td>
+                                <td class="col-sm-1" rowspan="2" ><?php echo $proyect['fecha_inicio_real'] ?></td>
                          
                           </tr>    
 
@@ -170,7 +160,7 @@
                                 </td>                          
                          
                                 <td class="col-sm-4">                                                                                    
-                                                D                                      
+                                     <?php echo $proyect['jefe_proyecto1'] ?>                                  
                                 </td> 
 
 
@@ -183,24 +173,25 @@
                                 </td>
                              
                                 <td class="col-sm-4"  >                                                        
-                                        Campo no hay BD 
+                                     <?php echo $proyect['jefe_proyecto2'] ?>                                  
+                                    
                                 </td> 
 
                                 <td class="col-sm-2" rowspan="2" >                                                        
-                                      Fecha de Inicio 
+                                      Fecha de Cierre 
                                 </td>                           
                       
-                                <td class="col-sm-1" rowspan="2" >
-                                  no hay campo tabla proyecto
-                                </td>                           
+                                <td class="col-sm-1" rowspan="2" ><?php echo $proyect['fecha_fin_planificado'] ?></td> 
+                                                
                             
                                 <td class="col-sm-2" rowspan="2" >                                                                          
                                       Fecha de Cierre 
                                 </td>                             
                             
-                                <td class="col-sm-1" rowspan="2" >
+                            <!--     <td class="col-sm-1" rowspan="2" >
                                   no hay campo tabla proyecto
-                                </td>      
+                                </td>      -->
+                                <td class="col-sm-1" rowspan="2" ><?php echo $proyect['fecha_fin_real'] ?></td> 
                                                                   
                                               
                           </tr>
@@ -426,7 +417,7 @@
                                   <span>Adelanto %</span>  
                                 </td>
                                 <td class="col-sm-2">                                  
-                                  <span><?php echo $proyect['propuestaid'] ?></span>            
+                                  <span><?php echo $proyect['adelanto'] ?></span>            
                                 </td>                               
                             </tr>
 
@@ -450,8 +441,8 @@
                                 <td class="col-sm-2">
                                     <span>Tipo de Contrato</span>            
                                 </td>
-                                <td class="col-sm-2">  
-                                    <span>Otros</span> 
+                                <td class="col-sm-2">                                
+                                    <span><?php echo $proyect['tipo_contrato'] ?></span> 
                                 </td> 
                             </tr>
 
@@ -460,7 +451,7 @@
                                   <p><span>Comentarios</span></p>                                   
                                 </td>
                                 <td class="col-sm-6" colspan="3"> 
-                                  <p><span>No hay campo en la BD</span></p>                                   
+                                  <p><span><?php echo $proyect['comentarios'] ?></span></p>                                   
                                 </td>
                                 <td class="col-sm-2">                               
                                     <span>Plazo de Pagos de Facturas %</span>        
@@ -491,7 +482,7 @@
                                   <span> Observaciones </span>            
                               </td>
                               <td colspan="6" class="col-sm-10"> 
-                                <span>No hay campo en la BD.</span>
+                                <span><?php echo $proyect['observacion'] ?></span>
                               </td>                              
                             </tr>
 
@@ -519,7 +510,7 @@
     $mpdf->SetFooter(' {DATE j/m/Y}|Página {PAGENO}|Sistema Anddes');
     ob_end_clean();
     $mpdf -> WriteHTML($html);
-    $mpdf->Output('TRANSMITTAL -'. $this->transmitta['transmittaid'].'.pdf','D');
+    $mpdf->Output('Hoja de Resumen  -'. $this->transmitta['transmittaid'].'.pdf','D');
  
 
 ?>

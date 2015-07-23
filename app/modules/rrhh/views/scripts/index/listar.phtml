@@ -1,67 +1,58 @@
+<button type="button" id="a" value="A" class="btn btn-shadow btn-primary">A</button>
+<button type="button" id="b" value="B" class="btn btn-shadow btn-primary">B</button>
+<button type="button" id="c" value="C" class="btn btn-shadow btn-primary">C</button>
+<button type="button" id="d" value="D" class="btn btn-shadow btn-primary">D</button>
+<button type="button" id="e" value="E" class="btn btn-shadow btn-primary">E</button>
+<button type="button" id="f" value="F" class="btn btn-shadow btn-primary">F</button>
+<button type="button" id="g" value="G" class="btn btn-shadow btn-primary">G</button>
+<button type="button" id="h" value="H" class="btn btn-shadow btn-primary">H</button>
+<button type="button" id="i" value="I" class="btn btn-shadow btn-primary">I</button>
+<button type="button" id="j" value="J" class="btn btn-shadow btn-primary">J</button>
+<button type="button" id="k" value="K" class="btn btn-shadow btn-primary">K</button>
+<button type="button" id="l" value="L" class="btn btn-shadow btn-primary">L</button>
+<button type="button" id="m" value="M" class="btn btn-shadow btn-primary">M</button>
+<button type="button" id="n" value="N" class="btn btn-shadow btn-primary">N</button>
+<button type="button" id="o" value="O" class="btn btn-shadow btn-primary">O</button>
+<button type="button" id="p" value="P" class="btn btn-shadow btn-primary">P</button>          
+<button type="button" id="q" value="Q" class="btn btn-shadow btn-primary">Q</button>
+<button type="button" id="r" value="R" class="btn btn-shadow btn-primary">R</button>
+<button type="button" id="s" value="S" class="btn btn-shadow btn-primary">S</button>
+<button type="button" id="t" value="T" class="btn btn-shadow btn-primary">T</button>
+<button type="button" id="u" value="U" class="btn btn-shadow btn-primary">U</button>
+<button type="button" id="v" value="V" class="btn btn-shadow btn-primary">V</button>
+<button type="button" id="w" value="W" class="btn btn-shadow btn-primary">W</button>
+<button type="button" id="x" value="X" class="btn btn-shadow btn-primary">X</button>
+<button type="button" id="y" value="Y" class="btn btn-shadow btn-primary">Y</button>
+<button type="button" id="z" value="Z" class="btn btn-shadow btn-primary">Z</button>
 
-                  <button type="button" id="a" value="A" class="btn btn-shadow btn-primary">A</button>
-                  <button type="button" id="b" value="B" class="btn btn-shadow btn-primary">B</button>
-                  <button type="button" id="c" value="C" class="btn btn-shadow btn-primary">C</button>
-                  <button type="button" id="d" value="D" class="btn btn-shadow btn-primary">D</button>
-                  <button type="button" id="e" value="E" class="btn btn-shadow btn-primary">E</button>
-                  <button type="button" id="f" value="F" class="btn btn-shadow btn-primary">F</button>
-                  <button type="button" id="g" value="G" class="btn btn-shadow btn-primary">G</button>
-                  <button type="button" id="h" value="H" class="btn btn-shadow btn-primary">H</button>
-                  <button type="button" id="i" value="I" class="btn btn-shadow btn-primary">I</button>
-                  <button type="button" id="j" value="J" class="btn btn-shadow btn-primary">J</button>
-                  <button type="button" id="k" value="K" class="btn btn-shadow btn-primary">K</button>
-                  <button type="button" id="l" value="L" class="btn btn-shadow btn-primary">L</button>
-                  <button type="button" id="m" value="M" class="btn btn-shadow btn-primary">M</button>
-                  <button type="button" id="n" value="N" class="btn btn-shadow btn-primary">N</button>
-                  <button type="button" id="o" value="O" class="btn btn-shadow btn-primary">O</button>
-                  <button type="button" id="p" value="P" class="btn btn-shadow btn-primary">P</button>          
-                  <button type="button" id="q" value="Q" class="btn btn-shadow btn-primary">Q</button>
-                  <button type="button" id="r" value="R" class="btn btn-shadow btn-primary">R</button>
-                  <button type="button" id="s" value="S" class="btn btn-shadow btn-primary">S</button>
-                  <button type="button" id="t" value="T" class="btn btn-shadow btn-primary">T</button>
-                  <button type="button" id="u" value="U" class="btn btn-shadow btn-primary">U</button>
-                  <button type="button" id="v" value="V" class="btn btn-shadow btn-primary">V</button>
-                  <button type="button" id="w" value="W" class="btn btn-shadow btn-primary">W</button>
-                  <button type="button" id="x" value="X" class="btn btn-shadow btn-primary">X</button>
-                  <button type="button" id="y" value="Y" class="btn btn-shadow btn-primary">Y</button>
-                  <button type="button" id="z" value="Z" class="btn btn-shadow btn-primary">Z</button>
+<button type="button" id="nuevo" value="nuevo" class="btn btn-shadow btn-primary">NUEVO</button>
 
-  <div id="res">
-  <ul class="directory-list">
-
-              </ul>
-              <div class="directory-info-row">
-              <div class="row">
-
-              <?php foreach ($this->lista_personas as $personas) { ?>
-                
-              <div class="col-md-6 col-sm-6">
-                  <div class="panel">
-                      <div class="panel-body">
-                          <div class="media">
-                              <a class="pull-left" href="/rrhh/perfil/curriculum/dni/<?php echo $personas['dni'];?>">
+<div id="res">
+    <ul class="directory-list">
+    </ul>
+    <div class="directory-info-row">
+        <div class="row">
+            <?php foreach ($this->lista_personas as $personas) { ?>
+            <div class="col-md-6 col-sm-6">
+                <div class="panel">
+                    <div class="panel-body">
+                        <div class="media">
+                            <a class="pull-left" href="/rrhh/perfil/curriculum/dni/<?php echo $personas['dni'];?>">
                                   <img class="thumb media-object" src="/img/fotos-anddes/<?php echo $personas['dni'];?>.jpg" style="width : 50px ; height : 50px">
-                              </a>
-                              <div class="media-body">
-                              <h4><?php echo $personas['nombres']; echo " "; echo $personas['ape_paterno'];   ?><span class="text-muted small"> - UI Engineer</span></h4>
-                   
-
-                              </div>
-                          </div>
-                      </div>
-                  </div>
-              </div>
-              <?php }?>
-              
-
-              </div>
-              </div>
-              
-              </div>
-
+                            </a>
+                            <div class="media-body">
+                                <h4><?php echo $personas['nombres']; echo " "; echo $personas['ape_paterno'];   ?><span class="text-muted small"> - UI Engineer</span></h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <?php }?>
+        </div>
+    </div>
+</div>
 <div id="resultado"></div>
 <div id="mensaje"></div>
-
 <script>
   //$(function(){
     $("#a").click(function(){
@@ -392,5 +383,24 @@
               }
           }); 
     });
+    $("#nuevo").click(function(){
+      url='/rrhh/perfil/nuevo/';
+        
+        //alert(url);
+        $("#resultado").load(url);
+         $("#res").hide();
+      /*
+      var inicial=$(this).val();
+            $.ajax({
+               type: 'POST',
+               url: '/rrhh/perfil/nuevo/',
+               data: $(this).serialize(),
+               success: function(data) {                  
+                 $("#mensaje").html(data);
+                 $("#res").hide();
+              }
+          }); */
+    });
+
 
 </script>

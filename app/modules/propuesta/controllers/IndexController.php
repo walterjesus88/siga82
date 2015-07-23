@@ -4,7 +4,7 @@ class Propuesta_IndexController extends Zend_Controller_Action {
 
     public function init() {
     	$options = array(
-            'layout' => 'layout',
+            'layout' => 'inicio',
         );
         Zend_Layout::startMvc($options);
 
