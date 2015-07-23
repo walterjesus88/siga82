@@ -1,6 +1,3 @@
-<script src="/js/alertify1.4.1.min.js"></script>
-<link rel="stylesheet" href="/css/alertify1.4.1/alertify.min.css" />
-<link rel="stylesheet" href="/css/alertify1.4.1/alertify.rtl.css" id="toggleCSS" />
 
   
 <section class="panel">
@@ -31,39 +28,48 @@
           foreach ($this->proyectdetail as $proyect) {
             # code...
         
-          ?>
+          ?>       
+
                         <aside class="mid-side">
+
+
+
+
                             <div class="chat-room-head">
                                 <center><h3>Informacion</h3></center>
-                                <a  class="col-sm-2" class="btn btn-success"  id="generarresumen" href="#" >Generar</a>
-                        
-
-                            <?php $select=$this->select_revision; 
-                               //print_r($select);
-                              $theVariable = array('A' => 'A','B' => 'B','C' => 'C','D' => 'D','E' => 'E','F' => 'F','G' => 'G','H' => 'H',
-                                                   'I' => 'I','J' => 'J','K' => 'K','L' => 'L','M' => 'M','N' => 'N','O' => 'O','P' => 'P',
-                                                   'Q' => 'Q','R' => 'R','S' => 'S','U' => 'U','V' => 'V','W' => 'W','X' => 'X','Y' => 'Y',
-                                                   'Z' => 'Z');
-                              foreach ($select as $key) {                          
-                                  $option=$key['revision_hojaresumen'];
-                                  unset($theVariable[$option]);                                                   
-                              }
-                             
-                            ?>
-                                <select class="col-sm-2"  id="revision_hoja" class="form-control ">
-                       
-                                  <?php $j=0;
-                                  foreach ($theVariable as $key) { ?>
-                                  <option value="<?php echo $key ?>"><?php echo $key; ?></option>
-                     
-                                  <?php  $j++;  } ?>
-                                </select>
-
                             </div>
-                            <div>
-                            
+
+                              <div class="col-lg-4">
+                                <div class="col-lg-4">
+                                  <a   class="btn btn-info"  role="button" class="col-sm-2"  id="generarresumen" href="#" >Generar</a>
+                                </div>
+                                <div class="col-lg-8">
+                                  <?php $select=$this->select_revision; 
+                                  $theVariable = array('A' => 'A','B' => 'B','C' => 'C','D' => 'D','E' => 'E','F' => 'F','G' => 'G','H' => 'H',
+                                                       'I' => 'I','J' => 'J','K' => 'K','L' => 'L','M' => 'M','N' => 'N','O' => 'O','P' => 'P',
+                                                       'Q' => 'Q','R' => 'R','S' => 'S','U' => 'U','V' => 'V','W' => 'W','X' => 'X','Y' => 'Y',
+                                                       'Z' => 'Z');
+                                  foreach ($select as $key) {                          
+                                      $option=$key['revision_hojaresumen'];
+                                      unset($theVariable[$option]);                                                   
+                                  }
+                                 
+                                  ?>
+                                  <select  id="revision_hoja" class="col-sm-2 form-control">
+                           
+                                      <?php $j=0;
+                                      foreach ($theVariable as $key) { ?>
+                                      <option value="<?php echo $key ?>"><?php echo $key; ?></option>
+                         
+                                      <?php  $j++;  } ?>
+                                  </select>   
+
+                                </div>
+
+                                                  
+                              </div>
+
                        
-                            </div>
                                 <div class="group-rom panel-body room-box">
                                     <div class="col-sm-2">
                                       <ul class="chat-list">
@@ -92,6 +98,8 @@
                                       </ul>                             
                                     </div>                      
                                 </div>
+
+                        
 
                                 <div class="group-rom panel-body room-box">
                                     <div class="col-sm-2 " >
@@ -166,7 +174,7 @@
                                         <ul>
                                           <li class="">
                                             <!-- <span class="gerente_proyecto"><?php //echo $proyect['gerente_proyecto'] ?></span>  -->
-                                            <select  class="gerente_proyecto" name="gerente_proyecto" class="form-control">
+                                            <select  name="gerente_proyecto" class="gerente_proyecto form-control">
                                                 <option  value="">Seleccione..</option>
                                                 <?php
                                                 foreach ( $this->ucat  as $gerente){
@@ -178,7 +186,7 @@
                                             
                                           </li>
                                           <li class="">                                                                                   
-                                              <select  class="jefe_proyecto1" name="jefe_proyecto1" class="form-control">
+                                              <select name="jefe_proyecto1" class="jefe_proyecto1 form-control">
                                                 <option  value="">Seleccione..</option>
                                                 <?php
                                                 foreach ( $this->ucat  as $gerente){
@@ -222,7 +230,7 @@
                                     <div class="col-sm-4">
                                         <ul >
                                           <li class="">                                                                         
-                                            <select  class="jefe_proyecto2" name="jefe_proyecto2" class="form-control">
+                                            <select name="jefe_proyecto2" class="jefe_proyecto2 form-control">
                                                 <option  value="">Seleccione..</option>
                                                 <?php
                                                 foreach ( $this->ucat  as $gerente){
@@ -234,7 +242,7 @@
                                           </li>
                                           <li class="">                                                                                  
                                               <?php //echo $proyect['control_documentario'] ?> 
-                                            <select  class="control_documentario" name="control_documentario" class="form-control">
+                                            <select  name="control_documentario" class="control_documentario form-control">
                                                 <option  value="">Seleccione..</option>
                                                 <?php
                                                 foreach ( $this->ucat  as $gerente){
@@ -1539,16 +1547,16 @@
       //svar observacionx=$("#observacion_").val();
       var observacion=$("#observacion_").val();
 
-      alert(comentario);
+      //alert(comentario);
 
-      console.log(observacion);
+      //console.log(observacion);
 
       //if(observacion){ observacion=observacion; console.log("obser"); } else { observacion=observacionx; }
       url="/proyecto/index/generarresumen/codigo_prop_proy/<?php echo $this->codigo_prop_proy?>/proyectoid/<?php echo $this->proyectoid ?>/revision_hojaresumen/"+revi_hoja+"/revision/<?php echo $this->revision ?>/propuestaid/<?php echo $this->propuestaid?>/contact/"+contact
         +"/gerente_proyecto/"+gerente_proyecto+"/jefe_proyecto1/"+jefe_proyecto1+"/jefe_proyecto2/"+jefe_proyecto2+"/control_documentario/"+control_documentario+"/fecha_inicio_planificado/"+fecha_inicio_planificado+"/fecha_fin_planificado/"+fecha_fin_planificado+
           "/fecha_inicio_real/"+fecha_inicio_real+"/fecha_fin_real/"+fecha_fin_real+"/adelanto/"+adelanto+"/comentario/"+comentario+
           "/tipo_contrato/"+tipo_contrato+"/observacion/"+observacion;
-      alert(url);             
+      //alert(url);             
 
       $.ajax({
         type: "POST",
@@ -1560,7 +1568,9 @@
           alert("error petición ajax load");
         },
           success: function(data)
-        {                                
+        {   
+          window.location.reload();
+
         }
       });
 

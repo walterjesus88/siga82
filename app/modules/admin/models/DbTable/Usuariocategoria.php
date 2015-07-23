@@ -3,6 +3,21 @@ class Admin_Model_DbTable_Usuariocategoria extends Zend_Db_Table_Abstract
 {
     protected $_name = 'usuario_categoria';
     protected $_primary = array('uid','dni','categoriaid','areaid','cargo');
+
+    public function _getUsuariocategoriaAllxUid()
+    {
+        try{
+            $sql=$this->_db->query("
+                select * from usuario_categoria order by uid ASC
+            ");
+            $row=$sql->fetchAll();
+            return $row;           
+            }  
+            catch (Exception $ex){
+            print $ex->getMessage();
+        }
+    }
+
     public function _getUsuariocategoriaAll(){
         try{
             $f = $this->fetchAll();

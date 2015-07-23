@@ -2143,9 +2143,7 @@ public function cargartarea2Action() {
           </script>
         <?php }
 
-      }
-
-   
+      }  
       
 
     }
@@ -2202,9 +2200,9 @@ public function cargartarea2Action() {
 
       $usercat= new Admin_Model_DbTable_Usuariocategoria();
      
-      $order = array('uid ASC');
+   
 
-      $ucat=$usercat->_getFilter($where=null,$attrib=null,$order);
+      $ucat=$usercat->_getUsuariocategoriaAllxUid();
       $this->view->ucat=$ucat;
 
 
@@ -2423,13 +2421,14 @@ public function cargartarea2Action() {
     $wherehistorial = array('codigo_prop_proy' =>$codigo_prop_proy,'proyectoid' =>$proyectoid,'propuestaid' =>$propuestaid, 'revision_propuesta' =>$revision);
     $traerhistorial=$hoja->_buscarProyectodetalles($proyectoid,$codigo_prop_proy,$propuestaid,$revision);
 
-    print_r($traerhistorial);
+    //print_r($traerhistorial);
 
     $this->view->historialresumen=$traerhistorial;
 
     $usercat= new Admin_Model_DbTable_Usuariocategoria();
-    $order = array('uid ASC');
-    $ucat=$usercat->_getFilter($where=null,$attrib=null,$order);
+    //$order = array('uid ASC');
+    //$ucat=$usercat->_getFilter($where=null,$attrib=null,$order);
+    $ucat=$usercat->_getUsuariocategoriaAllxUid();
     $this->view->ucat=$ucat;
 
  
@@ -2484,15 +2483,11 @@ public function cargartarea2Action() {
     );
 
     // 'ruc' => $ruc,
-    $wherecontacto = array('contactoid' => $contactoid,'direccion' => $direccion,'nombre_comercial' => $nombre_comercial,'correo' => $correo,
+    $str = array('contactoid' => $contactoid,);
+    $wherecontacto = array('direccion' => $direccion,'correo' => $correo,
      'numero1' => $numero1,'numero2' => $numero2,'anexo' => $anexo,'telefono' => $telefono,'puesto_trabajo' => $puesto_trabajo, );
 
-    print_r($pk);
-    //echo "---";
-    //print_r($wherehoja);
-   
-    ///print_r($wherecontacto);
-    //echo "---";
+ // 'nombre_comercial' => $nombre_comercial,
     
     $uphoja= new Admin_Model_DbTable_Hojaresumen(); 
     $uhoja=$uphoja->_update($wherehoja,$pk);
@@ -2502,6 +2497,8 @@ public function cargartarea2Action() {
 
     if($uhoja)
     { 
+      $updcontac=new Admin_Model_DbTable_Contacto();
+      $ucontact=$updcontac->_update($wherecontacto,$str);
     ?>
       <script>
         alert("aaaa--aaa");

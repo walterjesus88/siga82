@@ -119,14 +119,20 @@ class Admin_Model_DbTable_Contacto extends Zend_Db_Table_Abstract
         }
     }
 
-     public function _update($data,$str=''){
+     public function _update($data,$str){
         try{
             if ($str=="") return false;
-            return $this->update($data,$str);
+            //print_r($str);
+
+            $where = "contactoid = '".$str['contactoid']."' ";
+
+            return $this->update($data,$where);
         }catch (Exception $ex){
-            print "Error: Actualizando un registro de Propuesta".$ex->getMessage();
+            print "Error: Actualizando un contacto".$ex->getMessage();
         }
     }
+
+
 
    
 
