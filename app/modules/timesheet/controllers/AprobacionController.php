@@ -489,20 +489,151 @@ class Timesheet_AprobacionController extends Zend_Controller_Action {
         try {
             $uid = $this->sesion->uid;
             $dni = $this->sesion->dni;  
-            $tabla_usuariocategoria= new Admin_Model_DbTable_Usuariocategoria();
-            $codigosaprobaciones_empleado = $tabla_usuariocategoria->_getBuscarCodigoAprobacionesxEmpleado($uid,$dni);
-            
-            $lista_empleados_aprobar=array();
-            foreach ($codigosaprobaciones_empleado as $codigoaprobaciones) {
-                $tabla_aprobacion = new Admin_Model_DbTable_Aprobacion();
-                $codigos_paraaprobar=$tabla_aprobacion-> _getCodigoAprobacionxAprobadorfiltro2($codigoaprobaciones['aprobacion'],'A');
-                foreach ($codigos_paraaprobar as $codigo_aprobar) {
-                    $tabla_historial_aprobaciones= new Admin_Model_DbTable_Historialaprobaciones();       
-                    $listar_historial_aprobaciones = $tabla_historial_aprobaciones -> _getBuscarEmpleadoxHojatiempohistorico('FILTRO2',$codigo_aprobar['idaprobacion']);
-                    $lista_empleados_aprobar[]=$listar_historial_aprobaciones;
+            $tabla_planificacion= new Admin_Model_DbTable_Planificacion();
+
+            $fecha = date("Y-m-d");
+            $semanaid=date('W', strtotime($fecha)); 
+            $hojasno_enviadas=array();
+            $hojas_enviadas=array();
+            $hojas_aprobadas=array();
+            $hojas_rechazadas=array();
+            $hojas_pendientes=array();
+            $hojas_nollenadas=array();
+
+            for ($i=23;$i<$semanaid;$i++)
+            {
+                $planificacion = $tabla_planificacion->_getProyectosClientesxSemana($i,$uid,$dni);
+                $total=0;
+                $aprobadosgerente=0;
+                $noenviados=0;
+                $enviados=0;
+                $rechazados=0;
+                if ($planificacion) {
+                  //  print_r($planificacion);
+                    foreach ($planificacion as $proyectos_planificados) {
+                        if ($proyectos_planificados['estado']=='AGP')
+                        {
+                            $aprobadosgerente++;
+                        }
+
+                        if ($proyectos_planificados['estado']=='')
+                        {
+                            $noenviados++;
+                        }
+
+                        if ($proyectos_planificados['estado']=='E')
+                        {
+                           $enviados++;
+                        }
+
+                        if ($proyectos_planificados['estado']=='R' or $proyectos_planificados['estado']=='RGP')
+                        {
+                           $rechazados++;
+                        }
+                        $total++;
+                    }
+                }
+                else
+                {
+                    
+                    $hojas_nollenadas[]=$i;
+                }
+
+                if ($aprobadosgerente!=0)
+                {             
+                    if ($total==$aprobadosgerente)
+                    {
+                        $hojas_aprobadas[]=$i;  
+
+                    }
+                    if ($aprobadosgerente<$total)
+                    {
+                        $hojas_pendientes[]=$i;  
+                    }
+                }
+
+                if ($noenviados!=0)
+                {
+                      if ($total==$noenviados)
+                    {
+                        $hojasno_enviadas[]=$i;  
+                    } 
+                }
+
+                if ($enviados!=0)
+                {
+                    if ($total==$enviados)
+                    {
+                        $hojas_enviadas[]=$i;  
+
+                    }
+                }
+
+                if ($rechazados!=0)
+                {
+                     if ($total==$rechazados)
+                    {
+                        $hojas_rechazadas[]=$i;  
+
+                    }
                 }
             }
-            $this->view->lista_empleados_aprobar= $lista_empleados_aprobar;   
+            
+            echo"aprobados: "; print_r($hojas_aprobadas);
+            echo "<br>";
+            echo"enviados: ";print_r($hojas_enviadas);
+            echo "<br>";
+            echo"no enviadas: ";print_r($hojasno_enviadas);
+            echo "<br>";
+            echo"pendientes: ";print_r($hojas_pendientes);
+            echo "<br>";
+            echo"rechazadas: ";print_r($hojas_rechazadas);
+            echo "<br>";
+            echo"no llenadas: ";print_r($hojas_nollenadas);
+            $aprobados=array();
+            $resumen_semana = new Admin_Model_DbTable_Sumahorasemana();
+            foreach ($hojas_aprobadas as $listarsemana) {
+                $listar_aprobadas = $resumen_semana->_getHTAprobadasxPersonaxSemana($uid,$dni,$listarsemana);
+                $aprobados[]= $listar_aprobadas; 
+                
+            }
+            $hojasenviados=array();
+            foreach ($hojas_enviadas as $listarsemana2) {
+                $listar_enviadas = $resumen_semana->_getHTEnviadasxPersonaxSemana($uid,$dni,$listarsemana2);
+                $hojasenviados[]= $listar_enviadas;   
+            }
+            $hojasnoenviados=array();
+            foreach ($hojasno_enviadas as $listarsemana3) {
+                $listar_noenviadas = $resumen_semana->_getHTNoEnviadasxPersonaxSemana($uid,$dni,$listarsemana3);
+                $hojasnoenviados[]= $listar_noenviadas;   
+            }
+            $hojaspendientes=array();
+            foreach ($hojas_pendientes as $listarsemana4) {
+                $listar_pendientes = $resumen_semana->_getHTPendientexPersonaxSemana($uid,$dni,$listarsemana4);
+                $hojaspendientes[]= $listar_pendientes;   
+            }
+            $hojasrechazados=array();
+            foreach ($hojas_rechazadas as $listarsemana5) {
+                $listar_rechazadas = $resumen_semana->_getHTRechazadaxPersonaxSemana($uid,$dni,$listarsemana5);
+                $hojasrechazados[]= $listar_rechazadas;   
+            }
+            $hojasnollenados=array();
+            foreach ($hojas_nollenadas as $listarsemana6) {
+                $listar_nollenadas = $resumen_semana->_getHTNollenadaxPersonaxSemana($uid,$dni,$listarsemana6);
+                $hojasnollenados[]= $listar_nollenadas;   
+            }
+            //print_r($aprobados);
+            $resultadomerge=array_merge($aprobados,$hojasenviados,$hojaspendientes,$hojasnoenviados,$hojasrechazados,$hojasnollenados);
+            $this->view->listar_aprobadas= $aprobados;   
+            $this->view->listar_enviadas= $hojasenviados;  
+            $this->view->listar_noenviadas= $hojasnoenviados;  
+            $this->view->listar_pendientes= $hojaspendientes;  
+            $this->view->listar_rechazadas= $hojasrechazados;  
+            $this->view->listar_nollenadas= $hojasnollenados;  
+            $this->view->resultadomerge= $resultadomerge;  
+
+            //print_r($resultadomerge);
+
         } catch (Exception $e) {
             print "Error: ".$e->getMessage();
         } 
