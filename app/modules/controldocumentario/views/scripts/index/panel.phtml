@@ -2,12 +2,6 @@
 
 	<header>
 		<h2>Panel de Control</h2>
-		<div class="pull-right">
-			<button type="button" class="btn btn-success">Activo</button>
-			<button type="button" class="btn btn-warning">Cerrado</button>
-	    <button type="button" class="btn btn-info">Cancelado</button>
-	    <button type="button" class="btn btn-danger">Paralizado</button>
-		</div>
   </header>
 
 	<div class="col-md-6">
@@ -76,16 +70,16 @@
 							{{integrante.nombre}}
 						</td>
 						<td>
-							{{integrante.en_proceso}}
+							{{integrante.A}}
 						</td>
 						<td>
-							{{integrante.stand_by}}
+							{{integrante.P}}
 						</td>
 						<td>
-							{{integrante.cancelado}}
+							{{integrante.CA}}
 						</td>
 						<td>
-							{{integrante.cerrado}}
+							{{integrante.C}}
 						</td>
 					</tr>
 				</tbody>
@@ -111,7 +105,13 @@
 	</div>
 
 	<div class="col-md-6">
-
+		<div class="panel">
+			<h1 class="panel-heading">Carga Laboral Control Documentario (En Proceso)</h1>
+			<div class="panel-body">
+				<canvas id="bar" class="chart chart-bar" data="CD.datos" labels="CD.labels"
+					series="CD.series" options="CD.options"></canvas>
+			</div>
+		</div>
 	</div>
 
 	<nav class="col-md-8 panel">

@@ -23,7 +23,8 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
                      ->headLink()->appendStylesheet('/css/style.css')
                      ->headLink()->appendStylesheet('/css/style-responsive.css')
                      ->headLink()->appendStylesheet('/css/perfect-scrollbar.css')
-                     ->headLink()->appendStylesheet('/css/scrollTable.css');
+                     ->headLink()->appendStylesheet('/css/scrollTable.css')
+                     ->headLink()->appendStylesheet('/css/angular-chart.css');
 
             $view   ->headScript()->appendFile('/js/jquery.js')
                         ->headScript()->appendFile('/js/jquery-ui-1.9.2.custom.min.js')
