@@ -1,0 +1,72 @@
+<div class="panel" ng-app>
+  <header>
+    <h2>Ubicación Carpetas de Proyectos</h2>
+  </header>
+  <div class="col-md-6">
+    <table class="table table-bordered table-striped table-condensed">
+      <thead>
+        <th>
+          Integrantes
+        </th>
+        <th>
+          En Proceso
+        </th>
+        <th>
+          Stand By
+        </th>
+        <th>
+          Cancelado
+        </th>
+        <th>
+          Cerrado
+        </th>
+      </thead>
+      <tbody>
+        <tr ng-repeat="carpeta in CD.carpetas track by $index">
+          <td>
+            {{carpeta.nombre}}
+          </td>
+          <td>
+            {{carpeta.en_proceso}}
+          </td>
+          <td>
+            {{carpeta.stand_by}}
+          </td>
+          <td>
+            {{carpeta.cancelado}}
+          </td>
+          <td>
+            {{carpeta.cerrado}}
+          </td>
+        </tr>
+      </tbody>
+      <tfoot>
+        <td>
+          Sub Total
+        </td>
+        <td>
+          {{CD.cantidad_carpetas.en_proceso}}
+        </td>
+        <td>
+          {{CD.cantidad_carpetas.stand_by}}
+        </td>
+        <td>
+          {{CD.cantidad_carpetas.cancelado}}
+        </td>
+        <td>
+          {{CD.cantidad_carpetas.cerrado}}
+        </td>
+      </tfoot>
+    </table>
+  </div>
+  <div class="col-md-6">
+
+  </div>
+  <footer class="col-md-12 panel">
+    <button type="button" class="btn btn-default">Agregar</button>
+    <button type="button" class="btn btn-default">Editar</button>
+    <button type="button" class="btn btn-default">Guardar</button>
+    <button type="button" class="btn btn-default">Eliminar</button>
+    <button type="button" class="btn btn-default">Imprimir</button>
+  </footer>
+</div>

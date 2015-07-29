@@ -1,0 +1,42 @@
+<div class="">
+  <nav class="panel-heading tab-bg-dark-navy-blue">
+    <ul class="nav nav-tabs">
+      <li class="active"><a href="#">EDT</a></li>
+      <li><a href="#">Técnicos</a></li>
+      <li><a href="#">Gestión</a></li>
+      <li><a href="#">Comunicación</a></li>
+      <li><a href="#">Búsqueda</a></li>
+      <li><a href="#">Filtro</a></li>
+    </ul>
+  </nav>
+  <div class="">
+    <table class="table table-bordered">
+      <thead>
+        <th>
+          N°
+        </th>
+        <th>
+          EDT
+        </th>
+      </thead>
+      <tbody>
+        <tr ng-repeat="edt in CD.edt track by $index">
+          <td>
+            {{edt.codigo}}
+          </td>
+          <td>
+            {{edt.nombre}}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <footer class="col-md-12 panel">
+    <button type="button" class="btn btn-default">Imprimir</button>
+    <button type="button" class="btn btn-default">Editar</button>
+    <button type="button" class="btn btn-default">Agregar</button>
+    <button type="button" class="btn btn-default">Guardar</button>
+    <button type="button" class="btn btn-default">Cancelar</button>
+    <button type="button" class="btn btn-default">Eliminar</button>
+  </footer>
+</div>
