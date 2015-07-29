@@ -5,13 +5,16 @@
 </section>
 <div class="inbox-body">
   <div id="uno">
-    <table class="table table-inbox table-hover" id="myTable" >
+    
+
+        <table class="table table-hover p-table datatable-order-search">
+
       <thead>
         <tr>  
           <th ><center># </center></th>
           <th >Hoja Tiempo</th>
-          <th >Nombre</th>
           <th >Semana</th>
+          <th >Estado</th>
           <th >Facturable</th>
           <th >No Facturable</th>
           <th >Administrativa</th>
@@ -21,23 +24,37 @@
       <tbody>
         <?php
           $c=1;     
-            foreach ($this->lista_empleados_aprobar as $equipo_area){ 
-              foreach ($equipo_area as $valorsuma){ 
+            foreach ($this->resultadomerge as $equipo_area){ 
+              foreach ($equipo_area  as $valorsuma){ 
+                
                 ?>
-                <tr name="oculus" id="xx" class="unread">
-                    <td class="view-message  text-right"><center><?php echo $c ?></center></td>                  
-                    <td>   
-                      <button id="detalletime_<?php echo $c?>" href="#modalsemana" class="btn btn-success" data-toggle="modal"  uid=<?php echo $valorsuma['uid']?> dni=<?php echo $valorsuma['dni']?> semanaid=<?php echo $valorsuma['semanaid']?>  >
+                <tr >
+                    <td ><center><?php echo $c ?></center></td>                  
+                    <td>
+
+                      <?php if ($valorsuma['estado_hojatiempo']=='A') { 
+                          $color='success';
+                        }
+
+                        if ($valorsuma['estado_hojatiempo']=='O') { 
+                          $color='danger';
+                        }
+
+                        if ($valorsuma['estado_hojatiempo']=='E') { 
+                          $color='warning';
+                        }
+
+
+                        ?>
+
+                      
+                      <button id="detalletime_<?php echo $c?>" href="#modalsemana" class="btn btn-<?php echo $color?>" data-toggle="modal"  uid=<?php echo $valorsuma['uid']?> dni=<?php echo $valorsuma['dni']?> semanaid=<?php echo $valorsuma['semanaid']?>  >
                       ver detalle
                       </button>                                      
+
                     </td>
-                    <td class="view-message "><?php //echo $valorsuma['dni']
-                      $equipo = explode(".", $valorsuma['uid']);
-                      echo (ucwords($equipo[0])); echo " ";
-                      echo (ucwords($equipo[1])); 
-                    ?></td>
-                   
                     <td class="view-message "><?php echo $valorsuma['semanaid']?></td>                               
+                    <td class="view-message "><?php echo $valorsuma['estado_detalle']?></td>                               
                     <td class="view-message "><?php echo $valorsuma['billable']?></td>
                     <td class="view-message "><?php echo $valorsuma['nonbillable']?></td>
                     <td class="view-message "><?php echo $valorsuma['adm']?></td>
@@ -57,7 +74,8 @@
                    <?php $c++;
      
               }
-            }
+           
+         }
          ?>
       </tbody>
     </table>
@@ -81,3 +99,21 @@
   </div>
 </div>
 <div id="modali"></div>
+
+<script type="text/javascript">
+  $(document).ready(function() {
+    $(function(){
+    $('select').customSelect();
+    });
+  });
+</script>
+
+<script>
+  $(document).ready(function() {
+    $('.datatable-order-search').dataTable( {
+        "paging":   false,
+        "ordering": true,
+        "info":     true
+    } );
+  } );
+</script>
