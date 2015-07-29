@@ -68,6 +68,8 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
                         ->headScript()->appendFile('/js/adt/src/plugins/fixedheader/angular-datatables.fixedheader.js')
                         ->headScript()->appendFile('/js/modulos-angular.js')
                         ->headScript()->appendFile('/js/modulo-control.js')
+                        ->headScript()->appendFile('/js/modulo-controlproyecto.js')
+
                         //end: librerias para el funcionamiento de angular datatables
                         ->headScript()->appendFile('/js/jquery.dcjqaccordion.2.7.js')
                         ->headScript()->appendFile('/js/jquery.scrollTo.min.js')

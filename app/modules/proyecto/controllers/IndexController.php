@@ -229,31 +229,6 @@ class Proyecto_IndexController extends Zend_Controller_Action {
         $uid= trim($this->_getParam("uid"));
         $areaid= trim($this->_getParam("areaid"));
         $rate= $this->_getParam("rate");
-        //$ratep= $this->_getParam("rate_proyecto");
-        
-        // $nom= $this->_getParam("nombre");
-        
-        // echo $nom;
-         echo $rate;
-         echo "</br>";
-         echo $proyectoid;
-         echo "</br>";
-
-         echo $codigo_prop_proy;
-         echo "</br>";
-
-         echo $uid;
-         echo "</br>";
-
-         echo $dni;
-         echo "</br>";
-
-         echo $areaid;
-         echo "</br>";
-
-        // echo $areaid;
-        // exit();
-
          
         $pk  =   array(                        
                         'codigo_prop_proy'   =>$codigo_prop_proy,
@@ -267,10 +242,7 @@ class Proyecto_IndexController extends Zend_Controller_Action {
                         'rate_proyecto' =>  $rate
                      );
 
-        
-        print_r($pk);
-        print_r($data);
-        //exit();
+       
         $update_equipo=new Admin_Model_DbTable_Equipo();
         //$update_equipo->_update($data,$pk);
         
@@ -1336,6 +1308,14 @@ public function verAction() {
 
   
 }   
+
+public function verjsonAction() {
+
+    $areacat=new Admin_Model_DbTable_Area();
+    $arcat=$areacat->_getAreaxProyecto();    
+    $this->_helper->json->sendJson($arcat);  
+}
+
 
   public function subirareacategoriaAction() {
     /*$proyectoid= $this->_getParam("proyectoid");
