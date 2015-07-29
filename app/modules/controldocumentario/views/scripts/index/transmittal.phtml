@@ -1,4 +1,4 @@
-<div ng-app>
+<div>
   <div class="panel">
     <div class="col-md-8">
       <div class="panel">
@@ -51,17 +51,37 @@
     </aside>
   </div>
   <div class="col-md-12">
+
     <nav class="panel-heading tab-bg-dark-navy-blue">
       <ul class="nav nav-tabs">
-        <li class="active"><a href="#">Configurar TR</a></li>
-        <li><a href="#">Anddes</a></li>
-        <li><a href="#">Cliente</a></li>
-        <li><a href="#">Contratista</a></li>
+        <li ng-class="CD.configurarActivo"><a href="" ng-click="CD.cambiarPanel('configurar')">Configurar TR</a></li>
+        <li ng-class="CD.anddesActivo"><a href="" ng-click="CD.cambiarPanel('anddes')">Anddes</a></li>
+        <li ng-class="CD.clienteActivo"><a href="" ng-click="CD.cambiarPanel('cliente')">Cliente</a></li>
+        <li ng-class="CD.contratistaActivo"><a href="" ng-click="CD.cambiarPanel('contratista')">Contratista</a></li>
       </ul>
     </nav>
-  </div>
 
-  <div ng-view>
+    <div class="panel-body">
+      <div class="tab-content">
+
+        <div ng-include="'/controldocumentario/index/configurartr'" id="edt" class="tab-pane" ng-class="CD.configurarActivo">
+
+        </div>
+
+        <div ng-include="'/controldocumentario/index/anddes'" id="anddes" class="tab-pane" ng-class="CD.anddesActivo">
+
+        </div>
+
+        <div ng-include="'/controldocumentario/index/cliente'" id="cliente" class="tab-pane" ng-class="CD.clienteActivo">
+
+        </div>
+
+        <div ng-include="'/controldocumentario/index/contratista'" id="contratista" class="tab-pane" ng-class="CD.contratistaActivo">
+
+        </div>
+
+      </div>
+    </div>
 
   </div>
 </div>

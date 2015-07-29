@@ -48,7 +48,7 @@ class ControlDocumentario_IndexController extends Zend_Controller_Action {
       $this->_helper->layout()->disableLayout();
     }
 
-    public function proyectoingenieriaAction()
+    public function transmittalAction()
     {
       $this->_helper->layout()->disableLayout();
     }
@@ -59,6 +59,16 @@ class ControlDocumentario_IndexController extends Zend_Controller_Action {
     }
 
     public function anddesAction()
+    {
+      $this->_helper->layout()->disableLayout();
+    }
+
+    public function clienteAction()
+    {
+      $this->_helper->layout()->disableLayout();
+    }
+
+    public function contratistaAction()
     {
       $this->_helper->layout()->disableLayout();
     }
@@ -81,6 +91,27 @@ class ControlDocumentario_IndexController extends Zend_Controller_Action {
             }
           }
         }
+        $respuesta[$i] = $data;
+        $i++;
+      }
+      $this->_helper->json->sendJson($respuesta);
+    }
+
+    public function proyectosjsonAction()
+    {
+      $proyecto = new Admin_Model_DbTable_Proyecto();
+      $proyectos = $proyecto->_getProyectoAll();
+      $respuesta = [];
+      $data = [];
+      $i = 0;
+      foreach ($proyectos as $item) {
+        $data['codigo'] = $item['proyectoid'];
+        $data['cliente'] = $item['clienteid'];
+        $data['nombre'] = $item['nombre_proyecto'];
+        $data['gerente'] = $item['gerente_proyecto'];
+        $data['control_proyecto'] = $item['control_proyecto'];
+        $data['control_documentario'] = $item['control_documentario'];
+        $data['estado'] = $item['estado'];
         $respuesta[$i] = $data;
         $i++;
       }

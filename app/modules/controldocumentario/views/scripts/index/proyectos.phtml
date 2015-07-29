@@ -1,4 +1,4 @@
-<div class="panel" ng-app>
+<div class="panel">
   <header>
     <h2>Proyectos</h2>
     <div class="pull-right">
@@ -26,7 +26,10 @@
         GERENTE DEL PROYECTO
       </th>
       <th>
-        CD DEL PROYECTO
+        CONTROL DEL PROYECTO
+      </th>
+      <th>
+        CONTROL DOCUMENTARIO
       </th>
       <th>
         ESTADO
@@ -50,7 +53,10 @@
           {{proyecto.gerente}}
         </td>
         <td>
-          {{proyecto.cd_proyecto}}
+          {{proyecto.control_proyecto}}
+        </td>
+        <td>
+          {{proyecto.control_documentario}}
         </td>
         <td>
           {{proyecto.estado}}
@@ -59,7 +65,7 @@
           <ul>
             <li><a href="#">Información</a></li>
             <li><a href="#">Generar TR</a></li>
-            <li><a href="#">Generar RPT</a></li>
+            <li><a href="#/">Generar RPT</a></li>
           </ul>
         </td>
       </tr>

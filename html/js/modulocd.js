@@ -26,19 +26,29 @@ angular.module('moduloCd', ['ngRoute', 'chart.js'])
     controllerAs: "CD",
     templateUrl: "/controldocumentario/index/reporte"
   })
+  .when("/transmittal", {
+    controller: "TransmittalCtrl",
+    controllerAs: "CD",
+    templateUrl: "/controldocumentario/index/transmittal"
+  })
   .otherwise({
     redirectTo: '/'
   });
 }])
 .factory('httpFactory', ['$http', function($http) {
   var url = '/controldocumentario/index/';
+  //var proyecto_seleccionado = {};
+  //var datostransmittal = {};
 
   var publico = {
     getIntegrantes: function(){
       return $http.get(url + 'integrantes')
     },
     getProyectos: function() {
-      return $http.get(url + 'jsonproyectos');
+      return $http.get(url + 'proyectosjson');
+    },
+    getDatosTransmittal: function() {
+      return datostransmittal;
     }
   }
 
@@ -84,18 +94,27 @@ angular.module('moduloCd', ['ngRoute', 'chart.js'])
   })
   .error(function(res) {
     cd.integrantes = [];
-  });
+  })
 }])
 .controller('ProyectoCtrl', ['httpFactory', function(httpFactory) {
   var cd = this;
   cd.proyectos = [];
   httpFactory.getProyectos()
   .success(function(res) {
-    cd.proyectos = res;
+    res.forEach(function(item) {
+      proyecto = new Proyecto(item.codigo, item.cliente, item.nombre,
+        item.gerente, item.control_proyecto, item.control_documentario,
+        item.estado);
+      cd.proyectos.push(proyecto);
+    });
   })
   .error(function(res) {
     cd.proyectos = [];
-  });
+  })
+
+  cd.seleccionarProyecto = function(proyecto) {
+    httpFactory.proyecto_seleccionado = proyecto;
+  }
 }])
 .controller('AsignarCtrl', ['httpFactory', function(httpFactory) {
 
@@ -105,4 +124,56 @@ angular.module('moduloCd', ['ngRoute', 'chart.js'])
 }])
 .controller('ReporteCtrl', ['httpFactory', function(httpFactory) {
 
+}])
+.controller('TransmittalCtrl', ['httpFactory', function(httpFactory) {
+  var cd = this;
+
+  cd.configurarActivo = '';
+  cd.anddesActivo = 'active';
+  cd.clienteActivo = '';
+  cd.contratistaActivo = '';
+
+  cd.cambiarPanel = function(panel) {
+    if (panel == 'configurar') {
+      cd.configurarActivo = 'active';
+      cd.anddesActivo = '';
+      cd.clienteActivo = '';
+      cd.contratistaActivo = '';
+    } else if (panel == 'anddes') {
+      cd.configurarActivo = '';
+      cd.anddesActivo = 'active';
+      cd.clienteActivo = '';
+      cd.contratistaActivo = '';
+    } else if (panel == 'cliente') {
+      cd.configurarActivo = '';
+      cd.anddesActivo = '';
+      cd.clienteActivo = 'active';
+      cd.contratistaActivo = '';
+    } else if (panel == 'contratista') {
+      cd.configurarActivo = '';
+      cd.anddesActivo = '';
+      cd.clienteActivo = '';
+      cd.contratistaActivo = 'active';
+    }
+  }
+  //cd.transmittal = {};
+  //cd.transmittal = httpFactory.getDatosTransmittal();
 }]);
+
+
+
+
+function Proyecto(codigo, cliente, nombre, gerente, control_proyecto,
+  control_documentario, estado) {
+  this.codigo = codigo;
+  this.cliente = cliente;
+  this.nombre = nombre;
+  this.gerente = gerente;
+  this.control_proyecto = control_proyecto;
+  this.control_documentario = control_documentario;
+  this.estado = estado;
+}
+
+Proyecto.prototype.asignarCd = function(con_doc) {
+  this.control_documentario = con_doc;
+};
