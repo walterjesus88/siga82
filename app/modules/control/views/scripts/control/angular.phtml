@@ -1,0 +1,330 @@
+
+      <div ng-app="pruebaApp"  ng-controller="pruebaAppCtrl as alu" >
+         {{alu.algo }}
+
+        <div ng-repeat="alumno in alu.alumnos | orderBy:'nombre' ">
+            <div class="nombre">{{alumno.nombre}}-{{alumno.telefono}}</div>
+            <span class="curso">{{alumno.curso}}</span>       
+          </div>
+        <br/>
+
+        <br/>
+        <center><button ng-click="alu.ShowForm()" ng-hide="alu.formVisibility">
+          Anadir Contacto
+        </button></center>
+
+        <div ng-show="alu.formVisibility" class="wrapper">
+          <h2>anadir contacto</h2>
+          nombre:<input type="text" ng-model="alu.nuevoAlumnonombre"></input>
+          telefono:<input type="text" ng-model="alu.nuevoAlumnotelefono"></input>
+          curso:<input type="text" ng-model="alu.nuevoAlumnocurso"></input>
+          <button ng-click="alu.Save()">Guardar</button>
+        </div>
+
+
+        <!-- otro exampe -->
+
+        <!--  Repeat start, beggining of category group -->
+        <div ng-repeat-start="category in alu.data" class="animate-repeat-category">
+          <button class="btn btn-primary btn-block btn-sm" ng-click="alu.toggleCategory(category)">
+            {{ category.name }}
+            <!-- {{ category.items }} -->
+            <span class="expand-indicator" ng-show="category.expanded">&mdash;</span>
+            <span class="expand-indicator" ng-show="!category.expanded">+</span>
+          </button>
+        </div>
+
+
+        <!--  Item group inside each category -->
+        <div class="list-items animate-show-item" ng-show="category.expanded">
+          <ul>
+          <li ng-repeat="item in category.items" class="animate-repeat-item">
+            {{item.name}}
+            <span ng-class="{done:item.completed}" ltc-editable class-off="done" ng-model="item.name"></span>
+            <button ng-show="!item.completed" ng-click="alu.completeTask(item)" class="btn btn-success btn-xs">done</button>
+            <button ng-show="item.completed" ng-click="alu.uncompleteTask(item)" class="btn btn-warning btn-xs">reset</button>
+            <button ng-click="alu.deleteTask(category, item)" class="btn btn-danger btn-xs">del</button>
+          </li>
+          </ul>
+          <div class="no-items"><small ng-show="category.expanded && category.items.length==0">NO ITEMS!</small></div>
+        </div>
+
+        <div ng-repeat-end>
+          <button ng-show="category.expanded" class="btn btn-primary btn-block btn-sm animate-show-item" disabled="disabled">/ {{ category.name }}</button>
+          <hr>
+        </div>
+
+
+        <!-- agregar nueva categoria-->
+        <div class="form-group" ng-class="{'has-error': errorNewCategory}">
+          <label for="categoryName">Add new category:</label>
+          <input id="categoryName" class="form-control" type="text" placeholder="type category name" ng-model="alu.newCategoryName" ng-enter="addCategory()" />
+        </div>
+        <hr>
+        <div class="form-group">
+          <button ng-click="alu.addCategory()" class="btn btn-primary btn-xs">add</button>
+        </div>
+        <hr>
+
+
+
+        <div class="form-group" ng-class="{'has-error': errorNewTask}">
+          <label for="taskName">Add new task to category:</label>
+          <input id="taskName" class="form-control" type="text" placeholder="type task name" ng-model="alu.newTaskName" ng-enter="alu.addTask()" />
+        </div>
+        <div class="form-group">
+          <select class="form-control" ng-model="alu.selectedCategory"           
+          ng-options="c.name for c in alu.data"></select> 
+
+        </div>
+
+        <div class="form-group">
+          <button ng-click="alu.addTask()" class="btn btn-primary btn-xs">add</button>
+        </div>
+
+
+
+
+
+
+
+         <!-- fin de example--> 
+
+
+
+
+        <div  ng-init="pensamientos = [];">
+            <h1>Altavoz AngularJS</h1>
+            <p>
+                ¿Qué hay de nuevo?
+                <br />
+                <input type="text" ng-model="nuevoPensamiento" /> 
+                <input type="button" value="Agregar" ng-click="pensamientos.push(nuevoPensamiento); nuevoPensamiento = '';" />
+            </p>
+            <h2>Pensamientos que has tenido</h2>
+            <p ng-repeat="pensamiento in pensamientos" ng-init="paso = $index">
+                Pensaste esto: {{pensamiento}} (Iteración con índice {{paso}})
+            </p>
+        </div>
+
+       <input type="text" ng-model="campotexto">
+       <br />
+       {{ campotexto }} - {{ camposelect }}
+       <br />
+       <select ng-model="camposelect">
+          <option value="uno">1</option>
+          <option value="dos">2</option>
+       </select>
+
+        <h1>Hola {{nombre}}</h1>
+        <div class="contenedor">
+            <form action="">
+                ¿Cómo te llamas? <input type="text" ng-model="nombre">
+            </form>
+        </div> 
+
+       <input type="text" ng-model="campotexto">
+       <br />
+       {{ campotexto }} - {{ camposelect }}
+       <br />
+       <select ng-model="camposelect">
+          <option value="uno">1</option>
+          <option value="dos">2</option>
+       </select>
+       <input type="button" ng-click="campotexto='DesarrolloWeb.com'" value="Pulsa aquí">
+
+      <!-- -->
+
+      <h1>Acumulador</h1>
+      <h2>Control de operación:</h2>
+      ¿Cuánto? <input type="text" ng-model="alu.cuanto" size="4" />
+      <br />
+      <input type="button" value="+" ng-click="alu.sumar()"/>
+      <input type="button" value="-" ng-click="alu.restar()"/>
+      <h2>Totales:</h2>
+      En el acumulador llevamos <span>{{alu.total}}</span>
+
+      <!-- -->
+
+     <h1 ng-class="alu.tamTitular">Acumulador</h1> 
+      <select ng-model="alu.tamTitular">
+        <option value="titularpeq">Peque</option>
+        <option value="titulargran">Gran</option>
+      </select>
+      <h2 ng-class="alu.clases">Control de operación:</h2>
+
+      <p ng-class="{positivo: alu.total>=0, negativo: alu.total<0}">
+        En el acumulador llevamos <span>{{alu.total}}</span>
+      </p>  
+
+
+    </div> 
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+  .negativo {
+  color: red;
+}
+.positivo {
+  color: #33f;
+}
+.titularpeq{
+  font-size: 10pt;
+}
+.titulargran{
+  font-size: 18pt;
+}
+.uno{
+  background-color: #666;
+}
+.dos{
+  color: #fff;
+}
+.tres{
+  font-size: 30px;
+}
+</style>
+
+
+
+  
+    
+
+  
+
+<style type="text/css">
+body {
+  font-size: 12px;
+}
+span.done {
+  text-decoration: line-through;
+}
+
+span.expand-indicator {
+  float: right;
+  margin-right: 15px;
+  font-size: 12px;
+}
+
+div.list-items ul {
+  margin-top: 10px;
+}
+div.list-items li {
+  margin-top: 5px;
+  height: 22px;
+  cursor: default;
+}
+
+div.list-items li:hover {
+  background-color: #EEE;
+}
+
+div.list-items .btn {
+  float: right;
+  margin-right: 10px;
+}
+
+.no-items {
+  color: #999;
+  text-align: center;
+  margin-bottom: 5px;
+}
+
+
+/* Animations */
+.animate-show-item.ng-hide-add,
+.animate-show-item.ng-hide-remove {
+  -webkit-transition:0.33s ease all;
+  transition:0.5s linear all;
+
+  /* remember to add this */
+  display:block!important;
+  position: relative;
+  top: 0;
+  opacity:1;
+}
+.animate-show-item.ng-hide {
+  top: -15px;
+  opacity:0;
+}
+
+.animate-repeat-category.ng-enter,
+.animate-repeat-category.ng-leave,
+.animate-repeat-category.ng-move,
+.animate-repeat-item.ng-enter,
+.animate-repeat-item.ng-leave,
+.animate-repeat-item.ng-move {
+  -webkit-transition: 0.33s ease all;
+  transition: 0.33s eases all;
+  position:relative;
+}
+
+.animate-repeat-item.ng-enter {
+  left:-10px;
+  opacity:0;
+}
+.animate-repeat-item.ng-enter.ng-enter-active {
+  left:0;
+  opacity:1;
+}
+
+.animate-repeat-item.ng-leave {
+  left:0;
+  opacity:1;
+}
+.animate-repeat-item.ng-leave.ng-leave-active {
+  left:-10px;
+  opacity:0;
+}
+
+.animate-repeat-category.ng-enter {
+  top:-10px;
+  opacity:0;
+}
+.animate-repeat-category.ng-enter.ng-enter-active {
+  top:0;
+  opacity:1;
+}
+
+.animate-repeat-category.ng-leave {
+  top:0;
+  opacity:1;
+}
+.animate-repeat-category.ng-leave.ng-leave-active {
+  top:-10px;
+  opacity:0;
+}
+
+/*.animate-repeat-item.ng-move {
+  opacity:0.5;
+}
+.animate-repeat-item.ng-move.ng-move-active {
+  opacity:1;
+}*/
+
+/* bootstrap  overrides */
+.page-header {
+  margin: 10px 0 10px;
+  padding-bottom: 0;
+  text-align: center;
+}
+.form-control {
+  font-size: 12px;
+}
+
+.form-group {
+  margin-bottom: 8px;
+}
+
+hr {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+</style>

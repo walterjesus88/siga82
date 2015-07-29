@@ -1297,6 +1297,7 @@ public function subiractividadesAction(){
 }
 
 public function verAction() {
+    //$this->_helper->layout()->disablelayout();
     $proyectoid= $this->_getParam("proyectoid");
     $codigo_prop_proy= $this->_getParam("codigo_prop_proy");
     $propuestaid= $this->_getParam("propuesta");

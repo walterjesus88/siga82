@@ -34,9 +34,6 @@ angular.module('angularSuma',['ngSanitize'])
 	    	});
 	     
 	 }
-
-
-	
 		
 		scope = this;
 		scope.elementos = [];

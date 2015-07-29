@@ -12,6 +12,7 @@
          
 
 		?>
+			<div  class="col-sm-6">	
 			<ul id="menu" >
 				<li>
 				<label class="checkbox-inline">
@@ -29,13 +30,16 @@
 					<input type="text" style="display:none" id="cargo_<?php echo $i;?>" value="<?php print_r($lista['cargo']);?>" name="nombrepersona_<?php echo $i;?>" >					
 					
 						<?php 
-								//print_r($lista['uid']);
 							$porciones = explode(".", $lista['uid']);
-				            echo (ucwords($porciones[0])); echo " ";echo (ucwords($porciones[1]));
+	                          //print_r($porciones);
+	                        foreach ($porciones as $value) {	                          
+	                            echo (ucwords($value));  echo " ";	                           
+	                        }
 						?>				
 				
 				</li>			
 			</ul>
+			</div>
 		
 	<style type="text/css">
 		.conscroll{

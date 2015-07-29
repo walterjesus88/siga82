@@ -64,6 +64,86 @@
         </div>
       </div>
     </section>
+
+<!-- este es el menu ge configuracion-->
+<section class="panel">
+  <header class="panel-heading tab-bg-dark-navy-blue ">
+    <ul class="nav nav-tabs">
+      <li class="active">
+        <a data-toggle="tab" href="#configurar">Configurar
+         <i class="fa fa-home"></i>
+        </a>
+      </li>
+   
+      <li class="">
+        <a data-toggle="tab" href="#control">Control</a>
+      </li>
+
+      <li class="">
+        <a data-toggle="tab" href="#monitoreo">Monitoreo</a>
+      </li>
+
+      <li class="">
+        <a data-toggle="tab" href="#planeamiento">Planeamiento</a>
+      </li>
+
+      <li class="">
+        <a data-toggle="tab" href="#finanzas">Finanzas</a>
+      </li>
+
+      <li class="">
+        <a data-toggle="tab" href="#indicadores">Indicadores</a>
+      </li>
+   
+   
+    </ul>
+  </header>
+
+
+  <div class="panel-body">
+    <div class="tab-content">
+      <div id="configurar" class="tab-pane active ">
+        <a id="hojaresumen" class="btn btn-success btn-xs" href="/proyecto/index/hojaresumen/codigo_prop_proy/<?php echo $this->codigoproyecto ?>/proyectoid/<?php echo $this->proyectoid ?>/propuestaid/<?php echo $this->propuestaid ?>/revision/<?php echo $this->revision ?>">Hoja de Resumen</a>
+        <a id="save" class="btn btn-success btn-xs" href="#">Otros</a>
+      </div>
+ 
+      <div id="control" class="tab-pane  ">
+        <a id="save" class="btn btn-success btn-xs" href="#">Performance</a>
+        <a id="save" class="btn btn-success btn-xs" href="#">Curva S</a>
+        
+        <a id="listaentregables" class="btn btn-success btn-xs" href="/control/control/listaentregables/codigo_prop_proy/<?php echo $this->codigoproyecto ?>/proyectoid/<?php echo $this->proyectoid ?>/revision/<?php echo $this->revision?> ">Lista de Entregables</a>
+
+
+        <a id="save" class="btn btn-success btn-xs" href="#">Otros</a>        
+      </div>
+
+      <div id="monitoreo" class="tab-pane  ">
+        <a id="save" class="btn btn-success btn-xs" href="#">Ordenes de Cambio</a>
+        <a id="save" class="btn btn-success btn-xs" href="#">Lecciones Aprendidas</a>
+    
+      </div>
+
+      <div id="planeamiento" class="tab-pane  ">
+      
+      </div>
+
+      <div id="finanzas" class="tab-pane  ">
+        <a id="save" class="btn btn-success btn-xs" href="#">Valorizacion</a>
+        <a id="save" class="btn btn-success btn-xs" href="#">Orden de Facturacion</a>
+      </div>
+   
+      <div id="indicadores" class="tab-pane  ">
+        <a id="save" class="btn btn-success btn-xs" href="#">Cost Flow HH</a>
+        <a id="save" class="btn btn-success btn-xs" href="#">Cost Flow Total</a>
+      </div>
+
+    </div>
+
+
+</section>
+
+
+
     <section class="panel">
     lista
       <a id="save" class="btn btn-success btn-xs" href="#">Perfomance</a>
@@ -93,6 +173,9 @@
           </li>
           <li class="">
             <a data-toggle="tab" href="#laboratorio" aria-expanded="false">Laboratorio</a>
+          </li>
+          <li class="">
+            <a data-toggle="tab" href="#rates" aria-expanded="false">Rates</a>
           </li>
         </ul>
       </header>
@@ -135,10 +218,19 @@
               laboratorio
             </div>
           </div>
+          <div id="rates" class="tab-pane">
+
+          </div>
         </div>
       </div>
     </section>
   </div>
+
+
+
+
+
+
   <div class="col-md-4">
     <section class="panel">
       <header class="panel-heading">
@@ -728,7 +820,7 @@
 
 <div class="modal fade" id="modalperson" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg">
-    <div class="modal-content" style="width: 1250px; top: 100%; margin-left: -200px; ">
+    <div class="modal-content" style="width: 100%; top: 100%;  ">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
           <h4 class="modal-title">Asignar Personas a una Actividad</h4>
@@ -778,7 +870,7 @@
         </div>
         <div class="modal-footer">
           <button data-dismiss="modal" id="cerrar_anadir" class="btn btn-default" type="button">Cerrar</button>
-          <button id="guardar_contacto" class="btn btn-warning" type="button"> Guardar</button>
+   
         </div>
       </div>
     </div>
@@ -786,10 +878,9 @@
 </div>
 
 <script type="text/javascript">
-   $("#cerrar_anadir").click(function(){
-      window.location.reload();
-   });
-
+   // $("#cerrar_anadir").click(function(){
+   //    window.location.reload();
+   // });
 </script>
 
 
@@ -884,7 +975,6 @@ $(".modal-body #DNI").val( myDNI );
 });
 
 </script>
-
 
 
 
