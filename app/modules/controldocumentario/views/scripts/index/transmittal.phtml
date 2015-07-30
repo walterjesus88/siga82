@@ -4,34 +4,38 @@
       <div class="panel">
         <header class="bio-graph-heading project-heading">
           <strong>
-              Proyecto: {{CD.proyecto_seleccionado.codigo}}
-              {{CD.proyecto_seleccionado.nombre}}
+              <p>
+                Proyecto: {{CD.proyecto.codigo}}
+              </p>
+              <p>
+                {{CD.proyecto.nombre}}
+              </p>
           </strong>
         </header>
         <div class="panel-body bio-graph-info">
           <div class="bio-row">
             <span class="bold">Cliente:</span>
-            {{CD.proyecto_seleccionado.cliente}}
+            {{CD.proyecto.cliente}}
           </div>
           <div class="bio-row">
             <span class="bold">Unidad Minera:</span>
-            {{CD.proyecto_seleccionado.unidad_minera}}
+            {{CD.proyecto.unidad_minera}}
           </div>
           <div class="bio-row">
             <span class="bold">Código:</span>
-            {{CD.proyecto_seleccionado.codigo}}
+            {{CD.proyecto.codigo}}
           </div>
           <div class="bio-row">
             <span class="bold">Estado:</span>
-            {{CD.proyecto_seleccionado.estado}}
+            {{CD.proyecto.estado}}
           </div>
           <div class="bio-row">
             <span class="bold">Fecha Inicio:</span>
-            {{CD.proyecto_seleccionado.fecha_inicio}}
+            {{CD.proyecto.fecha_inicio}}
           </div>
           <div class="bio-row">
             <span class="bold">Fecha Cierre:</span>
-            {{CD.proyecto_seleccionado.fecha_cierre}}
+            {{CD.proyecto.fecha_cierre}}
           </div>
         </div>
       </div>

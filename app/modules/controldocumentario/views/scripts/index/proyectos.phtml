@@ -63,9 +63,17 @@
         </td>
         <td>
           <ul>
-            <li><a href="#">Información</a></li>
-            <li><a href="#">Generar TR</a></li>
-            <li><a href="#/">Generar RPT</a></li>
+            <li>
+              <button type="button" class="btn btn-default btn-sm">Información</button>
+            </li>
+            <li>
+              <button type="button" class="btn btn-default btn-sm" ng-click="CD.generarTr(proyecto.codigo)">
+                Generar TR
+              </button>
+            </li>
+            <li>
+              <button type="button" class="btn btn-default btn-sm">Generar RPT</button>
+            </li>
           </ul>
         </td>
       </tr>
