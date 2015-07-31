@@ -17,6 +17,12 @@ class Proyecto_IndexController extends Zend_Controller_Action {
     public function indexAction() {
     }
 
+    public function panelAction()
+    {
+      $this->_helper->layout()->disableLayout();
+    }
+
+
     public function listarAction() {
         $uid = $this->sesion->uid;
         $dni = $this->sesion->dni;
@@ -1310,11 +1316,34 @@ public function verAction() {
 }   
 
 public function verjsonAction() {
+     //$areacat=new Admin_Model_DbTable_Area();
+     //$arcat=$areacat->_getAreaxProyecto();
+    $bdequipoarea = new Admin_Model_DbTable_Equipoarea();
+    $area=$bdequipoarea->_buscarAreasxProyecto('14.10.134-1101.10.09-D','1101.10.09');
+    $i=0;
+    foreach ($area as $verarea) {
+      $bdequipo = new Admin_Model_DbTable_Equipo();
+      $equipo=$bdequipo->_buscarEquipoxProyectoxArea('14.10.134-1101.10.09-D','1101.10.09',$verarea['areaid']);
+       //eq.areaid,a.orden,a.nombre
+      $ek[] = array('name' =>$verarea['nombre'],'area'=>$verarea['areaid'] ,'items'=> $equipo);
+      $i++;
+    }    
+    //es el formato de renderiar :  [{"bbb":"1","name":"2","items":[{"nombre":"books"}]}]
+    $arr = array(['bbb' =>'1', 'name' => '2','items'=>  array(['nombre' =>'books'])]);
+    $this->_helper->json->sendJson($ek);  
 
-    $areacat=new Admin_Model_DbTable_Area();
-    $arcat=$areacat->_getAreaxProyecto();    
-    $this->_helper->json->sendJson($arcat);  
 }
+
+
+public function usuariosjsonAction() {
+  $user=new Admin_Model_DbTable_Usuario();
+  $us=$user->_getUsuarioAll();
+  $this->_helper->json->sendJson($us);  
+
+
+}
+
+
 
 
   public function subirareacategoriaAction() {

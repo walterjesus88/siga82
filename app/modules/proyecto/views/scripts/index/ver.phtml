@@ -219,9 +219,20 @@
             </div>
           </div>
           <div id="rates" class="tab-pane">
-               <div ng-app="areasApp"  ng-controller="areacontroller as area" >
-               aaaaa
-               </div>
+            <!--llamar al modulo control de proyecto angular -->
+            <div ng-app="moduloCp">
+              <div ng-view>
+
+              </div>
+            </div>
+
+            <script type="text/javascript" src="/js/angular-route.js"></script>
+            <script type="text/javascript" src="/js/Chart.js"></script>
+            <script type="text/javascript" src="/js/angular-chart.js"></script>
+            <script type="text/javascript" src="/js/modulo-controlproyecto.js"></script>
+            <script type="text/javascript" src="/js/checklist-model.js"></script>
+            <link rel="stylesheet" type="text/css" href="/css/style-controlproyecto.css">
+             <!-- --> 
           </div>
         </div>
       </div>

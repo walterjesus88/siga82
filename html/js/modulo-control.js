@@ -84,6 +84,37 @@ app.directive("ltcEditable", function($document) {
 function controladorPrincipal(){
     var scope = this
 
+
+      scope.roles = [
+    {id: 1, text: 'guest'},
+    {id: 2, text: 'user'},
+    {id: 3, text: 'customer'},
+    {id: 4, text: 'admin'}
+  ];
+
+
+
+  scope.user = {
+    roles: [scope.roles[1]]
+  };
+  scope.checkAll = function() {
+    scope.user.roles = angular.copy(scope.roles);
+    console.log(scope.user.roles);
+  };
+  scope.uncheckAll = function() {
+    scope.user.roles = [];
+    console.log(scope.user.roles);
+    };
+  scope.checkFirst = function() {
+    scope.user.roles.splice(0, scope.user.roles.length); 
+    scope.user.roles.push(scope.roles[0]);
+    console.log(scope.user.roles);
+    
+  };
+
+
+
+
       this.data = [
 	    { name: 'Personal', expanded: true,
 	      items: [

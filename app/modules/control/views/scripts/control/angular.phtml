@@ -158,6 +158,16 @@
       </p>  
 
 
+
+          <div class="well"><label ng-repeat="role in alu.roles">
+      <input type="checkbox" checklist-model="user.roles" checklist-value="role" ng-model="justAnotherCheckedVar"> {{role.text}}
+    </label></div>
+
+    <button class="btn btn-default" ng-click="alu.checkAll()">todos</button>
+    <button class="btn btn-default" ng-click="alu.uncheckAll()">ninguno</button>
+    <button class="btn btn-default" ng-click="alu.checkFirst()">primero</button>
+
+
     </div> 
 
 
