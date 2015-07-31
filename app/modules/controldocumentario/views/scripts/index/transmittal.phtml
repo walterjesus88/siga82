@@ -1,0 +1,91 @@
+<div>
+  <div class="panel">
+    <div class="col-md-8">
+      <div class="panel">
+        <header class="bio-graph-heading project-heading">
+          <strong>
+              <p>
+                Proyecto: {{CD.proyecto.codigo}}
+              </p>
+              <p>
+                {{CD.proyecto.nombre}}
+              </p>
+          </strong>
+        </header>
+        <div class="panel-body bio-graph-info">
+          <div class="bio-row">
+            <span class="bold">Cliente:</span>
+            {{CD.proyecto.cliente}}
+          </div>
+          <div class="bio-row">
+            <span class="bold">Unidad Minera:</span>
+            {{CD.proyecto.unidad_minera}}
+          </div>
+          <div class="bio-row">
+            <span class="bold">Código:</span>
+            {{CD.proyecto.codigo}}
+          </div>
+          <div class="bio-row">
+            <span class="bold">Estado:</span>
+            {{CD.proyecto.estado}}
+          </div>
+          <div class="bio-row">
+            <span class="bold">Fecha Inicio:</span>
+            {{CD.proyecto.fecha_inicio}}
+          </div>
+          <div class="bio-row">
+            <span class="bold">Fecha Cierre:</span>
+            {{CD.proyecto.fecha_cierre}}
+          </div>
+        </div>
+      </div>
+    </div>
+    <aside class="col-md-4">
+      <div class="panel">
+        <header class="panel-heading">
+          Descripción del Proyecto
+        </header>
+        <div class="panel-body">
+          <img ng-src="CD.proyecto_seleccionado.logo_cliente" alt="Logo Cliente" />
+          <p>
+          {{CD.proyecto_seleccionado.descripcion}}
+          </p>
+        </div>
+      </div>
+    </aside>
+  </div>
+  <div class="col-md-12">
+
+    <nav class="panel-heading tab-bg-dark-navy-blue">
+      <ul class="nav nav-tabs">
+        <li ng-class="CD.configurarActivo"><a href="" ng-click="CD.cambiarPanel('configurar')">Configurar TR</a></li>
+        <li ng-class="CD.anddesActivo"><a href="" ng-click="CD.cambiarPanel('anddes')">Anddes</a></li>
+        <li ng-class="CD.clienteActivo"><a href="" ng-click="CD.cambiarPanel('cliente')">Cliente</a></li>
+        <li ng-class="CD.contratistaActivo"><a href="" ng-click="CD.cambiarPanel('contratista')">Contratista</a></li>
+      </ul>
+    </nav>
+
+    <div class="panel-body">
+      <div class="tab-content">
+
+        <div ng-include="'/controldocumentario/index/configurartr'" id="edt" class="tab-pane" ng-class="CD.configurarActivo">
+
+        </div>
+
+        <div ng-include="'/controldocumentario/index/anddes'" id="anddes" class="tab-pane" ng-class="CD.anddesActivo">
+
+        </div>
+
+        <div ng-include="'/controldocumentario/index/cliente'" id="cliente" class="tab-pane" ng-class="CD.clienteActivo">
+
+        </div>
+
+        <div ng-include="'/controldocumentario/index/contratista'" id="contratista" class="tab-pane" ng-class="CD.contratistaActivo">
+
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</div>

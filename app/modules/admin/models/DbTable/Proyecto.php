@@ -259,6 +259,51 @@ class Admin_Model_DbTable_Proyecto extends Zend_Db_Table_Abstract
       } catch (Exception $e) {
         print $e->getMessage();
       }
+    }
+
+    public function _getTipoProyecto()
+    {
+      try {
+        $sql = $this->_db->query("select distinct tipo_proyecto from proyecto
+        order by tipo_proyecto");
+        $row = $sql->fetchAll();
+        return $row;
+      } catch (Exception $e) {
+        print $e->getMessage();
+      }
+    }
+
+    public function _getAllExtendido()
+    {
+      try {
+        $sql = $this->_db->query("select pro.proyectoid, cli.nombre_comercial,
+        pro.nombre_proyecto, pro.gerente_proyecto, pro.control_proyecto,
+        pro.control_documentario, pro.estado
+        from proyecto as pro inner join cliente as cli
+        on pro.clienteid = cli.clienteid");
+        $row = $sql->fetchAll();
+        return $row;
+      } catch (Exception $e) {
+        print $e->getMessage();
+      }
+    }
+
+    public function _getOnexProyectoidExtendido($data=null)
+    {
+      try {
+        $sql = $this->_db->query("select pro.proyectoid, cli.nombre_comercial,
+        pro.nombre_proyecto, pro.estado, uni.nombre, pro.fecha_inicio,
+        pro.fecha_cierre, pro.control_documentario 
+        from proyecto as pro inner join cliente as cli
+        on pro.clienteid = cli.clienteid
+        inner join unidad_minera as uni
+        on pro.unidad_mineraid = uni.unidad_mineraid
+        where proyectoid = '".$data['proyectoid']."'");
+        $row = $sql->fetchAll();
+        return $row;
+      } catch (Exception $e) {
+        print $e->getMessage();
+      }
 
     }
 }

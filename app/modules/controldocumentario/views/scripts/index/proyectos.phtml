@@ -1,4 +1,4 @@
-<div class="panel" ng-app>
+<div class="panel">
   <header>
     <h2>Proyectos</h2>
     <div class="pull-right">
@@ -26,7 +26,10 @@
         GERENTE DEL PROYECTO
       </th>
       <th>
-        CD DEL PROYECTO
+        CONTROL DEL PROYECTO
+      </th>
+      <th>
+        CONTROL DOCUMENTARIO
       </th>
       <th>
         ESTADO
@@ -50,16 +53,27 @@
           {{proyecto.gerente}}
         </td>
         <td>
-          {{proyecto.cd_proyecto}}
+          {{proyecto.control_proyecto}}
+        </td>
+        <td>
+          {{proyecto.control_documentario}}
         </td>
         <td>
           {{proyecto.estado}}
         </td>
         <td>
           <ul>
-            <li><a href="#">Información</a></li>
-            <li><a href="#">Generar TR</a></li>
-            <li><a href="#">Generar RPT</a></li>
+            <li>
+              <button type="button" class="btn btn-default btn-sm">Información</button>
+            </li>
+            <li>
+              <button type="button" class="btn btn-default btn-sm" ng-click="CD.generarTr(proyecto.codigo)">
+                Generar TR
+              </button>
+            </li>
+            <li>
+              <button type="button" class="btn btn-default btn-sm">Generar RPT</button>
+            </li>
           </ul>
         </td>
       </tr>

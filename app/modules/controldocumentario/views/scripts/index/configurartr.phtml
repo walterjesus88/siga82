@@ -1,52 +1,85 @@
-<div class="form-inline panel">
-  <section class="col-md-6 col-sm-12 form-group panel-body">
-    <label for="" class="col-md-3">Codificación TR</label>
-    <input type="text" class="form-control">
-    <label for="">{{correlativo}}</label>
-  </section>
-  <section class="col-md-6 col-sm-12 form-group panel-body">
-    <label for="" class="col-md-3">Formato:</label>
-    <input type="text" class="form-control">
-    <button type="button" class="btn btn-default btn-sm">Editar</button>
-  </section>
-  <section class="col-md-6 col-sm-12 form-group panel-body">
-    <label for="" class="col-md-3">Cliente:</label>
-    <input type="text" class="form-control">
-  </section>
-  <section class="col-md-6 col-sm-12 form-group panel-body">
-    <label for="" class="col-md-3">Tipo de envío:</label>
-    <input type="text" class="form-control">
-    <button type="button" class="btn btn-default btn-sm">Editar</button>
-  </section>
-  <section class="col-md-6 col-sm-12 form-group panel-body">
-    <label for="" class="col-md-3">Atención:</label>
-    <input type="text" class="form-control">
-    <button type="button" class="btn btn-default btn-sm">Editar</button>
-  </section>
-  <section class="col-md-6 col-sm-12 form-group panel-body">
-    <label for="" class="col-md-3">CD:</label>
-    <input type="text" class="form-control">
-  </section>
-  <section class="col-md-6 col-sm-12 form-group panel-body">
-    <label for="" class="col-md-3">Área:</label>
-    <input type="text" class="form-control">
-  </section>
-  <section class="col-md-6 col-sm-12 form-group panel-body">
-    <label for="" class="col-md-3">Días de alerta:</label>
-    <input type="text" class="form-control">
-  </section>
-  <section class="col-md-6 col-sm-12 form-group panel-body">
-    <label for="" class="col-md-3">Correo:</label>
-    <input type="text" class="form-control">
-  </section>
-  <section class="col-md-6 col-sm-12 form-group panel-body">
-    <label for="" class="col-md-3">Tipo de proyecto:</label>
-    <input type="text" class="form-control">
-  </section>
-  <section class="col-md-6 col-sm-12 form-group panel-body">
-    <label for="" class="col-md-3">Logo:</label>
-    <input type="text" class="form-control">
-    <button type="button" class="btn btn-default btn-sm">Editar</button>
-  </section>
+<div class="panel">
+  <div class="form-inline">
 
+    <section class="col-md-6 col-sm-12 form-group panel-body">
+      <label for="" class="col-md-3">Codificación</label>
+      <input type="text" class="form-control" ng-model="CD.transmittal.codificacion">
+      <label for="">{{correlativo}}</label>
+    </section>
+
+    <section class="col-md-6 col-sm-12 form-group panel-body">
+      <label for="" class="col-md-3">Formato:</label>
+      <select class="form-control" ng-model="CD.formato_seleccionado"
+      ng-options="formato as formato for formato in CD.formatos">
+      </select>
+      <button type="button" class="btn btn-default btn-sm">Editar</button>
+    </section>
+
+    <section class="col-md-6 col-sm-12 form-group panel-body">
+      <label for="" class="col-md-3">Cliente:</label>
+      <select class="form-control" ng-model="CD.proyecto.cliente"
+      ng-change="CD.cambiarCliente()"
+      ng-options="cliente.nombre as cliente.nombre for cliente in CD.clientes">
+      </select>
+    </section>
+
+    <section class="col-md-6 col-sm-12 form-group panel-body">
+      <label for="" class="col-md-3">Tipo de envío:</label>
+      <select class="form-control" ng-model="CD.tipo_seleccionado"
+      ng-options="tipo as tipo for tipo in CD.tipos_envio">
+      </select>
+      <button type="button" class="btn btn-default btn-sm">Editar</button>
+    </section>
+
+    <section class="col-md-6 col-sm-12 form-group panel-body">
+      <label for="" class="col-md-3">Atención:</label>
+      <select class="form-control" ng-model="CD.contacto_seleccionado"
+      ng-change="CD.cambiarContacto()">
+        <option ng-repeat="contacto in CD.contactos" value="{{contacto.contactoid}}">
+          {{contacto.nombre}}
+        </option>
+      </select>
+      <button type="button" class="btn btn-default btn-sm">Editar</button>
+    </section>
+
+    <section class="col-md-6 col-sm-12 form-group panel-body">
+      <label for="" class="col-md-3">CD:</label>
+      <select class="form-control" ng-model="CD.proyecto.control_documentario"
+      ng-options="integrante.nombre as integrante.nombre for integrante in CD.control_documentario">
+      </select>
+    </section>
+
+    <section class="col-md-6 col-sm-12 form-group panel-body">
+      <label for="" class="col-md-3">Área:</label>
+      <input type="text" class="form-control"
+      ng-model="CD.datos_contacto_seleccionado.area">
+    </section>
+
+    <section class="col-md-6 col-sm-12 form-group panel-body">
+      <label for="" class="col-md-3">Días de alerta:</label>
+      <input type="text" class="form-control" ng-model="CD.transmittal.dias_alerta">
+    </section>
+
+    <section class="col-md-6 col-sm-12 form-group panel-body">
+      <label for="" class="col-md-3">Correo:</label>
+      <input type="text" class="form-control"
+      ng-model="CD.datos_contacto_seleccionado.correo">
+    </section>
+
+    <section class="col-md-6 col-sm-12 form-group panel-body">
+      <label for="" class="col-md-3">Tipo de proyecto:</label>
+      <select class="form-control">
+        <option ng-repeat="tipo in CD.tipos_proyecto" value="{{tipo.tipo_proyecto}}">
+          {{tipo.tipo_proyecto}}
+        </option>
+      </select>
+    </section>
+
+    <section class="col-md-6 col-sm-12 form-group panel-body">
+      <label for="" class="col-md-3">Logo:</label>
+      <input type="text" class="form-control">
+      <button type="button" class="btn btn-default btn-sm">Editar</button>
+    </section>
+
+  </div>
 </div>
