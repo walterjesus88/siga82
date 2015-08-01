@@ -62,6 +62,14 @@ app.controller('TransmittalCtrl', ['httpFactory', 'configuracionTransmittal',
     cd.tipos_proyecto = [];
   })
 
+  httpFactory.getContactosByCliente(cd.proyecto.clienteid)
+  .success(function(res) {
+    cd.contactos = res;
+  })
+  .error(function(res) {
+    cd.contactos = [];
+  })
+
   cd.cambiarPanel = function(panel) {
     if (panel == 'configurar') {
       cd.configurarActivo = 'active';
@@ -86,8 +94,12 @@ app.controller('TransmittalCtrl', ['httpFactory', 'configuracionTransmittal',
     }
   }
 
+  cd.cambiarCodificacion = function() {
+    configuracionTransmittal.setCodificacion(cd.transmittal.codificacion);
+  }
+
   cd.cambiarCliente = function() {
-    httpFactory.getContactosByCliente(cd.cliente_seleccionado)
+    httpFactory.getContactosByCliente(cd.proyecto.clienteid)
     .success(function(res) {
       cd.contactos = res;
     })
@@ -103,5 +115,9 @@ app.controller('TransmittalCtrl', ['httpFactory', 'configuracionTransmittal',
         cd.datos_contacto_seleccionado.correo = contacto.correo;
       }
     })
+  }
+
+  cd.guardarConfiguracion = function() {
+    configuracionTransmittal.guardarCambios();
   }
 }]);

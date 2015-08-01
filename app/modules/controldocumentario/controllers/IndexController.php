@@ -99,8 +99,9 @@ class ControlDocumentario_IndexController extends Zend_Controller_Action {
 
     public function proyectosjsonAction()
     {
+      $estado = $this->_getParam('estado');
       $proyecto = new Admin_Model_DbTable_Proyecto();
-      $proyectos = $proyecto->_getAllExtendido();
+      $proyectos = $proyecto->_getAllExtendido($estado);
       $respuesta = [];
       $data = [];
       $i = 0;
@@ -156,15 +157,19 @@ class ControlDocumentario_IndexController extends Zend_Controller_Action {
       $this->_helper->layout()->disableLayout();
       $data['proyectoid'] = $this->_getParam('proyectoid');
       $proyecto = new Admin_Model_DbTable_Proyecto();
-      $pro = $proyecto->_getOnexProyectoidExtendido($data);
-      $respuesta['codigo'] = $pro[0]['proyectoid'];
-      $respuesta['nombre'] = $pro[0]['nombre_proyecto'];
-      $respuesta['cliente'] = $pro[0]['nombre_comercial'];
-      $respuesta['unidad_minera'] = $pro[0]['nombre'];
-      $respuesta['estado'] = $pro[0]['estado'];
-      $respuesta['fecha_inicio'] = $pro[0]['fecha_inicio'];
-      $respuesta['fecha_cierre'] = $pro[0]['fecha_cierre'];
-      $respuesta['control_documentario'] = $pro[0]['control_documentario'];
+      $datos = $proyecto->_getOnexProyectoidExtendido($data);
+      $respuesta['codigo'] = $datos['proyectoid'];
+      $respuesta['nombre'] = $datos['nombre_proyecto'];
+      $respuesta['clienteid'] = $datos['clienteid'];
+      $respuesta['cliente'] = $datos['nombre_comercial'];
+      $respuesta['unidad_minera'] = $datos['nombre'];
+      $respuesta['estado'] = $datos['estado'];
+      $respuesta['fecha_inicio'] = $datos['fecha_inicio'];
+      $respuesta['fecha_cierre'] = $datos['fecha_cierre'];
+      $respuesta['control_documentario'] = $datos['control_documentario'];
+      $respuesta['descripcion'] = $datos['descripcion'];
+      $respuesta['tipo_proyecto'] = $datos['tipo_proyecto'];
+      $respuesta['logo_cliente'] = '../img/cliente/'.$respuesta['clienteid'].'.jpg';
       $this->_helper->json->sendJson($respuesta);
     }
 }

@@ -27,6 +27,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
                      ->headLink()->appendStylesheet('/css/angular-chart.css');
 
             $view   ->headScript()->appendFile('/js/jquery.js')
+                        ->headScript()->appendFile('/js/metodosglobales.js')
                         ->headScript()->appendFile('/js/jquery-ui-1.9.2.custom.min.js')
                         ->headScript()->appendFile('/js/jquery-migrate-1.2.1.min.js')
                         ->headScript()->appendFile('/js/bootstrap.min.js')

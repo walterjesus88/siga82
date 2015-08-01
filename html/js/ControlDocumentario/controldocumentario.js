@@ -48,11 +48,17 @@ app.config(['$routeProvider', function($routeProvider) {
 
 function Proyecto(codigo, cliente, nombre, gerente, control_proyecto,
   control_documentario, estado) {
+  var estados = {
+    'A': 'Activo',
+    'P': 'Paralizado',
+    'C': 'Cerrado',
+    'CA': 'Cancelado'
+  }
   this.codigo = codigo;
   this.cliente = cliente;
   this.nombre = nombre;
-  this.gerente = gerente;
+  this.gerente = gerente.changeFormat();
   this.control_proyecto = control_proyecto;
   this.control_documentario = control_documentario;
-  this.estado = estado;
+  this.estado = estados[estado];
 }
