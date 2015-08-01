@@ -34,7 +34,7 @@ app.config(['$routeProvider', function($routeProvider) {
     controllerAs: "CD",
     templateUrl: "/controldocumentario/index/reporte"
   })
-  .when("/transmittal", {
+  .when("/transmittal/:proyecto", {
     controller: "TransmittalCtrl",
     controllerAs: "CD",
     templateUrl: "/controldocumentario/index/transmittal"

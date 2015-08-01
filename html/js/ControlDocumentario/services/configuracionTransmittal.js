@@ -1,8 +1,6 @@
 /*servicio Factory para configurar datos de Transmittal*/
 app.factory('configuracionTransmittal', ['httpFactory', function(httpFactory) {
 
-  var proyecto_sel = '';
-
   var datos = {
     codificacion: '',
     formato: 'anddes',

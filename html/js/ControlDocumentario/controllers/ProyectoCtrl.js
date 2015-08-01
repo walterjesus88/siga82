@@ -3,9 +3,11 @@
 app.controller('ProyectoCtrl', ['$location', 'httpFactory', 'configuracionTransmittal',
 function($location, httpFactory, configuracionTransmittal) {
 
+  //referencia del scope y array que contendra a los proyectos
   var cd = this;
   cd.proyectos = [];
 
+  //carga inicial de los proyectos con estado activo
   httpFactory.getProyectos('A')
   .success(function(res) {
     cd.proyectos = [];
@@ -20,6 +22,7 @@ function($location, httpFactory, configuracionTransmittal) {
     cd.proyectos = [];
   })
 
+  //metodo para cargar los proyectos de los diferentes estados
   cd.cargarProyectos = function(estado) {
     httpFactory.getProyectos(estado)
     .success(function(res) {
@@ -36,9 +39,9 @@ function($location, httpFactory, configuracionTransmittal) {
     })
   }
 
+  //metodo para direccionar a la vista de transmittal con los datos del proyecto
   cd.generarTr = function(proyectoid) {
-    configuracionTransmittal.setProyecto_sel(proyectoid);
     configuracionTransmittal.setProyecto(proyectoid);
-    $location.path("/transmittal");
+    $location.path("/transmittal/" + proyectoid);
   }
 }]);
