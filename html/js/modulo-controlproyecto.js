@@ -1,5 +1,5 @@
 
-angular.module('moduloCp', ['ngRoute', 'chart.js','ui.bootstrap','ui.bootstrap.tpls','ui.router','checklist-model'])
+angular.module('moduloCp', ['ngRoute', 'chart.js','ui.bootstrap','ui.bootstrap.tpls','ui.router','checklist-model','dialogs'])
 .config(['$routeProvider', function($routeProvider) {
   $routeProvider
   .when("/", {
@@ -7,11 +7,11 @@ angular.module('moduloCp', ['ngRoute', 'chart.js','ui.bootstrap','ui.bootstrap.t
     controllerAs: "CD",
     templateUrl: "/proyecto/index/panel"
   })
-//  .when("/", {
-  //  controller: "ModalDemoCtrl",
-    //controllerAs: "CD",
-  //  templateUrl: "/proyecto/index/panel"
-//  })
+ // .when("/", {
+ //   controller: "ModalDemoCtrl",
+ //    controllerAs: "CD",
+ //   templateUrl: "/proyecto/index/panel"
+ // })
 
   // .when("/", {
   //   controller: "ModalInstanceCtrl",
@@ -38,6 +38,8 @@ angular.module('moduloCp', ['ngRoute', 'chart.js','ui.bootstrap','ui.bootstrap.t
     redirectTo: '/'
   });
 }])
+
+
 .factory('httpFactory', ['$http', function($http) {
   var url = '/proyecto/index/';
   //var url = '/controldocumentario/index/'; 
@@ -50,14 +52,13 @@ angular.module('moduloCp', ['ngRoute', 'chart.js','ui.bootstrap','ui.bootstrap.t
     getUsuarios: function() {
       return $http.get(url + 'usuariosjson');
     }
-
-
   }
 
   return publico;
 }])
 
-.controller('PanelCtrl', ['httpFactory', function(httpFactory) {
+
+.controller('PanelCtrl', ['httpFactory','$modal','$dialogs', function ( httpFactory,$modal,$dialogs) {
   var cd = this;
 
       cd.data = [
@@ -83,8 +84,6 @@ angular.module('moduloCp', ['ngRoute', 'chart.js','ui.bootstrap','ui.bootstrap.t
 
   //scope.selectedCategory = scope.data[0];
   //modal
-
-
   cd.addArea = function() {
       if (cd.newAreaName) {
       var newArea = { name: cd.newAreaName, expanded: false };
@@ -101,6 +100,8 @@ angular.module('moduloCp', ['ngRoute', 'chart.js','ui.bootstrap','ui.bootstrap.t
       if (cd.newTaskName) {
          console.log("ddd");
         var newTask = { uid: cd.newTaskName, completed: false };
+        //console.log("cvbn"+cd.selectedCategory.items);
+          console.log(cd.selectedCategory);
         cd.selectedCategory.items.push(newTask);
         cd.selectedCategory.expanded=true;
         cd.errorNewTask = false;
@@ -108,6 +109,8 @@ angular.module('moduloCp', ['ngRoute', 'chart.js','ui.bootstrap','ui.bootstrap.t
         cd.errorNewTask = true;
       }
     };
+
+
 
   cd.toggleArea = function(integrante)
   {
@@ -161,110 +164,249 @@ angular.module('moduloCp', ['ngRoute', 'chart.js','ui.bootstrap','ui.bootstrap.t
  
   cd.errorNewCategory = false;
   cd.errorNewTask = false;
-}])
 
 
+  var $scope=this;
 
-.controller('ModalDemoCtrl', ['httpFactory','$scope', '$modal',function (httpFactory, $scope, $modal , $log) {
-  //$scope=this;
-   $scope.avisar = function(){
-            console.log("cambié");
-        }
-
-
-  $scope.algo = "fffffffffffHola Angular, usando controller más simple";
-  console.log("dddddddddd");
-
-  //$scope.items = ['item1', 'item2', 'item3'];
-
-  $scope.items=[
-  {nombre:"xxxx 1"},
-  {nombre:"walter jesus"},
-  {nombre:"ss"}];
-
-
-  httpFactory.getUsuarios()
+ httpFactory.getUsuarios()
   .success(function(res) {
     $scope.roles = res; 
-   
+  
    })
   .error(function(res) {
-    $scope.roles = [];
+    $scope.roles= [];
   });
 
 
-  // $scope.roles = [
-  //   {id: 1, text: 'guest'},
-  //   {id: 2, text: 'user'},
-  //   {id: 3, text: 'customer'},
-  //   {id: 4, text: 'admin'}
-  // ];
 
+
+
+
+  $scope.confirmed = 'You have yet to be confirmed!';
+  $scope.name = '"Your name here."';
+
+  cd.launch = function(which,integrante){
+    var dlg = null;
+    switch(which){
+
+      case 'confirm':
+
+        console.log(which,integrante);
+        dlg = $dialogs.confirm('Please Confirm','Is this awesome or what?');
+        dlg.result.then(function(btn){
+          $scope.confirmed = 'You thought this quite awesome!';
+        },function(btn){
+          $scope.confirmed = 'Shame on you for not thinking this is awesome!';
+        });
+
+
+        $scope.animationsEnabled = true;       
+        var modalInstance = $modal.open({
+            animation: $scope.animationsEnabled, 
+            controller: 'ModalInstanceCtrl', 
+            templateUrl: 'myModalContent.html',
+            resolve: {
+              users: function () 
+              {                
+                console.log(integrante);
+                //console.log($scope.roles);
+                return $scope.roles;
+              },
+
+              integrantes: function () 
+              {                
+                return integrante;
+                
+                //console.log('llego');
+                //console.log($scope.integrantes);
+                //return $scope.integrantes;
+              }
+            }
+
+        // modalInstance.result.then(function (selectedItem) 
+        // {
+        //   $scope.selected = selectedItem;
+        // }, function () {
+        //     //$log.info('Modal dismissed at: ' + new Date());
+        // });
+
+
+          });
+
+        $scope.toggleAnimation = function ()
+        {
+          $scope.animationsEnabled = !$scope.animationsEnabled;
+        };
+
+        break;
+
+   // Create Your Own Dialog
+      case 'create':
+        console.log('create');
+      
+        dlg = $dialogs.create('/dialogs/whatsyourname.html','whatsYourNameCtrl',{},{key: false,back: 'static'});
+        dlg.result.then(function(name){
+          $scope.name = name;
+        },function(){
+          $scope.name = 'You decided not to enter in your name, that makes me sad.';
+        });
+        
+        break;
+
+    }; // end switch
+  }; // end launch
+ 
+  
+
+}])
+
+
+//.controller('ModalDemoCtrl', ['$scope', '$modal','httpFactory', function ( $scope, $modal , httpFactory) {
+
+
+ // httpFactory.getUsuarios()
+ //  .success(function(res) {
+ //    $scope.roles = res; 
+  
+ //   })
+ //  .error(function(res) {
+ //    $scope.roles= [];
+ //  });
+
+
+  // $scope.items=[
+  // {nombre:"xxxx 1"},
+  // {nombre:"walter jesus"},
+  // {nombre:"ss"}];
+
+      // $scope.roles = [
+      //   {id: 1, text: 'guest'},
+      //   {id: 2, text: 'user'},
+      //   {id: 3, text: 'customer'},
+      //   {id: 4, text: 'admin'}
+      // ];
+
+  // $scope.animationsEnabled = true;
+
+  // $scope.open = function (size) {
+  //   var modalInstance = $modal.open({
+  //     animation: $scope.animationsEnabled,
+  //     templateUrl: 'myModalContent.html',
+  //     controller: 'ModalInstanceCtrl',
+  //     //controller: 'PanelCtrl',
+  //     size: size,
+  //     resolve: {
+  //       items: function () 
+  //       {          
+  //         //console.log($scope.roles);
+  //         return $scope.roles;
+  //       }
+  //     }
+  //   });
+
+    // modalInstance.result.then(function (selectedItem) 
+    // {
+    //   $scope.selected = selectedItem;
+    // }, function () {
+    //     //$log.info('Modal dismissed at: ' + new Date());
+    // });
+
+  //};
+
+  // $scope.toggleAnimation = function ()
+  // {
+  //   $scope.animationsEnabled = !$scope.animationsEnabled;
+  // };
+//}])
+
+
+.controller('ModalInstanceCtrl',  ['$scope', '$modal','users','integrantes',function ($scope, $modalInstance ,users,integrantes){
+
+  $scope.roles = users;
+  $scope.integrantes = integrantes;
+
+  console.log($scope.roles);
+  console.log($scope.integrantes);
 
 
   $scope.user = {
-    roles: [$scope.roles[1]]
+    roles: []
   };
+
+  // $scope.user = {
+  //   roles: [$scope.roles[1]]
+  // };
+
+  //console.log($scope.user);
+
+  $scope.avisar = function(){
+    console.log("avisar");
+   // $scope.user.roles.splice(0, $scope.user.roles.length);
+    //$scope.user.roles.push($scope.roles[0]);
+        //console.log($scope.user.roles);
+        //console.log($scope.user);
+         $scope.ingreso = {
+            itex: [$scope.user.roles[0]]
+          
+          };
+
+
+        console.log($scope.ingreso.itex);
+        
+        console.log($scope.user.roles);
+      
+        //$scope.user=[];
+        //$scope.user.roles.splice($scope.user.roles);
+      //for (var i = 0; i < $scope.user.roles.length; i++) 
+      //{
+        //uid_i=$scope.user.roles[i].uid;
+        //var newTaske = { uid: uid_i, completed: false };
+        //$scope.integrantes.items.push(newTaske);
+        
+      //}
+  }
+
   $scope.checkAll = function() {
     $scope.user.roles = angular.copy($scope.roles);
-    console.log($scope.user.roles);
+    //console.log($scope.user.roles);
+
+       for (var i = 0; i < $scope.user.roles.length; i++) {
+          console.log($scope.user.roles[i].uid);
+
+          uid_i=$scope.user.roles[i].uid;
+
+          var newTaske = { uid: uid_i, completed: false };
+
+          //console.log($scope.integrantes[0]);
+          $scope.integrantes.items.push(newTaske);
+
+       }
+
+
+
   };
   $scope.uncheckAll = function() {
     $scope.user.roles = [];
     console.log($scope.user.roles);
+    $scope.integrantes.items.splice($scope.integrantes.items);
+    //$scope.integrantes.items.push( $scope.user.roles);
     };
+
   $scope.checkFirst = function() {
-    $scope.user.roles.splice(0, $scope.user.roles.length); 
+    $scope.user.roles.splice(0, $scope.user.roles.length);
     $scope.user.roles.push($scope.roles[0]);
-    console.log($scope.user.roles);
+
+    console.log($scope.user.roles[0]['uid']);
+    uid_i= $scope.user.roles[0]['uid'];
+    //console.log($scope.user.roles);
+    var newTaske = { uid: uid_i, completed: false };
+
+    //console.log($scope.integrantes[0]);
+    $scope.integrantes.items.push(newTaske);
+   // $scope.integrantes.push(newTaske);
 
   };
 
-  //console.log($scope);
-
-  $scope.animationsEnabled = true;
-
-  $scope.open = function (size) {
-    var modalInstance = $modal.open({
-     
-      animation: $scope.animationsEnabled,
-      templateUrl: 'myModalContent.html',
-      controller: 'ModalInstanceCtrl',
-      size: size,
-      resolve: {
-        items: function () 
-        {
-          return $scope.items;
-        }
-      }
-    });
-
-    modalInstance.result.then(function (selectedItem) 
-    {
-      $scope.selected = selectedItem;
-    }, function () {
-        //$log.info('Modal dismissed at: ' + new Date());
-    });
-
-  };
-
-  $scope.toggleAnimation = function ()
-  {
-    $scope.animationsEnabled = !$scope.animationsEnabled;
-  };
-
-}])
-
-
-.controller('ModalInstanceCtrl',  ['$scope', '$modal','items',function ($scope, $modalInstance ,items){
-  //$scope=this;
-  $scope.items = items;
-  
-  console.log($scope.items);
-
-  $scope.selected = {
-    item: $scope.items
-  };
 
   $scope.ok = function () {
     console.log('ok');
@@ -275,8 +417,30 @@ angular.module('moduloCp', ['ngRoute', 'chart.js','ui.bootstrap','ui.bootstrap.t
     console.log('cancel');
     $modalInstance.dismiss('cancel');
   };
-}]);
+}])
 
 
 
+
+// .controller('whatsYourNameCtrl',function($scope,$modalInstance,data){
+//   $scope.user = {name : ''};
+
+//   $scope.cancel = function(){
+//     $modalInstance.dismiss('canceled');  
+//   }; // end cancel
+  
+//   $scope.save = function(){
+//     $modalInstance.close($scope.user.name);
+//   }; // end save
+  
+//   $scope.hitEnter = function(evt){
+//     if(angular.equals(evt.keyCode,13) && !(angular.equals($scope.name,null) || angular.equals($scope.name,'')))
+//         $scope.save();
+//   }; // end hitEnter
+// }) // end whatsYourNameCtrl
+
+
+// .run(['$templateCache',function($templateCache){
+//   $templateCache.put('/dialogs/whatsyourname.html','<div class="modal"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><h4 class="modal-title"><span class="glyphicon glyphicon-star"></span> User\'s Name</h4></div><div class="modal-body"><ng-form name="nameDialog" novalidate role="form"><div class="form-group input-group-lg" ng-class="{true: \'has-error\'}[nameDialog.username.$dirty && nameDialog.username.$invalid]"><label class="control-label" for="username">Name:</label><input type="text" class="form-control" name="username" id="username" ng-model="user.name" ng-keyup="hitEnter($event)" required><span class="help-block">Enter your full name, first &amp; last.</span></div></ng-form></div><div class="modal-footer"><button type="button" class="btn btn-default" ng-click="cancel()">Cancel</button><button type="button" class="btn btn-primary" ng-click="save()" ng-disabled="(nameDialog.$dirty && nameDialog.$invalid) || nameDialog.$pristine">Save</button></div></div></div></div>');
+// }]); // end run / module
 
