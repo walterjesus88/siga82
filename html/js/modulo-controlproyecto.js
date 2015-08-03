@@ -7,11 +7,11 @@ angular.module('moduloCp', ['ngRoute', 'chart.js','ui.bootstrap','ui.bootstrap.t
     controllerAs: "CD",
     templateUrl: "/proyecto/index/panel"
   })
- // .when("/", {
- //   controller: "ModalDemoCtrl",
- //    controllerAs: "CD",
- //   templateUrl: "/proyecto/index/panel"
- // })
+ //.when("/", {
+   //controller: "ModalInstanceCtrl",
+    //controllerAs: "CD",
+  // templateUrl: "/proyecto/index/panel"
+ //})
 
   // .when("/", {
   //   controller: "ModalInstanceCtrl",
@@ -129,6 +129,48 @@ angular.module('moduloCp', ['ngRoute', 'chart.js','ui.bootstrap','ui.bootstrap.t
       item.completed = false;
   };
 
+
+  cd.ver= function(item) {
+    console.log('s');
+  //     console.log(cd.role.uid);
+  //     $scope.playList = $filter('filter')($scope.selectedAlbumSongs, {checked: true});
+  //     console.log($scope.playList);
+  };
+
+
+  // cd.isChecked = function(id){
+
+  //     var match = false;
+  //     for(var i=0 ; i < cd.roles.length; i++) {
+  //       if(cd.roles[i].id == id){
+  //         match = true;
+  //       }
+  //     }
+
+  //    // console.log(match);
+  //     return match;
+  // };
+
+  // cd.sync = function(bool, role){  
+  //   if(bool){
+  //     //console.log(bool);
+  //     //console.log(role);
+  //     // add item
+  //     //cd.roles.push(role);
+  //   } else {
+  //     // remove item
+  //     for(var i=0 ; i < cd.roles.length; i++) {
+  //       //console.log(cd.roles[i].id);
+  //       if(cd.roles[i].id == role.id){
+  //         cd.roles.splice(i,1);
+  //       }
+  //     }      
+  //   }
+  // };
+  
+
+
+
   cd.integrantes = [];
   cd.cantidad_proyectos = {
     total: 0,
@@ -171,13 +213,14 @@ angular.module('moduloCp', ['ngRoute', 'chart.js','ui.bootstrap','ui.bootstrap.t
  httpFactory.getUsuarios()
   .success(function(res) {
     $scope.roles = res; 
+    //console.log($scope.roles);
   
    })
   .error(function(res) {
     $scope.roles= [];
   });
 
-
+  //fin de factory para llamar datos
 
 
 
@@ -191,7 +234,7 @@ angular.module('moduloCp', ['ngRoute', 'chart.js','ui.bootstrap','ui.bootstrap.t
 
       case 'confirm':
 
-        console.log(which,integrante);
+        //console.log(which,integrante);
         dlg = $dialogs.confirm('Please Confirm','Is this awesome or what?');
         dlg.result.then(function(btn){
           $scope.confirmed = 'You thought this quite awesome!';
@@ -325,8 +368,8 @@ angular.module('moduloCp', ['ngRoute', 'chart.js','ui.bootstrap','ui.bootstrap.t
   $scope.roles = users;
   $scope.integrantes = integrantes;
 
-  console.log($scope.roles);
-  console.log($scope.integrantes);
+  console.log($scope.roles); //son las personas //
+  console.log($scope.integrantes); //es el areaid //
 
 
   $scope.user = {
@@ -339,31 +382,63 @@ angular.module('moduloCp', ['ngRoute', 'chart.js','ui.bootstrap','ui.bootstrap.t
 
   //console.log($scope.user);
 
-  $scope.avisar = function(){
-    console.log("avisar");
-   // $scope.user.roles.splice(0, $scope.user.roles.length);
-    //$scope.user.roles.push($scope.roles[0]);
-        //console.log($scope.user.roles);
-        //console.log($scope.user);
-         $scope.ingreso = {
-            itex: [$scope.user.roles[0]]
-          
-          };
+  // $scope.avisar = function(){
+  //   //console.log($scope.user.roles);
+  //   console.log($scope.role.uid);
+  //   console.log("avisar");
+  // }
 
 
-        console.log($scope.ingreso.itex);
+  // $scope.isChecked = function(id){
+  //    //console.log(id);
+
+  //     var match = false;
+  //     for(var i=0 ; i < $scope.roles.length; i++) {
+
+  //       console.log($scope.roles.length);
         
-        console.log($scope.user.roles);
-      
-        //$scope.user=[];
-        //$scope.user.roles.splice($scope.user.roles);
-      //for (var i = 0; i < $scope.user.roles.length; i++) 
-      //{
-        //uid_i=$scope.user.roles[i].uid;
-        //var newTaske = { uid: uid_i, completed: false };
-        //$scope.integrantes.items.push(newTaske);
-        
-      //}
+  //       if($scope.roles[i].id == id){
+  //         match = true;
+  //         console.log(match);
+  //       }
+  //     }
+
+  //     return match;
+  // };
+
+  $scope.sync = function(bool, role){  
+    if(bool){
+      //console.log(bool);
+      //console.log(role);
+      role_uid=role['uid'];
+      // add item
+      //console.log(role_uid);
+      var agregar_persona = { uid: role_uid, completed: false };
+      $scope.integrantes.items.push(agregar_persona);
+
+    }
+    else
+    {
+      console.log('hhhhhh');
+          console.log($scope.integrantes.items);
+          console.log($scope.integrantes.items.length);
+
+       for(var i=0 ; i < $scope.integrantes.items.length; i++) {
+
+
+        if($scope.integrantes.items[i].uid == role.uid){
+
+
+          console.log($scope.integrantes.items[i]);
+         
+
+          console.log(i);
+          $scope.integrantes.items[i].splice($scope.integrantes.items[i]);
+
+
+         }
+      }  
+    }
   }
 
   $scope.checkAll = function() {
@@ -397,6 +472,7 @@ angular.module('moduloCp', ['ngRoute', 'chart.js','ui.bootstrap','ui.bootstrap.t
     $scope.user.roles.push($scope.roles[0]);
 
     console.log($scope.user.roles[0]['uid']);
+    console.log($scope.user.roles[0]);
     uid_i= $scope.user.roles[0]['uid'];
     //console.log($scope.user.roles);
     var newTaske = { uid: uid_i, completed: false };

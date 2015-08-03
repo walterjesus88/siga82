@@ -42,7 +42,16 @@
 	 	<button class="btn btn-success" ng-click="CD.launch('confirm',integrante)">Confirm Dialog</button>        
         <button class="btn btn-warning" ng-click="CD.launch('create')">Custom Dialog</button>
 
+
+
 	    	<!-- <div ng-controller="ModalDemoCtrl"> -->
+
+			        
+
+
+<!-- <input type="checkbox" ng-model="role.uid" ng-true-value="true" ng-false-value="false" ng-click="CD.avisar()">{{role.uid}} -->
+						
+
 			    <script type="text/ng-template" id="myModalContent.html">
 			        <div class="modal-header">
 			            <h3 class="modal-title">Im a modal!</h3>
@@ -51,10 +60,10 @@
 
 			        	<div class="well">
 			        	<label ng-repeat="role in roles">
-						  <input type="checkbox" checklist-model="user.roles" checklist-value="role" ng-model="justAnotherCheckedVar"
-						  	ng-true-value="true" ng-false-value="false"
-						   ng-click="avisar()" > {{role.uid}}
-						
+					
+				       	<input type="checkbox" checklist-model="user.rol" checklist-value="role" 
+						ng-true-value="true" ng-false-value="false" ng-checked="isChecked(role.uid)" ng-change="sync(bool,role)" ng-model="bool"
+						 > {{role.uid}} 
 
 						</label></div>
 
@@ -130,4 +139,12 @@
 
     <button class="btn btn-primary btn-block btn-sm" ng-click="CD.llevar()">llevar</button>
 
-   	
+
+
+   		<div class="well">
+
+	    <label ng-repeat="role in CD.roles">
+						{{role.uid}}
+		<input type="checkbox" ng-checked="CD.isChecked(role.uid)" ng-change="CD.sync(bool,role)" ng-model="bool" ng-true-value="true" ng-false-value="false" >						
+		<!-- ng-click="CD.ver()"  -->
+		</label></div>
