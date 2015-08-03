@@ -172,4 +172,19 @@ class ControlDocumentario_IndexController extends Zend_Controller_Action {
       $respuesta['logo_cliente'] = '../img/cliente/'.$respuesta['clienteid'].'.jpg';
       $this->_helper->json->sendJson($respuesta);
     }
+
+    public function modalcontactoAction()
+    {
+      $this->_helper->layout()->disableLayout();
+    }
+
+    public function cambiarcontroldocumentarioAction()
+    {
+      $this->_helper->layout()->disableLayout();
+      $proyectoid = $this->_getParam('proyectoid');
+      $control_documentario = $this->_getParam('controldocumentario');
+      $proyecto = new Admin_Model_DbTable_Proyecto();
+      $respuesta = $proyecto->_updateControlDocumentario($proyectoid, $control_documentario);
+      $this->_helper->json->sendJson($respuesta);
+    }
 }

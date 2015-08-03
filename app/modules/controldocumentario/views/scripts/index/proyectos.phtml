@@ -53,7 +53,10 @@
           {{proyecto.control_proyecto}}
         </td>
         <td>
-          {{proyecto.control_documentario}}
+          <select class="form-control" ng-model="proyecto.control_documentario"
+          ng-options="integrante.nombre as integrante.nombre for integrante in CD.control_documentario"
+          ng-change="CD.cambiarControlDocumentario(proyecto.codigo, proyecto.control_documentario)">
+          </select>
         </td>
         <td>
           {{proyecto.estado}}

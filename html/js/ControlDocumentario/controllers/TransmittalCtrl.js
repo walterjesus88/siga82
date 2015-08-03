@@ -1,7 +1,8 @@
 /*Controlador de la vista de gestion de transmittals*/
 
 app.controller('TransmittalCtrl', ['httpFactory', 'configuracionTransmittal',
-  '$routeParams', function(httpFactory, configuracionTransmittal, $routeParams) {
+  '$routeParams', '$modal', function(httpFactory, configuracionTransmittal,
+  $routeParams, $modal) {
 
   /*referencia del scope, obtencion del proyecto seleccionado y el objeto que
   contendra los datos del proyecto*/
@@ -135,5 +136,14 @@ app.controller('TransmittalCtrl', ['httpFactory', 'configuracionTransmittal',
   //guardar los cambios efectuados en la configuracion del transmittal
   cd.guardarConfiguracion = function() {
     configuracionTransmittal.guardarCambios();
+  }
+
+  //metodos para mostrar modales de ingreso de datos
+  cd.modalContacto = function() {
+    $("#modalcontacto").modal();
+  }
+
+  cd.modalLogo = function() {
+    $("#edit_logo").modal();
   }
 }]);

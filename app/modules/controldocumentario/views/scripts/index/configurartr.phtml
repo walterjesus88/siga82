@@ -13,7 +13,7 @@
       <select class="form-control" ng-model="CD.formato_seleccionado"
       ng-options="formato as formato for formato in CD.formatos">
       </select>
-      <button type="button" class="btn btn-default btn-sm">Editar</button>
+      <button type="button" class="btn btn-default btn-xs">Editar</button>
     </section>
 
     <section class="col-md-6 col-sm-12 form-group panel-body">
@@ -29,7 +29,7 @@
       <select class="form-control" ng-model="CD.tipo_seleccionado"
       ng-options="tipo as tipo for tipo in CD.tipos_envio">
       </select>
-      <button type="button" class="btn btn-default btn-sm">Editar</button>
+      <button type="button" class="btn btn-default btn-xs">Editar</button>
     </section>
 
     <section class="col-md-6 col-sm-12 form-group panel-body">
@@ -40,7 +40,7 @@
           {{contacto.nombre}}
         </option>
       </select>
-      <button type="button" class="btn btn-default btn-sm">Editar</button>
+      <button type="button" class="btn btn-default btn-xs" ng-click="CD.modalContacto()">Editar</button>
     </section>
 
     <section class="col-md-6 col-sm-12 form-group panel-body">
@@ -77,7 +77,7 @@
     <section class="col-md-6 col-sm-12 form-group panel-body">
       <label for="" class="col-md-3">Logo:</label>
       <input type="text" class="form-control">
-      <button type="button" class="btn btn-default btn-sm">Editar</button>
+      <button type="button" class="btn btn-default btn-xs" ng-click="CD.modalLogo()">Editar</button>
     </section>
 
     <section class="col-md-12 col-sm-12 form-group panel-body">
@@ -85,5 +85,65 @@
       <button type="button" class="btn btn-danger">Cancelar</button>
     </section>
 
+  </div>
+</div>
+
+<!--div de modal edicion de contactos-->
+<div class="modal fade" id="modalcontacto" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+  <div class="modal-dialog modal-sm">
+      <div class="modal-content">
+        <header class="modal-header">
+          <button type="button" class="close" aria-hidden="true">x</button>
+          <h4 class="modal-title">Editar Contacto:</h1>
+        </header>
+          <div class="modal-body">
+            <section class="form-group">
+              <label for="">Atención:</label>
+              <input type="text" class="form-control">
+            </section>
+            <section class="form-group">
+              <label for="">Área:</label>
+              <input type="text" class="form-control">
+            </section>
+            <section class="form-group">
+              <label for="">Correo:</label>
+              <input type="text" class="form-control">
+            </section>
+          </div>
+          <footer class="modal-footer">
+            <button type="button" class="btn btn-info btn-xs">Agregar</button>
+            <button type="button" class="btn btn-warning btn-xs">Modificar</button>
+            <button type="button" class="btn btn-danger btn-xs">Eliminar</button>
+            <button type="button" class="btn btn-success btn-xs">Guardar</button>
+          </footer>
+      </div>
+  </div>
+</div>
+
+<!--div de modal edicion de logo-->
+<div class="modal fade" id="modallogo" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+  <div class="modal-dialog modal-sm">
+      <div class="modal-content">
+        <header class="modal-header">
+          <button type="button" class="close" aria-hidden="true">x</button>
+          <h4 class="modal-title">Editar Logo:</h1>
+        </header>
+          <div class="modal-body">
+            <section class="form-group">
+              <label for="">Cliente:</label>
+              <input type="text" class="form-control">
+            </section>
+            <section class="form-group">
+              <label for="">Logo:</label>
+              <input type="text" class="form-control">
+            </section>
+          </div>
+          <footer class="modal-footer">
+            <button type="button" class="btn btn-info btn-xs">Agregar</button>
+            <button type="button" class="btn btn-warning btn-xs">Modificar</button>
+            <button type="button" class="btn btn-danger btn-xs">Eliminar</button>
+            <button type="button" class="btn btn-success btn-xs">Guardar</button>
+          </footer>
+      </div>
   </div>
 </div>

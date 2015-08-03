@@ -3,9 +3,11 @@
 app.controller('ProyectoCtrl', ['$location', 'httpFactory', 'configuracionTransmittal',
 function($location, httpFactory, configuracionTransmittal) {
 
-  //referencia del scope y array que contendra a los proyectos
+  /*referencia del scope y  los arrays que contendra a los proyectos y a los
+  integrantes de control documentario*/
   var cd = this;
   cd.proyectos = [];
+  cd.control_documentario = [];
 
   //carga inicial de los proyectos con estado activo
   httpFactory.getProyectos('A')
@@ -22,6 +24,15 @@ function($location, httpFactory, configuracionTransmittal) {
     cd.proyectos = [];
   })
 
+  //carga inicial de integrantes de control documentario
+  httpFactory.getIntegrantes()
+  .success(function(res) {
+    cd.control_documentario = res;
+  })
+  .error(function(res) {
+    cd.control_documentario = [];
+  })
+
   //metodo para cargar los proyectos de los diferentes estados
   cd.cargarProyectos = function(estado) {
     httpFactory.getProyectos(estado)
@@ -36,6 +47,17 @@ function($location, httpFactory, configuracionTransmittal) {
     })
     .error(function(res) {
       cd.proyectos = [];
+    })
+  }
+
+  //metodo para cambiar el control documentario asignado al proyecto
+  cd.cambiarControlDocumentario = function(proyectoid, control_documentario) {
+    httpFactory.setControlDocumentario(proyectoid, control_documentario)
+    .success(function(res) {
+      alert('Control Documentario cambiado');
+    })
+    .error(function(res) {
+      alert('No se pudo cambiar el Control Documentario');
     })
   }
 

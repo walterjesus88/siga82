@@ -31,7 +31,12 @@ app.factory('httpFactory', ['$http', function($http) {
       datos.control_documentario + '/atencion/' + datos.atencion +
       '/dias_alerta/' + datos.dias_alerta + '/tipoproyecto/' +
       datos.tipo_proyecto);
+    },
+    setControlDocumentario: function(proyectoid, control_documentario) {
+      return $http.post(url + 'cambiarcontroldocumentario/proyectoid/' +
+      proyectoid + '/controldocumentario/' + control_documentario);
     }
+
   }
 
   return publico;
