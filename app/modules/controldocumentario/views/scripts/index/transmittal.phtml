@@ -46,9 +46,11 @@
           Descripción del Proyecto
         </header>
         <div class="panel-body">
-          <img ng-src="CD.proyecto_seleccionado.logo_cliente" alt="Logo Cliente" />
+          <div class="">
+            <img ng-src="{{CD.proyecto.logo_cliente}}" alt="Logo Cliente" class="img-responsive"/>
+          </div>
           <p>
-          {{CD.proyecto_seleccionado.descripcion}}
+          {{CD.proyecto.descripcion}}
           </p>
         </div>
       </div>

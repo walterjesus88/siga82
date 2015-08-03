@@ -9,8 +9,8 @@ app.factory('httpFactory', ['$http', function($http) {
     getIntegrantes: function(){
       return $http.get(url + 'integrantes')
     },
-    getProyectos: function() {
-      return $http.get(url + 'proyectosjson');
+    getProyectos: function(estado) {
+      return $http.get(url + 'proyectosjson/estado/' + estado);
     },
     getClientes: function() {
       return $http.get(url + 'clientes');
@@ -23,6 +23,14 @@ app.factory('httpFactory', ['$http', function($http) {
     },
     getProyectoById: function(proyectoid) {
       return $http.get(url + 'proyecto/proyectoid/' + proyectoid);
+    },
+    setConfiguracionTransmittal: function(datos) {
+      return $http.post(url + 'conftrans/codificacion/' + datos.codificacion +
+      '/formato/' + datos.formato + '/tipoenvio/' + datos.tipo_envio +
+      '/cliente/' + datos.cliente + '/controldocumentario/' +
+      datos.control_documentario + '/atencion/' + datos.atencion +
+      '/dias_alerta/' + datos.dias_alerta + '/tipoproyecto/' +
+      datos.tipo_proyecto);
     }
   }
 

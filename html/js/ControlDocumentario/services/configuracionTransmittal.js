@@ -1,12 +1,11 @@
 /*servicio Factory para configurar datos de Transmittal*/
 app.factory('configuracionTransmittal', ['httpFactory', function(httpFactory) {
 
-  var proyecto_sel = '';
-
   var datos = {
     codificacion: '',
     formato: 'anddes',
     tipo_envio: 'anddes',
+    proyecto: '',
     cliente: '',
     control_documentario: '',
     atencion: '',
@@ -41,21 +40,58 @@ app.factory('configuracionTransmittal', ['httpFactory', function(httpFactory) {
     getProyecto_sel: function() {
       return proyecto_sel;
     },
-
     setProyecto_sel: function(proyectoid) {
       proyecto_sel = proyectoid;
     },
 
-    cambiarControlDocumentario: function(control_documentario) {
+    setCodificacion: function(codificacion) {
+      datos.codificacion = codificacion;
+    },
+    setFormato: function(formato) {
+      datos.formato = formato;
+    },
+    setTipoEnvio: function(tipo_envio) {
+      datos.tipo_envio = tipo_envio;
+    },
+    setProyecto:function(proyecto) {
+      datos.proyecto = proyecto;
+    },
+    setCliente: function(cliente) {
+      datos.cliente = cliente;
+    },
+    setControlDocumentario: function(control_documentario) {
       datos.control_documentario = control_documentario;
-      httpFactory.updateConfiguracionTr()
-      .success(function(res) {
+    },
+    setAtencion: function(atencion) {
+      datos.atencion = atencion;
+    },
+    setDiasAlerta: function(dias_alerta) {
+      datos.dias_alerta = dias_alerta;
+    },
+    setArea: function(area) {
+      datos.area = area;
+    },
+    setTipoProyecto: function(tipo_proyecto) {
+      datos.tipo_proyecto = tipo_proyecto;
+    },
+    setCorreo: function(correo) {
+      datos.correo = correo;
+    },
+    setLogo: function(logo) {
+      datos.logo = logo;
+    },
 
+    guardarCambios: function() {
+      console.log(datos);
+      httpFactory.setConfiguracionTransmittal(datos)
+      .success(function(res) {
+        alert('Cambios guardados satisfactoriamente');
       })
       .error(function(res) {
-        alert('No se puedo guargar los datos, intentelo nuevamente');
+        alert('Error al guardar cambios, intentelo denuevo');
       })
     }
+
   }
 
   return publico;

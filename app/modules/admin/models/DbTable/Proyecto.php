@@ -273,14 +273,14 @@ class Admin_Model_DbTable_Proyecto extends Zend_Db_Table_Abstract
       }
     }
 
-    public function _getAllExtendido()
+    public function _getAllExtendido($estado)
     {
       try {
         $sql = $this->_db->query("select pro.proyectoid, cli.nombre_comercial,
         pro.nombre_proyecto, pro.gerente_proyecto, pro.control_proyecto,
         pro.control_documentario, pro.estado
         from proyecto as pro inner join cliente as cli
-        on pro.clienteid = cli.clienteid");
+        on pro.clienteid = cli.clienteid where pro.estado='".$estado."'");
         $row = $sql->fetchAll();
         return $row;
       } catch (Exception $e) {
@@ -291,16 +291,17 @@ class Admin_Model_DbTable_Proyecto extends Zend_Db_Table_Abstract
     public function _getOnexProyectoidExtendido($data=null)
     {
       try {
-        $sql = $this->_db->query("select pro.proyectoid, cli.nombre_comercial,
-        pro.nombre_proyecto, pro.estado, uni.nombre, pro.fecha_inicio,
-        pro.fecha_cierre, pro.control_documentario 
+        $sql = $this->_db->query("select pro.proyectoid, cli.clienteid,
+        cli.nombre_comercial, pro.nombre_proyecto, pro.estado, uni.nombre,
+        pro.fecha_inicio, pro.fecha_cierre, pro.control_documentario,
+        pro.tipo_proyecto, pro.descripcion
         from proyecto as pro inner join cliente as cli
         on pro.clienteid = cli.clienteid
         inner join unidad_minera as uni
         on pro.unidad_mineraid = uni.unidad_mineraid
         where proyectoid = '".$data['proyectoid']."'");
         $row = $sql->fetchAll();
-        return $row;
+        return $row[0];
       } catch (Exception $e) {
         print $e->getMessage();
       }
