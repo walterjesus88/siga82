@@ -17,6 +17,12 @@ class Proyecto_IndexController extends Zend_Controller_Action {
     public function indexAction() {
     }
 
+    public function panelAction()
+    {
+      $this->_helper->layout()->disableLayout();
+    }
+
+
     public function listarAction() {
         $uid = $this->sesion->uid;
         $dni = $this->sesion->dni;
@@ -229,31 +235,6 @@ class Proyecto_IndexController extends Zend_Controller_Action {
         $uid= trim($this->_getParam("uid"));
         $areaid= trim($this->_getParam("areaid"));
         $rate= $this->_getParam("rate");
-        //$ratep= $this->_getParam("rate_proyecto");
-        
-        // $nom= $this->_getParam("nombre");
-        
-        // echo $nom;
-         echo $rate;
-         echo "</br>";
-         echo $proyectoid;
-         echo "</br>";
-
-         echo $codigo_prop_proy;
-         echo "</br>";
-
-         echo $uid;
-         echo "</br>";
-
-         echo $dni;
-         echo "</br>";
-
-         echo $areaid;
-         echo "</br>";
-
-        // echo $areaid;
-        // exit();
-
          
         $pk  =   array(                        
                         'codigo_prop_proy'   =>$codigo_prop_proy,
@@ -267,10 +248,7 @@ class Proyecto_IndexController extends Zend_Controller_Action {
                         'rate_proyecto' =>  $rate
                      );
 
-        
-        print_r($pk);
-        print_r($data);
-        //exit();
+       
         $update_equipo=new Admin_Model_DbTable_Equipo();
         //$update_equipo->_update($data,$pk);
         
@@ -1297,6 +1275,7 @@ public function subiractividadesAction(){
 }
 
 public function verAction() {
+    //$this->_helper->layout()->disablelayout();
     $proyectoid= $this->_getParam("proyectoid");
     $codigo_prop_proy= $this->_getParam("codigo_prop_proy");
     $propuestaid= $this->_getParam("propuesta");
@@ -1335,6 +1314,37 @@ public function verAction() {
 
   
 }   
+
+public function verjsonAction() {
+     //$areacat=new Admin_Model_DbTable_Area();
+     //$arcat=$areacat->_getAreaxProyecto();
+    $bdequipoarea = new Admin_Model_DbTable_Equipoarea();
+    $area=$bdequipoarea->_buscarAreasxProyecto('14.10.134-1101.10.09-D','1101.10.09');
+    $i=0;
+    foreach ($area as $verarea) {
+      $bdequipo = new Admin_Model_DbTable_Equipo();
+      $equipo=$bdequipo->_buscarEquipoxProyectoxArea('14.10.134-1101.10.09-D','1101.10.09',$verarea['areaid']);
+       //eq.areaid,a.orden,a.nombre
+      $ek[] = array('name' =>$verarea['nombre'],'area'=>$verarea['areaid'] ,'items'=> $equipo);
+      $i++;
+    }    
+    //es el formato de renderiar :  [{"bbb":"1","name":"2","items":[{"nombre":"books"}]}]
+    $arr = array(['bbb' =>'1', 'name' => '2','items'=>  array(['nombre' =>'books'])]);
+    $this->_helper->json->sendJson($ek);  
+
+}
+
+
+public function usuariosjsonAction() {
+  $user=new Admin_Model_DbTable_Usuario();
+  $us=$user->_getUsuarioAll();
+  $this->_helper->json->sendJson($us);  
+
+
+}
+
+
+
 
   public function subirareacategoriaAction() {
     /*$proyectoid= $this->_getParam("proyectoid");

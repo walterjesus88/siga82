@@ -88,7 +88,29 @@ class Admin_Model_DbTable_Equipoarea extends Zend_Db_Table_Abstract
             print $ex->getMessage();
         }
     }
+
+    public function _buscarAreasxProyectoxPersonas($codigo,$proyectoid)
+     {
+        try{
+            $sql=$this->_db->query("        
+            select  distinct eq.areaid,a.orden,a.nombre,e.uid  from equipo_area as eq
+              inner join area as a 
+                on eq.areaid=a.areaid
+              inner join equipo as e 
+                on e.areaid=eq.areaid  and e.codigo_prop_proy=eq.codigo_prop_proy  and e.proyectoid=eq.proyectoid 
+              where e.codigo_prop_proy='$codigo' and e.proyectoid='$proyectoid' and e.estado='A' order by a.orden 
+            ");
+            $row=$sql->fetchAll();
+            return $row;           
+            }  
+            
+           catch (Exception $ex){
+            print $ex->getMessage();
+        }
+    }
      
+
+
 
 
     // public function _getOne($where=array()){
