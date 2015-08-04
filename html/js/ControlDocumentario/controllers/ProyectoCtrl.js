@@ -1,7 +1,8 @@
 /*Controlador de la vista lista de proyectos*/
 
-app.controller('ProyectoCtrl', ['$location', 'httpFactory', 'configuracionTransmittal',
-function($location, httpFactory, configuracionTransmittal) {
+app.controller('ProyectoCtrl', ['$location', 'httpFactory',
+'configuracionTransmittal', 'proyectoFactory',
+function($location, httpFactory, configuracionTransmittal, proyectoFactory) {
 
   /*referencia del scope y  los arrays que contendra a los proyectos y a los
   integrantes de control documentario*/
@@ -14,7 +15,7 @@ function($location, httpFactory, configuracionTransmittal) {
   .success(function(res) {
     cd.proyectos = [];
     res.forEach(function(item) {
-      proyecto = new Proyecto(item.codigo, item.cliente, item.nombre,
+      proyecto = new proyectoFactory.Proyecto(item.codigo, item.cliente, item.nombre,
         item.gerente, item.control_proyecto, item.control_documentario,
         item.estado);
       cd.proyectos.push(proyecto);
@@ -27,7 +28,11 @@ function($location, httpFactory, configuracionTransmittal) {
   //carga inicial de integrantes de control documentario
   httpFactory.getIntegrantes()
   .success(function(res) {
-    cd.control_documentario = res;
+    cd.control_documentario = [];
+    res.forEach(function(integrante) {
+      integrante.nombre = integrante.uid.changeFormat();
+      cd.control_documentario.push(integrante);
+    })
   })
   .error(function(res) {
     cd.control_documentario = [];
@@ -39,7 +44,7 @@ function($location, httpFactory, configuracionTransmittal) {
     .success(function(res) {
       cd.proyectos = [];
       res.forEach(function(item) {
-        proyecto = new Proyecto(item.codigo, item.cliente, item.nombre,
+        proyecto = new proyectoFactory.Proyecto(item.codigo, item.cliente, item.nombre,
           item.gerente, item.control_proyecto, item.control_documentario,
           item.estado);
         cd.proyectos.push(proyecto);
@@ -47,17 +52,6 @@ function($location, httpFactory, configuracionTransmittal) {
     })
     .error(function(res) {
       cd.proyectos = [];
-    })
-  }
-
-  //metodo para cambiar el control documentario asignado al proyecto
-  cd.cambiarControlDocumentario = function(proyectoid, control_documentario) {
-    httpFactory.setControlDocumentario(proyectoid, control_documentario)
-    .success(function(res) {
-      alert('Control Documentario cambiado');
-    })
-    .error(function(res) {
-      alert('No se pudo cambiar el Control Documentario');
     })
   }
 

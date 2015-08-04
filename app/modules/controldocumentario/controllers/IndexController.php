@@ -16,8 +16,12 @@ class ControlDocumentario_IndexController extends Zend_Controller_Action {
         Zend_Layout::startMvc($options);
     }
 
-    /*Accion que devuelve la vista principal contenida el el archivo
-    ../views/scripts/index/index.phtml*/
+
+
+
+
+    //Funciones que envian las vistas como plantillas sin datos
+
     public function indexAction()
     {
 
@@ -29,11 +33,6 @@ class ControlDocumentario_IndexController extends Zend_Controller_Action {
     }
 
     public function proyectosAction()
-    {
-      $this->_helper->layout()->disableLayout();
-    }
-
-    public function asignarcdAction()
     {
       $this->_helper->layout()->disableLayout();
     }
@@ -73,6 +72,18 @@ class ControlDocumentario_IndexController extends Zend_Controller_Action {
       $this->_helper->layout()->disableLayout();
     }
 
+    public function modalcontactoAction()
+    {
+      $this->_helper->layout()->disableLayout();
+    }
+
+
+
+
+    //Funciones que devuelven datos en formato json
+
+    /*Devuelve la lista de las personas trabajando en control documentario y
+    la carga de trabajo por estado de proyecto*/
     public function integrantesAction()
     {
       $proyecto = new Admin_Model_DbTable_Proyecto();
@@ -82,7 +93,7 @@ class ControlDocumentario_IndexController extends Zend_Controller_Action {
       $i = 0;
       foreach ($integrantes as $cd) {
         $carga = $proyecto->_getCargabyCD($cd['control_documentario']);
-        $data['nombre'] = $cd['control_documentario'];
+        $data['uid'] = $cd['control_documentario'];
         for ($j = 0; $j <  4; $j++) {
           $data[$tipos[$j]] = 0;
           foreach ($carga as $estado) {
@@ -97,7 +108,8 @@ class ControlDocumentario_IndexController extends Zend_Controller_Action {
       $this->_helper->json->sendJson($respuesta);
     }
 
-    public function proyectosjsonAction()
+    //Devuelve la lista de proyectos por estado
+    public function listaproyectosAction()
     {
       $estado = $this->_getParam('estado');
       $proyecto = new Admin_Model_DbTable_Proyecto();
@@ -119,6 +131,7 @@ class ControlDocumentario_IndexController extends Zend_Controller_Action {
       $this->_helper->json->sendJson($respuesta);
     }
 
+    //Devuelve la lista de clientes de Anddes
     public function clientesAction()
     {
       $this->_helper->layout()->disableLayout();
@@ -135,6 +148,7 @@ class ControlDocumentario_IndexController extends Zend_Controller_Action {
       $this->_helper->json->sendJson($respuesta);
     }
 
+    //Devuelve la lista de contactos por cliente
     public function contactosAction()
     {
       $this->_helper->layout()->disableLayout();
@@ -144,6 +158,7 @@ class ControlDocumentario_IndexController extends Zend_Controller_Action {
       $this->_helper->json->sendJson($cons);
     }
 
+    //Devuelve la lista de tipos de proyecto de la tabla proyecto
     public function tipoproyectoAction()
     {
       $this->_helper->layout()->disableLayout();
@@ -152,6 +167,7 @@ class ControlDocumentario_IndexController extends Zend_Controller_Action {
       $this->_helper->json->sendJson($tipos);
     }
 
+    //Devuelve los datos de un proyecto en particular
     public function proyectoAction()
     {
       $this->_helper->layout()->disableLayout();
@@ -173,11 +189,21 @@ class ControlDocumentario_IndexController extends Zend_Controller_Action {
       $this->_helper->json->sendJson($respuesta);
     }
 
-    public function modalcontactoAction()
+    /*Devuelve el numero incremental a asignar al nuevo transmittal deacuerdo al
+    proyecto*/
+    public function correlativotransmittalAction()
     {
       $this->_helper->layout()->disableLayout();
+      $proyectoid = $this->_getParam('proyectoid');
+      $transmittal = new Admin_Model_DbTable_Transmittal();
+      $correlativo = $transmittal->_getCorrelativo($proyectoid);
+      $this->_helper->json->sendJson($correlativo);
     }
 
+
+    //Funciones que cambian datos en la base de datos
+
+    //Actualiza el control documentario asignado a un proyecto
     public function cambiarcontroldocumentarioAction()
     {
       $this->_helper->layout()->disableLayout();
@@ -185,6 +211,25 @@ class ControlDocumentario_IndexController extends Zend_Controller_Action {
       $control_documentario = $this->_getParam('controldocumentario');
       $proyecto = new Admin_Model_DbTable_Proyecto();
       $respuesta = $proyecto->_updateControlDocumentario($proyectoid, $control_documentario);
+      $this->_helper->json->sendJson($respuesta);
+    }
+
+    //Guarda los datos de configuracion del transmittal
+    public function guardarconfiguraciontransmittalAction()
+    {
+      $this->_helper->layout()->disableLayout();
+      $data['codificacion'] = $this->_getParam('codificacion');
+      $data['correlativo'] = $this->_getParam('correlativo');
+      $data['clienteid'] = $this->_getParam('cliente');
+      $data['proyectoid'] = $this->_getParam('proyectoid');
+      $data['formato'] = $this->_getParam('formato');
+      $data['tipo_envio'] = $this->_getParam('tipoenvio');
+      $data['control_documentario'] = $this->_getParam('controldocumentario');
+      $data['dias_alerta'] = $this->_getParam('diasalerta');
+      $data['tipo_proyecto'] = $this->_getParam('tipoproyecto');
+      $data['atencion'] = $this->_getParam('atencion');
+      $transmittal = new Admin_Model_DbTable_Transmittal();
+      $respuesta = $transmittal->_saveConfiguracion($data);
       $this->_helper->json->sendJson($respuesta);
     }
 }

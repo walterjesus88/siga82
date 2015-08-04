@@ -20,17 +20,13 @@ app.controller('TransmittalCtrl', ['httpFactory', 'configuracionTransmittal',
   datos a mostrarse en los combobox de cliente, contactos, tipo de proyecto y
   control documentario*/
   cd.formatos = ['Anddes', 'Cerro Verde', 'Barrick'];
-  cd.formato_seleccionado = 'Anddes';
   cd.tipos_envio = ['Anddes', 'Cerro Verde', 'Barrick'];
-  cd.tipo_seleccionado = 'Anddes';
   cd.clientes = [];
   cd.contactos = [];
   cd.tipos_proyecto = [];
   cd.control_documentario = [];
 
-  //datos seleccionados por defecto de los combobox
-  cd.cliente_seleccionado = '';
-  cd.contacto_seleccionado = '';
+  /*inicializando la variable de los datos del contacto seleccionado*/
   cd.datos_contacto_seleccionado = {
     area: '',
     correo: ''
@@ -43,10 +39,27 @@ app.controller('TransmittalCtrl', ['httpFactory', 'configuracionTransmittal',
   httpFactory.getProyectoById(cd.proyecto_sel)
   .success(function(res) {
     cd.proyecto = res;
+    cd.proyecto.control_documentario = cd.proyecto.control_documentario.changeFormat();
+
+    //cargar los datos del transmittal con los datos del proyecto
+    cd.transmittal.proyecto = cd.proyecto.codigo;
+    cd.transmittal.cliente = cd.proyecto.clienteid;
+    cd.transmittal.control_documentario = cd.proyecto.control_documentario;
+    cd.transmittal.tipo_proyecto = cd.proyecto.tipo_proyecto;
+
+    //obtencion del numero correlativo correspondiente a este transmittal
+    httpFactory.getCorrelativoTransmittal(cd.transmittal.proyecto)
+    .success(function(res) {
+      cd.transmittal.correlativo = res.correlativo;
+    })
+    .error(function(res) {
+      cd.transmittal.correlativo = '';
+    })
   })
   .error(function(res) {
     cd.proyecto = {};
   })
+
 
   /*obtencion de los datos de clientes, control documentario, tipo de proyectos
   y contactos por cliente*/
@@ -60,7 +73,11 @@ app.controller('TransmittalCtrl', ['httpFactory', 'configuracionTransmittal',
 
   httpFactory.getIntegrantes()
   .success(function(res) {
-    cd.control_documentario = res;
+    cd.control_documentario = [];
+    res.forEach(function(integrante) {
+      integrante.nombre = integrante.nombre.changeFormat();
+      cd.control_documentario.push(integrante);
+    })
   })
   .error(function(res) {
     cd.control_documentario = [];
@@ -112,9 +129,15 @@ app.controller('TransmittalCtrl', ['httpFactory', 'configuracionTransmittal',
     configuracionTransmittal.setCodificacion(cd.transmittal.codificacion);
   }
 
+  //cambio del campo dias de alerta cada vez que es cambiado
+  cd.cambiarDiasAlerta = function() {
+    configuracionTransmittal.setDiasAlerta(cd.transmittal.dias_alerta);
+  }
+
   //cargar los datos de contacto cada vez que se cambia de cliente seleccionado
   cd.cambiarCliente = function() {
-    httpFactory.getContactosByCliente(cd.proyecto.clienteid)
+    configuracionTransmittal.setCliente(cd.transmittal.cliente);
+    httpFactory.getContactosByCliente(cd.transmittal.cliente)
     .success(function(res) {
       cd.contactos = res;
     })
@@ -125,8 +148,9 @@ app.controller('TransmittalCtrl', ['httpFactory', 'configuracionTransmittal',
 
   //cargar los datos del contacto de acuerdo al contacto seleccionado
   cd.cambiarContacto = function() {
+    configuracionTransmittal.setAtencion(cd.transmittal.atencion);
     cd.contactos.forEach(function(contacto) {
-      if (contacto.contactoid == cd.contacto_seleccionado) {
+      if (contacto.contactoid == cd.transmittal.atencion) {
         cd.datos_contacto_seleccionado.area = contacto.puesto_trabajo;
         cd.datos_contacto_seleccionado.correo = contacto.correo;
       }
@@ -135,6 +159,7 @@ app.controller('TransmittalCtrl', ['httpFactory', 'configuracionTransmittal',
 
   //guardar los cambios efectuados en la configuracion del transmittal
   cd.guardarConfiguracion = function() {
+    configuracionTransmittal.setConfiguracion(cd.transmittal);
     configuracionTransmittal.guardarCambios();
   }
 

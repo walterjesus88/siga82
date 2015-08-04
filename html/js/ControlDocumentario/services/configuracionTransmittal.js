@@ -3,8 +3,9 @@ app.factory('configuracionTransmittal', ['httpFactory', function(httpFactory) {
 
   var datos = {
     codificacion: '',
-    formato: 'anddes',
-    tipo_envio: 'anddes',
+    correlativo: '',
+    formato: 'Anddes',
+    tipo_envio: 'Anddes',
     proyecto: '',
     cliente: '',
     control_documentario: '',
@@ -21,20 +22,18 @@ app.factory('configuracionTransmittal', ['httpFactory', function(httpFactory) {
       return datos;
     },
 
-    setConfiguracion: function(codificacion, formato, tipo_envio, cliente,
-      control_documentario, atencion, dias_alerta, area, tipo_proyecto,
-      correo, logo) {
-      datos.codificacion = codificacion;
-      datos.formato = formato;
-      datos.tipo_envio = tipo_envio;
-      datos.cliente = cliente;
-      datos.control_documentario = control_documentario;
-      datos.atencion = atencion;
-      datos.dias_alerta = dias_alerta;
-      datos.area = area;
-      datos.tipo_proyecto = area;
-      datos.correo = correo;
-      datos.logo = logo;
+    setConfiguracion: function(transmittal) {
+      datos.codificacion = transmittal.codificacion;
+      datos.formato = transmittal.formato;
+      datos.tipo_envio = transmittal.tipo_envio;
+      datos.cliente = transmittal.cliente;
+      datos.control_documentario = transmittal.control_documentario;
+      datos.atencion = transmittal.atencion;
+      datos.dias_alerta = transmittal.dias_alerta;
+      datos.area = transmittal.area;
+      datos.tipo_proyecto = transmittal.tipo_proyecto;
+      datos.correo = transmittal.correo;
+      datos.logo = transmittal.logo;
     },
 
     getProyecto_sel: function() {
@@ -82,7 +81,6 @@ app.factory('configuracionTransmittal', ['httpFactory', function(httpFactory) {
     },
 
     guardarCambios: function() {
-      console.log(datos);
       httpFactory.setConfiguracionTransmittal(datos)
       .success(function(res) {
         alert('Cambios guardados satisfactoriamente');

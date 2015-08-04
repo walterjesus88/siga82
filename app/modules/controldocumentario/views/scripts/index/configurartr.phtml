@@ -3,14 +3,13 @@
 
     <section class="col-md-6 col-sm-12 form-group panel-body">
       <label for="" class="col-md-3">Codificación</label>
-      <input type="text" class="form-control" ng-model="CD.transmittal.codificacion"
-      ng-change="CD.cambiarCodificacion()">
-      <label for="">{{correlativo}}</label>
+      <input type="text" class="form-control" ng-model="CD.transmittal.codificacion">
+      <label for="">{{CD.transmittal.correlativo}}</label>
     </section>
 
     <section class="col-md-6 col-sm-12 form-group panel-body">
       <label for="" class="col-md-3">Formato:</label>
-      <select class="form-control" ng-model="CD.formato_seleccionado"
+      <select class="form-control" ng-model="CD.transmittal.formato"
       ng-options="formato as formato for formato in CD.formatos">
       </select>
       <button type="button" class="btn btn-default btn-xs">Editar</button>
@@ -18,7 +17,7 @@
 
     <section class="col-md-6 col-sm-12 form-group panel-body">
       <label for="" class="col-md-3">Cliente:</label>
-      <select class="form-control" ng-model="CD.proyecto.clienteid"
+      <select class="form-control" ng-model="CD.transmittal.cliente"
       ng-change="CD.cambiarCliente()"
       ng-options="cliente.id as cliente.nombre for cliente in CD.clientes">
       </select>
@@ -26,7 +25,7 @@
 
     <section class="col-md-6 col-sm-12 form-group panel-body">
       <label for="" class="col-md-3">Tipo de envío:</label>
-      <select class="form-control" ng-model="CD.tipo_seleccionado"
+      <select class="form-control" ng-model="CD.transmittal.tipo_envio"
       ng-options="tipo as tipo for tipo in CD.tipos_envio">
       </select>
       <button type="button" class="btn btn-default btn-xs">Editar</button>
@@ -34,7 +33,7 @@
 
     <section class="col-md-6 col-sm-12 form-group panel-body">
       <label for="" class="col-md-3">Atención:</label>
-      <select class="form-control" ng-model="CD.contacto_seleccionado"
+      <select class="form-control" ng-model="CD.transmittal.atencion"
       ng-change="CD.cambiarContacto()">
         <option ng-repeat="contacto in CD.contactos" value="{{contacto.contactoid}}">
           {{contacto.nombre}}
@@ -45,7 +44,7 @@
 
     <section class="col-md-6 col-sm-12 form-group panel-body">
       <label for="" class="col-md-3">CD:</label>
-      <select class="form-control" ng-model="CD.proyecto.control_documentario"
+      <select class="form-control" ng-model="CD.transmittal.control_documentario"
       ng-options="integrante.nombre as integrante.nombre for integrante in CD.control_documentario">
       </select>
     </section>
@@ -69,7 +68,7 @@
 
     <section class="col-md-6 col-sm-12 form-group panel-body">
       <label for="" class="col-md-3">Tipo de proyecto:</label>
-      <select class="form-control" ng-model="CD.proyecto.tipo_proyecto"
+      <select class="form-control" ng-model="CD.transmittal.tipo_proyecto"
       ng-options="tipo.tipo_proyecto as tipo.tipo_proyecto for tipo in CD.tipos_proyecto">
       </select>
     </section>

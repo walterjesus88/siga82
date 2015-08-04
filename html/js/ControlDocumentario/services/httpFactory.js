@@ -10,7 +10,7 @@ app.factory('httpFactory', ['$http', function($http) {
       return $http.get(url + 'integrantes')
     },
     getProyectos: function(estado) {
-      return $http.get(url + 'proyectosjson/estado/' + estado);
+      return $http.get(url + 'listaproyectos/estado/' + estado);
     },
     getClientes: function() {
       return $http.get(url + 'clientes');
@@ -24,17 +24,20 @@ app.factory('httpFactory', ['$http', function($http) {
     getProyectoById: function(proyectoid) {
       return $http.get(url + 'proyecto/proyectoid/' + proyectoid);
     },
-    setConfiguracionTransmittal: function(datos) {
-      return $http.post(url + 'conftrans/codificacion/' + datos.codificacion +
-      '/formato/' + datos.formato + '/tipoenvio/' + datos.tipo_envio +
-      '/cliente/' + datos.cliente + '/controldocumentario/' +
-      datos.control_documentario + '/atencion/' + datos.atencion +
-      '/dias_alerta/' + datos.dias_alerta + '/tipoproyecto/' +
-      datos.tipo_proyecto);
+    getCorrelativoTransmittal: function(proyectoid) {
+      return $http.get(url + 'correlativotransmittal/proyectoid/' + proyectoid);
     },
     setControlDocumentario: function(proyectoid, control_documentario) {
       return $http.post(url + 'cambiarcontroldocumentario/proyectoid/' +
       proyectoid + '/controldocumentario/' + control_documentario);
+    },
+    setConfiguracionTransmittal: function(datos) {
+      return $http.post(url + 'guardarconfiguraciontransmittal/codificacion/' +
+      datos.codificacion + '/correlativo/' + datos.correlativo + '/formato/' +
+      datos.formato + '/tipoenvio/' + datos.tipo_envio + '/cliente/' +
+      datos.cliente + '/proyectoid/' + datos.proyecto + '/controldocumentario/' +
+      datos.control_documentario + '/atencion/' + datos.atencion + '/diasalerta/'
+      + datos.dias_alerta + '/tipoproyecto/' + datos.tipo_proyecto);
     }
 
   }

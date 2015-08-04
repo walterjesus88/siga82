@@ -31,7 +31,11 @@ app.controller('PanelCtrl', ['httpFactory', function(httpFactory) {
   //obteniendo los datos al cargar la vista y calculo de sumatorias totales
   httpFactory.getIntegrantes()
   .success(function(res) {
-    panel.integrantes = res;
+    panel.integrantes = [];
+    res.forEach(function(integrante) {
+      integrante.nombre = integrante.uid.changeFormat();
+      panel.integrantes.push(integrante);
+    })
     var max = panel.integrantes.length;
     var valores = [];
     for (var i = 0; i < max; i++) {
