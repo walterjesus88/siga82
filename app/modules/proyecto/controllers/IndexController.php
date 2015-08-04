@@ -1329,7 +1329,7 @@ public function verjsonAction() {
       $i++;
     }    
     //es el formato de renderiar :  [{"bbb":"1","name":"2","items":[{"nombre":"books"}]}]
-    $arr = array(['bbb' =>'1', 'name' => '2','items'=>  array(['nombre' =>'books'])]);
+    //$arr = array(['bbb' =>'1', 'name' => '2','items'=>  array(['nombre' =>'books'])]);
     $this->_helper->json->sendJson($ek);  
 
 }

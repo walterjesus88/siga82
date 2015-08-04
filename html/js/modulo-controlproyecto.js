@@ -1,5 +1,5 @@
 
-angular.module('moduloCp', ['ngRoute', 'chart.js','ui.bootstrap','ui.bootstrap.tpls','ui.router','checklist-model','dialogs'])
+angular.module('moduloCp', ['ngRoute', 'chart.js','ui.bootstrap','ui.bootstrap.tpls','ui.router','checklist-model','dialogs','xeditable'])
 .config(['$routeProvider', function($routeProvider) {
   $routeProvider
   .when("/", {
@@ -57,6 +57,10 @@ angular.module('moduloCp', ['ngRoute', 'chart.js','ui.bootstrap','ui.bootstrap.t
   return publico;
 }])
 
+//theme bootstrap //
+.run(function(editableOptions) {
+  editableOptions.theme = 'bs3';
+})
 
 .controller('PanelCtrl', ['httpFactory','$modal','$dialogs', function ( httpFactory,$modal,$dialogs) {
   var cd = this;
@@ -195,6 +199,7 @@ angular.module('moduloCp', ['ngRoute', 'chart.js','ui.bootstrap','ui.bootstrap.t
   httpFactory.getIntegrantes()
   .success(function(res) {
     cd.integrantes = res; 
+    console.log(cd.integrantes);
     cd.selectedCategory = cd.integrantes[0];
    })
   .error(function(res) {
@@ -423,21 +428,18 @@ angular.module('moduloCp', ['ngRoute', 'chart.js','ui.bootstrap','ui.bootstrap.t
           console.log($scope.integrantes.items);
           console.log($scope.integrantes.items.length);
 
-       for(var i=0 ; i < $scope.integrantes.items.length; i++) {
+        for(var i=0 ; i < $scope.integrantes.items.length; i++) 
+        {
 
+          if($scope.integrantes.items[i].uid == role.uid)
+          {
+            console.log($scope.integrantes.items[i]);  
+            console.log(i);
 
-        if($scope.integrantes.items[i].uid == role.uid){
+            $scope.integrantes.items.splice(i,1);
 
-
-          console.log($scope.integrantes.items[i]);
-         
-
-          console.log(i);
-          $scope.integrantes.items[i].splice($scope.integrantes.items[i]);
-
-
-         }
-      }  
+          }
+        }  
     }
   }
 
