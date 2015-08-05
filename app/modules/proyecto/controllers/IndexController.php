@@ -23,6 +23,7 @@ class Proyecto_IndexController extends Zend_Controller_Action {
     }
 
 
+
     public function listarAction() {
         $uid = $this->sesion->uid;
         $dni = $this->sesion->dni;

@@ -30,13 +30,13 @@ controller('mainController', ['$http', function($http){
 	reporte.tareopersona_void = true;
 	reporte.text_proyectos = 'Seleccione un Cliente o Gerente para mostrar sus proyectos activos.';
 	reporte.disabled_children = true;
-	
+
 	//elementos seleccionados por defecto en los combobox
 	reporte.cliente_seleccionado = 'todos';
 	reporte.usuario_seleccionado = '.';
 	reporte.gerente_seleccionado = 'todos';
 	reporte.agrupado_seleccionado = 'xdias';
-	
+
 	//elementos por defecto de fecha y campos visibles por defecto
 	reporte.fecha_from = {'cadena': fecha_inicial_cad, 'date': fecha_inicial_date}
 	reporte.fecha_to = {'cadena': fecha_final_cad, 'date': fecha_final_date}
@@ -49,7 +49,7 @@ controller('mainController', ['$http', function($http){
 	reporte.dias_visible = true;
 	reporte.semanas_visible = false;
 	reporte.meses_visible = false;
-		
+
 	//creando las variables que contendran los datos de respuesta del servidor
 	reporte.gerentes = []
 	reporte.clientes = []
@@ -125,7 +125,7 @@ controller('mainController', ['$http', function($http){
 			dias[i] = dia
 			fecha.setDate(fecha.getDate() + 1)
 		}
-				
+
 		dias.forEach(function (dia) {
 			var f = dia.fecha.toDate()
 			var m = f.getMonth()
@@ -143,7 +143,7 @@ controller('mainController', ['$http', function($http){
 		reporte.meses = meses
 		reporte.semanas = semanas
 	}
-	
+
 	//funciones que realizaran peticiones al servidor para obtener rellenar los array
 
 	reporte.getGerentes = function () {
@@ -219,7 +219,7 @@ controller('mainController', ['$http', function($http){
 			reporte.borrarTareopersona(proyecto)
 		}
 	}
-    
+
 	//funciones para agregar o quitar usuarios de la lista segun los proyectos visibles
     reporte.agregarUsuarios = function (proyecto) {
 		$http.get('/reporte/index/usuarios/codigo_prop_proy/' + proyecto)
@@ -368,7 +368,7 @@ controller('mainController', ['$http', function($http){
 			i = i + 1
 			suma_dias.push(suma)
 		})
-				
+
 		i = 0
 		reporte.semanas.forEach(function (semana) {
 			var suma = 0
@@ -380,7 +380,7 @@ controller('mainController', ['$http', function($http){
 			i = i + 1
 			suma_semanas.push(suma)
 		})
-		
+
 		i = 0
 		reporte.meses.forEach(function (mes) {
 			var suma = 0
@@ -416,7 +416,7 @@ controller('mainController', ['$http', function($http){
 		doc.text(80, 15, 'TIPO')
 		doc.text(100, 15, 'NOMBRE PROYECTO')
 		doc.text(150, 15, 'ESTADO')
-		
+
 		if (reporte.dias_visible) {
 			var j = 1
 			reporte.dias.forEach(function (dia) {
@@ -453,7 +453,7 @@ controller('mainController', ['$http', function($http){
 			doc.text(80, vertical, reporte.tareopersona[i].tipo_actividad)
 			doc.text(100, vertical, (reporte.tareopersona[i].um_nombre + '/' + reporte.tareopersona[i].nombre_proyecto).slice(0, 40))
 			doc.text(150, vertical, reporte.tareopersona[i].estado)
-			
+
 			if (reporte.dias_visible) {
 				var j = 1
 				reporte.tareopersona[i].horasxdias.forEach(function (dia) {
@@ -496,84 +496,6 @@ controller('mainController', ['$http', function($http){
     })
 }])
 
-
-//Agregando funciones a la clase Date para convertir a cadena con formato yyyy-mm-dd y
-//dd-mm-yyyy y para obtener semana del año respectivamente
-Date.prototype.Yyyymmdd = function () {
-	var yyyy = this.getFullYear()
-	var mm = this.getMonth() + 1
-	var dd = this.getDate()
-	if (dd < 10) {
-		dd = '0' + dd
-	}
-	if (mm < 10) {
-		mm = '0' + mm
-	}
-	return yyyy + '-' + mm + '-' + dd
-}
-
-Date.prototype.Ddmmyyyy = function () {
-	var dd = this.getDate()
-	var mm = this.getMonth() + 1
-	var yyyy = this.getFullYear()
-	if (dd < 10) {
-		dd = '0' + dd
-	}
-	if (mm < 10) {
-		mm = '0' + mm
-	}
-	return dd + '-' + mm + '-' + yyyy
-}
-
-Date.prototype.getWeek = function () {
-	var semana = $.datepicker.iso8601Week(this)
-	return semana
-}
-
-//Agregando funciones a la clase String para convertir a fecha ,obtener mes y cambiar formato
-//de cadena uid a usuario respectivamente
-String.prototype.toDate = function () {
-	cadena = this.valueOf()
-	if (cadena.match(/\//)){
-    	cadena = cadena.replace(/\//g,"-",cadena)
-  	}
-	var datos = []
-	datos = cadena.split("-")
-	if (datos[0].length == 4) {
-		var dia = datos[2]
-		datos[2] = datos[0]
-		datos[0] = dia 
-	}
-	var dd = parseInt(datos[0])
-	var mm = parseInt(datos[1]) - 1
-	var yyyy = parseInt(datos[2])
-	var f = new Date()
-	f.setDate(dd)
-	f.setMonth(mm)
-	f.setFullYear(yyyy)
-	return f
-}
-
-String.prototype.toMonth = function () {
-	var cadena = this.valueOf()
-	var nombres = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Setiembre', 'Octubre', 'Noviembre', 'Diciembre']
-	var x = nombres.indexOf(cadena)
-	return x
-}
-
-String.prototype.changeFormat = function () {
-	cadena = this.valueOf()
-	var cont = cadena.indexOf(".")
-	if (cont != -1) {
-		var datos = cadena.split(".")
-		var nombre = datos[0].charAt(0).toUpperCase() + datos[0].slice(1)
-		var apellido = datos[1].charAt(0).toUpperCase() + datos[1].slice(1)
-		return nombre + ' ' + apellido
-	} else {
-		return cadena.charAt(0).toUpperCase() + cadena.slice(1)
-	}
-}
-
 //definiendo objeto tareopersona
 var Tareopersona = function (codigo_prop_proy, codigo_actividad, dni, uid, rate_proyecto, proyectoid, tipo_actividad, um_nombre, nombre_proyecto, estado, h_real_total, horas) {
 	if (rate_proyecto == null || rate_proyecto == '' || rate_proyecto == undefined) {
@@ -607,7 +529,7 @@ Tareopersona.prototype.setHoras = function () {
 	var horaxdia = '';
 	var inicial = reporte.fecha_from.cadena.toDate();
 	var ultimo = reporte.fecha_to.cadena.toDate();
-	
+
 	//rellenar las horas por dia de tareopersona
 	for (var i = 0; i < reporte.dias.length; i++) {
 		horaxdia = '--';
@@ -624,7 +546,7 @@ Tareopersona.prototype.setHoras = function () {
 		});
 		horasxdia.push(horaxdia);
 	}
-	
+
 	//rellenar las horas por semana de tareopersona
 	for (var i = 0; i < reporte.semanas.length; i++) {
 		var horaxsemana = 0;

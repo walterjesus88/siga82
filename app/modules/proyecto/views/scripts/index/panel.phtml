@@ -142,4 +142,24 @@
 						{{role.uid}}
 		<input type="checkbox" ng-checked="CD.isChecked(role.uid)" ng-change="CD.sync(bool,role)" ng-model="bool" ng-true-value="true" ng-false-value="false" >						
 		<!-- ng-click="CD.ver()"  -->
-		</label></div>
+		</label>
+
+		</div>
+
+
+	<div ng-repeat="label in CD.labels ">GDGDG
+	    <div class="nombre">{{label}}</div>                
+	</div>
+
+	<div class="col-md-6">
+		<div class="panel">
+			<h1 class="panel-heading">Carga Laboral Control Pro (En Proceso)</h1>
+			<div class="panel-body">
+				<canvas id="bar" class="chart chart-bar" data="CD.datos" labels="CD.labels"
+					series="CD.series" options="CD.options">
+				</canvas>
+			</div>
+		</div>
+	</div>
+
+	

@@ -1,17 +1,23 @@
 /*Controlador de la vista de gestion de transmittals*/
 
 app.controller('TransmittalCtrl', ['httpFactory', 'configuracionTransmittal',
-  function(httpFactory, configuracionTransmittal) {
+  '$routeParams', function(httpFactory, configuracionTransmittal, $routeParams) {
 
+  /*referencia del scope, obtencion del proyecto seleccionado y el objeto que
+  contendra los datos del proyecto*/
   var cd = this;
-  cd.proyecto_sel = configuracionTransmittal.getProyecto_sel();
+  cd.proyecto_sel = $routeParams.proyecto;
   cd.proyecto = {};
 
+  //panel visible por defecto aplicando la clase css active
   cd.configurarActivo = '';
   cd.anddesActivo = 'active';
   cd.clienteActivo = '';
   cd.contratistaActivo = '';
 
+  /*formatos, tipos de envio y los seleccionados por defecto; arrays de los
+  datos a mostrarse en los combobox de cliente, contactos, tipo de proyecto y
+  control documentario*/
   cd.formatos = ['Anddes', 'Cerro Verde', 'Barrick'];
   cd.formato_seleccionado = 'Anddes';
   cd.tipos_envio = ['Anddes', 'Cerro Verde', 'Barrick'];
@@ -21,6 +27,7 @@ app.controller('TransmittalCtrl', ['httpFactory', 'configuracionTransmittal',
   cd.tipos_proyecto = [];
   cd.control_documentario = [];
 
+  //datos seleccionados por defecto de los combobox
   cd.cliente_seleccionado = '';
   cd.contacto_seleccionado = '';
   cd.datos_contacto_seleccionado = {
@@ -28,8 +35,10 @@ app.controller('TransmittalCtrl', ['httpFactory', 'configuracionTransmittal',
     correo: ''
   };
 
+  //obtencion de los datos de configuracion del transmittal
   cd.transmittal = configuracionTransmittal.getConfiguracion();
 
+  //carga de los datos del proyecto seleccionado
   httpFactory.getProyectoById(cd.proyecto_sel)
   .success(function(res) {
     cd.proyecto = res;
@@ -38,6 +47,8 @@ app.controller('TransmittalCtrl', ['httpFactory', 'configuracionTransmittal',
     cd.proyecto = {};
   })
 
+  /*obtencion de los datos de clientes, control documentario, tipo de proyectos
+  y contactos por cliente*/
   httpFactory.getClientes()
   .success(function(res) {
     cd.clientes = res;
@@ -62,6 +73,15 @@ app.controller('TransmittalCtrl', ['httpFactory', 'configuracionTransmittal',
     cd.tipos_proyecto = [];
   })
 
+  httpFactory.getContactosByCliente(cd.proyecto.clienteid)
+  .success(function(res) {
+    cd.contactos = res;
+  })
+  .error(function(res) {
+    cd.contactos = [];
+  })
+
+  //metodo para cambiar el panel visible
   cd.cambiarPanel = function(panel) {
     if (panel == 'configurar') {
       cd.configurarActivo = 'active';
@@ -86,8 +106,14 @@ app.controller('TransmittalCtrl', ['httpFactory', 'configuracionTransmittal',
     }
   }
 
+  //cambio del campo codificacion cada vez que este valor es actualizado en la vista
+  cd.cambiarCodificacion = function() {
+    configuracionTransmittal.setCodificacion(cd.transmittal.codificacion);
+  }
+
+  //cargar los datos de contacto cada vez que se cambia de cliente seleccionado
   cd.cambiarCliente = function() {
-    httpFactory.getContactosByCliente(cd.cliente_seleccionado)
+    httpFactory.getContactosByCliente(cd.proyecto.clienteid)
     .success(function(res) {
       cd.contactos = res;
     })
@@ -96,6 +122,7 @@ app.controller('TransmittalCtrl', ['httpFactory', 'configuracionTransmittal',
     })
   }
 
+  //cargar los datos del contacto de acuerdo al contacto seleccionado
   cd.cambiarContacto = function() {
     cd.contactos.forEach(function(contacto) {
       if (contacto.contactoid == cd.contacto_seleccionado) {
@@ -103,5 +130,10 @@ app.controller('TransmittalCtrl', ['httpFactory', 'configuracionTransmittal',
         cd.datos_contacto_seleccionado.correo = contacto.correo;
       }
     })
+  }
+
+  //guardar los cambios efectuados en la configuracion del transmittal
+  cd.guardarConfiguracion = function() {
+    configuracionTransmittal.guardarCambios();
   }
 }]);

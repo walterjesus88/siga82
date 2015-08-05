@@ -40,9 +40,11 @@ app.controller('PanelCtrl', ['httpFactory', function(httpFactory) {
       panel.cantidad_proyectos.cancelado += panel.integrantes[i].CA;
       panel.cantidad_proyectos.cerrado += panel.integrantes[i].C;
       panel.labels.push(panel.integrantes[i].nombre);
+      //console.log(panel.labels);
       valores.push(panel.integrantes[i].A);
     }
     panel.datos.push(valores);
+    //console.log(panel.datos);
     panel.cantidad_proyectos.total = panel.cantidad_proyectos.en_proceso +
       panel.cantidad_proyectos.stand_by + panel.cantidad_proyectos.cancelado +
       panel.cantidad_proyectos.cerrado;

@@ -2,16 +2,13 @@
   <header>
     <h2>Proyectos</h2>
     <div class="pull-right">
-      <button type="button" class="btn btn-success">Activo</button>
-  		<button type="button" class="btn btn-warning">Cerrado</button>
-      <button type="button" class="btn btn-info">Cancelado</button>
-      <button type="button" class="btn btn-danger">Paralizado</button>
-    </div>
-    <div class="">
-      <button type="button" class="btn btn-primary">Crear</button>
+      <button type="button" class="btn btn-success btn-xs" ng-click="CD.cargarProyectos('A')">Activo</button>
+  		<button type="button" class="btn btn-warning btn-xs" ng-click="CD.cargarProyectos('C')">Cerrado</button>
+      <button type="button" class="btn btn-info btn-xs"  ng-click="CD.cargarProyectos('CA')">Cancelado</button>
+      <button type="button" class="btn btn-danger btn-xs"  ng-click="CD.cargarProyectos('P')">Paralizado</button>
     </div>
   </header>
-  <table class="table table-bordered table-striped table-condensed">
+  <table class="table table-hover p-table">
     <thead>
       <th>
         CÓDIGO
@@ -64,15 +61,15 @@
         <td>
           <ul>
             <li>
-              <button type="button" class="btn btn-default btn-sm">Información</button>
+              <button type="button" class="btn btn-info btn-xs">Información</button>
             </li>
             <li>
-              <button type="button" class="btn btn-default btn-sm" ng-click="CD.generarTr(proyecto.codigo)">
+              <button type="button" class="btn btn-success btn-xs" ng-click="CD.generarTr(proyecto.codigo)">
                 Generar TR
               </button>
             </li>
             <li>
-              <button type="button" class="btn btn-default btn-sm">Generar RPT</button>
+              <button type="button" class="btn btn-warning btn-xs">Generar RPT</button>
             </li>
           </ul>
         </td>
