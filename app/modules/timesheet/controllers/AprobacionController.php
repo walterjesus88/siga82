@@ -579,6 +579,7 @@ class Timesheet_AprobacionController extends Zend_Controller_Action {
                 }
             }
             
+            /*
             echo"aprobados: "; print_r($hojas_aprobadas);
             echo "<br>";
             echo"enviados: ";print_r($hojas_enviadas);
@@ -589,7 +590,7 @@ class Timesheet_AprobacionController extends Zend_Controller_Action {
             echo "<br>";
             echo"rechazadas: ";print_r($hojas_rechazadas);
             echo "<br>";
-            echo"no llenadas: ";print_r($hojas_nollenadas);
+            echo"no llenadas: ";print_r($hojas_nollenadas);*/
             $aprobados=array();
             $resumen_semana = new Admin_Model_DbTable_Sumahorasemana();
             foreach ($hojas_aprobadas as $listarsemana) {
@@ -637,6 +638,36 @@ class Timesheet_AprobacionController extends Zend_Controller_Action {
         } catch (Exception $e) {
             print "Error: ".$e->getMessage();
         } 
+    }
+
+    public function mostrarhojatiempopersonaAction(){
+        try {
+            $this->_helper->layout()->disableLayout();
+            $uid = $this->_getParam('uid');
+            $dni = $this->_getParam('dni');
+            $semana = $this->_getParam('semanaid');
+            $uid_validacion = $this->sesion->uid;
+            $dni_validacion = $this->sesion->dni;
+            $this->view->uid_validacion=$uid_validacion;
+            $this->view->dni_validacion=$dni_validacion;
+            $areaid=$this->sesion->personal->ucatareaid;   
+            $this->view->cargo = $areaid;
+            $this->view->uid = $uid;
+            $this->view->dni = $dni;
+            /*funcion para devolver dias de la semana*/
+            $ano=date("Y");/*ojo cambiar  con el tiempo --revisar */
+            $enero = mktime(1,1,1,1,1,$ano); 
+            $mos = (11-date('w',$enero))%7-3;
+            $this->view->mos=$mos;
+            $this->view->enero=$enero;
+            $this->view->semana = $semana;
+            $tareo_persona = new Admin_Model_DbTable_Tareopersona();
+            $datos_tareopersona=$tareo_persona->_getTareoxPersonaxSemana($uid,$dni,$semana);
+            $this->view->actividades= $datos_tareopersona;
+        }    
+         catch (Exception $e) {
+            print "Error: ".$e->getMessage();
+        }
     }
 
 };

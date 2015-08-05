@@ -666,4 +666,12 @@ $(document).ready(function(){
         "info":     true
     } );
   } );
+
+  $(document).ready(function() {
+  { data: function ( row, type, set ) {
+    if ( type === 'display' ) {
+        return row.Name;
+    }
+} );
+
 </script>
