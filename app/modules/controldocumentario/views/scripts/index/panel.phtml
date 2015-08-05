@@ -24,19 +24,19 @@
 					<tbody>
 						<tr>
 							<td>
-								{{CD.cantidad_proyectos.total}}
+								{{panel.cantidad_proyectos.total}}
 							</td>
 							<td>
-								{{CD.cantidad_proyectos.en_proceso}}
+								{{panel.cantidad_proyectos.en_proceso}}
 							</td>
 							<td>
-								{{CD.cantidad_proyectos.stand_by}}
+								{{panel.cantidad_proyectos.stand_by}}
 							</td>
 							<td>
-								{{CD.cantidad_proyectos.cancelado}}
+								{{panel.cantidad_proyectos.cancelado}}
 							</td>
 							<td>
-								{{CD.cantidad_proyectos.cerrado}}
+								{{panel.cantidad_proyectos.cerrado}}
 							</td>
 						</tr>
 					</tbody>
@@ -66,7 +66,7 @@
 						</th>
 					</thead>
 					<tbody>
-						<tr ng-repeat="integrante in CD.integrantes track by $index">
+						<tr ng-repeat="integrante in panel.integrantes track by $index">
 							<td>
 								{{integrante.nombre}}
 							</td>
@@ -89,16 +89,16 @@
 							Sub Total
 						</td>
 						<td>
-							{{CD.cantidad_proyectos.en_proceso}}
+							{{panel.cantidad_proyectos.en_proceso}}
 						</td>
 						<td>
-							{{CD.cantidad_proyectos.stand_by}}
+							{{panel.cantidad_proyectos.stand_by}}
 						</td>
 						<td>
-							{{CD.cantidad_proyectos.cancelado}}
+							{{panel.cantidad_proyectos.cancelado}}
 						</td>
 						<td>
-							{{CD.cantidad_proyectos.cerrado}}
+							{{panel.cantidad_proyectos.cerrado}}
 						</td>
 					</tfoot>
 				</table>
@@ -110,8 +110,8 @@
 		<div class="panel">
 			<h1 class="panel-heading">Carga Laboral Control Documentario (En Proceso)</h1>
 			<div class="panel-body">
-				<canvas id="bar" class="chart chart-bar" data="CD.datos" labels="CD.labels"
-					series="CD.series" options="CD.options"></canvas>
+				<canvas id="bar" class="chart chart-bar" data="panel.datos" labels="panel.labels"
+					series="panel.series" options="panel.options"></canvas>
 			</div>
 		</div>
 

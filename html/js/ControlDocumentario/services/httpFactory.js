@@ -34,10 +34,16 @@ app.factory('httpFactory', ['$http', function($http) {
     setConfiguracionTransmittal: function(datos) {
       return $http.post(url + 'guardarconfiguraciontransmittal/codificacion/' +
       datos.codificacion + '/correlativo/' + datos.correlativo + '/formato/' +
-      datos.formato + '/tipoenvio/' + datos.tipo_envio + '/cliente/' +
-      datos.cliente + '/proyectoid/' + datos.proyecto + '/controldocumentario/' +
+      datos.formato + '/tipoenvio/' + datos.tipo_envio + '/clienteid/' +
+      datos.clienteid + '/proyectoid/' + datos.proyecto + '/controldocumentario/' +
       datos.control_documentario + '/atencion/' + datos.atencion + '/diasalerta/'
       + datos.dias_alerta + '/tipoproyecto/' + datos.tipo_proyecto);
+    },
+    getEdts: function(proyectoid) {
+      return $http.get(url + 'edt/proyectoid/' + proyectoid);
+    },
+    getEntregables: function(proyectoid) {
+      return $http.get(url + 'entregables/proyectoid/' + proyectoid);
     }
 
   }

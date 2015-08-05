@@ -1,4 +1,5 @@
-/*servicio Factory para configurar datos de Transmittal*/
+/*servicio Factory para configurar datos de Transmittal con include de
+httpFactory para poder enviar los datos de configuracion al servidor*/
 app.factory('configuracionTransmittal', ['httpFactory', function(httpFactory) {
 
   var datos = {
@@ -7,6 +8,7 @@ app.factory('configuracionTransmittal', ['httpFactory', function(httpFactory) {
     formato: 'Anddes',
     tipo_envio: 'Anddes',
     proyecto: '',
+    clienteid: '',
     cliente: '',
     control_documentario: '',
     atencion: '',
@@ -15,7 +17,7 @@ app.factory('configuracionTransmittal', ['httpFactory', function(httpFactory) {
     tipo_proyecto: '',
     correo: '',
     logo: ''
-  }
+  };
 
   var publico = {
     getConfiguracion: function() {
@@ -26,6 +28,7 @@ app.factory('configuracionTransmittal', ['httpFactory', function(httpFactory) {
       datos.codificacion = transmittal.codificacion;
       datos.formato = transmittal.formato;
       datos.tipo_envio = transmittal.tipo_envio;
+      datos.clienteid = transmittal.clienteid;
       datos.cliente = transmittal.cliente;
       datos.control_documentario = transmittal.control_documentario;
       datos.atencion = transmittal.atencion;
@@ -34,13 +37,6 @@ app.factory('configuracionTransmittal', ['httpFactory', function(httpFactory) {
       datos.tipo_proyecto = transmittal.tipo_proyecto;
       datos.correo = transmittal.correo;
       datos.logo = transmittal.logo;
-    },
-
-    getProyecto_sel: function() {
-      return proyecto_sel;
-    },
-    setProyecto_sel: function(proyectoid) {
-      proyecto_sel = proyectoid;
     },
 
     setCodificacion: function(codificacion) {
@@ -52,8 +48,14 @@ app.factory('configuracionTransmittal', ['httpFactory', function(httpFactory) {
     setTipoEnvio: function(tipo_envio) {
       datos.tipo_envio = tipo_envio;
     },
-    setProyecto:function(proyecto) {
+    getProyecto: function() {
+      return datos.proyecto;
+    },
+    setProyecto: function(proyecto) {
       datos.proyecto = proyecto;
+    },
+    setClienteId: function(clienteid) {
+      datos.clienteid = clienteid;
     },
     setCliente: function(cliente) {
       datos.cliente = cliente;
@@ -87,7 +89,7 @@ app.factory('configuracionTransmittal', ['httpFactory', function(httpFactory) {
       })
       .error(function(res) {
         alert('Error al guardar cambios, intentelo denuevo');
-      })
+      });
     }
 
   }

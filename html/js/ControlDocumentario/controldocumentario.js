@@ -11,32 +11,27 @@ app.config(['$routeProvider', function($routeProvider) {
   $routeProvider
   .when("/", {
     controller: "PanelCtrl",
-    controllerAs: "CD",
+    controllerAs: "panel",
     templateUrl: "/controldocumentario/index/panel"
   })
   .when("/proyectos", {
     controller: "ProyectoCtrl",
-    controllerAs: "CD",
+    controllerAs: "vp",
     templateUrl: "/controldocumentario/index/proyectos"
-  })
-  .when("/asignarcd", {
-    controller: "AsignarCtrl",
-    controllerAs: "CD",
-    templateUrl: "/controldocumentario/index/asignarcd"
   })
   .when("/carpetas", {
     controller: "CarpetasCtrl",
-    controllerAs: "CD",
+    controllerAs: "vc",
     templateUrl: "/controldocumentario/index/carpetas"
   })
   .when("/reporte", {
     controller: "ReporteCtrl",
-    controllerAs: "CD",
+    controllerAs: "vr",
     templateUrl: "/controldocumentario/index/reporte"
   })
-  .when("/transmittal/:proyecto", {
+  .when("/transmittal/proyecto/:proyecto", {
     controller: "TransmittalCtrl",
-    controllerAs: "CD",
+    controllerAs: "vt",
     templateUrl: "/controldocumentario/index/transmittal"
   })
   .otherwise({

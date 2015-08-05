@@ -2,10 +2,10 @@
   <header class="panel-heading">
     <h2>Proyectos</h2>
     <div class="pull-right">
-      <button type="button" class="btn btn-success btn-xs" ng-click="CD.cargarProyectos('A')">Activo</button>
-  		<button type="button" class="btn btn-warning btn-xs" ng-click="CD.cargarProyectos('C')">Cerrado</button>
-      <button type="button" class="btn btn-info btn-xs"  ng-click="CD.cargarProyectos('CA')">Cancelado</button>
-      <button type="button" class="btn btn-danger btn-xs"  ng-click="CD.cargarProyectos('P')">Paralizado</button>
+      <button type="button" class="btn btn-success btn-xs" ng-click="vp.cargarProyectos('A')">Activo</button>
+  		<button type="button" class="btn btn-warning btn-xs" ng-click="vp.cargarProyectos('C')">Cerrado</button>
+      <button type="button" class="btn btn-info btn-xs"  ng-click="vp.cargarProyectos('CA')">Cancelado</button>
+      <button type="button" class="btn btn-danger btn-xs"  ng-click="vp.cargarProyectos('P')">Paralizado</button>
     </div>
   </header>
   <div class="panel-body">
@@ -37,7 +37,7 @@
         </th>
       </thead>
       <tbody>
-        <tr ng-repeat="proyecto in CD.proyectos track by $index">
+        <tr ng-repeat="proyecto in vp.proyectos track by $index">
           <td>
             {{proyecto.codigo}}
           </td>
@@ -55,7 +55,7 @@
           </td>
           <td>
             <select class="form-control" ng-model="proyecto.control_documentario"
-            ng-options="integrante.uid as integrante.nombre for integrante in CD.control_documentario"
+            ng-options="integrante.uid as integrante.nombre for integrante in vp.control_documentario"
             ng-change="proyecto.cambiarControlDocumentario()">
             </select>
           </td>
@@ -68,7 +68,7 @@
                 <button type="button" class="btn btn-info btn-xs">Información</button>
               </li>
               <li>
-                <button type="button" class="btn btn-success btn-xs" ng-click="CD.generarTr(proyecto.codigo)">
+                <button type="button" class="btn btn-success btn-xs" ng-click="proyecto.accesoGenerarTr()">
                   Generar TR
                 </button>
               </li>

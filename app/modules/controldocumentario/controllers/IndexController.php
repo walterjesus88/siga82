@@ -72,6 +72,11 @@ class ControlDocumentario_IndexController extends Zend_Controller_Action {
       $this->_helper->layout()->disableLayout();
     }
 
+    public function tablaentregablesAction()
+    {
+      $this->_helper->layout()->disableLayout();
+    }
+
     public function modalcontactoAction()
     {
       $this->_helper->layout()->disableLayout();
@@ -220,7 +225,7 @@ class ControlDocumentario_IndexController extends Zend_Controller_Action {
       $this->_helper->layout()->disableLayout();
       $data['codificacion'] = $this->_getParam('codificacion');
       $data['correlativo'] = $this->_getParam('correlativo');
-      $data['clienteid'] = $this->_getParam('cliente');
+      $data['clienteid'] = $this->_getParam('clienteid');
       $data['proyectoid'] = $this->_getParam('proyectoid');
       $data['formato'] = $this->_getParam('formato');
       $data['tipo_envio'] = $this->_getParam('tipoenvio');

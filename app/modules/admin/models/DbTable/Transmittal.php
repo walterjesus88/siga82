@@ -36,7 +36,8 @@ class Admin_Model_DbTable_Transmittal extends Zend_Db_Table_Abstract
           return $respuesta;
 
         } else {
-          return $res['correlativo'] = '0';
+          $respuesta['correlativo'] = '001';
+          return $respuesta;
         }
 
       } catch (Exception $e) {

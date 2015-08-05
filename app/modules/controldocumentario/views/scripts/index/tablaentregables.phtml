@@ -1,0 +1,68 @@
+<table class="table table-bordered">
+  <thead>
+    <th>
+      ITEM
+    </th>
+    <th>
+      EDT
+    </th>
+    <th>
+      TIPO
+    </th>
+    <th>
+      DISCIPLINA
+    </th>
+    <th>
+      CODIGO ANDDES
+    </th>
+    <th>
+      CODIGO CLIENTE
+    </th>
+    <th>
+      DESCRIPCION DE ENTREGABLES
+    </th>
+    <th>
+      REVISION
+    </th>
+    <th>
+      ESTADO
+    </th>
+    <th>
+      TRANSMITTAL
+    </th>
+  </thead>
+  <tbody>
+    <tr ng-repeat="entregable in vt.entregables">
+      <td>
+        {{entregable.codigo}}
+      </td>
+      <td>
+        {{entregable.edt}}
+      </td>
+      <td>
+        {{entregable.tipo}}
+      </td>
+      <td>
+        {{entregable.disciplina}}
+      </td>
+      <td>
+        {{entregable.codigo_anddes}}
+      </td>
+      <td>
+        {{entregable.codigo_cliente}}
+      </td>
+      <td>
+        {{entregable.descripcion}}
+      </td>
+      <td>
+        {{entregable.revision}}
+      </td>
+      <td>
+        {{entregable.estado}}
+      </td>
+      <td>
+        {{entregable.transmittal}}
+      </td>
+    </tr>
+  </tbody>
+</table>

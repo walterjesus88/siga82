@@ -1,5 +1,6 @@
 /*Controlador PanelCtrl para la vista principal del jefe de Control
-Documentario*/
+Documentario con include a httpFactory para obtener los integrantes de control
+documentario y sus ratios*/
 
 app.controller('PanelCtrl', ['httpFactory', function(httpFactory) {
 
@@ -53,5 +54,5 @@ app.controller('PanelCtrl', ['httpFactory', function(httpFactory) {
   })
   .error(function(res) {
     alert('No se pueden mostrar los datos, intentelo nuevamente');
-  })
+  });
 }]);
