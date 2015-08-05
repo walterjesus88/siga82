@@ -1,35 +1,8 @@
 <div class="panel">
-
 	<header>
-		<h2>Control de Proyecto</h2>
-  </header>
-
-<!-- 	<nav class="col-md-8 panel">
-		<div class="col-md-6 panel-body">
-			<a href="#/proyectos">
-				<button type="button" class="btn btn-default">Listar los Proyectos</button>
-			</a>
-		</div>
-		<div class="col-md-6 panel-body">
-			<a href="#/asignarcd">
-				<button type="button" class="btn btn-default">Asignar CD a Proyecto</button>
-			</a>
-		</div>
-		<div class="col-md-6 panel-body">
-			<a href="#/carpetas">
-				<button type="button" class="btn btn-default">Ubicación de Carpetas de Proyectos</button>
-			</a>
-		</div>
-		<div class="col-md-6 panel-body">
-			<a href="#/reporte">
-				<button type="button" class="btn btn-default">Generar Reporte de Planificación</button>
-			</a>
-		</div>
-	</nav> -->
+		<h5>Lista de Disciplinas</h5>
+  	</header>
 </div>
-
-
-
 
 	<div ng-repeat-start="integrante in CD.integrantes track by $index" class="animate-repeat-category">
 		<button class="btn btn-primary btn-block btn-sm" ng-click="CD.toggleArea(integrante)">
@@ -39,14 +12,15 @@
 		    <span class="expand-indicator" ng-show="!integrante.expanded">+</span>		   
 	    </button>
 
-	 	<button class="btn btn-success" ng-click="CD.launch('confirm',integrante)">Confirm Dialog</button>        
-        <button class="btn btn-warning" ng-click="CD.launch('create')">Custom Dialog</button>
 
 
 
-	    	<!-- <div ng-controller="ModalDemoCtrl"> -->
+	 	<button class="btn btn-success" ng-click="CD.launch('confirm',integrante)">+</button>        
+        <button class="btn btn-warning" ng-click="CD.launch('create')">H</button>
 
-			        
+
+
+	    	<!-- <div ng-controller="ModalDemoCtrl"> -->	        
 
 
 <!-- <input type="checkbox" ng-model="role.uid" ng-true-value="true" ng-false-value="false" ng-click="CD.avisar()">{{role.uid}} -->
@@ -80,25 +54,46 @@
 			        </div>
 			    </script>
 			 
-			    <button class="btn btn-default" ng-click="open()">+</button>
+			<!--<button class="btn btn-default" ng-click="open()">+</button>
 			    <button class="btn btn-default" ng-click="open('lg')">H</button>
 			    <button class="btn btn-default" ng-click="open('sm')">+</button>
 			    <button class="btn btn-default" ng-click="toggleAnimation()">H ({{ animationsEnabled }})</button>
-			    <div ng-show="selected">Selection from a modal: {{ selected }}</div>
+			    <div ng-show="selected">Selection from a modal: {{ selected }}</div> -->
 			<!-- </div>   -->
 	
 
 	</div>
 
+
+	<td style="width:40%">
+      
+        <form editable-form name="uidform" onaftersave="saveColumn('uid')" ng-show="uidform.$visible">
+          <button type="submit" ng-disabled="uidform.$waiting" class="btn btn-primary">
+            save
+          </button>
+          <button type="button" ng-disabled="uidform.$waiting" ng-click="uidform.$cancel()" class="btn btn-default">
+            cancel
+          </button>
+        </form>  
+        <button class="btn btn-default" ng-show="!uidform.$visible" ng-click="uidform.$show()">
+          edit
+        </button>
+     </td>
+
+
+
 <!--  Item group inside each category -->
     <div class="list-items animate-show-item" ng-show="integrante.expanded">
 	    <ul>
           <li ng-repeat="item in integrante.items" class="animate-repeat-item">
-            {{item.uid}}
+            <span editable-text="item.uid" e-name="uid" e-form="uidform" onbeforesave="checkName($data)">
+            	{{item.uid}}
+        	</span>
+            <!-- {{item.uid}} -->
             <span ng-class="{done:item.completed}" ltc-editable class-off="done" ng-model="item.uid"></span>
             <button ng-show="!item.completed" ng-click="CD.completeTask(item)" class="btn btn-success btn-xs">done</button>
             <button ng-show="item.completed" ng-click="CD.uncompleteTask(item)" class="btn btn-warning btn-xs">reset</button>
-            <button ng-click="CD.deleteTask(integrante, item)" class="btn btn-danger btn-xs">del</button>
+            <button ng-click="CD.deleteTask(integrante, item)" class="btn btn-danger btn-xs">eliminar</button>
           </li>
         </ul>
           <div class="no-items"><small ng-show="integrante.expanded && integrante.items.length==0">NO ITEMS!</small></div>
