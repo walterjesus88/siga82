@@ -61,14 +61,6 @@ class Control_ControlController extends Zend_Controller_Action {
         $fecha0= $this->_getParam("fecha0");
 
 
-
-        echo $edt;
-        echo $tipo_doc;
-        echo $disc;
-        echo $cod_anddes;
-        echo $proyectoid;
-        echo $codigo_prop_proy;
-        echo $revision;
        
         $data['edt']=$edt;
         $data['tipo_documento']=$tipo_doc;
@@ -88,9 +80,7 @@ class Control_ControlController extends Zend_Controller_Action {
 
         $glista=new Admin_Model_DbTable_Listaentregable();
         $glista->_save($data);
-
-
-        exit();
+     
     }
 
     public function angularAction() {

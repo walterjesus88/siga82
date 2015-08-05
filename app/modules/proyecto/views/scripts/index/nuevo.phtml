@@ -42,8 +42,14 @@
                                   </div>
                                 
                                   <div class="bio-row form-group has-success"> 
-                                    <span class="bold">Propuesta </span>                                   
+                                    <div class="form-group">
+                                      <label >Número de Propuesta</label>
+                                     <?php print $this->form->propuestaid;?>
+                                    </div>
+
                                     
+                                    
+                                    <!--
                                     <select  id="propuestaid" name="propuestaid" class="form-control">
                                         <option  value="">Seleccione..</option>
                                         <?php
@@ -52,7 +58,7 @@
                                             <option value="<?php echo $propuesta['propuestaid']?>"><?php echo $propuesta['nombre_propuesta']?></option>
                                             <?php
                                         }?>
-                                    </select>
+                                    </select>-->
                                   </div> 
 
                                     <div class="bio-row form-group has-success">
@@ -206,7 +212,11 @@
   $("#save").click(function(){
 
         var proyectoid = $("#proyectoid").val();
-        var nombre_proyecto = $("#nombre_proyecto").val();
+        //var nombre_proyecto = $("#nombre_proyecto").val();
+
+        var captura_nombre_proyecto = $("#nombre_proyecto").val();
+        var nombre_proyecto= captura_nombre_proyecto.replace(/\s/g,"_");
+
         var propuestaid = $("#propuestaid").val();   
         var cod_proy_prop = $("#codigo_prop_proy").val();   
      
@@ -225,15 +235,21 @@
 
         var tag = $("#tag").val();  
         var tipo_proyecto = $("#tipo_proyecto").val();       
-        var descripcion = $("#descripcion").val();  
+        
+
+        var captura_descripcion = $("#descripcion").val();
+        var descripcion= captura_descripcion.replace(/\s/g,"_");
+
+
         var observacion = $("#observacion").val();  
 
 
-        url="/proyecto/index/nuevo/proyectoid/"+proyectoid+"/propuesta/"+propuestaid+"/nombre_proyecto/"+nombre_proyecto+"/cod_proy_prop/"+cod_proy_prop+"/cliente/"+cliente+"/uminera/"+uminera+"/revision/"+revision+"/gerente_proyecto/"+gerente_proyecto+"/control_proyecto/"+control_proyecto+"/control_documentario/"+control_documentario+"/estado/"+estado+"/monto_total/"+monto_total+"/fecha_inicio/"+fecha_inicio+"/fecha_cierre/"+fecha_cierre+"/descripcion/"+descripcion+"/tipo_proyecto/"+tipo_proyecto+"/tag/"+tag+"/observacion/"+observacion;
+        url="/proyecto/index/guardarproyecto/proyectoid/"+proyectoid+"/propuesta/"+propuestaid+"/nombre_proyecto/"+nombre_proyecto+"/cod_proy_prop/"+cod_proy_prop+"/cliente/"+cliente+"/uminera/"+uminera+"/revision/"+revision+"/gerente_proyecto/"+gerente_proyecto+"/control_proyecto/"+control_proyecto+"/control_documentario/"+control_documentario+"/estado/"+estado+"/monto_total/"+monto_total+"/fecha_inicio/"+fecha_inicio+"/fecha_cierre/"+fecha_cierre+"/descripcion/"+descripcion+"/tipo_proyecto/"+tipo_proyecto+"/tag/"+tag+"/observacion/"+observacion;
         //alert(url);
-        //$("#loadingcourses").load(url);
+        $("#loadingcourses").load(url);
         //$("#loadingcourses").hide();
-        //location.href="/proyecto/index/listar/";
+        location.href="/proyecto/index/listar/";
+        /*
         confirmar=confirm("Confirme que desee guardar un Nuevo Proyecto ");
         if (confirmar) 
         {// si pulsamos en aceptar
@@ -243,7 +259,7 @@
                   url: url,
                   data: $(this).serialize(),
                   success: function(data) { 
-                      location.href="/proyecto/index/listar/";
+                     // location.href="/proyecto/index/listar/";
                   }
           })
         }    
@@ -252,7 +268,7 @@
         // si pulsamos en cancelar
         alert('cancelado'); 
         return false;
-        }
+        }*/
         
 
     });

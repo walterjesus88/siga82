@@ -115,6 +115,8 @@ class Propuesta_IndexController extends Zend_Controller_Action {
         $formdata['moneda']=$tipo_moneda = $this->_getParam('tipo_moneda');
         $formdata['tipo_servicio']=$tipo_servicio = $this->_getParam('tipo_servicio');        
         $formdata['costo_gastos']=$costo_gastos = $this->_getParam('costo_gastos');
+        
+        
         $formdata['costo_honorarios']=$costo_honorarios = $this->_getParam('costo_honorarios');
         $formdata['costo_laboratorio']=$costo_laboratorio = $this->_getParam('costo_laboratorio');
         $formdata['costo_otros']=$costo_otros = $this->_getParam('costo_otros');

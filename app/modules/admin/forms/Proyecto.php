@@ -32,7 +32,7 @@ class Admin_Form_Proyecto extends Zend_Form{
 
     
 
-
+    /*
     $propuestaid= new Zend_Form_Element_Select('propuestaid');
     $propuestaid->removeDecorator('Label')->removeDecorator("HtmlTag");
     $propuestaid->setAttrib('class', 'form-control');    
@@ -41,7 +41,13 @@ class Admin_Form_Proyecto extends Zend_Form{
     $listpropuesta=$bdpropuesta->_getPropuestaAll();
     foreach ($listpropuesta as $propuesta ){        
         $propuestaid->addMultiOption($propuesta['propuestaid'],$propuesta['nombre_propuesta']);
-    }
+    }*/
+
+    $propuestaid= new Zend_Form_Element_Text('propuestaid');
+    $propuestaid->removeDecorator('Label')->removeDecorator("HtmlTag");
+    $propuestaid->setAttrib("maxlength", "100");
+    $propuestaid->setAttrib('class', 'form-control');
+    
 
     $codigo_prop_proy= new Zend_Form_Element_Text('codigo_prop_proy');
     $codigo_prop_proy->setRequired(true)->addErrorMessage('Este campo es requerido');

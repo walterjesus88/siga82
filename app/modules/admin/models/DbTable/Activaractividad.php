@@ -256,7 +256,9 @@ class Admin_Model_DbTable_Activaractividad extends Zend_Db_Table_Abstract
                 ON e.codigo_prop_proy = p.codigo_prop_proy and e.proyectoid=p.proyectoid 
                 inner join cliente c on
                 p.clienteid=c.clienteid
-                where e.uid = '$uid' and e.dni='$dni' and p.estado='$estado' and e.estado = '$estado' order by c.nombre_comercial
+                where e.uid = '$uid' and e.dni='$dni' and p.estado='$estado' and e.estado = '$estado' 
+                and not p.clienteid='20451530535'
+                order by c.nombre_comercial
                ");
             $row=$sql->fetchAll();
             return $row;           

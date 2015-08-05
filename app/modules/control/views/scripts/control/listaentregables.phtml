@@ -22,6 +22,7 @@
     <!-- Custom styles for this template -->
     <link href="css/style.css" rel="stylesheet">
     <link href="css/style-responsive.css" rel="stylesheet" />
+
   </head>
 
 
@@ -76,6 +77,9 @@
 
                               <?php $lista=$this->lista; 
                                //print_r($lista);
+                              if($lista)
+                              {
+
                               $i=0;
 
                               foreach ($lista as $entregable) { ?>
@@ -97,8 +101,9 @@
                                   <td><a class="edit" href="javascript:;">Editar</a></td>
                                   <td><a class="delete" href="javascript:;">Eliminar</a></td>
                                 </tr>
-                              <?php $i++; } ?>
-       
+                              <?php $i++; } 
+                              }
+                              ?>
                               </tbody>
                           </table>
                       </div>
@@ -171,12 +176,12 @@
             function editRow(oTable, nRow) {
                 var aData = oTable.fnGetData(nRow);
                 var jqTds = $('>td', nRow);
-                jqTds[0].innerHTML = '<input type="text" class="form-control" value="' + aData[0] + '">';
+                jqTds[0].innerHTML = '<input type="text" class="form-control"  value="' + aData[0] + '">';
                 jqTds[1].innerHTML = '<input type="text" class="form-control" value="' + aData[1] + '">';
                   
                 aDataD='Documento';
                 aDataP='Plano';
-                jqTds[2].innerHTML='<select class="form-control" ><option value="' + aDataD + '">Documemto</option><option value="' + aDataP + '">Plano</option></select>';      
+                jqTds[2].innerHTML='<select class="form-control" ><option value="' + aDataD + '">Documemto</option><option value="' + aDataP + '">Plano</option></select>'; 
 
                 //alert(aData[2]);
                 //jqTds[2].innerHTML = '<input type="text" class="form-control small" value="' + aData[2] + '">';
@@ -190,7 +195,7 @@
                 jqTds[9].innerHTML = '<input type="text" class="form-control" value="' + aData[9] + '">';
 
                 jqTds[10].innerHTML = '<a class="edit" href="">Guardar</a>';
-                jqTds[11].innerHTML = '<a class="cancel" href="">Cancel</a>';
+                jqTds[11].innerHTML = '<a class="cancel" href="">Cancelar</a>';
             }
 
             function saveRow(oTable, nRow) {
@@ -198,6 +203,7 @@
                 var jqSelect = $('select', nRow);
                 //console.log(jqInputs);
                 //console.log($(nRow[2]).text);
+                console.log(jqInputs[0].value);
 
                 var edt=jqInputs[1].value;
                 var tipo_doc=jqSelect[0].value;
@@ -343,7 +349,7 @@
 
                     saveRow(oTable, nEditing);
                     nEditing = null;
-                    alert("Updated! Do not forget to do some ajax to sync with backend :)");
+                    //alert("Updated! Do not forget to do some ajax to sync with backend :)");
                 } else {
                     /* No edit in progress - let's start one */
                     editRow(oTable, nRow);
