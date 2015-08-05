@@ -142,7 +142,7 @@ class Admin_Model_DbTable_Aprobacion extends Zend_Db_Table_Abstract
      {
         try{
             $sql=$this->_db->query("
-               select * from aprobacion where idnivel_aprobacion in ('1','2','4')
+             select * from aprobacion where idnivel_aprobacion in ('1','2','3','4','6','5')
                order by nombre_aprobacion
 
             ");

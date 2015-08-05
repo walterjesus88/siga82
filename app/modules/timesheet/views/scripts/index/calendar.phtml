@@ -149,6 +149,7 @@ $("#guardar_act").click(function(){
     acAg.forEach(function (item) {
         var fecha = $("#fechasemana").text();
         url = "/timesheet/index/guardartareopersona/codigo/" + item.codigo + "/proyectoid/" + item.proyectoid + "/revision/" + item.revision + "/categoriaid/" + item.categoriaid + "/propuestaid/" + item.propuestaid + "/actividadid/" + item.actividadid + "/codigo_actividad/" + item.codigo_actividad + "/actividad_padre/" + item.actividad_padre + "/h_propuesta/" + item.h_propuesta + "/fecha/" + fecha;
+        
         $("#cargar").load(url, function () {
            $("#registro").load("/timesheet/index/registro/fecha/" + fecha_inicio);
         });

@@ -61,6 +61,7 @@ class Proyecto_IndexController extends Zend_Controller_Action {
     }
     
     public function nuevoAction() {
+      try {
 
         $propuestas = new Admin_Model_DbTable_Propuesta();
         $prop=$propuestas->_getPropuestaxnoproyectxganado(); 
@@ -73,15 +74,18 @@ class Proyecto_IndexController extends Zend_Controller_Action {
         $this->view->unidadminera=$unidadminera;
         $form= new Admin_Form_Proyecto();        
         $this->view->form=$form;   
+
         if ($this->getRequest()->isPost()) {
             $formdata = $this->getRequest()->getPost();
             $codigo_prop_proy = $this->_getParam('cod_proy_prop');
             $proyectoid = $this->_getParam('proyectoid');
             $propuestaid = $this->_getParam('propuesta');
-            $nombre_proyecto = $this->_getParam('nombre_proyecto');
+            
+            $nombre_proyecto = $this->_getParam('nombre_proyecto');   
+            $formdata['nombre_proyecto'] = str_replace("_"," ",$nombre_proyecto);
             $control_proyecto = $this->_getParam('control_proyecto');
             $revision = $this->_getParam('revision');   
-            $descripcion = $this->_getParam('descripcion');   
+            //$descripcion = $this->_getParam('descripcion');   
             $observacion = $this->_getParam('observacion');   
             $fecha_inicio = $this->_getParam('fecha_inicio');
             $fecha_cierre = $this->_getParam('fecha_cierre');
@@ -95,11 +99,15 @@ class Proyecto_IndexController extends Zend_Controller_Action {
             $unidad_mineraid = $this->_getParam('uminera');
             $formdata['proyectoid']=$proyectoid['0'];
             $formdata['propuestaid']=$propuestaid;
-            $formdata['nombre_proyecto']=$nombre_proyecto;
+            //$formdata['nombre_proyecto']=$nombre_proyecto;
             $formdata['codigo_prop_proy']=$codigo_prop_proy;
             $formdata['control_proyecto']=$control_proyecto;                       
             $formdata['revision']=$revision;
-            $formdata['descripcion']=$descripcion;
+            //$formdata['descripcion']=$descripcion;
+
+            $nombre_descripcion = $this->_getParam('descripcion');   
+            $formdata['descripcion'] = str_replace("_"," ",$nombre_descripcion);
+
             $formdata['observacion']=$observacion;
             $formdata['monto_total']=$monto_total;
             $formdata['unidad_mineraid']=$unidad_mineraid;
@@ -131,7 +139,11 @@ class Proyecto_IndexController extends Zend_Controller_Action {
                     // $updisproject=new Admin_Model_DbTable_Propuesta();
                     // $updisproject->_updateX($data,$pk);
                 }    
-          } 
+          }
+
+        } catch (Exception $e) {
+            print "Error: ".$e->getMessage();
+      } 
     }
 
     public function codproypropAction() {
@@ -160,6 +172,76 @@ class Proyecto_IndexController extends Zend_Controller_Action {
       //print_r($propuesta);
 
     }
+
+
+    public function guardarproyectoAction() {
+ $this->_helper->layout()->disableLayout();
+     $codigo_prop_proy = $this->_getParam('cod_proy_prop');
+            $proyectoid = $this->_getParam('proyectoid');
+            $propuestaid = $this->_getParam('propuesta');
+            
+            $nombre_proyecto = $this->_getParam('nombre_proyecto');   
+            $formdata['nombre_proyecto'] = str_replace("_"," ",$nombre_proyecto);
+            $control_proyecto = $this->_getParam('control_proyecto');
+            $revision = $this->_getParam('revision');   
+            //$descripcion = $this->_getParam('descripcion');   
+            $observacion = $this->_getParam('observacion');   
+            $fecha_inicio = $this->_getParam('fecha_inicio');
+            $fecha_cierre = $this->_getParam('fecha_cierre');
+            $monto_total = $this->_getParam('monto_total');
+            $control_documentario = $this->_getParam('control_documentario');
+            $estado = $this->_getParam('estado');
+            $gerente_proyecto = $this->_getParam('gerente_proyecto'); 
+            $tipo_proyecto = $this->_getParam('tipo_proyecto');
+            $tag = $this->_getParam('tag');
+            $clienteid = $this->_getParam('cliente');
+            $unidad_mineraid = $this->_getParam('uminera');
+            $formdata['proyectoid']=$proyectoid;
+            $formdata['propuestaid']=$propuestaid;
+            //$formdata['nombre_proyecto']=$nombre_proyecto;
+            $formdata['codigo_prop_proy']=$codigo_prop_proy;
+            $formdata['control_proyecto']=$control_proyecto;                       
+            $formdata['revision']=$revision;
+            //$formdata['descripcion']=$descripcion;
+
+            $nombre_descripcion = $this->_getParam('descripcion');   
+            $formdata['descripcion'] = str_replace("_"," ",$nombre_descripcion);
+
+            $formdata['observacion']=$observacion;
+            $formdata['monto_total']=$monto_total;
+            $formdata['unidad_mineraid']=$unidad_mineraid;
+            $formdata['clienteid']=$clienteid;
+            $formdata['fecha_cierre']=$fecha_cierre;
+            $formdata['fecha_inicio']=$fecha_inicio;
+            $formdata['control_documentario']=$control_documentario;
+            $formdata['estado']=$estado;
+            $formdata['gerente_proyecto']=$gerente_proyecto;
+            $formdata['tipo_proyecto']=$tipo_proyecto;
+            $formdata['tag']=$tag;
+            $formdata['paisid']='01';
+            $formdata['oid']='AND-10';
+            //print_r($formdata);//exit();
+            $newrec=new Admin_Model_DbTable_Proyecto();
+                if($newrec->_save($formdata))
+                {
+                    //echo "llego";
+                    // $pk  =   array(                        
+                    //                 'codigo_prop_proy'   =>$codigo_prop_proy,
+                    //                 'propuestaid'   =>$propuestaid,
+                    //                 'revision'   =>$revision,
+                                        
+                    //                 );
+                    // $data = array(
+                    //                 'isproyecto' =>  'S'
+                    //              );
+
+                    // $updisproject=new Admin_Model_DbTable_Propuesta();
+                    // $updisproject->_updateX($data,$pk);
+                }   
+
+              }
+
+
 
     public function umineraAction() {
       $this->_helper->layout()->disableLayout();
