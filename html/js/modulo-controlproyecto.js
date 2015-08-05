@@ -7,33 +7,12 @@ angular.module('moduloCp', ['ngRoute', 'chart.js','ui.bootstrap','ui.bootstrap.t
     controllerAs: "CD",
     templateUrl: "/proyecto/index/panel"
   })
- //.when("/", {
-   //controller: "ModalInstanceCtrl",
-    //controllerAs: "CD",
-  // templateUrl: "/proyecto/index/panel"
- //})
+  .when("/curvas", {
+    controller: "CurvasCtrl",
+    controllerAs: "CP",
+    templateUrl: "/control/control/curvas"
+  })
 
-  // .when("/", {
-  //   controller: "ModalInstanceCtrl",
-  //   controllerAs: "CD",
-  //   templateUrl: "/proyecto/index/panel"
-  // })
-
-  .when("/asignarcd", {
-    controller: "AsignarCtrl",
-    controllerAs: "CD",
-    templateUrl: "/controldocumentario/index/asignarcd"
-  })
-  .when("/carpetas", {
-    controller: "CarpetasCtrl",
-    controllerAs: "CD",
-    templateUrl: "/controldocumentario/index/carpetas"
-  })
-  .when("/reporte", {
-    controller: "ReporteCtrl",
-    controllerAs: "CD",
-    templateUrl: "/controldocumentario/index/reporte"
-  })
   .otherwise({
     redirectTo: '/'
   });
@@ -62,8 +41,39 @@ angular.module('moduloCp', ['ngRoute', 'chart.js','ui.bootstrap','ui.bootstrap.t
   editableOptions.theme = 'bs3';
 })
 
+.controller('CurvasCtrl', ['httpFactory', function ( httpFactory ) {
+  //referencia del scope
+  var panel = this;
+  console.log("ffffff");
+  panel.labels = ['eeee','ddd','frghr'];
+  console.log(panel.labels);
+
+  panel.series = ['En Proceso'];
+  panel.datos = [];
+  panel.options = {
+    legend: true,
+    animationSteps: 150,
+    animationEasing: "easeInOutQuint"
+  };
+}])
+
 .controller('PanelCtrl', ['httpFactory','$modal','$dialogs', function ( httpFactory,$modal,$dialogs) {
   var cd = this;
+
+
+  cd.labels = ['UNO','DOS','TRES'];
+  console.log(cd.labels);
+
+  cd.series = ['En Proceso'];
+  cd.datos = [];
+  cd.options = {
+    legend: true,
+    animationSteps: 150,
+    animationEasing: "easeInOutQuint"
+  };
+
+
+
 
       cd.data = [
       { name: 'Personal', expanded: true,
@@ -303,9 +313,6 @@ angular.module('moduloCp', ['ngRoute', 'chart.js','ui.bootstrap','ui.bootstrap.t
 
     }; // end switch
   }; // end launch
- 
-  
-
 }])
 
 

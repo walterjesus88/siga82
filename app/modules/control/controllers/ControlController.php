@@ -17,6 +17,12 @@ class Control_ControlController extends Zend_Controller_Action {
     	echo "jol";
     }
 
+    public function curvasAction()
+    {
+      //$this->_helper->layout()->disableLayout();
+    }
+
+
     public function listaentregablesAction() {
     	
         $proyectoid= $this->_getParam("proyectoid");
