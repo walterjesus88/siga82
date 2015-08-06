@@ -1,7 +1,9 @@
-app.factory('entregableFactory', ['httpFactory', function(httpFactory) {
+app.factory('entregableFactory', ['httpFactory', 'transmittalFactory',
+ function(httpFactory, transmittalFactory) {
   var publico = {
     Entregable: function(codigo, edt, tipo, disciplina, codigo_anddes,
-    codigo_cliente, descripcion, revision, estado, transmittal) {
+    codigo_cliente, descripcion, revision, estado, transmittal, correlativo,
+    emitido, fecha) {
       this.codigo = codigo;
       this.edt = edt;
       this.tipo = tipo;
@@ -12,6 +14,9 @@ app.factory('entregableFactory', ['httpFactory', function(httpFactory) {
       this.revision = revision;
       this.estado = estado;
       this.transmittal = transmittal;
+      this.correlativo = correlativo;
+      this.emitido = emitido;
+      this.fecha = fecha;
 
       this.cambiarRevision = function() {
 
@@ -19,13 +24,10 @@ app.factory('entregableFactory', ['httpFactory', function(httpFactory) {
 
       this.cambiarEstado = function() {
         this.estado = 'old';
-        httpFactory.cambiarEstadoEntregable()
-        .success(function(res) {
+      }
 
-        })
-        .error(function(res) {
-
-        });
+      this.agregarToTransmittal = function() {
+        transmittalFactory.agregarEntregable(this);
       }
     }
   }

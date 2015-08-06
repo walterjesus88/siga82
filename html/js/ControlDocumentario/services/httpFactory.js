@@ -3,7 +3,7 @@ delete al servidor*/
 
 app.factory('httpFactory', ['$http', '$q', function($http, $q) {
 
-  var url = '/controldocumentario/index/';
+  var url = '/controldocumentario/json/';
 
   var publico = {
     getIntegrantes: function(){
@@ -135,7 +135,7 @@ app.factory('httpFactory', ['$http', '$q', function($http, $q) {
     getEntregables: function(proyectoid) {
       var defered = $q.defer();
       var promise = defered.promise;
-      $http.get(url + 'entregables/proyectoid/' + proyectoid)
+      $http.get(url + 'entregablesasignados/proyectoid/' + proyectoid)
       .success(function(data) {
         defered.resolve(data);
       })

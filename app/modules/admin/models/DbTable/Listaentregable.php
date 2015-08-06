@@ -38,17 +38,4 @@ class Admin_Model_DbTable_Listaentregable extends Zend_Db_Table_Abstract
         }
     }
 
-    public function _getEntregablesxProyecto($proyectoid)
-    {
-      try {
-        $sql = $this->_db->query("select * from lista_entregable
-        where proyectoid = '".$proyectoid."'");
-        $row = $sql->fetchAll();
-        return $row;
-      } catch (Exception $e) {
-        print $e->getMessage();
-      }
-
-    }
-
 }

@@ -18,6 +18,11 @@ app.factory('transmittalFactory', ['httpFactory', function(httpFactory) {
     correo: ''
   };
 
+  var transmittal = {
+    codigo: '',
+    entregables: []
+  };
+
   var publico = {
     getConfiguracion: function() {
       return datos;
@@ -89,6 +94,32 @@ app.factory('transmittalFactory', ['httpFactory', function(httpFactory) {
     },
     obtenerDatos: function() {
       alert('hola');
+    },
+
+
+    agregarEntregable: function(entregable) {
+      transmittal.entregables.push(entregable);
+    },
+    eliminarEntregable: function(entregableid) {
+      var temp = [];
+      for (var i = 0; i < transmittal.entregables.length; i++) {
+        if (transmittal.entregables[i].codigo != entregableid) {
+          temp.push(transmittal.entregables[i]);
+        }
+      }
+      transmittal.entregables = temp;
+    },
+    guardarTransmittal: function() {
+      //peticiones al servidor para guardar los entregables asociados al transmittal
+    },
+    emitirTransmittal: function() {
+      //cambiar el estado a emitido haciendo imposible la modificacion o agregar entregables
+    },
+    reenviarTransmittal: function() {
+      //retomar los valores de este transmittal para generar otro con estado en elaboracion
+    },
+    imprimirTransmittal: function() {
+      //generar un documento pdf del transmittal segun el formato seleccionado
     }
 
   }

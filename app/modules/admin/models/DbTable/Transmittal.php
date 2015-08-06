@@ -49,6 +49,20 @@ class Admin_Model_DbTable_Transmittal extends Zend_Db_Table_Abstract
     //Almacena en la base de datos los valores de la configuracion del transmittal
     public function _saveConfiguracion($data)
     {
+      /*$newRow = $this->createRow();
+      $newRow->codificacion = $data['codificacion'];
+      $newRow->correlativo = $data['correlativo'];
+      $newRow->clienteid = $data['clienteid'];
+      $newRow->proyectoid = $data['proyectoid'];
+      $newRow->formato = $data['formato'];
+      $newRow->tipo_envio = $data['tipo_envio'];
+      $newRow->control_documentario = $data['control_documentario'];
+      $newRow->dias_alerta = $data['dias_alerta'];
+      $newRow->tipo_proyecto = $data['tipo_proyecto'];
+      $newRow->atencion = $data['atencion'];
+      $newRow->save();
+      return $respuesta['resultado'] = 'guardado';*/
+
       try {
         $sql = $this->_db->query("insert into transmittal values ('".
         $data['codificacion']."', '".$data['correlativo']."', '".
@@ -63,7 +77,18 @@ class Admin_Model_DbTable_Transmittal extends Zend_Db_Table_Abstract
       } catch (Exception $e) {
         print $e->getMessage();
       }
+    }
 
+    //Cambia el estado de elaboracion de un transmittal a cerrado
+    public function _cambiarEstadoElaboracion($transmittalid)
+    {
+      $id = (int)$transmittalid;
+      $row = $this->fetchRow('transmittalid = ' . $id);
+      if (!$row) {
+           throw new Exception("No hay resultados para ese transmittal");
+      }
+      $row->estado_elaboracion = 'emitido';
+      $row->save();
     }
 
 }
