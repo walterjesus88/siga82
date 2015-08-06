@@ -1,8 +1,24 @@
 /*servicio Factory que simula una clase Proyecto con include de httpFactory para
 poder actualizar el control documentario y $location para redigir a las vistas
 de informacion, generar transmittal y generar reporte*/
-app.factory('proyectoFactory', ['httpFactory', '$location',
-function(httpFactory, $location) {
+app.factory('proyectoFactory', ['httpFactory', '$location', '$q',
+function(httpFactory, $location, $q) {
+
+  var datos = {
+    codigo: '',
+    nombre: '',
+    clienteid: '',
+    cliente: '',
+    unidad_minera: '',
+    estado: '',
+    fecha_inicio: '',
+    fecha_cierre: '',
+    control_documentario: '',
+    descripcion: '',
+    tipo_proyecto: '',
+    logo_cliente: ''
+  };
+
   var publico = {
     Proyecto: function(codigo, cliente, nombre, gerente, control_proyecto,
       control_documentario, estado) {
@@ -22,10 +38,10 @@ function(httpFactory, $location) {
 
       this.cambiarControlDocumentario = function() {
         httpFactory.setControlDocumentario(this.codigo, this.control_documentario)
-        .success(function(res) {
+        .then(function(data) {
           alert('Control Documentario cambiado');
         })
-        .error(function(res) {
+        .catch(function(err) {
           alert('No se pudo cambiar el Control Documentario');
         })
       }
@@ -34,6 +50,20 @@ function(httpFactory, $location) {
         //configuracionTransmittal.setProyecto(proyectoid);
         $location.path("/transmittal/proyecto/" + this.codigo);
       }
+    },
+
+    getDatosProyecto: function(proyectoid) {
+      var defered = $q.defer();
+      var promise = defered.promise;
+      httpFactory.getProyectoById(proyectoid)
+      .then(function(data) {
+        datos = data;
+        defered.resolve(datos);
+      })
+      .catch(function(err) {
+        defered.reject(err);
+      });
+      return promise;
     }
   }
   return publico;

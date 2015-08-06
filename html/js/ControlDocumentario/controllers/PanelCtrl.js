@@ -31,9 +31,9 @@ app.controller('PanelCtrl', ['httpFactory', function(httpFactory) {
 
   //obteniendo los datos al cargar la vista y calculo de sumatorias totales
   httpFactory.getIntegrantes()
-  .success(function(res) {
+  .then(function(data) {
     panel.integrantes = [];
-    res.forEach(function(integrante) {
+    data.forEach(function(integrante) {
       integrante.nombre = integrante.uid.changeFormat();
       panel.integrantes.push(integrante);
     })
@@ -52,7 +52,7 @@ app.controller('PanelCtrl', ['httpFactory', function(httpFactory) {
       panel.cantidad_proyectos.stand_by + panel.cantidad_proyectos.cancelado +
       panel.cantidad_proyectos.cerrado;
   })
-  .error(function(res) {
+  .catch(function(err) {
     alert('No se pueden mostrar los datos, intentelo nuevamente');
   });
 }]);

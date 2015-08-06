@@ -11,49 +11,42 @@ function(httpFactory, proyectoFactory) {
   vp.proyectos = [];
   vp.control_documentario = [];
 
-  //carga inicial de los proyectos con estado activo
-  httpFactory.getProyectos('A')
-  .success(function(res) {
-    vp.proyectos = [];
-    res.forEach(function(item) {
-      proyecto = new proyectoFactory.Proyecto(item.codigo, item.cliente,
-        item.nombre, item.gerente, item.control_proyecto,
-        item.control_documentario, item.estado);
-      vp.proyectos.push(proyecto);
-    });
-  })
-  .error(function(res) {
-    vp.proyectos = [];
-  });
-
-  //carga inicial de integrantes de control documentario
-  httpFactory.getIntegrantes()
-  .success(function(res) {
-    vp.control_documentario = [];
-    res.forEach(function(integrante) {
-      integrante.nombre = integrante.uid.changeFormat();
-      vp.control_documentario.push(integrante);
-    })
-  })
-  .error(function(res) {
-    vp.control_documentario = [];
-  });
-
-  //metodo para cargar los proyectos de los diferentes estados
-  vp.cargarProyectos = function(estado) {
+  //funcion para obtener los proyectos del servidor
+  var listarProyectos = function(estado) {
     httpFactory.getProyectos(estado)
-    .success(function(res) {
+    .then(function(data) {
       vp.proyectos = [];
-      res.forEach(function(item) {
+      data.forEach(function(item) {
         proyecto = new proyectoFactory.Proyecto(item.codigo, item.cliente,
           item.nombre, item.gerente, item.control_proyecto,
           item.control_documentario, item.estado);
         vp.proyectos.push(proyecto);
       });
     })
-    .error(function(res) {
+    .catch(function(err) {
       vp.proyectos = [];
     });
+  }
+
+  //carga inicial de integrantes de control documentario
+  httpFactory.getIntegrantes()
+  .then(function(data) {
+    vp.control_documentario = [];
+    data.forEach(function(integrante) {
+      integrante.nombre = integrante.uid.changeFormat();
+      vp.control_documentario.push(integrante);
+    })
+  })
+  .catch(function(err) {
+    vp.control_documentario = [];
+  });
+
+  //carga inicial de los proyectos con estado activo
+  listarProyectos('A');
+
+  //metodo para cargar los proyectos de los diferentes estados
+  vp.cargarProyectos = function(estado) {
+    listarProyectos(estado);
   }
 
 }]);

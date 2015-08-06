@@ -1,6 +1,6 @@
 /*servicio Factory para configurar datos de Transmittal con include de
 httpFactory para poder enviar los datos de configuracion al servidor*/
-app.factory('configuracionTransmittal', ['httpFactory', function(httpFactory) {
+app.factory('transmittalFactory', ['httpFactory', function(httpFactory) {
 
   var datos = {
     codificacion: '',
@@ -80,12 +80,15 @@ app.factory('configuracionTransmittal', ['httpFactory', function(httpFactory) {
 
     guardarCambios: function() {
       httpFactory.setConfiguracionTransmittal(datos)
-      .success(function(res) {
+      .then(function(data) {
         alert('Cambios guardados satisfactoriamente');
       })
-      .error(function(res) {
+      .catch(function(err) {
         alert('Error al guardar cambios, intentelo denuevo');
       });
+    },
+    obtenerDatos: function() {
+      alert('hola');
     }
 
   }

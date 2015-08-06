@@ -11,16 +11,16 @@ function(httpFactory, entregableFactory, $scope) {
 
   //cargar los entregables
   httpFactory.getEntregables(proyecto.codigo)
-  .success(function(res) {
+  .then(function(data) {
     va.entregables = [];
-    res.forEach(function(item) {
+    data.forEach(function(item) {
       entregable = new entregableFactory.entregable(item.codigo, item.edt,
       item.tipo, item.disciplina, item.codigo_anddes, item.codigo_cliente,
       item.descripcion, item.revision, item.estado, item.transmittal);
       va.entregables.push(entregable);
     })
   })
-  .error(function(res) {
+  .catch(function(err) {
     va.entregables = [];
   });
 
@@ -29,10 +29,10 @@ function(httpFactory, entregableFactory, $scope) {
 
   //cargar los edt
   httpFactory.getEdts(proyecto.codigo)
-  .success(function(res) {
-    va.edt = res;
+  .then(function(data){
+    va.edt = data;
   })
-  .error(function(res) {
+  .catch(function(err) {
     va.edt = [];
   });
 
