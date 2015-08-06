@@ -44,7 +44,7 @@ app.controller('PanelCtrl', ['httpFactory', function(httpFactory) {
       valores.push(panel.integrantes[i].A);
     }
     panel.datos.push(valores);
-    //console.log(panel.datos);
+    console.log(panel.datos);
     panel.cantidad_proyectos.total = panel.cantidad_proyectos.en_proceso +
       panel.cantidad_proyectos.stand_by + panel.cantidad_proyectos.cancelado +
       panel.cantidad_proyectos.cerrado;

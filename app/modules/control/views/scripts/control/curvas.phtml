@@ -1,14 +1,66 @@
-
-	<div class="col-md-6">
-		<div class="panel">
-			<h1 class="panel-heading">Carga Laboral Control Proyecto (En Proceso)</h1>
-			<div class="panel-body">
-				<canvas id="bar" class="chart chart-bar"  labels="CP.labels"
-					series="CP.series" options="CP.options"></canvas>
-			</div>
-		</div>
-	</div>
-
-<div ng-repeat="label in CP.labels ">
-    <div class="nombre">{{label}}</div>                
+ ¿Cuánto? <input type="text" ng-model="CP.cuanto" size="4" />
+<div  ng-init="pensamientos = [];">
+    <h1>Vista General Curva SS</h1>
+        <p>
+            ¿Qué hay de nuevo?
+            <br />
+            <input type="text" ng-model="nuevoPensamiento" /> 
+            <input type="button" value="Agregar" ng-click="pensamientos.push(nuevoPensamiento); nuevoPensamiento = '';" />
+        </p>
+        <h2>Pensamientos que has tenido</h2>
+      <table>
+		  <tr>
+		  <td
+	         ng-repeat="pensamiento in pensamientos" ng-init="paso = $index">
+		        <span>
+	                Pensaste esto: {{pensamiento}} (Iteración con índice {{paso}})
+		        </span>
+	        
+		  </td>
+		  </tr>
+	  </table>
 </div>
+
+<canvas id="bar" class="chart chart-bar" data="CP.data"
+  labels="CP.labels"></canvas> 
+
+<canvas id="line" class="chart chart-line" data="CP.data"
+  labels="CP.labels" legend="true" series="CP.series"
+  click="CP.onClick">
+</canvas> 
+
+
+	<head>
+	
+		<style>
+			canvas{
+			}
+		</style>
+	</head>
+	<body>
+		<canvas id="canvas" height="450" width="450"></canvas>
+
+
+	<script>
+
+	// 	var pieData = [
+	// 			{
+	// 				value: 30,
+	// 				color:"#F38630"
+	// 			},
+	// 			{
+	// 				value : 50,
+	// 				color : "#E0E4CC"
+	// 			},
+	// 			{
+	// 				value : 100,
+	// 				color : "#69D2E7"
+	// 			}
+			
+	// 		];
+
+	// var myPie = new Chart(document.getElementById("canvas").getContext("2d")).Pie(pieData);
+	
+	</script>
+	</body>
+

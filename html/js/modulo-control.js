@@ -138,9 +138,9 @@ function controladorPrincipal(){
 
 
     scope.alumnos=[
-	{nombre:"christel yussara",telefono:"9636699",curso:"segundo"},
+	{nombre:" yussara",telefono:"9636699",curso:"segundo"},
 	{nombre:"walter jesus",telefono:"9636699",curso:"primero"},
-	{nombre:"sheyla pinto",telefono:"9636699",curso:"tercero"}
+	{nombre:" pinto",telefono:"9636699",curso:"tercero"}
 
 	];
 
