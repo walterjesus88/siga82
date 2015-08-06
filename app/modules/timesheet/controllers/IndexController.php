@@ -323,7 +323,7 @@ class Timesheet_IndexController extends Zend_Controller_Action {
         $data['fecha_tarea']=$fecha_inicio_mod;
         $data['fecha_creacion']=$fecha_inicio_mod;
         $data['fecha_planificacion']=$fecha_inicio_mod;
-        if ($codigo_prop_proy=='2015')
+        if ($codigo_prop_proy=='2015' || $codigo_prop_proy=='1590.10.01' || $codigo_prop_proy=='1590.10.03' || $codigo_prop_proy=='1590.10.02')
         {
          $data['tipo_actividad']='A';   
         }
