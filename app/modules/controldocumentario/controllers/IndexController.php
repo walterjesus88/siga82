@@ -205,6 +205,33 @@ class ControlDocumentario_IndexController extends Zend_Controller_Action {
       $this->_helper->json->sendJson($correlativo);
     }
 
+    //Devuelve la lista de edt de cada proyecto
+    public function edtAction()
+    {
+      $this->_helper->layout()->disableLayout();
+      $proyectoid = $this->_getParam('proyectoid');
+      //$edt = new Admin_Model_DbTable_Edt();
+      //$lista = $edt->_getEdtxProyecto($proyectoid);
+      $fila1['codigo'] = '000';
+      $fila1['nombre'] = 'General';
+      $fila2['codigo'] = '001';
+      $fila2['nombre'] = 'Primer piso';
+      $respuesta[0] = $fila1;
+      $respuesta[1] = $fila2;
+      $this->_helper->json->sendJson($respuesta);
+    }
+
+    //Devuelve la lista de entregables de un proyecto
+    public function entregablesAction()
+    {
+      $this->_helper->layout()->disableLayout();
+      $proyectoid = $this->_getParam('proyectoid');
+      $entregable = new Admin_Model_DbTable_Listaentregable();
+      $lista = $entregable->_getEntregablesxProyecto($proyectoid);
+      $respuesta = $lista;
+      $this->_helper->json->sendJson($respuesta);
+    }
+
 
     //Funciones que cambian datos en la base de datos
 
@@ -237,4 +264,5 @@ class ControlDocumentario_IndexController extends Zend_Controller_Action {
       $respuesta = $transmittal->_saveConfiguracion($data);
       $this->_helper->json->sendJson($respuesta);
     }
+
 }

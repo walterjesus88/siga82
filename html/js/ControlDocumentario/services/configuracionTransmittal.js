@@ -15,8 +15,7 @@ app.factory('configuracionTransmittal', ['httpFactory', function(httpFactory) {
     dias_alerta: '',
     area: '',
     tipo_proyecto: '',
-    correo: '',
-    logo: ''
+    correo: ''
   };
 
   var publico = {
@@ -77,9 +76,6 @@ app.factory('configuracionTransmittal', ['httpFactory', function(httpFactory) {
     },
     setCorreo: function(correo) {
       datos.correo = correo;
-    },
-    setLogo: function(logo) {
-      datos.logo = logo;
     },
 
     guardarCambios: function() {

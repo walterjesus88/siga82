@@ -22,7 +22,7 @@ class Admin_Model_DbTable_Listaentregable extends Zend_Db_Table_Abstract
                 if ($attrib=='') $select->from("lista_entregable");
                 else $select->from("lista_entregable",$attrib);
                 foreach ($where as $atri=>$value){
-                    $select->where("$atri = ?", $value);                    
+                    $select->where("$atri = ?", $value);
                 }
                 if ($orders<>null || $orders<>"") {
                     if (is_array($orders))
@@ -36,6 +36,19 @@ class Admin_Model_DbTable_Listaentregable extends Zend_Db_Table_Abstract
         }catch (Exception $e){
             print "Error: Read Filter competencia ".$e->getMessage();
         }
+    }
+
+    public function _getEntregablesxProyecto($proyectoid)
+    {
+      try {
+        $sql = $this->_db->query("select * from lista_entregable
+        where proyectoid = '".$proyectoid."'");
+        $row = $sql->fetchAll();
+        return $row;
+      } catch (Exception $e) {
+        print $e->getMessage();
+      }
+
     }
 
 }

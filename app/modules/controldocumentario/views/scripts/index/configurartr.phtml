@@ -17,10 +17,10 @@
 
     <section class="col-md-6 col-sm-12 form-group panel-body">
       <label for="" class="col-md-3">Cliente:</label>
-      <select class="form-control" ng-model="vc.transmittal.clienteid"
-      ng-change="vc.cambiarCliente()"
-      ng-options="cliente.id as cliente.nombre for cliente in vc.clientes">
-      </select>
+        <select class="form-control" ng-model="vc.transmittal.clienteid"
+        ng-change="vc.cambiarCliente()"
+        ng-options="cliente.id as cliente.nombre.slice(0, 45) for cliente in vc.clientes">
+        </select>
     </section>
 
     <section class="col-md-6 col-sm-12 form-group panel-body">
@@ -34,10 +34,8 @@
     <section class="col-md-6 col-sm-12 form-group panel-body">
       <label for="" class="col-md-3">Atención:</label>
       <select class="form-control" ng-model="vc.transmittal.atencion"
-      ng-change="vc.cambiarContacto()">
-        <option ng-repeat="contacto in vc.contactos" value="{{contacto.contactoid}}">
-          {{contacto.nombre}}
-        </option>
+      ng-change="vc.cambiarContacto()"
+      ng-options="contacto.contactoid as contacto.nombre for contacto in vc.contactos">
       </select>
       <button type="button" class="btn btn-default btn-xs" ng-click="vc.modalContacto()">Editar</button>
     </section>
@@ -51,19 +49,17 @@
 
     <section class="col-md-6 col-sm-12 form-group panel-body">
       <label for="" class="col-md-3">Área:</label>
-      <input type="text" class="form-control"
-      ng-model="vc.datos_contacto_seleccionado.area">
+      <label for="">{{vc.datos_contacto_seleccionado.area}}</label>
     </section>
 
     <section class="col-md-6 col-sm-12 form-group panel-body">
       <label for="" class="col-md-3">Días de alerta:</label>
-      <input type="text" class="form-control" ng-model="vc.transmittal.dias_alerta">
+      <input type="number" min="0" class="form-control" ng-model="vc.transmittal.dias_alerta">
     </section>
 
     <section class="col-md-6 col-sm-12 form-group panel-body">
       <label for="" class="col-md-3">Correo:</label>
-      <input type="text" class="form-control"
-      ng-model="vc.datos_contacto_seleccionado.correo">
+      <label for="">{{vc.datos_contacto_seleccionado.correo}}</label>
     </section>
 
     <section class="col-md-6 col-sm-12 form-group panel-body">
@@ -71,12 +67,6 @@
       <select class="form-control" ng-model="vc.transmittal.tipo_proyecto"
       ng-options="tipo.tipo_proyecto as tipo.tipo_proyecto for tipo in vc.tipos_proyecto">
       </select>
-    </section>
-
-    <section class="col-md-6 col-sm-12 form-group panel-body">
-      <label for="" class="col-md-3">Logo:</label>
-      <input type="text" class="form-control">
-      <button type="button" class="btn btn-default btn-xs" ng-click="vc.modalLogo()">Editar</button>
     </section>
 
     <section class="col-md-12 col-sm-12 form-group panel-body">

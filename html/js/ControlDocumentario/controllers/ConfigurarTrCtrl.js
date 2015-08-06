@@ -47,9 +47,24 @@ function($scope, httpFactory, configuracionTransmittal) {
     vc.tipos_proyecto = [];
   });
 
-  httpFactory.getContactosByCliente(vc.proyecto.clienteid)
+  /*inicializando la variable de los datos del contacto seleccionado*/
+  vc.datos_contacto_seleccionado = {
+    area: '',
+    correo: ''
+  };
+  
+  httpFactory.getContactosByCliente(vc.transmittal.clienteid)
   .success(function(res) {
     vc.contactos = res;
+    //poniendo como atencion al primer contacto de la lista y obteniendo sus datos
+    vc.transmittal.atencion = vc.contactos[0].contactoid;
+    configuracionTransmittal.setAtencion(vc.transmittal.atencion);
+    vc.contactos.forEach(function(contacto) {
+      if (contacto.contactoid == vc.transmittal.atencion) {
+        vc.datos_contacto_seleccionado.area = contacto.puesto_trabajo;
+        vc.datos_contacto_seleccionado.correo = contacto.correo;
+      }
+    })
   })
   .error(function(res) {
     vc.contactos = [];
@@ -79,17 +94,20 @@ function($scope, httpFactory, configuracionTransmittal) {
     httpFactory.getContactosByCliente(vc.transmittal.clienteid)
     .success(function(res) {
       vc.contactos = res;
+      //poniendo como atencion al primer contacto de la lista y obteniendo sus datos
+      vc.transmittal.atencion = vc.contactos[0].contactoid;
+      configuracionTransmittal.setAtencion(vc.transmittal.atencion);
+      vc.contactos.forEach(function(contacto) {
+        if (contacto.contactoid == vc.transmittal.atencion) {
+          vc.datos_contacto_seleccionado.area = contacto.puesto_trabajo;
+          vc.datos_contacto_seleccionado.correo = contacto.correo;
+        }
+      })
     })
     .error(function(res) {
       vc.contactos = [];
     });
   }
-
-  /*inicializando la variable de los datos del contacto seleccionado*/
-  vc.datos_contacto_seleccionado = {
-    area: '',
-    correo: ''
-  };
 
   //cargar los datos del contacto de acuerdo al contacto seleccionado
   vc.cambiarContacto = function() {
@@ -111,10 +129,6 @@ function($scope, httpFactory, configuracionTransmittal) {
   //metodos para mostrar modales de ingreso de datos
   vc.modalContacto = function() {
     $("#modalcontacto").modal();
-  }
-
-  vc.modalLogo = function() {
-    $("#edit_logo").modal();
   }
 
 }]);
