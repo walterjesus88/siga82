@@ -10,30 +10,31 @@
     </header>
 </section>
 
-
+<div id='htpersona'> </div>
+<div id="htaprobacion" style="display: none;">
+<div id="hthistorico" style="display: none;">
 
 
 <script type="text/javascript">
   
         $("#mostrar_htpersona").click(function(){
-            $("#rendicion_pendientes").show();
-            $("#rendicion_enviados").hide();
-            $("#rendicion_rechazados").hide();
-            $("#rendicion_aprobados").hide();
+        	var url = "/timesheet/aprobacion/hojatiempopersona";
+            $("#htpersona").load(url);
+            /*$("#htpersona").show();
+            $("#htaprobacion").hide();
+            $("#hthistorico").hide();*/
         });
 
         $("#mostrar_htaprobacion").click(function(){
-            $("#rendicion_pendientes").hide();
-            $("#rendicion_enviados").show();
-            $("#rendicion_rechazados").hide();
-            $("#rendicion_aprobados").hide();
+            $("#htpersona").hide();
+            $("#htaprobacion").show();
+            $("#hthistorico").hide();
         });
 
         $("#mostrar_hthistorico").click(function(){
-            $("#rendicion_pendientes").hide();
-            $("#rendicion_enviados").hide();
-            $("#rendicion_rechazados").hide();
-            $("#rendicion_aprobados").show();
+            $("#htpersona").hide();
+            $("#htaprobacion").hide();
+            $("#hthistorico").show();
         });
 
       
