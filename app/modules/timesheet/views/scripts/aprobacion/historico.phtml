@@ -1,0 +1,40 @@
+
+<section class="panel">
+    <header class="panel-heading" style="padding-bottom : 17px">
+        Hoja de Tiempo
+            <span class="pull-right">
+                <a id="mostrar_htpersona" class=" btn btn-success  btn-xs"> Persona</a>
+                <a id="mostrar_htaprobacion" class=" btn btn-primary  btn-xs"> Aprobacion</a>
+                <a id="mostrar_hthistorico" class=" btn btn-warning  btn-xs"> Historico Aprobaciones</a>
+          </span> 
+    </header>
+</section>
+
+
+
+
+<script type="text/javascript">
+  
+        $("#mostrar_htpersona").click(function(){
+            $("#rendicion_pendientes").show();
+            $("#rendicion_enviados").hide();
+            $("#rendicion_rechazados").hide();
+            $("#rendicion_aprobados").hide();
+        });
+
+        $("#mostrar_htaprobacion").click(function(){
+            $("#rendicion_pendientes").hide();
+            $("#rendicion_enviados").show();
+            $("#rendicion_rechazados").hide();
+            $("#rendicion_aprobados").hide();
+        });
+
+        $("#mostrar_hthistorico").click(function(){
+            $("#rendicion_pendientes").hide();
+            $("#rendicion_enviados").hide();
+            $("#rendicion_rechazados").hide();
+            $("#rendicion_aprobados").show();
+        });
+
+      
+    </script>

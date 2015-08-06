@@ -670,4 +670,13 @@ class Timesheet_AprobacionController extends Zend_Controller_Action {
         }
     }
 
+  public function historicoAction(){
+        try {
+            
+        }    
+         catch (Exception $e) {
+            print "Error: ".$e->getMessage();
+        }
+    }
+
 };
