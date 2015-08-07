@@ -36,13 +36,6 @@ angular.module('moduloCp', ['ngRoute', 'chart.js','ui.bootstrap','ui.bootstrap.t
   return publico;
 }])
 
-
-
-
-
-
-
-
 //theme bootstrap //
 .run(function(editableOptions) {
   editableOptions.theme = 'bs3';
@@ -52,6 +45,12 @@ angular.module('moduloCp', ['ngRoute', 'chart.js','ui.bootstrap','ui.bootstrap.t
   //referencia del scope
   var $scope = this;
 
+  $scope.cuanto=['29'];
+
+  $scope.sumar= function(){
+    
+  }
+
   $scope.labels = ['06 May', '13 May', '20 May', '27 May', '03 Jun', '10 Jun', '15 Jun'];
   $scope.series = ['Planeado', 'Ejecutado'];
 
@@ -60,17 +59,6 @@ angular.module('moduloCp', ['ngRoute', 'chart.js','ui.bootstrap','ui.bootstrap.t
     [28/100, 48/100, 40/100, 19/100, 86/100, 27/100, 90/100]
   ];
 
-  // panel.labels = ['eeee','ddd','frghr'];
-  // console.log(panel.labels);
-
-  //panel.series = ['En Proceso'];
-
-  //panel.datos = ['0','1'];
-  // panel.options = {
-  //   legend: true,
-  //   animationSteps: 150,
-  //   animationEasing: "easeInOutQuint"
-  // };
 }])
 
 .controller('PanelCtrl', ['httpFactory','$modal','$dialogs', function ( httpFactory,$modal,$dialogs) {
