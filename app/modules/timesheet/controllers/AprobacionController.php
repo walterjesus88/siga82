@@ -53,7 +53,7 @@ class Timesheet_AprobacionController extends Zend_Controller_Action {
             $areaid=$this->sesion->personal->ucatareaid;
             $categoriaid=$this->sesion->personal->ucatid;
             $codigoaprobacion_empleado = $this->sesion->personal->ucataprobacion;
-            /*Datos Tabla Historial Aprobaciones*/
+            /**Datos Tabla Historial Aprobaciones**/
             $data['semanaid']=$semana;
             $data['uid_empleado']=$uid;
             $data['dni_empleado']=$dni;
@@ -68,12 +68,15 @@ class Timesheet_AprobacionController extends Zend_Controller_Action {
 
             $tabla_historial_aprobaciones= new Admin_Model_DbTable_Historialaprobaciones();
             $buscar_registro=$tabla_historial_aprobaciones->_getBuscarEmpleadoxSemana($semana,$uid,$dni);
-            /*Buscar Registro en la tabla Aprobaciones*/
+            /**Buscar Registro en la tabla Aprobaciones**/
+
+
+
             if ($buscar_registro)
             {   
                 $wheres_empleado = array('semanaid'=>$semana,'uid_empleado'=>$uid,'dni_empleado'=>$dni,'etapa_validador'=>'ENVIO','estado_historial'=>'A');
                 $buscar_historial_empleado = $tabla_historial_aprobaciones -> _getBuscarEmpleadoxSemanaxEstado($wheres_empleado);
-                /*Buscar si tine un registro*/
+                /**Buscar si tine un registro**/
                 if ($buscar_historial_empleado)
                 {
                     echo "existe";
@@ -93,7 +96,7 @@ class Timesheet_AprobacionController extends Zend_Controller_Action {
                         $update_tareopersona=$tareopersona -> _update($datos_actualizar,$str_actualizar);  
                         $tabla_planificacion = new Admin_Model_DbTable_Planificacion();
                         $lista_proyectos_empleado=$tabla_planificacion->_getProyectosxSemana($semana,$uid,$dni);
-                        /*Esto parte comentada es para poner estado deacuerdo al proyecto mas adelante*/
+                        /**Esto parte comentada es para poner estado deacuerdo al proyecto mas adelante**/
                         //foreach ($lista_proyectos_empleado as $proyectos_empleado) {
                             //if ($proyectos_empleado['estado']=='R' or $proyectos_empleado['estado']=='RGP' $proyectos_empleado['estado']=='' or $proyectos_empleado['estado'] is null)
                             //{
@@ -120,7 +123,7 @@ class Timesheet_AprobacionController extends Zend_Controller_Action {
                         $update_tareopersona=$tareopersona -> _update($datos_actualizar,$str_actualizar);  
                         $tabla_planificacion = new Admin_Model_DbTable_Planificacion();
                         $lista_proyectos_empleado=$tabla_planificacion->_getProyectosxSemana($semana,$uid,$dni);
-                        /*Esto parte comentada es para poner estado deacuerdo al proyecto mas adelante*/
+                        /**Esto parte comentada es para poner estado deacuerdo al proyecto mas adelante**/
                         //foreach ($lista_proyectos_empleado as $proyectos_empleado) {
                             //if ($proyectos_empleado['estado']=='R' or $proyectos_empleado['estado']=='RGP' $proyectos_empleado['estado']=='' or $proyectos_empleado['estado'] is null)
                             //{
@@ -133,6 +136,34 @@ class Timesheet_AprobacionController extends Zend_Controller_Action {
                         //}
                     }
             }
+
+            
+
+            $semana_proxima=$semana+1;
+            $duplicar_tarea=new Admin_Model_DbTable_Tareopersona();   
+            $existe_tareo_semana_proxima=$duplicar_tarea->_getEstado_HojaTiempo($semana_proxima,$uid,$dni);
+            
+            if ($existe_tareo_semana_proxima)
+            {   
+
+            }
+            else
+            {
+                $ano=date("Y");/*ojo cambiar  con el tiempo --revisar */
+                $enero = mktime(1,1,1,1,1,$ano); 
+                $mos = (11-date('w',$enero))%7-3;
+                $inicios = strtotime(($semana_proxima-1) . ' weeks '.$mos.' days', $enero); 
+                $dias[] = date('Y-m-d', strtotime("+ 0 day", $inicios));
+                $fechaduplica=$dias[0];
+                //print_r($dias[0]);
+                $duplica=new Admin_Model_DbTable_Tareopersona();   
+                $dupl=$duplica->_getDuplicarTareo($fechaduplica,$semana,$uid);
+            }
+
+
+
+
+
          } catch (Exception $e) {
             print "Error: ".$e->getMessage();
         } 
@@ -487,6 +518,8 @@ class Timesheet_AprobacionController extends Zend_Controller_Action {
 
     public function hojatiempopersonaAction(){
         try {
+
+            $this->_helper->layout()->disableLayout();   
             $uid = $this->sesion->uid;
             $dni = $this->sesion->dni;  
             $tabla_planificacion= new Admin_Model_DbTable_Planificacion();
@@ -664,6 +697,15 @@ class Timesheet_AprobacionController extends Zend_Controller_Action {
             $tareo_persona = new Admin_Model_DbTable_Tareopersona();
             $datos_tareopersona=$tareo_persona->_getTareoxPersonaxSemana($uid,$dni,$semana);
             $this->view->actividades= $datos_tareopersona;
+        }    
+         catch (Exception $e) {
+            print "Error: ".$e->getMessage();
+        }
+    }
+
+  public function historicoAction(){
+        try {
+            
         }    
          catch (Exception $e) {
             print "Error: ".$e->getMessage();
