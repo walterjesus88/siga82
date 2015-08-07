@@ -41,7 +41,6 @@ class Control_ControlController extends Zend_Controller_Action {
         $this->view->lista = $lentreg;
 
         //print_r($lentreg);
-    	echo "lista";
     }
 
     public function guardarlistaAction() {

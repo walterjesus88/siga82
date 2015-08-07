@@ -1,4 +1,10 @@
- ¿Cuánto? <input type="text" ng-model="CP.cuanto" size="4" />
+ ¿Cuánto? <p type="text" ng-model="CP.cuanto" size="4" ></p>
+ 	<input type="button" value="7" ng-click="alu.sumar()"/>
+    <input type="button" value="15" ng-click="alu.restar()"/>
+
+
+
+
 <div  ng-init="pensamientos = [];">
     <h1>Vista General Curva SS</h1>
         <p>
@@ -13,7 +19,7 @@
 		  <td
 	         ng-repeat="pensamiento in pensamientos" ng-init="paso = $index">
 		        <span>
-	                Pensaste esto: {{pensamiento}} (Iteración con índice {{paso}})
+	                Dia: {{pensamiento}} (í {{paso}})
 		        </span>
 	        
 		  </td>

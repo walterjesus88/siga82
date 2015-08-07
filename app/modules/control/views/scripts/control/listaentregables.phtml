@@ -1,4 +1,5 @@
-
+<!DOCTYPE html>
+<html lang="en">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -23,9 +24,10 @@
     <link href="css/style.css" rel="stylesheet">
     <link href="css/style-responsive.css" rel="stylesheet" />
 
+
   </head>
 
-
+  <body>
 
               <!-- page start-->
               <section class="panel">
@@ -77,11 +79,8 @@
 
                               <?php $lista=$this->lista; 
                                //print_r($lista);
-                              if($lista)
-                              {
-
                               $i=0;
-
+                              if($lista){
                               foreach ($lista as $entregable) { ?>
                             
                                 <tr class="">
@@ -95,21 +94,24 @@
                                   <td class="center"><?php echo $entregable['fecha_a']?></td>
                                   <td class="center"><?php echo $entregable['fecha_b']?></td>
                                   <td class="center"><?php echo $entregable['fecha_0']?></td>
-
-                                
                              
                                   <td><a class="edit" href="javascript:;">Editar</a></td>
                                   <td><a class="delete" href="javascript:;">Eliminar</a></td>
-                                </tr>
-                              <?php $i++; } 
-                              }
-                              ?>
+                                </tr>                              
+                              <?php $i++; } } ?>
+
                               </tbody>
                           </table>
                       </div>
                   </div>
               </section>
+       <!--main content end-->
+      <!-- Right Slidebar start -->
+    
+      <!-- Right Slidebar end -->
+      <!--footer start-->
 
+      <!--footer end-->
 
     <link href="/css/bootstrap-reset.css" rel="stylesheet">
     
@@ -145,9 +147,9 @@
    <script type="text/javascript" src="/assets/data-tables/jquery.dataTables.js"></script>
    <script type="text/javascript" src="/assets/data-tables/DT_bootstrap.js"></script>
 
-          <script src="/js/----------editable-table.js"></script>
+    <script src="/js/editable-table.js"></script>
     <script src="/js/respond.min.js" ></script>
-        <script src="/js/common-scripts.js"></script>
+    <script src="/js/common-scripts.js"></script>
       <script>
           jQuery(document).ready(function() {
               EditableTable.init();
@@ -176,12 +178,12 @@
             function editRow(oTable, nRow) {
                 var aData = oTable.fnGetData(nRow);
                 var jqTds = $('>td', nRow);
-                jqTds[0].innerHTML = '<input type="text" class="form-control"  value="' + aData[0] + '">';
+                jqTds[0].innerHTML = '<input type="text" disabled class="col-lg-1 col-md-1 col-sm-1" value="' + aData[0] + '">';
                 jqTds[1].innerHTML = '<input type="text" class="form-control" value="' + aData[1] + '">';
                   
                 aDataD='Documento';
                 aDataP='Plano';
-                jqTds[2].innerHTML='<select class="form-control" ><option value="' + aDataD + '">Documemto</option><option value="' + aDataP + '">Plano</option></select>'; 
+                jqTds[2].innerHTML='<select class="form-control" ><option value="' + aDataD + '">Documemto</option><option value="' + aDataP + '">Plano</option></select>';      
 
                 //alert(aData[2]);
                 //jqTds[2].innerHTML = '<input type="text" class="form-control small" value="' + aData[2] + '">';
@@ -195,7 +197,7 @@
                 jqTds[9].innerHTML = '<input type="text" class="form-control" value="' + aData[9] + '">';
 
                 jqTds[10].innerHTML = '<a class="edit" href="">Guardar</a>';
-                jqTds[11].innerHTML = '<a class="cancel" href="">Cancelar</a>';
+                jqTds[11].innerHTML = '<a class="cancel" href="">Cancel</a>';
             }
 
             function saveRow(oTable, nRow) {
@@ -203,7 +205,6 @@
                 var jqSelect = $('select', nRow);
                 //console.log(jqInputs);
                 //console.log($(nRow[2]).text);
-                console.log(jqInputs[0].value);
 
                 var edt=jqInputs[1].value;
                 var tipo_doc=jqSelect[0].value;
@@ -217,7 +218,7 @@
                 var fecha0=jqInputs[8].value;
 
                 url="/control/control/guardarlista/codigo_prop_proy/<?php echo $this->codigo_prop_proy;?>/proyectoid/<?php echo $this->proyectoid; ?>/revision/<?php echo $this->revision?>/edt/"+edt+"/tipo_doc/"+tipo_doc+"/disc/"+disc+"/cod_anddes/"+cod_anddes+"/cod_cliente/"+cod_cliente+"/descripcion/"+descripcion+"/fechaA/"+fechaA+"/fechaB/"+fechaB+"/fecha0/"+fecha0;
-                alert(url);
+                //alert(url);
 
                 $.ajax({
                 type: "POST",
@@ -244,8 +245,8 @@
                 oTable.fnUpdate(jqInputs[7].value, nRow, 8, false);
                 oTable.fnUpdate(jqInputs[8].value, nRow, 9, false);
           
-                oTable.fnUpdate('<a class="edit" href="">Edit</a>', nRow, 10, false);
-                oTable.fnUpdate('<a class="delete" href="">Delete</a>', nRow, 11, false);
+                oTable.fnUpdate('<a class="edit" href="">Editar</a>', nRow, 10, false);
+                oTable.fnUpdate('<a class="delete" href="">Eliminar</a>', nRow, 11, false);
                 oTable.fnDraw();
             }
 
@@ -315,7 +316,7 @@
 
                 var nRow = $(this).parents('tr')[0];
                 oTable.fnDeleteRow(nRow);
-                alert("Deleted! Do not forget to do some ajax to sync with backend :)");
+                //alert("Deleted! Do not forget to do some ajax to sync with backend :)");
             });
 
             $('#editable-sample a.cancel').live('click', function (e) {
@@ -341,7 +342,8 @@
                     editRow(oTable, nRow);
                     nEditing = nRow;
                 } else if (nEditing == nRow && this.innerHTML == "Guardar") {
-                    /* Editing this row and want to save it */          
+                    /* Editing this row and want to save it */
+           
 
                     //console.log(nRow);
                     //console.log($(nRow[5]).text);
@@ -357,8 +359,12 @@
                 }
             });
         }
+
     };
-}
+
+}();
+
+
 </script>
 
 
