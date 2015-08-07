@@ -23,7 +23,7 @@ app.factory('entregableFactory', ['httpFactory', 'transmittalFactory',
       }
 
       this.cambiarEstado = function() {
-        this.estado = 'old';
+        this.estado = 'Old';
       }
 
       this.agregarToTransmittal = function() {

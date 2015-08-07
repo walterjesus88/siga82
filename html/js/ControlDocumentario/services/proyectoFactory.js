@@ -46,7 +46,7 @@ function(httpFactory, $location, $q) {
         })
       }
 
-      this.accesoGenerarTr = function() {
+      this.verInformacion = function() {
         //configuracionTransmittal.setProyecto(proyectoid);
         $location.path("/transmittal/proyecto/" + this.codigo);
       }

@@ -150,8 +150,13 @@ class ControlDocumentario_JsonController extends Zend_Controller_Action {
     public function entregablesasignadosAction()
     {
       $proyectoid = $this->_getParam('proyectoid');
+      $estado = $this->_getParam('estado');
       $detalle = new Admin_Model_DbTable_DetalleTransmittal();
-      $lista = $detalle->_getDetallexProyecto($proyectoid);
+      if ($estado == 'all') {
+        $lista = $detalle->_getDetallexProyecto($proyectoid);
+      } elseif ($estado == 'Ultimo') {
+        $lista = $detalle->_getDetallexProyectoxEstado($proyectoid, $estado);
+      }
       $respuesta = $lista;
       $this->_helper->json->sendJson($respuesta);
     }

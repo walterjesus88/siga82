@@ -62,7 +62,22 @@ class Admin_Model_DbTable_DetalleTransmittal extends Zend_Db_Table_Abstract
       } catch (Exception $e) {
         print $e->getMessage();
       }
+    }
 
+    public function _getDetallexProyectoxEstado($proyectoid, $estado)
+    {
+      try {
+        $sql = $this->_db->query("select det.detalleid, ent.edt, ent.tipo_documento,
+        ent.disciplina, ent.codigo_anddes, ent.codigo_cliente, ent.descripcion_entregable,
+        det.revision, det.estado_revision, det.transmittal, det.correlativo,
+        det.emitido, det.fecha from detalle_transmittal as det inner join
+        lista_entregable as ent on det.entregableid = ent.cod_le
+        where det.proyectoid = '".$proyectoid."' and det.estado_revision = '".$estado."'");
+        $row = $sql->fetchAll();
+        return $row;
+      } catch (Exception $e) {
+        print $e->getMessage();
+      }
     }
 
 }

@@ -132,10 +132,11 @@ app.factory('httpFactory', ['$http', '$q', function($http, $q) {
       });
       return promise;
     },
-    getEntregables: function(proyectoid) {
+    getEntregables: function(proyectoid, estado) {
       var defered = $q.defer();
       var promise = defered.promise;
-      $http.get(url + 'entregablesasignados/proyectoid/' + proyectoid)
+      $http.get(url + 'entregablesasignados/proyectoid/' + proyectoid +
+      '/estado/' + estado)
       .success(function(data) {
         defered.resolve(data);
       })
