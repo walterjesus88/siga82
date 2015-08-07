@@ -1,123 +1,94 @@
-<?php 
+<?php
 class Admin_Model_DbTable_Transmittal extends Zend_Db_Table_Abstract
 {
-    protected $_name = 'transmitta';
-    protected $_primary = array("codigo_prop_proy", "propuestaid", "revision");
+    protected $_name = 'transmittal';
+    protected $_primary = array("cofidicacion", "correlativo");
 
-     /* Lista toda las Personas */    
-    public function _getTransmittalAll(){
-        try{
-            $f = $this->fetchAll();
-
-            if ($f) return $f->toArray ();
-            return false;
-        }catch (Exception $e){
-            print "Error: Al momento de leer todos los transmittal".$e->getMessage();
-        }
-    }
-    
-     public function _getTransmittalxIndices($codigo,$propuestaid,$revision)
-     {
-        try{
-            $sql=$this->_db->query("
-               select * from transmitta 
-               where propuestaid='$propuestaid' and revision='$revision' and codigo_prop_proy='$codigo' 
-
-            ");
-            $row=$sql->fetchAll();
-            return $row;           
-            }  
-            
-           catch (Exception $ex){
-            print $ex->getMessage();
-        }
+     //Lista todos los transmittals procesados
+    public function _getAll(){
+      try{
+        $f = $this->fetchAll();
+        if ($f) return $f->toArray ();
+        return false;
+      }catch (Exception $e){
+        print "Error: Al momento de leer todos los transmittal".$e->getMessage();
+      }
     }
 
-         public function _getTransmittalxStatus($status)
-     {
-        try{
-            $sql=$this->_db->query("
-               select * from transmitta 
-               where tipo_envio='$status' 
-
-            ");
-            $row=$sql->fetchAll();
-            return $row;           
-            }  
-            
-           catch (Exception $ex){
-            print $ex->getMessage();
-        }
-    }
-
-
-    public function _getTransmittalAllOrdenadoxEstadoPropuesta($estado_transmittal)
-     {
-        try{
-            $sql=$this->_db->query("
-               select * from transmitta where estado_transmittal='$estado_transmittal'
-               order by propuestaid desc
-
-            ");
-            $row=$sql->fetchAll();
-            return $row;           
-            }  
-            
-           catch (Exception $ex){
-            print $ex->getMessage();
-        }
-    }
-    
-     public function _buscarTransmittal($transmittal){
-        try{
-            $sql=$this->_db->query("
-                select * from transmitta as pro inner join cliente as cli on
-                pro.clienteid=cli.clienteid where lower(pro.nombre_propuesta) like '%$propuesta%' 
-                or lower(cli.nombre_comercial) like '%$transmittal%'
-                order by pro.orden_estado asc");
-            $row=$sql->fetchAll();
-            return $row;           
-            }  
-            
-           catch (Exception $ex){
-            print $ex->getMessage();
-        }
-    }
-
-
-    public function _update($data,$str=''){
-        try{
-            if ($str=="") return false;
-            return $this->update($data,$str);
-        }catch (Exception $ex){
-            print "Error: Actualizando un registro de Propuesta".$ex->getMessage();
-        }
-    }
-
-    public function _save($data)
+    //Devuelve el numero correlativo a asignar al nuevo transmittal
+    public function _getCorrelativo($proyectoid)
     {
-        try{
-            if ($data['codigo_prop_proy']=='' ) return false;
-            return $this->insert($data);
-            return false;
-        }catch (Exception $e){
-                print "Error: SSSS ".$e->getMessage();
+      try {
+        $sql = $this->_db->query("select correlativo from transmittal
+        where proyectoid='".$proyectoid."' order by correlativo desc limit 1");
+        $row = $sql->fetchAll();
+        if (count($row) != 0) {
+          $numero = (int) $row[0]['correlativo'];
+          $cadena = (string) $numero + 1;
+          if (strlen($cadena) == 1) {
+            $respuesta['correlativo'] = '00'.$cadena;
+          } elseif (strlen($cadena) == 2) {
+            $respuesta['correlativo'] = '0'.$cadena;
+          } elseif (strlen($cadena) == 3) {
+            $respuesta['correlativo'] = $cadena;
+          }
+
+          return $respuesta;
+
+        } else {
+          $respuesta['correlativo'] = '001';
+          return $respuesta;
         }
+
+      } catch (Exception $e) {
+        print $e->getMessage();
+      }
+
     }
 
+    //Almacena en la base de datos los valores de la configuracion del transmittal
+    public function _saveConfiguracion($data)
+    {
+      /*$newRow = $this->createRow();
+      $newRow->codificacion = $data['codificacion'];
+      $newRow->correlativo = $data['correlativo'];
+      $newRow->clienteid = $data['clienteid'];
+      $newRow->proyectoid = $data['proyectoid'];
+      $newRow->formato = $data['formato'];
+      $newRow->tipo_envio = $data['tipo_envio'];
+      $newRow->control_documentario = $data['control_documentario'];
+      $newRow->dias_alerta = $data['dias_alerta'];
+      $newRow->tipo_proyecto = $data['tipo_proyecto'];
+      $newRow->atencion = $data['atencion'];
+      $newRow->save();
+      return $respuesta['resultado'] = 'guardado';*/
 
-    public function _getOne($where=array()){
-        try{
-            if ($where['codigo_prop_proy']=="" || $where['propuestaid']=="" || $where['revision']=="" || $where['transmittaid']=="") return false;
-            $wherestr="codigo_prop_proy = '".$where['codigo_prop_proy']."' and propuestaid = '".$where['propuestaid']."' and revision = '".$where['revision']."' and transmittaid = '".$where['transmittaid']."' " ;           
-            $row = $this->fetchRow($wherestr);
-            if($row) return $row->toArray();
-            return false;
-        }catch (Exception $e){
-            print "Error: Read One _getOne transmittaid ".$e->getMessage();
-        }
+      try {
+        $sql = $this->_db->query("insert into transmittal values ('".
+        $data['codificacion']."', '".$data['correlativo']."', '".
+        $data['clienteid']."', '".$data['proyectoid']."', '".$data['formato'].
+        "', '".$data['tipo_envio']."', '".$data['control_documentario'].
+        "', '".$data['dias_alerta']."', '".$data['tipo_proyecto']."', '".
+        $data['atencion']."')");
+        $row = $sql->fetchAll();
+        return $row;
+        //$this->insert($data);
+        //return $respuesta['resultado'] = 'guardado';
+      } catch (Exception $e) {
+        print $e->getMessage();
+      }
     }
 
-
+    //Cambia el estado de elaboracion de un transmittal a cerrado
+    public function _cambiarEstadoElaboracion($transmittalid)
+    {
+      $id = (int)$transmittalid;
+      $row = $this->fetchRow('transmittalid = ' . $id);
+      if (!$row) {
+           throw new Exception("No hay resultados para ese transmittal");
+      }
+      $row->estado_elaboracion = 'emitido';
+      $row->save();
+    }
 
 }

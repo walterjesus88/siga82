@@ -23,7 +23,7 @@ class Admin_Model_DbTable_Listaentregable extends Zend_Db_Table_Abstract
                 if ($attrib=='') $select->from("lista_entregable");
                 else $select->from("lista_entregable",$attrib);
                 foreach ($where as $atri=>$value){
-                    $select->where("$atri = ?", $value);                    
+                    $select->where("$atri = ?", $value);
                 }
                 if ($orders<>null || $orders<>"") {
                     if (is_array($orders))

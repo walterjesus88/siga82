@@ -101,7 +101,8 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
                         ->headScript()->appendFile('/js/jspdf/jspdf.js')
                         ->headScript()->appendFile('/js/jspdf/jspdf.plugin.from_html.js')
                         ->headScript()->appendFile('/js/jspdf/FileSaver.js')
-                        ->headScript()->appendFile('/js/jspdf/libs/base64.js');
+                        ->headScript()->appendFile('/js/jspdf/libs/base64.js')
+                        ->headScript()->appendFile('/js/ui-bootstrap-0.13.1.min.js');
 
             $view->headTitle()->setSeparator(' - ');
             $view->headTitle('Sistema de Planificación y Control | Anddes');

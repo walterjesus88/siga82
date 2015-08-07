@@ -5,37 +5,37 @@
         <header class="bio-graph-heading project-heading">
           <strong>
               <p>
-                Proyecto: {{CD.proyecto.codigo}}
+                Proyecto: {{vt.proyecto.codigo}}
               </p>
               <p>
-                {{CD.proyecto.nombre}}
+                {{vt.proyecto.nombre}}
               </p>
           </strong>
         </header>
         <div class="panel-body bio-graph-info">
           <div class="bio-row">
             <span class="bold">Cliente:</span>
-            {{CD.proyecto.cliente}}
+            {{vt.proyecto.cliente}}
           </div>
           <div class="bio-row">
             <span class="bold">Unidad Minera:</span>
-            {{CD.proyecto.unidad_minera}}
+            {{vt.proyecto.unidad_minera}}
           </div>
           <div class="bio-row">
             <span class="bold">Código:</span>
-            {{CD.proyecto.codigo}}
+            {{vt.proyecto.codigo}}
           </div>
           <div class="bio-row">
             <span class="bold">Estado:</span>
-            {{CD.proyecto.estado}}
+            {{vt.proyecto.estado}}
           </div>
           <div class="bio-row">
             <span class="bold">Fecha Inicio:</span>
-            {{CD.proyecto.fecha_inicio}}
+            {{vt.proyecto.fecha_inicio}}
           </div>
           <div class="bio-row">
             <span class="bold">Fecha Cierre:</span>
-            {{CD.proyecto.fecha_cierre}}
+            {{vt.proyecto.fecha_cierre}}
           </div>
         </div>
       </div>
@@ -47,10 +47,11 @@
         </header>
         <div class="panel-body">
           <div class="">
-            <img ng-src="{{CD.proyecto.logo_cliente}}" alt="Logo Cliente" class="img-responsive"/>
+            <img ng-src="{{vt.proyecto.logo_cliente}}" alt="Logo Cliente" class="img-responsive"/>
+            <button type="button" class="btn btn-danger btn-xs">Editar Logo</button>
           </div>
           <p>
-          {{CD.proyecto.descripcion}}
+          {{vt.proyecto.descripcion}}
           </p>
         </div>
       </div>
@@ -60,29 +61,35 @@
 
     <nav class="panel-heading tab-bg-dark-navy-blue">
       <ul class="nav nav-tabs">
-        <li ng-class="CD.configurarActivo"><a href="" ng-click="CD.cambiarPanel('configurar')">Configurar TR</a></li>
-        <li ng-class="CD.anddesActivo"><a href="" ng-click="CD.cambiarPanel('anddes')">Anddes</a></li>
-        <li ng-class="CD.clienteActivo"><a href="" ng-click="CD.cambiarPanel('cliente')">Cliente</a></li>
-        <li ng-class="CD.contratistaActivo"><a href="" ng-click="CD.cambiarPanel('contratista')">Contratista</a></li>
+        <li ng-class="vt.configurarActivo"><a href="" ng-click="vt.cambiarPanel('configurar')">Configurar TR</a></li>
+        <li ng-class="vt.anddesActivo"><a href="" ng-click="vt.cambiarPanel('anddes')">Anddes</a></li>
+        <li ng-class="vt.clienteActivo"><a href="" ng-click="vt.cambiarPanel('cliente')">Cliente</a></li>
+        <li ng-class="vt.contratistaActivo"><a href="" ng-click="vt.cambiarPanel('contratista')">Contratista</a></li>
       </ul>
     </nav>
 
     <div class="panel-body">
       <div class="tab-content">
 
-        <div ng-include="'/controldocumentario/index/configurartr'" id="edt" class="tab-pane" ng-class="CD.configurarActivo">
+        <div ng-include="'/controldocumentario/index/configurartr'"
+        ng-controller="ConfigurarTrCtrl as vc" class="tab-pane"
+        ng-class="vt.configurarActivo">
 
         </div>
 
-        <div ng-include="'/controldocumentario/index/anddes'" id="anddes" class="tab-pane" ng-class="CD.anddesActivo">
+        <div ng-include="'/controldocumentario/index/anddes'"
+        ng-controller="AnddesCtrl as va" class="tab-pane"
+        ng-class="vt.anddesActivo">
 
         </div>
 
-        <div ng-include="'/controldocumentario/index/cliente'" id="cliente" class="tab-pane" ng-class="CD.clienteActivo">
+        <div ng-include="'/controldocumentario/index/cliente'"
+        class="tab-pane" ng-class="vt.clienteActivo">
 
         </div>
 
-        <div ng-include="'/controldocumentario/index/contratista'" id="contratista" class="tab-pane" ng-class="CD.contratistaActivo">
+        <div ng-include="'/controldocumentario/index/contratista'"
+        class="tab-pane" ng-class="vt.contratistaActivo">
 
         </div>
 
