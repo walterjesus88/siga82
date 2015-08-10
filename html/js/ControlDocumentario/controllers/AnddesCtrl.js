@@ -115,8 +115,4 @@ function(httpFactory, entregableFactory, $scope, transmittalFactory) {
   va.editarTransmittal = function() {
     cambiarSubPanel('trans');
   }
-
-  va.actualizarCodigoAnddes = function() {
-    alert('hola');
-  }
 }]);

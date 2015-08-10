@@ -170,8 +170,20 @@ app.factory('httpFactory', ['$http', '$q', function($http, $q) {
         defered.reject(err);
       });
       return promise;
+    },
+    setContacto: function(clienteid, contacto) {
+      var defered = $q.defer();
+      var promise = defered.promise;
+      $http.post(url + 'agregarcontacto/clienteid/' + clienteid + '/nombre/' +
+      contacto.atencion + '/area/' + contacto.area + '/correo/' + contacto.correo)
+      .success(function(data) {
+        defered.resolve(data);
+      })
+      .error(function(err) {
+        defered.reject(err);
+      });
+      return promise;
     }
-
   }
 
   return publico;

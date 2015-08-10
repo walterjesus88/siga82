@@ -1,6 +1,6 @@
 app.controller('ConfigurarTrCtrl', ['$scope', 'httpFactory', 'transmittalFactory',
-'proyectoFactory',
-function($scope, httpFactory, transmittalFactory, proyectoFactory) {
+'proyectoFactory', '$modal',
+function($scope, httpFactory, transmittalFactory, proyectoFactory, $modal) {
 
   vc = this;
   //obtencion de los datos de configuracion del transmittal
@@ -139,8 +139,24 @@ function($scope, httpFactory, transmittalFactory, proyectoFactory) {
   }
 
   //metodos para mostrar modales de ingreso de datos
-  vc.modalContacto = function() {
-    $("#modalcontacto").modal();
+  vc.editarContacto = function() {
+    var modalInstance = $modal.open({
+      animation: true,
+      controller: 'ModalContactoCtrl',
+      controllerAs: 'mc',
+      templateUrl: '/controldocumentario/index/modalcontacto',
+      size: 'sm',
+      resolve: {
+        cliente: function () {
+          return vc.transmittal.clienteid;
+        }
+      }
+    });
+
+    modalInstance.result.then(function () {
+    }, function () {
+      listarContactos(vc.transmittal.clienteid);
+    });
   }
 
 }]);

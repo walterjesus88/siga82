@@ -117,7 +117,12 @@ class ControlDocumentario_JsonController extends Zend_Controller_Action {
       $respuesta['control_documentario'] = $datos['control_documentario'];
       $respuesta['descripcion'] = $datos['descripcion'];
       $respuesta['tipo_proyecto'] = $datos['tipo_proyecto'];
-      $respuesta['logo_cliente'] = '../img/cliente/'.$respuesta['clienteid'].'.jpg';
+      //$ruta = APPLICATION_PATH.'/../img/cliente/'.$respuesta['clienteid'].'.jpg';
+      //if(is_file($ruta)){
+        $respuesta['logo_cliente'] = '../img/cliente/'.$respuesta['clienteid'].'.jpg';
+      //} else {
+      //  $respuesta['logo_cliente'] = '../img/cliente/anddes.jpg';
+      //}
       $this->_helper->json->sendJson($respuesta);
     }
 
@@ -232,6 +237,37 @@ class ControlDocumentario_JsonController extends Zend_Controller_Action {
       $entregable = new Admin_Model_DbTable_Listaentregable();
       $fila = $entregable->_setCodigoCliente($entregableid, $codigo_cliente);
       $respuesta['resultado'] = 'guardado';
+      $this->_helper->json->sendJson($respuesta);
+    }
+
+    //agregar un contacto al cliente
+    public function agregarcontactoAction()
+    {
+      $data['clienteid'] = $this->_getParam('clienteid');
+      $data['nombre'] = $this->_getParam('nombre');
+      $data['area'] = $this->_getParam('area');
+      $data['correo'] = $this->_getParam('correo');
+      $contacto = new Admin_Model_DbTable_Contacto();
+      $guardar = $contacto->_addContacto($data);
+      $this->_helper->json->sendJson($guardar);
+    }
+
+    //subir logo del cliente
+    public function subirlogoAction()
+    {
+      $clienteid = $this->_getParam('clienteid');
+      $respuesta['status'] = 'cargando';
+      $upload = new Zend_File_Transfer_Adapter_Http();
+      $ruta = '/../html/img/cliente/'.$clienteid.'.jpg';
+      $upload->setDestination(APPLICATION_PATH.'/../html/img/cliente');
+      $upload->addFilter('Rename', array('target' => APPLICATION_PATH.$ruta,
+      'overwrite' => true));
+      if ($upload->receive()) {
+        $respuesta['status'] = 'subido';
+      } else {
+        $messages = $upload->getMessages();
+        echo implode("\n", $messages);
+      }
       $this->_helper->json->sendJson($respuesta);
     }
 

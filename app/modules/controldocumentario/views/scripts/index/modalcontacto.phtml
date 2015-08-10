@@ -1,31 +1,25 @@
-<!--div de modal edicion de contactos-->
-<div class="modal fade" id="edit_contacto" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
-  <div class="modal-dialog modal-sm">
-      <div class="modal-content">
-        <header class="modal-header">
-          <button type="button" class="close" aria-hidden="true">x</button>
-          <h4 class="modal-title">Editar Contacto:</h1>
-        </header>
-          <div class="modal-body">
-            <section class="form-group">
-              <label for="">Atención:</label>
-              <input type="text" class="form-control">
-            </section>
-            <section class="form-group">
-              <label for="">Área:</label>
-              <input type="text" class="form-control">
-            </section>
-            <section class="form-group">
-              <label for="">Correo:</label>
-              <input type="text" class="form-control">
-            </section>
-          </div>
-          <footer class="modal-footer">
-            <button type="button" class="btn btn-info btn-xs">Agregar</button>
-            <button type="button" class="btn btn-warning btn-xs">Modificar</button>
-            <button type="button" class="btn btn-danger btn-xs">Eliminar</button>
-            <button type="button" class="btn btn-success btn-xs">Guardar</button>
-          </footer>
-      </div>
+<!--Modal para la edicion de los datos de los contactos -->
+<header class="modal-header">
+  <button type="button" class="close" aria-hidden="true" ng-click="mc.cancel()">x</button>
+  <h4 class="modal-title">Editar Contacto:</h1>
+</header>
+  <div class="modal-body">
+    <section class="form-group">
+      <label for="">Nombre y Apellido:</label>
+      <input type="text" class="form-control" ng-model="mc.contacto.atencion">
+    </section>
+    <section class="form-group">
+      <label for="">Área:</label>
+      <input type="text" class="form-control" ng-model="mc.contacto.area">
+    </section>
+    <section class="form-group">
+      <label for="">Correo:</label>
+      <input type="text" class="form-control" ng-model="mc.contacto.correo">
+    </section>
   </div>
-</div>
+  <footer class="modal-footer">
+    <button type="button" class="btn btn-success btn-xs" ng-click="mc.agregarContacto()">Agregar</button>
+    <button type="button" class="btn btn-info btn-xs">Modificar</button>
+    <button type="button" class="btn btn-warning btn-xs">Eliminar</button>
+    <button type="button" class="btn btn-danger btn-xs" ng-click="mc.cancel()">Cancelar</button>
+  </footer>

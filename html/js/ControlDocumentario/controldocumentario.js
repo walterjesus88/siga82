@@ -2,7 +2,8 @@
 de ngRoute para el manejo de rutas y Chart.js para la creacion de graficos
 estadisticos*/
 
-var app = angular.module('moduloCd', ['ngRoute', 'chart.js', 'ui.bootstrap']);
+var app = angular.module('moduloCd', ['ngRoute', 'chart.js', 'ui.bootstrap',
+'ui.bootstrap.tpls', 'ui.router', 'angularFileUpload']);
 
 /*Configuracion de las rutas disponibles en el modulo y asociacion con las
 vistas y controladores necesarios*/
