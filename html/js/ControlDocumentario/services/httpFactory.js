@@ -135,8 +135,34 @@ app.factory('httpFactory', ['$http', '$q', function($http, $q) {
     getEntregables: function(proyectoid, estado) {
       var defered = $q.defer();
       var promise = defered.promise;
-      $http.get(url + 'entregablesasignados/proyectoid/' + proyectoid +
+      $http.get(url + 'entregables/proyectoid/' + proyectoid +
       '/estado/' + estado)
+      .success(function(data) {
+        defered.resolve(data);
+      })
+      .error(function(err) {
+        defered.reject(err);
+      });
+      return promise;
+    },
+    setCodigoAnddes: function(entregableid, codigo_anddes) {
+      var defered = $q.defer();
+      var promise = defered.promise;
+      $http.post(url + 'actualizarcodigoanddes/entregableid/' + entregableid +
+      '/codigoanddes/' + codigo_anddes)
+      .success(function(data) {
+        defered.resolve(data);
+      })
+      .error(function(err) {
+        defered.reject(err);
+      });
+      return promise;
+    },
+    setCodigoCliente: function(entregableid, codigo_cliente) {
+      var defered = $q.defer();
+      var promise = defered.promise;
+      $http.post(url + 'actualizarcodigocliente/entregableid/' + entregableid +
+      '/codigocliente/' + codigo_cliente)
       .success(function(data) {
         defered.resolve(data);
       })

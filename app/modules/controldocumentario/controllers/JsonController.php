@@ -146,16 +146,16 @@ class ControlDocumentario_JsonController extends Zend_Controller_Action {
       $this->_helper->json->sendJson($respuesta);
     }
 
-    //Devuelve la lista de entregables ya asignados aun transmittal de un proyecto
-    public function entregablesasignadosAction()
+    //Devuelve la lista de entregables de un proyecto
+    public function entregablesAction()
     {
       $proyectoid = $this->_getParam('proyectoid');
       $estado = $this->_getParam('estado');
-      $detalle = new Admin_Model_DbTable_DetalleTransmittal();
+      $entregable = new Admin_Model_DbTable_Listaentregable();
       if ($estado == 'all') {
-        $lista = $detalle->_getDetallexProyecto($proyectoid);
+        $lista = $entregable->_getEntregablexProyecto($proyectoid);
       } elseif ($estado == 'Ultimo') {
-        $lista = $detalle->_getDetallexProyectoxEstado($proyectoid, $estado);
+        $lista = $entregable->_getEntregablexProyectoxUltimo($proyectoid);
       }
       $respuesta = $lista;
       $this->_helper->json->sendJson($respuesta);
@@ -211,6 +211,28 @@ class ControlDocumentario_JsonController extends Zend_Controller_Action {
       $data['estado_revision'] = $this->_getParam('estado_revision');
       $data['emitido'] = $this->_getParam('emitido');
       $data['fecha'] = $this->_getParam('fecha');
+    }
+
+    //actualizar el codigo de anddes de los entregables
+    public function actualizarcodigoanddesAction()
+    {
+      $entregableid = $this->_getParam('entregableid');
+      $codigo_anddes = $this->_getParam('codigoanddes');
+      $entregable = new Admin_Model_DbTable_Listaentregable();
+      $fila = $entregable->_setCodigoAnddes($entregableid, $codigo_anddes);
+      $respuesta['resultado'] = 'guardado';
+      $this->_helper->json->sendJson($respuesta);
+    }
+
+    //actualizar el codigo de cliente de los entregables
+    public function actualizarcodigoclienteAction()
+    {
+      $entregableid = $this->_getParam('entregableid');
+      $codigo_cliente = $this->_getParam('codigocliente');
+      $entregable = new Admin_Model_DbTable_Listaentregable();
+      $fila = $entregable->_setCodigoCliente($entregableid, $codigo_cliente);
+      $respuesta['resultado'] = 'guardado';
+      $this->_helper->json->sendJson($respuesta);
     }
 
 }
