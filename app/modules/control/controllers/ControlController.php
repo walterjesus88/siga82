@@ -35,9 +35,10 @@ class Control_ControlController extends Zend_Controller_Action {
 
        //$revision='A';
 
-        $where = array('proyectoid' => $proyectoid,'codigo_prop_proy' => $codigo_prop_proy,'revision_entregable' => $revision );
+        $where = array('proyectoid' => $proyectoid,'codigo_prop_proy' => $codigo_prop_proy);
+            //,'revision_entregable' => $revision );
         
-        print_r($where);
+        //print_r($where);
 
         $listar_entregables=new Admin_Model_DbTable_Listaentregable();
         $lentreg=$listar_entregables->_getFilter($where);
@@ -48,9 +49,7 @@ class Control_ControlController extends Zend_Controller_Action {
         $lentreg_det=$listar_entregables_detalle->_getFilter($where);
 
         $this->view->lista_det = $lentreg_det;
-
-
-        print_r($lentreg_det);
+        //print_r($lentreg_det);
     }
 
     public function guardarlistaAction() {
@@ -106,7 +105,7 @@ class Control_ControlController extends Zend_Controller_Action {
         }
 
 
-        print_r($data);
+       //print_r($data);
 
      
 
