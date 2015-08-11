@@ -1,8 +1,8 @@
 <?php
-class Admin_Model_DbTable_Listaentregable extends Zend_Db_Table_Abstract
+class Admin_Model_DbTable_Listaentregabledetalle extends Zend_Db_Table_Abstract
 {
-    protected $_name = 'lista_entregable';
-    protected $_primary = array("codigo_prop_proy","proyectoid","revision_entregable");
+    protected $_name = 'lista_entregable_detalle';
+    protected $_primary = array("codigo_prop_proy","proyectoid","revision_entregable","edt");
 
 
     public function _save($data){
@@ -10,7 +10,7 @@ class Admin_Model_DbTable_Listaentregable extends Zend_Db_Table_Abstract
             //if ($data['codigo_prop_proy']=="" ) return false;
             return $this->insert($data);
         }catch (Exception $ex){
-            print "Error: Insertando un nuevo Proyecto".$ex->getMessage();
+            print "Error: Insertando un nueva lista_entregable_detalle".$ex->getMessage();
         }
     }
 
@@ -20,8 +20,8 @@ class Admin_Model_DbTable_Listaentregable extends Zend_Db_Table_Abstract
         try{
             //if($where['eid']=='' || $where['oid']=='') return false;
                 $select = $this->_db->select();
-                if ($attrib=='') $select->from("lista_entregable");
-                else $select->from("lista_entregable",$attrib);
+                if ($attrib=='') $select->from("lista_entregable_detalle");
+                else $select->from("lista_entregable_detalle",$attrib);
                 foreach ($where as $atri=>$value){
                     $select->where("$atri = ?", $value);                    
                 }

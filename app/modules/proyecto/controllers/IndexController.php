@@ -15,12 +15,21 @@ class Proyecto_IndexController extends Zend_Controller_Action {
     }
 
     public function indexAction() {
+      $this->_helper->layout()->disableLayout();
+    
     }
 
     public function panelAction()
     {
       $this->_helper->layout()->disableLayout();
     }
+
+    public function ratesAction()
+    {
+      $this->_helper->layout()->disableLayout();
+    }
+
+
 
 
 
@@ -1427,6 +1436,30 @@ public function usuariosjsonAction() {
 }
 
 
+public function curvasjsonAction() {
+
+  $proyectoid='1509.10.02';
+  $codigo_prop_proy='15.10.140-1509.10.02-B';
+  $revision_perf_curva='A';
+
+  $where = array('codigo_prop_proy' =>$codigo_prop_proy ,'proyectoid'=>$proyectoid, 
+  'revision_perf_curva'=>$revision_perf_curva );
+
+  $attrib = array('porc_avance_real','porc_avance_plani');
+
+  $tiempo=new Admin_Model_DbTable_Tiempoproyecto();
+  $tmp=$tiempo->_getFilter($where,$attrib);
+  //print_r($where);
+  //print_r($tmp);
+  
+  //  $user=new Admin_Model_DbTable_Usuario();
+  // $us=$user->_getUsuarioAll();
+  // $this->_helper->json->sendJson($us);  
+  $arr = array(['1' =>$tmp]);
+
+  $this->_helper->json->sendJson($arr);
+
+}
 
 
   public function subirareacategoriaAction() {
@@ -2271,33 +2304,35 @@ public function cargartarea2Action() {
       $cliente=$verproyect[0]['clienteid'];
 
       $where = array('clienteid' =>$cliente);
-      //print_r($where);
 
+      if($cliente!='')
+      {
+      //print_r($where);
       $contact = new Admin_Model_DbTable_Contacto();
       $cc=$contact->_getFilter($where);
-
-      //print_r($cc[0]);
       $this->view->contact=$cc;
+
+      }
 
       /* para visualizar el comntacto por defecto*/
       $contactunico=$verproyect[0]['contactoid'];
       $where = array('contactoid' =>$contactunico);
-      // //print_r($where);
-
+  
+      if($contactunico!='')
+      {
+      //print_r($where);      
       $contunic = new Admin_Model_DbTable_Contacto();
       $ccunico=$contunic->_getFilter($where);
-
-      //print_r($ccunico);
       $this->view->contactunico=$ccunico[0];
 
+      }
 
-      $usercat= new Admin_Model_DbTable_Usuariocategoria();
-     
+      $usercat= new Admin_Model_DbTable_Usuariocategoria();    
    
-
       $ucat=$usercat->_getUsuariocategoriaAllxUid();
       $this->view->ucat=$ucat;
 
+      //exit();
 
     }
 
@@ -2317,7 +2352,7 @@ public function cargartarea2Action() {
     //print_r($hselect);
     $this->view->select_revision=$hselect;
 
-    //revision_hojaresumen
+    //exit();
 
 
   }
@@ -2402,14 +2437,14 @@ public function cargartarea2Action() {
       'isunidad' => $isunidad , 'estado' =>$estado_contacto , 'unidad_mineraid' => $unidad_contacto , 'nombre_unidad' => $nomunidad , 
       'direccion' => $direccion, 'anexo' => $anexo, 'telefono' =>$telefono, 'ape_paterno' => $paterno, 'ape_materno' =>$materno , 'nombre1' =>$nombre , 'numero1' =>$celular1 ,'numero2' => $celular2,  );
 
-      //print_r($where);
+      //print_r($where);break;
 
       $newcontact=new Admin_Model_DbTable_Contacto();
       $ncontact=$newcontact->_save($where);
 
       if($ncontact)
       {
-        //echo "ffffffff"; 
+        //echo "ffffffff"; break;
         $pk = array('codigo_prop_proy' =>$codigo_prop_proy ,'proyectoid' =>$proyectoid  );
         $data = array('clienteid' =>$cliente_contacto ,'unidad_mineraid' => $unidad_contacto,  );
         $actproyecto= new Admin_Model_DbTable_Proyecto();
@@ -2493,7 +2528,7 @@ public function cargartarea2Action() {
       //print_r($data);
       ///echo "llego";
       $guardarhoja=$hoja->_save($data);
-      exit();
+     //exit();
 
     }
 
@@ -2511,7 +2546,7 @@ public function cargartarea2Action() {
     $revision= $this->_getParam("revision");
 
     $hoja= new Admin_Model_DbTable_Hojaresumen();  
-    $wherehistorial = array('codigo_prop_proy' =>$codigo_prop_proy,'proyectoid' =>$proyectoid,'propuestaid' =>$propuestaid, 'revision_propuesta' =>$revision);
+    //$wherehistorial = array('codigo_prop_proy' =>$codigo_prop_proy,'proyectoid' =>$proyectoid,'propuestaid' =>$propuestaid, 'revision_propuesta' =>$revision);
     $traerhistorial=$hoja->_buscarProyectodetalles($proyectoid,$codigo_prop_proy,$propuestaid,$revision);
 
     //print_r($traerhistorial);
@@ -2519,13 +2554,12 @@ public function cargartarea2Action() {
     $this->view->historialresumen=$traerhistorial;
 
     $usercat= new Admin_Model_DbTable_Usuariocategoria();
-    //$order = array('uid ASC');
-    //$ucat=$usercat->_getFilter($where=null,$attrib=null,$order);
+
     $ucat=$usercat->_getUsuariocategoriaAllxUid();
     $this->view->ucat=$ucat;
-
  
-    //print_r($traerhistorial);
+    //print_r($ucat);
+
   }
 
  public function updatehojaresumenAction()

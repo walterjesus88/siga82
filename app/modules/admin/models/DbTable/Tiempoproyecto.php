@@ -1,9 +1,8 @@
 <?php
-class Admin_Model_DbTable_Listaentregable extends Zend_Db_Table_Abstract
+class Admin_Model_DbTable_Tiempoproyecto extends Zend_Db_Table_Abstract
 {
-    protected $_name = 'lista_entregable';
-    protected $_primary = array("codigo_prop_proy","proyectoid","revision_entregable");
-
+    protected $_name = 'tiempo_proyecto';
+    protected $_primary = array("codigo_prop_proy","proyectoid","revision_perf_curva");
 
     public function _save($data){
         try{
@@ -20,8 +19,8 @@ class Admin_Model_DbTable_Listaentregable extends Zend_Db_Table_Abstract
         try{
             //if($where['eid']=='' || $where['oid']=='') return false;
                 $select = $this->_db->select();
-                if ($attrib=='') $select->from("lista_entregable");
-                else $select->from("lista_entregable",$attrib);
+                if ($attrib=='') $select->from("tiempo_proyecto");
+                else $select->from("tiempo_proyecto",$attrib);
                 foreach ($where as $atri=>$value){
                     $select->where("$atri = ?", $value);                    
                 }
@@ -35,7 +34,7 @@ class Admin_Model_DbTable_Listaentregable extends Zend_Db_Table_Abstract
                 if ($rows) return $rows;
                 return false;
         }catch (Exception $e){
-            print "Error: Read Filter competencia ".$e->getMessage();
+            print "Error: Read Filter tiempo_proyecto ".$e->getMessage();
         }
     }
 

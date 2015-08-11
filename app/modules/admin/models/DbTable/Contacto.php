@@ -180,7 +180,7 @@ class Admin_Model_DbTable_Contacto extends Zend_Db_Table_Abstract
                 if ($rows) return $rows;
                 return false;
         }catch (Exception $e){
-            print "Error: Read Filter Contacto ".$e->getMessage();
+            print "Error: Read Filter Contactosss ".$e->getMessage();
         }
     }
 

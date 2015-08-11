@@ -32,9 +32,6 @@
 
                         <aside class="mid-side">
 
-
-
-
                             <div class="chat-room-head">
                                 <center><h3>Informacion</h3></center>
                             </div>
@@ -45,14 +42,22 @@
                                 </div>
                                 <div class="col-lg-8">
                                   <?php $select=$this->select_revision; 
+
+
+
                                   $theVariable = array('A' => 'A','B' => 'B','C' => 'C','D' => 'D','E' => 'E','F' => 'F','G' => 'G','H' => 'H',
                                                        'I' => 'I','J' => 'J','K' => 'K','L' => 'L','M' => 'M','N' => 'N','O' => 'O','P' => 'P',
                                                        'Q' => 'Q','R' => 'R','S' => 'S','U' => 'U','V' => 'V','W' => 'W','X' => 'X','Y' => 'Y',
                                                        'Z' => 'Z');
-                                  foreach ($select as $key) {                          
+                                  
+                                  if ($select)
+                                  {
+                                    foreach ($select as $key) {                          
                                       $option=$key['revision_hojaresumen'];
                                       unset($theVariable[$option]);                                                   
+                                    }
                                   }
+                          
                                  
                                   ?>
                                   <select  id="revision_hoja" class="col-sm-2 form-control">
@@ -65,10 +70,8 @@
                                   </select>   
 
                                 </div>
-
-                                                  
+                                                 
                               </div>
-
                        
                                 <div class="group-rom panel-body room-box">
                                     <div class="col-sm-2">
@@ -97,9 +100,7 @@
                                           </li>                                   
                                       </ul>                             
                                     </div>                      
-                                </div>
-
-                        
+                                </div>                        
 
                                 <div class="group-rom panel-body room-box">
                                     <div class="col-sm-2 " >
@@ -436,7 +437,7 @@
 
                                                         <div class="form-group">
                                                             <div class="col-lg-offset-2 col-lg-10">
-                                                                <button id="submit_contacto" class="btn btn-danger" type="submit">Submit</button>
+                                                                <button id="submit_contacto" class="btn btn-danger" type="submit">Guardar</button>
                                                             </div>
                                                         </div>
                                                         
@@ -444,8 +445,7 @@
 
                                                   </div>
                                                 </div>
-                                                <div class="modal-footer">
-                                                  <button data-dismiss="modal" class="btn btn-default" type="button">Cerrar</button>
+                                                <div class="modal-footer">                                                
                                                  
                                                 </div>
                                               </div>
@@ -484,7 +484,7 @@
 
                                       if( $('#isunidad').attr('checked') ){
                                           var isunidad=$('input:radio[name=isunidad]:checked').val();
-                                          alert('isunidad');
+                                          //alert('isunidad');
                                       }
                                       else
                                       {
@@ -493,7 +493,7 @@
                                       //if(isunidad)
                                       //{isuni=isunidad}else{isuni='N'}
 
-                                      var url="/proyecto/index/procesarcontacto/cliente_contacto/"+cliente_contacto+"/tipo_cliente/"+tipo_cliente+"/email/"+email+"/puesto_trabajo/"+puesto_trabajo+"/dni/"+dni+"/estado_contacto/"+estado_contacto+"/unidad_contacto/"+unidad_contacto+"/nomunidad/"+nomunidad+"/direccion/"+direccion+"/anexo/"+anexo+"/telefono/"+telefono+"/paterno/"+paterno+"/materno/"+materno+"/celular1/"+celular1+"/celular2/"+celular2+"/isunidad/"+isunidad+"/codigo_prop_proy/"+codigo_prop_proy+"/proyectoid/"+proyectoid;
+                                      var url="/proyecto/index/procesarcontacto/cliente_contacto/"+cliente_contacto+"/tipo_cliente/"+tipo_cliente+"/email/"+email+"/puesto_trabajo/"+puesto_trabajo+"/dni/"+dni+"/estado_contacto/"+estado_contacto+"/unidad_contacto/"+unidad_contacto+"/nomunidad/"+nomunidad+"/direccion/"+direccion+"/anexo/"+anexo+"/telefono/"+telefono+"/paterno/"+paterno+"/materno/"+materno+"/celular1/"+celular1+"/celular2/"+celular2+"/isunidad/"+isunidad+"/codigo_prop_proy/"+codigo_prop_proy+"/proyectoid/"+proyectoid+"/nombre/"+nombre;
                                       //alert(url);
                                       //console.log("lol");
                                         $.ajax({
@@ -518,7 +518,6 @@
 
                                 <script type="text/javascript">
                                     $(document).ready(function(){
-
                                       $("#contact").click(function(){
                                         $("#contactounico").hide();
                                         var valor=$(this).val();
@@ -556,8 +555,7 @@
                                                   alert("error petición ajax load");
                                                 },
                                                 success: function(data)
-                                                {  
-                                                  
+                                                {                                                    
                                                
                                                 }
                                           });
@@ -1514,10 +1512,10 @@
 <script type="text/javascript">
   $(document).ready(function(){
    $("#generarresumen").click(function(){                           
-      //var valor=$(this).val();
+
       var revi_hoja=$("#revision_hoja").val();
       var contactox="<?php echo $contactunico['contactoid']?>";
-      //alert(contactox);
+ 
       var contact=$("#contact").val();
 
       if(contact)
@@ -1530,9 +1528,13 @@
         contact=contactox;
       }
 
-      //console.log(contact[0]);
-      //alert(contact);
-     // var gerente_proyecto=document.getElementById('gerente_proyecto').getElementsByTagName('li')[0];
+      if(contact=='' )
+      {
+        alert('elija un contacto');
+        prevendefault();
+      }
+
+
       var gerente_proyecto=$(".gerente_proyecto").val();
       var jefe_proyecto1=$(".jefe_proyecto1").val();
       var jefe_proyecto2=$(".jefe_proyecto2").val();
@@ -1547,16 +1549,12 @@
       //svar observacionx=$("#observacion_").val();
       var observacion=$("#observacion_").val();
 
-      //alert(comentario);
-
-      //console.log(observacion);
-
-      //if(observacion){ observacion=observacion; console.log("obser"); } else { observacion=observacionx; }
       url="/proyecto/index/generarresumen/codigo_prop_proy/<?php echo $this->codigo_prop_proy?>/proyectoid/<?php echo $this->proyectoid ?>/revision_hojaresumen/"+revi_hoja+"/revision/<?php echo $this->revision ?>/propuestaid/<?php echo $this->propuestaid?>/contact/"+contact
         +"/gerente_proyecto/"+gerente_proyecto+"/jefe_proyecto1/"+jefe_proyecto1+"/jefe_proyecto2/"+jefe_proyecto2+"/control_documentario/"+control_documentario+"/fecha_inicio_planificado/"+fecha_inicio_planificado+"/fecha_fin_planificado/"+fecha_fin_planificado+
           "/fecha_inicio_real/"+fecha_inicio_real+"/fecha_fin_real/"+fecha_fin_real+"/adelanto/"+adelanto+"/comentario/"+comentario+
-          "/tipo_contrato/"+tipo_contrato+"/observacion/"+observacion;
-      //alert(url);             
+          "/tipo_contrato/"+tipo_contrato+"/observacion/"+observacion; 
+
+      alert(url);            
 
       $.ajax({
         type: "POST",
