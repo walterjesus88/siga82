@@ -3,17 +3,35 @@
     <input type="button" value="15" ng-click="alu.restar()"/>
 
 
+<table class=" table table-striped table-hover table-bordered " >
+  <tr>
+  	<td><b>Fecha Inicio</b></td><td><p type="text" ng-model="CP.cuanto" size="4" ></p></td>
+  	<td><b>Fecha Final</b></td><td><p type="text" ng-model="CP.cuanto" size="4" ></p></td>
+  </tr>
+  <tr >
+    <td ng-repeat="tiempo in CP.labels">{{tiempo}}</td>  
+  </tr>
+  <tr >
+    <td ng-repeat="tiempo in CP.data" ng-init="paso = $index">
+    	<input type="text" ng-model="CP.planificado" size="4" />{{ tiempo }}
+    </td>  
+  </tr>
+  <tr >
+    <td ng-repeat="tiempo in CP.labels">
+    	<input type="text" ng-model="CP.ejecutado" size="4" />
+    </td>  
+  </tr>
+</table>
 
 
 <div  ng-init="pensamientos = [];">
-    <h1>Vista General Curva SS</h1>
         <p>
             ¿Qué hay de nuevo?
             <br />
             <input type="text" ng-model="nuevoPensamiento" /> 
             <input type="button" value="Agregar" ng-click="pensamientos.push(nuevoPensamiento); nuevoPensamiento = '';" />
         </p>
-        <h2>Pensamientos que has tenido</h2>
+        <h5>Curva de acuerdo  a un proyecto</h5>
       <table>
 		  <tr>
 		  <td
@@ -27,13 +45,14 @@
 	  </table>
 </div>
 
-<canvas id="bar" class="chart chart-bar" data="CP.data"
-  labels="CP.labels"></canvas> 
-
 <canvas id="line" class="chart chart-line" data="CP.data"
   labels="CP.labels" legend="true" series="CP.series"
   click="CP.onClick">
 </canvas> 
+
+<canvas id="bar" class="chart chart-bar" data="CP.data"
+  labels="CP.labels"></canvas> 
+
 
 
 	<head>

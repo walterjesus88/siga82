@@ -27,9 +27,6 @@
 
   </head>
 
-  <body>
-
-              <!-- page start-->
               <section class="panel">
                   <header class="panel-heading">
                       Lista de Entregables
@@ -42,66 +39,86 @@
                                       Agregar <i class="fa fa-plus"></i>
                                   </button>
                               </div>
-                              <div class="btn-group pull-right">
-                                  <button class="btn dropdown-toggle" data-toggle="dropdown">Herramientas <i class="fa fa-angle-down"></i>
+                              <div class="btn-group pull-right">  
+                                  <?php 
+                                  $theVariable = array('A' => 'A','B' => 'B','C' => 'C','D' => 'D','E' => 'E','F' => 'F','G' => 'G','H' => 'H',
+                                                       'I' => 'I','J' => 'J','K' => 'K','L' => 'L','M' => 'M','N' => 'N','O' => 'O','P' => 'P',
+                                                       'Q' => 'Q','R' => 'R','S' => 'S','U' => 'U','V' => 'V','W' => 'W','X' => 'X','Y' => 'Y',
+                                                       'Z' => 'Z','todos' => 'todos');
+                                  ?>
+                                  Revision:
+                                  <select  id="revision_entregable" class="col-sm-2 form-control">
+                           
+                                      <?php $j=0;
+                                      foreach ($theVariable as $key) { ?>
+                                      <option value="<?php echo $key ?>"><?php echo $key; ?></option>
+                         
+                                      <?php  $j++;  } ?>
+                                  </select>   
+
+                                  <!-- <button class="btn dropdown-toggle" data-toggle="dropdown">Herramientas <i class="fa fa-angle-down"></i>
                                   </button>
                                   <ul class="dropdown-menu pull-right">
                                       <li><a href="#">Print</a></li>
                                       <li><a href="#">Save as PDF</a></li>
                                       <li><a href="#">Export to Excel</a></li>
-                                  </ul>
+                                  </ul> -->
                               </div>
                           </div>
-                          <div class="space15"></div>
-                          <table class="table table-striped table-hover table-bordered" id="editable-sample">
-                              <thead>
-                              <tr>
-                        
 
+                              
+
+                         <table class=" table table-striped table-hover table-bordered " id="editable-sample">
+                              <thead>
+                              <tr class="menu">    
                                 <th>Item</th>
                                 <th>EDT</th>
                                 <th>Tipo de Documento</th>
                                 <th>Disciplina</th>
                                 <th>Codigo Anddes</th>
-                                <th>Codigo Cliente</th>
-                          
+                                <th>Codigo Cliente</th>                          
                                 <th >Descripcion de Entregables</th>
                                 <th>Fecha A</th>
                                 <th >Fecha B</th>
                                 <th >Fecha 0</th>
                                 <th >Editar</th>
                                 <th >Eliminar</th>
-                                
-                             
                               </tr>
                               </thead>
-                              <tbody>
+                           <div >
+                              <tbody class="filtros">
 
-                              <?php $lista=$this->lista; 
+                              <?php $lista=$this->lista_det; 
                                //print_r($lista);
                               $i=0;
                               if($lista){
                               foreach ($lista as $entregable) { ?>
-                            
-                                <tr class="">
-                                  <td><?php echo $i?></td>
-                                  <td><?php echo $entregable['edt']?></td>                              
-                                  <td class="center"><?php echo $entregable['tipo_documento']?></td>
-                                  <td class="center"><?php echo $entregable['disciplina']?></td>
-                                  <td class="center"><?php echo $entregable['codigo_anddes']?></td>
-                                  <td class="center"><?php echo $entregable['codigo_cliente']?></td>
-                                  <td class="center"><?php echo $entregable['descripcion_entregable']?></td>
-                                  <td class="center"><?php echo $entregable['fecha_a']?></td>
-                                  <td class="center"><?php echo $entregable['fecha_b']?></td>
-                                  <td class="center"><?php echo $entregable['fecha_0']?></td>
-                             
-                                  <td><a class="edit" href="javascript:;">Editar</a></td>
-                                  <td><a class="delete" href="javascript:;">Eliminar</a></td>
+                                                           
+                                <tr class="<?php echo $entregable['revision_entregable'] ?>">
+                                      <td><?php echo $i?></td>
+                                      <td><?php echo $entregable['edt']?></td>                              
+                                                    
+                                      <td class="center"><?php echo $entregable['tipo_documento']?></td>
+                                      <td class="center"><?php echo $entregable['disciplina']?></td>
+                                      <td class="center"><?php echo $entregable['codigo_anddes']?></td>
+                                      <td class="center"><?php echo $entregable['codigo_cliente']?></td>
+                                      <td class="center"><?php echo $entregable['descripcion_entregable']?></td>
+                                      <td class="center"><?php echo $entregable['fecha_a']?></td>
+                                      <td class="center"><?php echo $entregable['fecha_b']?></td>
+                                      <td class="center"><?php echo $entregable['fecha_0']?></td>
+                                 
+                                      <td><a class="edit" href="javascript:;">Editar</a></td>
+                                      <td><a class="delete" href="javascript:;">Eliminar</a></td>
                                 </tr>                              
+                                  
                               <?php $i++; } } ?>
 
                               </tbody>
-                          </table>
+                        </div>
+                          </table> 
+
+                       
+
                       </div>
                   </div>
               </section>
@@ -112,6 +129,42 @@
       <!--footer start-->
 
       <!--footer end-->
+
+    <script type="text/javascript">
+    $(document).ready(function(){
+        $('#revision_entregable').click(function() {
+        //var textoFiltro = $(this).text().replace(/\s/g,"-");
+        //var textoFiltro = $(this).text().toLowerCase().replace(/\s/g,"-");
+        var textoFiltro=$(this).val();
+        //alert(textoFiltro);
+
+        if(textoFiltro == 'todos')
+        {
+            $('tbody.filtros tr.hidden').fadeIn('slow').removeClass('hidden');
+        }
+        else
+        {
+            $('.filtros tr').each(function()
+            {
+                if(!$(this).hasClass(textoFiltro))
+                {
+                    //alert(textoFiltro); 
+                    $(".menu").show();
+
+                    //console.log($(".menu").removeClass('hidden'));
+                    $(this).fadeOut('normal').addClass('hidden');
+                }
+                else
+                {
+                    //alert("llego");
+                    $(this).fadeIn('slow').removeClass('hidden');
+                }
+            });
+        }
+        return false;
+        });
+    });
+    </script>
 
     <link href="/css/bootstrap-reset.css" rel="stylesheet">
     
@@ -155,6 +208,8 @@
               EditableTable.init();
           });
       </script>
+
+
 
 
 <script type="text/javascript">
@@ -216,9 +271,10 @@
                 var fechaA=jqInputs[6].value;
                 var fechaB=jqInputs[7].value;
                 var fecha0=jqInputs[8].value;
+                var revision=$("#revision_entregable").val();
 
-                url="/control/control/guardarlista/codigo_prop_proy/<?php echo $this->codigo_prop_proy;?>/proyectoid/<?php echo $this->proyectoid; ?>/revision/<?php echo $this->revision?>/edt/"+edt+"/tipo_doc/"+tipo_doc+"/disc/"+disc+"/cod_anddes/"+cod_anddes+"/cod_cliente/"+cod_cliente+"/descripcion/"+descripcion+"/fechaA/"+fechaA+"/fechaB/"+fechaB+"/fecha0/"+fecha0;
-                //alert(url);
+                url="/control/control/guardarlista/codigo_prop_proy/<?php echo $this->codigo_prop_proy;?>/proyectoid/<?php echo $this->proyectoid; ?>/revision/"+revision+"/edt/"+edt+"/tipo_doc/"+tipo_doc+"/disc/"+disc+"/cod_anddes/"+cod_anddes+"/cod_cliente/"+cod_cliente+"/descripcion/"+descripcion+"/fechaA/"+fechaA+"/fechaB/"+fechaB+"/fecha0/"+fecha0;
+               // alert(url);
 
                 $.ajax({
                 type: "POST",
@@ -272,7 +328,7 @@
                     [5, 15, 20, "All"] // change per page values here
                 ],
                 // set the initial value
-                "iDisplayLength": 5,
+                "iDisplayLength": 15,
                 "sDom": "<'row'<'col-lg-6'l><'col-lg-6'f>r>t<'row'<'col-lg-6'i><'col-lg-6'p>>",
                 "sPaginationType": "bootstrap",
                 "oLanguage": {

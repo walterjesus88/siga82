@@ -302,6 +302,7 @@
                     <?php 
                     $tabla_acl = new Admin_Model_DbTable_Acl();
                     $data_acl = $tabla_acl->_getAclxUsuario($uid,$dni,$areaid);
+                    if ($data_acl) {
                     foreach ($data_acl as $nombre_menu) {
                     ?> 
                         <li class="sub-menu">
@@ -319,7 +320,7 @@
                                 <?php }?>
                             </ul>
                        </li>
-                    <?php }?>
+                    <?php } }?>
                         <li >
                             <a id="mostrar-calendar" class="" data-toggle="modal" href="">
                                 <i class="fa fa-calendar"></i> 
@@ -419,11 +420,14 @@
 $.datepicker.setDefaults($.datepicker.regional["es"]);
 $("#datepicker").datepicker
     ({
+        showWeek: true,
+        //firstDay: 1,
         maxDate:0, dateFormat:'dd/mm/yy', yearRange: '-100:+0',firstDay: 1,
         //minDate: new Date(2015, 4, noSunday()),
         minDate: new Date(2015,5,1),
+        
         //, "-99:+0"
-        //, changeMonth:true, changeYear: true,    
+        //changeMonth:true, changeYear: true,    
     });
 function noMonth(){
     var f = new Date();
@@ -431,4 +435,7 @@ function noMonth(){
     //var fech=f.getFullYear()+"-"+(f.getMonth()+1) +"-"+f.getDate(); 
     return fech;
   }
+
 </script>
+
+

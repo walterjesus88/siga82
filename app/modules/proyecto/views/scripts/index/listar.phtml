@@ -561,7 +561,7 @@
 </section> 
 
 
-<script>
+<script type="text/javascript">
 $(document).ready(function(){
         $("#Proyecto_Total").hide();
         $("#Proyecto_Activa").show();
@@ -653,8 +653,8 @@ $(document).ready(function(){
 <script type="text/javascript">
   $(document).ready(function() {
     $(function(){
-    $('select').customSelect();
-    });
+      $('select').customSelect();
+      });
   });
 </script>
 
@@ -665,13 +665,9 @@ $(document).ready(function(){
         "ordering": true,
         "info":     true
     } );
+
   } );
-
-  $(document).ready(function() {
-  { data: function ( row, type, set ) {
-    if ( type === 'display' ) {
-        return row.Name;
-    }
-} );
-
 </script>
+
+
+

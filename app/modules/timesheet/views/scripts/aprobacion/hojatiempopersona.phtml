@@ -89,7 +89,7 @@
   </div>
 </div>
 <div id="modali"></div>
-
+<!--
 <script type="text/javascript">
   $(document).ready(function() {
     $(function(){
@@ -106,4 +106,27 @@
         "info":     true
     } );
   } );
+</script>
+-->
+
+<script>
+  $(document).ready(function() {
+    /*$('.datatable-order-search').dataTable( {
+        "paging":   false,
+        "ordering": true,
+        "info":     true,
+        "searching": true
+    } );*/
+
+   table = $('.datatable-order-search').DataTable( {
+    retrieve: true,
+    paging: true
+} );
+
+
+    
+
+  } );
+
+
 </script>

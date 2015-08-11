@@ -1,5 +1,4 @@
 <?php
-
 class Timesheet_AprobacionController extends Zend_Controller_Action {
 
     public function init() {
@@ -69,8 +68,6 @@ class Timesheet_AprobacionController extends Zend_Controller_Action {
             $tabla_historial_aprobaciones= new Admin_Model_DbTable_Historialaprobaciones();
             $buscar_registro=$tabla_historial_aprobaciones->_getBuscarEmpleadoxSemana($semana,$uid,$dni);
             /**Buscar Registro en la tabla Aprobaciones**/
-
-
 
             if ($buscar_registro)
             {   
@@ -172,6 +169,7 @@ class Timesheet_AprobacionController extends Zend_Controller_Action {
 
     public function mostrarhojatiempofiltro2Action(){
         try {
+            $this->_helper->layout()->disableLayout();   
             $uid = $this->sesion->uid;
             $dni = $this->sesion->dni;     
             $tabla_usuariocategoria= new Admin_Model_DbTable_Usuariocategoria();
@@ -224,6 +222,8 @@ class Timesheet_AprobacionController extends Zend_Controller_Action {
 
      public function mostrarhistoricohojatiempofiltro2Action(){
         try {
+
+            $this->_helper->layout()->disableLayout();
             $uid = $this->sesion->uid;
             $dni = $this->sesion->dni;     
 
@@ -349,6 +349,8 @@ class Timesheet_AprobacionController extends Zend_Controller_Action {
 
     public function mostrarhojatiempogerenteAction(){
         try {
+            $this->_helper->layout()->disableLayout();
+
             $uid = $this->sesion->uid;
             $dni = $this->sesion->dni;     
             $this->view->uid_gerente=$uid;
@@ -492,6 +494,8 @@ class Timesheet_AprobacionController extends Zend_Controller_Action {
 
     public function mostrarhistoricohojatiempogerenteAction(){
         try {
+            $this->_helper->layout()->disableLayout();            
+
             $uid = $this->sesion->uid;
             $dni = $this->sesion->dni;  
             $tabla_usuariocategoria= new Admin_Model_DbTable_Usuariocategoria();
@@ -705,7 +709,17 @@ class Timesheet_AprobacionController extends Zend_Controller_Action {
 
   public function historicoAction(){
         try {
-            
+            $is_gerente_general= $this->sesion->personal->ucatcargo;  
+
+             
+
+            $is_gerente = $this->sesion->is_gerente;
+            $this->view->is_gerente= $is_gerente;
+            $this->view->is_gerente_general= $is_gerente_general;
+
+
+            print_r($is_gerente_general);
+            print_r($is_gerente);
         }    
          catch (Exception $e) {
             print "Error: ".$e->getMessage();
