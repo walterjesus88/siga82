@@ -302,6 +302,7 @@
                     <?php 
                     $tabla_acl = new Admin_Model_DbTable_Acl();
                     $data_acl = $tabla_acl->_getAclxUsuario($uid,$dni,$areaid);
+                    if ($data_acl) {
                     foreach ($data_acl as $nombre_menu) {
                     ?> 
                         <li class="sub-menu">
@@ -319,7 +320,7 @@
                                 <?php }?>
                             </ul>
                        </li>
-                    <?php }?>
+                    <?php } }?>
                         <li >
                             <a id="mostrar-calendar" class="" data-toggle="modal" href="">
                                 <i class="fa fa-calendar"></i> 
