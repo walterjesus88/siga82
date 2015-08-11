@@ -381,7 +381,20 @@ class Proyecto_IndexController extends Zend_Controller_Action {
 
           
         $updrec=new Admin_Model_DbTable_Proyecto();
-        
+        if($updrec->_update($data,$pk))
+        {
+          echo "guardao";
+           print_r($pk);
+         print_r($data);
+        }
+        else
+        {
+          echo "no gurado";
+         print_r($pk);
+         print_r($data);
+
+        }
+        /*
         if($updrec->_update($data,$pk))
         {   ?>
           <script>                  
@@ -396,7 +409,7 @@ class Proyecto_IndexController extends Zend_Controller_Action {
           document.location.href="/proyecto/index/listar";                                                 
           </script>
          <?php
-            }
+            }*/
     }
 
 

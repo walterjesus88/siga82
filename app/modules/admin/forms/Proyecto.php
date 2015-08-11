@@ -80,21 +80,51 @@ class Admin_Form_Proyecto extends Zend_Form{
         $unidad_minera->addMultiOption($uminera['unidad_mineraid'],$uminera['nombre']);
     }
 
-    $gerente_proyecto= new Zend_Form_Element_Text('gerente_proyecto');
+    
+    $gerente_proyecto= new Zend_Form_Element_Select('gerente_proyecto');
     $gerente_proyecto->removeDecorator('Label')->removeDecorator("HtmlTag");
-    $gerente_proyecto->setAttrib("maxlength", "100");
-    $gerente_proyecto->setAttrib('class', 'form-control');
+    $gerente_proyecto->setAttrib('class', 'form-control');    
+    $bdusuario = new Admin_Model_DbTable_Persona(); 
+    $gerente_proyecto->addMultiOption('0',' -- Seleccione -- ');
+    $listgerente=$bdusuario->_getPropuestaxResponsablePropuesta('GERENTE-PROY');
+    foreach ($listgerente as $gerente ){        
+        $porciones = explode(".", $gerente['uid']);
+        $nombre=ucwords($porciones[0])." ".ucwords($porciones[1]);
+        $gerente_proyecto->addMultiOption($gerente['uid'],$nombre);
+    }
 
-    $control_proyecto= new Zend_Form_Element_Text('control_proyecto');
+    
+
+    $control_proyecto= new Zend_Form_Element_Select('control_proyecto');
     $control_proyecto->removeDecorator('Label')->removeDecorator("HtmlTag");
-    $control_proyecto->setAttrib("maxlength", "100");
-    $control_proyecto->setAttrib('class', 'form-control');
+    $control_proyecto->setAttrib('class', 'form-control');    
+    $bdusuario = new Admin_Model_DbTable_Persona(); 
+    $control_proyecto->addMultiOption('0',' -- Seleccione -- ');
+    $listcontrol=$bdusuario->_getPersonaxArea('26');
+    foreach ($listcontrol as $control ){        
+        $porciones = explode(".", $control['uid']);
+        $nombrecontrol=ucwords($porciones[0])." ".ucwords($porciones[1]);
+        $control_proyecto->addMultiOption($control['uid'],$nombrecontrol);
+    }
 
-    $control_documentario= new Zend_Form_Element_Text('control_documentario');
+
+
+    $control_documentario= new Zend_Form_Element_Select('control_documentario');
     $control_documentario->removeDecorator('Label')->removeDecorator("HtmlTag");
-    $control_documentario->setAttrib("maxlength", "100");
-    $control_documentario->setAttrib('class', 'form-control');
+    $control_documentario->setAttrib('class', 'form-control');    
+    $bdusuario = new Admin_Model_DbTable_Persona(); 
+    $control_documentario->addMultiOption('0',' -- Seleccione -- ');
+    $listcontroldoc=$bdusuario->_getPersonaxArea('16');
+    foreach ($listcontroldoc as $controldoc ){        
+        $porciones = explode(".", $controldoc['uid']);
+        $nombrecontroldoc=ucwords($porciones[0])." ".ucwords($porciones[1]);
+        $control_documentario->addMultiOption($controldoc['uid'],$nombrecontroldoc);
+    }
 
+
+
+
+    
     // $descripcion = new Zend_Form_Element_Text('descripcion');
     // $descripcion->setRequired(true)->addErrorMessage('Este campo es requerido');
     // $descripcion->removeDecorator('Label')->removeDecorator("HtmlTag");

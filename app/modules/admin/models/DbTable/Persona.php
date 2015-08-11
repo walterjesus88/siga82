@@ -152,6 +152,22 @@ class Admin_Model_DbTable_Persona extends Zend_Db_Table_Abstract
         }
     }
 
+    public function _getPersonaxArea($areaid=''){
+        try{
+            $sql=$this->_db->query("
+                select * from usuario_categoria as usu
+                inner join persona as per
+                on usu.dni=per.dni
+                where usu.areaid='$areaid' and usu.estado_sistema='A' and usu.estado='A'
+            ");
+            $row=$sql->fetchAll();
+           return $row;  
+        }catch (Exception $ex) {
+            print "Error: Retornando los datos del alumno deacuerdo a una palabra ingresada".$ex->getMessage();
+        }
+    }
+
+
     public function _getPersonasOrdenadoxApellido(){
         try{
             $sql=$this->_db->query("
