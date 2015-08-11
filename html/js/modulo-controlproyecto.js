@@ -2,7 +2,14 @@
 angular.module('moduloCp', ['ngRoute', 'chart.js','ui.bootstrap','ui.bootstrap.tpls','ui.router','checklist-model','dialogs','xeditable'])
 .config(['$routeProvider', function($routeProvider) {
   $routeProvider
+
   .when("/", {
+    controller: "PanelCtrl",
+    controllerAs: "CD",
+    templateUrl: "/proyecto/index/index"
+  })
+
+  .when("/panel", {
     controller: "PanelCtrl",
     controllerAs: "CD",
     templateUrl: "/proyecto/index/panel"
@@ -30,6 +37,9 @@ angular.module('moduloCp', ['ngRoute', 'chart.js','ui.bootstrap','ui.bootstrap.t
     },
     getUsuarios: function() {
       return $http.get(url + 'usuariosjson');
+    },
+    getTiempos: function() {
+      return $http.get(url + 'curvasjson');
     }
   }
 
@@ -51,13 +61,65 @@ angular.module('moduloCp', ['ngRoute', 'chart.js','ui.bootstrap','ui.bootstrap.t
     
   }
 
-  $scope.labels = ['06 May', '13 May', '20 May', '27 May', '03 Jun', '10 Jun', '15 Jun'];
-  $scope.series = ['Planeado', 'Ejecutado'];
+  $scope.labels = ['29 Abr', '14 May', '21 May', '28 May', '04 Jun', '11 Jun', '18 Jun','25 Jun','02 Jun',];
+  $scope.series = ['Planeado', 'Real'];
 
-  $scope.data = [
+  $scope.datas = [
     [65/100, 59/100, 80/100, 81/100, 56/100, 55/100, 40/100],
     [28/100, 48/100, 40/100, 19/100, 86/100, 27/100, 90/100]
   ];
+
+    console.log($scope.datas);
+  
+
+
+  httpFactory.getTiempos()
+  .success(function(data) {  
+    //ejemplo de objeto// 
+    //var myObj = {
+    // 1: [1, 2, 3],
+    // 2: [4, 5, 6]
+    // };
+
+    var max = data[0]['1'].length;
+    console.log(max);
+ 
+    var varx=[];
+    var vary=[];
+    var array = $.map(data[0], function(value, index) {
+        //console.log(value[index]['porc_avance_real']);
+        //value=parseFloat(value[2]['porc_avance_real']);       
+        //console.log(data.length);
+        for (var i =0; i < max; i++) {
+          a=[];
+          //console.log(value[i]['porc_avance_plani']);
+          a=parseFloat(value[i]['porc_avance_real']);
+          b=parseFloat(value[i]['porc_avance_plani']);
+          varx.push(a);
+          vary.push(b);
+          //console.log(varx);
+
+          //Things[i]
+        };
+          return [varx,vary];
+    });
+    $scope.data = array;
+      //console.log($scope.data[0]);
+
+    $scope.plan=array[0];
+    console.log($scope.plan);
+
+
+
+   
+   })
+  .error(function(data) {
+     $scope.data = [] ; 
+  });
+
+
+
+
 
 }])
 

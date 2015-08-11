@@ -15,12 +15,21 @@ class Proyecto_IndexController extends Zend_Controller_Action {
     }
 
     public function indexAction() {
+      $this->_helper->layout()->disableLayout();
+    
     }
 
     public function panelAction()
     {
       $this->_helper->layout()->disableLayout();
     }
+
+    public function ratesAction()
+    {
+      $this->_helper->layout()->disableLayout();
+    }
+
+
 
 
 
@@ -1427,6 +1436,30 @@ public function usuariosjsonAction() {
 }
 
 
+public function curvasjsonAction() {
+
+  $proyectoid='1509.10.02';
+  $codigo_prop_proy='15.10.140-1509.10.02-B';
+  $revision_perf_curva='A';
+
+  $where = array('codigo_prop_proy' =>$codigo_prop_proy ,'proyectoid'=>$proyectoid, 
+  'revision_perf_curva'=>$revision_perf_curva );
+
+  $attrib = array('porc_avance_real','porc_avance_plani');
+
+  $tiempo=new Admin_Model_DbTable_Tiempoproyecto();
+  $tmp=$tiempo->_getFilter($where,$attrib);
+  //print_r($where);
+  //print_r($tmp);
+  
+  //  $user=new Admin_Model_DbTable_Usuario();
+  // $us=$user->_getUsuarioAll();
+  // $this->_helper->json->sendJson($us);  
+  $arr = array(['1' =>$tmp]);
+
+  $this->_helper->json->sendJson($arr);
+
+}
 
 
   public function subirareacategoriaAction() {
