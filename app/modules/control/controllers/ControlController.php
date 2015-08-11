@@ -10,7 +10,7 @@ class Control_ControlController extends Zend_Controller_Action {
     }
 
     public function indexAction() {
-    	echo "jol";
+    	//echo "jol";
     }
 
     public function performanceAction() {
@@ -19,7 +19,7 @@ class Control_ControlController extends Zend_Controller_Action {
 
     public function curvasAction()
     {
-      //$this->_helper->layout()->disableLayout();
+      $this->_helper->layout()->disableLayout();
     }
 
 

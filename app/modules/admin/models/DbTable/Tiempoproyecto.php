@@ -1,16 +1,15 @@
 <?php
-class Admin_Model_DbTable_Listaentregabledetalle extends Zend_Db_Table_Abstract
+class Admin_Model_DbTable_Tiempoproyecto extends Zend_Db_Table_Abstract
 {
-    protected $_name = 'lista_entregable_detalle';
-    protected $_primary = array("codigo_prop_proy","proyectoid","revision_entregable","edt");
-
+    protected $_name = 'tiempo_proyecto';
+    protected $_primary = array("codigo_prop_proy","proyectoid","revision_perf_curva");
 
     public function _save($data){
         try{
             //if ($data['codigo_prop_proy']=="" ) return false;
             return $this->insert($data);
         }catch (Exception $ex){
-            print "Error: Insertando un nueva lista_entregable_detalle".$ex->getMessage();
+            print "Error: Insertando un nuevo Proyecto".$ex->getMessage();
         }
     }
 
@@ -20,8 +19,8 @@ class Admin_Model_DbTable_Listaentregabledetalle extends Zend_Db_Table_Abstract
         try{
             //if($where['eid']=='' || $where['oid']=='') return false;
                 $select = $this->_db->select();
-                if ($attrib=='') $select->from("lista_entregable_detalle");
-                else $select->from("lista_entregable_detalle",$attrib);
+                if ($attrib=='') $select->from("tiempo_proyecto");
+                else $select->from("tiempo_proyecto",$attrib);
                 foreach ($where as $atri=>$value){
                     $select->where("$atri = ?", $value);                    
                 }
@@ -35,7 +34,7 @@ class Admin_Model_DbTable_Listaentregabledetalle extends Zend_Db_Table_Abstract
                 if ($rows) return $rows;
                 return false;
         }catch (Exception $e){
-            print "Error: Read Filter competencia ".$e->getMessage();
+            print "Error: Read Filter tiempo_proyecto ".$e->getMessage();
         }
     }
 

@@ -274,7 +274,7 @@
                 var revision=$("#revision_entregable").val();
 
                 url="/control/control/guardarlista/codigo_prop_proy/<?php echo $this->codigo_prop_proy;?>/proyectoid/<?php echo $this->proyectoid; ?>/revision/"+revision+"/edt/"+edt+"/tipo_doc/"+tipo_doc+"/disc/"+disc+"/cod_anddes/"+cod_anddes+"/cod_cliente/"+cod_cliente+"/descripcion/"+descripcion+"/fechaA/"+fechaA+"/fechaB/"+fechaB+"/fecha0/"+fecha0;
-                alert(url);
+               // alert(url);
 
                 $.ajax({
                 type: "POST",
