@@ -144,6 +144,8 @@ function controladorPrincipal(){
 
 	];
 
+  console.log(scope.alumnos);
+
 	//scope.data = dataModel.data;
   	scope.newCategoryName = "";
   	scope.newTaskName = "";

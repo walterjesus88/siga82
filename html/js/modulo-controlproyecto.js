@@ -40,7 +40,20 @@ angular.module('moduloCp', ['ngRoute', 'chart.js','ui.bootstrap','ui.bootstrap.t
     },
     getTiempos: function() {
       return $http.get(url + 'curvasjson');
-    }
+    },   
+    setCambiarfechaproyecto: function(value,column,id) {
+      // var defered = $q.defer();
+      // var promise = defered.promise;
+      return $http.post(url + 'cambiarfechaproyeto/value/' +
+      value+"/id/"+id+"/column/"+column)
+      // .success(function(data) {
+      //   defered.resolve(data);
+      // })
+      // .error(function(err) {
+      //   defered.reject(err);
+      // });
+      //return promise;
+    },
   }
 
   return publico;
@@ -51,45 +64,104 @@ angular.module('moduloCp', ['ngRoute', 'chart.js','ui.bootstrap','ui.bootstrap.t
   editableOptions.theme = 'bs3';
 })
 
+
+
+
+
+
 .controller('CurvasCtrl', ['httpFactory', function ( httpFactory ) {
   //referencia del scope
   var $scope = this;
 
   $scope.cuanto=['29'];
+  
+  //guardando columnas//
+  $scope.saveColumn= function(column){
+    //console.log($scope.dat);
 
-  $scope.sumar= function(){
-    
-  }
+    // var results = [];
+    angular.forEach($scope.dat, function(fecha) {  
+      //a=results.push($http.post('/saveColumn', {column: column, value: fecha[column], id: fecha.id_tproyecto}));
+  
+      httpFactory.setCambiarfechaproyecto(fecha[column],column,fecha.id_tproyecto)
+        .then(function(data) {
+          console.log('Curvas cambiado');
+        })
+        .catch(function(err) {
+          console.log('No se pudo cambiar Curvas');
+        })
 
-  $scope.labels = ['29 Abr', '14 May', '21 May', '28 May', '04 Jun', '11 Jun', '18 Jun','25 Jun','02 Jun',];
-  $scope.series = ['Planeado', 'Real'];
+    })
+    //return $q.all(results);
 
-  $scope.datas = [
-    [65/100, 59/100, 80/100, 81/100, 56/100, 55/100, 40/100],
-    [28/100, 48/100, 40/100, 19/100, 86/100, 27/100, 90/100]
-  ];
 
-    console.log($scope.datas);
+   
+  };
+
+
+
+  $scope.saveUser_l = function(data,id) {
+    console.log(data);
+    console.log(id);
+    //angular.extend(data, {id: id});
+    //return $http.post('/saveUser', data);
+  };
+
+  $scope.checkName = function(data) {
+     console.log('data');
+    // if (data !== 'awesome') {
+    //   return "Username should be `awesome`";
+    // }
+  };
+
+
   
 
+  $scope.labelss = ['29 Abr', '14 May', '21 May', '28 May', '04 Jun', '11 Jun', '18 Jun','25 Jun','02 Jun',];
+  console.log($scope.labelss);
+
+  $scope.series = ['Planeado', 'Real'];
+
+  // $scope.datas = [
+  //   [65/100, 59/100, 80/100, 81/100, 56/100, 55/100, 40/100],
+  //   [28/100, 48/100, 40/100, 19/100, 86/100, 27/100, 90/100]
+  // ];
+
+  // console.log($scope.datas);
+  
+  //  $scope.data = [] ; 
 
   httpFactory.getTiempos()
-  .success(function(data) {  
+  .success(function(data) {
     //ejemplo de objeto// 
     //var myObj = {
     // 1: [1, 2, 3],
     // 2: [4, 5, 6]
     // };
+    $scope.dat=data[0]['1'];
+    //console.log($scope.dat);
 
-    var max = data[0]['1'].length;
-    console.log(max);
- 
+
+    var max = data[0]['1'].length;     
     var varx=[];
     var vary=[];
+    var labelx=[];
+
+    var label= $.map(data[0], function(value, index) {   
+        for (var i =0; i < max; i++) {
+          a=[];
+          //console.log(value[i]['porc_avance_plani']);
+          a=value[i]['fecha_proyecto'];        
+          labelx.push(a);
+        };
+          return [labelx];
+    });
+    
+    $scope.labels=label[0];
+    console.log($scope.labels);
+
     var array = $.map(data[0], function(value, index) {
-        //console.log(value[index]['porc_avance_real']);
-        //value=parseFloat(value[2]['porc_avance_real']);       
-        //console.log(data.length);
+   
         for (var i =0; i < max; i++) {
           a=[];
           //console.log(value[i]['porc_avance_plani']);
@@ -97,20 +169,13 @@ angular.module('moduloCp', ['ngRoute', 'chart.js','ui.bootstrap','ui.bootstrap.t
           b=parseFloat(value[i]['porc_avance_plani']);
           varx.push(a);
           vary.push(b);
-          //console.log(varx);
 
-          //Things[i]
         };
           return [varx,vary];
     });
     $scope.data = array;
-      //console.log($scope.data[0]);
 
-    $scope.plan=array[0];
-    console.log($scope.plan);
-
-
-
+    console.log($scope.data[0] );   
    
    })
   .error(function(data) {
@@ -118,34 +183,33 @@ angular.module('moduloCp', ['ngRoute', 'chart.js','ui.bootstrap','ui.bootstrap.t
   });
 
 
-
-
-
 }])
+
+
 
 .controller('PanelCtrl', ['httpFactory','$modal','$dialogs', function ( httpFactory,$modal,$dialogs) {
   var cd = this;
 
-      cd.data = [
-      { name: 'Personal', expanded: true,
-        items: [
-          { name: 'Walk dog', completed: false },
-          { name: 'Write blog post', completed: true },
-          { name: 'Buy milk', completed: false },
-        ]
-      },
-      { name: 'Work', expanded: false,
-        items: [
-          { name: 'Ask for holidays', completed: false }
-        ]
-      },
-      { name: 'Books to read', expanded: false,
-        items: [
-          { name: 'War and peace', completed: false },
-          { name: '1Q84', completed: false },
-        ]
-      }
-    ];
+    //   cd.data = [
+    //   { name: 'Personal', expanded: true,
+    //     items: [
+    //       { name: 'Walk dog', completed: false },
+    //       { name: 'Write blog post', completed: true },
+    //       { name: 'Buy milk', completed: false },
+    //     ]
+    //   },
+    //   { name: 'Work', expanded: false,
+    //     items: [
+    //       { name: 'Ask for holidays', completed: false }
+    //     ]
+    //   },
+    //   { name: 'Books to read', expanded: false,
+    //     items: [
+    //       { name: 'War and peace', completed: false },
+    //       { name: '1Q84', completed: false },
+    //     ]
+    //   }
+    // ];
 
   //scope.selectedCategory = scope.data[0];
   //modal
@@ -233,9 +297,6 @@ angular.module('moduloCp', ['ngRoute', 'chart.js','ui.bootstrap','ui.bootstrap.t
   //   }
   // };
   
-
-
-
   cd.integrantes = [];
   cd.cantidad_proyectos = {
     total: 0,
@@ -287,9 +348,6 @@ angular.module('moduloCp', ['ngRoute', 'chart.js','ui.bootstrap','ui.bootstrap.t
   });
 
   //fin de factory para llamar datos
-
-
-
 
   $scope.confirmed = 'You have yet to be confirmed!';
   $scope.name = '"Your name here."';
@@ -385,12 +443,7 @@ angular.module('moduloCp', ['ngRoute', 'chart.js','ui.bootstrap','ui.bootstrap.t
   // {nombre:"walter jesus"},
   // {nombre:"ss"}];
 
-      // $scope.roles = [
-      //   {id: 1, text: 'guest'},
-      //   {id: 2, text: 'user'},
-      //   {id: 3, text: 'customer'},
-      //   {id: 4, text: 'admin'}
-      // ];
+ 
 
   // $scope.animationsEnabled = true;
 

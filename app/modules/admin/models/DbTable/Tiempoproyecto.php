@@ -38,4 +38,18 @@ class Admin_Model_DbTable_Tiempoproyecto extends Zend_Db_Table_Abstract
         }
     }
 
+
+    public function _update($data,$pk)
+    {
+        try{
+            //if ($pk['id_tproyecto']=='' ||  $pk['proyectoid']=='' ) return false;
+            $where = "id_tproyecto = '".$pk['id_tproyecto']."' ";
+            return $this->update($data, $where);
+            return false;
+        }catch (Exception $e){
+            print "Error: Update Distribution".$e->getMessage();
+        }
+    }
+
+
 }
