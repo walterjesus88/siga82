@@ -3,8 +3,8 @@ httpFactory para cargar los datos del proyecto necesarios,
 configuracionTransmittal para acceder al objeto configuracionTransmittal,
 $routeParams para obtener el codigo del proyecto actual de la ruta*/
 
-app.controller('TransmittalCtrl', ['httpFactory', 'proyectoFactory',
-'$routeParams', function(httpFactory, proyectoFactory, $routeParams) {
+app.controller('TransmittalCtrl', ['httpFactory', 'proyectoFactory', '$modal',
+'$routeParams', function(httpFactory, proyectoFactory, $modal, $routeParams) {
 
   /*referencia del scope en vt, obtencion del proyecto seleccionado y el objeto
   que contendra los datos del proyecto*/
@@ -51,6 +51,27 @@ app.controller('TransmittalCtrl', ['httpFactory', 'proyectoFactory',
       vt.clienteActivo = '';
       vt.contratistaActivo = 'active';
     }
+  }
+
+  vt.editarLogo = function() {
+    var modalInstance = $modal.open({
+      animation: true,
+      controller: 'ModalLogoCtrl',
+      controllerAs: 'ml',
+      templateUrl: '/controldocumentario/index/modallogo',
+      size: 'sm',
+      resolve: {
+        clienteid: function () {
+          return vt.proyecto.clienteid;
+        }
+      }
+    });
+
+    /*modalInstance.result.then(function (selectedItem) {
+      vt.selected = selectedItem;
+    }, function () {
+      alert('Modal dismissed at: ' + new Date());
+    });*/
   }
 
 }]);

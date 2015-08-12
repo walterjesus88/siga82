@@ -7,19 +7,22 @@ function(httpFactory, entregableFactory, $scope, transmittalFactory) {
   //obteniendo el codigo del proyecto del scope padre
   var proyecto = $scope.$parent.vt.proyecto;
 
-  //array que contendra la lista de entregables de los proyectos
+  /*array que contendra la lista de entregables de los proyectos y el que
+  contendra a los elementos seleccionados para generar transmittal*/
   va.entregables = [];
+  va.seleccionados = [];
 
   //cargar los entregables
-  var listarEntregables = function(proyecto, estado) {
-    httpFactory.getEntregables(proyecto, estado)
+  var listarEntregables = function(proyecto, estado_revision) {
+    httpFactory.getEntregables(proyecto, estado_revision)
     .then(function(data) {
       va.entregables = [];
       data.forEach(function(item) {
-        entregable = new entregableFactory.Entregable(item.detalleid, item.edt,
+        entregable = new entregableFactory.Entregable(item.cod_le, item.edt,
         item.tipo_documento, item.disciplina, item.codigo_anddes, item.codigo_cliente,
         item.descripcion_entregable, item.revision, item.estado_revision, item.transmittal,
-        item.correlativo, item.emitido, item.fecha);
+        item.correlativo, item.emitido, item.fecha, item.respuesta_transmittal,
+        item.respuesta_emitido, item.respuesta_fecha, item.estado, item.comentario);
         va.entregables.push(entregable);
       })
     })
@@ -90,6 +93,22 @@ function(httpFactory, entregableFactory, $scope, transmittalFactory) {
   va.cargarRevisiones = function(estado) {
     listarEntregables(proyecto.codigo, estado);
     cambiarSubPanel('tablas');
+  }
+
+  //generar el transmittal con los entregables seleccionados
+  va.generarTr = function() {
+    var transmittal = transmittalFactory.getConfiguracion();
+    va.seleccionados = [];
+    va.entregables.forEach(function(entregable) {
+      if (entregable.seleccionado == 'selected') {
+        entregable.transmittal = transmittal.codificacion;
+        entregable.correlativo = transmittal.correlativo;
+        entregable.agregarToTransmittal(transmittal);
+        va.seleccionados.push(entregable);
+      }
+    });
+    cambiarSubPanel('trans');
+
   }
 
   //vista de edicion de transmittal

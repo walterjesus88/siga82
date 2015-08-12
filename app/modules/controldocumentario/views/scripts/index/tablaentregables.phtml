@@ -26,7 +26,7 @@
         REVISION
       </th>
       <th>
-        ESTADO
+        ESTADO REVISION
       </th>
       <th>
         TRANSMITTAL
@@ -37,9 +37,25 @@
       <th>
         FECHA
       </th>
+      <th>
+        TRANSMITTAL CLI
+      </th>
+      <th>
+        EMITIDO CLI
+      </th>
+      <th>
+        FECHA CLI
+      </th>
+      <th>
+        ESTADO
+      </th>
+      <th>
+        COMENTARIO
+      </th>
     </thead>
     <tbody>
-      <tr ng-repeat="entregable in va.entregables">
+      <tr ng-repeat="entregable in va.entregables" ng-class="entregable.estilo"
+      ng-click="entregable.seleccionarEntregable()">
         <td>
           {{entregable.codigo}}
         </td>
@@ -53,10 +69,12 @@
           {{entregable.disciplina}}
         </td>
         <td>
-          {{entregable.codigo_anddes}}
+          <input type="text" ng-model="entregable.codigo_anddes" ng-model-options="{ updateOn: 'blur' }"
+             ng-change="entregable.actualizarCodigoAnddes()">
         </td>
         <td>
-          {{entregable.codigo_cliente}}
+          <input type="text" ng-model="entregable.codigo_cliente" ng-model-options="{ updateOn: 'blur' }"
+             ng-change="entregable.actualizarCodigoCliente()">
         </td>
         <td>
           {{entregable.descripcion}}
@@ -65,7 +83,7 @@
           {{entregable.revision}}
         </td>
         <td>
-          {{entregable.estado}}
+          {{entregable.estado_revision}}
         </td>
         <td>
           {{entregable.transmittal + ' - ' + entregable.correlativo}}
@@ -76,6 +94,21 @@
         <td>
           {{entregable.fecha}}
         </td>
+        <td>
+          {{entregable.respuesta_transmittal}}
+        </td>
+        <td>
+          {{entregable.respuesta_emitido}}
+        </td>
+        <td>
+          {{entregable.respuesta_fecha}}
+        </td>
+        <td>
+          {{entregable.estado}}
+        </td>
+        <td>
+          {{entregable.comentario}}
+        </td>
       </tr>
     </tbody>
   </table>
@@ -83,5 +116,5 @@
 
 <footer class="col-md-12 panel">
   <button type="button" class="btn btn-default">Imprimir</button>
-  <button type="button" class="btn btn-default">Generar Transmittal</button>
+  <button type="button" class="btn btn-default" ng-click="va.generarTr()">Generar Transmittal</button>
 </footer>

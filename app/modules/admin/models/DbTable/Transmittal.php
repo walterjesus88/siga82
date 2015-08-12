@@ -19,7 +19,7 @@ class Admin_Model_DbTable_Transmittal extends Zend_Db_Table_Abstract
     public function _getCorrelativo($proyectoid)
     {
       try {
-        $sql = $this->_db->query("select correlativo from transmittal
+        $sql = $this->_db->query("select cast(correlativo as int) from transmittal
         where proyectoid='".$proyectoid."' order by correlativo desc limit 1");
         $row = $sql->fetchAll();
         if (count($row) != 0) {

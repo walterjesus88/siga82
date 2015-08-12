@@ -87,4 +87,9 @@ class ControlDocumentario_IndexController extends Zend_Controller_Action {
       $this->_helper->layout()->disableLayout();
     }
 
+    public function modallogoAction()
+    {
+      $this->_helper->layout()->disableLayout();
+    }
+
 }

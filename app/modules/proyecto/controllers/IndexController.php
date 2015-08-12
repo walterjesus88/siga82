@@ -1445,10 +1445,11 @@ public function curvasjsonAction() {
   $where = array('codigo_prop_proy' =>$codigo_prop_proy ,'proyectoid'=>$proyectoid, 
   'revision_perf_curva'=>$revision_perf_curva );
 
-  $attrib = array('porc_avance_real','porc_avance_plani');
+  $attrib = array('fecha_proyecto','porc_avance_real','porc_avance_plani','id_tproyecto');
+  $order = array('fecha_proyecto ASC');
 
   $tiempo=new Admin_Model_DbTable_Tiempoproyecto();
-  $tmp=$tiempo->_getFilter($where,$attrib);
+  $tmp=$tiempo->_getFilter($where,$attrib,$order);
   //print_r($where);
   //print_r($tmp);
   
@@ -1461,8 +1462,29 @@ public function curvasjsonAction() {
 
 }
 
+public function cambiarfechaproyetoAction(){
+    $value= $this->_getParam("value");
+    $id= $this->_getParam("id");
+    $column= $this->_getParam("column");
 
-  public function subirareacategoriaAction() {
+    echo $value;
+    echo "--";
+    echo $id;
+    echo "--";
+    echo $column;
+    echo "--";
+    $data[$column]=$value;
+    $pk = array('id_tproyecto' => $id, );
+
+    $fecha_proyecto= new Admin_Model_DbTable_Tiempoproyecto();   
+    $fproyecto=$fecha_proyecto-> _update($data,$pk);
+
+    $this->_helper->json->sendJson($fproyecto);
+    
+}
+
+
+public function subirareacategoriaAction() {
     /*$proyectoid= $this->_getParam("proyectoid");
     $codigo_prop_proy= $this->_getParam("codigo_prop_proy");*/
     $proyectoid='1508.10.01';

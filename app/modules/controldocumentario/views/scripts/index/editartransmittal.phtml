@@ -33,7 +33,38 @@
       </th>
     </thead>
     <tbody>
-
+      <tr ng-repeat="entregable in va.seleccionados">
+        <td>
+          {{entregable.cod_le}}
+        </td>
+        <td>
+          {{entregable.transmittal + '-' + entregable.correlativo}}
+        </td>
+        <td>
+          {{entregable.codigo_anddes}}
+        </td>
+        <td>
+          {{entregable.codigo_cliente}}
+        </td>
+        <td>
+          {{entregable.descripcion}}
+        </td>
+        <td>
+          {{entregable.revision}}
+        </td>
+        <td>
+          {{entregable.estado_revision}}
+        </td>
+        <td>
+          {{entregable.emitido}}
+        </td>
+        <td>
+          {{entregable.fecha}}
+        </td>
+        <td>
+          {{entregable.estado}}
+        </td>
+      </tr>
     </tbody>
   </table>
 
