@@ -1,42 +1,92 @@
-<div class="">
+<div class="panel">
   <nav class="panel-heading tab-bg-dark-navy-blue">
     <ul class="nav nav-tabs">
-      <li class="active"><a href="#">EDT</a></li>
-      <li><a href="#">Técnicos</a></li>
-      <li><a href="#">Gestión</a></li>
-      <li><a href="#">Comunicación</a></li>
-      <li><a href="#">Búsqueda</a></li>
-      <li><a href="#">Filtro</a></li>
+      <li ng-class="va.edt_activo"><a href="" ng-click="va.cambiarPanel('edt')">EDT</a></li>
+      <li ng-class="va.tecnicos_activo"><a href="" ng-click="va.cambiarPanel('tecnicos')">Técnicos</a></li>
+      <li ng-class="va.gestion_activo"><a href="" ng-click="va.cambiarPanel('gestion')">Gestión</a></li>
+      <li ng-class="va.comunicacion_activo"><a href="" ng-click="va.cambiarPanel('comunicacion')">Comunicación</a></li>
+      <li><a href="">Búsqueda</a></li>
+      <li><a href="">Filtro</a></li>
     </ul>
   </nav>
-  <div class="">
-    <table class="table table-bordered">
-      <thead>
-        <th>
-          N°
-        </th>
-        <th>
-          EDT
-        </th>
-      </thead>
-      <tbody>
-        <tr ng-repeat="edt in CD.edt track by $index">
-          <td>
-            {{edt.codigo}}
-          </td>
-          <td>
-            {{edt.nombre}}
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-  <footer class="col-md-12 panel">
-    <button type="button" class="btn btn-default">Imprimir</button>
-    <button type="button" class="btn btn-default">Editar</button>
-    <button type="button" class="btn btn-default">Agregar</button>
-    <button type="button" class="btn btn-default">Guardar</button>
-    <button type="button" class="btn btn-default">Cancelar</button>
-    <button type="button" class="btn btn-default">Eliminar</button>
-  </footer>
+  <div class="panel-body">
+    <div class="tab-content">
+
+      <div class="tab-pane" ng-class="va.edt_activo">
+        <div class="col-md-6">
+          <table class="table table-bordered">
+            <thead>
+              <th>
+                N°
+              </th>
+              <th>
+                EDT
+              </th>
+            </thead>
+            <tbody>
+              <tr ng-repeat="edt in va.edt track by $index">
+                <td>
+                  {{edt.codigo}}
+                </td>
+                <td>
+                  {{edt.nombre}}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="col-md-6">
+          <button type="button" class="btn btn-default">Imprimir</button>
+        </div>
+      </div>
+
+      <div class="tab-pane" ng-class="va.tecnicos_activo">
+        <header>
+            <button type="button" class="btn btn-success btn-xs"
+            ng-click="va.cargarRevisiones('Ultimo')">Últimas Revisiones</button>
+            <button type="button" class="btn btn-info btn-xs"
+            ng-click="va.cargarRevisiones('all')">Historial Revisiones</button>
+            <button type="button" class="btn btn-warning btn-xs"
+            ng-click="va.editarTransmittal()">Transmittals</button>
+            <button type="button" class="btn btn-danger btn-xs">Planificación</button>
+        </header>
+        <div class="tab-content">
+          <div ng-include="'/controldocumentario/index/tablaentregables'"
+          class="tab-pane" ng-class="va.tabla_activa">
+
+          </div>
+          <div ng-include="'/controldocumentario/index/editartransmittal'"
+          class="tab-pane" ng-class="va.trans_activo">
+
+          </div>
+        </div>
+      </div>
+
+      <div class="tab-pane" ng-class="va.gestion_activo">
+        <header>
+            <button type="button" class="btn btn-success btn-xs">Últimas Revisiones</button>
+            <button type="button" class="btn btn-info btn-xs">Historial Revisiones</button>
+            <button type="button" class="btn btn-warning btn-xs">Transmittals</button>
+            <button type="button" class="btn btn-danger btn-xs">Planificación</button>
+        </header>
+        <div ng-include="'/controldocumentario/index/tablaentregables'">
+
+        </div>
+      </div>
+
+      <div class="tab-pane" ng-class="va.comunicacion_activo">
+        <header>
+            <button type="button" class="btn btn-success btn-xs">Últimas Revisiones</button>
+            <button type="button" class="btn btn-info btn-xs">Historial Revisiones</button>
+            <button type="button" class="btn btn-warning btn-xs">Transmittals</button>
+            <button type="button" class="btn btn-danger btn-xs">Planificación</button>
+        </header>
+        <div ng-include="'/controldocumentario/index/tablaentregables'">
+
+        </div>
+      </div>
+
+    </div>
+   </div>
+
 </div>

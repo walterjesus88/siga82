@@ -305,6 +305,18 @@ class Admin_Model_DbTable_Proyecto extends Zend_Db_Table_Abstract
       } catch (Exception $e) {
         print $e->getMessage();
       }
+    }
 
+    public function _updateControlDocumentario($proyectoid, $cd)
+    {
+      try {
+        $sql = $this->_db->query("update proyecto
+        set control_documentario='".$cd."'
+        where proyectoid='".$proyectoid."'");
+        $row = $sql->fetchAll();
+        return $row;
+      } catch (Exception $e) {
+        print $e->getMessage();
+      }
     }
 }

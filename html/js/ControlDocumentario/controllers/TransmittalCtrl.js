@@ -1,139 +1,77 @@
-/*Controlador de la vista de gestion de transmittals*/
+/*Controlador de la vista de general de transmittals con include de
+httpFactory para cargar los datos del proyecto necesarios,
+configuracionTransmittal para acceder al objeto configuracionTransmittal,
+$routeParams para obtener el codigo del proyecto actual de la ruta*/
 
-app.controller('TransmittalCtrl', ['httpFactory', 'configuracionTransmittal',
-  '$routeParams', function(httpFactory, configuracionTransmittal, $routeParams) {
+app.controller('TransmittalCtrl', ['httpFactory', 'proyectoFactory', '$modal',
+'$routeParams', function(httpFactory, proyectoFactory, $modal, $routeParams) {
 
-  /*referencia del scope, obtencion del proyecto seleccionado y el objeto que
-  contendra los datos del proyecto*/
-  var cd = this;
-  cd.proyecto_sel = $routeParams.proyecto;
-  cd.proyecto = {};
-
-  //panel visible por defecto aplicando la clase css active
-  cd.configurarActivo = '';
-  cd.anddesActivo = 'active';
-  cd.clienteActivo = '';
-  cd.contratistaActivo = '';
-
-  /*formatos, tipos de envio y los seleccionados por defecto; arrays de los
-  datos a mostrarse en los combobox de cliente, contactos, tipo de proyecto y
-  control documentario*/
-  cd.formatos = ['Anddes', 'Cerro Verde', 'Barrick'];
-  cd.formato_seleccionado = 'Anddes';
-  cd.tipos_envio = ['Anddes', 'Cerro Verde', 'Barrick'];
-  cd.tipo_seleccionado = 'Anddes';
-  cd.clientes = [];
-  cd.contactos = [];
-  cd.tipos_proyecto = [];
-  cd.control_documentario = [];
-
-  //datos seleccionados por defecto de los combobox
-  cd.cliente_seleccionado = '';
-  cd.contacto_seleccionado = '';
-  cd.datos_contacto_seleccionado = {
-    area: '',
-    correo: ''
+  /*referencia del scope en vt, obtencion del proyecto seleccionado y el objeto
+  que contendra los datos del proyecto*/
+  var vt = this;
+  vt.proyecto = {
+    codigo: $routeParams.proyecto
   };
 
-  //obtencion de los datos de configuracion del transmittal
-  cd.transmittal = configuracionTransmittal.getConfiguracion();
-
   //carga de los datos del proyecto seleccionado
-  httpFactory.getProyectoById(cd.proyecto_sel)
-  .success(function(res) {
-    cd.proyecto = res;
+  proyectoFactory.getDatosProyecto(vt.proyecto.codigo)
+  .then(function(data) {
+    vt.proyecto = data;
   })
-  .error(function(res) {
-    cd.proyecto = {};
-  })
-
-  /*obtencion de los datos de clientes, control documentario, tipo de proyectos
-  y contactos por cliente*/
-  httpFactory.getClientes()
-  .success(function(res) {
-    cd.clientes = res;
-  })
-  .error(function(res) {
-    cd.clientes = [];
+  .catch(function(err) {
+    vt.proyecto = {};
   });
 
-  httpFactory.getIntegrantes()
-  .success(function(res) {
-    cd.control_documentario = res;
-  })
-  .error(function(res) {
-    cd.control_documentario = [];
-  });
-
-  httpFactory.getTiposProyecto()
-  .success(function(res) {
-    cd.tipos_proyecto = res;
-  })
-  .error(function(res) {
-    cd.tipos_proyecto = [];
-  })
-
-  httpFactory.getContactosByCliente(cd.proyecto.clienteid)
-  .success(function(res) {
-    cd.contactos = res;
-  })
-  .error(function(res) {
-    cd.contactos = [];
-  })
+  //panel visible por defecto aplicando la clase css active
+  vt.configurarActivo = '';
+  vt.anddesActivo = 'active';
+  vt.clienteActivo = '';
+  vt.contratistaActivo = '';
 
   //metodo para cambiar el panel visible
-  cd.cambiarPanel = function(panel) {
+  vt.cambiarPanel = function(panel) {
     if (panel == 'configurar') {
-      cd.configurarActivo = 'active';
-      cd.anddesActivo = '';
-      cd.clienteActivo = '';
-      cd.contratistaActivo = '';
+      vt.configurarActivo = 'active';
+      vt.anddesActivo = '';
+      vt.clienteActivo = '';
+      vt.contratistaActivo = '';
     } else if (panel == 'anddes') {
-      cd.configurarActivo = '';
-      cd.anddesActivo = 'active';
-      cd.clienteActivo = '';
-      cd.contratistaActivo = '';
+      vt.configurarActivo = '';
+      vt.anddesActivo = 'active';
+      vt.clienteActivo = '';
+      vt.contratistaActivo = '';
     } else if (panel == 'cliente') {
-      cd.configurarActivo = '';
-      cd.anddesActivo = '';
-      cd.clienteActivo = 'active';
-      cd.contratistaActivo = '';
+      vt.configurarActivo = '';
+      vt.anddesActivo = '';
+      vt.clienteActivo = 'active';
+      vt.contratistaActivo = '';
     } else if (panel == 'contratista') {
-      cd.configurarActivo = '';
-      cd.anddesActivo = '';
-      cd.clienteActivo = '';
-      cd.contratistaActivo = 'active';
+      vt.configurarActivo = '';
+      vt.anddesActivo = '';
+      vt.clienteActivo = '';
+      vt.contratistaActivo = 'active';
     }
   }
 
-  //cambio del campo codificacion cada vez que este valor es actualizado en la vista
-  cd.cambiarCodificacion = function() {
-    configuracionTransmittal.setCodificacion(cd.transmittal.codificacion);
-  }
-
-  //cargar los datos de contacto cada vez que se cambia de cliente seleccionado
-  cd.cambiarCliente = function() {
-    httpFactory.getContactosByCliente(cd.proyecto.clienteid)
-    .success(function(res) {
-      cd.contactos = res;
-    })
-    .error(function(res) {
-      cd.contactos = [];
-    })
-  }
-
-  //cargar los datos del contacto de acuerdo al contacto seleccionado
-  cd.cambiarContacto = function() {
-    cd.contactos.forEach(function(contacto) {
-      if (contacto.contactoid == cd.contacto_seleccionado) {
-        cd.datos_contacto_seleccionado.area = contacto.puesto_trabajo;
-        cd.datos_contacto_seleccionado.correo = contacto.correo;
+  vt.editarLogo = function() {
+    var modalInstance = $modal.open({
+      animation: true,
+      controller: 'ModalLogoCtrl',
+      controllerAs: 'ml',
+      templateUrl: '/controldocumentario/index/modallogo',
+      size: 'sm',
+      resolve: {
+        clienteid: function () {
+          return vt.proyecto.clienteid;
+        }
       }
-    })
+    });
+
+    /*modalInstance.result.then(function (selectedItem) {
+      vt.selected = selectedItem;
+    }, function () {
+      alert('Modal dismissed at: ' + new Date());
+    });*/
   }
 
-  //guardar los cambios efectuados en la configuracion del transmittal
-  cd.guardarConfiguracion = function() {
-    configuracionTransmittal.guardarCambios();
-  }
 }]);
