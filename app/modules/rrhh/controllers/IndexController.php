@@ -10,20 +10,21 @@ class Rrhh_IndexController extends Zend_Controller_Action {
     }
     
     public function indexAction() {
+
         // $this->_helper->redirector('index','index','admin');
+
     }
 
     public function listarAction() {
         $listapersonas = new Admin_Model_DbTable_Persona();
         $this->view->lista_personas = $listapersonas->_getPersonasOrdenadoxApellido();
-
-
     }
 
     public function buscaAction() {
         $this->_helper->layout()->disableLayout();
         $busqueda = $this->_getParam('b');
         $busqueda=strtoupper($busqueda);
+
         $listapersonas = new Admin_Model_DbTable_Persona();
         $lista=$listapersonas->_getBuscarPersonas($busqueda);
         $this->view->lista_personas=$lista;
@@ -39,4 +40,10 @@ class Rrhh_IndexController extends Zend_Controller_Action {
 
     }
 
+    public function asignarpersonaAction() {
+        $lista=$listaproyecto->_getProyectosTodosAnddes();
+        $this->view->listaproyecto = $lista;
+        print_r($lista);
+
+    }
 }
