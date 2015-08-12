@@ -57,7 +57,7 @@
       <tr ng-repeat="entregable in va.entregables" ng-class="entregable.estilo"
       ng-click="entregable.seleccionarEntregable()">
         <td>
-          {{entregable.codigo}}
+          {{$index + 1}}
         </td>
         <td>
           {{entregable.edt}}
@@ -86,7 +86,7 @@
           {{entregable.estado_revision}}
         </td>
         <td>
-          {{entregable.transmittal + ' - ' + entregable.correlativo}}
+          {{entregable.transmittal_completo}}
         </td>
         <td>
           {{entregable.emitido}}

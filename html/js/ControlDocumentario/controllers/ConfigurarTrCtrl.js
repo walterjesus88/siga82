@@ -32,8 +32,8 @@ function($scope, httpFactory, transmittalFactory, proyectoFactory, $modal) {
   /*formatos, tipos de envio y los seleccionados por defecto; arrays de los
   datos a mostrarse en los combobox de cliente, contactos, tipo de proyecto y
   control documentario*/
-  vc.formatos = ['Anddes', 'Cerro Verde', 'Barrick'];
-  vc.tipos_envio = ['Anddes', 'Cerro Verde', 'Barrick'];
+  vc.formatos = [];
+  vc.tipos_envio = [];
   vc.clientes = [];
   vc.control_documentario = [];
   vc.tipos_proyecto = [];
@@ -62,8 +62,8 @@ function($scope, httpFactory, transmittalFactory, proyectoFactory, $modal) {
   }
 
 
-  /*obtencion de los datos de clientes, control documentario, tipo de proyectos
-  y contactos por cliente*/
+  /*obtencion de los datos de clientes, control documentario, tipo de proyectos,
+  contactos por cliente i tipos de envio*/
   httpFactory.getClientes()
   .then(function(data) {
     vc.clientes = data;
@@ -91,6 +91,16 @@ function($scope, httpFactory, transmittalFactory, proyectoFactory, $modal) {
   .catch(function(err) {
     vc.tipos_proyecto = [];
   });
+
+  httpFactory.getTiposEnvio()
+  .then(function(data) {
+    vc.formatos = data;
+    vc.tipos_envio = data;
+  })
+  .catch(function(err) {
+    vc.formatos = [];
+    vc.tipos_envio = [];
+  })
 
   /*inicializando la variable de los datos del contacto seleccionado*/
   vc.datos_contacto_seleccionado = {
@@ -156,6 +166,16 @@ function($scope, httpFactory, transmittalFactory, proyectoFactory, $modal) {
     modalInstance.result.then(function () {
     }, function () {
       listarContactos(vc.transmittal.clienteid);
+    });
+  }
+
+  vc.editarTipoEnvio = function() {
+    var modalInstance = $modal.open({
+      animation: true,
+      controller: 'ModalTipoEnvioCtrl',
+      controllerAs: 'mt',
+      templateUrl: '/controldocumentario/index/modaltipoenvio',
+      size: 'md'
     });
   }
 

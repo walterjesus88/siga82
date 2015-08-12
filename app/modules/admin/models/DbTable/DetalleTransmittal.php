@@ -16,16 +16,19 @@ class Admin_Model_DbTable_DetalleTransmittal extends Zend_Db_Table_Abstract
 
     public function _addDetalle($data)
     {
-      $newRow = $this->createRow();
-      $newRow->transmittal = $data['transmittal'];
-      $newRow->correlativo = $data['correlativo'];
-      $newRow->entregableid = $data['entregableid'];
-      $newRow->proyectoid = $data['proyectoid'];
-      $newRow->revision = $data['revision'];
-      $newRow->estado_revision = $data['estado_revision'];
-      $newRow->emitido = $data['emitido'];
-      $newRow->fecha = $data['fecha'];
-      $newRow->save();
+      try {
+        $sql = $this->_db->query("insert into detalle_transmittal
+        (entregableid, revision, estado_revision, transmittal, correlativo,
+        emitido, fecha, estado) values (".$data['entregableid'].
+        ", '".$data['revision']."', '".$data['estado_revision']."', '".
+        $data['transmittal']."', '".$data['correlativo']."', '".$data['emitido'].
+        "', '".$data['fecha']."', '".$data['estado']."')");
+        $row = $sql->fetchAll();
+        $respuesta['resultado'] = 'guardado';
+        return $data;
+      } catch (Exception $e) {
+        print $e->getMessage();
+      }
     }
 
     public function _updateDetalle($data)

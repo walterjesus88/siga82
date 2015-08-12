@@ -66,6 +66,30 @@ app.factory('httpFactory', ['$http', '$q', function($http, $q) {
       });
       return promise;
     },
+    getTiposEnvio: function() {
+      var defered = $q.defer();
+      var promise = defered.promise;
+      $http.get(url + 'tipoenvio/')
+      .success(function(data) {
+        defered.resolve(data);
+      })
+      .error(function(err) {
+        defered.reject(err);
+      });
+      return promise;
+    },
+    getEmisionesByTipo: function(tipo) {
+      var defered = $q.defer();
+      var promise = defered.promise;
+      $http.get(url + 'emisiones/tipo/' + tipo)
+      .success(function(data) {
+        defered.resolve(data);
+      })
+      .error(function(err) {
+        defered.reject(err);
+      });
+      return promise;
+    },
     getProyectoById: function(proyectoid) {
       var defered = $q.defer();
       var promise = defered.promise;
@@ -176,6 +200,34 @@ app.factory('httpFactory', ['$http', '$q', function($http, $q) {
       var promise = defered.promise;
       $http.post(url + 'agregarcontacto/clienteid/' + clienteid + '/nombre/' +
       contacto.atencion + '/area/' + contacto.area + '/correo/' + contacto.correo)
+      .success(function(data) {
+        defered.resolve(data);
+      })
+      .error(function(err) {
+        defered.reject(err);
+      });
+      return promise;
+    },
+
+    setDetalleTransmittal: function(datos) {
+      var defered = $q.defer();
+      var promise = defered.promise;
+      $http.post(url + 'guardardetalle/codigo/' + datos.codigo + '/revision/' +
+      datos.revision + '/estadorevision/' + datos.estado_revision + '/transmittal/' +
+      datos.transmittal + '/correlativo/' + datos.correlativo + '/emitido/' +
+      datos.emitido + '/fecha/' + datos.fecha + '/estado/' + datos.estado)
+      .success(function(data) {
+        defered.resolve(data);
+      })
+      .error(function(err) {
+        defered.reject(err);
+      });
+      return promise;
+    },
+    getEmisiones: function() {
+      var defered = $q.defer();
+      var promise = defered.promise;
+      $http.get(url + 'tiposdeenvio/')
       .success(function(data) {
         defered.resolve(data);
       })

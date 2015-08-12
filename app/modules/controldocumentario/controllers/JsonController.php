@@ -100,6 +100,31 @@ class ControlDocumentario_JsonController extends Zend_Controller_Action {
       $this->_helper->json->sendJson($tipos);
     }
 
+    //Devuelve la lista de tipos de envio
+    public function tipoenvioAction()
+    {
+      $tipo = new Admin_Model_DbTable_Tipoenvio();
+      $tipos = $tipo->_getEmpresas();
+      $this->_helper->json->sendJson($tipos);
+    }
+
+    //Devuelve la lista de tipos de emisiones que hay para un tipo de envio
+    public function emisionesAction()
+    {
+      $tipo = $this->_getParam('tipo');
+      $tabla = new Admin_Model_DbTable_Tipoenvio();
+      $emisiones = $tabla->_getEmisiones($tipo);
+      $this->_helper->json->sendJson($emisiones);
+    }
+
+    //Devuelve la lista de todos los tipos de envios disponibles
+    public function tiposdeenvioAction()
+    {
+      $tabla = new Admin_Model_DbTable_Tipoenvio();
+      $tipos = $tabla->_getAll();
+      $this->_helper->json->sendJson($tipos);
+    }
+
     //Devuelve los datos de un proyecto en particular
     public function proyectoAction()
     {
@@ -268,6 +293,22 @@ class ControlDocumentario_JsonController extends Zend_Controller_Action {
         $messages = $upload->getMessages();
         echo implode("\n", $messages);
       }
+      $this->_helper->json->sendJson($respuesta);
+    }
+
+    //guardar los detalles del transmittal
+    public function guardardetalleAction()
+    {
+      $data['entregableid'] = $this->_getParam('codigo');
+      $data['revision'] = $this->_getParam('revision');
+      $data['estado_revision'] = $this->_getParam('estadorevision');
+      $data['transmittal'] = $this->_getParam('transmittal');
+      $data['correlativo'] = $this->_getParam('correlativo');
+      $data['emitido'] = $this->_getParam('emitido');
+      $data['fecha'] = $this->_getParam('fecha');
+      $data['estado'] = $this->_getParam('estado');
+      $detalle = new Admin_Model_DbTable_DetalleTransmittal();
+      $respuesta = $detalle->_addDetalle($data);
       $this->_helper->json->sendJson($respuesta);
     }
 

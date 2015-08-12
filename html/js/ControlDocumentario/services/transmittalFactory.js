@@ -5,8 +5,8 @@ app.factory('transmittalFactory', ['httpFactory', function(httpFactory) {
   var datos = {
     codificacion: '',
     correlativo: '',
-    formato: 'Anddes',
-    tipo_envio: 'Anddes',
+    formato: 'ANDDES',
+    tipo_envio: 'ANDDES',
     proyecto: '',
     clienteid: '',
     cliente: '',
