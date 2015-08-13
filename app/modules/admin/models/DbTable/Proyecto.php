@@ -207,13 +207,11 @@ class Admin_Model_DbTable_Proyecto extends Zend_Db_Table_Abstract
     public function _getProyectosxGerente($gerente){
         try{
             $sql=$this->_db->query("
-                select * from proyecto as p
+                select *, p.estado as estado_proyecto from proyecto as p
                 inner join cliente as c on
                 p.clienteid=c.clienteid
-                where p.gerente_proyecto='$gerente' order by p.proyectoid asc;
-
-
-                ");
+                where p.gerente_proyecto='$gerente' order by p.proyectoid desc;
+            ");
             $row=$sql->fetchAll();
             return $row;
             }

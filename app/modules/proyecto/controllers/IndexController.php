@@ -2657,11 +2657,47 @@ public function cargartarea2Action() {
 
     exit();
 
-
-
-
  }
+
+public function verproyectoAction() {
+    $proyectoid= $this->_getParam("proyectoid");
+    $codigo_prop_proy= $this->_getParam("codigo_prop_proy");
+    $propuestaid= $this->_getParam("propuesta");
+    $revision= $this->_getParam("revision");
+    $this->view->codigoproyecto=$codigo_prop_proy;
+    $this->view->proyectoid=$proyectoid;
+    $this->view->propuestaid=$propuestaid;
+    $this->view->revision=$revision;
+
+    $bandera= $this->_getParam("bandera");
+    if ($bandera=='S')
+    {
+    $this->view->bandera='S';}
+    $editproyect= new Admin_Model_DbTable_Proyecto();
+    $where = array(
+      'codigo_prop_proy'    => $codigo_prop_proy,
+      'proyectoid'    => $proyectoid,
+    );
+    $edit = $editproyect->_getOne($where);
+    $this->view->proyecto = $edit;
+   /// print_r($edit);
+
+    $codigo=$this->_getParam('codigo_prop_proy');
+    $propuestaid=$edit['propuestaid'];
+    $revision=$edit['revision'];
+    $buscapropuesta = new Admin_Model_DbTable_Propuesta();
+    $busca=$buscapropuesta->_getPropuestaxIndices($codigo,$propuestaid,$revision);
+    $this->view->buscapropuesta = $busca; 
+
+
+    $areacat=new Admin_Model_DbTable_Area();
+    $arcat=$areacat->_getAreaxProyecto();
+    $this->view->area = $arcat; 
+
+
+
   
+}     
 
 
 }

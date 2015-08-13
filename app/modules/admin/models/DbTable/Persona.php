@@ -143,7 +143,7 @@ class Admin_Model_DbTable_Persona extends Zend_Db_Table_Abstract
                 select * from usuario_categoria as usu
                 inner join persona as per
                 on usu.dni=per.dni
-                where usu.cargo='$cargo' and usu.estado_sistema='A' and usu.estado='A'
+                where usu.cargo='$cargo' or usu.isgerente='S' and usu.estado_sistema='A' and usu.estado='A'
             ");
             $row=$sql->fetchAll();
            return $row;  
