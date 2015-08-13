@@ -24,13 +24,10 @@ class Proyecto_IndexController extends Zend_Controller_Action {
       $this->_helper->layout()->disableLayout();
     }
 
-    public function ratesAction()
+    public function ratesActiolin()
     {
       $this->_helper->layout()->disableLayout();
     }
-
-
-
 
 
     public function listarAction() {
@@ -1407,6 +1404,58 @@ public function verAction() {
   
 }   
 
+
+    //Devuelve los datos de un proyecto en particular
+  public function proyectoAction()
+    {
+      $data['proyectoid'] = $this->_getParam('proyectoid');
+      $proyecto = new Admin_Model_DbTable_Proyecto();
+      $datos = $proyecto->_getOnexProyectoidExtendido($data);
+      $respuesta['codigo'] = $datos['proyectoid'];
+      $respuesta['nombre'] = $datos['nombre_proyecto'];
+      $respuesta['clienteid'] = $datos['clienteid'];
+      $respuesta['cliente'] = $datos['nombre_comercial'];
+      $respuesta['unidad_minera'] = $datos['nombre'];
+      $respuesta['estado'] = $datos['estado'];
+      $respuesta['fecha_inicio'] = $datos['fecha_inicio'];
+      $respuesta['fecha_cierre'] = $datos['fecha_cierre'];
+      $respuesta['control_documentario'] = $datos['control_documentario'];
+      $respuesta['descripcion'] = $datos['descripcion'];
+      $respuesta['tipo_proyecto'] = $datos['tipo_proyecto'];
+      //$ruta = APPLICATION_PATH.'/../img/cliente/'.$respuesta['clienteid'].'.jpg';
+      //if(is_file($ruta)){
+        $respuesta['logo_cliente'] = '../img/cliente/'.$respuesta['clienteid'].'.jpg';
+      //} else {
+      //  $respuesta['logo_cliente'] = '../img/cliente/anddes.jpg';
+      //}
+      $this->_helper->json->sendJson($respuesta);
+  }
+
+
+
+public function listaproyectosAction()
+  {
+      $estado = $this->_getParam('estado');
+      $proyecto = new Admin_Model_DbTable_Proyecto();
+      $proyectos = $proyecto->_getAllExtendido($estado);
+      $respuesta = [];
+      $data = [];
+      $i = 0;
+      foreach ($proyectos as $item) {
+        $data['codigo'] = $item['proyectoid'];
+        $data['cliente'] = $item['nombre_comercial'];
+        $data['nombre'] = $item['nombre_proyecto'];
+        $data['gerente'] = $item['gerente_proyecto'];
+        $data['control_proyecto'] = $item['control_proyecto'];
+        $data['control_documentario'] = $item['control_documentario'];
+        $data['estado'] = $item['estado'];
+        $respuesta[$i] = $data;
+        $i++;
+      }
+      $this->_helper->json->sendJson($respuesta);
+  }
+
+
 public function verjsonAction() {
      //$areacat=new Admin_Model_DbTable_Area();
      //$arcat=$areacat->_getAreaxProyecto();
@@ -1442,10 +1491,10 @@ public function curvasjsonAction() {
   $codigo_prop_proy='15.10.140-1509.10.02-B';
   $revision_perf_curva='A';
 
-  $where = array('codigo_prop_proy' =>$codigo_prop_proy ,'proyectoid'=>$proyectoid, 
-  'revision_perf_curva'=>$revision_perf_curva );
+  $where = array('codigo_prop_proy' =>$codigo_prop_proy ,'proyectoid'=>$proyectoid); 
+  //'revision_perf_curva'=>$revision_perf_curva );
 
-  $attrib = array('fecha_proyecto','porc_avance_real','porc_avance_plani','id_tproyecto');
+  $attrib = array('fecha_proyecto','porc_avance_real','porc_avance_plani','id_tproyecto','revision_perf_curva');
   $order = array('fecha_proyecto ASC');
 
   $tiempo=new Admin_Model_DbTable_Tiempoproyecto();

@@ -10,7 +10,38 @@ class Control_IndexController extends Zend_Controller_Action {
     }
 
     public function indexAction() {
-    	echo "jol";
+    	
     }
+
+    public function panelAction() {
+      
+      $this->_helper->layout()->disableLayout();
+    	
+    }
+
+    public function proyectosAction() {
+      
+      $this->_helper->layout()->disableLayout();
+    	
+    }
+
+    public function curvasAction() {
+      
+      $this->_helper->layout()->disableLayout();
+    	
+    }
+
+    public function detalleAction() {
+      
+      $this->_helper->layout()->disableLayout();
+    	
+    }
+
+    public function controlAction() {
+      
+      $this->_helper->layout()->disableLayout();
+        
+    }
+
 
 }
