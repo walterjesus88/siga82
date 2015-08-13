@@ -1,47 +1,52 @@
-/*Controlador de la vista lista de proyectos*/
+/*Controlador de la vista lista de proyectos, con include de httpFactory para
+obtener la lista de proyectos, proyectoFactory para crear objetos de la clase
+Proyecto*/
 
-app.controller('ProyectoCtrl', ['$location', 'httpFactory', 'configuracionTransmittal',
-function($location, httpFactory, configuracionTransmittal) {
+app.controller('ProyectoCtrl', ['httpFactory', 'proyectoFactory',
+function(httpFactory, proyectoFactory) {
 
-  //referencia del scope y array que contendra a los proyectos
-  var cd = this;
-  cd.proyectos = [];
+  /*referencia del scope y  los arrays que contendra a los proyectos y a los
+  integrantes de control documentario*/
+  var vp = this;
+  vp.proyectos = [];
+  vp.control_documentario = [];
 
-  //carga inicial de los proyectos con estado activo
-  httpFactory.getProyectos('A')
-  .success(function(res) {
-    cd.proyectos = [];
-    res.forEach(function(item) {
-      proyecto = new Proyecto(item.codigo, item.cliente, item.nombre,
-        item.gerente, item.control_proyecto, item.control_documentario,
-        item.estado);
-      cd.proyectos.push(proyecto);
-    });
-  })
-  .error(function(res) {
-    cd.proyectos = [];
-  })
-
-  //metodo para cargar los proyectos de los diferentes estados
-  cd.cargarProyectos = function(estado) {
+  //funcion para obtener los proyectos del servidor
+  var listarProyectos = function(estado) {
     httpFactory.getProyectos(estado)
-    .success(function(res) {
-      cd.proyectos = [];
-      res.forEach(function(item) {
-        proyecto = new Proyecto(item.codigo, item.cliente, item.nombre,
-          item.gerente, item.control_proyecto, item.control_documentario,
-          item.estado);
-        cd.proyectos.push(proyecto);
+    .then(function(data) {
+      vp.proyectos = [];
+      data.forEach(function(item) {
+        proyecto = new proyectoFactory.Proyecto(item.codigo, item.cliente,
+          item.nombre, item.gerente, item.control_proyecto,
+          item.control_documentario, item.estado);
+        vp.proyectos.push(proyecto);
       });
     })
-    .error(function(res) {
-      cd.proyectos = [];
-    })
+    .catch(function(err) {
+      vp.proyectos = [];
+    });
   }
 
-  //metodo para direccionar a la vista de transmittal con los datos del proyecto
-  cd.generarTr = function(proyectoid) {
-    configuracionTransmittal.setProyecto(proyectoid);
-    $location.path("/transmittal/" + proyectoid);
+  //carga inicial de integrantes de control documentario
+  httpFactory.getIntegrantes()
+  .then(function(data) {
+    vp.control_documentario = [];
+    data.forEach(function(integrante) {
+      integrante.nombre = integrante.uid.changeFormat();
+      vp.control_documentario.push(integrante);
+    })
+  })
+  .catch(function(err) {
+    vp.control_documentario = [];
+  });
+
+  //carga inicial de los proyectos con estado activo
+  listarProyectos('A');
+
+  //metodo para cargar los proyectos de los diferentes estados
+  vp.cargarProyectos = function(estado) {
+    listarProyectos(estado);
   }
+
 }]);

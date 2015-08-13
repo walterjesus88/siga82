@@ -195,6 +195,31 @@ class Admin_Model_DbTable_Contacto extends Zend_Db_Table_Abstract
       } catch (Exception $e) {
         print $e->getMessage();
       }
+    }
+
+    public function _addContacto($data)
+    {
+      try {
+        $sql = $this->_db->query("select cast(contactoid as int) from contacto
+        where clienteid = '".$data['clienteid']."' order by contactoid desc
+        limit 1");
+        $row = $sql->fetchAll();
+
+        if (count($row) != 0) {
+          $numero = (int) $row[0]['contactoid'];
+          $numero++;
+        } else {
+          $numero = 1;
+        }
+        $sql = $this->_db->query("insert into contacto (contactoid, clienteid,
+        puesto_trabajo, correo, nombre1) values('".$numero."', '".$data['clienteid'].
+        "', '".$data['area']."', '".$data['correo']."', '".$data['nombre']."')");
+        $row = $sql->fetchAll();
+        $respuesta['resultado'] = 'guardado';
+        return $respuesta;
+      } catch (Exception $e) {
+        print $e->getMessage();
+      }
 
     }
 

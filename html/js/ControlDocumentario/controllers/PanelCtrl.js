@@ -1,5 +1,6 @@
 /*Controlador PanelCtrl para la vista principal del jefe de Control
-Documentario*/
+Documentario con include a httpFactory para obtener los integrantes de control
+documentario y sus ratios*/
 
 app.controller('PanelCtrl', ['httpFactory', function(httpFactory) {
 
@@ -30,8 +31,12 @@ app.controller('PanelCtrl', ['httpFactory', function(httpFactory) {
 
   //obteniendo los datos al cargar la vista y calculo de sumatorias totales
   httpFactory.getIntegrantes()
-  .success(function(res) {
-    panel.integrantes = res;
+  .then(function(data) {
+    panel.integrantes = [];
+    data.forEach(function(integrante) {
+      integrante.nombre = integrante.uid.changeFormat();
+      panel.integrantes.push(integrante);
+    })
     var max = panel.integrantes.length;
     var valores = [];
     for (var i = 0; i < max; i++) {
@@ -49,7 +54,7 @@ app.controller('PanelCtrl', ['httpFactory', function(httpFactory) {
       panel.cantidad_proyectos.stand_by + panel.cantidad_proyectos.cancelado +
       panel.cantidad_proyectos.cerrado;
   })
-  .error(function(res) {
+  .catch(function(err) {
     alert('No se pueden mostrar los datos, intentelo nuevamente');
-  })
+  });
 }]);

@@ -1,0 +1,111 @@
+<div class="panel-body">
+  <table class="table table-bordered">
+    <thead>
+      <th>
+        ITEM
+      </th>
+      <th>
+        TR
+      </th>
+      <th>
+        CODIGO ANDDES
+      </th>
+      <th>
+        CODIGO CLIENTE
+      </th>
+      <th>
+        DESCRIPCION
+      </th>
+      <th>
+        REVISION
+      </th>
+      <th>
+        ESTADO REVISION
+      </th>
+      <th>
+        EMITIDO
+      </th>
+      <th>
+        FECHA
+      </th>
+      <th>
+        ESTADO TR
+      </th>
+    </thead>
+    <tbody>
+      <tr ng-repeat="entregable in va.seleccionados">
+        <td>
+          {{entregable.cod_le}}
+        </td>
+        <td>
+          {{entregable.transmittal + '-' + entregable.correlativo}}
+        </td>
+        <td>
+          {{entregable.codigo_anddes}}
+        </td>
+        <td>
+          {{entregable.codigo_cliente}}
+        </td>
+        <td>
+          {{entregable.descripcion}}
+        </td>
+        <td>
+          {{entregable.revision}}
+        </td>
+        <td>
+          {{entregable.estado_revision}}
+        </td>
+        <td>
+          {{entregable.emitido}}
+        </td>
+        <td>
+          {{entregable.fecha}}
+        </td>
+        <td>
+          {{entregable.estado}}
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <section class="col-md-3 col-sm-6 form-group panel-body">
+    <label for="">Tipo de Envío:</label>
+    <select class="form-control" ng-model="va.modo_envio_seleccionado"
+    ng-options="modo as modo for modo in va.modo">
+    </select>
+  </section>
+
+  <section class="col-md-3 col-sm-6 form-group panel-body">
+    <label for="">Enviar a:</label>
+    <label for="">{{va.atencion.nombre}}</label>
+    <label for="">{{va.atencion.area}}</label>
+    <label for="">{{va.atencion.correo}}</label>
+    </select>
+  </section>
+
+  <section class="col-md-3 col-sm-6 form-group panel-body">
+    <label for="">Revisión:</label>
+    <select class="form-control" ng-model="va.revision_seleccionado"
+    ng-options="revision as revision for revision in va.revisiones">
+    </select>
+  </section>
+
+  <section class="col-md-3 col-sm-6 form-group panel-body">
+    <label for="">Emitido para:</label>
+    <select class="form-control" ng-model="va.emitido_seleccionado"
+    ng-options="emitido as emitido for emitido in va.emisiones">
+    </select>
+  </section>
+
+</div>
+
+<footer class="col-md-12 panel">
+  <button type="button" class="btn btn-default">Imprimir</button>
+  <button type="button" class="btn btn-default">Editar</button>
+  <button type="button" class="btn btn-default">Agregar</button>
+  <button type="button" class="btn btn-default">Guardar</button>
+  <button type="button" class="btn btn-default">Cancelar</button>
+  <button type="button" class="btn btn-default">Eliminar</button>
+  <button type="button" class="btn btn-default">Reenviar</button>
+  <button type="button" class="btn btn-default">Emitir</button>
+</footer>

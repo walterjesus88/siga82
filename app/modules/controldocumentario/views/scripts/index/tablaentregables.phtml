@@ -1,0 +1,120 @@
+<div class="panel-body">
+  <table class="table table-bordered">
+    <thead>
+      <th>
+        ITEM
+      </th>
+      <th>
+        EDT
+      </th>
+      <th>
+        TIPO
+      </th>
+      <th>
+        DISCIPLINA
+      </th>
+      <th>
+        CODIGO ANDDES
+      </th>
+      <th>
+        CODIGO CLIENTE
+      </th>
+      <th>
+        DESCRIPCION DE ENTREGABLES
+      </th>
+      <th>
+        REVISION
+      </th>
+      <th>
+        ESTADO REVISION
+      </th>
+      <th>
+        TRANSMITTAL
+      </th>
+      <th>
+        EMITIDO
+      </th>
+      <th>
+        FECHA
+      </th>
+      <th>
+        TRANSMITTAL CLI
+      </th>
+      <th>
+        EMITIDO CLI
+      </th>
+      <th>
+        FECHA CLI
+      </th>
+      <th>
+        ESTADO
+      </th>
+      <th>
+        COMENTARIO
+      </th>
+    </thead>
+    <tbody>
+      <tr ng-repeat="entregable in va.entregables" ng-class="entregable.estilo"
+      ng-click="entregable.seleccionarEntregable()">
+        <td>
+          {{entregable.codigo}}
+        </td>
+        <td>
+          {{entregable.edt}}
+        </td>
+        <td>
+          {{entregable.tipo}}
+        </td>
+        <td>
+          {{entregable.disciplina}}
+        </td>
+        <td>
+          <input type="text" ng-model="entregable.codigo_anddes" ng-model-options="{ updateOn: 'blur' }"
+             ng-change="entregable.actualizarCodigoAnddes()">
+        </td>
+        <td>
+          <input type="text" ng-model="entregable.codigo_cliente" ng-model-options="{ updateOn: 'blur' }"
+             ng-change="entregable.actualizarCodigoCliente()">
+        </td>
+        <td>
+          {{entregable.descripcion}}
+        </td>
+        <td>
+          {{entregable.revision}}
+        </td>
+        <td>
+          {{entregable.estado_revision}}
+        </td>
+        <td>
+          {{entregable.transmittal + ' - ' + entregable.correlativo}}
+        </td>
+        <td>
+          {{entregable.emitido}}
+        </td>
+        <td>
+          {{entregable.fecha}}
+        </td>
+        <td>
+          {{entregable.respuesta_transmittal}}
+        </td>
+        <td>
+          {{entregable.respuesta_emitido}}
+        </td>
+        <td>
+          {{entregable.respuesta_fecha}}
+        </td>
+        <td>
+          {{entregable.estado}}
+        </td>
+        <td>
+          {{entregable.comentario}}
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<footer class="col-md-12 panel">
+  <button type="button" class="btn btn-default">Imprimir</button>
+  <button type="button" class="btn btn-default" ng-click="va.generarTr()">Generar Transmittal</button>
+</footer>
