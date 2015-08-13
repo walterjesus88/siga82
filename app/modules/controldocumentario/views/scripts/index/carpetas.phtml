@@ -22,7 +22,7 @@
         </th>
       </thead>
       <tbody>
-        <tr ng-repeat="carpeta in CD.carpetas track by $index">
+        <tr ng-repeat="carpeta in uc.carpetas track by $index">
           <td>
             {{carpeta.nombre}}
           </td>
@@ -45,16 +45,16 @@
           Sub Total
         </td>
         <td>
-          {{CD.cantidad_carpetas.en_proceso}}
+          {{uc.cantidad_carpetas.en_proceso}}
         </td>
         <td>
-          {{CD.cantidad_carpetas.stand_by}}
+          {{uc.cantidad_carpetas.stand_by}}
         </td>
         <td>
-          {{CD.cantidad_carpetas.cancelado}}
+          {{uc.cantidad_carpetas.cancelado}}
         </td>
         <td>
-          {{CD.cantidad_carpetas.cerrado}}
+          {{uc.cantidad_carpetas.cerrado}}
         </td>
       </tfoot>
     </table>

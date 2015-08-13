@@ -212,7 +212,8 @@ app.factory('httpFactory', ['$http', '$q', function($http, $q) {
     setDetalleTransmittal: function(datos) {
       var defered = $q.defer();
       var promise = defered.promise;
-      $http.post(url + 'guardardetalle/codigo/' + datos.codigo + '/revision/' +
+      $http.post(url + 'guardardetalle/codigo/' + datos.codigo + '/tipoenvio/' +
+      datos.tipo_envio + '/revision/' +
       datos.revision + '/estadorevision/' + datos.estado_revision + '/transmittal/' +
       datos.transmittal + '/correlativo/' + datos.correlativo + '/emitido/' +
       datos.emitido + '/fecha/' + datos.fecha + '/estado/' + datos.estado)
@@ -228,6 +229,19 @@ app.factory('httpFactory', ['$http', '$q', function($http, $q) {
       var defered = $q.defer();
       var promise = defered.promise;
       $http.get(url + 'tiposdeenvio/')
+      .success(function(data) {
+        defered.resolve(data);
+      })
+      .error(function(err) {
+        defered.reject(err);
+      });
+      return promise;
+    },
+    setTipoEnvio: function(tipo) {
+      var defered = $q.defer();
+      var promise = defered.promise;
+      $http.get(url + 'guardartiposdeenvio/empresa/' + tipo.empresa + '/abrev/' +
+      tipo.abrev + '/emitidopara/' + tipo.emitido_para)
       .success(function(data) {
         defered.resolve(data);
       })

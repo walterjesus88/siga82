@@ -144,5 +144,6 @@ function(httpFactory, entregableFactory, $scope, transmittalFactory) {
     va.seleccionados.forEach(function(entregable) {
       entregable.guardarDetalle();
     });
+    alert('Entregables Guardados Satisfactoriamente');
   }
 }]);

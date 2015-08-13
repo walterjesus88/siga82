@@ -18,9 +18,9 @@ class Admin_Model_DbTable_DetalleTransmittal extends Zend_Db_Table_Abstract
     {
       try {
         $sql = $this->_db->query("insert into detalle_transmittal
-        (entregableid, revision, estado_revision, transmittal, correlativo,
+        (entregableid, tipo_envio, revision, estado_revision, transmittal, correlativo,
         emitido, fecha, estado) values (".$data['entregableid'].
-        ", '".$data['revision']."', '".$data['estado_revision']."', '".
+        ", '".$data['tipo_envio']."', '".$data['revision']."', '".$data['estado_revision']."', '".
         $data['transmittal']."', '".$data['correlativo']."', '".$data['emitido'].
         "', '".$data['fecha']."', '".$data['estado']."')");
         $row = $sql->fetchAll();

@@ -45,10 +45,11 @@ class Admin_Model_DbTable_Listaentregable extends Zend_Db_Table_Abstract
         $sql = $this->_db->query("select ent.cod_le, ent.edt, ent.tipo_documento,
         ent.disciplina, ent.codigo_anddes, ent.codigo_cliente, ent.descripcion_entregable,
         ent.revision, ent.estado_revision, det.transmittal, det.correlativo,
-        det.emitido, det.fecha, det.respuesta_transmittal, det.respuesta_emitido,
+        tip.emitido_para as emitido, det.fecha, det.respuesta_transmittal, det.respuesta_emitido,
         det.respuesta_fecha, det.estado, det.comentario
-         from lista_entregable as ent left join detalle_transmittal as det
-         on ent.cod_le = det.entregableid
+        from lista_entregable as ent left join detalle_transmittal as det
+        on (ent.cod_le = det.entregableid) inner join tipo_envio as tip
+        on (det.emitido=tip.codigo and det.tipo_envio=tip.tipo)
         where ent.proyectoid = '".$proyectoid."'");
         $row = $sql->fetchAll();
         return $row;
@@ -64,10 +65,11 @@ class Admin_Model_DbTable_Listaentregable extends Zend_Db_Table_Abstract
         $sql = $this->_db->query("select ent.cod_le, ent.edt, ent.tipo_documento,
         ent.disciplina, ent.codigo_anddes, ent.codigo_cliente, ent.descripcion_entregable,
         ent.revision, ent.estado_revision, det.transmittal, det.correlativo,
-        det.emitido, det.fecha, det.respuesta_transmittal, det.respuesta_emitido,
+        tip.emitido_para as emitido, det.fecha, det.respuesta_transmittal, det.respuesta_emitido,
         det.respuesta_fecha, det.estado, det.comentario
-         from lista_entregable as ent left join detalle_transmittal as det
-         on ent.cod_le = det.entregableid
+        from lista_entregable as ent left join detalle_transmittal as det
+        on (ent.cod_le = det.entregableid) inner join tipo_envio as tip
+        on (det.emitido=tip.codigo and det.tipo_envio=tip.tipo)
         where ent.proyectoid = '".$proyectoid."' and ent.estado_revision = 'Ultimo'");
         $row = $sql->fetchAll();
         return $row;

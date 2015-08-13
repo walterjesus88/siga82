@@ -51,4 +51,18 @@ class Admin_Model_DbTable_Tipoenvio extends Zend_Db_Table_Abstract
       }
     }
 
+    public function _setTipoEnvio($data)
+    {
+      try {
+        $sql = $this->_db->query("insert into tipo_envio values ('".
+        $data['empresa']."', '".$data['abrev']."', '".$data['emitido_para']."')");
+        $row = $sql->fetchAll();
+        $resp = $this->_getAll();
+        return $resp;
+      } catch (Exception $e) {
+        print $e->getMessage();
+      }
+
+    }
+
 }

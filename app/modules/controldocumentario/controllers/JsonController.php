@@ -300,6 +300,7 @@ class ControlDocumentario_JsonController extends Zend_Controller_Action {
     public function guardardetalleAction()
     {
       $data['entregableid'] = $this->_getParam('codigo');
+      $data['tipo_envio'] = $this->_getParam('tipoenvio');
       $data['revision'] = $this->_getParam('revision');
       $data['estado_revision'] = $this->_getParam('estadorevision');
       $data['transmittal'] = $this->_getParam('transmittal');
@@ -312,4 +313,14 @@ class ControlDocumentario_JsonController extends Zend_Controller_Action {
       $this->_helper->json->sendJson($respuesta);
     }
 
+    //guardar los tipos de envio creados en la vista
+    public function guardartiposdeenvioAction()
+    {
+      $data['empresa'] = $this->_getParam('empresa');
+      $data['abrev'] = $this->_getParam('abrev');
+      $data['emitido_para'] = $this->_getParam('emitidopara');
+      $tipo = new Admin_Model_DbTable_Tipoenvio();
+      $respuesta = $tipo->_setTipoEnvio($data);
+      $this->_helper->json->sendJson($respuesta);
+    }
 }
