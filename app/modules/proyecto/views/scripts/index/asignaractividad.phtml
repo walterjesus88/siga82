@@ -1,51 +1,33 @@
 <script type="text/javascript" src="/js/jquery-ui-1.9.2.custom.min.js"></script>
 <script type="text/javascript" src="/js/bootstrap.min.js"></script>
-
-
-<?php if($this->equipo) { ?>
 <form name="f2">
     <div id="Proyecto_Activa">
     <a href="/proyecto/index/asignaractividad/proyectoid/<?php echo $this->proyectoid ?>/codigo_prop_proy/<?php echo $this->codigo_prop_proy ?>/areaid/<?php echo $this->areaid ?>"> </a>
     <table class="table p-table" style="padding: 1px;">
         <thead>
             <tr>  
-                <th >
+                <th style="width: 250px;">
                     Actividades
                 </th>
                 <?php
                 $c=0;
-                
                 $cont=count($this->actividades);
-           /*     $f=0;
-                $cont=0;
-                foreach ($this->actividades as $listaactividad)
-                {
-                   echo $listaactividad['hijo'];
-                   if($listaactividad['hijo']=='N')
-                   {
-                     $cont=$cont+1;
-                   }
-                   $f++;
-                }
-                print_r($cont);*/
-          
                 foreach ($this->equipo as $listaequipo) 
                     {?>
-                    <th  style="width: 50px;padding-top: 1px;padding-right: 1px;padding-bottom: 1px;padding-left: 1px;" style="width: 150px; font-size: 10px;" class="p-name" id="nomact_<?php echo $c?>"><center>
-                        <a href="#"><?php //echo $listaequipo['uid'];
-
-                          $porciones = explode(".", $listaequipo['uid']);
-                          //print_r($porciones);
-                          foreach ($porciones as $value) {
-                            # code...
-                            //print_r($value);
-                            echo (ucwords($value));  echo " ";
-                            //echo (ucwords($porciones[0])); echo "<br>"; echo " ";echo (ucwords($porciones[1]));
-                          }
-
+                    <th style="width: 50px;padding-top: 1px;padding-right: 1px;padding-bottom: 1px;padding-left: 1px;" style="width: 150px; font-size: 10px;" class="p-name" id="nomact_<?php echo $c?>"><center>
+                        <a href="#"><?php 
+                            if ($listaequipo['uid']=='administracion1' or $listaequipo['uid']=='administracion2'  or $listaequipo['uid']=='administracion3'  or $listaequipo['uid']=='administracion4' )
+                            {
+                                echo $listaequipo['uid'];
+                            }
+                            else
+                            {
+                            $porciones = explode(".", $listaequipo['uid']);
+                            echo (ucwords($porciones[0])); echo "<br>"; echo " ";
+                            echo (ucwords($porciones[1]));
+                            }
 
                         ?></a>
-
                         <?php
                             $codigo_prop_proy=$listaequipo['codigo_prop_proy'];
                             $proyectoid=$listaequipo['proyectoid'];
@@ -56,20 +38,7 @@
                             $categoriaid=$listaequipo['categoriaid'];
                             $acti= new Admin_Model_DbTable_Activaractividad();
                             $activr= $acti-> _getConteoactivar($codigo_prop_proy,$proyectoid,$uid,$dni,$estado,$areaid,$categoriaid);
-                            //print_r($activr);
                         ?>
-                        <?php
-                            //
-                            
-                            if($cont==$activr[0]['count'])
-                                { ?>
-                                    <input name="todoagrega" id="todoagrega_<?php echo $c ?>" value="A_<?php echo $c?>" type="checkbox" checked>
-                         <?php }
-                            else
-                                { ?>
-                                    <input name="todoagrega" id="todoagrega_<?php echo $c ?>" value="A_<?php echo $c?>" type="checkbox" >
-                        <?php  }
-                        ?>               
                         <script type="text/javascript"> 
                             $("#todoagrega_<?php echo $c ?>").click(function(){
                                 //alert('url1');
@@ -99,9 +68,6 @@
                                 var areaid="<?php echo $listaequipo['areaid'] ?>";
                                 var cargo="<?php echo $listaequipo['cargo'] ?>";   
                                 url="/proyecto/index/agregartodoactividad/cargo/"+cargo+"/areaid/"+areaid+"/uid/"+uid+"/dni/"+dni+"/proyectoid/"+proyectoid+"/categoriaid/"+ categoriaid+"/codigo_prop_proy/"+codigo_prop_proy+"/estado/"+estado;
-
-                                //alert(url),
-
                                 $.ajax({
                                     type: "POST",
                                     url: url,
@@ -220,9 +186,9 @@
                                 url="/proyecto/index/agregaactividad/cargo/"+cargo+"/areaid/"+areaid+"/uid/"+uid+"/dni/"+dni+"/proyectoid/"+proyectoid+"/categoriaid/"+ categoriaid+"/actividadid/"+actividadid+"/revision/"+revision+"/actividad_padre/"+actividad_padre+"/codigo_actividad/"+codigo_actividad+"/codigo_prop_proy/"+codigo_prop_proy+"/estado/"+estado+"/hijo/"+hijo;
                                 //alert(url);
 
-                                $("#cargact").load(url);
+                                //$("#cargact").load(url);
 
-                              /*  $.ajax({
+                                $.ajax({
                                     type: "POST",
                                     url: url,
                                     data: $(this).serialize(),
@@ -232,7 +198,7 @@
                                     // },
                                     success: function(data){
                                     }
-                              });*/
+                              });
                            });                   
                           </script></center>
                         </td>
@@ -247,6 +213,5 @@
           </tbody>
     </table>
   </div>
-
+  <div style="display:none" id="cargact"></div>
 </form>
-<?php } ?>

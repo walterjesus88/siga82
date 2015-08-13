@@ -274,7 +274,7 @@ class Admin_Model_DbTable_Activaractividad extends Zend_Db_Table_Abstract
     {
         try{
             $sql=$this->_db->query("
-                select distinct (p.proyectoid), p.estado,p.nombre_proyecto, p.gerente_proyecto, p.control_documentario, 
+                select distinct (p.proyectoid), p.estado as estado_proyecto,p.nombre_proyecto, p.gerente_proyecto, p.control_documentario, 
                     p.control_proyecto ,c.nombre_comercial, p.codigo_prop_proy, p.propuestaid, p.oid,p.revision,p.tipo_proyecto,p.paisid,p.fecha_inicio
                 from activar_actividad e inner join proyecto p
                 ON e.codigo_prop_proy = p.codigo_prop_proy and e.proyectoid=p.proyectoid 

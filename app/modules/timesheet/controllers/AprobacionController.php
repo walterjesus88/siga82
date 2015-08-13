@@ -711,15 +711,13 @@ class Timesheet_AprobacionController extends Zend_Controller_Action {
         try {
             $is_gerente_general= $this->sesion->personal->ucatcargo;  
 
-             
-
             $is_gerente = $this->sesion->is_gerente;
             $this->view->is_gerente= $is_gerente;
             $this->view->is_gerente_general= $is_gerente_general;
+            $uid = $this->_getParam('uid');
+            $this->view->uid= $uid;
 
-
-            print_r($is_gerente_general);
-            print_r($is_gerente);
+            
         }    
          catch (Exception $e) {
             print "Error: ".$e->getMessage();

@@ -10,11 +10,12 @@ class Control_ControlController extends Zend_Controller_Action {
     }
 
     public function indexAction() {
-    	//echo "jol";
+        $this->_helper->layout()->disableLayout();
     }
 
-    public function performanceAction() {
-    	echo "jol";
+    public function proyectosAction()
+    {
+      $this->_helper->layout()->disableLayout();
     }
 
     public function curvasAction()
