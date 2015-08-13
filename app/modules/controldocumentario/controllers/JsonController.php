@@ -165,15 +165,9 @@ class ControlDocumentario_JsonController extends Zend_Controller_Action {
     public function edtAction()
     {
       $proyectoid = $this->_getParam('proyectoid');
-      //$edt = new Admin_Model_DbTable_Edt();
-      //$lista = $edt->_getEdtxProyecto($proyectoid);
-      $fila1['codigo'] = '000';
-      $fila1['nombre'] = 'General';
-      $fila2['codigo'] = '001';
-      $fila2['nombre'] = 'Primer piso';
-      $respuesta[0] = $fila1;
-      $respuesta[1] = $fila2;
-      $this->_helper->json->sendJson($respuesta);
+      $edt = new Admin_Model_DbTable_ProyectoEdt();
+      $lista = $edt->_getEdtxProyectoid($proyectoid);
+      $this->_helper->json->sendJson($lista);
     }
 
     //Devuelve la lista de entregables de un proyecto
@@ -182,13 +176,8 @@ class ControlDocumentario_JsonController extends Zend_Controller_Action {
       $proyectoid = $this->_getParam('proyectoid');
       $estado = $this->_getParam('estado');
       $entregable = new Admin_Model_DbTable_Listaentregable();
-      if ($estado == 'all') {
-        $lista = $entregable->_getEntregablexProyecto($proyectoid);
-      } elseif ($estado == 'Ultimo') {
-        $lista = $entregable->_getEntregablexProyectoxUltimo($proyectoid);
-      }
-      $respuesta = $lista;
-      $this->_helper->json->sendJson($respuesta);
+      $lista = $entregable->_getEntregablexProyecto($proyectoid, $estado);
+      $this->_helper->json->sendJson($lista);
     }
 
     //Devuelve la lista de entregables asociados a un transmittal
