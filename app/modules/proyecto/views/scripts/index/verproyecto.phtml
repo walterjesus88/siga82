@@ -41,7 +41,12 @@
                         </p>
                     </div>
                     <div class="bio-row">
-                        <p><span class="bold">Codigo</span>: <?php print_r($this->proyecto['proyectoid'])?></p>
+                        <p><span class="bold">G. Proyecto</span>: <?php 
+                            $porciones = explode(".", $this->proyecto['gerente_proyecto']);
+                                foreach ($porciones as $value) {
+                                    echo (ucwords($value));  echo " ";
+                                }
+                            //print_r($this->proyecto['gerente_proyecto'])?></p>
                     </div>
                     <div class="bio-row">
                         <p><span class="bold">Estado</span>: <span class="label label-primary"></span><?php
@@ -128,21 +133,58 @@
                 <!--llamar al modulo control de proyecto angular -->    <!-- --> 
             </div>
             <div id="importar" class="tab-pane">
-             <div class="panel-body">
-                <form enctype="multipart/form-data" action="/../cargar_horas.php" method="post" style="display:block">
-                    <input type="hidden" name="MAX_FILE_SIZE" value="200000" />
-                    <input type="file" name="Filedata" />
+                <div class="panel-body">
+                    <?php 
+                    $proyectoid=$this->proyecto['proyectoid'];
+                    $codigo_proyecto=$this->proyecto['codigo_prop_proy'];
+                    $nombre_fichero = './upload/proyecto/'.$proyectoid.'-HH.xls';
+                    if (file_exists($nombre_fichero)) { ?>
+                        <!--
+                        <a href="/proyecto/index/subiractividades/proyectoid/<?php echo $proyectoid?>/codigo/<?php echo $codigo_proyecto?>" class=" btn btn-primary btn-sm" >Subir Actividades</a>
+                        -->
 
-                    <input type="submit" value="Cargar Propuesta HH al Servidor" />
-                    <input style="display: none;" type="text" id="proyectoid" name="proyectoid" value="<?php print_r($this->proyecto['proyectoid']);?>"/>
-                    <input style="display: none;" type="text" id="codigo" name="codigo" value="<?php  print_r($this->proyecto['codigo_prop_proy']);?>"/>
-                </form>
-            </div>
+                         <a class="btn btn-danger btn-xs" id="filtro_actividades" href="#" proyectoid="<?php echo $proyectoid?>"  codigo_proyecto="<?php echo $codigo_proyecto ?>" > Subir Actividades </a>
+
+
+                        <a href="/proyecto/index/subirareacategoria/proyectoid/<?php echo $proyectoid?>/codigo/<?php echo $codigo_proyecto?>" class=" btn btn-primary btn-sm" >Subir Area x Categoria</a>
+                        <a href="/proyecto/index/subirtareo/proyectoid/<?php echo $proyectoid?>/codigo/<?php echo $codigo_proyecto?>" class=" btn btn-primary btn-sm" >Subir HH Proyecto</a>
+                    <?php }else{?>
+                    <form enctype="multipart/form-data" action="/../cargar_horas.php" method="post" >
+                        <input type="hidden" name="MAX_FILE_SIZE" value="200000" />
+                        <input type="file" name="Filedata" />
+                        <input type="submit" value="Cargar Propuesta HH al Servidor" />
+                        <input style="display: none;" type="text" id="proyectoid" name="proyectoid" value="<?php print_r($this->proyecto['proyectoid']);?>"/>
+                        <input style="display: none;" type="text" id="codigo" name="codigo" value="<?php  print_r($this->proyecto['codigo_prop_proy']);?>"/>
+                    </form>
+                    <?php }?>
+                </div>
+                <div id='cargar_importar'>
+                    
+                </div>
             </div>
         </div>
       </div>
     </section>
   </div>
+
+<script type="text/javascript">
+    
+
+$(document).ready(function(){
+    $("#filtro_actividades").click(function(){
+        var proyectoid = $(this).attr('proyectoid');
+        var codigo = $(this).attr('codigo_proyecto');
+
+    //var proyectoid = $("#proyectoid").val();
+    //var codigo = $("#codigo_proyecto").val();
+    url="/proyecto/index/subiractividades/proyectoid/"+proyectoid+"/codigo/"+codigo;
+    alert(url);
+    //$("#cargar_importar").load(url);
+});
+});
+
+</script>
+
 
 
 
@@ -632,10 +674,12 @@
     <script>
       $(function(){
       //$('form').hide();
-      $('form').slideUp();
+      //$('form').slideUp();
       //$(this).parent().children('#anadirarea').remove();
 
       $('#anadirarea').on('click', mostrarFormulario);
+      //$('#importar').on('click', mostrarFormulario);
+
 
       function mostrarFormulario() {
         $('form').slideToggle();
