@@ -2,7 +2,7 @@ var app= angular.module('moduloCp', ['ngRoute', 'chart.js','ui.bootstrap','ui.bo
 .config(['$routeProvider', function($routeProvider) {
   $routeProvider
 
-  .when("/", {
+  .when("/panel", {
     controller: "PanelCtrl",
     controllerAs: "CD",
     templateUrl: "/control/index/panel"
@@ -14,7 +14,7 @@ var app= angular.module('moduloCp', ['ngRoute', 'chart.js','ui.bootstrap','ui.bo
     templateUrl: "/control/index/curvas"
   })
 
-  .when("/proyectos", {
+  .when("/", {
     controller: "ProyectoCtrl",
     controllerAs: "vp",
     templateUrl: "/control/index/proyectos"

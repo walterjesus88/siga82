@@ -1,12 +1,19 @@
 
+<!-- <canvas id="bar" class="chart chart-bar" data="CP.data"
+  labels="CP.labels"></canvas>  -->
+
+
 <table class=" table table-striped table-hover table-bordered " >
-<!--   <tr>
+  <!--<tr>
   	<td><b>Fecha Inicio</b></td><td><p type="text" ng-model="CP.cuanto" size="4" ></p></td>
   	<td><b>Fecha Final</b></td><td><p type="text" ng-model="CP.cuanto" size="4" ></p></td>
-  </tr> -->
+  </tr>-->
 <div >
   <tr>
-	<td style="width:40%">
+    <td style="width:10%">
+        Revision de Proyecto
+    </td>
+	  <td style="width:30%">
         Fecha de Proyecto
         <form editable-form name="nameform_fecha" onaftersave="CP.saveColumn('fecha_proyecto')" ng-show="nameform_fecha.$visible">
           <button type="submit" ng-disabled="nameform_fecha.$waiting" class="btn btn-primary">
@@ -20,7 +27,7 @@
           editar
         </button>
     </td>
-   	<td style="width:40%">
+   	<td style="width:30%">
         Porcentaje de avance planificado
         <form editable-form name="nameform_plani" onaftersave="CP.saveColumn('porc_avance_plani')" ng-show="nameform_plani.$visible">
           <button type="submit" ng-disabled="nameform_plani.$waiting" class="btn btn-primary">
@@ -34,7 +41,7 @@
           editar
         </button>
     </td>
-    <td style="width:40%">
+    <td style="width:30%">
         Porcentaje de avance Real
         <form editable-form name="nameform_real" onaftersave="CP.saveColumn('porc_avance_real')" ng-show="nameform_real.$visible">
           <button type="submit" ng-disabled="nameform_real.$waiting" class="btn btn-primary">
@@ -50,16 +57,18 @@
     </td>
   </tr>
 
-<label>Search: <input ng-model="searchText"></label>
-  <div class="large-12 columns">
-    <label>Establece un orden: </label>
-      
 
-      <select ng-model="revision">
-        
+  <div class="large-12 columns">
+    <label>Establece un orden: </label> 
+      <select class="form-control"  ng-model="revision">
         <option value="A" selected>A</option>
         <option value="B">B</option>
+        <option value="Z">Z</option>
       </select>
+  </div>
+
+  <div class="form-group">
+    <button ng-click="CP.busca(revision)" class="btn btn-primary btn-xs">Busca</button>
   </div>
 
 
@@ -88,20 +97,15 @@
 
 </div>
 
-
-
-
 </table>
-
-
-
 <canvas id="line" class="chart chart-line" data="CP.data"
   labels="CP.labels" legend="true" series="CP.series"
   click="CP.onClick">
 </canvas> 
 
-<canvas id="bar" class="chart chart-bar" data="CP.data"
-  labels="CP.labels"></canvas> 
+
+
+
 
 
 

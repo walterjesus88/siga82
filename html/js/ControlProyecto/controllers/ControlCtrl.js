@@ -13,23 +13,23 @@ function(httpFactory, entregableFactory, $scope, transmittalFactory) {
   va.seleccionados = [];
 
   //cargar los entregables
-  var listarEntregables = function(proyecto, estado_revision) {
-    httpFactory.getEntregables(proyecto, estado_revision)
-    .then(function(data) {
-      va.entregables = [];
-      data.forEach(function(item) {
-        entregable = new entregableFactory.Entregable(item.cod_le, item.edt,
-        item.tipo_documento, item.disciplina, item.codigo_anddes, item.codigo_cliente,
-        item.descripcion_entregable, item.revision, item.estado_revision, item.transmittal,
-        item.correlativo, item.emitido, item.fecha, item.respuesta_transmittal,
-        item.respuesta_emitido, item.respuesta_fecha, item.estado, item.comentario);
-        va.entregables.push(entregable);
-      })
-    })
-    .catch(function(err) {
-      va.entregables = [];
-    });
-  }
+  // var listarEntregables = function(proyecto, estado_revision) {
+  //   httpFactory.getEntregables(proyecto, estado_revision)
+  //   .then(function(data) {
+  //     va.entregables = [];
+  //     data.forEach(function(item) {
+  //       entregable = new entregableFactory.Entregable(item.cod_le, item.edt,
+  //       item.tipo_documento, item.disciplina, item.codigo_anddes, item.codigo_cliente,
+  //       item.descripcion_entregable, item.revision, item.estado_revision, item.transmittal,
+  //       item.correlativo, item.emitido, item.fecha, item.respuesta_transmittal,
+  //       item.respuesta_emitido, item.respuesta_fecha, item.estado, item.comentario);
+  //       va.entregables.push(entregable);
+  //     })
+  //   })
+  //   .catch(function(err) {
+  //     va.entregables = [];
+  //   });
+  // }
 
   va.tabla_activa = 'active';
   va.trans_activo = '';
@@ -45,18 +45,18 @@ function(httpFactory, entregableFactory, $scope, transmittalFactory) {
   }
 
 
-  listarEntregables(proyecto.codigo, 'Ultimo');
+  // listarEntregables(proyecto.codigo, 'Ultimo');
   //array que contendra la lista de edts por proyecto
   va.edt = [];
 
   //cargar los edt
-  httpFactory.getEdts(proyecto.codigo)
-  .then(function(data){
-    va.edt = data;
-  })
-  .catch(function(err) {
-    va.edt = [];
-  });
+  // httpFactory.getEdts(proyecto.codigo)
+  // .then(function(data){
+  //   va.edt = data;
+  // })
+  // .catch(function(err) {
+  //   va.edt = [];
+  // });
 
   //estado de los paneles de la vista
   va.edt_activo = '';

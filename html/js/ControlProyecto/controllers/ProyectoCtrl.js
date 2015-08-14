@@ -29,17 +29,17 @@ function(httpFactory, proyectoFactory) {
   }
 
   //carga inicial de integrantes de control documentario
-  httpFactory.getIntegrantes()
-  .then(function(data) {
-    vp.control_documentario = [];
-    data.forEach(function(integrante) {
-      integrante.nombre = integrante.uid.changeFormat();
-      vp.control_documentario.push(integrante);
-    })
-  })
-  .catch(function(err) {
-    vp.control_documentario = [];
-  });
+  // httpFactory.getIntegrantes()
+  // .then(function(data) {
+  //   vp.control_documentario = [];
+  //   data.forEach(function(integrante) {
+  //     integrante.nombre = integrante.uid.changeFormat();
+  //     vp.control_documentario.push(integrante);
+  //   })
+  // })
+  // .catch(function(err) {
+  //   vp.control_documentario = [];
+  // });
 
   //carga inicial de los proyectos con estado activo
   listarProyectos('A');

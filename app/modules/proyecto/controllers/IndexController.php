@@ -1502,11 +1502,19 @@ public function curvasjsonAction() {
 
   $proyectoid='1509.10.02';
   $codigo_prop_proy='15.10.140-1509.10.02-B';
-  $revision_perf_curva='A';
+  //$revision_perf_curva='A';
+  $revision_perf_curva = $this->_getParam("revision");
+  //echo $revision_perf_curva;exit();
+  // if($revision_perf_curva)
+  // {
+  // }
+  // else
+  // {
+  // }
+  // exit();
 
-  $where = array('codigo_prop_proy' =>$codigo_prop_proy ,'proyectoid'=>$proyectoid); 
-  //'revision_perf_curva'=>$revision_perf_curva );
-
+  $where = array('codigo_prop_proy' =>$codigo_prop_proy ,'proyectoid'=>$proyectoid,'revision_perf_curva'=>$revision_perf_curva); 
+  //,'revision_perf_curva'=>$revision_perf_curva);
   $attrib = array('fecha_proyecto','porc_avance_real','porc_avance_plani','id_tproyecto','revision_perf_curva');
   $order = array('fecha_proyecto ASC');
 

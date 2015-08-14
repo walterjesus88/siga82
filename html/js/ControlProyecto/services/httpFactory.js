@@ -10,8 +10,8 @@ app.factory('httpFactory', ['$http','$q', function($http,$q) {
     getUsuarios: function() {
       return $http.get(url + 'usuariosjson');
     },
-    getTiempos: function() {
-      return $http.get(url + 'curvasjson');
+    getTiempos: function(revision) {
+      return $http.get(url + 'curvasjson/revision/'+revision);
     },   
     setCambiarfechaproyecto: function(value,column,id) {
       // var defered = $q.defer();
