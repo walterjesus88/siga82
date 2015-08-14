@@ -1,9 +1,28 @@
 
-app.controller('CurvasCtrl', ['httpFactory', function ( httpFactory ) {
+app.controller('CurvasCtrl', ['httpFactory','proyectoFactory','$routeParams', function ( httpFactory,proyectoFactory,$routeParams ) {
   //referencia del scope
   var $scope = this;
 
   $scope.cuanto=['29'];
+
+
+  //var vt = this;
+  $scope.proyecto = {
+    codigo: $routeParams.proyecto,
+    //codigo_prop_proy:$routeParams.codex
+  };
+
+  // proyectoFactory.getDatosProyecto($scope.proyecto.codigo)
+  // .then(function(data) {
+  //   $scope.proyecto = data;     
+  // })
+  // .catch(function(err) {
+  //   alert('No se pudo cargar los datos del proyecto');
+  // });
+
+  console.log($scope.proyecto.codigo);
+  console.log($scope.proyecto.codigo_prop_proy);
+
   
   //guardando columnas//
   $scope.saveColumn= function(column){
@@ -44,7 +63,7 @@ app.controller('CurvasCtrl', ['httpFactory', function ( httpFactory ) {
     //$scope.revision=revision;
       console.log(revision);
 
-      httpFactory.getTiempos(revision)
+      httpFactory.getTiempos(revision,$scope.proyecto.codigo)
       .success(function(data) { 
         $scope.dat=data[0]['1'];
         //console.log($scope.dat);
@@ -105,8 +124,7 @@ app.controller('CurvasCtrl', ['httpFactory', function ( httpFactory ) {
     // 1: [1, 2, 3],
     // 2: [4, 5, 6]
     // };
-  revision=['A'];
-  console.log(revision[0]);
+
 
 
 

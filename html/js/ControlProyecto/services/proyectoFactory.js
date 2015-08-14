@@ -5,6 +5,7 @@ app.factory('proyectoFactory', ['httpFactory', '$location', '$q',
 function(httpFactory, $location, $q) {
 
   var datos = {
+    codigo_prop_proy:'',
     codigo: '',
     nombre: '',
     clienteid: '',
@@ -20,7 +21,7 @@ function(httpFactory, $location, $q) {
   };
 
   var publico = {
-    Proyecto: function(codigo, cliente, nombre, gerente, control_proyecto,
+    Proyecto: function(codigo_prop_proy,codigo, cliente, nombre, gerente, control_proyecto,
       control_documentario, estado) {
       var estados = {
         'A': 'Activo',
@@ -28,6 +29,7 @@ function(httpFactory, $location, $q) {
         'C': 'Cerrado',
         'CA': 'Cancelado'
       }
+      this.codigo_prop_proy=codigo_prop_proy;
       this.codigo = codigo;
       this.cliente = cliente;
       this.nombre = nombre;
@@ -49,6 +51,7 @@ function(httpFactory, $location, $q) {
       this.verInformacion = function() {
         //configuracionTransmittal.setProyecto(proyectoid);
         $location.path("/detalle/proyecto/" + this.codigo);
+        // +'/codigo/'+this.codigo_prop_proy        
       }
     },
 

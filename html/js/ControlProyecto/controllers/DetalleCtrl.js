@@ -16,6 +16,7 @@ app.controller('DetalleCtrl', ['httpFactory', 'proyectoFactory', '$modal',
   //carga de los datos del proyecto seleccionado
   proyectoFactory.getDatosProyecto(vt.proyecto.codigo)
   .then(function(data) {
+    //console.log(data);
     vt.proyecto = data;
   })
   .catch(function(err) {

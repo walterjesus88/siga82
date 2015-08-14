@@ -1454,8 +1454,10 @@ public function listaproyectosAction()
       $respuesta = [];
       $data = [];
       $i = 0;
+
       foreach ($proyectos as $item) {
         $data['codigo'] = $item['proyectoid'];
+        $data['codigo_prop_proy'] = $item['codigo_prop_proy'];
         $data['cliente'] = $item['nombre_comercial'];
         $data['nombre'] = $item['nombre_proyecto'];
         $data['gerente'] = $item['gerente_proyecto'];
@@ -1500,11 +1502,14 @@ public function usuariosjsonAction() {
 
 public function curvasjsonAction() {
 
-  $proyectoid='1509.10.02';
-  $codigo_prop_proy='15.10.140-1509.10.02-B';
+  //$proyectoid='1509.10.02';
+  //$codigo_prop_proy='15.10.140-1509.10.02-B';
   //$revision_perf_curva='A';
   $revision_perf_curva = $this->_getParam("revision");
-  //echo $revision_perf_curva;exit();
+  $proyectoid = $this->_getParam("proyectoid");
+  
+  //echo $revision_perf_curva;
+  //echo $proyectoid;exit();
   // if($revision_perf_curva)
   // {
   // }
@@ -1513,8 +1518,8 @@ public function curvasjsonAction() {
   // }
   // exit();
 
-  $where = array('codigo_prop_proy' =>$codigo_prop_proy ,'proyectoid'=>$proyectoid,'revision_perf_curva'=>$revision_perf_curva); 
-  //,'revision_perf_curva'=>$revision_perf_curva);
+  $where = array('proyectoid'=>$proyectoid,'revision_perf_curva'=>$revision_perf_curva); 
+  //,'codigo_prop_proy' =>$codigo_prop_proy );
   $attrib = array('fecha_proyecto','porc_avance_real','porc_avance_plani','id_tproyecto','revision_perf_curva');
   $order = array('fecha_proyecto ASC');
 

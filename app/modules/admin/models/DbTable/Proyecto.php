@@ -274,7 +274,7 @@ class Admin_Model_DbTable_Proyecto extends Zend_Db_Table_Abstract
     public function _getAllExtendido($estado)
     {
       try {
-        $sql = $this->_db->query("select pro.proyectoid, cli.nombre_comercial,
+        $sql = $this->_db->query("select pro.codigo_prop_proy,pro.proyectoid, cli.nombre_comercial,
         pro.nombre_proyecto, pro.gerente_proyecto, pro.control_proyecto,
         pro.control_documentario, pro.estado
         from proyecto as pro inner join cliente as cli
