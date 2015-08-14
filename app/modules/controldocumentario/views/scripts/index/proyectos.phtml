@@ -9,7 +9,7 @@
     </div>
   </header>
   <div class="panel-body">
-    <table class="table table-hover p-table">
+    <table datatable="ng" class="table table-hover p-table">
       <thead>
         <th>
           CÓDIGO
@@ -89,7 +89,7 @@
 
   <div class="panel">
     <button type="button" class="btn btn-default">Editar</button>
-    <button type="button" class="btn btn-default">Exportar</button>
-    <button type="button" class="btn btn-default">Imprimir</button>
+    <button type="button" class="btn btn-default" ng-click="vp.exportarToXml()">Exportar</button>
+    <button type="button" class="btn btn-default" ng-click="vp.imprimir()">Imprimir</button>
   </div>
 </div>

@@ -3,7 +3,7 @@ de ngRoute para el manejo de rutas y Chart.js para la creacion de graficos
 estadisticos*/
 
 var app = angular.module('moduloCd', ['ngRoute', 'chart.js', 'ui.bootstrap',
-'ui.bootstrap.tpls', 'ui.router', 'angularFileUpload']);
+'ui.bootstrap.tpls', 'ui.router', 'angularFileUpload', 'datatables']);
 
 /*Configuracion de las rutas disponibles en el modulo y asociacion con las
 vistas y controladores necesarios*/
@@ -22,7 +22,7 @@ app.config(['$routeProvider', function($routeProvider) {
   })
   .when("/carpetas", {
     controller: "CarpetasCtrl",
-    controllerAs: "vc",
+    controllerAs: "reporte",
     templateUrl: "/controldocumentario/index/carpetas"
   })
   .when("/reporte", {
