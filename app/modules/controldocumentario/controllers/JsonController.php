@@ -312,4 +312,43 @@ class ControlDocumentario_JsonController extends Zend_Controller_Action {
       $respuesta = $tipo->_setTipoEnvio($data);
       $this->_helper->json->sendJson($respuesta);
     }
+
+    //exportar lista de proyectos a xml
+    public function exportarproyectosxmlAction()
+    {
+      $estado = $this->_getParam('estado');
+      $proyecto = new Admin_Model_DbTable_Proyecto();
+      $proyectos = $proyecto->_getAllExtendido($estado);
+      $xml = new DOMDocument('1.0', 'utf-8');
+      $node = $xml->createElement('Proyectos');
+      $parnode = $xml->appendChild($node);
+      foreach ($proyectos as $item) {
+        $nom = substr($item['nombre_proyecto'], 0, 2);
+        $node = $xml->createElement('Proyecto');
+        $newnode = $parnode->appendChild($node);
+        $proyectoid = $xml->createElement('proyectoid', $item['proyectoid']);
+        $cliente = $xml->createElement('cliente', $item['nombre_comercial']);
+        $nombre = $xml->createElement('nombre', $nom);
+        $gerente = $xml->createElement('gerente', $item['gerente_proyecto']);
+        $control = $xml->createElement('control_proyecto', $item['control_proyecto']);
+        $cd = $xml->createElement('control_documentario', $item['control_documentario']);
+        $estado = $xml->createElement('estado', $item['estado']);
+        $newnode->appendChild($proyectoid);
+        $newnode->appendChild($cliente);
+        $newnode->appendChild($nombre);
+        $newnode->appendChild($gerente);
+        $newnode->appendChild($control);
+        $newnode->appendChild($cd);
+        $newnode->appendChild($estado);
+      }
+      $output = $xml->saveXML();
+
+      // Both layout and view renderer should be disabled
+      Zend_Controller_Action_HelperBroker::getStaticHelper('viewRenderer')->setNoRender(true);
+      Zend_Layout::getMvcInstance()->disableLayout();
+
+      // Set up headers and body
+      $this->_response->setHeader('Content-Type', 'text/xml; charset=utf-8')
+          ->setBody($output);
+    }
 }
