@@ -10,7 +10,7 @@
     <section class="col-md-6 col-sm-12 form-group panel-body">
       <label for="" class="col-md-3">Formato:</label>
       <select class="form-control" ng-model="vc.transmittal.formato"
-      ng-options="formato as formato for formato in vc.formatos">
+      ng-options="formato.tipo as formato.tipo for formato in vc.formatos">
       </select>
       <button type="button" class="btn btn-default btn-xs">Editar</button>
     </section>
@@ -26,9 +26,9 @@
     <section class="col-md-6 col-sm-12 form-group panel-body">
       <label for="" class="col-md-3">Tipo de envío:</label>
       <select class="form-control" ng-model="vc.transmittal.tipo_envio"
-      ng-options="tipo as tipo for tipo in vc.tipos_envio">
+      ng-options="tipo.tipo as tipo.tipo for tipo in vc.tipos_envio">
       </select>
-      <button type="button" class="btn btn-default btn-xs">Editar</button>
+      <button type="button" class="btn btn-default btn-xs" ng-click="vc.editarTipoEnvio()">Editar</button>
     </section>
 
     <section class="col-md-6 col-sm-12 form-group panel-body">

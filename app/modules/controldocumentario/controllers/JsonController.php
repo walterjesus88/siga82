@@ -100,6 +100,31 @@ class ControlDocumentario_JsonController extends Zend_Controller_Action {
       $this->_helper->json->sendJson($tipos);
     }
 
+    //Devuelve la lista de tipos de envio
+    public function tipoenvioAction()
+    {
+      $tipo = new Admin_Model_DbTable_Tipoenvio();
+      $tipos = $tipo->_getEmpresas();
+      $this->_helper->json->sendJson($tipos);
+    }
+
+    //Devuelve la lista de tipos de emisiones que hay para un tipo de envio
+    public function emisionesAction()
+    {
+      $tipo = $this->_getParam('tipo');
+      $tabla = new Admin_Model_DbTable_Tipoenvio();
+      $emisiones = $tabla->_getEmisiones($tipo);
+      $this->_helper->json->sendJson($emisiones);
+    }
+
+    //Devuelve la lista de todos los tipos de envios disponibles
+    public function tiposdeenvioAction()
+    {
+      $tabla = new Admin_Model_DbTable_Tipoenvio();
+      $tipos = $tabla->_getAll();
+      $this->_helper->json->sendJson($tipos);
+    }
+
     //Devuelve los datos de un proyecto en particular
     public function proyectoAction()
     {
@@ -140,15 +165,9 @@ class ControlDocumentario_JsonController extends Zend_Controller_Action {
     public function edtAction()
     {
       $proyectoid = $this->_getParam('proyectoid');
-      //$edt = new Admin_Model_DbTable_Edt();
-      //$lista = $edt->_getEdtxProyecto($proyectoid);
-      $fila1['codigo'] = '000';
-      $fila1['nombre'] = 'General';
-      $fila2['codigo'] = '001';
-      $fila2['nombre'] = 'Primer piso';
-      $respuesta[0] = $fila1;
-      $respuesta[1] = $fila2;
-      $this->_helper->json->sendJson($respuesta);
+      $edt = new Admin_Model_DbTable_ProyectoEdt();
+      $lista = $edt->_getEdtxProyectoid($proyectoid);
+      $this->_helper->json->sendJson($lista);
     }
 
     //Devuelve la lista de entregables de un proyecto
@@ -156,14 +175,9 @@ class ControlDocumentario_JsonController extends Zend_Controller_Action {
     {
       $proyectoid = $this->_getParam('proyectoid');
       $estado = $this->_getParam('estado');
-      $entregable = new Admin_Model_DbTable_Listaentregable();
-      if ($estado == 'all') {
-        $lista = $entregable->_getEntregablexProyecto($proyectoid);
-      } elseif ($estado == 'Ultimo') {
-        $lista = $entregable->_getEntregablexProyectoxUltimo($proyectoid);
-      }
-      $respuesta = $lista;
-      $this->_helper->json->sendJson($respuesta);
+      $entregable = new Admin_Model_DbTable_Listaentregabledetalle();
+      $lista = $entregable->_getEntregablexProyecto($proyectoid, $estado);
+      $this->_helper->json->sendJson($lista);
     }
 
     //Devuelve la lista de entregables asociados a un transmittal
@@ -223,7 +237,7 @@ class ControlDocumentario_JsonController extends Zend_Controller_Action {
     {
       $entregableid = $this->_getParam('entregableid');
       $codigo_anddes = $this->_getParam('codigoanddes');
-      $entregable = new Admin_Model_DbTable_Listaentregable();
+      $entregable = new Admin_Model_DbTable_Listaentregabledetalle();
       $fila = $entregable->_setCodigoAnddes($entregableid, $codigo_anddes);
       $respuesta['resultado'] = 'guardado';
       $this->_helper->json->sendJson($respuesta);
@@ -234,7 +248,7 @@ class ControlDocumentario_JsonController extends Zend_Controller_Action {
     {
       $entregableid = $this->_getParam('entregableid');
       $codigo_cliente = $this->_getParam('codigocliente');
-      $entregable = new Admin_Model_DbTable_Listaentregable();
+      $entregable = new Admin_Model_DbTable_Listaentregabledetalle();
       $fila = $entregable->_setCodigoCliente($entregableid, $codigo_cliente);
       $respuesta['resultado'] = 'guardado';
       $this->_helper->json->sendJson($respuesta);
@@ -271,4 +285,70 @@ class ControlDocumentario_JsonController extends Zend_Controller_Action {
       $this->_helper->json->sendJson($respuesta);
     }
 
+    //guardar los detalles del transmittal
+    public function guardardetalleAction()
+    {
+      $data['entregableid'] = $this->_getParam('codigo');
+      $data['tipo_envio'] = $this->_getParam('tipoenvio');
+      $data['revision'] = $this->_getParam('revision');
+      $data['estado_revision'] = $this->_getParam('estadorevision');
+      $data['transmittal'] = $this->_getParam('transmittal');
+      $data['correlativo'] = $this->_getParam('correlativo');
+      $data['emitido'] = $this->_getParam('emitido');
+      $data['fecha'] = $this->_getParam('fecha');
+      $data['estado'] = $this->_getParam('estado');
+      $detalle = new Admin_Model_DbTable_DetalleTransmittal();
+      $respuesta = $detalle->_addDetalle($data);
+      $this->_helper->json->sendJson($respuesta);
+    }
+
+    //guardar los tipos de envio creados en la vista
+    public function guardartiposdeenvioAction()
+    {
+      $data['empresa'] = $this->_getParam('empresa');
+      $data['abrev'] = $this->_getParam('abrev');
+      $data['emitido_para'] = $this->_getParam('emitidopara');
+      $tipo = new Admin_Model_DbTable_Tipoenvio();
+      $respuesta = $tipo->_setTipoEnvio($data);
+      $this->_helper->json->sendJson($respuesta);
+    }
+
+    //exportar lista de proyectos a xml
+    public function exportarproyectosxmlAction()
+    {
+      $estado = $this->_getParam('estado');
+      $proyecto = new Admin_Model_DbTable_Proyecto();
+      $proyectos = $proyecto->_getAllExtendido($estado);
+      $xml = new DOMDocument('1.0', 'utf-8');
+      $node = $xml->createElement('Proyectos');
+      $parnode = $xml->appendChild($node);
+      foreach ($proyectos as $item) {
+        $nom = substr($item['nombre_proyecto'], 0, 2);
+        $node = $xml->createElement('Proyecto');
+        $newnode = $parnode->appendChild($node);
+        $proyectoid = $xml->createElement('proyectoid', $item['proyectoid']);
+        $cliente = $xml->createElement('cliente', $item['nombre_comercial']);
+        $nombre = $xml->createElement('nombre', $nom);
+        $gerente = $xml->createElement('gerente', $item['gerente_proyecto']);
+        $control = $xml->createElement('control_proyecto', $item['control_proyecto']);
+        $cd = $xml->createElement('control_documentario', $item['control_documentario']);
+        $estado = $xml->createElement('estado', $item['estado']);
+        $newnode->appendChild($proyectoid);
+        $newnode->appendChild($cliente);
+        $newnode->appendChild($nombre);
+        $newnode->appendChild($gerente);
+        $newnode->appendChild($control);
+        $newnode->appendChild($cd);
+        $newnode->appendChild($estado);
+      }
+      $output = $xml->saveXML();
+
+      // Both layout and view renderer should be disabled
+      Zend_Controller_Action_HelperBroker::getStaticHelper('viewRenderer')->setNoRender(true);
+      Zend_Layout::getMvcInstance()->disableLayout();
+
+      // Set up headers and body
+      $this->_response->setHeader('Content-Type', 'text/xml; charset=utf-8')
+          ->setBody($output);
+    }
 }

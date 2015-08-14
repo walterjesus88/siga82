@@ -12,10 +12,12 @@ app.factory('entregableFactory', ['httpFactory', 'transmittalFactory',
       this.codigo_anddes = codigo_anddes;
       this.codigo_cliente = codigo_cliente;
       this.descripcion = descripcion;
+      this.tipo_envio = '';
       this.revision = revision;
       this.estado_revision = estado_revision;
       this.transmittal = transmittal;
       this.correlativo = correlativo;
+      this.transmittal_completo = '';
       this.emitido = emitido;
       this.fecha = fecha;
       this.respuesta_transmittal = respuesta_transmittal;
@@ -25,6 +27,13 @@ app.factory('entregableFactory', ['httpFactory', 'transmittalFactory',
       this.comentario = comentario;
       this.seleccionado = '';
       this.estilo = '';
+
+      if (this.transmittal == '' || this.transmittal == null ||
+      this.correlativo == '' || this.correlativo == null) {
+        this.transmittal_completo = '';
+      } else {
+        this.transmittal_completo = this.transmittal + '-' + this.correlativo;
+      }
 
       this.actualizarCodigoAnddes = function() {
         httpFactory.setCodigoAnddes(this.codigo, this.codigo_anddes)
@@ -46,20 +55,19 @@ app.factory('entregableFactory', ['httpFactory', 'transmittalFactory',
         });
       }
 
-      this.cambiarRevision = function() {
-
-      }
-
-      this.cambiarEstado = function() {
-        this.estado = 'Old';
-      }
-
-      this.agregarToTransmittal = function() {
-        transmittalFactory.agregarEntregable(this);
-      }
-
-      this.agregarRespuesta = function() {
-
+      this.agregarToTransmittal = function(transmittal) {
+        this.transmittal = transmittal.codificacion;
+        this.correlativo = transmittal.correlativo;
+        this.tipo_envio = transmittal.tipo_envio;
+        if (this.transmittal == '' || this.transmittal == null ||
+        this.correlativo == '' || this.correlativo == null) {
+          this.transmittal_completo = '';
+        } else {
+          this.transmittal_completo = this.transmittal + '-' + this.correlativo;
+        }
+        f = new Date();
+        this.fecha = f.Ddmmyyyy();
+        this.estado = 'Pendiente por el cliente';
       }
 
       this.seleccionarEntregable = function() {
@@ -70,6 +78,16 @@ app.factory('entregableFactory', ['httpFactory', 'transmittalFactory',
           this.seleccionado = '';
           this.estilo = '';
         }
+      }
+
+      this.guardarDetalle = function() {
+        httpFactory.setDetalleTransmittal(this)
+        .then(function(data) {
+
+        })
+        .catch(function(data) {
+
+        });
       }
     }
   }

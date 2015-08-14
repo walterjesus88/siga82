@@ -3,23 +3,23 @@
   <button type="button" class="close" aria-hidden="true" ng-click="mc.cancel()">x</button>
   <h4 class="modal-title">Editar Contacto:</h1>
 </header>
-  <div class="modal-body">
-    <section class="form-group">
-      <label for="">Nombre y Apellido:</label>
-      <input type="text" class="form-control" ng-model="mc.contacto.atencion">
-    </section>
-    <section class="form-group">
-      <label for="">Área:</label>
-      <input type="text" class="form-control" ng-model="mc.contacto.area">
-    </section>
-    <section class="form-group">
-      <label for="">Correo:</label>
-      <input type="text" class="form-control" ng-model="mc.contacto.correo">
-    </section>
-  </div>
-  <footer class="modal-footer">
-    <button type="button" class="btn btn-success btn-xs" ng-click="mc.agregarContacto()">Agregar</button>
-    <button type="button" class="btn btn-info btn-xs">Modificar</button>
-    <button type="button" class="btn btn-warning btn-xs">Eliminar</button>
-    <button type="button" class="btn btn-danger btn-xs" ng-click="mc.cancel()">Cancelar</button>
-  </footer>
+<div class="modal-body">
+  <section class="form-group">
+    <label for="">Nombre y Apellido:</label>
+    <input type="text" class="form-control" ng-model="mc.contacto.atencion">
+  </section>
+  <section class="form-group">
+    <label for="">Área:</label>
+    <input type="text" class="form-control" ng-model="mc.contacto.area">
+  </section>
+  <section class="form-group">
+    <label for="">Correo:</label>
+    <input type="text" class="form-control" ng-model="mc.contacto.correo">
+  </section>
+</div>
+<footer class="modal-footer">
+  <button type="button" class="btn btn-success btn-xs" ng-click="mc.agregarContacto()">Agregar</button>
+  <button type="button" class="btn btn-info btn-xs">Modificar</button>
+  <button type="button" class="btn btn-warning btn-xs">Eliminar</button>
+  <button type="button" class="btn btn-danger btn-xs" ng-click="mc.cancel()">Cancelar</button>
+</footer>
