@@ -175,7 +175,7 @@ class ControlDocumentario_JsonController extends Zend_Controller_Action {
     {
       $proyectoid = $this->_getParam('proyectoid');
       $estado = $this->_getParam('estado');
-      $entregable = new Admin_Model_DbTable_Listaentregable();
+      $entregable = new Admin_Model_DbTable_Listaentregabledetalle();
       $lista = $entregable->_getEntregablexProyecto($proyectoid, $estado);
       $this->_helper->json->sendJson($lista);
     }
@@ -237,7 +237,7 @@ class ControlDocumentario_JsonController extends Zend_Controller_Action {
     {
       $entregableid = $this->_getParam('entregableid');
       $codigo_anddes = $this->_getParam('codigoanddes');
-      $entregable = new Admin_Model_DbTable_Listaentregable();
+      $entregable = new Admin_Model_DbTable_Listaentregabledetalle();
       $fila = $entregable->_setCodigoAnddes($entregableid, $codigo_anddes);
       $respuesta['resultado'] = 'guardado';
       $this->_helper->json->sendJson($respuesta);
@@ -248,7 +248,7 @@ class ControlDocumentario_JsonController extends Zend_Controller_Action {
     {
       $entregableid = $this->_getParam('entregableid');
       $codigo_cliente = $this->_getParam('codigocliente');
-      $entregable = new Admin_Model_DbTable_Listaentregable();
+      $entregable = new Admin_Model_DbTable_Listaentregabledetalle();
       $fila = $entregable->_setCodigoCliente($entregableid, $codigo_cliente);
       $respuesta['resultado'] = 'guardado';
       $this->_helper->json->sendJson($respuesta);

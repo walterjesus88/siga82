@@ -32,7 +32,7 @@ function(httpFactory, entregableFactory, $scope, transmittalFactory) {
       data.forEach(function(item) {
         entregable = new entregableFactory.Entregable(item.cod_le, item.edt,
         item.tipo_documento, item.disciplina, item.codigo_anddes, item.codigo_cliente,
-        item.descripcion_entregable, item.revision, item.estado_revision, item.transmittal,
+        item.descripcion_entregable, item.revision_entregable, item.estado_revision, item.transmittal,
         item.correlativo, item.emitido, item.fecha, item.respuesta_transmittal,
         item.respuesta_emitido, item.respuesta_fecha, item.estado, item.comentario);
 
