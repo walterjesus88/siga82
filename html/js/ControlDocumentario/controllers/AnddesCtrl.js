@@ -99,6 +99,17 @@ function(httpFactory, entregableFactory, $scope, transmittalFactory) {
     cambiarSubPanel('tablas');
   }
 
+  //imprimir la lista de edt
+  va.imprimirEdt = function() {
+    httpFactory.createPdfEdt(proyecto.codigo)
+    .then(function(data) {
+      window.open(data.archivo, '_blank');
+    })
+    .catch(function(err) {
+
+    });
+  }
+
   //generar el transmittal con los entregables seleccionados
   va.generarTr = function() {
     var transmittal = transmittalFactory.getConfiguracion();
