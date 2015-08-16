@@ -265,6 +265,19 @@ app.factory('httpFactory', ['$http', '$q', function($http, $q) {
       });
       return promise;
     },
+    deleteTipo: function(tipo) {
+      var defered = $q.defer();
+      var promise = defered.promise;
+      $http.delete(url_json + 'eliminartipodeenvio/empresa/' + tipo.empresa +
+      '/abrev/' + tipo.abrev)
+      .success(function(data) {
+        defered.resolve(data);
+      })
+      .error(function(err) {
+        defered.reject(err);
+      });
+      return promise;
+    },
     createPdfProyectos: function(estado) {
       var defered = $q.defer();
       var promise = defered.promise;

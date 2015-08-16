@@ -318,6 +318,15 @@ class ControlDocumentario_JsonController extends Zend_Controller_Action {
       $this->_helper->json->sendJson($respuesta);
     }
 
+    public function eliminartipodeenvioAction()
+    {
+      $data['empresa'] = $this->_getParam('empresa');
+      $data['abrev'] = $this->_getParam('abrev');
+      $tipo = new Admin_Model_DbTable_Tipoenvio();
+      $lista = $tipo->_deleteTipoEnvio($data);
+      $this->_helper->json->sendJson($lista);
+    }
+
     //eliminar contacto de cliente
     public function eliminarcontactoAction()
     {
