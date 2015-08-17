@@ -8,6 +8,9 @@
                 Proyecto: {{vt.proyecto.codigo}}
               </p>
               <p>
+                Codigo: {{vt.proyecto.codigo_prop_proy}}
+              </p>
+              <p>
                 {{vt.proyecto.nombre}}
               </p>
           </strong>
@@ -79,8 +82,14 @@
         </div> -->
 
         <div ng-include="'/control/index/control'"
-        ng-controller="ControlCtrl as va" class="tab-pane" ng-class="vt.anddesActivo">
+        ng-controller="ControlCtrl as CP" class="tab-pane" 
+        ng-class="vt.anddesActivo" 
+        >
         </div>
+
+         
+
+
 
       <!--<div ng-include="'/controldocumentario/index/cliente'"
         class="tab-pane" ng-class="vt.clienteActivo">

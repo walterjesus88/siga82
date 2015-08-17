@@ -1426,6 +1426,7 @@ public function verAction() {
       $data['proyectoid'] = $this->_getParam('proyectoid');
       $proyecto = new Admin_Model_DbTable_Proyecto();
       $datos = $proyecto->_getOnexProyectoidExtendido($data);
+      $respuesta['codigo_prop_proy'] = $datos['codigo_prop_proy'];
       $respuesta['codigo'] = $datos['proyectoid'];
       $respuesta['nombre'] = $datos['nombre_proyecto'];
       $respuesta['clienteid'] = $datos['clienteid'];
@@ -1446,6 +1447,40 @@ public function verAction() {
       $this->_helper->json->sendJson($respuesta);
   }
 
+    //Devuelve los datos de un proyecto en particular
+  public function proyectoxcronogramaAction()
+  {
+      $data['proyectoid'] = $this->_getParam('proyectoid');
+
+      //echo $data['proyectoid'];
+      //echo "dd";
+
+      $proyectoxcronograma = new Admin_Model_DbTable_Proyectocronograma();
+      $datos = $proyectoxcronograma->_getFilter($data);
+
+      $respuesta = [];
+      $data = [];
+      $i = 0;
+
+      foreach ($datos as $item) {
+         $data['codigo_prop_proy'] = $item['codigo_prop_proy'];
+         $data['codigo_cronograma'] = $item['codigo_cronograma'];
+         $data['revision_cronograma'] = $item['revision_cronograma'];
+         $data['proyectoid'] = $item['proyectoid'];
+         $data['revision_propuesta'] = $item['revision_propuesta'];
+         $data['cronogramaid'] = $item['cronogramaid'];
+         $data['fecha_comienzo'] = $item['fecha_comienzo'];
+         $data['fecha_fin'] = $item['fecha_fin'];
+         $data['costo_presupuesto'] = $item['costo_presupuesto'];
+         $data['duracion'] = $item['duracion'];
+         $data['predecesoras'] = $item['predecesoras'];
+         $data['sucesoras'] = $item['sucesoras'];
+         $data['nivel_esquema'] = $item['nivel_esquema'];
+         $respuesta[$i] = $data;
+         $i++;
+      }
+      $this->_helper->json->sendJson($respuesta);
+  }
 
 
 public function listaproyectosAction()
@@ -1504,36 +1539,24 @@ public function usuariosjsonAction() {
 
 public function curvasjsonAction() {
 
-  //$proyectoid='1509.10.02';
-  //$codigo_prop_proy='15.10.140-1509.10.02-B';
-  //$revision_perf_curva='A';
   $revision_perf_curva = $this->_getParam("revision");
   $proyectoid = $this->_getParam("proyectoid");
-  
-  //echo $revision_perf_curva;
-  //echo $proyectoid;exit();
-  // if($revision_perf_curva)
-  // {
-  // }
-  // else
-  // {
-  // }
-  // exit();
+  $codigo_prop_proy = $this->_getParam("codigo");  
 
-  $where = array('proyectoid'=>$proyectoid,'revision_perf_curva'=>$revision_perf_curva); 
-  //,'codigo_prop_proy' =>$codigo_prop_proy );
-  $attrib = array('fecha_proyecto','porc_avance_real','porc_avance_plani','id_tproyecto','revision_perf_curva');
-  $order = array('fecha_proyecto ASC');
+  // $proyectoid='1111.10.09';
+  // $revision_perf_curva='A';
+  // $codigo_prop_proy='15.10.036-1111.10.09-A';
+
+  $where = array('proyectoid'=>$proyectoid,'revision_cronograma'=>$revision_perf_curva,'codigo_prop_proy' =>$codigo_prop_proy );
+  $attrib = array('fecha_curvas','fecha_ingreso_curvas','porcentaje_ejecutado','porcentaje_propuesta','codigo_curvas','revision_cronograma');
+  $order = array('fecha_curvas ASC');
 
   $tiempo=new Admin_Model_DbTable_Tiempoproyecto();
   $tmp=$tiempo->_getFilter($where,$attrib,$order);
-  //print_r($where);
-  //print_r($tmp);
-  
-  //  $user=new Admin_Model_DbTable_Usuario();
-  // $us=$user->_getUsuarioAll();
-  // $this->_helper->json->sendJson($us);  
+
   $arr = array(['1' =>$tmp]);
+
+  //print_r($arr);exit();
 
   $this->_helper->json->sendJson($arr);
 
@@ -1544,20 +1567,60 @@ public function cambiarfechaproyetoAction(){
     $id= $this->_getParam("id");
     $column= $this->_getParam("column");
 
-    echo $value;
-    echo "--";
-    echo $id;
-    echo "--";
-    echo $column;
-    echo "--";
+    // echo $value;
+    // echo "--";
+    // echo $id;
+    // echo "--";
+    // echo $column;
+    // echo "--";
     $data[$column]=$value;
-    $pk = array('id_tproyecto' => $id, );
+    $pk = array('codigo_curvas' => $id, );
 
     $fecha_proyecto= new Admin_Model_DbTable_Tiempoproyecto();   
     $fproyecto=$fecha_proyecto-> _update($data,$pk);
 
-    $this->_helper->json->sendJson($fproyecto);
-    
+    $this->_helper->json->sendJson($fproyecto);    
+}
+
+public function guardarcurvaAction(){
+
+    echo $cronogramaid= $this->_getParam("cronogramaid");
+    echo $codigo_prop_proy= $this->_getParam("codigo_prop_proy");
+    echo $proyectoid= $this->_getParam("proyectoid");
+    //echo  $codigo_curvas= $this->_getParam("codigo_curvas");
+    echo  $fecha_ingreso_curvas= $this->_getParam("fecha_ingreso_curvas");
+    echo  $porcentaje_ejecutado= $this->_getParam("porcentaje_ejecutado");
+    echo $porcentaje_propuesta= $this->_getParam("porcentaje_propuesta");
+    echo $revision_cronograma= $this->_getParam("revision_cronograma");
+    echo  $codigo_cronograma= $this->_getParam("codigo_cronograma");
+    echo  $revision_propuesta= $this->_getParam("revision_propuesta");
+
+    ///echo "daijutyyyyyy";exit();  
+    //codigo_prop_proy, codigo_cronograma, proyectoid,
+    //codigo_curvas, revision_cronograma, fecha_ingreso_curvas/
+    $data = array('codigo_prop_proy' => $codigo_prop_proy,'codigo_cronograma' => $codigo_cronograma,
+    'proyectoid' => $proyectoid,
+    //'codigo_curvas' => $codigo_curvas,
+    'revision_cronograma' => $revision_cronograma,'fecha_ingreso_curvas' => $fecha_ingreso_curvas,
+    'porcentaje_ejecutado' => $porcentaje_ejecutado,'porcentaje_propuesta' => $porcentaje_propuesta,
+    'cronogramaid' => $cronogramaid, 'revision_propuesta' => $revision_propuesta );
+
+    //print_r($data);
+    $guardarcurva=new Admin_Model_DbTable_Tiempoproyecto();
+    $gcurva=$guardarcurva->_save($data);
+
+    exit();
+}
+
+public function eliminarcurvaAction(){
+  $codigo_curvas= $this->_getParam("codigo_curvas");
+  echo $codigo_curvas;
+  $where = array('codigo_curvas' =>$codigo_curvas, );
+  $delcurvas=new Admin_Model_DbTable_Tiempoproyecto();
+  $dcurvas=$delcurvas->_delete($where);
+
+  $this->_helper->json->sendJson($dcurvas);
+
 }
 
 
@@ -1582,8 +1645,12 @@ public function subirareacategoriaAction() {
     $data->read('./upload/proyecto/'.$proyectoid.'-HH.xls');
     //$data->read('proyectosss.xls');
     $columnas=$data->sheets[0]['numCols'];
+
     $filas=$data->sheets[0]['numRows'];
-    for ($j =5; $j <= $columnas ; $j++) {
+   // for ($i = 2; $i <= $filas; $i++) {
+      for ($j =5; $j <= $columnas ; $j++) {
+        //$areaid=$data->sheets[0]['cells'][$i][1];
+        //$actividadid=$data->sheets[0]['cells'][$i][2];    
         $categoria=$data->sheets[0]['cells'][1][$j];
         $categoria_hija = explode("_",$categoria);
         if (count($categoria_hija)==2)

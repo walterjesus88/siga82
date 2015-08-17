@@ -1,8 +1,8 @@
 <?php
 class Admin_Model_DbTable_Tiempoproyecto extends Zend_Db_Table_Abstract
 {
-    protected $_name = 'tiempo_proyecto';
-    protected $_primary = array("codigo_prop_proy","proyectoid","revision_perf_curva");
+    protected $_name = 'proyecto_curvas';
+    protected $_primary = array("codigo_prop_proy","proyectoid","revision_cronograma");
 
     public function _save($data){
         try{
@@ -19,8 +19,8 @@ class Admin_Model_DbTable_Tiempoproyecto extends Zend_Db_Table_Abstract
         try{
             //if($where['eid']=='' || $where['oid']=='') return false;
                 $select = $this->_db->select();
-                if ($attrib=='') $select->from("tiempo_proyecto");
-                else $select->from("tiempo_proyecto",$attrib);
+                if ($attrib=='') $select->from("proyecto_curvas");
+                else $select->from("proyecto_curvas",$attrib);
                 foreach ($where as $atri=>$value){
                     $select->where("$atri = ?", $value);                    
                 }
@@ -34,7 +34,7 @@ class Admin_Model_DbTable_Tiempoproyecto extends Zend_Db_Table_Abstract
                 if ($rows) return $rows;
                 return false;
         }catch (Exception $e){
-            print "Error: Read Filter tiempo_proyecto ".$e->getMessage();
+            print "Error: Read Filter proyecto_curvas ".$e->getMessage();
         }
     }
 
@@ -43,11 +43,25 @@ class Admin_Model_DbTable_Tiempoproyecto extends Zend_Db_Table_Abstract
     {
         try{
             //if ($pk['id_tproyecto']=='' ||  $pk['proyectoid']=='' ) return false;
-            $where = "id_tproyecto = '".$pk['id_tproyecto']."' ";
+            $where = "codigo_curvas = '".$pk['codigo_curvas']."' ";
             return $this->update($data, $where);
             return false;
         }catch (Exception $e){
-            print "Error: Update Distribution".$e->getMessage();
+            print "Error: Update curva".$e->getMessage();
+        }
+    }
+
+
+    public function _delete($pk=null)
+    {
+        try{
+            if ($pk['codigo_curvas']==''  ) return false;
+
+            $where = "codigo_curvas = '".$pk['codigo_curvas']."' ";
+            return $this->delete( $where);
+            return false;
+        }catch (Exception $e){
+            //print "Error: Update Distribution".$e->getMessage();
         }
     }
 

@@ -1,16 +1,71 @@
 
-app.controller('CurvasCtrl', ['httpFactory','proyectoFactory','$routeParams', function ( httpFactory,proyectoFactory,$routeParams ) {
-  //referencia del scope
+// app.controller('CurvasCtrl', ['httpFactory','transmittalFactory','proyectoFactory','$scope',
+//  function ( httpFactory,transmittalFactory,proyectoFactory, $scope ) {
+
+
+app.controller('CurvasCtrl', ['httpFactory', 'proyectoFactory', '$scope',
+'transmittalFactory',
+function(httpFactory, proyectoFactory, $scope, transmittalFactory) {
+
   var $scope = this;
+
+
+  console.log("estoy en curvas");
+  console.log($scope);
 
   $scope.cuanto=['29'];
 
+  $scope.tabla_activa = 'active';
+  $scope.trans_activo = '';
+
+  var cambiarSubPanel = function(panel) {
+    if (panel == 'tablas') {
+      $scope.tabla_activa = 'active';
+      $scope.trans_activo = '';
+    } else if (panel == 'trans') {
+      $scope.tabla_activa = '';
+      $scope.trans_activo = 'active';
+    }
+  }
+
+ //estado de los paneles de la vista
+  $scope.edt_activo = '';
+  $scope.tecnicos_activo = 'active';
+  $scope.gestion_activo = '';
+  $scope.comunicacion_activo = '';
+
+  //cambio de panel visible segun menu seleccionado
+  $scope.cambiarPanel = function(panel) {
+    if (panel == 'edt') {
+      $scope.edt_activo = 'active';
+      $scope.tecnicos_activo = '';
+      $scope.gestion_activo = '';
+      $scope.comunicacion_activo = '';
+    } else if (panel == 'tecnicos') {
+      $scope.edt_activo = '';
+      $scope.tecnicos_activo = 'active';
+      $scope.gestion_activo = '';
+      $scope.comunicacion_activo = '';
+    } else if (panel == 'gestion') {
+      $scope.edt_activo = '';
+      $scope.tecnicos_activo = '';
+      $scope.gestion_activo = 'active';
+      $scope.comunicacion_activo = '';
+    } else if (panel == 'comunicacion') {
+      $scope.edt_activo = '';
+      $scope.tecnicos_activo = '';
+      $scope.gestion_activo = '';
+      $scope.comunicacion_activo = 'active';
+    }
+  }
+
+
 
   //var vt = this;
-  $scope.proyecto = {
-    codigo: $routeParams.proyecto,
-    //codigo_prop_proy:$routeParams.codex
-  };
+  // $scope.proyecto = {
+  //   codigo: $routeParams.proyecto,
+   
+  // };
 
   // proyectoFactory.getDatosProyecto($scope.proyecto.codigo)
   // .then(function(data) {
@@ -20,8 +75,8 @@ app.controller('CurvasCtrl', ['httpFactory','proyectoFactory','$routeParams', fu
   //   alert('No se pudo cargar los datos del proyecto');
   // });
 
-  console.log($scope.proyecto.codigo);
-  console.log($scope.proyecto.codigo_prop_proy);
+  // console.log($scope.proyecto.codigo);
+  // console.log($scope.proyecto.codigo_prop_proy);
 
   
   //guardando columnas//
@@ -44,14 +99,14 @@ app.controller('CurvasCtrl', ['httpFactory','proyectoFactory','$routeParams', fu
 
 
   $scope.saveUser_l = function(data,id) {
-    console.log(data);
-    console.log(id);
+    //console.log(data);
+    //console.log(id);
     //angular.extend(data, {id: id});
     //return $http.post('/saveUser', data);
   };
 
   $scope.checkName = function(data) {
-     console.log('data');
+    //console.log('data');
     // if (data !== 'awesome') {
     //   return "Username should be `awesome`";
     // }
@@ -59,12 +114,19 @@ app.controller('CurvasCtrl', ['httpFactory','proyectoFactory','$routeParams', fu
 
   $scope.revision=[];
 
+  
+  
   $scope.busca = function(revision) {
     //$scope.revision=revision;
       console.log(revision);
+      //console.log($scope.proyecto.codigo);
 
-      httpFactory.getTiempos(revision,$scope.proyecto.codigo)
+      httpFactory.getTiempos(revision)
       .success(function(data) { 
+
+        console.log(data);
+
+
         $scope.dat=data[0]['1'];
         //console.log($scope.dat);
         var max = data[0]['1'].length;     
@@ -112,6 +174,11 @@ app.controller('CurvasCtrl', ['httpFactory','proyectoFactory','$routeParams', fu
   // console.log($scope.labelss);
 
   $scope.series = ['Planeado', 'Real'];
+  $scope.options = {
+      legend: true,
+      animationSteps: 150,
+      animationEasing: "easeInOutQuint"
+    };
 
   // $scope.data = [
   //   [65/100, 59/100, 80/100, 81/100, 56/100, 55/100, 40/100],
@@ -124,9 +191,6 @@ app.controller('CurvasCtrl', ['httpFactory','proyectoFactory','$routeParams', fu
     // 1: [1, 2, 3],
     // 2: [4, 5, 6]
     // };
-
-
-
-
-
 }])
+
+

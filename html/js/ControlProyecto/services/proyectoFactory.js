@@ -20,6 +20,8 @@ function(httpFactory, $location, $q) {
     logo_cliente: ''
   };
 
+
+
   var publico = {
     Proyecto: function(codigo_prop_proy,codigo, cliente, nombre, gerente, control_proyecto,
       control_documentario, estado) {
@@ -29,7 +31,11 @@ function(httpFactory, $location, $q) {
         'C': 'Cerrado',
         'CA': 'Cancelado'
       }
-      this.codigo_prop_proy=codigo_prop_proy;
+
+      //this.codigo=codigo_prop_proy;  
+      //console.log("hola");
+      //console.log(this.codigo_prop_proy);
+
       this.codigo = codigo;
       this.cliente = cliente;
       this.nombre = nombre;
@@ -50,7 +56,11 @@ function(httpFactory, $location, $q) {
 
       this.verInformacion = function() {
         //configuracionTransmittal.setProyecto(proyectoid);
-        $location.path("/detalle/proyecto/" + this.codigo);
+        console.log("verInformacion");
+        console.log(this.codigo);
+        //console.log(this.codx);
+
+        $location.path("/detalle/proyecto/" +this.codigo);
         // +'/codigo/'+this.codigo_prop_proy        
       }
     },
@@ -66,8 +76,24 @@ function(httpFactory, $location, $q) {
       .catch(function(err) {
         defered.reject(err);
       });
-      return promise;
+      return promise;      
+    },
+
+    getDatosProyectoxCronograma: function(proyectoid) {
+      var defered = $q.defer();
+      var promise = defered.promise;
+      httpFactory.getProyectoxCronograma(proyectoid)
+      .then(function(data) {
+        datos = data;
+        defered.resolve(datos);
+      })
+      .catch(function(err) {
+        defered.reject(err);
+      });
+      return promise;      
     }
+
+
   }
   return publico;
 }]);
