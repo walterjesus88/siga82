@@ -255,15 +255,20 @@ class ControlDocumentario_JsonController extends Zend_Controller_Action {
     }
 
     //agregar un contacto al cliente
-    public function agregarcontactoAction()
+    public function setcontactoAction()
     {
       $data['clienteid'] = $this->_getParam('clienteid');
+      $data['contactoid'] = $this->_getParam('contactoid');
       $data['nombre'] = $this->_getParam('nombre');
       $data['area'] = $this->_getParam('area');
       $data['correo'] = $this->_getParam('correo');
       $contacto = new Admin_Model_DbTable_Contacto();
-      $guardar = $contacto->_addContacto($data);
-      $this->_helper->json->sendJson($guardar);
+      if ($data['contactoid'] == '') {
+        $lista = $contacto->_addContacto($data);
+      } else {
+        $lista = $contacto->_updateContacto($data);
+      }
+      $this->_helper->json->sendJson($lista);
     }
 
     //subir logo del cliente
@@ -311,6 +316,16 @@ class ControlDocumentario_JsonController extends Zend_Controller_Action {
       $tipo = new Admin_Model_DbTable_Tipoenvio();
       $respuesta = $tipo->_setTipoEnvio($data);
       $this->_helper->json->sendJson($respuesta);
+    }
+
+    //eliminar contacto de cliente
+    public function eliminarcontactoAction()
+    {
+      $clienteid = $this->_getParam('clienteid');
+      $contactoid = $this->_getParam('contactoid');
+      $contacto = new Admin_Model_DbTable_Contacto();
+      $lista = $contacto->_deleteContacto($clienteid, $contactoid);
+      $this->_helper->json->sendJson($lista);
     }
 
     //exportar lista de proyectos a xml

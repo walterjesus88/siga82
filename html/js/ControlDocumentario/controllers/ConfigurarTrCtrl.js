@@ -15,6 +15,8 @@ function($scope, httpFactory, transmittalFactory, proyectoFactory, $modal) {
     vc.transmittal.cliente = vc.proyecto.cliente;
     vc.transmittal.control_documentario = vc.proyecto.control_documentario;
     vc.transmittal.tipo_proyecto = vc.proyecto.tipo_proyecto;
+
+    vc.control_documentario = vc.transmittal.control_documentario.changeFormat();
     //obtencion del numero correlativo correspondiente a este transmittal
     httpFactory.getCorrelativoTransmittal(vc.transmittal.proyecto)
     .then(function(data) {
@@ -30,12 +32,9 @@ function($scope, httpFactory, transmittalFactory, proyectoFactory, $modal) {
   });
 
   /*formatos, tipos de envio y los seleccionados por defecto; arrays de los
-  datos a mostrarse en los combobox de cliente, contactos, tipo de proyecto y
-  control documentario*/
+  datos a mostrarse en los combobox de contactos y tipo de proyecto*/
   vc.formatos = [];
   vc.tipos_envio = [];
-  vc.clientes = [];
-  vc.control_documentario = [];
   vc.tipos_proyecto = [];
   vc.contactos = [];
 
@@ -62,27 +61,7 @@ function($scope, httpFactory, transmittalFactory, proyectoFactory, $modal) {
   }
 
 
-  /*obtencion de los datos de clientes, control documentario, tipo de proyectos,
-  contactos por cliente i tipos de envio*/
-  httpFactory.getClientes()
-  .then(function(data) {
-    vc.clientes = data;
-  })
-  .catch(function(err) {
-    vc.clientes = [];
-  });
-
-  httpFactory.getIntegrantes()
-  .then(function(data) {
-    vc.control_documentario = [];
-    data.forEach(function(integrante) {
-      integrante.nombre = integrante.uid.changeFormat();
-      vc.control_documentario.push(integrante);
-    })
-  })
-  .catch(function(err) {
-    vc.control_documentario = [];
-  });
+  //obtencion de los datos de tipo de proyectos y tipos de envio
 
   httpFactory.getTiposProyecto()
   .then(function(data) {
@@ -118,18 +97,6 @@ function($scope, httpFactory, transmittalFactory, proyectoFactory, $modal) {
     transmittalFactory.setDiasAlerta(vc.transmittal.dias_alerta);
   }
 
-  /* cambiar los datos del cliente seleccionado en el transmittal y cargar
-  los datos de contacto cada vez que se cambia de cliente seleccionado*/
-  vc.cambiarCliente = function() {
-    vc.clientes.forEach(function(cliente) {
-      if (cliente.id == vc.transmittal.clienteid) {
-        vc.transmittal.cliente = cliente.nombre;
-      }
-    });
-    transmittalFactory.setClienteId(vc.transmittal.clienteid);
-    transmittalFactory.setCliente(vc.transmittal.cliente);
-    listarContactos(vc.transmittal.clienteid);
-  }
 
   //cargar los datos del contacto de acuerdo al contacto seleccionado
   vc.cambiarContacto = function() {
@@ -155,7 +122,7 @@ function($scope, httpFactory, transmittalFactory, proyectoFactory, $modal) {
       controller: 'ModalContactoCtrl',
       controllerAs: 'mc',
       templateUrl: '/controldocumentario/index/modalcontacto',
-      size: 'sm',
+      size: 'md',
       resolve: {
         cliente: function () {
           return vc.transmittal.clienteid;

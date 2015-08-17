@@ -215,12 +215,37 @@ class Admin_Model_DbTable_Contacto extends Zend_Db_Table_Abstract
         puesto_trabajo, correo, nombre1) values('".$numero."', '".$data['clienteid'].
         "', '".$data['area']."', '".$data['correo']."', '".$data['nombre']."')");
         $row = $sql->fetchAll();
-        $respuesta['resultado'] = 'guardado';
-        return $respuesta;
+        $lista = $this->_getContactoxCliente($data['clienteid']);
+        return $lista;
       } catch (Exception $e) {
         print $e->getMessage();
       }
 
+    }
+
+    public function _updateContacto($data)
+    {
+      try {
+        $sql = $this->_db->query("update contacto set puesto_trabajo = '".
+        $data['area']."', correo = '".$data['correo']."', nombre1 ='".
+        $data['nombre']."' where clienteid = '".$data['clienteid'].
+        "' and contactoid = '".$data['contactoid']."'");
+        $row = $sql->fetchAll();
+        $lista = $this->_getContactoxCliente($data['clienteid']);
+        return $lista;
+      } catch (Exception $e) {
+        print $e->getMessage();
+      }
+
+    }
+
+    public function _deleteContacto($clienteid, $contactoid)
+    {
+      $sql = $this->_db->query("delete from contacto where clienteid = '".
+      $clienteid."' and contactoid ='".$contactoid."'");
+      $row = $sql->fetchAll();
+      $lista = $this->_getContactoxCliente($clienteid);
+      return $lista;
     }
 
 
