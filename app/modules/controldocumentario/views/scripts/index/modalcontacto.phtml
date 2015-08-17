@@ -1,25 +1,36 @@
 <!--Modal para la edicion de los datos de los contactos -->
 <header class="modal-header">
-  <button type="button" class="close" aria-hidden="true" ng-click="mc.cancel()">x</button>
+  <button type="button" class="close" aria-hidden="true" ng-click="mc.cerrar()">x</button>
   <h4 class="modal-title">Editar Contacto:</h1>
 </header>
-  <div class="modal-body">
+<div class="modal-body">
+  <div class="col-md-6">
+    <select multiple class="form-control" ng-model="mc.contacto.id" ng-change="mc.seleccionar()"
+    ng-options="contacto.contactoid as contacto.nombre for contacto in mc.contactos">
+    </select>
+    <button type="button" class="btn btn-success btn-xs" ng-click="mc.agregar()">Agregar</button>
+    <button type="button" class="btn btn-info btn-xs" ng-click="mc.modificar()">Modificar</button>
+    <button type="button" class="btn btn-warning btn-xs" ng-click="mc.eliminar()">Eliminar</button>
+  </div>
+  <div class="col-md-6">
     <section class="form-group">
       <label for="">Nombre y Apellido:</label>
-      <input type="text" class="form-control" ng-model="mc.contacto.atencion">
+      <input type="text" class="form-control" ng-disabled="mc.edicion"
+      ng-model="mc.contacto.atencion">
     </section>
     <section class="form-group">
       <label for="">Área:</label>
-      <input type="text" class="form-control" ng-model="mc.contacto.area">
+      <input type="text" class="form-control" ng-disabled="mc.edicion"
+      ng-model="mc.contacto.area">
     </section>
     <section class="form-group">
       <label for="">Correo:</label>
-      <input type="text" class="form-control" ng-model="mc.contacto.correo">
+      <input type="text" class="form-control" ng-disabled="mc.edicion"
+      ng-model="mc.contacto.correo">
     </section>
   </div>
-  <footer class="modal-footer">
-    <button type="button" class="btn btn-success btn-xs" ng-click="mc.agregarContacto()">Agregar</button>
-    <button type="button" class="btn btn-info btn-xs">Modificar</button>
-    <button type="button" class="btn btn-warning btn-xs">Eliminar</button>
-    <button type="button" class="btn btn-danger btn-xs" ng-click="mc.cancel()">Cancelar</button>
-  </footer>
+  </div>
+<footer class="modal-footer">
+  <button type="button" class="btn btn-success btn-xs" ng-click="mc.guardar()">Guardar</button>
+  <button type="button" class="btn btn-danger btn-xs" ng-click="mc.cancelar()">Cancelar</button>
+</footer>

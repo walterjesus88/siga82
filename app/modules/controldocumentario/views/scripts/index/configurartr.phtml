@@ -4,31 +4,29 @@
     <section class="col-md-6 col-sm-12 form-group panel-body">
       <label for="" class="col-md-3">Codificación</label>
       <input type="text" class="form-control" ng-model="vc.transmittal.codificacion">
-      <label for="">{{vc.transmittal.correlativo}}</label>
+      <label for=""> - </label>
+      <input type="text" class="form-control" disabled ng-model="vc.transmittal.correlativo">
     </section>
 
     <section class="col-md-6 col-sm-12 form-group panel-body">
       <label for="" class="col-md-3">Formato:</label>
       <select class="form-control" ng-model="vc.transmittal.formato"
-      ng-options="formato as formato for formato in vc.formatos">
+      ng-options="formato.tipo as formato.tipo for formato in vc.formatos">
       </select>
       <button type="button" class="btn btn-default btn-xs">Editar</button>
     </section>
 
     <section class="col-md-6 col-sm-12 form-group panel-body">
       <label for="" class="col-md-3">Cliente:</label>
-        <select class="form-control" ng-model="vc.transmittal.clienteid"
-        ng-change="vc.cambiarCliente()"
-        ng-options="cliente.id as cliente.nombre.slice(0, 45) for cliente in vc.clientes">
-        </select>
+      <label for="" class="">{{vc.transmittal.cliente}}</label>
     </section>
 
     <section class="col-md-6 col-sm-12 form-group panel-body">
       <label for="" class="col-md-3">Tipo de envío:</label>
       <select class="form-control" ng-model="vc.transmittal.tipo_envio"
-      ng-options="tipo as tipo for tipo in vc.tipos_envio">
+      ng-options="tipo.tipo as tipo.tipo for tipo in vc.tipos_envio">
       </select>
-      <button type="button" class="btn btn-default btn-xs">Editar</button>
+      <button type="button" class="btn btn-default btn-xs" ng-click="vc.editarTipoEnvio()">Editar</button>
     </section>
 
     <section class="col-md-6 col-sm-12 form-group panel-body">
@@ -42,14 +40,12 @@
 
     <section class="col-md-6 col-sm-12 form-group panel-body">
       <label for="" class="col-md-3">CD:</label>
-      <select class="form-control" ng-model="vc.transmittal.control_documentario"
-      ng-options="integrante.uid as integrante.nombre for integrante in vc.control_documentario">
-      </select>
+      <input type="text" class="form-control" disabled ng-model="vc.control_documentario">
     </section>
 
     <section class="col-md-6 col-sm-12 form-group panel-body">
       <label for="" class="col-md-3">Área:</label>
-      <label for="">{{vc.datos_contacto_seleccionado.area}}</label>
+      <input type="text" class="form-control" disabled ng-model="vc.datos_contacto_seleccionado.area">
     </section>
 
     <section class="col-md-6 col-sm-12 form-group panel-body">
@@ -59,7 +55,7 @@
 
     <section class="col-md-6 col-sm-12 form-group panel-body">
       <label for="" class="col-md-3">Correo:</label>
-      <label for="">{{vc.datos_contacto_seleccionado.correo}}</label>
+      <input type="text" class="form-control" disabled ng-model="vc.datos_contacto_seleccionado.correo">
     </section>
 
     <section class="col-md-6 col-sm-12 form-group panel-body">
@@ -74,65 +70,5 @@
       <button type="button" class="btn btn-danger">Cancelar</button>
     </section>
 
-  </div>
-</div>
-
-<!--div de modal edicion de contactos-->
-<div class="modal fade" id="modalcontacto" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
-  <div class="modal-dialog modal-sm">
-      <div class="modal-content">
-        <header class="modal-header">
-          <button type="button" class="close" aria-hidden="true">x</button>
-          <h4 class="modal-title">Editar Contacto:</h1>
-        </header>
-          <div class="modal-body">
-            <section class="form-group">
-              <label for="">Atención:</label>
-              <input type="text" class="form-control">
-            </section>
-            <section class="form-group">
-              <label for="">Área:</label>
-              <input type="text" class="form-control">
-            </section>
-            <section class="form-group">
-              <label for="">Correo:</label>
-              <input type="text" class="form-control">
-            </section>
-          </div>
-          <footer class="modal-footer">
-            <button type="button" class="btn btn-info btn-xs">Agregar</button>
-            <button type="button" class="btn btn-warning btn-xs">Modificar</button>
-            <button type="button" class="btn btn-danger btn-xs">Eliminar</button>
-            <button type="button" class="btn btn-success btn-xs">Guardar</button>
-          </footer>
-      </div>
-  </div>
-</div>
-
-<!--div de modal edicion de logo-->
-<div class="modal fade" id="modallogo" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
-  <div class="modal-dialog modal-sm">
-      <div class="modal-content">
-        <header class="modal-header">
-          <button type="button" class="close" aria-hidden="true">x</button>
-          <h4 class="modal-title">Editar Logo:</h1>
-        </header>
-          <div class="modal-body">
-            <section class="form-group">
-              <label for="">Cliente:</label>
-              <input type="text" class="form-control">
-            </section>
-            <section class="form-group">
-              <label for="">Logo:</label>
-              <input type="text" class="form-control">
-            </section>
-          </div>
-          <footer class="modal-footer">
-            <button type="button" class="btn btn-info btn-xs">Agregar</button>
-            <button type="button" class="btn btn-warning btn-xs">Modificar</button>
-            <button type="button" class="btn btn-danger btn-xs">Eliminar</button>
-            <button type="button" class="btn btn-success btn-xs">Guardar</button>
-          </footer>
-      </div>
   </div>
 </div>

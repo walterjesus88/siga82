@@ -92,4 +92,9 @@ class ControlDocumentario_IndexController extends Zend_Controller_Action {
       $this->_helper->layout()->disableLayout();
     }
 
+    public function modaltipoenvioAction()
+    {
+      $this->_helper->layout()->disableLayout();
+    }
+
 }

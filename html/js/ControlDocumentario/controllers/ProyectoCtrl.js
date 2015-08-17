@@ -8,11 +8,13 @@ function(httpFactory, proyectoFactory) {
   /*referencia del scope y  los arrays que contendra a los proyectos y a los
   integrantes de control documentario*/
   var vp = this;
+  var estado_actual = 'A';
   vp.proyectos = [];
   vp.control_documentario = [];
 
   //funcion para obtener los proyectos del servidor
   var listarProyectos = function(estado) {
+    estado_actual = estado;
     httpFactory.getProyectos(estado)
     .then(function(data) {
       vp.proyectos = [];
@@ -42,11 +44,25 @@ function(httpFactory, proyectoFactory) {
   });
 
   //carga inicial de los proyectos con estado activo
-  listarProyectos('A');
+  listarProyectos(estado_actual);
 
   //metodo para cargar los proyectos de los diferentes estados
   vp.cargarProyectos = function(estado) {
     listarProyectos(estado);
+  }
+
+  vp.exportarToXml = function() {
+    window.open('/controldocumentario/json/exportarproyectosxml/estado/' + estado_actual,'_blank');
+  }
+
+  vp.imprimir = function() {
+    httpFactory.createPdfProyectos(estado_actual)
+    .then(function(data) {
+      window.open('http://anddes-scp.local/' + data.archivo, '_blank');
+    })
+    .catch(function(err) {
+
+    });
   }
 
 }]);
