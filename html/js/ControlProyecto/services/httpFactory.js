@@ -10,8 +10,9 @@ app.factory('httpFactory', ['$http','$q', function($http,$q) {
     getUsuarios: function() {
       return $http.get(url + 'usuariosjson');
     },
-    getTiempos: function(revision,proyectoid) {
-      return $http.get(url + 'curvasjson/revision/'+revision+'/proyectoid/'+proyectoid);
+    getTiempos: function(revision,codigo,proyectoid) {
+      return $http.get(url + 'curvasjson/revision/'+revision+"/codigo/"+codigo+"/proyectoid/"+proyectoid);
+      // +'/proyectoid/'+proyectoid);
     },   
     setCambiarfechaproyecto: function(value,column,id) {
       // var defered = $q.defer();
@@ -26,6 +27,26 @@ app.factory('httpFactory', ['$http','$q', function($http,$q) {
       // });
       //return promise;
     },
+
+    setGuardarCurva:function(codigo_curvas,fecha_ingreso_curvas,porcentaje_ejecutado,porcentaje_propuesta,revision_cronograma,codigo_cronograma,codigo_prop_proy,proyectoid,cronogramaid,revision_propuesta)
+    {
+      return $http.post(url + 'guardarcurva/codigo_curvas/' +
+      codigo_curvas+"/fecha_ingreso_curvas/"+fecha_ingreso_curvas+"/porcentaje_ejecutado/"+porcentaje_ejecutado  
+      +"/porcentaje_propuesta/"+porcentaje_propuesta
+      +"/revision_cronograma/"+revision_cronograma+"/codigo_cronograma/"+codigo_cronograma+"/codigo_prop_proy/"
+      +codigo_prop_proy+"/proyectoid/"+proyectoid+"/cronogramaid/"+cronogramaid+"/revision_propuesta/"+revision_propuesta)
+  
+    },
+
+
+    setEliminarfechaproyecto:function(codigo_curvas)
+    {
+      return $http.post(url + 'eliminarcurva/codigo_curvas/' +
+      codigo_curvas)
+  
+    },
+
+
     getProyectos: function(estado) {
       var defered = $q.defer();
       var promise = defered.promise;
@@ -43,6 +64,19 @@ app.factory('httpFactory', ['$http','$q', function($http,$q) {
       var defered = $q.defer();
       var promise = defered.promise;
       $http.get(url + 'proyecto/proyectoid/' + proyectoid)
+      .success(function(data) {
+        defered.resolve(data);
+      })
+      .error(function(err) {
+        defered.reject(err);
+      });
+      return promise;
+    },
+
+    getProyectoxCronograma: function(proyectoid) {
+      var defered = $q.defer();
+      var promise = defered.promise;
+      $http.get(url + 'proyectoxcronograma/proyectoid/' + proyectoid)
       .success(function(data) {
         defered.resolve(data);
       })

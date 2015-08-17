@@ -15,7 +15,7 @@ function(httpFactory, proyectoFactory) {
   var listarProyectos = function(estado) {
     httpFactory.getProyectos(estado)
     .then(function(data) {
-      console.log(data);
+      //console.log(data);
       vp.proyectos = [];
       data.forEach(function(item) {
         proyecto = new proyectoFactory.Proyecto(item.codigo_prop_proy,item.codigo, item.cliente,

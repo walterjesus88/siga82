@@ -8,14 +8,29 @@ app.controller('DetalleCtrl', ['httpFactory', 'proyectoFactory', '$modal',
 
   /*referencia del scope en vt, obtencion del proyecto seleccionado y el objeto
   que contendra los datos del proyecto*/
+console.log($routeParams);
+
   var vt = this;
+
   vt.proyecto = {
-    codigo: $routeParams.proyecto
+    //codigo: $routeParams.proyecto,
+    codigo: $routeParams.proyecto,
   };
+
+  // vt.cliente = {
+  //     cliente: $routeParams.proyecto,
+  // };
+
+  //console.log("DetalleCtrl");
+  //console.log(vt);
+  //console.log("/DetalleCtrl");
+  //console.log(vt.proyecto.codigo_prop_proy);
+  //console.log("estoy en detalle");
 
   //carga de los datos del proyecto seleccionado
   proyectoFactory.getDatosProyecto(vt.proyecto.codigo)
   .then(function(data) {
+    //console.log("estoy en detalle de proyecto");
     //console.log(data);
     vt.proyecto = data;
   })

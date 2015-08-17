@@ -289,7 +289,7 @@ class Admin_Model_DbTable_Proyecto extends Zend_Db_Table_Abstract
     public function _getOnexProyectoidExtendido($data=null)
     {
       try {
-        $sql = $this->_db->query("select pro.proyectoid, cli.clienteid,
+        $sql = $this->_db->query("select pro.codigo_prop_proy,pro.proyectoid, cli.clienteid,
         cli.nombre_comercial, pro.nombre_proyecto, pro.estado, uni.nombre,
         pro.fecha_inicio, pro.fecha_cierre, pro.control_documentario,
         pro.tipo_proyecto, pro.descripcion
