@@ -1,101 +1,131 @@
 
 
-<?php 
+<?php
 	$i=0;
-	if($this->listusuarios){
+	if($this->listusuarios){ ?>
+	<div class="conscroll"> <?php
 	foreach ($this->listusuarios as $lista) {
 
        	 $wheres=array('codigo_prop_proy'=>$this->codigo,'proyectoid'=>$this->proyectoid,'uid'=>$lista['uid'],'dni'=>$lista['dni'],'areaid'=>$this->areaid);
         $equipo= new Admin_Model_DbTable_Equipo();
         $activar= $equipo->_getOne($wheres);
-         
+
 
 		?>
-		<ul>
-		<li>
-		<label class="checkbox-inline">
 
-		<?php if($activar['estado']=='A') {?>
-   			<input  type="checkbox" id="persona_<?php echo $i;?>" type="checkbox"  checked="checked" >
+			<div  class="col-sm-6">	
+			<ul id="menu" >
 
-		<?php }else { ?>
-			<input type="checkbox" id="persona_<?php echo $i;?>" value="1" name="persona_<?php echo $i;?>"   > 
-		<?php } ?>
+				<li>
+				<label class="checkbox-inline">
+				</label>
 
-			<input type="text" style="display:none" id="nombrepersona_<?php echo $i;?>" value="<?php print_r($lista['dni']);?>" name="nombrepersona_<?php echo $i;?>"   > 
-			<input type="text" style="display:none" id="uid_<?php echo $i;?>" value="<?php print_r($lista['uid']);?>" name="nombrepersona_<?php echo $i;?>"   > 
-			<input type="text" style="display:none" id="cargo_<?php echo $i;?>" value="<?php print_r($lista['cargo']);?>" name="nombrepersona_<?php echo $i;?>"   > 
+				<?php if($activar['estado']=='A') {?>
+		   			<input  type="checkbox" id="persona_<?php echo $i;?>" type="checkbox"  checked="checked" >
+
+				<?php }else { ?>
+					<input type="checkbox" id="persona_<?php echo $i;?>" value="1" name="persona_<?php echo $i;?>"   >
+				<?php } ?>
+
+
+					<input type="text" style="display:none" id="nombrepersona_<?php echo $i;?>" value="<?php print_r($lista['dni']);?>" name="nombrepersona_<?php echo $i;?>"   > 
+					<input type="text" style="display:none" id="uid_<?php echo $i;?>" value="<?php print_r($lista['uid']);?>" name="nombrepersona_<?php echo $i;?>"   > 
+					<input type="text" style="display:none" id="cargo_<?php echo $i;?>" value="<?php print_r($lista['cargo']);?>" name="nombrepersona_<?php echo $i;?>" >					
 					
-
-					<?php 
-						//print_r($lista['uid']);
-						$porciones = explode(".", $lista['uid']);
-		                echo (ucwords($porciones[0])); echo " ";echo (ucwords($porciones[1]));
-					?>				
+						<?php 
+							$porciones = explode(".", $lista['uid']);
+	                          //print_r($porciones);
+	                        foreach ($porciones as $value) {	                          
+	                            echo (ucwords($value));  echo " ";	                           
+	                        }
+						?>				
+				
+				</li>			
+			</ul>
+			</div>
 		
-		</label>
-		</li>			
-		</ul>
+
+	<style type="text/css">
+		.conscroll{
+	        height: 300px;
+	        width: 100%;
+	        padding: 15px;
+	        overflow: scroll;
+	        background-color: #cdd;
+	    }
+
+		* { margin: 0; padding: 0; }
+		ul#menu {
+			padding: 0;
+			height: 25px;
+			background: #dfd;
+		}
+
+
+	</style>
+
 
 
 	<script type='text/javascript'>
 		/*
 		$(document).ready(function(){
-		    $('[name^="persona_<?php echo $i;?>"]').click(function(event) {		        
+		    $('[name^="persona_<?php echo $i;?>"]').click(function(event) {
 		        if ($(this).is(":checked")) {
 		            var dni = $("#nombrepersona_<?php echo $i;?>").val();
 		            var uid = $("#uid_<?php echo $i;?>").val();
 		            var cargo = $("#cargo_<?php echo $i;?>").val();
-		            var categoriaid = '<?php echo $this->categoriaid; ?>'; 
+		            var categoriaid = '<?php echo $this->categoriaid; ?>';
 	    			var areaid = '<?php echo $this->areaid; ?>';
 	    			var proyectoid='<?php echo $this->proyectoid; ?>';
-	    			var codigo='<?php echo $this->codigo; ?>';		            
+	    			var codigo='<?php echo $this->codigo; ?>';
 		            url="/proyecto/index/guardarpersonaequipo/codigo/"+codigo+"/proyectoid/"+proyectoid+"/areaid/"+areaid+"/categoriaid/"+categoriaid+"/cargo/"+cargo+"/uid/"+uid+"/dni/"+dni;
 		            alert(url);
 		            //$("#cargar").load(url);
-		        }		        
-		    });    
+		        }
+		    });
 		});*/
-		$("#persona_<?php echo $i?>").click(function(){ 
+		$("#persona_<?php echo $i?>").click(function(){
 	        //alert("<?php echo $i?>");
 	        if($("#persona_<?php echo $i?>").is(':checked')) {
 	            estado='A';
-	            console.log('act'); 
-	        } else {    
+	            console.log('act');
+	        } else {
 	            estado='I';
-	            console.log('desact'); 
-	      }  
+	            console.log('desact');
+	      }
 
 	        var dni = $("#nombrepersona_<?php echo $i;?>").val();
 	        var uid = $("#uid_<?php echo $i;?>").val();
 	        var cargo = $("#cargo_<?php echo $i;?>").val();
-	        var categoriaid = '<?php echo $lista['categoriaid']; ?>'; 
+	        var categoriaid = '<?php echo $lista['categoriaid']; ?>';
 			var areaid = '<?php echo $this->areaid; ?>';
 			var proyectoid='<?php echo $this->proyectoid; ?>';
 			var codigo='<?php echo $this->codigo; ?>';
 
 	       url="/proyecto/index/guardarpersonaequipo/codigo/"+codigo+"/proyectoid/"+proyectoid+"/areaid/"+areaid+"/categoriaid/"+categoriaid+"/cargo/"+cargo+"/uid/"+uid+"/dni/"+dni+"/estado/"+estado;
 
-	      
+
 	      //alert(url);
 
 	      $.ajax({
 	            type: "POST",
 	            url: url,
 	            data: $(this).serialize(),
-	            dataType: "html",                                                 
+	            dataType: "html",
 	            // error: function(){
 	            //   alert("error petición ajax load");
 	            // },
-	            success: function(data){   
-	                               
+	            success: function(data){
+
 	            }
-	      });    
-	   });   
+	      });
+	   });
 	</script>
 
 <?php
-$i++; 
- } }?>
+$i++;
+ } ?>
+</div>
+<?php }?>
 
 <div id="cargar"></div>

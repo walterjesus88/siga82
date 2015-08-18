@@ -1,0 +1,95 @@
+<div class="panel">
+  <header class="panel-heading">
+    <h2>Proyectos</h2>
+    <div class="pull-right">
+      <button type="button" class="btn btn-success btn-xs" ng-click="vp.cargarProyectos('A')">Activo</button>
+  		<button type="button" class="btn btn-warning btn-xs" ng-click="vp.cargarProyectos('C')">Cerrado</button>
+      <button type="button" class="btn btn-info btn-xs"  ng-click="vp.cargarProyectos('CA')">Cancelado</button>
+      <button type="button" class="btn btn-danger btn-xs"  ng-click="vp.cargarProyectos('P')">Paralizado</button>
+    </div>
+  </header>
+  <div class="panel-body">
+    <table datatable="ng" class="table table-hover p-table">
+      <thead>
+        <th>
+          CÓDIGO
+        </th>
+        <th>
+          CLIENTE
+        </th>
+        <th>
+          NOMBRE
+        </th>
+        <th>
+          GERENTE DEL PROYECTO
+        </th>
+        <th>
+          CONTROL DEL PROYECTO
+        </th>
+        <th>
+          CONTROL DOCUMENTARIO
+        </th>
+        <th>
+          ESTADO
+        </th>
+        <th>
+          ACCIONES
+        </th>
+      </thead>
+      <tbody>
+        <tr ng-repeat="proyecto in vp.proyectos track by $index">
+          <td>
+            {{proyecto.codigo}}
+          </td>
+          <td>
+            {{proyecto.cliente}}
+          </td>
+          <td>
+            {{proyecto.nombre}}
+          </td>
+          <td>
+            {{proyecto.gerente}}
+          </td>
+          <td>
+            {{proyecto.control_proyecto}}
+          </td>
+          <td>
+            <select class="form-control" ng-model="proyecto.control_documentario"
+            ng-options="integrante.uid as integrante.nombre for integrante in vp.control_documentario"
+            ng-change="proyecto.cambiarControlDocumentario()">
+            </select>
+          </td>
+          <td>
+            {{proyecto.estado}}
+          </td>
+          <td>
+            <ul>
+              <li>
+                <button type="button" class="btn btn-info btn-xs"
+                ng-click="proyecto.verInformacion()">
+                  Información
+                </button>
+              </li>
+              <li>
+                <button type="button" class="btn btn-success btn-xs">
+                  Generar TR
+                </button>
+              </li>
+              <li>
+                <button type="button" class="btn btn-warning btn-xs">
+                  Generar RPT
+                </button>
+              </li>
+            </ul>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="panel">
+    <button type="button" class="btn btn-default">Editar</button>
+    <button type="button" class="btn btn-default" ng-click="vp.exportarToXml()">Exportar</button>
+    <button type="button" class="btn btn-default" ng-click="vp.imprimir()">Imprimir</button>
+  </div>
+</div>

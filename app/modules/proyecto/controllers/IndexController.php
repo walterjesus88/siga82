@@ -1,58 +1,98 @@
 <?php
 
 class Proyecto_IndexController extends Zend_Controller_Action {
-
     public function init() {
-    	$options = array(
-            'layout' => 'layout',
+      $sesion  = Zend_Auth::getInstance();
+        if(!$sesion->hasIdentity() ){
+            $this->_helper->redirector('index',"index",'default');
+        }
+        $login = $sesion->getStorage()->read();
+        $this->sesion = $login; 
+        $options = array(
+            'layout' => 'inicio',
         );
         Zend_Layout::startMvc($options);
     }
 
     public function indexAction() {
+      $this->_helper->layout()->disableLayout();
+    
     }
 
+    public function panelAction()
+    {
+      $this->_helper->layout()->disableLayout();
+    }
+
+    public function ratesActiolin()
+    {
+      $this->_helper->layout()->disableLayout();
+    }
+
+
     public function listarAction() {
-        $listaproyecto = new Admin_Model_DbTable_Proyecto();
-        //$lista=$listaproyecto->_getProyectoAll();
-        $lista=$listaproyecto->_getProyectosTodosAnddes();
-        $this->view->listaproyecto = $lista;
+        $uid = $this->sesion->uid;
+        $dni = $this->sesion->dni;
+        $is_gerente=$this->sesion->is_gerente;
+        $is_area=$this->sesion->personal->ucatareaid;
+        $this->view->is_area = $is_area;
+        $this->view->is_gerente = $is_gerente;
+        $this->view->dni = $dni;
+        if($is_gerente=='S' or $dni == '08051678')
+        {
+          $listaproyecto = new Admin_Model_DbTable_Proyecto();
+          $lista=$listaproyecto->_getProyectosxGerente($uid);
+          $this->view->listaproyecto = $lista;
+        } 
+        else
+        {
+          if($is_area=='26')
+          {
+            $listaproyecto = new Admin_Model_DbTable_Proyecto();
+              //$lista=$listaproyecto->_getProyectoAll();
+            $lista=$listaproyecto->_getProyectosTodosAnddes();
+            $this->view->listaproyecto = $lista;
+          }
+          else
+          {
+            $listaproyecto = new Admin_Model_DbTable_Equipo();
+            $tabla_activaractividad = new Admin_Model_DbTable_Activaractividad();
+            $estado='A';
+            $lista=$tabla_activaractividad->_getProyectosXEmpleadoXEstadoActivo($uid,$dni,'A');
+            //_getProyectosXuidXEstado($uid,$estado);
+
+            
+            $this->view->listaproyecto = $lista;
+          }
+        }
     }
     
     public function nuevoAction() {
+      try {
 
         $propuestas = new Admin_Model_DbTable_Propuesta();
         $prop=$propuestas->_getPropuestaxnoproyectxganado(); 
-          //print_r($prop);
         $this->view->propuestas=$prop;
-
         $cliente=new Admin_Model_DbTable_Cliente();
         $todosclientes=$cliente->_getClienteAll();
         $this->view->clientes=$todosclientes;
-
         $uminera = new Admin_Model_DbTable_Unidadminera();
         $unidadminera=$uminera->_getUnidadmineraAll();
         $this->view->unidadminera=$unidadminera;
-
-
-
         $form= new Admin_Form_Proyecto();        
         $this->view->form=$form;   
 
         if ($this->getRequest()->isPost()) {
             $formdata = $this->getRequest()->getPost();
-              //if ($form->isValid($formdata)) {
-
             $codigo_prop_proy = $this->_getParam('cod_proy_prop');
             $proyectoid = $this->_getParam('proyectoid');
- 
-     
-
             $propuestaid = $this->_getParam('propuesta');
-            $nombre_proyecto = $this->_getParam('nombre_proyecto');
+            
+            $nombre_proyecto = $this->_getParam('nombre_proyecto');   
+            $formdata['nombre_proyecto'] = str_replace("_"," ",$nombre_proyecto);
             $control_proyecto = $this->_getParam('control_proyecto');
             $revision = $this->_getParam('revision');   
-            $descripcion = $this->_getParam('descripcion');   
+            //$descripcion = $this->_getParam('descripcion');   
             $observacion = $this->_getParam('observacion');   
             $fecha_inicio = $this->_getParam('fecha_inicio');
             $fecha_cierre = $this->_getParam('fecha_cierre');
@@ -64,20 +104,21 @@ class Proyecto_IndexController extends Zend_Controller_Action {
             $tag = $this->_getParam('tag');
             $clienteid = $this->_getParam('cliente');
             $unidad_mineraid = $this->_getParam('uminera');
-     
             $formdata['proyectoid']=$proyectoid['0'];
             $formdata['propuestaid']=$propuestaid;
-            $formdata['nombre_proyecto']=$nombre_proyecto;
+            //$formdata['nombre_proyecto']=$nombre_proyecto;
             $formdata['codigo_prop_proy']=$codigo_prop_proy;
             $formdata['control_proyecto']=$control_proyecto;                       
             $formdata['revision']=$revision;
-            $formdata['descripcion']=$descripcion;
+            //$formdata['descripcion']=$descripcion;
+
+            $nombre_descripcion = $this->_getParam('descripcion');   
+            $formdata['descripcion'] = str_replace("_"," ",$nombre_descripcion);
+
             $formdata['observacion']=$observacion;
             $formdata['monto_total']=$monto_total;
             $formdata['unidad_mineraid']=$unidad_mineraid;
             $formdata['clienteid']=$clienteid;
-         
-     
             $formdata['fecha_cierre']=$fecha_cierre;
             $formdata['fecha_inicio']=$fecha_inicio;
             $formdata['control_documentario']=$control_documentario;
@@ -87,11 +128,8 @@ class Proyecto_IndexController extends Zend_Controller_Action {
             $formdata['tag']=$tag;
             $formdata['paisid']='01';
             $formdata['oid']='AND-10';
-
             print_r($formdata);//exit();
-           
             $newrec=new Admin_Model_DbTable_Proyecto();
-
                 if($newrec->_save($formdata))
                 {
                     echo "llego";
@@ -108,7 +146,11 @@ class Proyecto_IndexController extends Zend_Controller_Action {
                     // $updisproject=new Admin_Model_DbTable_Propuesta();
                     // $updisproject->_updateX($data,$pk);
                 }    
-          } 
+          }
+
+        } catch (Exception $e) {
+            print "Error: ".$e->getMessage();
+      } 
     }
 
     public function codproypropAction() {
@@ -137,6 +179,76 @@ class Proyecto_IndexController extends Zend_Controller_Action {
       //print_r($propuesta);
 
     }
+
+
+    public function guardarproyectoAction() {
+ $this->_helper->layout()->disableLayout();
+     $codigo_prop_proy = $this->_getParam('cod_proy_prop');
+            $proyectoid = $this->_getParam('proyectoid');
+            $propuestaid = $this->_getParam('propuesta');
+            
+            $nombre_proyecto = $this->_getParam('nombre_proyecto');   
+            $formdata['nombre_proyecto'] = str_replace("_"," ",$nombre_proyecto);
+            $control_proyecto = $this->_getParam('control_proyecto');
+            $revision = $this->_getParam('revision');   
+            //$descripcion = $this->_getParam('descripcion');   
+            $observacion = $this->_getParam('observacion');   
+            $fecha_inicio = $this->_getParam('fecha_inicio');
+            $fecha_cierre = $this->_getParam('fecha_cierre');
+            $monto_total = $this->_getParam('monto_total');
+            $control_documentario = $this->_getParam('control_documentario');
+            $estado = $this->_getParam('estado');
+            $gerente_proyecto = $this->_getParam('gerente_proyecto'); 
+            $tipo_proyecto = $this->_getParam('tipo_proyecto');
+            $tag = $this->_getParam('tag');
+            $clienteid = $this->_getParam('cliente');
+            $unidad_mineraid = $this->_getParam('uminera');
+            $formdata['proyectoid']=$proyectoid;
+            $formdata['propuestaid']=$propuestaid;
+            //$formdata['nombre_proyecto']=$nombre_proyecto;
+            $formdata['codigo_prop_proy']=$codigo_prop_proy;
+            $formdata['control_proyecto']=$control_proyecto;                       
+            $formdata['revision']=$revision;
+            //$formdata['descripcion']=$descripcion;
+
+            $nombre_descripcion = $this->_getParam('descripcion');   
+            $formdata['descripcion'] = str_replace("_"," ",$nombre_descripcion);
+
+            $formdata['observacion']=$observacion;
+            $formdata['monto_total']=$monto_total;
+            $formdata['unidad_mineraid']=$unidad_mineraid;
+            $formdata['clienteid']=$clienteid;
+            $formdata['fecha_cierre']=$fecha_cierre;
+            $formdata['fecha_inicio']=$fecha_inicio;
+            $formdata['control_documentario']=$control_documentario;
+            $formdata['estado']=$estado;
+            $formdata['gerente_proyecto']=$gerente_proyecto;
+            $formdata['tipo_proyecto']=$tipo_proyecto;
+            $formdata['tag']=$tag;
+            $formdata['paisid']='01';
+            $formdata['oid']='AND-10';
+            //print_r($formdata);//exit();
+            $newrec=new Admin_Model_DbTable_Proyecto();
+                if($newrec->_save($formdata))
+                {
+                    //echo "llego";
+                    // $pk  =   array(                        
+                    //                 'codigo_prop_proy'   =>$codigo_prop_proy,
+                    //                 'propuestaid'   =>$propuestaid,
+                    //                 'revision'   =>$revision,
+                                        
+                    //                 );
+                    // $data = array(
+                    //                 'isproyecto' =>  'S'
+                    //              );
+
+                    // $updisproject=new Admin_Model_DbTable_Propuesta();
+                    // $updisproject->_updateX($data,$pk);
+                }   
+
+              }
+
+
 
     public function umineraAction() {
       $this->_helper->layout()->disableLayout();
@@ -212,31 +324,6 @@ class Proyecto_IndexController extends Zend_Controller_Action {
         $uid= trim($this->_getParam("uid"));
         $areaid= trim($this->_getParam("areaid"));
         $rate= $this->_getParam("rate");
-        //$ratep= $this->_getParam("rate_proyecto");
-        
-        // $nom= $this->_getParam("nombre");
-        
-        // echo $nom;
-         echo $rate;
-         echo "</br>";
-         echo $proyectoid;
-         echo "</br>";
-
-         echo $codigo_prop_proy;
-         echo "</br>";
-
-         echo $uid;
-         echo "</br>";
-
-         echo $dni;
-         echo "</br>";
-
-         echo $areaid;
-         echo "</br>";
-
-        // echo $areaid;
-        // exit();
-
          
         $pk  =   array(                        
                         'codigo_prop_proy'   =>$codigo_prop_proy,
@@ -250,10 +337,7 @@ class Proyecto_IndexController extends Zend_Controller_Action {
                         'rate_proyecto' =>  $rate
                      );
 
-        
-        print_r($pk);
-        print_r($data);
-        //exit();
+       
         $update_equipo=new Admin_Model_DbTable_Equipo();
         //$update_equipo->_update($data,$pk);
         
@@ -303,7 +387,20 @@ class Proyecto_IndexController extends Zend_Controller_Action {
 
           
         $updrec=new Admin_Model_DbTable_Proyecto();
-        
+        if($updrec->_update($data,$pk))
+        {
+          echo "guardao";
+           print_r($pk);
+         print_r($data);
+        }
+        else
+        {
+          echo "no gurado";
+         print_r($pk);
+         print_r($data);
+
+        }
+        /*
         if($updrec->_update($data,$pk))
         {   ?>
           <script>                  
@@ -318,7 +415,7 @@ class Proyecto_IndexController extends Zend_Controller_Action {
           document.location.href="/proyecto/index/listar";                                                 
           </script>
          <?php
-            }
+            }*/
     }
 
 
@@ -1146,11 +1243,11 @@ public function subirpropuestaAction(){
 // Subir actvidades segun la nueva estructura //
 public function subiractividadesAction(){
   try {
-    /*$proyectoid= $this->_getParam("proyectoid");
-    $codigo_prop_proy= $this->_getParam("codigo_prop_proy");*/
-    $proyectoid='1116.10.17';
+    $proyectoid= $this->_getParam("proyectoid");
+    $codigo_prop_proy= $this->_getParam("codigo");
+    //$proyectoid='1113.10.28';
     
-    $codigo_prop_proy='15.10.119-1116.10.17-D';
+    //$codigo_prop_proy='1113.10.28-15.10.176-A';
     $editproyect= new Admin_Model_DbTable_Proyecto();
     $where = array(
                       'codigo_prop_proy'    => $codigo_prop_proy,
@@ -1168,7 +1265,7 @@ public function subiractividadesAction(){
     $data = new Spreadsheet_Excel_Reader();
     $data->setOutputEncoding('CP1251');
     //$data->read('./upload/proyecto/'.$proyectoid.'-HH.xls');
-    $data->read('proyecto.xls');
+    $data->read('proyectos_bruno.xls');
     $k=1;
     $columnas=$data->sheets[0]['numCols'];
     $filas=$data->sheets[0]['numRows'];
@@ -1202,6 +1299,7 @@ public function subiractividadesAction(){
         $datosactividadpadre["h_planificada"]='0';
         $datosactividadpadre["orden"]=$k-1;
         $datosactividadpadre["isproyecto"]='S';
+        $datosactividadpadre["hijo"]='S';
         $datosactividadpadre["moneda"]=$moneda;
         $bdactividad = new Admin_Model_DbTable_Actividad();
         //print_r($datosactividadpadre);
@@ -1231,6 +1329,7 @@ public function subiractividadesAction(){
             $datosactividadhija["h_planificada"]='0';
             $datosactividadhija["orden"]=$k.".".$j-1;
             $datosactividadhija["isproyecto"]='S';
+            $datosactividadhija["hijo"]='N';
             $datosactividadhija["moneda"]=$moneda;
             $bdactividad = new Admin_Model_DbTable_Actividad();
            // print_r($datosactividadhija);
@@ -1280,10 +1379,15 @@ public function subiractividadesAction(){
 }
 
 public function verAction() {
+    //$this->_helper->layout()->disablelayout();
     $proyectoid= $this->_getParam("proyectoid");
     $codigo_prop_proy= $this->_getParam("codigo_prop_proy");
+    $propuestaid= $this->_getParam("propuesta");
+    $revision= $this->_getParam("revision");
     $this->view->codigoproyecto=$codigo_prop_proy;
     $this->view->proyectoid=$proyectoid;
+    $this->view->propuestaid=$propuestaid;
+    $this->view->revision=$revision;
 
     $bandera= $this->_getParam("bandera");
     if ($bandera=='S')
@@ -1315,298 +1419,468 @@ public function verAction() {
   
 }   
 
-  public function subirareacategoriaAction() {
-    /*$proyectoid= $this->_getParam("proyectoid");
-    $codigo_prop_proy= $this->_getParam("codigo_prop_proy");*/
-    $proyectoid='1508.10.01';
-    $codigo_prop_proy='15.10.091-1508.10.01-D';
-    
+
+    //Devuelve los datos de un proyecto en particular
+  public function proyectoAction()
+    {
+      $data['proyectoid'] = $this->_getParam('proyectoid');
+      $proyecto = new Admin_Model_DbTable_Proyecto();
+      $datos = $proyecto->_getOnexProyectoidExtendido($data);
+      $respuesta['codigo_prop_proy'] = $datos['codigo_prop_proy'];
+      $respuesta['codigo'] = $datos['proyectoid'];
+      $respuesta['nombre'] = $datos['nombre_proyecto'];
+      $respuesta['clienteid'] = $datos['clienteid'];
+      $respuesta['cliente'] = $datos['nombre_comercial'];
+      $respuesta['unidad_minera'] = $datos['nombre'];
+      $respuesta['estado'] = $datos['estado'];
+      $respuesta['fecha_inicio'] = $datos['fecha_inicio'];
+      $respuesta['fecha_cierre'] = $datos['fecha_cierre'];
+      $respuesta['control_documentario'] = $datos['control_documentario'];
+      $respuesta['descripcion'] = $datos['descripcion'];
+      $respuesta['tipo_proyecto'] = $datos['tipo_proyecto'];
+      //$ruta = APPLICATION_PATH.'/../img/cliente/'.$respuesta['clienteid'].'.jpg';
+      //if(is_file($ruta)){
+        $respuesta['logo_cliente'] = '../img/cliente/'.$respuesta['clienteid'].'.jpg';
+      //} else {
+      //  $respuesta['logo_cliente'] = '../img/cliente/anddes.jpg';
+      //}
+      $this->_helper->json->sendJson($respuesta);
+  }
+
+    //Devuelve los datos de un proyecto en particular
+  public function proyectoxcronogramaAction()
+  {
+      $data['proyectoid'] = $this->_getParam('proyectoid');
+
+      //echo $data['proyectoid'];
+      //echo "dd";
+
+      $proyectoxcronograma = new Admin_Model_DbTable_Proyectocronograma();
+      $datos = $proyectoxcronograma->_getFilter($data);
+
+      $respuesta = [];
+      $data = [];
+      $i = 0;
+
+      foreach ($datos as $item) {
+         $data['codigo_prop_proy'] = $item['codigo_prop_proy'];
+         $data['codigo_cronograma'] = $item['codigo_cronograma'];
+         $data['revision_cronograma'] = $item['revision_cronograma'];
+         $data['proyectoid'] = $item['proyectoid'];
+         $data['revision_propuesta'] = $item['revision_propuesta'];
+         $data['cronogramaid'] = $item['cronogramaid'];
+         $data['fecha_comienzo'] = $item['fecha_comienzo'];
+         $data['fecha_fin'] = $item['fecha_fin'];
+         $data['costo_presupuesto'] = $item['costo_presupuesto'];
+         $data['duracion'] = $item['duracion'];
+         $data['predecesoras'] = $item['predecesoras'];
+         $data['sucesoras'] = $item['sucesoras'];
+         $data['nivel_esquema'] = $item['nivel_esquema'];
+         $respuesta[$i] = $data;
+         $i++;
+      }
+      $this->_helper->json->sendJson($respuesta);
+  }
+
+
+public function listaproyectosAction()
+  {
+      $estado = $this->_getParam('estado');
+      $proyecto = new Admin_Model_DbTable_Proyecto();
+      $proyectos = $proyecto->_getAllExtendido($estado);
+      $respuesta = [];
+      $data = [];
+      $i = 0;
+
+      foreach ($proyectos as $item) {
+        $data['codigo'] = $item['proyectoid'];
+        $data['codigo_prop_proy'] = $item['codigo_prop_proy'];
+        $data['cliente'] = $item['nombre_comercial'];
+        $data['nombre'] = $item['nombre_proyecto'];
+        $data['gerente'] = $item['gerente_proyecto'];
+        $data['control_proyecto'] = $item['control_proyecto'];
+        $data['control_documentario'] = $item['control_documentario'];
+        $data['estado'] = $item['estado'];
+        $respuesta[$i] = $data;
+        $i++;
+      }
+      $this->_helper->json->sendJson($respuesta);
+  }
+
+
+public function verjsonAction() {
+     //$areacat=new Admin_Model_DbTable_Area();
+     //$arcat=$areacat->_getAreaxProyecto();
+    $bdequipoarea = new Admin_Model_DbTable_Equipoarea();
+    $area=$bdequipoarea->_buscarAreasxProyecto('14.10.134-1101.10.09-D','1101.10.09');
+    $i=0;
+    foreach ($area as $verarea) {
+      $bdequipo = new Admin_Model_DbTable_Equipo();
+      $equipo=$bdequipo->_buscarEquipoxProyectoxArea('14.10.134-1101.10.09-D','1101.10.09',$verarea['areaid']);
+       //eq.areaid,a.orden,a.nombre
+      $ek[] = array('name' =>$verarea['nombre'],'area'=>$verarea['areaid'] ,'items'=> $equipo);
+      $i++;
+    }    
+    //es el formato de renderiar :  [{"bbb":"1","name":"2","items":[{"nombre":"books"}]}]
+    //$arr = array(['bbb' =>'1', 'name' => '2','items'=>  array(['nombre' =>'books'])]);
+    $this->_helper->json->sendJson($ek);  
+
+}
+
+
+public function usuariosjsonAction() {
+  $user=new Admin_Model_DbTable_Usuario();
+  $us=$user->_getUsuarioAll();
+  $this->_helper->json->sendJson($us);  
+}
+
+
+public function modificarperformanceAction() {
+  echo "obejjjjjjjjjjjjj";
+  echo $codigo_prop_proy = $this->_getParam("codigo_prop_proy");
+  echo $codigo_actividad = $this->_getParam("codigo_actividad");
+  echo $actividadid = $this->_getParam("actividadid");
+  echo $cronogramaid = $this->_getParam("cronogramaid");
+  echo $codigo_cronograma = $this->_getParam("codigo_cronograma");
+  echo $codigo_performance = $this->_getParam("codigo_performance");
+  echo $porcentaje_performance = $this->_getParam("porcentaje_performance");
+  echo $fecha_calculo_performance = $this->_getParam("fecha_calculo_performance");
+  echo $proyectoid = $this->_getParam("proyectoid");
+  echo $revision_cronograma = $this->_getParam("revision_cronograma");
+  echo $fecha_ingreso_performance = $this->_getParam("fecha_ingreso_performance"); 
+  echo $fecha_performance = $this->_getParam("fecha_performance");
+
+  
+  $where = array('codigo_prop_proy' => $codigo_prop_proy,'codigo_actividad' => $codigo_actividad,'actividadid' => $actividadid,
+  'cronogramaid' => $cronogramaid,'codigo_cronograma' => $codigo_cronograma,'codigo_performance' => $codigo_performance,
+  'proyectoid' => $proyectoid,'revision_cronograma' => $revision_cronograma,'fecha_performance' => $fecha_performance );
+
+  $data = array( 'porcentaje_performance' => $porcentaje_performance,'fecha_calculo_performance' => date("Y-m-d"),
+  'fecha_ingreso_performance' => $fecha_ingreso_performance);
+
+  print_r($where);
+  print_r($data);
+
+ 
+
+   $modperformancedetalles=new Admin_Model_DbTable_Performancedetalle();
+   $mpdetalle=$modperformancedetalles->_update($data,$where);
+
+   //if($mpdetalle){echo "si"} else {'no'};
+
+  exit();
+}
+
+public function proyectoxperformanceAction() {
+  $proyectoid = $this->_getParam("proyectoid");
+  
+  $performance=new Admin_Model_DbTable_Performance();
+  $where = array('proyectoid' =>$proyectoid );
+  $perf=$performance->_getFilter($where);  
+
+  $i=0;
+  foreach ($perf as $keyper) {
+     
+      $wheredet['codigo_prop_proy']=$keyper['codigo_prop_proy'];
+      $wheredet['codigo_actividad']=$keyper['codigo_actividad']; 
+      $wheredet['proyectoid']=$keyper['proyectoid'];      
+      $wheredet['cronogramaid']=$keyper['cronogramaid'];
+      $wheredet['codigo_cronograma']=$keyper['codigo_cronograma'];
+      $wheredet['revision_cronograma']=$keyper['revision_cronograma'];
+      $wheredet['actividadid']=$keyper['actividadid'];
+      $wheredet['codigo_performance']=$keyper['codigo_performance'];   
+
+      $performancedetalle=new Admin_Model_DbTable_Performancedetalle();
+      $pdetalle=$performancedetalle->_getFilter($wheredet);
+
+      $ek[] = array(
+        'codigo_prop_proy' =>$keyper['codigo_prop_proy'],
+        'proyectoid' =>$keyper['proyectoid'],
+        'codigo_actividad' =>$keyper['codigo_actividad'],
+        'actividadid' =>$keyper['actividadid'],
+        'cronogramaid' =>$keyper['cronogramaid'],
+        'codigo_cronograma' =>$keyper['codigo_cronograma'],
+        'revision_cronograma' =>$keyper['revision_cronograma'],
+        'codigo_performance' =>$keyper['codigo_performance'],
+        'revision_propuesta' =>$keyper['revision_propuesta'],
+        'fecha_ingreso_performance' =>$keyper['fecha_ingreso_performance'],
+        'fecha_calculo_performance' =>$keyper['fecha_calculo_performance'],
+        'costo_real' =>$keyper['costo_real'],
+        'horas_real' =>$keyper['horas_real'],
+        'fecha_comienzo_real' =>$keyper['fecha_comienzo_real'],
+        'fecha_fin_real' =>$keyper['fecha_fin_real'],
+        'items'=> $pdetalle);
+      $i++;  
+  } 
+  
+  $this->_helper->json->sendJson($ek);  
+
+  //$arr = array(['bbb' =>'1']); 
+  //exit();
+}
+
+
+public function curvasjsonAction() {
+
+  $revision_perf_curva = $this->_getParam("revision");
+  $proyectoid = $this->_getParam("proyectoid");
+  $codigo_prop_proy = $this->_getParam("codigo");  
+
+  // $proyectoid='1111.10.09';
+  // $revision_perf_curva='A';
+  // $codigo_prop_proy='15.10.036-1111.10.09-A';
+
+  $where = array('proyectoid'=>$proyectoid,'revision_cronograma'=>$revision_perf_curva,'codigo_prop_proy' =>$codigo_prop_proy );
+  $attrib = array('fecha_curvas','fecha_ingreso_curvas','porcentaje_ejecutado','porcentaje_propuesta','codigo_curvas','revision_cronograma');
+  $order = array('fecha_curvas ASC');
+
+  $tiempo=new Admin_Model_DbTable_Tiempoproyecto();
+  $tmp=$tiempo->_getFilter($where,$attrib,$order);
+
+  $arr = array(['1' =>$tmp]);
+
+  //print_r($arr);exit();
+
+  $this->_helper->json->sendJson($arr);
+
+}
+
+public function cambiarfechaproyetoAction(){
+    $value= $this->_getParam("value");
+    $id= $this->_getParam("id");
+    $column= $this->_getParam("column");
+
+    // echo $value;
+    // echo "--";
+    // echo $id;
+    // echo "--";
+    // echo $column;
+    // echo "--";
+    $data[$column]=$value;
+    $pk = array('codigo_curvas' => $id, );
+
+    $fecha_proyecto= new Admin_Model_DbTable_Tiempoproyecto();   
+    $fproyecto=$fecha_proyecto-> _update($data,$pk);
+
+    $this->_helper->json->sendJson($fproyecto);    
+}
+
+public function guardarcurvaAction(){
+
+    echo $cronogramaid= $this->_getParam("cronogramaid");
+    echo $codigo_prop_proy= $this->_getParam("codigo_prop_proy");
+    echo $proyectoid= $this->_getParam("proyectoid");
+    //echo  $codigo_curvas= $this->_getParam("codigo_curvas");
+    echo  $fecha_ingreso_curvas= $this->_getParam("fecha_ingreso_curvas");
+    echo  $porcentaje_ejecutado= $this->_getParam("porcentaje_ejecutado");
+    echo $porcentaje_propuesta= $this->_getParam("porcentaje_propuesta");
+    echo $revision_cronograma= $this->_getParam("revision_cronograma");
+    echo  $codigo_cronograma= $this->_getParam("codigo_cronograma");
+    echo  $revision_propuesta= $this->_getParam("revision_propuesta");
+
+
+    $data = array('codigo_prop_proy' => $codigo_prop_proy,'codigo_cronograma' => $codigo_cronograma,
+    'proyectoid' => $proyectoid,
+    //'codigo_curvas' => $codigo_curvas,
+    'revision_cronograma' => $revision_cronograma,'fecha_ingreso_curvas' => $fecha_ingreso_curvas,
+    'porcentaje_ejecutado' => $porcentaje_ejecutado,'porcentaje_propuesta' => $porcentaje_propuesta,
+    'cronogramaid' => $cronogramaid, 'revision_propuesta' => $revision_propuesta );
+
+
+    $guardarcurva=new Admin_Model_DbTable_Tiempoproyecto();
+    $gcurva=$guardarcurva->_save($data);
+
+    exit();
+}
+
+public function eliminarcurvaAction(){
+  $codigo_curvas= $this->_getParam("codigo_curvas");
+  echo $codigo_curvas;
+  $where = array('codigo_curvas' =>$codigo_curvas, );
+  $delcurvas=new Admin_Model_DbTable_Tiempoproyecto();
+  $dcurvas=$delcurvas->_delete($where);
+
+  $this->_helper->json->sendJson($dcurvas);
+
+}
+
+
+public function subirareacategoriaAction() {
+    $proyectoid= $this->_getParam("proyectoid");
+    $codigo_prop_proy= $this->_getParam("codigo");
     $editproyect= new Admin_Model_DbTable_Proyecto();
     $where = array(
                       'codigo_prop_proy'    => $codigo_prop_proy,
                       'proyectoid'    => $proyectoid,
                       );
     $edit = $editproyect->_getOne($where);
-    //print_r($edit);
     $proyectoid = $edit['proyectoid'];
     $codigo = $edit['codigo_prop_proy'];
     $propuestaid = $edit['propuestaid'];
     $revision = $edit['revision'];
     $moneda = $edit['moneda'];
-
-
     $dir = APPLICATION_LIBRARY . "/excel/excel/reader.php";
     include ($dir);
     $data = new Spreadsheet_Excel_Reader();
     $data->setOutputEncoding('CP1251');
-    //$data->read('./upload/proyecto/'.$proyectoid.'-HH.xls');
-    $data->read('proyectosss.xls');
+    $data->read('./upload/proyecto/'.$proyectoid.'-HH.xls');
+    //$data->read('proyectosss.xls');
     $columnas=$data->sheets[0]['numCols'];
+
     $filas=$data->sheets[0]['numRows'];
-    
-
-
    // for ($i = 2; $i <= $filas; $i++) {
       for ($j =5; $j <= $columnas ; $j++) {
         //$areaid=$data->sheets[0]['cells'][$i][1];
-        //$actividadid=$data->sheets[0]['cells'][$i][2];
+        //$actividadid=$data->sheets[0]['cells'][$i][2];    
         $categoria=$data->sheets[0]['cells'][1][$j];
-        //echo $categoria; echo "<br>";
-       
         $categoria_hija = explode("_",$categoria);
-
         if (count($categoria_hija)==2)
         {
-          //print_r(strtolower($categoria_hija[0])); echo "<br>";
-         // print_r(strtolower($categoria_hija[1])); echo "<br>";
-
-          $bdcategoria = new Admin_Model_DbTable_Categoria();
-          $datoscat=$bdcategoria-> _buscarCategoriaxTag(strtolower($categoria_hija[0]));
-          $idcategoria=$datoscat[0]['categoriaid'];
-         // print_r($idcategoria); echo "<br>";
-
-
+            $bdcategoria = new Admin_Model_DbTable_Categoria();
+            $datoscat=$bdcategoria-> _buscarCategoriaxTag(strtolower($categoria_hija[0]));
+            $idcategoria=$datoscat[0]['categoriaid'];
         }
-
-          if (count($categoria_hija)==3)
+        if (count($categoria_hija)==3)
         {
-       // print_r(strtolower($categoria_hija[0])); echo "<br>";
-        // print_r(strtolower($categoria_hija[1]));
-         // print_r(strtolower($categoria_hija[2]));
-
-          //$bdarea = new Admin_Model_DbTable_Area();
-          //$datosarea=$bdarea-> _buscarCategoriaxTag(strtolower($categoria_hija[0]));
-          //$areaid=$datosarea[0]['areaid'];
-          //print_r($areaid); echo "<br>";
-          $areaid=$categoria_hija[0];
-         
-
-          $bdcategoria = new Admin_Model_DbTable_Categoria();
-          $datoscat=$bdcategoria-> _buscarCategoriaxTag(strtolower($categoria_hija[1]));
-          $idcategoria=$datoscat[0]['categoriaid'];
-          //print_r($idcategoria); echo "<br>";
-          $rate=$categoria_hija[2];
-          //echo $rate;
-          $dataequipoarea['areaid']=$areaid;
-                $dataequipoarea['codigo_prop_proy']=$codigo;
-                $dataequipoarea['proyectoid']=$proyectoid;
-                $dataequipoarea['categoriaid']=$idcategoria;
-                $dataequipoarea['fecha_creacion']=date("Y-m-d");
-                $dataequipoarea['estado']='A';
-                $dataequipoarea['funcion']='PROYECTO';
-                //$bdarea_categoria = new Admin_Model_DbTable_Areacategoria();
-                //$existearea_categoria=$bdarea_categoria->_getAreacategoriaxIndice($idcategoria,$areaid);
-                //print_r($existearea_categoria);
-
-                $bdequipo_area = new Admin_Model_DbTable_Equipoarea();
-        //$datosequipoarea=$bdequipo_area->_buscarEquipoxProyecto($codigo,$proyectoid,$areaid,$idcategoria);
-        //if(isset($datosequipoarea)) 
-
-               $bdequipo_area->_save($dataequipoarea);
-
+            $areaid=$categoria_hija[0];
+            $bdcategoria = new Admin_Model_DbTable_Categoria();
+            $datoscat=$bdcategoria-> _buscarCategoriaxTag(strtolower($categoria_hija[1]));
+            $idcategoria=$datoscat[0]['categoriaid'];
+            $rate=$categoria_hija[2];
+            $dataequipoarea['areaid']=$areaid;
+            $dataequipoarea['codigo_prop_proy']=$codigo;
+            $dataequipoarea['proyectoid']=$proyectoid;
+            $dataequipoarea['categoriaid']=$idcategoria;
+            $dataequipoarea['fecha_creacion']=date("Y-m-d");
+            $dataequipoarea['estado']='A';
+            $dataequipoarea['funcion']='PROYECTO';
+            $bdequipo_area = new Admin_Model_DbTable_Equipoarea();
+            $bdequipo_area->_save($dataequipoarea);
         }
-
-        /*if (count($categoria_hija)==2)
-        {
-          print_r($categoria_hija[2]);
-        }*/
-        
-        //echo $categoria;
-        /*
-        $bdcategoria = new Admin_Model_DbTable_Categoria();
-        $datoscat=$bdcategoria-> _buscarCategoriaxTag($categoria);
-        $idcategoria=$datoscat[0]['categoriaid'];
-        $bdequipo_area = new Admin_Model_DbTable_Equipoarea();
-        $datosequipoarea=$bdequipo_area->_buscarEquipoxProyecto($codigo,$proyectoid,$areaid,$idcategoria);
-        if(isset($datosequipoarea)) 
-            { 
-                $dataequipoarea['areaid']=$areaid;
-                $dataequipoarea['codigo_prop_proy']=$codigo;
-                $dataequipoarea['proyectoid']=$proyectoid;
-                $dataequipoarea['categoriaid']=$idcategoria;
-                $dataequipoarea['fecha_creacion']=date("Y-m-d");
-                $dataequipoarea['estado']='A';
-                $dataequipoarea['funcion']='PROPUESTA';
-                $bdarea_categoria = new Admin_Model_DbTable_Areacategoria();
-                $existearea_categoria=$bdarea_categoria->_getAreacategoriaxIndice($idcategoria,$areaid);
-               // print_r($existearea_categoria);
-               // echo $idcategoria;
-               // echo $areaid;
-               // echo "<br>";
-              //  print_r($dataequipoarea);
-                if($existearea_categoria) {
-                    
-                   
-                 
-                    /*if ($bdequipo_area->_save($dataequipoarea))
-                            {
-                                echo "mmmmmmmmm";
-                            }
-
-                    */
-              /*  }
-                else
-                {
-                    $bdarea = new Admin_Model_DbTable_Area();
-                    $datosarea=$bdarea->_getAreaxIndice($areaid);
-
-                    $dataarea_cat['areaid']=$areaid;
-                    $dataarea_cat['categoriaid']=$idcategoria;
-                    $dataarea_cat['nombre']=$datosarea[0]['nombre']."-".$datoscat[0]['nombre_categoria'];
-                    $dataarea_cat['estado']='A';
-                    //print_r($dataarea_cat);
-                    /*if ($bdarea_categoria->_save($dataarea_cat))
-                    {
-                        echo "se creo area_categoria";
-                       if ($bdequipo_area->_save($dataequipoarea))
-                            {
-                                echo "lllllllllll";
-                            }
-
-                    } 
-                }
-        }*/
-
-      }
-   // }
+    }
 }   
 
 public function subirtareoAction() {
-    /*$proyectoid= $this->_getParam("proyectoid");
-    $codigo_prop_proy= $this->_getParam("codigo_prop_proy");*/
-    $proyectoid='1508.10.01';
-    $codigo_prop_proy='15.10.091-1508.10.01-D';
-
-
+    $proyectoid= $this->_getParam("proyectoid");
+    $codigo_prop_proy= $this->_getParam("codigo");
     $editproyect= new Admin_Model_DbTable_Proyecto();
     $where = array(
-                      'codigo_prop_proy'    => $codigo_prop_proy,
-                      'proyectoid'    => $proyectoid,
-                      );
+        'codigo_prop_proy'    => $codigo_prop_proy,
+        'proyectoid'    => $proyectoid,
+    );
     $edit = $editproyect->_getOne($where);
-    //print_r($edit);
     $proyectoid = $edit['proyectoid'];
     $codigo = $edit['codigo_prop_proy'];
     $propuestaid = $edit['propuestaid'];
     $revision = $edit['revision'];
     $moneda = $edit['moneda'];
-
-
     $dir = APPLICATION_LIBRARY . "/excel/excel/reader.php";
     include ($dir);
     $data = new Spreadsheet_Excel_Reader();
     $data->setOutputEncoding('CP1251');
-    //$data->read('./upload/proyecto/'.$proyectoid.'-HH.xls');
-    $data->read('proyectosss.xls');
+    $data->read('./upload/proyecto/'.$proyectoid.'-HH.xls');
+    //$data->read('proyectosss.xls');
     $columnas=$data->sheets[0]['numCols'];
     $filas=$data->sheets[0]['numRows'];
-
-    for ($i = 2; $i <= $filas; $i++) {
-        for ($j = 5; $j <= $columnas-2 ; $j++) {
-
-        //$areaid=$data->sheets[0]['cells'][$i][1];
-        $actividadid=$data->sheets[0]['cells'][$i][1];
-        
-        $categoria=$data->sheets[0]['cells'][1][$j];
-        //echo $categoria; echo "<br>";
-           $categoria_hija = explode("_",$categoria);
-
-        $nombre_actividad=$data->sheets[0]['cells'][$i][2];
-              $areaid=$categoria_hija[0];
-
-
-        if (isset( $data->sheets[0]['cells'][$i][$j] ))
+    for ($i = 2; $i <= $filas; $i++) 
+    {
+        for ($j = 5; $j <= $columnas-2 ; $j++) 
         {
-        $suma=$data->sheets[0]['cells'][$i][$j];
-        $horas_propuesta=utf8_encode($data->sheets[0]['cells'][$i][$j]);
+            $actividadid=$data->sheets[0]['cells'][$i][1];
+            $categoria=$data->sheets[0]['cells'][1][$j];
+            $categoria_hija = explode("_",$categoria);
+            $nombre_actividad=$data->sheets[0]['cells'][$i][2];
+            $areaid=$categoria_hija[0];
+            if (isset( $data->sheets[0]['cells'][$i][$j] ))
+            {
+                $suma=$data->sheets[0]['cells'][$i][$j];
+                $horas_propuesta=utf8_encode($data->sheets[0]['cells'][$i][$j]);
+                $bdcategoria = new Admin_Model_DbTable_Categoria();
+                $datoscat=$bdcategoria-> _buscarCategoriaxTag(strtolower($categoria_hija[1]));
+                $idcategoria=$datoscat[0]['categoriaid'];
+                $actividadint=$actividadid;
+                $actividadeshijas = explode(".",$actividadint);
+                if (count($actividadeshijas)=='2')
+                {
+                    $codigo_actividad=$actividadid;
+                    $bdtareo = new Admin_Model_DbTable_Tareo();
+                    $existe_tareo=$bdtareo->_getTareoxProyectoxActividadHijaxAreaxCategoria($proyectoid,$codigo,$revision,$actividadeshijas[0],$actividadid,$codigo_actividad,$areaid,$idcategoria);
+                    if(isset($existe_tareo)) 
+                    { 
+                        $datostareo["actividadid"]=$actividadid;
+                        $datostareo["codigo_actividad"]=$actividadid;
+                        $datostareo["codigo_prop_proy"]=$codigo;
+                        $datostareo["revision"]=$revision;
+                        $datostareo["areaid"]=$areaid;
+                        $datostareo["proyectoid"]=$proyectoid;
+                        $datostareo["actividad_padre"]=$actividadeshijas[0];
+                        $datostareo["fecha_creacion"]=date("Y-m-d");
+                        $datostareo["estado"]='P';
+                        $datostareo["h_propuesta"]=$suma;
+                        $datostareo["duracion"]='0';
+                        $datostareo["h_extra"]='0';
+                        $datostareo["h_planificada"]='0';
+                        $datostareo["h_real"]='0';
+                        $datostareo["isproyecto"]='S';
+                        $datostareo["categoriaid"]=$idcategoria;
+                        $datostareo["nombre"]=utf8_encode($nombre_actividad);
+                        if($bdtareo->_save($datostareo))
+                        {
+                            echo "guardado ";
+                        }
+                    }
+                }
 
-        $bdcategoria = new Admin_Model_DbTable_Categoria();
-       $datoscat=$bdcategoria-> _buscarCategoriaxTag(strtolower($categoria_hija[1]));
-          $idcategoria=$datoscat[0]['categoriaid'];
-        $actividadint=$actividadid;
-        $actividadeshijas = explode(".",$actividadint);
-        if (count($actividadeshijas)=='2'){
-            $codigo_actividad=$actividadid;
-            $bdtareo = new Admin_Model_DbTable_Tareo();
-            $existe_tareo=$bdtareo->_getTareoxProyectoxActividadHijaxAreaxCategoria($proyectoid,$codigo,$revision,$actividadeshijas[0],$actividadid,$codigo_actividad,$areaid,$idcategoria);
-            if(isset($existe_tareo)) { 
-                $datostareo["actividadid"]=$actividadid;
-                $datostareo["codigo_actividad"]=$actividadid;
-                $datostareo["codigo_prop_proy"]=$codigo;
-                $datostareo["revision"]=$revision;
-                $datostareo["areaid"]=$areaid;
-                $datostareo["proyectoid"]=$proyectoid;
-                $datostareo["actividad_padre"]=$actividadeshijas[0];
-                $datostareo["fecha_creacion"]=date("Y-m-d");
-                $datostareo["estado"]='P';
-                $datostareo["h_propuesta"]=$suma;
-                $datostareo["duracion"]='0';
-                $datostareo["h_extra"]='0';
-                $datostareo["h_planificada"]='0';
-                $datostareo["h_real"]='0';
-                $datostareo["isproyecto"]='S';
-                $datostareo["categoriaid"]=$idcategoria;
-                $datostareo["nombre"]=utf8_encode($nombre_actividad);
-                //print_r($datostareo);
-                if($bdtareo->_save($datostareo)){
-                    echo "guardado ";
+                if (count($actividadeshijas)=='3')
+                {
+                    $codigo_actividad=$areaid."-".$actividadid;
+                    $bdtareo = new Admin_Model_DbTable_Tareo();
+                    $existe_tareo=$bdtareo->_getTareoxProyectoxActividadHijaxAreaxCategoria($proyectoid,$codigo,$revision,$actividadeshijas[0],$actividadid,$codigo_actividad,$areaid,$idcategoria);
+                    if(isset($existe_tareo)) 
+                    { 
+                        $datostareo2["actividadid"]=$actividadid;
+                        $datostareo2["codigo_actividad"]=$areaid."-".$actividadid;
+                        $datostareo2["codigo_prop_proy"]=$codigo;
+                        $datostareo2["revision"]=$revision;
+                        $datostareo2["areaid"]=$areaid;
+                        $datostareo2["proyectoid"]=$proyectoid;
+                        $datostareo2["actividad_padre"]=$actividadeshijas[0].".".$actividadeshijas[1];
+                        $datostareo2["fecha_creacion"]=date("Y-m-d");
+                        $datostareo2["estado"]='P';
+                        $datostareo2["h_propuesta"]=$suma;
+                        $datostareo2["duracion"]='0';
+                        $datostareo2["h_extra"]='0';
+                        $datostareo2["h_planificada"]='0';
+                        $datostareo2["h_real"]='0';
+                        $datostareo2["isproyecto"]='S';
+                        $datostareo2["categoriaid"]=$idcategoria;
+                        $datostareo2["nombre"]=utf8_encode($nombre_actividad);
+                    }
                 }
             }
-        }
-
-        if (count($actividadeshijas)=='3'){
-            $codigo_actividad=$areaid."-".$actividadid;
-            $bdtareo = new Admin_Model_DbTable_Tareo();
-            $existe_tareo=$bdtareo->_getTareoxProyectoxActividadHijaxAreaxCategoria($proyectoid,$codigo,$revision,$actividadeshijas[0],$actividadid,$codigo_actividad,$areaid,$idcategoria);
-            if(isset($existe_tareo)) { 
-                $datostareo2["actividadid"]=$actividadid;
-                $datostareo2["codigo_actividad"]=$areaid."-".$actividadid;
-                $datostareo2["codigo_prop_proy"]=$codigo;
-                $datostareo2["revision"]=$revision;
-                $datostareo2["areaid"]=$areaid;
-                $datostareo2["proyectoid"]=$proyectoid;
-                $datostareo2["actividad_padre"]=$actividadeshijas[0].".".$actividadeshijas[1];
-                $datostareo2["fecha_creacion"]=date("Y-m-d");
-                $datostareo2["estado"]='P';
-                $datostareo2["h_propuesta"]=$suma;
-                $datostareo2["duracion"]='0';
-                $datostareo2["h_extra"]='0';
-                $datostareo2["h_planificada"]='0';
-                $datostareo2["h_real"]='0';
-                $datostareo2["isproyecto"]='S';
-                $datostareo2["categoriaid"]=$idcategoria;
-                $datostareo2["nombre"]=utf8_encode($nombre_actividad);
-                //if($bdtareo->_save($datostareo2)){
-                //    
-                //}
-            }
-        }
-
-      }
-    } }
+        }   
+    }
 }   
-  public function cargarhorasAction() {
-
-  $ano=date("Y");
-  $semana=date("W");
-  /*echo "semana nro: ".(date("W"));
-  echo "dia del mes nro: ".(date("j"));
-  echo "# dias de la semana".(date("N"));*/
-  $dias = array('lunes', 'martes', 'miercoles', 
+  
+public function cargarhorasAction() {
+    $ano=date("Y");
+    $semana=date("W");
+    /*echo "semana nro: ".(date("W"));
+    echo "dia del mes nro: ".(date("j"));
+    echo "# dias de la semana".(date("N"));*/
+    $dias = array('lunes', 'martes', 'miercoles', 
     'jueves', 'viernes', 'sabado','domingo');
-  $enero = mktime(1,1,1,1,1,$ano); 
-  //$mos = (11-date('w',1))%7-3; 
-  $mos = (11-date('w',$enero))%7-3;
-  $inicios = strtotime(($semana-1) . ' weeks '.$mos.' days', $enero); 
-  for ($x=0; $x<=6; $x++) {
+    $enero = mktime(1,1,1,1,1,$ano); 
+    //$mos = (11-date('w',1))%7-3; 
+    $mos = (11-date('w',$enero))%7-3;
+    $inicios = strtotime(($semana-1) . ' weeks '.$mos.' days', $enero); 
+    for ($x=0; $x<=6; $x++) {
     $dias[] = date('d/m/Y', strtotime("+ $x day", $inicios));
     $dia[] = date('w', strtotime("+ $x day", $inicios));
-  }
-  $this->view->diassemana=$dias;
-  $this->view->semanalabor=$semana;
-
-   
-  }
+    }
+    $this->view->diassemana=$dias;
+    $this->view->semanalabor=$semana;
+}
 
 public function cargartareaAction() {
         $codigo='PROP-2015-20209133394-1407-15.10.053-B';
@@ -2122,9 +2396,7 @@ public function cargartarea2Action() {
           </script>
         <?php }
 
-      }
-
-   
+      }  
       
 
     }
@@ -2138,9 +2410,13 @@ public function cargartarea2Action() {
 
     $proyectoid= $this->_getParam("proyectoid");
     $codigo_prop_proy= $this->_getParam("codigo_prop_proy");
+    $propuestaid= $this->_getParam("propuestaid");
+    $revision= $this->_getParam("revision");
 
     $this->view->proyectoid=$proyectoid;
     $this->view->codigo_prop_proy=$codigo_prop_proy;
+    $this->view->propuestaid=$propuestaid;
+    $this->view->revision=$revision;
 
     $proyect = new Admin_Model_DbTable_Proyecto();
     $verproyect=$proyect->_buscarProyectodetalles($proyectoid,$codigo_prop_proy);
@@ -2155,24 +2431,35 @@ public function cargartarea2Action() {
       $cliente=$verproyect[0]['clienteid'];
 
       $where = array('clienteid' =>$cliente);
-      //print_r($where);
 
+      if($cliente!='')
+      {
+      //print_r($where);
       $contact = new Admin_Model_DbTable_Contacto();
       $cc=$contact->_getFilter($where);
-
-      //print_r($cc[0]);
       $this->view->contact=$cc;
+
+      }
 
       /* para visualizar el comntacto por defecto*/
       $contactunico=$verproyect[0]['contactoid'];
       $where = array('contactoid' =>$contactunico);
-      // //print_r($where);
-
+  
+      if($contactunico!='')
+      {
+      //print_r($where);      
       $contunic = new Admin_Model_DbTable_Contacto();
       $ccunico=$contunic->_getFilter($where);
-
-      //print_r($ccunico);
       $this->view->contactunico=$ccunico[0];
+
+      }
+
+      $usercat= new Admin_Model_DbTable_Usuariocategoria();    
+   
+      $ucat=$usercat->_getUsuariocategoriaAllxUid();
+      $this->view->ucat=$ucat;
+
+      //exit();
 
     }
 
@@ -2183,6 +2470,18 @@ public function cargartarea2Action() {
     $unidadm=new Admin_Model_DbTable_Unidadminera();
     $uminera=$unidadm->_getUnidadmineraAll();
     $this->view->unidad=$uminera;
+
+    $hojaselect = new Admin_Model_DbTable_Hojaresumen();
+    $where = array('proyectoid' => $proyectoid, 'codigo_prop_proy' => $codigo_prop_proy,
+                   'propuestaid' => $propuestaid,'revision_propuesta' => $revision);
+
+    $hselect=$hojaselect->_getFilter($where);
+    //print_r($hselect);
+    $this->view->select_revision=$hselect;
+
+    //exit();
+
+
   }
 
   public function imphojaresumenAction()
@@ -2191,13 +2490,20 @@ public function cargartarea2Action() {
     
     $proyectoid= $this->_getParam("proyectoid");
     $codigo_prop_proy= $this->_getParam("codigo_prop_proy");
+    $revision_hojaresumen= $this->_getParam("revision_hojaresumen");
+    $revision= $this->_getParam("revision_propuesta");
+    $propuestaid= $this->_getParam("propuestaid");
 
     $this->view->proyectoid=$proyectoid;
     $this->view->codigo_prop_proy=$codigo_prop_proy;
     //$this->view->imp=$imp;
 
-    $proyect = new Admin_Model_DbTable_Proyecto();
-    $verproyect=$proyect->_buscarProyectodetalles($proyectoid,$codigo_prop_proy);
+ 
+
+    $hoja= new Admin_Model_DbTable_Hojaresumen();  
+ 
+    $verproyect=$hoja->_buscarProyectodetallesxhojaresumen($proyectoid,$codigo_prop_proy,$propuestaid,$revision,$revision_hojaresumen);
+  
     //print_r($verproyect);
 
 
@@ -2258,14 +2564,14 @@ public function cargartarea2Action() {
       'isunidad' => $isunidad , 'estado' =>$estado_contacto , 'unidad_mineraid' => $unidad_contacto , 'nombre_unidad' => $nomunidad , 
       'direccion' => $direccion, 'anexo' => $anexo, 'telefono' =>$telefono, 'ape_paterno' => $paterno, 'ape_materno' =>$materno , 'nombre1' =>$nombre , 'numero1' =>$celular1 ,'numero2' => $celular2,  );
 
-      print_r($where);
+      //print_r($where);break;
 
       $newcontact=new Admin_Model_DbTable_Contacto();
       $ncontact=$newcontact->_save($where);
 
       if($ncontact)
       {
-        //echo "ffffffff"; 
+        //echo "ffffffff"; break;
         $pk = array('codigo_prop_proy' =>$codigo_prop_proy ,'proyectoid' =>$proyectoid  );
         $data = array('clienteid' =>$cliente_contacto ,'unidad_mineraid' => $unidad_contacto,  );
         $actproyecto= new Admin_Model_DbTable_Proyecto();
@@ -2290,6 +2596,222 @@ public function cargartarea2Action() {
       if($updcontactproyect)
         {echo "gg";}
   }
+
+  public function generarresumenAction()
+  {
+    echo $codigo_prop_proy= $this->_getParam("codigo_prop_proy");
+    echo "&";    
+    echo $proyectoid= $this->_getParam("proyectoid");
+    echo "&";
+    echo $revision_propuesta= $this->_getParam("revision");
+    echo "&";
+    echo $revision_hojaresumen= $this->_getParam("revision_hojaresumen");
+    echo $propuestaid= $this->_getParam("propuestaid");
+    echo "&";
+    echo $contact= $this->_getParam("contact");
+
+
+    echo $gerente_proyecto= $this->_getParam("gerente_proyecto");
+    echo $jefe_proyecto1= $this->_getParam("jefe_proyecto1");
+    echo $jefe_proyecto2= $this->_getParam("jefe_proyecto2");
+    echo $control_documentario= $this->_getParam("control_documentario");
+    echo $fecha_inicio_planificado= $this->_getParam("fecha_inicio_planificado");
+    echo $fecha_fin_planificado= $this->_getParam("fecha_fin_planificado");
+    echo $fecha_inicio_real= $this->_getParam("fecha_inicio_real");
+    echo $fecha_fin_real= $this->_getParam("fecha_fin_real");
+
+    echo $adelanto= $this->_getParam("adelanto");
+    echo $comentario= $this->_getParam("comentario");
+    echo $tipo_contrato= $this->_getParam("tipo_contrato");
+    echo $observacion= $this->_getParam("observacion");
+    // $contacto= new Admin_Model_DbTable_Contacto();
+    // $wherecont = array('contactoid' =>$contact , );
+    // $cc=$contacto->_getOne($wherecont);
+    // print_r($cc);
+
+    $where = array('codigo_prop_proy' =>$codigo_prop_proy ,'proyectoid' =>$proyectoid , 'revision_propuesta' =>$revision_propuesta,
+                   'revision_hojaresumen' =>$revision_hojaresumen, 'propuestaid' =>$propuestaid  );
+
+    $hoja= new Admin_Model_DbTable_Hojaresumen();
+    $verhoja=$hoja->_getOne($where);
+
+    
+    if($verhoja)
+    {
+      //echo "no llego";
+    }
+    else
+    {
+    
+      //echo $cc['clienteid'];
+      $data = array('codigo_prop_proy' =>$codigo_prop_proy ,'proyectoid' =>$proyectoid , 'revision_propuesta' =>$revision_propuesta,
+                   'revision_hojaresumen' =>$revision_hojaresumen, 'propuestaid' =>$propuestaid ,'contactoid' =>$contact , 
+                   'gerente_proyecto' =>$gerente_proyecto, 'jefe_proyecto1' =>$jefe_proyecto1 ,'jefe_proyecto2' =>$jefe_proyecto2 , 
+                   'control_documentario' =>$control_documentario, 'fecha_inicio_planificado' =>$fecha_inicio_planificado ,'fecha_fin_planificado' =>$fecha_fin_planificado , 
+                   'fecha_inicio_real' =>$fecha_inicio_real, 'fecha_fin_real' =>$fecha_fin_real ,
+                   'adelanto' =>$adelanto, 'comentarios' =>$comentario ,
+                   'tipo_contrato' =>$tipo_contrato, 'observacion' =>$observacion , );
+
+      //print_r($data);
+      ///echo "llego";
+      $guardarhoja=$hoja->_save($data);
+     //exit();
+
+    }
+
+
+    exit();
+  }
+    
+  public function historialresumenAction()
+  {
+    $this->_helper->layout()->disablelayout();    
+
+    $proyectoid= $this->_getParam("proyectoid");
+    $codigo_prop_proy= $this->_getParam("codigo_prop_proy");
+    $propuestaid= $this->_getParam("propuestaid");
+    $revision= $this->_getParam("revision");
+
+    $hoja= new Admin_Model_DbTable_Hojaresumen();  
+    //$wherehistorial = array('codigo_prop_proy' =>$codigo_prop_proy,'proyectoid' =>$proyectoid,'propuestaid' =>$propuestaid, 'revision_propuesta' =>$revision);
+    $traerhistorial=$hoja->_buscarProyectodetalles($proyectoid,$codigo_prop_proy,$propuestaid,$revision);
+
+    //print_r($traerhistorial);
+
+    $this->view->historialresumen=$traerhistorial;
+
+    $usercat= new Admin_Model_DbTable_Usuariocategoria();
+
+    $ucat=$usercat->_getUsuariocategoriaAllxUid();
+    $this->view->ucat=$ucat;
+ 
+    //print_r($ucat);
+
+  }
+
+ public function updatehojaresumenAction()
+ {
+
+     $codigo_prop_proy= $this->_getParam("codigo_prop_proy");    
+     $proyectoid= $this->_getParam("proyectoid");
+     $revision_propuesta= $this->_getParam("revision_propuesta");
+     $revision_hojaresumen= $this->_getParam("revision_hojaresumen");
+     $propuestaid= $this->_getParam("propuestaid");
+   // echo $contact= $this->_getParam("contact");
+
+     $gerente_proyecto= $this->_getParam("gerente_proyecto");
+     $jefe_proyecto1= $this->_getParam("jefe_proyecto1");
+     $jefe_proyecto2= $this->_getParam("jefe_proyecto2");
+     $control_documentario= $this->_getParam("control_documentario");
+
+     $fecha_inicio_planificado= $this->_getParam("fecha_inicio_planificado");
+     $fecha_fin_planificado= $this->_getParam("fecha_fin_planificado");
+     $fecha_inicio_real= $this->_getParam("fecha_inicio_real");
+     $fecha_fin_real= $this->_getParam("fecha_fin_real");
+
+     $adelanto= $this->_getParam("adelanto");
+     $comentario= $this->_getParam("comentario");
+     $tipo_contrato= $this->_getParam("tipo_contrato");
+     $observacion= $this->_getParam("observacion");
+     $direccion= $this->_getParam("direccion");
+
+     $nombre_comercial= $this->_getParam("nombre_comercial");
+     $ruc= $this->_getParam("ruc");
+     $correo= $this->_getParam("correo");
+     $numero1= $this->_getParam("numero1");
+     $numero2= $this->_getParam("numero2");
+     $anexo= $this->_getParam("anexo");
+     $telefono= $this->_getParam("telefono");
+     $puesto_trabajo= $this->_getParam("puesto_trabajo");
+     $contactoid= $this->_getParam("contactoid");
+
+    
+    $pk = array('codigo_prop_proy' => $codigo_prop_proy,'proyectoid' => $proyectoid,'revision_hojaresumen' => $revision_hojaresumen,'propuestaid' => $propuestaid,
+          'revision_propuesta' => $revision_propuesta, );
+
+    $wherehoja = array(
+     'gerente_proyecto' => $gerente_proyecto,'jefe_proyecto1' => $jefe_proyecto1,'jefe_proyecto2' => $jefe_proyecto2,'control_documentario' => $control_documentario,
+     'fecha_inicio_planificado' => $fecha_inicio_planificado,'fecha_fin_planificado' => $fecha_fin_planificado,'fecha_inicio_real' => $fecha_inicio_real,'fecha_fin_real' => $fecha_fin_real,
+     'adelanto' => $adelanto, 'comentarios' => $comentario, 'tipo_contrato' => $tipo_contrato, 
+     'observacion' => $observacion,
+    );
+
+    // 'ruc' => $ruc,
+    $str = array('contactoid' => $contactoid,);
+    $wherecontacto = array('direccion' => $direccion,'correo' => $correo,
+     'numero1' => $numero1,'numero2' => $numero2,'anexo' => $anexo,'telefono' => $telefono,'puesto_trabajo' => $puesto_trabajo, );
+
+ // 'nombre_comercial' => $nombre_comercial,
+    
+    $uphoja= new Admin_Model_DbTable_Hojaresumen(); 
+    $uhoja=$uphoja->_update($wherehoja,$pk);
+                    //_update($data,$pk)
+
+    //print_r($uhoja);
+
+    if($uhoja)
+    { 
+      $updcontac=new Admin_Model_DbTable_Contacto();
+      $ucontact=$updcontac->_update($wherecontacto,$str);
+    ?>
+      <script>
+        alert("aaaa--aaa");
+      </script>
+    <?php
+    }
+    else
+    {
+    ?>
+      <script>
+        alert("bbbbb--bbbb");
+      </script>
+    <?php
+
+    }
+
+    exit();
+
+ }
+
+public function verproyectoAction() {
+    $proyectoid= $this->_getParam("proyectoid");
+    $codigo_prop_proy= $this->_getParam("codigo_prop_proy");
+    $propuestaid= $this->_getParam("propuesta");
+    $revision= $this->_getParam("revision");
+    $this->view->codigoproyecto=$codigo_prop_proy;
+    $this->view->proyectoid=$proyectoid;
+    $this->view->propuestaid=$propuestaid;
+    $this->view->revision=$revision;
+
+    $bandera= $this->_getParam("bandera");
+    if ($bandera=='S')
+    {
+    $this->view->bandera='S';}
+    $editproyect= new Admin_Model_DbTable_Proyecto();
+    $where = array(
+      'codigo_prop_proy'    => $codigo_prop_proy,
+      'proyectoid'    => $proyectoid,
+    );
+    $edit = $editproyect->_getOne($where);
+    $this->view->proyecto = $edit;
+   /// print_r($edit);
+
+    $codigo=$this->_getParam('codigo_prop_proy');
+    $propuestaid=$edit['propuestaid'];
+    $revision=$edit['revision'];
+    $buscapropuesta = new Admin_Model_DbTable_Propuesta();
+    $busca=$buscapropuesta->_getPropuestaxIndices($codigo,$propuestaid,$revision);
+    $this->view->buscapropuesta = $busca; 
+
+
+    $areacat=new Admin_Model_DbTable_Area();
+    $arcat=$areacat->_getAreaxProyecto();
+    $this->view->area = $arcat; 
+
+
+
+  
+}     
 
 
 }

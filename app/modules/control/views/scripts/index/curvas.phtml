@@ -1,0 +1,212 @@
+
+<!-- <canvas id="bar" class="chart chart-bar" data="CP.data"
+  labels="CP.labels"></canvas>  -->
+
+<!-- <p>{{ CP.proyectop.codigo_prop_proy }}</p>
+<p>{{ CP.proyectop.codigo }}</p> -->
+
+<table class=" table table-striped table-hover table-bordered " >
+  <!--<tr>
+  	<td><b>Fecha Inicio</b></td><td><p type="text" ng-model="CP.cuanto" size="4" ></p></td>
+  	<td><b>Fecha Final</b></td><td><p type="text" ng-model="CP.cuanto" size="4" ></p></td>
+  </tr>-->
+  <tr>
+    <td style="width:10%">
+        Revision de Proyecto
+    </td>
+	  <td style="width:30%">
+        Fecha de Proyecto
+        <form editable-form name="nameform_fecha" onaftersave="CP.saveColumn('fecha_ingreso_curvas')" ng-show="nameform_fecha.$visible">
+          <button type="submit" ng-disabled="nameform_fecha.$waiting" class="btn btn-warning">
+            guardar
+          </button>
+          <button type="button" ng-disabled="nameform_fecha.$waiting" ng-click="nameform_fecha.$cancel()" class="btn btn-danger">
+            cancelar
+          </button>
+        </form>  
+        <button class="btn btn-success" ng-show="!nameform_fecha.$visible" ng-click="nameform_fecha.$show()">
+          editar
+        </button>
+    </td>
+   	<td style="width:30%">
+        Porcentaje de avance planificado
+        <form editable-form name="nameform_plani" onaftersave="CP.saveColumn('porcentaje_propuesta')" ng-show="nameform_plani.$visible">
+          <button type="submit" ng-disabled="nameform_plani.$waiting" class="btn btn-warning">
+            guardar
+          </button>
+          <button type="button" ng-disabled="nameform_plani.$waiting" ng-click="nameform_plani.$cancel()" class="btn btn-danger">
+            cancelar
+          </button>
+        </form>  
+        <button class="btn btn-success" ng-show="!nameform_plani.$visible" ng-click="nameform_plani.$show()">
+          editar
+        </button>
+    </td>
+    <td style="width:30%">
+        Porcentaje de avance Real
+        <form editable-form name="nameform_real" onaftersave="CP.saveColumn('porcentaje_ejecutado')" ng-show="nameform_real.$visible">
+          <button type="submit" ng-disabled="nameform_real.$waiting" class="btn btn-warning">
+            guardar
+          </button>
+          <button type="button" ng-disabled="nameform_real.$waiting" ng-click="nameform_real.$cancel()" class="btn btn-danger">
+            cancelar
+          </button>
+        </form>  
+        <button class="btn btn-success" ng-show="!nameform_real.$visible" ng-click="nameform_real.$show()">
+          editar
+        </button>
+    </td>
+
+    <td>
+      <button type="button"  ng-click="deleteUser(user.id)" class="btn btn-danger pull-right">Eliminar</button>
+      <!-- ng-show="tableform.$visible" -->
+    </td>
+
+  </tr>
+
+
+<!-- <div ng-repeat="cronograma in CP.procronograma" >
+   {{ cronograma.revision_cronograma }}
+  {{ cronograma.revision_propuesta }}
+  {{ cronograma.cronogramaid }}
+  {{ cronograma.codigo_cronograma }}
+  {{ cronograma.fecha_comienzo }}
+  {{ cronograma.fecha_fin }}
+  {{ cronograma.duracion }}
+  {{ cronograma.predecesoras }}
+  {{ cronograma.sucesoras }}
+  {{ cronograma.nivel_esquema }}
+</div>  -->
+
+
+
+<div class="form-group" class="col-md-4"  >
+  <div class="col-md-1" >
+      <label>Escoja una revision: </label> 
+  </div>
+  <div class="col-md-2" >
+    <select class="form-control" ng-model="CP.revi"         
+      ng-options="c.revision_cronograma for c in CP.procronograma ">
+    </select> 
+  </div>
+  <div class="col-md-2" >
+    <button class="btn btn-success" ng-click="CP.busca(CP.revi,CP.proyectop.codigo_prop_proy,CP.proyectop.codigo)" class="btn btn-primary btn-xs">Busca</button>
+  </div>
+</div>
+
+<div class="form-group">
+    <button class="btn btn-primary" ng-click="CP.ShowForm()" ng-hide="CP.formVisibility">
+      Anadir Fecha
+    </button>
+
+    <div ng-show="CP.formVisibility" class="col-md-12" >
+      <div class="col-md-1" >
+        Fecha de Proyecto
+      </div>
+      <div class="col-md-2" >
+        <input class="form-control " type="text" ng-model="CP.fecha_ingreso_curvas"></input>
+      </div>
+      <div class="col-md-1" >
+        Porcentaje Planificado
+      </div>
+      <div class="col-md-2" >
+        <input class="form-control" type="text" ng-model="CP.porcentaje_propuesta"></input>
+      </div>
+
+      <div class="col-md-1" >
+        Porcentaje Real:         
+      </div>
+      <div class="col-md-2" >   
+        <input class="form-control" type="text" ng-model="CP.porcentaje_ejecutado"></input>   
+      </div>
+      <div class="col-md-3" >      
+        <button class="btn btn-warning" ng-click="CP.Guardarcurva()">Guardar</button>
+        <button class="btn btn-danger" ng-click="CP.Cancelarcurva()">Cancelar</button>
+      </div>
+    </div>
+
+</div>
+<!--   <div class="large-6 columns">
+    <label>Escoja una revision: </label> 
+      <select class="form-control"  ng-model="CP.revision">
+        <option value="A" selected>A</option>
+        <option value="B">B</option>
+        <option value="B">B</option>
+        <option value="C">C</option>
+        <option value="D">D</option>
+        <option value="E">e</option>
+        <option value="F">F</option>
+      </select>
+  </div> -->
+
+
+
+
+  <tr ng-repeat="label in CP.dat | orderBy:'fecha_ingreso_curvas'  ">
+    <!-- | filter:CP.revision -->
+    <td >     
+        <span editable-text="label.revision_cronograma" e-name="revision_cronograma" e-form="nameform_revision_cronograma" onbeforesave="checkName($data)">
+          {{label.revision_cronograma}}
+        </span>
+    </td>
+  	<td >     
+        <span editable-text="label.fecha_ingreso_curvas" e-name="fecha_ingreso_curvas" e-form="nameform_fecha" onbeforesave="checkName($data)">
+          {{label.fecha_ingreso_curvas}}
+        </span>
+    </td>
+	<td >     
+        <span editable-text="label.porcentaje_propuesta " e-name="porcentaje_propuesta" e-form="nameform_plani" onbeforesave="checkName($data)">
+          {{label.porcentaje_propuesta}}
+        </span>
+    </td>
+   	<td >     
+        <span editable-text="label.porcentaje_ejecutado" e-name="porcentaje_ejecutado" e-form="nameform_real" onbeforesave="checkName($data)">
+          {{label.porcentaje_ejecutado}}
+        </span>
+    </td>
+    <td>
+      <button type="button"  ng-click="CP.deleteFecha(label.codigo_curvas)" class="btn btn-danger pull-right">El</button>
+      <!-- ng-show="tableform.$visible" -->
+    </td>
+  </tr>
+</table>
+
+<canvas id="line" class="chart chart-line" data="CP.data"
+  labels="CP.labels"  legend="false" series="CP.series"
+  click="CP.onClick" options="CP.options">
+</canvas> 
+
+	<head>
+	
+		<style>
+			canvas{
+			}
+		</style>
+	</head>
+	<body>
+		<canvas id="canvas" height="450" width="450"></canvas>
+
+
+	<script>
+
+	// 	var pieData = [
+	// 			{
+	// 				value: 30,
+	// 				color:"#F38630"
+	// 			},
+	// 			{
+	// 				value : 50,
+	// 				color : "#E0E4CC"
+	// 			},
+	// 			{
+	// 				value : 100,
+	// 				color : "#69D2E7"
+	// 			}
+			
+	// 		];
+
+	// var myPie = new Chart(document.getElementById("canvas").getContext("2d")).Pie(pieData);
+	
+	</script>
+	</body>
+

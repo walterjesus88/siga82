@@ -23,9 +23,11 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
                      ->headLink()->appendStylesheet('/css/style.css')
                      ->headLink()->appendStylesheet('/css/style-responsive.css')
                      ->headLink()->appendStylesheet('/css/perfect-scrollbar.css')
-                     ->headLink()->appendStylesheet('/css/scrollTable.css');
+                     ->headLink()->appendStylesheet('/css/scrollTable.css')
+                     ->headLink()->appendStylesheet('/css/angular-chart.css');
 
             $view   ->headScript()->appendFile('/js/jquery.js')
+                        ->headScript()->appendFile('/js/metodosglobales.js')
                         ->headScript()->appendFile('/js/jquery-ui-1.9.2.custom.min.js')
                         ->headScript()->appendFile('/js/jquery-migrate-1.2.1.min.js')
                         ->headScript()->appendFile('/js/bootstrap.min.js')
@@ -67,6 +69,9 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
                         ->headScript()->appendFile('/js/adt/src/plugins/fixedcolumns/angular-datatables.fixedcolumns.js')
                         ->headScript()->appendFile('/js/adt/src/plugins/fixedheader/angular-datatables.fixedheader.js')
                         ->headScript()->appendFile('/js/modulos-angular.js')
+                        ->headScript()->appendFile('/js/modulo-control.js')
+                        ->headScript()->appendFile('/js/modulo-controlproyecto.js')
+
                         //end: librerias para el funcionamiento de angular datatables
                         ->headScript()->appendFile('/js/jquery.dcjqaccordion.2.7.js')
                         ->headScript()->appendFile('/js/jquery.scrollTo.min.js')
@@ -96,7 +101,8 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
                         ->headScript()->appendFile('/js/jspdf/jspdf.js')
                         ->headScript()->appendFile('/js/jspdf/jspdf.plugin.from_html.js')
                         ->headScript()->appendFile('/js/jspdf/FileSaver.js')
-                        ->headScript()->appendFile('/js/jspdf/libs/base64.js');
+                        ->headScript()->appendFile('/js/jspdf/libs/base64.js')
+                        ->headScript()->appendFile('/js/ui-bootstrap-tpls-0.13.3.js');
 
             $view->headTitle()->setSeparator(' - ');
             $view->headTitle('Sistema de Planificación y Control | Anddes');

@@ -247,14 +247,12 @@ class Admin_Model_DbTable_Activaractividad extends Zend_Db_Table_Abstract
 
 
 
-                  public function _getClientesXEmpleadoXEstadoActivo($uid,$dni,$estado)
-     {
+    public function _getClientesXEmpleadoXEstadoActivo($uid,$dni,$estado)
+    {
         try{
             $sql=$this->_db->query("
-                
-
-                   select distinct (p.clienteid), c.nombre_comercial
-                   from activar_actividad e inner join proyecto p
+                select distinct (p.clienteid), c.nombre_comercial
+                from activar_actividad e inner join proyecto p
                 ON e.codigo_prop_proy = p.codigo_prop_proy and e.proyectoid=p.proyectoid 
                 inner join cliente c on
                 p.clienteid=c.clienteid
@@ -263,19 +261,34 @@ class Admin_Model_DbTable_Activaractividad extends Zend_Db_Table_Abstract
                 and not p.clienteid='20451530535'
                 order by c.nombre_comercial
 
-
-
-
                ");
             $row=$sql->fetchAll();
             return $row;           
             }  
-            
            catch (Exception $ex){
             print $ex->getMessage();
         }
     }
 
+    public function _getProyectosXEmpleadoXEstadoActivo($uid,$dni,$estado)
+    {
+        try{
+            $sql=$this->_db->query("
+                select distinct (p.proyectoid), p.estado as estado_proyecto,p.nombre_proyecto, p.gerente_proyecto, p.control_documentario, 
+                    p.control_proyecto ,c.nombre_comercial, p.codigo_prop_proy, p.propuestaid, p.oid,p.revision,p.tipo_proyecto,p.paisid,p.fecha_inicio
+                from activar_actividad e inner join proyecto p
+                ON e.codigo_prop_proy = p.codigo_prop_proy and e.proyectoid=p.proyectoid 
+                inner join cliente c on
+                p.clienteid=c.clienteid
+                where e.uid = '$uid' and e.dni='$dni' and p.estado='$estado' and e.estado = '$estado' and not p.proyectoid in ('1','2') order by c.nombre_comercial
 
+               ");
+            $row=$sql->fetchAll();
+            return $row;           
+            }  
+           catch (Exception $ex){
+            print $ex->getMessage();
+        }
+    }
 
 }

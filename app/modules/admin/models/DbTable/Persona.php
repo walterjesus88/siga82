@@ -143,7 +143,7 @@ class Admin_Model_DbTable_Persona extends Zend_Db_Table_Abstract
                 select * from usuario_categoria as usu
                 inner join persona as per
                 on usu.dni=per.dni
-                where usu.cargo='$cargo' and usu.estado_sistema='A' and usu.estado='A'
+                where usu.cargo='$cargo' or usu.isgerente='S' and usu.estado_sistema='A' and usu.estado='A'
             ");
             $row=$sql->fetchAll();
            return $row;  
@@ -151,6 +151,22 @@ class Admin_Model_DbTable_Persona extends Zend_Db_Table_Abstract
             print "Error: Retornando los datos del alumno deacuerdo a una palabra ingresada".$ex->getMessage();
         }
     }
+
+    public function _getPersonaxArea($areaid=''){
+        try{
+            $sql=$this->_db->query("
+                select * from usuario_categoria as usu
+                inner join persona as per
+                on usu.dni=per.dni
+                where usu.areaid='$areaid' and usu.estado_sistema='A' and usu.estado='A'
+            ");
+            $row=$sql->fetchAll();
+           return $row;  
+        }catch (Exception $ex) {
+            print "Error: Retornando los datos del alumno deacuerdo a una palabra ingresada".$ex->getMessage();
+        }
+    }
+
 
     public function _getPersonasOrdenadoxApellido(){
         try{
@@ -198,6 +214,17 @@ class Admin_Model_DbTable_Persona extends Zend_Db_Table_Abstract
             return false;
         }  catch (Exception $ex){
             print "Error: Retornando los alumnos de una escuela en un periodo".$ex->getMessage();
+        }
+    }
+
+    public function _save($data)
+    {
+        try{
+            if ($data['dni']=='' ||  $data['ape_paterno']=='' ) return false;
+            return $this->insert($data);
+            return false;
+        }catch (Exception $e){
+                print "Error: Registration ".$e->getMessage();
         }
     }
 

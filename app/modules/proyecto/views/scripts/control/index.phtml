@@ -26,13 +26,15 @@
 
 
   <div id="Proyecto_Activa">
-    <table class="table table-hover p-table">
+    <table class="table table-hover p-table datatable-order-search">
           <thead>
             <tr>  
                <th style="width: 10%;">Código</th>
               <th style="width: 20%;">Cliente</th>
               <th style="width: 45;">Nombre</th>
               <th style="width: 15%;">Gerente de Proyecto</th>
+              <th style="width: 15%;">CD del Proyecto</th>
+              <th style="width: 15%;">CP del Proyecto</th>
               <th style="width: 5%;">Estado</th>
               <th style="width: 5%;">Acciones</th>
             </tr>
@@ -74,7 +76,16 @@
                 <a href="#"><?php echo $lista['nombre_proyecto']; ?></a>
               </td>
               <td>
-                <a href="#"><?php echo $lista['gerente_proyecto']; ?></a>
+                <?php //echo $lista['gerente_proyecto']; 
+                  $porciones = explode(".", $lista['gerente_proyecto']);
+                    echo (ucwords($porciones[0])); echo " ";echo (ucwords($porciones[1]));
+                ?>
+              </td>
+              <td>
+                <?php echo $lista['control_documentario']; ?>
+              </td>
+              <td>
+                <?php echo $lista['control_proyecto']; ?>
               </td>
                                 
               <td>
@@ -535,4 +546,14 @@ $(document).ready(function(){
     $('select').customSelect();
     });
   });
+</script>
+
+<script>
+  $(document).ready(function() {
+    $('.datatable-order-search').dataTable( {
+        "paging":   false,
+        "ordering": true,
+        "info":     true
+    } );
+  } );
 </script>

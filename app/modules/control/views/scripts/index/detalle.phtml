@@ -1,0 +1,106 @@
+<div>
+  <div class="panel">
+    <div class="col-md-8">
+      <div class="panel">
+        <header class="bio-graph-heading project-heading">
+          <strong>
+              <p>
+                Proyecto: {{vt.proyecto.codigo}}
+              </p>
+              <p>
+                Codigo: {{vt.proyecto.codigo_prop_proy}}
+              </p>
+              <p>
+                {{vt.proyecto.nombre}}
+              </p>
+          </strong>
+        </header>
+        <div class="panel-body bio-graph-info">
+          <div class="bio-row">
+            <span class="bold">Cliente:</span>
+            {{vt.proyecto.cliente}}
+          </div>
+          <div class="bio-row">
+            <span class="bold">Unidad Minera:</span>
+            {{vt.proyecto.unidad_minera}}
+          </div>
+          <div class="bio-row">
+            <span class="bold">Código:</span>
+            {{vt.proyecto.codigo}}
+          </div>
+          <div class="bio-row">
+            <span class="bold">Estado:</span>
+            {{vt.proyecto.estado}}
+          </div>
+          <div class="bio-row">
+            <span class="bold">Fecha Inicio:</span>
+            {{vt.proyecto.fecha_inicio}}
+          </div>
+          <div class="bio-row">
+            <span class="bold">Fecha Cierre:</span>
+            {{vt.proyecto.fecha_cierre}}
+          </div>
+        </div>
+      </div>
+    </div>
+    <aside class="col-md-4">
+      <div class="panel">
+        <header class="panel-heading">
+          Descripción del Proyecto
+        </header>
+        <div class="panel-body">
+          <div class="">
+            <img ng-src="{{vt.proyecto.logo_cliente}}" alt="Logo Cliente" class="img-responsive"/>
+            <button type="button" class="btn btn-danger btn-xs" ng-click="vt.editarLogo()">Editar Logo</button>
+          </div>
+          <p>
+          {{vt.proyecto.descripcion}}
+          </p>
+        </div>
+      </div>
+    </aside>
+  </div>
+  <div class="col-md-12">
+
+    <nav class="panel-heading tab-bg-dark-navy-blue">
+      <ul class="nav nav-tabs">
+        <!--<li ng-class="vt.configurarActivo"><a href="" ng-click="vt.cambiarPanel('configurar')">Configurar </a></li> -->
+        <li ng-class="vt.anddesActivo"><a href="" ng-click="vt.cambiarPanel('anddes')">Control</a></li>
+        <!--<li ng-class="vt.clienteActivo"><a href="" ng-click="vt.cambiarPanel('cliente')">Monitoreo</a></li>
+        <li ng-class="vt.contratistaActivo"><a href="" ng-click="vt.cambiarPanel('contratista')">Planeamiento</a></li>
+        <li ng-class="vt.contratistaActivo"><a href="" ng-click="vt.cambiarPanel('contratista')">Finanzas</a></li>
+        <li ng-class="vt.contratistaActivo"><a href="" ng-click="vt.cambiarPanel('contratista')">Indicadores</a></li> -->
+      </ul>
+    </nav>
+
+    <div class="panel-body">
+      <div class="tab-content">
+
+      <!--<div ng-include="'/controldocumentario/index/configurartr'"
+        ng-controller="ConfigurarTrCtrl as vc" class="tab-pane"
+        ng-class="vt.configurarActivo">
+        </div> -->
+
+        <div ng-include="'/control/index/control'"
+        ng-controller="ControlCtrl as CP" class="tab-pane" 
+        ng-class="vt.anddesActivo" 
+        >
+        </div>
+
+         
+
+
+
+      <!--<div ng-include="'/controldocumentario/index/cliente'"
+        class="tab-pane" ng-class="vt.clienteActivo">
+        </div>
+
+        <div ng-include="'/controldocumentario/index/contratista'"
+        class="tab-pane" ng-class="vt.contratistaActivo">
+        </div> -->
+
+      </div>
+    </div>
+
+  </div>
+</div>

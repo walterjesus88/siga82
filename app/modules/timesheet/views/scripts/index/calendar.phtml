@@ -1,8 +1,10 @@
 <body onload="cargardatos()"> 
-    <section class="panel">
+    <!--<section class="panel">
+        
         <header class="panel-heading" style="padding-bottom : 10px;">
             Hoja de Tiempo        
         </header>
+        -->
         <div class="modal fade" id="agregar" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content" style="width: 1250px; top: 100%; margin-left: -180px;" >
@@ -79,7 +81,7 @@
             </div>
         </div>
     </div>
-</section>
+<!--</section>-->
 
 <div id="registro" style="position: relative; clear: none;"></div>
 <div style="display:none;" id="fechasemana"></div>
@@ -147,6 +149,7 @@ $("#guardar_act").click(function(){
     acAg.forEach(function (item) {
         var fecha = $("#fechasemana").text();
         url = "/timesheet/index/guardartareopersona/codigo/" + item.codigo + "/proyectoid/" + item.proyectoid + "/revision/" + item.revision + "/categoriaid/" + item.categoriaid + "/propuestaid/" + item.propuestaid + "/actividadid/" + item.actividadid + "/codigo_actividad/" + item.codigo_actividad + "/actividad_padre/" + item.actividad_padre + "/h_propuesta/" + item.h_propuesta + "/fecha/" + fecha;
+        
         $("#cargar").load(url, function () {
            $("#registro").load("/timesheet/index/registro/fecha/" + fecha_inicio);
         });
@@ -160,6 +163,7 @@ $("#datepicker").datepicker({
     firstDay: 1,
     maxDate:0, dateFormat:'dd/mm/yy', yearRange: '-100:+0',  
     minDate: new Date(2015,5,1),  
+    showWeek: true,
 
     onSelect: function (date, inst) {
         var dateObj = $('#datepicker').datepicker('getDate');
@@ -230,3 +234,6 @@ function cargardatos(){
     $("#registro").load("/timesheet/index/registro/fecha/" + fecha_inicio); 
 } 
 </script>
+
+
+

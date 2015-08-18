@@ -255,11 +255,25 @@ class Admin_Model_DbTable_Planificacion extends Zend_Db_Table_Abstract
                         where e.uid='$uid_gerente' and e.dni='$dni_gerente' and e.nivel='0') 
                     and p.h_totaldia is not null
                     and p.uid='$uid_equipo' and p.dni='$dni_equipo' and p.semanaid='$semanaid'
-                    
-                
             ");
             $row=$sql->fetchAll();
             return $row;     
+        } catch (Exception $e) {
+            print "Error: Read One Condition".$e->getMessage();
+        }
+    }
+
+    public function _getProyectosClientesxSemana($semanaid,$uid,$dni){
+        try {
+            $sql=$this->_db->query("
+               select * from planificacion
+               where semanaid='$semanaid'  and uid='$uid' and dni='$dni' and h_totaldia is not null
+               and not codigo_prop_proy in ('2015')
+               
+            ");
+            $row=$sql->fetchAll();
+            return $row;     
+
         } catch (Exception $e) {
             print "Error: Read One Condition".$e->getMessage();
         }

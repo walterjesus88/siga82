@@ -3,14 +3,16 @@ class Rrhh_IndexController extends Zend_Controller_Action {
 
     public function init() {
     	$options = array(
-            'layout' => 'layout',
+            'layout' => 'inicio',
         );
         Zend_Layout::startMvc($options);
 
     }
     
     public function indexAction() {
-            
+
+        // $this->_helper->redirector('index','index','admin');
+
     }
 
     public function listarAction() {
@@ -22,7 +24,7 @@ class Rrhh_IndexController extends Zend_Controller_Action {
         $this->_helper->layout()->disableLayout();
         $busqueda = $this->_getParam('b');
         $busqueda=strtoupper($busqueda);
-        $busqueda = strtoupper($busqueda);
+
         $listapersonas = new Admin_Model_DbTable_Persona();
         $lista=$listapersonas->_getBuscarPersonas($busqueda);
         $this->view->lista_personas=$lista;

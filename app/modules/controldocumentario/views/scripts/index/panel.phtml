@@ -1,0 +1,147 @@
+<div>
+	<div class="col-md-6">
+		<div class="panel">
+			<h3 class="panel-heading">Cantidad de Proyectos</h3>
+			<div class="panel-body">
+				<table class="table table-bordered table-striped table-condensed">
+					<thead>
+						<th>
+							Total
+						</th>
+						<th>
+							En Proceso
+						</th>
+						<th>
+							Paralizado
+						</th>
+						<th>
+							Cancelado
+						</th>
+						<th>
+							Cerrado
+						</th>
+					</thead>
+					<tbody>
+						<tr>
+							<td>
+								{{panel.cantidad_proyectos.total}}
+							</td>
+							<td>
+								{{panel.cantidad_proyectos.en_proceso}}
+							</td>
+							<td>
+								{{panel.cantidad_proyectos.stand_by}}
+							</td>
+							<td>
+								{{panel.cantidad_proyectos.cancelado}}
+							</td>
+							<td>
+								{{panel.cantidad_proyectos.cerrado}}
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+
+		<div class="panel">
+			<h3 class="panel-heading">Carga Laboral Control Documentario</h3>
+			<div class="panel-body">
+				<table class="table table-bordered table-striped table-condensed">
+					<thead>
+						<th>
+							Integrantes
+						</th>
+						<th>
+							En Proceso
+						</th>
+						<th>
+							Paralizado
+						</th>
+						<th>
+							Cancelado
+						</th>
+						<th>
+							Cerrado
+						</th>
+					</thead>
+					<tbody>
+						<tr ng-repeat="integrante in panel.integrantes track by $index">
+							<td>
+								{{integrante.nombre}}
+							</td>
+							<td>
+								{{integrante.A}}
+							</td>
+							<td>
+								{{integrante.P}}
+							</td>
+							<td>
+								{{integrante.CA}}
+							</td>
+							<td>
+								{{integrante.C}}
+							</td>
+						</tr>
+					</tbody>
+					<tfoot>
+						<td>
+							Sub Total
+						</td>
+						<td>
+							{{panel.cantidad_proyectos.en_proceso}}
+						</td>
+						<td>
+							{{panel.cantidad_proyectos.stand_by}}
+						</td>
+						<td>
+							{{panel.cantidad_proyectos.cancelado}}
+						</td>
+						<td>
+							{{panel.cantidad_proyectos.cerrado}}
+						</td>
+					</tfoot>
+				</table>
+			</div>
+		</div>
+	</div>
+
+	<div class="col-md-6">
+		<div class="panel">
+			<h1 class="panel-heading">Carga Laboral Control Documentario (En Proceso)</h1>
+			<div class="panel-body">
+				<canvas id="bar" class="chart chart-bar" data="panel.datos" labels="panel.labels"
+					series="panel.series" options="panel.options"></canvas>
+			</div>
+		</div>
+
+		<div class="panel">
+			<h1 class="panel-heading">Acciones</h1>
+			<div class="panel-body">
+				<div class="col-md-6 m-bot15">
+					<a href="#/proyectos">
+						<button type="button" class="btn btn-primary btn-sm">
+							Listar los Proyectos
+						</button>
+					</a>
+				</div>
+				<div class="col-md-6 m-bot15">
+					<a href="#/carpetas">
+						<button type="button" class="btn btn-warning btn-sm">
+							Ubicación de Carpetas de Proyectos
+						</button>
+					</a>
+				</div>
+				<div class="col-md-6 m-bot15">
+					<a href="#/reporte">
+						<button type="button" class="btn btn-success btn-sm">
+							Generar Reporte de Planificación
+						</button>
+					</a>
+				</div>
+			</div>
+		</div>
+
+	</div>
+
+</div>

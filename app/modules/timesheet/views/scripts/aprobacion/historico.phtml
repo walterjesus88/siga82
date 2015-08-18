@@ -1,0 +1,88 @@
+<section class="panel">
+    <header class="panel-heading" style="padding-bottom : 17px">
+        Hoja de Tiempo
+            <span class="pull-right">
+                <a id="mostrar_htpersona" class=" btn btn-success  btn-xs"> Persona</a>
+                    <?php 
+     
+                    if ($this->is_gerente_general == 'JEFE' || $this->is_gerente_general == 'GERENTE-AREA' || $this->is_gerente_general == 'GERENTE' || $this->usuario=='romy.valdivia'  ) { ?>
+                <a id="mostrar_htjefe" class=" btn btn-primary  btn-xs"> Jefe Inmediato</a>
+                    <?php } 
+                    if($this->is_gerente=='S' )
+                    { ?>
+                    <a id="mostrar_htgerente" class=" btn btn-warning  btn-xs"> Gerente Proyecto</a> 
+                    <?php }?>
+                <br>
+                <a id="htjefe_historico"  style="display: none;" class=" btn btn-primary  btn-xs"> Historico Aprobaciones</a>
+                <a id="htgerente_historico"  style="display: none;" class=" btn btn-primary  btn-xs"> Historico Aprobaciones</a>
+          </span> 
+    </header>
+</section>
+
+<div id='htpersona'> </div>
+<div id="htjefe" style="display: none;"> </div>
+<div id="htjefeall" style="display: none;"></div>
+<div id="htgerente" style="display: none;"></div>
+<div id="htgerenteall" style="display: none;"></div>
+
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        var url = "/timesheet/aprobacion/hojatiempopersona";
+        $("#htpersona").load(url);
+        $("#mostrar_htpersona").click(function(){
+            $("#htjefe").hide();
+            $("#htpersona").show();
+            $("#htgerente").hide();
+            $("#htjefe_historico").hide();
+            $("#htjefeall").hide();
+        	$("#htgerente_historico").hide();
+            var url = "/timesheet/aprobacion/hojatiempopersona";
+            $("#htpersona").load(url);
+            $("#htgerenteall").hide();
+        });
+        $("#mostrar_htjefe").click(function(){
+            $("#htpersona").hide();
+            $("#htgerente").hide();
+            $("#htjefe").show();
+            $("#htjefe_historico").show();
+            $("#htgerente_historico").hide();
+            $("#htjefeall").hide();
+             $("#htgerenteall").hide();
+            var url_jefe = "/timesheet/aprobacion/mostrarhojatiempofiltro2";
+            $("#htjefe").load(url_jefe);
+            
+        });
+        $("#mostrar_htgerente").click(function(){
+            $("#htpersona").hide();
+            $("#htgerente").show();
+            $("#htjefe").hide();
+            $("#htjefe_historico").hide();
+            $("#htjefeall").hide();
+            $("#htgerente_historico").show();
+             $("#htgerenteall").hide();
+            var url_gerente = "/timesheet/aprobacion/mostrarhojatiempogerente";
+            $("#htgerente").load(url_gerente);
+        });
+
+        $("#htjefe_historico").click(function(){
+            $("#htpersona").hide();
+            $("#htjefe").hide();
+            $("#htgerente").hide();
+            $("#htjefeall").show();
+            $("#htgerenteall").hide();
+            var url_jefeall = "/timesheet/aprobacion/mostrarhistoricohojatiempofiltro2";
+            $("#htjefeall").load(url_jefeall);
+        });
+
+        $("#htgerente_historico").click(function(){
+            $("#htpersona").hide();
+            $("#htjefe").hide();
+            $("#htgerente").hide();
+            $("#htjefeall").hide();
+            $("#htgerenteall").show();
+            var url_gerenteall = "/timesheet/aprobacion/mostrarhistoricohojatiempogerente";
+            $("#htgerenteall").load(url_gerenteall);
+        });
+});
+</script>

@@ -1,0 +1,190 @@
+<br>
+<section class="panel">
+    <header class="panel-heading tab-bg-dark-navy-blue ">
+        <ul class="nav nav-tabs">
+            <li class="active">
+                <a data-toggle="tab" href="#persona" aria-expanded="true">Datos Persona</a>
+            </li>
+            <li class="">
+                <a data-toggle="tab" href="#equipo" aria-expanded="false">Datos Usuario</a>
+            </li>
+        </ul>
+    </header>
+    <div class="panel-body">
+        <div class="tab-content">
+            <div id="persona" class="tab-pane active">
+            <div class="panel-body">
+                <form class="form-horizontal" role="form">
+                    <div class="form-group has-error">
+                        <label for="dni" class="col-lg-2 col-sm-2 ">DNI</label>
+                        <div class="col-lg-3">
+                            <input  id="dni">
+                        </div>
+                        <label for="sexo" class="col-lg-2 col-sm-2 ">Sexo</label>
+                        <div class="col-lg-3">
+                            <select id='sexo' class="input-sm m-bot15 col-lg-10" style="margin-bottom: 0px;">
+                                <option value="M">Masculino</option>
+                                <option value="F">Femenino</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group has-error">
+                        <label for="ape_paterno" class="col-lg-2 col-sm-2 ">Apellido Paterno</label>
+                        <div class="col-lg-3">
+                            <input  id="ape_paterno">
+                         
+                        </div>
+                        <label for="ape_materno" class="col-lg-2 col-sm-2 ">Apellido Materno</label>
+                        <div class="col-lg-3">
+                            <input id="ape_materno">
+                        </div>
+                    </div>
+                     <div class="form-group has-error">
+                        <label for="nombre1" class="col-lg-2 col-sm-2 ">Primer Nombre</label>
+                        <div class="col-lg-3">
+                            <input  id="nombre1">
+                         
+                        </div>
+                        <label for="nombre2" class="col-lg-2 col-sm-2 ">Segundo Nombre</label>
+                        <div class="col-lg-3">
+                            <input id="nombre2">
+                        </div>
+                    </div>
+                    <div class="form-group has-error">
+                        <label for="nombre3" class="col-lg-2 col-sm-2 ">Tercer Nombre</label>
+                        <div class="col-lg-3">
+                            <input  id="nombre3">
+                         
+                        </div>
+                        <label for="alias" class="col-lg-2 col-sm-2 ">alias</label>
+                        <div class="col-lg-3">
+                            <input id="alias">
+                        </div>
+                    </div>
+                    <div class="form-group has-error">
+                        <label for="email_anddes" class="col-lg-2 col-sm-2 ">Email Anddes</label>
+                        <div class="col-lg-3">
+                            <input  id="email_anddes">
+                        </div>
+                        <label for="email_personal" class="col-lg-2 col-sm-2 ">Email Personal</label>
+                        <div class="col-lg-3">
+                            <input id="email_personal">
+                        </div>
+                    </div>
+                    <div class="panel-body">
+                        <a class="btn btn-success" id="guardar_persona">Guardar</a>
+                    </div>
+                </form>
+            </div>
+            </div>
+            <div id="equipo" class="tab-pane">
+                <div class="panel-body">
+                    <form class="form-horizontal" role="form">
+                        <div class="form-group has-error">
+                            <label for="uid" class="col-lg-2 col-sm-2 ">Login Usuario </label>
+                            <div class="col-lg-3">
+                                <input  id="uid">
+                            </div>
+                            <label for="dni_usuario" class="col-lg-2 col-sm-2 ">DNI</label>
+                            <div class="col-lg-3">
+                                <input  id="dni_usuario">
+                            </div>
+                        </div>
+                        <div class="form-group has-error">
+                            <label for="area" class="col-lg-2 col-sm-2 ">Area</label>
+                            <div class="col-lg-3">
+                                <select id='area' class="input-sm m-bot15 col-lg-10" style="margin-bottom: 0px;">
+                                    <?php foreach ($this->area as $area) {?>
+                                    <option value="<?php print_r($area['areaid'])?>"><?php print_r($area['nombre'])?></option>
+                                    <?php }?>
+                                </select>  
+                            </div>
+                            <label for="categoria" class="col-lg-2 col-sm-2 ">Categoria</label>
+                            <div class="col-lg-3">
+                                <select id='categoria' class="input-sm m-bot15 col-lg-10" style="margin-bottom: 0px;">
+                                    <?php foreach ($this->categoria as $categoria) {?>
+                                    <option value="<?php print_r($categoria['categoriaid'])?>"><?php print_r($categoria['nombre_categoria'])?></option>
+                                    <?php }?>
+                                </select>
+                            </div>
+                        </div>
+                         <div class="form-group has-error">
+                            <label for="nivel" class="col-lg-2 col-sm-2 ">Nivel Usuario</label>
+                            <div class="col-lg-3">
+                                <select id='nivel' class="input-sm m-bot15 col-lg-10" style="margin-bottom: 0px;">
+                                    <option value="4">Miembro Equipo</option>
+                                    <option value="0">Gerente Proyecto</option>
+                                </select>  
+                            </div>
+                            <label for="aprobador" class="col-lg-2 col-sm-2 ">Seleccione Aprobador</label>
+                            <div class="col-lg-3">
+                                 <select id='aprobador' class="input-sm m-bot15 col-lg-10" style="margin-bottom: 0px;">
+                                    <?php foreach ($this->aprobador as $aprobador) {?>
+                                    <option value="<?php print_r($aprobador['idaprobacion'])?>"><?php print_r($aprobador['nombre_aprobacion'])?></option>
+                                    <?php }?>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group has-error">
+                        <label for="rid" class="col-lg-2 col-sm-2 ">Rol Sistema</label>
+                        <div class="col-lg-3">
+                            <select id='rid' class="input-sm m-bot15 col-lg-10" style="margin-bottom: 0px;">
+                                <option value="PROYECTO">Proyecto</option>
+                                <option value="PROPUESTA">Propuesta</option>
+                            </select>
+                        </div>
+                        </div>
+                        <div class="panel-body">
+                            
+                             <a class="btn btn-success" id="guardar_usuario">Guardar</a>
+                        </div>                    
+                    </form>
+                </div>            
+            </div>
+        </div>
+    </div>
+</section>
+<div id="cargar_datos"></div> 
+<script type='text/javascript'>
+  $("#guardar_persona").click(function(){
+    var dni = $("#dni").val();
+    var ape_paterno = $("#ape_paterno").val();
+    var ape_materno = $("#ape_materno").val();   
+    var nombre1 = $("#nombre1").val();   
+    var nombre2 = $("#nombre2").val();   
+    var nombre3 = $("#nombre3").val();   
+    var sexo = $("#sexo").val();   
+    var alias = $("#alias").val();   
+    var email_anddes = $("#email_anddes").val();   
+    var email_personal = $("#email_personal").val();   
+    if (dni=='' || ape_paterno=='' || ape_materno==''  ||  nombre1=='' || alias==''  || sexo==''  )  
+    {
+      alert("ingrese todos los datos requeridos marcados de rojo.");
+    }
+    else
+    { 
+        url="/rrhh/perfil/guardarpersona/dni/"+dni+"/ape_paterno/"+ape_paterno+"/ape_materno/"+ape_materno+"/nombre1/"+nombre1+"/nombre2/"+nombre2+"/nombre3/"+nombre3+"/sexo/"+sexo+"/email_anddes/"+email_anddes+"/email_personal/"+email_personal+"/alias/"+alias;
+        $("#cargar_datos").load(url);
+    } 
+
+    });
+  $("#guardar_usuario").click(function(){
+    var uid = $("#uid").val();
+    var dni = $("#dni_usuario").val();
+    var rid = $("#rid").val();
+    var area = $("#area").val();   
+    var categoria = $("#categoria").val();   
+    var nivel = $("#nivel").val();   
+    var aprobador = $("#aprobador").val();   
+    if (uid=='' || rid=='' || area==''  ||  categoria=='' || aprobador==''  || nivel==''  )  
+    {
+      alert("ingrese todos los datos requeridos marcados de rojo.");
+    }
+    else
+    { 
+        url="/rrhh/perfil/guardarusuario/uid/"+uid+"/rid/"+rid+"/area/"+area+"/categoria/"+categoria+"/nivel/"+nivel+"/aprobador/"+aprobador+"/dni/"+dni;
+        alert(url);
+        $("#cargar_datos").load(url);
+    } 
+    });
+</script>

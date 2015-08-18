@@ -1,0 +1,21 @@
+<!--Modal para la edicion del logo del cliente-->
+<header class="modal-header">
+  <button type="button" class="close" aria-hidden="true" ng-click="ml.cancel()">x</button>
+  <h4 class="modal-title">Editar Logo:</h1>
+</header>
+<div class="modal-body">
+  <section class="form-group">
+    <label for="">Cliente:</label>
+    <select class="form-control" ng-model="ml.clienteid"
+    ng-options="cliente.id as cliente.nombre for cliente in ml.clientes">
+    </select>
+  </section>
+  <section class="form-group">
+    <label for="">Logo:</label>
+    <input type="file" class="form-control" nv-file-select="" uploader="ml.uploader">
+  </section>
+</div>
+<footer class="modal-footer">
+  <button type="button" class="btn btn-success btn-xs" ng-click="ml.subirLogo()">Guardar</button>
+  <button type="button" class="btn btn-danger btn-xs" ng-click="ml.cancel()">Cancelar</button>
+</footer>

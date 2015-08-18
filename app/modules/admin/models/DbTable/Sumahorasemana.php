@@ -104,5 +104,119 @@ class Admin_Model_DbTable_Sumahorasemana extends Zend_Db_Table_Abstract
         }
     }
 
+    public function _getListarHojasdeTiempoxPersonaxSemana($uid,$dni,$semanaid)
+     {
+        try{
+            $sql=$this->_db->query("
+               select  * from suma_controlsemana
+               where uid='$uid' and dni='$dni' and semanaid='$semanaid'
+            ");
+            $row=$sql->fetchAll();
+            return $row;           
+            }  
+            
+           catch (Exception $ex){
+            print $ex->getMessage();
+        }
+    }
+
+        public function _getHTAprobadasxPersonaxSemana($uid,$dni,$semanaid)
+     {
+        try{
+            $sql=$this->_db->query("
+               select  *, 'A' as estado_hojatiempo,'HOJA TIEMPO APROBADA' as estado_detalle from suma_controlsemana
+               where uid='$uid' and dni='$dni' and semanaid='$semanaid'
+            ");
+            $row=$sql->fetchAll();
+            return $row;           
+            }  
+            
+           catch (Exception $ex){
+            print $ex->getMessage();
+        }
+    }
+
+        public function _getHTEnviadasxPersonaxSemana($uid,$dni,$semanaid)
+     {
+        try{
+            $sql=$this->_db->query("
+               select  *, 'E' as estado_hojatiempo,'HOJA TIEMPO ENVIADA' as estado_detalle from suma_controlsemana
+               where uid='$uid' and dni='$dni' and semanaid='$semanaid'
+            ");
+            $row=$sql->fetchAll();
+            return $row;           
+            }  
+            
+           catch (Exception $ex){
+            print $ex->getMessage();
+        }
+    }
+
+       public function _getHTNoEnviadasxPersonaxSemana($uid,$dni,$semanaid)
+     {
+        try{
+            $sql=$this->_db->query("
+               select  *, 'O' as estado_hojatiempo,'HOJA TIEMPO NO ENVIADA' as estado_detalle from suma_controlsemana
+               where uid='$uid' and dni='$dni' and semanaid='$semanaid'
+            ");
+            $row=$sql->fetchAll();
+            return $row;           
+            }  
+            
+           catch (Exception $ex){
+            print $ex->getMessage();
+        }
+    }
+
+           public function _getHTPendientexPersonaxSemana($uid,$dni,$semanaid)
+     {
+        try{
+            $sql=$this->_db->query("
+               select  *, 'E' as estado_hojatiempo,'HOJA TIEMPO PENDIENTE APROBACIÓN' as estado_detalle from suma_controlsemana
+               where uid='$uid' and dni='$dni' and semanaid='$semanaid'
+            ");
+            $row=$sql->fetchAll();
+            return $row;           
+            }  
+            
+           catch (Exception $ex){
+            print $ex->getMessage();
+        }
+    }
+
+    public function _getHTRechazadaxPersonaxSemana($uid,$dni,$semanaid)
+     {
+        try{
+            $sql=$this->_db->query("
+               select  *, 'O' as estado_hojatiempo,'HOJA TIEMPO RECHAZADA' as estado_detalle from suma_controlsemana
+               where uid='$uid' and dni='$dni' and semanaid='$semanaid'
+            ");
+            $row=$sql->fetchAll();
+            return $row;           
+            }  
+            
+           catch (Exception $ex){
+            print $ex->getMessage();
+        }
+    }
+
+
+    public function _getHTNollenadaxPersonaxSemana($uid,$dni,$semanaid)
+     {
+        try{
+            $sql=$this->_db->query("
+               select  *, 'O' as estado_hojatiempo,'HOJA TIEMPO NO LLENADA' as estado_detalle from suma_controlsemana
+               where uid='$uid' and dni='$dni' and semanaid='$semanaid'
+            ");
+            $row=$sql->fetchAll();
+            return $row;           
+            }  
+            
+           catch (Exception $ex){
+            print $ex->getMessage();
+        }
+    }
+
+
  
 }

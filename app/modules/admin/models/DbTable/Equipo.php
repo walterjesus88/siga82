@@ -239,7 +239,7 @@ public function _getProyectosAnddes()
      {
         try{
             $sql=$this->_db->query("
-               select * from equipo
+               select *  from equipo
                where codigo_prop_proy='$codigo' and proyectoid='$proyectoid' and areaid='$areaid'
                and not dni in ('00000000')
                and estado='A'

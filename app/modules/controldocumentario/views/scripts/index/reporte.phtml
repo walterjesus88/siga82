@@ -1,0 +1,61 @@
+<div class="panel" ng-app>
+  <header>
+    <h2>Generar reporte de Planificación</h2>
+  </header>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <th>
+        EDT
+      </th>
+      <th>
+        TIPO
+      </th>
+      <th>
+        DISCIPLINA
+      </th>
+      <th>
+        CÓDIGO ANDDES
+      </th>
+      <th>
+        CÓDIGO CLIENTE
+      </th>
+      <th>
+        DESCRIPCIÓN DE ENTREGABLES
+      </th>
+    </thead>
+    <tbody>
+      <tr ng-repeat="entregable in reporte.entregables track by $index">
+        <td>
+          {{entregable.edt}}
+        </td>
+        <td>
+          {{entregable.tipo}}
+        </td>
+        <td>
+          {{entregable.disciplina}}
+        </td>
+        <td>
+          {{entregable.codigo_anddes}}
+        </td>
+        <td>
+          {{entregable.codigo_cliente}}
+        </td>
+        <td>
+          {{entregable.descripcion}}
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="panel">
+    <button type="button" class="btn btn-default">Almanaque</button>
+    <button type="button" class="btn btn-default">Filtrar x CD</button>
+    <button type="button" class="btn btn-default"> Filtrar x GP</button>
+  </div>
+  <footer class="panel">
+    <button type="button" class="btn btn-default">Agregar</button>
+    <button type="button" class="btn btn-default">Editar</button>
+    <button type="button" class="btn btn-default">Guardar</button>
+    <button type="button" class="btn btn-default">Eliminar</button>
+    <button type="button" class="btn btn-default">Imprimir</button>
+  </footer>
+</div>

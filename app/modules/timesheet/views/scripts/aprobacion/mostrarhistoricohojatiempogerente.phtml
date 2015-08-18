@@ -1,11 +1,12 @@
+<div class="inbox-body">
 <section class="panel">
   <header class="panel-heading" style="padding-bottom : 10px">
-    <div><center>Lista historica de Hojas de Tiempo deL Gerente Proyecto</center></div>
+    <div><center>Lista historica de Hojas de Tiempo del Gerente Proyecto</center></div>
   </header>
 </section>
 <div class="inbox-body">
   <div id="uno">
-    <table class="table table-inbox table-hover" id="myTable" >
+    <table class="table table-hover p-table datatable-order-search">
       <thead>
         <tr>  
           <th ><center># </center></th>
@@ -21,8 +22,8 @@
       <tbody>
         <?php
           $c=1;     
-            foreach ($this->lista_empleados_aprobar as $equipo_area){ 
-              foreach ($equipo_area as $valorsuma){ 
+          //  foreach ($this->lista_empleados_aprobar as $equipo_area){ 
+              foreach ($this->lista_empleados_aprobar  as $valorsuma){ 
                 ?>
                 <tr name="oculus" id="xx" class="unread">
                     <td class="view-message  text-right"><center><?php echo $c ?></center></td>                  
@@ -49,7 +50,9 @@
                         var uid=$(this).attr('uid');
                         var dni=$(this).attr('dni');
                         var semanaid=$(this).attr('semanaid');
-                        var url = "/timesheet/aprobacion/mostrardetallehojatiempofiltro2/uid/"+ uid+"/dni/"+dni+"/semanaid/"+semanaid; 
+                        var url = "/timesheet/aprobacion/mostrardetallegerente/uid/"+ uid+"/dni/"+dni+"/semanaid/"+semanaid; 
+
+                        //var url = "/timesheet/aprobacion/mostrardetallehojatiempofiltro2/uid/"+ uid+"/dni/"+dni+"/semanaid/"+semanaid; 
                         $("#modaltimes").load(url);                                         
                         });
                     });
@@ -57,7 +60,7 @@
                    <?php $c++;
      
               }
-            }
+         //   }
          ?>
       </tbody>
     </table>
@@ -81,3 +84,17 @@
   </div>
 </div>
 <div id="modali"></div>
+
+<script>
+  $(document).ready(function() {
+    if ( $.fn.dataTable.isDataTable( '.datatable-order-search' ) ) {
+      table = $('.datatable-order-search').DataTable();
+    }
+    else {
+      table = $('.datatable-order-search').DataTable( {
+        paging: false,
+        ordering: true,
+      } );
+    }
+  } );
+</script>

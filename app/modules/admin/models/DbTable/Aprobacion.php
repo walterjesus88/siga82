@@ -128,5 +128,32 @@ class Admin_Model_DbTable_Aprobacion extends Zend_Db_Table_Abstract
         }
     }
 
+    public function _getTodosAprobadores(){
+        try{
+            $f = $this->fetchAll();
+            if ($f) return $f->toArray ();
+            return false;
+        }catch (Exception $e){
+            print "Error: Al momento de leer todas las personas".$e->getMessage();
+        }
+    }
+
+    public function _getAprobadoresOrdenado()
+     {
+        try{
+            $sql=$this->_db->query("
+             select * from aprobacion where idnivel_aprobacion in ('1','2','3','4','6','5')
+               order by nombre_aprobacion
+
+            ");
+            $row=$sql->fetchAll();
+            return $row;           
+            }  
+            
+           catch (Exception $ex){
+            print $ex->getMessage();
+        }
+    }
+
 
 }

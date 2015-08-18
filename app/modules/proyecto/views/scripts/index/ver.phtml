@@ -29,7 +29,7 @@
       <div class="panel-body bio-graph-info">
         <div class="row p-details">
           <div class="bio-row">
-            <p><span class="bold">Cliente</span>: <?php 
+            <p><span class="bold">Cliente</span>: <?php
               $buscacliente = new Admin_Model_DbTable_Cliente();
               $buscanombre_cliente=$buscacliente->_getClientexIndice($this->proyecto['clienteid']);
               if ($buscanombre_cliente)
@@ -39,13 +39,13 @@
             </p>
           </div>
           <div class="bio-row">
-            <p><span class="bold">Unidad Minera</span>: <?php 
+            <p><span class="bold">Unidad Minera</span>: <?php
               $buscaunidad = new Admin_Model_DbTable_Unidadminera();
               $buscanombre_unidad=$buscaunidad->_getUnidadmineraxid($this->proyecto['clienteid'],$this->proyecto['unidad_mineraid']);
               if ($buscanombre_unidad)
                 { print_r($buscanombre_unidad[0]['nombre']); }
               else
-                { echo "< None >"; } 
+                { echo "< None >"; }
               ?>
             </p>
           </div>
@@ -53,7 +53,7 @@
             <p><span class="bold">Codigo</span>: <?php print_r($this->proyecto['proyectoid'])?></p>
           </div>
           <div class="bio-row">
-            <p><span class="bold">Estado</span>: <span class="label label-primary"></span><?php 
+            <p><span class="bold">Estado</span>: <span class="label label-primary"></span><?php
               if ($this->proyecto['estado']=='A') { echo "Activo" ;}
 
               if ($this->proyecto['estado']=='CA') { echo "Cancelado" ;}
@@ -70,19 +70,115 @@
         </div>
       </div>
     </section>
-    <section class="panel">
-    lista
-      <a id="save" class="btn btn-success btn-xs" href="#">Perfomance</a>
-      <a id="save" class="btn btn-success btn-xs" href="#">Curva S</a>
-      <a id="save" class="btn btn-success btn-xs" href="#">Lista de Entregables</a>
-      <a id="save" class="btn btn-success btn-xs" href="#">Valorizacion</a>
-      <a id="save" class="btn btn-success btn-xs" href="#">EDP</a>
-      <a id="hojaresumen" class="btn btn-success btn-xs" href="/proyecto/index/hojaresumen/codigo_prop_proy/<?php echo $this->codigoproyecto ?>/proyectoid/<?php echo $this->proyectoid ?>">Hoja de Resumen</a>
 
-    </section>
+
+<section>
+    <div ng-app="moduloCp">
+              <div ng-view>
+
+              </div>
+            </div>
+
+            <script type="text/javascript" src="/js/angular-route.js"></script>
+            <script type="text/javascript" src="/js/Chart.js"></script>
+            <script type="text/javascript" src="/js/angular-chart.js"></script>
+            <script type="text/javascript" src="/js/modulo-controlproyecto.js"></script>
+     
+            <script type="text/javascript" src="/js/checklist-model.js"></script>
+            <script type="text/javascript" src="/js/xeditable.js"></script>
+            <link rel="stylesheet" type="text/css" href="/css/style-controlproyecto.css">
+            <link rel="stylesheet" type="text/css" href="/css/xeditable.css">
+        
+            <script src="http://m-e-conroy.github.io/angular-dialog-service/javascripts/dialogs.min.js" type="text/javascript"></script>
+
+
+  
+</section>
+
+
+<!-- este es el menu ge configuracion-->
+<section class="panel">
+  <header class="panel-heading tab-bg-dark-navy-blue ">
+    <ul class="nav nav-tabs">
+      <li class="active">
+        <a data-toggle="tab" href="#configurar">Configurar
+         <i class="fa fa-home"></i>
+        </a>
+      </li>
+   
+      <li class="">
+        <a data-toggle="tab" href="#control">Control</a>
+      </li>
+
+      <li class="">
+        <a data-toggle="tab" href="#monitoreo">Monitoreo</a>
+      </li>
+
+      <li class="">
+        <a data-toggle="tab" href="#planeamiento">Planeamiento</a>
+      </li>
+
+      <li class="">
+        <a data-toggle="tab" href="#finanzas">Finanzas</a>
+      </li>
+
+      <li class="">
+        <a data-toggle="tab" href="#indicadores">Indicadores</a>
+      </li>
+   
+   
+    </ul>
+  </header>
+
+
+  <div class="panel-body">
+    <div class="tab-content">
+      <div id="configurar" class="tab-pane active ">
+        <a id="hojaresumen" class="btn btn-success btn-xs" href="/proyecto/index/hojaresumen/codigo_prop_proy/<?php echo $this->codigoproyecto ?>/proyectoid/<?php echo $this->proyectoid ?>/propuestaid/<?php echo $this->propuestaid ?>/revision/<?php echo $this->revision ?>">Hoja de Resumen</a>
+        <a id="save" class="btn btn-success btn-xs" href="#">Otros</a>
+      </div>
+ 
+      <div id="control" class="tab-pane  ">
+        <a id="save" class="btn btn-success btn-xs" href="#">Performance</a>
+        <a id="save" class="btn btn-success btn-xs" href="#">Curva S</a>
+        
+        <a id="listaentregables" class="btn btn-success btn-xs" href="/control/control/listaentregables/codigo_prop_proy/<?php echo $this->codigoproyecto ?>/proyectoid/<?php echo $this->proyectoid ?>/revision/<?php echo $this->revision?> ">Lista de Entregables</a>
+
+
+        <a id="save" class="btn btn-success btn-xs" href="#">Otros</a>        
+      </div>
+
+      <div id="monitoreo" class="tab-pane  ">
+        <a id="save" class="btn btn-success btn-xs" href="#">Ordenes de Cambio</a>
+        <a id="save" class="btn btn-success btn-xs" href="#">Lecciones Aprendidas</a>
+    
+      </div>
+
+      <div id="planeamiento" class="tab-pane  ">
+      
+      </div>
+
+      <div id="finanzas" class="tab-pane  ">
+        <a id="save" class="btn btn-success btn-xs" href="#">Valorizacion</a>
+        <a id="save" class="btn btn-success btn-xs" href="#">Orden de Facturacion</a>
+      </div>
+   
+      <div id="indicadores" class="tab-pane  ">
+        <a id="save" class="btn btn-success btn-xs" href="#">Cost Flow HH</a>
+        <a id="save" class="btn btn-success btn-xs" href="#">Cost Flow Total</a>
+      </div>
+
+    </div>
+
+
+</section>
+
+
+
+<!--  -->
 
     <section class="panel">
-      <?php 
+      <?php
       $proyectoid=$this->proyecto['proyectoid'];
       $nombre_fichero = './upload/proyecto/'.$proyectoid.'-HH.xls';
       ?>
@@ -100,19 +196,32 @@
           <li class="">
             <a data-toggle="tab" href="#laboratorio" aria-expanded="false">Laboratorio</a>
           </li>
+          <li class="">
+            <a data-toggle="tab" href="#rates" aria-expanded="false">Rates</a>
+          </li>
         </ul>
+
+          
+
+
+
+
+
+
+
+
       </header>
       <div class="panel-body">
         <div class="tab-content">
           <div id="resumen" class="tab-pane active">
             <div class="panel-body">
-              <?php 
+              <?php
                 $actividadpadre= new Admin_Model_DbTable_Actividad();
                 $list=$actividadpadre->_getActividadesPadresxReplicon($this->proyecto['proyectoid'],$this->proyecto['codigo_prop_proy'],$this->proyecto['propuestaid'],$this->proyecto['revision']);
               ?>
               <table class="table table-hover p-table">
                 <thead>
-                  <tr>  
+                  <tr>
                     <th style="width: 10%;">Id</th>
                     <th style="width: 70%;">Nombre Actividad</th>
                     <th style="width: 10;">Duracion</th>
@@ -141,10 +250,21 @@
               laboratorio
             </div>
           </div>
+          <div id="rates" class="tab-pane">
+            <!--llamar al modulo control de proyecto angular -->
+    
+             <!-- --> 
+          </div>
         </div>
       </div>
     </section>
   </div>
+
+
+
+
+
+
   <div class="col-md-4">
     <section class="panel">
       <header class="panel-heading">
@@ -152,10 +272,10 @@
       </header>
       <div class="panel-body">
         <div class="panel-body">
-          <?php 
+          <?php
           $nombre_fichero = './img/cliente/'.$this->proyecto['clienteid'].'.jpg';
             if (file_exists($nombre_fichero))  { ?>
-              <a href="" class="logo"><img width="150" src="/img/cliente/<?php print_r($this->proyecto['clienteid']);?>.jpg"></a>            
+              <a href="" class="logo"><img width="150" src="/img/cliente/<?php print_r($this->proyecto['clienteid']);?>.jpg"></a>
           <?php }
             else
             {?>
@@ -171,32 +291,32 @@
                   <!-- este es el formulario -->
             <a id="anadirarea" href="##" class="btn btn-info btn-xs" >Anadir</a>
             <form action="">
-                  
-              <select id="area_categoria" class="form-control input-sm m-bot15 col-lg-10">                        
+
+              <select id="area_categoria" class="form-control input-sm m-bot15 col-lg-10">
                 <option>Seleccione el Area</option>
-                <?php  
-                  foreach ($this->area as $data_area) {?>                        
+                <?php
+                  foreach ($this->area as $data_area) {?>
                     <option value="<?php echo $data_area['areaid'].";-;".$data_area['nombre']?>"><?php  echo $data_area['nombre']?></option>
                       <?php }?>
-                    </select> 
+                    </select>
                     <select id="function" class="form-control input-sm m-bot15 col-lg-10">
                         <option value="SOPORTE">Soporte</option>
-                        <option value="PROYECTO">Proyecto</option> 
-              </select> 
+                        <option value="PROYECTO">Proyecto</option>
+              </select>
 
                     <input value="Guardar" type="submit" />
             </form>
             <!-- fin de formulario-->
 
-          <?php 
+          <?php
           $bdequipoarea = new Admin_Model_DbTable_Equipoarea();
           $area=$bdequipoarea->_buscarAreasxProyecto($this->proyecto['codigo_prop_proy'],$this->proyecto['proyectoid']);
-          $i=1;          
+          $i=1;
           if ($area){
               //print_r(count($area));
               $countdatos=count($area);
-              //print $countdatos;            
-              
+              //print $countdatos;
+
           ?>
             <div  id="fech" >
               <input style="display:none" id="fechasemana" type="text" value="<?php echo $countdatos ?>">
@@ -204,13 +324,13 @@
 
 
               <div class="panel-group m-bot20" id="accordion">
-              <?php              
+              <?php
               foreach ($area as $lista) { ?>
                 <div class="panel panel-default">
                   <div class="panel-heading">
                     <h4 class="panel-title">
                       <a style="font-size: 12px;" class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#<?php echo $i;?>">
-                        <?php print_r($lista['areaid']); 
+                        <?php print_r($lista['areaid']);
                         echo "-"; print_r($lista['nombre']); ?>
                       </a>
                       <span class="pull-right">
@@ -221,15 +341,15 @@
                   </div>
                   <div id="<?php echo $i;?>" class="panel-collapse collapse">
                     <div class="panel-body">
-                    <?php 
+                    <?php
                       $bdequipo = new Admin_Model_DbTable_Equipo();
                       $equipo=$bdequipo->_buscarEquipoxProyectoxArea($this->proyecto['codigo_prop_proy'],$this->proyecto['proyectoid'],$lista['areaid']);?>
 
                       <section class="posts">
-                    
+
                         <table style="font-size: 12px;" class="table table-hover p-table">
                           <thead>
-                            <tr>    
+                            <tr>
                               <th style="width: 50%;">Nombre</th>
                               <th style="width: 20%;">Categoria</th>
                               <th style="width: 10;">R.</th>
@@ -238,12 +358,12 @@
                           </thead>
                           <?php
                           $j=0;
-                          foreach ($equipo as $lista) { 
+                          foreach ($equipo as $lista) {
                           ?>
                             <tr>
                               <td class="p-name">
                                 <a id="equipo_<?php echo $lista['dni']?>" href="#" proyectoid="<?php echo $this->proyecto['proyectoid']?>"  codigo-prop-proy="<?php echo $this->proyecto['codigo_prop_proy'] ?>" areaid="<?php print_r($lista['areaid'])?>" dni="<?php echo $lista['dni'];?>" uid="<?php echo $lista['uid'];?>"><?php $porciones = explode(".", $lista['uid']);
-                                  echo (ucwords($porciones[0])); echo " ";echo (ucwords($porciones[1])); ?>  
+                                  echo (ucwords($porciones[0])); echo " ";echo (ucwords($porciones[1])); ?>
                                 </a>
                               </td>
                               <td><?php
@@ -254,8 +374,8 @@
                               <td>
                                 <?php
                                 $dbcat= new Admin_Model_DbTable_Categoria();
-                                $bucarcat=$dbcat->_getCategoriaxCategoriaid($lista['categoriaid']); 
-                                print_r($bucarcat[0]['rate_externo']); 
+                                $bucarcat=$dbcat->_getCategoriaxCategoriaid($lista['categoriaid']);
+                                print_r($bucarcat[0]['rate_externo']);
                                 ?>
                               </td>
                               <td>
@@ -267,7 +387,7 @@
                               </td>
                               <td style="display:none">
                                  <?php echo $lista['uid'];?>
-                              </td>                           
+                              </td>
                               <td style="display:none" class="areaidcont_<?php echo $i?><?php echo $j?>">
                                  <?php echo $lista['areaid'];?>
                               </td>
@@ -287,17 +407,17 @@
                                   var uid = $(this).attr('uid');
                                   $("#myModalequipo").modal('show')
                                   var url = "/proyecto/index/modificarequipo/proyectoid/"+ proyectoid+"/codigo_prop_proy/"+codigo_prop_proy+"/areaid/"+areaid+"/dni/"+dni+"/uid/"+uid;
-                                  $("#modaltimes_equipo").load(url);   
+                                  $("#modaltimes_equipo").load(url);
                                 });
                               });
                             </script>
 
-                            <script>                           
-                              var editando=false;                           
+                            <script>
+                              var editando=false;
                               function transformarEnEditable(nodo){
                               //El nodo recibido es SPAN
 
-                              var x=nodo.value;  
+                              var x=nodo.value;
                               var i=parseInt(nodo.id.charAt(7));
                               var j=parseInt(nodo.id.charAt(8));
                               /*
@@ -306,7 +426,7 @@
                               */
                               if (editando == false) {
 
-                              
+
                               var nodoTd = nodo.parentNode; //Nodo TD
                               var nodoTr = nodoTd.parentNode; //Nodo TR
                               var nodoContenedorForm = document.getElementById('contenedorForm_'+i+j); //Nodo DIV
@@ -315,18 +435,18 @@
                               var nodosEnTr = nodoTr.getElementsByTagName('td');
                               var nombre = nodosEnTr[0].textContent;
                               var categoria = nodosEnTr[1].textContent;
-                              var rate = nodosEnTr[2].textContent; 
+                              var rate = nodosEnTr[2].textContent;
                               var rate_proyecto = nodosEnTr[3].textContent;
                               var dni = nodosEnTr[4].textContent;
                               var uid = nodosEnTr[5].textContent;
-                              var areaid = nodosEnTr[6].textContent;                  
+                              var areaid = nodosEnTr[6].textContent;
                               /*
                               alert(nombre);
                               alert(dni);
                               alert(uid);
                               alert(areaid);*/
-                   
-                              var nuevoCodigoHtml = 
+
+                              var nuevoCodigoHtml =
                               '<td><input disabled type="text" name="nombre" id="nombre" value="'+nombre.trim()+'" size="15"></td>'+
                               '<td><input disabled type="text" name="categoria" id="categoria" value="'+categoria.trim()+'" size="8"</td>'+
                               '<td><input disabled type="text" name="rate" id="rate" value="'+rate.trim()+'" size="5"</td>'+
@@ -335,30 +455,30 @@
                               '<td><input style="display:none" type="text" name="uidx" id="uidx" value="'+uid+'" size="5"</td>'+
                               '<td><input style="display:none" type="text" name="areaidx" id="areaidx" value="'+areaid+'" size="5"</td>'
                               ;
-                                        
+
                               nodoTr.innerHTML = nuevoCodigoHtml;
 
                               nodoContenedorForm.innerHTML = 'Pulse Aceptar para guardar los cambios o cancelar para anularlos'+
                                    '<input class="boton" id="aceptar_<?php echo $i?><?php echo $j?>" type = "submit" value="Aceptar" onclick="capturarEnvio()"> <input class="boton" id="i" type="reset" value="Cancelar"  onclick="anular(this)" >';
                                  // editando = "true";
-                            
+
                               var nombrevar = $("#nombre").val();
                               var categoriavar = $("#categoria").val();
                               var ratevar = $("#rate").val();
                               var rateproyectovar = $("#rate_proyecto").val();
-                              
+
                               $("#rate_proyecto").keypress(function(e){
                                   //alert('entro');
-                                  if(e.keyCode == 13){  
-                                
+                                  if(e.keyCode == 13){
+
                                   e.preventDefault();
                                   var nombrexy = $("#nombre").val();
                                   var categoriaxy = $("#categoria").val();
                                   var ratexy = $("#rate").val();
                                   var rateproyectoxy = $("#rate_proyecto").val();
-                                 // alert(rateproyectoxy);                              
+                                 // alert(rateproyectoxy);
 
-                                  var nuevoCodigoHtml = 
+                                  var nuevoCodigoHtml =
                                   '<td><input disabled type="text" name="nombre" id="nombre" value="'+nombrexy.trim()+'" size="15"></td>'+
                                   '<td><input disabled type="text" name="categoria" id="categoria" value="'+categoriaxy.trim()+'" size="8"</td>'+
                                   '<td><input disabled type="text" name="rate" id="rate" value="'+ratexy.trim()+'" size="5"</td>'+
@@ -372,11 +492,11 @@
 
                                   nodoContenedorForm.innerHTML = 'Pulse Aceptar para guardar los cambios o cancelar para anularlos'+
                                    '<input class="boton" type = "submit" value="Aceptar" onclick="capturarEnvio()"> <input class="boton" type="reset" value="Cancelar"  onclick="anular(this)" >';
-                                  editando = "true";                             
+                                  editando = "true";
 
                                   }
-                                });                              
-                             
+                                });
+
                               }
                               else
                                 {
@@ -393,7 +513,7 @@
                                   var nodoTr = nodoTd.parentNode; //Nodo TR
                                   var nodoContenedorForm = document.getElementById('contenedorForm'); //Nodo DIV
 
-                                  if(e.keyCode == 13){                                
+                                  if(e.keyCode == 13){
                                   e.preventDefault();
                                   var nombrexy = $("#nombre").val();
                                   var categoriaxy = $("#categoria").val();
@@ -403,9 +523,9 @@
                                   var dni = $("#dnix").val();
                                   var areaid = $("#areaidx").val();
 
-                                  //alert(rateproyectoxy);                            
+                                  //alert(rateproyectoxy);
 
-                                  var nuevoCodigoHtml = 
+                                  var nuevoCodigoHtml =
                                   '<td><input disabled type="text" name="nombre" id="nombre" value="'+nombrexy.trim()+'" size="15"></td>'+
                                   '<td><input disabled type="text" name="categoria" id="categoria" value="'+categoriaxy.trim()+'" size="8"</td>'+
                                   '<td><input disabled type="text" name="rate" id="rate" value="'+ratexy.trim()+'" size="5"</td>'+
@@ -419,9 +539,9 @@
 
                                 nodoContenedorForm.innerHTML = 'Pulse Aceptar para guardar los cambios o cancelar para anularlos'+
                                  '<input class="boton" type = "submit" value="Aceptar" onclick="capturarEnvio()"> <input class="boton" type="reset" value="Cancelar"  onclick="anular()" >';
-                                  editando = "true";     
+                                  editando = "true";
                                 }
-                                });                              
+                                });
                               }
 
                               function whilex(nodo){
@@ -437,7 +557,7 @@
                                       var dni = $("#dnix").val();
                                       var areaid = $("#areaidx").val();
 
-                                      var nuevoCodigoHtml = 
+                                      var nuevoCodigoHtml =
                                       '<td><input type="text" name="nombre" id="nombre" value="'+nombremod+'" size="15"></td>'+
                                       '<td><input type="text" name="categoria" id="categoria" value="'+categoriamod+'" size="8"</td>'+
                                       '<td><input type="text" name="rate" id="rate" value="'+ratemod+'" size="5"</td>'+
@@ -445,12 +565,12 @@
                                       '<td><input style="display:none" type="text" name="dnix" id="dnix" value="'+dni+'" size="5"</td>'+
                                       '<td><input style="display:none" type="text" name="uidx" id="uidx" value="'+uid+'" size="5"</td>'+
                                       '<td><input style="display:none" type="text" name="areaidx" id="areaidx" value="'+areaid+'" size="5"</td>'
-                                      ;                                              
+                                      ;
                                       nodoTr.innerHTML = nuevoCodigoHtml;
                               }
 
-                              function capturarEnvio(nodo){ 
-                                //console.log("ffffffaaa");  
+                              function capturarEnvio(nodo){
+                                //console.log("ffffffaaa");
                                 var nombremod = $("#nombre").val();
                                 var categoriamod = $("#categoria").val();
                                 var ratemod = $("#rate").val();
@@ -460,7 +580,7 @@
                                 var areaid = $("#areaidx").val();
 
                                 var proyecto="<?php echo $this->proyecto['proyectoid']?>";
-                                var codigo="<?php echo $this->proyecto['codigo_prop_proy'] ?>"; 
+                                var codigo="<?php echo $this->proyecto['codigo_prop_proy'] ?>";
                                 // alert(nombremod);
                                 // alert(categoriamod);
                                 // alert(ratemod);
@@ -469,27 +589,27 @@
                                 // alert(codigo);
                                 // alert(uid);
                                 // alert(dni);
-                                // alert(areaid);           
-                            
-                                $("#destinos").load("/proyecto/index/updateequipo/", {proyectoid: proyecto,codigo:codigo,dni:dni,uid:uid,areaid:areaid,rate:rateproyectomod}, 
+                                // alert(areaid);
+
+                                $("#destinos").load("/proyecto/index/updateequipo/", {proyectoid: proyecto,codigo:codigo,dni:dni,uid:uid,areaid:areaid,rate:rateproyectomod},
                                   function(){
                                   //alert("Campo actualizado");
                                   window.location.reload();
 
-                                  //var editando=false;  
+                                  //var editando=false;
                                   //$(nodoContenedorForm).hide();
-                                  //$("#contenedorForm").html(''); 
+                                  //$("#contenedorForm").html('');
                                   // document.getElementById("nombre").reset();
                                   // document.getElementById("categoria").reset();
                                   // document.getElementById("rate").reset();
                                   // document.getElementById("rate_proyecto").reset();
                                   // document.getElementById("uidx").reset();
-                                  });                              
+                                  });
                                 }
 
                                 function anular(nodo){
                                   //window.location.reload();
-                                  //var x=parseInt(i.value);  
+                                  //var x=parseInt(i.value);
                                   //alert(x);
                                   //var i=parseInt(nodo.id.charAt(0));
                                   //var j=parseInt(nodo.id.charAt(7));
@@ -500,12 +620,12 @@
                                   //var i=4;
                                   //var j=1;
 
-                                  //$("#contenedorForm_"+i).html(''); 
+                                  //$("#contenedorForm_"+i).html('');
                                   window.location.reload();
                                 }
 
 
-                              </script> 
+                              </script>
                              <?php
                             $j++;
                             }?>
@@ -514,7 +634,7 @@
                       </div>
                     </div>
                 </div>
-         
+
 
                 <script type="text/javascript">
                   $(document).ready(function(){
@@ -525,10 +645,10 @@
                       var areaid = $(this).attr('areaid');
                       $("#myModal9").modal('show')
                       var url = "/proyecto/index/buscarpersonasxcategoria/proyectoid/"+ proyectoid+"/codigo_prop_proy/"+codigo_prop_proy+"/areaid/"+areaid;
-                      $("#modaltimes_rate").load(url);   
+                      $("#modaltimes_rate").load(url);
                     });
                   });
-                </script> 
+                </script>
 
                 <script type="text/javascript">
                   $(document).ready(function(){
@@ -536,28 +656,28 @@
                       var proyectoid = $(this).attr('proyectoid');
                       var codigo_prop_proy = $(this).attr('codigo-prop-proy');
                       var areaid = $(this).attr('areaid');
-                    
+
                       $("#modalperson").modal('show')
-                                                          
+
                     var url = "/proyecto/index/asignaractividad/proyectoid/"+ proyectoid+"/codigo_prop_proy/"+codigo_prop_proy+"/areaid/"+areaid;
                     //alert(url);
-                    $("#modaltimes").load(url);   
+                    $("#modaltimes").load(url);
 
                     });
                   });
-                </script> 
+                </script>
 
-            
 
-              <?php $i++; 
-                } 
+
+              <?php $i++;
+                }
               }
               $countdatos=0;
               ?>
               <div  id="fech" >
                 <input style="display:none" id="fechasemana" type="text" value="<?php echo $countdatos ?>">
               </div>
-              
+
 
             </div>
           </div>
@@ -569,50 +689,50 @@
       function anadir(ev)
         {
 
-          var x=ev.value;  
-          var i=ev.id.charAt(7);        
+          var x=ev.value;
+          var i=ev.id.charAt(7);
           var j=ev.id.charAt(8);
           var z=ev.id.charAt(9);
           var areax=i+j+z;
-          //alert(i);    
+          //alert(i);
           //alert(j);
           //var areax = $("#areasx").val();
           var codigo="<?php echo $this->codigoproyecto ?>";
-          var proyecto="<?php echo $this->proyectoid ?>";            
-          //var x=ev.value;  
+          var proyecto="<?php echo $this->proyectoid ?>";
+          //var x=ev.value;
           //alert(areax);
           $("#myModal9").modal('show')
           var url = "/proyecto/index/buscarpersonasxcategoria/proyectoid/"+ proyecto+"/codigo_prop_proy/"+codigo+"/areaid/"+areax;
           //alert(url);
-          $("#modaltimes_rate").load(url);   
+          $("#modaltimes_rate").load(url);
           //alert(x);
         }
 
       function asigna(ev)
         {
-          var x=ev.value;  
-          var i=ev.id.charAt(7);        
+          var x=ev.value;
+          var i=ev.id.charAt(7);
           var j=ev.id.charAt(8);
           var z=ev.id.charAt(9);
           var areax=i+j+z;
-          //alert(i);    
+          //alert(i);
           //alert(j);
           //var areax = $("#areasx").val();
           var codigo="<?php echo $this->codigoproyecto ?>";
-          var proyecto="<?php echo $this->proyectoid ?>";            
-          //var x=ev.value;  
+          var proyecto="<?php echo $this->proyectoid ?>";
+          //var x=ev.value;
           //alert(areax);
           $("#modalperson").modal('show')
           var url = "/proyecto/index/asignaractividad/proyectoid/"+ proyecto+"/codigo_prop_proy/"+codigo+"/areaid/"+areax;
           //alert(url);
-          $("#modaltimes").load(url); 
+          $("#modaltimes").load(url);
         }
 
 
 
         function ver()
         {
-          var nuevoCodigoHtml = 
+          var nuevoCodigoHtml =
             '<td><input disabled type="text" name="nombre" id="nombre" value="areacat.trim()" size="15"></td>'+
             '<td><input disabled type="text" name="categoria" id="categoria" value="areacat.trim()" size="8"</td>'+
             '<td><input disabled type="text" name="rate" id="rate" value="areacat.trim()" size="5"</td>'+
@@ -620,7 +740,7 @@
             '<td><input style="display:none" type="text" name="dnix" id="dnix" value="areacat.trim()" size="5"</td>'+
             '<td><input style="display:none" type="text" name="uidx" id="uidx" value="areacat.trim()" size="5"</td>'+
             '<td><input style="display:none" type="text" name="areaidx" id="areaidx" value="areacat.trim()" size="5"</td>';
-                                        
+
                               //nodoTr.innerHTML = nuevoCodigoHtml;
             $('#accordion').prepend($(nuevoCodigoHtml).fadeIn());
         }
@@ -630,7 +750,7 @@
     <script>
       $(function(){
       //$('form').hide();
-      $('form').slideUp(); 
+      $('form').slideUp();
       //$(this).parent().children('#anadirarea').remove();
 
       $('#anadirarea').on('click', mostrarFormulario);
@@ -660,28 +780,28 @@
         //alert(campo);
         document.getElementById('fechasemana').defaultValue=campo;
         //alert('Dominio solicitado: '+campo);
-                 
+
         var url="/proyecto/index/guardarareaequipo/codigo_prop_proy/"+codigo+"/proyectoid/"+proyecto+"/funcion/"+funcion+"/area/"+areacat;
-                     
+
 
         $.ajax({
              type: "POST",
              url: url,
               data: $(this).serialize(),
-              dataType: "html",                                                 
+              dataType: "html",
               error: function()
               {
                 alert("error petición ajax load");
               },
               success: function(data)
-              {   
+              {
                 //e.preventDefault();
                 $("#anadirareaproyecto").empty();
                 $("#anadirareaproyecto").html(data);
                 //$("#accordion").append("<li>"+"person.name"+"("+")"+"</li");
               }
         });
-        //alert(url);  
+        //alert(url);
         //$(this).parent().children('#area_categoria').remove();
         //var i=100;
         var template=
@@ -697,18 +817,18 @@
 
         //$(this).parent().innerHTML = template;
         //nube = '<a disabled="disabled"> <i style="color: #D6D6D8" class="fa fa-comment"></i></a>';
-        $(this).parent().append(template);                       
+        $(this).parent().append(template);
 
 
         $('form').slideUp();
 
-      } 
+      }
     });
 </script>
-        
+
     <div id="destinos"></div>
     <!-- sirve para editar-->
-<!-- 
+<!--
 
 
 <!-- page end-->
@@ -725,7 +845,7 @@
         </div>
         <div class="modal-footer">
           <button data-dismiss="modal" class="btn btn-default" type="button">Cerrar</button>
-         
+
         </div>
       </div>
     </div>
@@ -734,17 +854,17 @@
 
 <div class="modal fade" id="modalperson" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg">
-    <div class="modal-content" style="width: 1250px; top: 100%; margin-left: -200px; ">
+    <div class="modal-content" style="width: 100%; top: 100%;  ">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
           <h4 class="modal-title">Asignar Personas a una Actividad</h4>
       </div>
-      <div class="modal-body" style="padding-bottom: 1px;padding-top: 1px;padding-left: 1px;padding-right: 1px;">                           
+      <div class="modal-body" style="padding-bottom: 1px;padding-top: 1px;padding-left: 1px;padding-right: 1px;">
         <div id="modaltimes"></div>
       </div>
       <div class="modal-footer">
         <button  data-dismiss="modal" class="btn btn-default" type="button">Cerrar</button>
-    
+
       </div>
     </div>
   </div>
@@ -758,13 +878,13 @@
       var codigo_prop_proy = $(this).attr('codigo-prop-proy');
 
       $("#modalperson").modal('show')
-                                          
+
     var url = "/proyecto/index/asignaractividad/proyectoid/"+ proyectoid+"/codigo_prop_proy/"+codigo_prop_proy;
-    $("#modaltimes").load(url);   
+    $("#modaltimes").load(url);
 
      });
     });
-</script> 
+</script>
 
 
 <div class="modal fade modal-dialog-center top-modal-with-space" id="myModal9" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -776,15 +896,15 @@
           <h4 class="modal-title">Añadir Personas x Rate al Proyecto</h4>
         </div>
         <div class="modal-body">
-            
+
           <div id="modaltimes_rate" >
           </div>
-             
-            
+
+
         </div>
         <div class="modal-footer">
           <button data-dismiss="modal" id="cerrar_anadir" class="btn btn-default" type="button">Cerrar</button>
-          <button id="guardar_contacto" class="btn btn-warning" type="button"> Guardar</button>
+
         </div>
       </div>
     </div>
@@ -792,10 +912,9 @@
 </div>
 
 <script type="text/javascript">
-   $("#cerrar_anadir").click(function(){
-      window.location.reload();
-   });
-
+   // $("#cerrar_anadir").click(function(){
+   //    window.location.reload();
+   // });
 </script>
 
 
@@ -804,53 +923,53 @@
 <script>
 
  $("#equipo_areaid").change(function(){
-    var areaid = $(this).val(); 
+    var areaid = $(this).val();
     //alert(areaid);
     url="/proyecto/index/buscarcategoria/areaid/"+areaid;
     //alert(url);
     $("#categoriaid").load(url);
-    }); 
+    });
 
   $("#categoriaid").change(function(){
-    var categoriaid = $(this).val(); 
-    var areaid = $("#equipo_areaid").val(); 
+    var categoriaid = $(this).val();
+    var areaid = $("#equipo_areaid").val();
     var proyectoid='<?php echo $this->proyecto['proyectoid']; ?>';
     var codigo='<?php echo $this->proyecto['codigo_prop_proy']; ?>';
-    
 
-   
+
+
     url="/proyecto/index/buscarpersonasxcategoria/categoria/"+categoriaid+"/areaid/"+areaid+"/proyectoid/"+proyectoid+"/codigo/"+codigo;
-   
+
    $("#nombre_colaborador").load(url);
-    }); 
+    });
 
 
 $(document).ready(function(){
 
 $("#guardar_contacto").click(function(){
-var clienteid = $("#clienteid").val(); 
-var areaid = $("#areaid").val(); 
-var numero = $("#numero").val(); 
-var relacion = $("#relacion").val(); 
-var correo = $("#correo").val(); 
-var telefono = $("#telefono").val(); 
-var anexo = $("#anexo").val(); 
+var clienteid = $("#clienteid").val();
+var areaid = $("#areaid").val();
+var numero = $("#numero").val();
+var relacion = $("#relacion").val();
+var correo = $("#correo").val();
+var telefono = $("#telefono").val();
+var anexo = $("#anexo").val();
 
-var captura_direccion = $("#direccion").val(); 
+var captura_direccion = $("#direccion").val();
 var direccion= captura_direccion.replace(/\s/g,"_");
-var captura_nombre_contacto = $("#nombre_contacto").val(); 
+var captura_nombre_contacto = $("#nombre_contacto").val();
 var nombre_contacto= captura_nombre_contacto.replace(/\s/g,"_");
-if (clienteid=='')  
+if (clienteid=='')
 { alert("cargue nuevamente la pagina");        }
 else
 { url="/comercial/index/guardarcontacto/clienteid/"+clienteid+"/areaid/"+areaid+"/numero/"+numero+"/relacion/"+relacion+"/nombre_contacto/"+nombre_contacto+"/correo/"+correo+"/direccion/"+direccion+"telefono/"+telefono+"/anexo/"+anexo;
 
 $("#cargar").load(url);
-}   
+}
 });
 
 $("#clienteid").click(function(){
-var clienteid = $("#clienteid").val(); 
+var clienteid = $("#clienteid").val();
 url="/comercial/index/direccion/clienteid/"+clienteid;
 
 $("#direccion_valida").load(url);
@@ -869,16 +988,16 @@ $("#propuesta_enviada").hide();
 $("#propuesta_declinada").hide();
 $("#propuesta_anulada").hide();
 $("#resultado_busqueda").show();
-if (buscar_propuesta=='')  
+if (buscar_propuesta=='')
 {
 alert("ingrese propuesta a buscar");
 }
 else
-{ 
-var url="/propuesta/index/buscar/propuesta/"+buscar_propuesta;    
+{
+var url="/propuesta/index/buscar/propuesta/"+buscar_propuesta;
 }
 $("#resultado_busqueda").load(url);
-});  
+});
 
 
 
@@ -890,17 +1009,3 @@ $(".modal-body #DNI").val( myDNI );
 });
 
 </script>
-
-
-
-
-
-
-
-
-
-
-
-
-
-

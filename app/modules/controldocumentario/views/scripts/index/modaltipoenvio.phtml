@@ -1,0 +1,59 @@
+<header class="modal-header">
+  <button type="button" class="close" aria-hidden="true" ng-click="mt.cerrar()">x</button>
+  <h4 class="modal-title">Editar Tipo de Envío:</h1>
+</header>
+<div class="modal-body">
+  <div class="col-md-8">
+    <table>
+      <thead>
+        <th>
+          Empresa
+        </th>
+        <th>
+          Abrev.
+        </th>
+        <th>
+          Emitido para:
+        </th>
+      </thead>
+      <tbody>
+        <tr ng-repeat="tipo_envio in mt.tipo_envio track by $index" ng-click="mt.seleccionar(tipo_envio)">
+          <td>
+            {{tipo_envio.empresa}}
+          </td>
+          <td>
+            {{tipo_envio.abrev}}
+          </td>
+          <td>
+            {{tipo_envio.emitido_para}}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <button type="button" class="btn btn-success btn-xs" ng-click="mt.agregar()">Agregar</button>
+    <button type="button" class="btn btn-info btn-xs" ng-click="mt.modificar()">Modificar</button>
+    <button type="button" class="btn btn-warning btn-xs" ng-click="mt.eliminar()">Eliminar</button>
+  </div>
+  <div class="col-md-4">
+    <section class="form-group">
+      <label for="">Empresa:</label>
+      <input type="text" class="form-control" ng-disabled="mt.edicion"
+      ng-model="mt.tipo.empresa">
+    </section>
+    <section class="form-group">
+      <label for="">Abrev:</label>
+      <input type="text" class="form-control" ng-disabled="mt.edicion"
+      ng-model="mt.tipo.abrev">
+    </section>
+    <section class="form-group">
+      <label for="">Emitido para:</label>
+      <input type="text" class="form-control" ng-disabled="mt.edicion"
+      ng-model="mt.tipo.emitido_para">
+    </section>
+  </div>
+</div>
+<footer class="modal-footer">
+  <button type="button" class="btn btn-success btn-xs" ng-click="mt.guardar()">Guardar</button>
+  <button type="button" class="btn btn-danger btn-xs" ng-click="mt.cancelar()">Cancelar</button>
+</footer>
+<alert ng-repeat="alert in mt.alerts" type="{{alert.type}}" close="mt.closeAlert($index)">{{alert.msg}}</alert>

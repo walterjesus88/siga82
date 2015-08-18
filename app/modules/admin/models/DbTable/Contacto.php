@@ -1,9 +1,25 @@
-<?php 
+<?php
 class Admin_Model_DbTable_Contacto extends Zend_Db_Table_Abstract
 {
     protected $_name = 'contacto';
-    protected $_primary = array("contactoid", "clienteid");
+    protected $_primary = array("contactoid");
     protected $_sequence ="s_contacto";
+
+
+    public function _getOne($where){
+        try {
+                //if ($where["dni"]=='') return false;
+                $wherestr= "contactoid = '".$where['contactoid']."' ";
+                print_r($wherestr);
+
+                $row = $this->fetchRow($wherestr);
+
+                if($row) return $row->toArray();
+                return false;
+        } catch (Exception $e) {
+            print "Error: Read One Condition".$e->getMessage();
+        }
+    }
 
 
     public function _getContactoAll(){
@@ -21,13 +37,12 @@ class Admin_Model_DbTable_Contacto extends Zend_Db_Table_Abstract
         try{
             $sql=$this->_db->query("
                select * from contacto
-               where constactoid='$contactoid' and areaid='$areaid' and clienteid='$clienteid'  
-
+               where constactoid='$contactoid' and areaid='$areaid' and clienteid='$clienteid'
             ");
             $row=$sql->fetchAll();
-            return $row;           
-            }  
-            
+            return $row;
+            }
+
            catch (Exception $ex){
             print $ex->getMessage();
         }
@@ -39,13 +54,13 @@ class Admin_Model_DbTable_Contacto extends Zend_Db_Table_Abstract
         try{
             $sql=$this->_db->query("
                select * from contacto
-               where areaid='$areaid' and clienteid='$clienteid'  
+               where areaid='$areaid' and clienteid='$clienteid'
 
             ");
             $row=$sql->fetchAll();
-            return $row;           
-            }  
-            
+            return $row;
+            }
+
            catch (Exception $ex){
             print $ex->getMessage();
         }
@@ -57,13 +72,13 @@ class Admin_Model_DbTable_Contacto extends Zend_Db_Table_Abstract
         try{
             $sql=$this->_db->query("
                select * from contacto
-               where tipo_cliente='$tipo_cliente' and estado='A'  
+               where tipo_cliente='$tipo_cliente' and estado='A'
 
             ");
             $row=$sql->fetchAll();
-            return $row;           
-            }  
-            
+            return $row;
+            }
+
            catch (Exception $ex){
             print $ex->getMessage();
         }
@@ -76,13 +91,13 @@ class Admin_Model_DbTable_Contacto extends Zend_Db_Table_Abstract
         try{
             $sql=$this->_db->query("
                select * from contacto
-               where clienteid='$clienteid'  
+               where clienteid='$clienteid'
 
             ");
             $row=$sql->fetchAll();
-            return $row;           
-            }  
-            
+            return $row;
+            }
+
            catch (Exception $ex){
             print $ex->getMessage();
         }
@@ -95,25 +110,31 @@ class Admin_Model_DbTable_Contacto extends Zend_Db_Table_Abstract
                 select * from contacto where lower(nombre) like '%$nombre%'
                 ");
             $row=$sql->fetchAll();
-            return $row;           
-            }  
-            
+            return $row;
+            }
+
            catch (Exception $ex){
             print $ex->getMessage();
 
         }
     }
 
-     public function _update($data,$str=''){
+     public function _update($data,$str){
         try{
             if ($str=="") return false;
-            return $this->update($data,$str);
+            //print_r($str);
+
+            $where = "contactoid = '".$str['contactoid']."' ";
+
+            return $this->update($data,$where);
         }catch (Exception $ex){
-            print "Error: Actualizando un registro de Propuesta".$ex->getMessage();
+            print "Error: Actualizando un contacto".$ex->getMessage();
         }
     }
 
-   
+
+
+
 
     public function _save($data)
     {
@@ -139,7 +160,7 @@ class Admin_Model_DbTable_Contacto extends Zend_Db_Table_Abstract
             print "Error: Update Distribution".$e->getMessage();
         }
     }
-    
+
     public function _getFilter($where=null,$attrib=null,$orders=null){
         try{
             //if($where['eid']=='' || $where['oid']=='') return false;
@@ -147,7 +168,7 @@ class Admin_Model_DbTable_Contacto extends Zend_Db_Table_Abstract
                 if ($attrib=='') $select->from("contacto");
                 else $select->from("contacto",$attrib);
                 foreach ($where as $atri=>$value){
-                    $select->where("$atri = ?", $value);                    
+                    $select->where("$atri = ?", $value);
                 }
                 if ($orders<>null || $orders<>"") {
                     if (is_array($orders))
@@ -159,8 +180,72 @@ class Admin_Model_DbTable_Contacto extends Zend_Db_Table_Abstract
                 if ($rows) return $rows;
                 return false;
         }catch (Exception $e){
-            print "Error: Read Filter Contacto ".$e->getMessage();
+            print "Error: Read Filter Contactosss ".$e->getMessage();
         }
+    }
+
+    public function _getContactoxCliente($clienteid)
+    {
+      try {
+        $sql = $this->_db->query("select contactoid, clienteid, puesto_trabajo,
+        correo, concat(nombre1, ' ', ape_paterno) as nombre from contacto
+        where clienteid='".$clienteid."' order by nombre");
+        $row = $sql->fetchAll();
+        return $row;
+      } catch (Exception $e) {
+        print $e->getMessage();
+      }
+    }
+
+    public function _addContacto($data)
+    {
+      try {
+        $sql = $this->_db->query("select cast(contactoid as int) from contacto
+        where clienteid = '".$data['clienteid']."' order by contactoid desc
+        limit 1");
+        $row = $sql->fetchAll();
+
+        if (count($row) != 0) {
+          $numero = (int) $row[0]['contactoid'];
+          $numero++;
+        } else {
+          $numero = 1;
+        }
+        $sql = $this->_db->query("insert into contacto (contactoid, clienteid,
+        puesto_trabajo, correo, nombre1) values('".$numero."', '".$data['clienteid'].
+        "', '".$data['area']."', '".$data['correo']."', '".$data['nombre']."')");
+        $row = $sql->fetchAll();
+        $lista = $this->_getContactoxCliente($data['clienteid']);
+        return $lista;
+      } catch (Exception $e) {
+        print $e->getMessage();
+      }
+
+    }
+
+    public function _updateContacto($data)
+    {
+      try {
+        $sql = $this->_db->query("update contacto set puesto_trabajo = '".
+        $data['area']."', correo = '".$data['correo']."', nombre1 ='".
+        $data['nombre']."' where clienteid = '".$data['clienteid'].
+        "' and contactoid = '".$data['contactoid']."'");
+        $row = $sql->fetchAll();
+        $lista = $this->_getContactoxCliente($data['clienteid']);
+        return $lista;
+      } catch (Exception $e) {
+        print $e->getMessage();
+      }
+
+    }
+
+    public function _deleteContacto($clienteid, $contactoid)
+    {
+      $sql = $this->_db->query("delete from contacto where clienteid = '".
+      $clienteid."' and contactoid ='".$contactoid."'");
+      $row = $sql->fetchAll();
+      $lista = $this->_getContactoxCliente($clienteid);
+      return $lista;
     }
 
 

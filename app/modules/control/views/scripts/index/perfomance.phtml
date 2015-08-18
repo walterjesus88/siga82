@@ -1,0 +1,107 @@
+<!-- <table class=" table table-striped table-hover table-bordered " >
+<thead>	
+	<tr class="menu">    
+        <th>Item</th>
+        <th >Descripcion de Tareas</th>
+        <th>US$/item</th>
+        <th>hrs/item</th>  
+        <th>Inicio Planificado</th>
+        <th>Fin Planificado</th>
+        <th>Inicio Real</th>
+        <th>Fin Real</th>    
+    </tr>
+</thead>
+<tbody>
+	<td ng-repeat="per in CP.thi" >
+			{{ per.fecha_ingreso_performance }}
+	</td>
+</tbody>
+</table> -->
+
+
+
+ <form method="POST" action="#" editable-form name="tableform" onaftersave="CP.saveTable()" oncancel="cancel()" >
+<table class=" table table-striped table-hover table-bordered ">
+	<thead>	
+		<tr class="menu">    
+	        <th>Item</th>
+	        <th >Descripcion de Tareas</th>
+	        <th>US$/item</th>
+	        <th>hrs/item</th>	
+	        <th>Inicio Planificado</th>
+	        <th>Fin Planificado</th>
+	        <th>Inicio Real</th>
+	        <th>Fin Real</th>
+	        <td ng-repeat="per in CP.thi" >
+			{{ per.fecha_ingreso_performance }}
+			</td>
+					
+	    
+	    </tr>
+	</thead>
+	<tbody>
+  		<tr ng-repeat-start="performance in CP.performance " >
+          	<td >
+            	{{ performance.actividadid }}  
+          	</td>
+          	<td>
+				{{ performance.codigo_actividad }}
+			</td> 
+			<td>
+				<span editable-text="performance.costo_real" e-form="tableform" onbeforesave="checkName($data, performance.codigo_performance)">
+				{{ performance.costo_real }}
+			</td> 
+			<td>			
+				<span editable-text="performance.horas_real" e-form="tableform" onbeforesave="checkName($data, performance.codigo_performance)">
+				{{ performance.horas_real }}
+			</td> 
+			<td>
+				<span editable-text="performance.fecha_ingreso_performance" e-form="tableform" onbeforesave="checkName($data, performance.codigo_performance)">
+				{{ performance.fecha_ingreso_performance }}
+			</td> 
+			<td>
+				<span editable-text="performance.fecha_calculo_performance" e-form="tableform" onbeforesave="checkName($data, performance.codigo_performance)">
+				{{ performance.fecha_calculo_performance }}
+				</span>
+			</td> 
+			<td>
+				<span editable-text="performance.fecha_comienzo_real" e-form="tableform" onbeforesave="checkName($data, performance.codigo_performance)">
+				{{ performance.fecha_comienzo_real }}
+				</span>
+			</td> 
+			
+			<td>
+	          <span editable-text="performance.fecha_fin_real" e-form="tableform" onbeforesave="checkName($data, performance.codigo_performance)">
+	            {{ performance.fecha_fin_real }}
+	          </span>
+	        </td>
+
+
+	      	<td ng-repeat="item in performance.items" class="col-md-1">
+	          <!--   <input class="form-control" type="text" ng-model=" item.porcentaje_performance "></input> -->
+	          <span editable-text="item.porcentaje_performance" e-form="tableform" onbeforesave="checkName($data, item.porcentaje_performance)">
+	            {{ item.porcentaje_performance }}
+	          </span>
+	             
+	        </td>	        
+        </tr>
+
+   <tr ng-repeat-end>
+ 
+        <hr>
+    </tr>
+	</tbody>
+</table> 
+
+<div class="btn-edit">
+    <button type="button" class="btn btn-default" ng-show="!tableform.$visible" ng-click="tableform.$show()">
+        editar
+    </button>
+</div>
+<div class="btn-form" ng-show="tableform.$visible">
+    <button type="button" ng-disabled="tableform.$waiting" ng-click="addUser()" class="btn btn-default pull-right">add row</button>
+    <button type="submit" ng-disabled="tableform.$waiting" class="btn btn-primary">guardar</button>
+    <button type="button" ng-disabled="tableform.$waiting" ng-click="tableform.$cancel()" class="btn btn-default">cancelar</button>
+</div>
+
+</form>

@@ -1,145 +1,129 @@
+<section class="panel">
+    <header class="panel-heading">
+        Proyecto Nuevo
+    <span class="pull-right">
+        <a id="save" class="btn btn-success btn-xs" href="#">Guardar</a>                                        
+            <a class="btn btn-info btn-xs" href="/proyecto/index/listar">Cancelar</a> 
+    </span>
+    </header>
+</section>
+
+<div class="row">
+<div class="col-md-8">
+<section class="panel">
+    <div class="panel-body bio-graph-info">
+        <div class="row p-details">
+            <form name="<?php echo $this->form->getName(); ?>" action="<?php echo $this->form->getAction(); ?>" method="post" enctype="application/x-www-form-urlencoded">
+            <div class="bio-row form-group has-success">
+                <div class="form-group">
+                    <label >Codigo del Proyecto (*)</label>
+                    <?php print $this->form->proyectoid;?>
+                </div>
+            </div>
+            <div class="bio-row form-group has-success">
+                <div class="form-group">
+                    <label >Nombre del Proyecto (*)</label > <?php print $this->form->nombre_proyecto;?></p>
+                </div>
+            </div>
+            <div class="bio-row form-group has-success"> 
+                <div class="form-group">
+                    <label >Codigo de la Propuesta (*)</label>
+                        <?php print $this->form->propuestaid;?>
+                </div>
+            <!--
+            <select  id="propuestaid" name="propuestaid" class="form-control">
+                <option  value="">Seleccione..</option>
+                <?php
+                foreach ($this->propuestas  as $propuesta){
+                    ?>
+                    <option value="<?php echo $propuesta['propuestaid']?>"><?php echo $propuesta['nombre_propuesta']?></option>
+                    <?php
+                }?>
+            </select>-->
+            </div> 
+            <div class="bio-row form-group has-success">
+                <span class="bold">Código Interno del Sistema (Codigo Propuesta-Codigo Proyecto-Revision Propuesta) (*)</span>
+                    <?php print $this->form->codigo_prop_proy;?>
+                <!--   <select disabled id="cod_proy_prop" name="cod_proy_prop" class="form-control">
+                </select> -->
+            </div>
+
+            <div class="bio-row form-group has-success">
+                <span class="bold">Cliente (*)</span>
+                <select id="cliente" name="cliente" class="form-control">
+                 <!-- codigo posible a cambiar-->
+                 <option  value="">Seleccione..</option>
+                  <?php
+                  foreach ($this->clientes  as $cliente){
+                      ?>
+                      <option value="<?php echo $cliente['clienteid']?>"><?php echo $cliente['nombre_comercial']?></option>
+                      <?php
+                  }?>
+                 <!-- -->
+                </select>
+            </div>
+
+
+            <div class="bio-row form-group has-success">
+                <span class="bold">Unidad Minera (*)</span>
+                <select id="uminera" name="uminera" class="form-control">
+                 <!-- codigo posible a cambiar-->
+                 <option  value="">Seleccione..</option>
+                  <?php
+                  foreach ($this->unidadminera  as $unidad){
+                      ?>
+                      <option value="<?php echo $unidad['unidad_mineraid']?>"><?php echo $unidad['nombre']?></option>
+                      <?php
+                  }?>
+                 <!-- -->
+                </select>
+            </div> 
+
+
+            <div class="bio-row form-group has-success">
+                <span class="bold">Revisión de la Propuesta (*)</span>
+                <?php print $this->form->revision ;?>
+
+            <!--     <select disabled  id="revision" name="revision" class="form-control">                                          
+                </select> -->
+            </div>  
+
+            <div class="bio-row form-group has-success">
+              <p><span class="bold">Gerente de Proyecto (*)</span> <?php print $this->form->gerente_proyecto;?></p>
+            </div>
   
+            <div class="bio-row form-group has-success">
+              <p><span class="bold">Control Proyecto (*)</span> <?php print $this->form->control_proyecto;?></p>
+            </div>
 
 
+            <div class="bio-row form-group has-success">
+              <p><span class="bold">Control Documentario (*)</span> <?php print $this->form->control_documentario;?></p>
+            </div>
 
-              <!-- page start-->
-              <section class="panel">
-                  <header class="panel-heading">
-                      <div class="chat-room-head">
-                          <center><h5> Proyecto Nuevo</h5>
-                          </center>
-                          <div>
-                                        
-                          </div>
-                      </div>
-                            <span class="pull-left">
-                                <a id="save" class="btn btn-success btn-xs" href="#">Guardar</a>                                        
-                                <a class="btn btn-info btn-xs" href="/proyecto/index/listar">Cancelar</a> 
-                            </span>
-                  </header>
+            <div class="bio-row form-group has-success">
+              <p><span class="bold">Estado (*) </span> <?php print $this->form->estado;?></p>
+            </div>
+     
+            <div class="bio-row form-group has-success">
+                <p ><span class="bold">Monto Total </span><?php print $this->form->monto_total;?></p>
+            </div>
 
-              </section>
-              <div class="row">
-                  <div class="col-md-8">
-                      <section class="panel">
-                          <div class="panel-body bio-graph-info">
-                              <!--<h1>New Dashboard BS3 </h1>-->
-                              <div class="row p-details">
+            <div class="bio-row form-group has-success">
+                <p ><span class="bold">Fecha Inicio (*)</span><?php print $this->form->fecha_inicio;?></p>
+            </div>
 
-                                  <form name="<?php echo $this->form->getName(); ?>" action="<?php echo $this->form->getAction(); ?>" method="post" enctype="application/x-www-form-urlencoded">
+            <div class="bio-row form-group has-success">
+                <p ><span class="bold">Fecha Cierre (*)</span><?php print $this->form->fecha_cierre;?></p>
 
-                   
-                                  <div class="bio-row form-group has-success">
-                                    <div class="form-group">
-                                      <label >Número de Proyecto</label>
-                                     <?php print $this->form->proyectoid;?>
-                                    </div>
-                                  </div>
-                                  <div class="bio-row form-group has-success">
-                                    <div class="form-group">
-                                      <label >Nombre </label > <?php print $this->form->nombre_proyecto;?></p>
-                                    </div>
-                                  </div>
-                                
-                                  <div class="bio-row form-group has-success"> 
-                                    <span class="bold">Propuesta </span>                                   
-                                    
-                                    <select  id="propuestaid" name="propuestaid" class="form-control">
-                                        <option  value="">Seleccione..</option>
-                                        <?php
-                                        foreach ($this->propuestas  as $propuesta){
-                                            ?>
-                                            <option value="<?php echo $propuesta['propuestaid']?>"><?php echo $propuesta['nombre_propuesta']?></option>
-                                            <?php
-                                        }?>
-                                    </select>
-                                  </div> 
+            </div>
+                         
+             
+      </div>
 
-                                    <div class="bio-row form-group has-success">
-                                        <span class="bold">Código de Proyecto </span>
-                                        <?php print $this->form->codigo_prop_proy;?>
+  </div>
 
-                                      <!--   <select disabled id="cod_proy_prop" name="cod_proy_prop" class="form-control">
-                                         
-                                        </select> -->
-                                    </div>
-
-                                    <div class="bio-row form-group has-success">
-                                        <span class="bold">Cliente </span>
-                                        <select id="cliente" name="cliente" class="form-control">
-                                         <!-- codigo posible a cambiar-->
-                                         <option  value="">Seleccione..</option>
-                                          <?php
-                                          foreach ($this->clientes  as $cliente){
-                                              ?>
-                                              <option value="<?php echo $cliente['clienteid']?>"><?php echo $cliente['nombre_comercial']?></option>
-                                              <?php
-                                          }?>
-                                         <!-- -->
-                                        </select>
-                                    </div>
-
-
-                                    <div class="bio-row form-group has-success">
-                                        <span class="bold">Unidad Minera </span>
-                                        <select id="uminera" name="uminera" class="form-control">
-                                         <!-- codigo posible a cambiar-->
-                                         <option  value="">Seleccione..</option>
-                                          <?php
-                                          foreach ($this->unidadminera  as $unidad){
-                                              ?>
-                                              <option value="<?php echo $unidad['unidad_mineraid']?>"><?php echo $unidad['nombre']?></option>
-                                              <?php
-                                          }?>
-                                         <!-- -->
-                                        </select>
-                                    </div> 
- 
-
-                                    <div class="bio-row form-group has-success">
-                                        <span class="bold">Revisión </span>
-                                        <?php print $this->form->revision ;?>
-
-                                    <!--     <select disabled  id="revision" name="revision" class="form-control">                                          
-                                        </select> -->
-                                    </div>  
-
-                                    <div class="bio-row form-group has-success">
-                                      <p><span class="">Gerente de Proyecto</span> <?php print $this->form->gerente_proyecto;?></p>
-                                    </div>
-                          
-                                    <div class="bio-row form-group has-success">
-                                      <p><span class="">Control Proyecto</span> <?php print $this->form->control_proyecto;?></p>
-                                    </div>
-
-
-                                    <div class="bio-row form-group has-success">
-                                      <p><span class="">Control Documentario </span> <?php print $this->form->control_documentario;?></p>
-                                    </div>
-                       
-                                    <div class="bio-row form-group has-success">
-                                      <p><span class="bold">Estado </span> <?php print $this->form->estado;?></p>
-                                    </div>
-                             
-                                    <div class="bio-row form-group has-success">
-                                        <p ><span class="bold">Monto Total </span><?php print $this->form->monto_total;?></p>
-                                    </div>
-
-                                    <div class="bio-row form-group has-success">
-                                        <p ><span class="bold">Fecha Inicio </span><?php print $this->form->fecha_inicio;?></p>
-                                    </div>
-
-                                    <div class="bio-row form-group has-success">
-                                        <p ><span class="bold">Fecha Cierre </span><?php print $this->form->fecha_cierre;?></p>
-
-                                    </div>
-                                                 
-                                     
-                              </div>
-
-                          </div>
-
-                      </section>
+</section>
 
 
                   </div>
@@ -154,7 +138,7 @@
                                     </div>
 
                                     <div class="form-group has-success">
-                                      <p><span class="">Tipo de Proyecto: </span> <?php print $this->form->tipo_proyecto;?></p>
+                                      <p><span class="">Tipo de Proyecto: (*)</span> <?php print $this->form->tipo_proyecto;?></p>
                                     </div>
 
                                     <div class="form-group has-success">
@@ -206,7 +190,11 @@
   $("#save").click(function(){
 
         var proyectoid = $("#proyectoid").val();
-        var nombre_proyecto = $("#nombre_proyecto").val();
+        //var nombre_proyecto = $("#nombre_proyecto").val();
+
+        var captura_nombre_proyecto = $("#nombre_proyecto").val();
+        var nombre_proyecto= captura_nombre_proyecto.replace(/\s/g,"_");
+
         var propuestaid = $("#propuestaid").val();   
         var cod_proy_prop = $("#codigo_prop_proy").val();   
      
@@ -225,15 +213,21 @@
 
         var tag = $("#tag").val();  
         var tipo_proyecto = $("#tipo_proyecto").val();       
-        var descripcion = $("#descripcion").val();  
+        
+
+        var captura_descripcion = $("#descripcion").val();
+        var descripcion= captura_descripcion.replace(/\s/g,"_");
+
+
         var observacion = $("#observacion").val();  
 
 
-        url="/proyecto/index/nuevo/proyectoid/"+proyectoid+"/propuesta/"+propuestaid+"/nombre_proyecto/"+nombre_proyecto+"/cod_proy_prop/"+cod_proy_prop+"/cliente/"+cliente+"/uminera/"+uminera+"/revision/"+revision+"/gerente_proyecto/"+gerente_proyecto+"/control_proyecto/"+control_proyecto+"/control_documentario/"+control_documentario+"/estado/"+estado+"/monto_total/"+monto_total+"/fecha_inicio/"+fecha_inicio+"/fecha_cierre/"+fecha_cierre+"/descripcion/"+descripcion+"/tipo_proyecto/"+tipo_proyecto+"/tag/"+tag+"/observacion/"+observacion;
+        url="/proyecto/index/guardarproyecto/proyectoid/"+proyectoid+"/propuesta/"+propuestaid+"/nombre_proyecto/"+nombre_proyecto+"/cod_proy_prop/"+cod_proy_prop+"/cliente/"+cliente+"/uminera/"+uminera+"/revision/"+revision+"/gerente_proyecto/"+gerente_proyecto+"/control_proyecto/"+control_proyecto+"/control_documentario/"+control_documentario+"/estado/"+estado+"/monto_total/"+monto_total+"/fecha_inicio/"+fecha_inicio+"/fecha_cierre/"+fecha_cierre+"/descripcion/"+descripcion+"/tipo_proyecto/"+tipo_proyecto+"/tag/"+tag+"/observacion/"+observacion;
         //alert(url);
-        //$("#loadingcourses").load(url);
+        $("#loadingcourses").load(url);
         //$("#loadingcourses").hide();
-        //location.href="/proyecto/index/listar/";
+        location.href="/proyecto/index/listar/";
+        /*
         confirmar=confirm("Confirme que desee guardar un Nuevo Proyecto ");
         if (confirmar) 
         {// si pulsamos en aceptar
@@ -243,7 +237,7 @@
                   url: url,
                   data: $(this).serialize(),
                   success: function(data) { 
-                      location.href="/proyecto/index/listar/";
+                     // location.href="/proyecto/index/listar/";
                   }
           })
         }    
@@ -252,7 +246,7 @@
         // si pulsamos en cancelar
         alert('cancelado'); 
         return false;
-        }
+        }*/
         
 
     });
