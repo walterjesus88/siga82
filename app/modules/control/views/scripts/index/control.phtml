@@ -2,7 +2,7 @@
   <nav class="panel-heading tab-bg-dark-navy-blue">
     <ul class="nav nav-tabs">
       <li ng-class="CP.edt_activo"><a href="" ng-click="CP.cambiarPanel('edt')">EDT</a></li>  
-      <li><a href="">Perfomance</a></li>
+      <li ng-class="CP.perfomance_activo"><a href="" ng-click="CP.cambiarPanel('perfomance')">Perfomance</a></li>
       <li ng-class="CP.tecnicos_activo"><a href="" ng-click="CP.cambiarPanel('tecnicos')" >Curva</a></li>
     </ul>
   </nav>
@@ -37,6 +37,9 @@
         </div>
       </div>
 
+      <div ng-include="'/control/index/perfomance'" class="tab-pane" ng-class="CP.perfomance_activo">
+        perfomance
+      </div>
 
       <div ng-include="'/control/index/curvas'"  class="tab-pane" ng-class="CP.tecnicos_activo">
           HHHCURVAAAA
