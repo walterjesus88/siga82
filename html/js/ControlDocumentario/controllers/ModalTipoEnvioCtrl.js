@@ -19,6 +19,12 @@ function($modalInstance, httpFactory) {
     emitido_para: ''
   }
 
+  mt.alerts = [];
+
+  mt.closeAlert = function(index) {
+    mt.alerts.splice(index, 1);
+  }
+
   mt.seleccionar = function(tipo) {
     mt.tipo.empresa = tipo.empresa;
     mt.tipo.abrev = tipo.abrev;
@@ -43,10 +49,10 @@ function($modalInstance, httpFactory) {
       mt.tipo.empresa = '';
       mt.tipo.abrev = '';
       mt.tipo.emitido_para = '';
-      alert('Tipo de envio eliminado');
+      mt.alerts.push({type: 'success', msg: 'Tipo de envio eliminado'});
     })
     .catch(function(err) {
-      alert('No se pudo eliminar el tipo de envio');
+      mt.alerts.push({type: 'danger', msg: 'No se pudo eliminar el tipo de envio'});
     });
   }
 
@@ -55,10 +61,10 @@ function($modalInstance, httpFactory) {
     .then(function(data) {
       mt.edicion = true;
       mt.tipo_envio = data;
-      alert('Tipo de envio guardado');
+      mt.alerts.push({type: 'success', msg: 'Tipo de envio guardado'});
     })
     .catch(function(err) {
-      alert('No se pudo guardar el tipo de envio');
+      mt.alerts.push({type: 'danger', msg: 'No se pudo guardar el tipo de envio'});
     });
   }
 

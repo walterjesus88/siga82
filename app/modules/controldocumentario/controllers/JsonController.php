@@ -16,8 +16,6 @@ class ControlDocumentario_JsonController extends Zend_Controller_Action {
         Zend_Layout::startMvc($options);
     }
 
-    //Funciones que devuelven datos en formato json
-
     /*Devuelve la lista de las personas trabajando en control documentario y
     la carga de trabajo por estado de proyecto*/
     public function integrantesAction()
@@ -142,23 +140,8 @@ class ControlDocumentario_JsonController extends Zend_Controller_Action {
       $respuesta['control_documentario'] = $datos['control_documentario'];
       $respuesta['descripcion'] = $datos['descripcion'];
       $respuesta['tipo_proyecto'] = $datos['tipo_proyecto'];
-      //$ruta = APPLICATION_PATH.'/../img/cliente/'.$respuesta['clienteid'].'.jpg';
-      //if(is_file($ruta)){
-        $respuesta['logo_cliente'] = '../img/cliente/'.$respuesta['clienteid'].'.jpg';
-      //} else {
-      //  $respuesta['logo_cliente'] = '../img/cliente/anddes.jpg';
-      //}
+      $respuesta['logo_cliente'] = '../img/cliente/'.$respuesta['clienteid'].'.jpg';
       $this->_helper->json->sendJson($respuesta);
-    }
-
-    /*Devuelve el numero incremental a asignar al nuevo transmittal deacuerdo al
-    proyecto*/
-    public function correlativotransmittalAction()
-    {
-      $proyectoid = $this->_getParam('proyectoid');
-      $transmittal = new Admin_Model_DbTable_Transmittal();
-      $correlativo = $transmittal->_getCorrelativo($proyectoid);
-      $this->_helper->json->sendJson($correlativo);
     }
 
     //Devuelve la lista de edt de cada proyecto
@@ -170,106 +153,7 @@ class ControlDocumentario_JsonController extends Zend_Controller_Action {
       $this->_helper->json->sendJson($lista);
     }
 
-    //Devuelve la lista de entregables de un proyecto
-    public function entregablesAction()
-    {
-      $proyectoid = $this->_getParam('proyectoid');
-      $estado = $this->_getParam('estado');
-      $entregable = new Admin_Model_DbTable_Listaentregabledetalle();
-      $lista = $entregable->_getEntregablexProyecto($proyectoid, $estado);
-      $this->_helper->json->sendJson($lista);
-    }
 
-    //Devuelve la lista de entregables asociados a un transmittal
-    public function detalletransmittalAction()
-    {
-      $transmittalid = $this->_getParam('transmittalid');
-      $detalle = new Admin_Model_DbTable_DetalleTransmittal();
-      $lista = $detalle->_getDetallexTramittal($transmittalid);
-      $this->_helper->json->sendJson($lista);
-    }
-
-
-    //Funciones que cambian datos en la base de datos
-
-    //Actualiza el control documentario asignado a un proyecto
-    public function cambiarcontroldocumentarioAction()
-    {
-      $proyectoid = $this->_getParam('proyectoid');
-      $control_documentario = $this->_getParam('controldocumentario');
-      $proyecto = new Admin_Model_DbTable_Proyecto();
-      $respuesta = $proyecto->_updateControlDocumentario($proyectoid, $control_documentario);
-      $this->_helper->json->sendJson($respuesta);
-    }
-
-    //Guarda los datos de configuracion del transmittal
-    public function guardarconfiguraciontransmittalAction()
-    {
-      $data['codificacion'] = $this->_getParam('codificacion');
-      $data['correlativo'] = $this->_getParam('correlativo');
-      $data['clienteid'] = $this->_getParam('clienteid');
-      $data['proyectoid'] = $this->_getParam('proyectoid');
-      $data['formato'] = $this->_getParam('formato');
-      $data['tipo_envio'] = $this->_getParam('tipoenvio');
-      $data['control_documentario'] = $this->_getParam('controldocumentario');
-      $data['dias_alerta'] = $this->_getParam('diasalerta');
-      $data['tipo_proyecto'] = $this->_getParam('tipoproyecto');
-      $data['atencion'] = $this->_getParam('atencion');
-      $transmittal = new Admin_Model_DbTable_Transmittal();
-      $respuesta = $transmittal->_saveConfiguracion($data);
-      $this->_helper->json->sendJson($respuesta);
-    }
-
-    //Guardar los entregables asociados a un transmittal
-    public function guardardetalletransmittalAction()
-    {
-      $data['detalleid'] = $this->_getParam('detalleid');
-      $data['transmittalid'] = $this->_getParam('transmittalid');
-      $data['entregableid'] = $this->_getParam('entregableid');
-      $data['revision'] = $this->_getParam('revision');
-      $data['estado_revision'] = $this->_getParam('estado_revision');
-      $data['emitido'] = $this->_getParam('emitido');
-      $data['fecha'] = $this->_getParam('fecha');
-    }
-
-    //actualizar el codigo de anddes de los entregables
-    public function actualizarcodigoanddesAction()
-    {
-      $entregableid = $this->_getParam('entregableid');
-      $codigo_anddes = $this->_getParam('codigoanddes');
-      $entregable = new Admin_Model_DbTable_Listaentregabledetalle();
-      $fila = $entregable->_setCodigoAnddes($entregableid, $codigo_anddes);
-      $respuesta['resultado'] = 'guardado';
-      $this->_helper->json->sendJson($respuesta);
-    }
-
-    //actualizar el codigo de cliente de los entregables
-    public function actualizarcodigoclienteAction()
-    {
-      $entregableid = $this->_getParam('entregableid');
-      $codigo_cliente = $this->_getParam('codigocliente');
-      $entregable = new Admin_Model_DbTable_Listaentregabledetalle();
-      $fila = $entregable->_setCodigoCliente($entregableid, $codigo_cliente);
-      $respuesta['resultado'] = 'guardado';
-      $this->_helper->json->sendJson($respuesta);
-    }
-
-    //agregar un contacto al cliente
-    public function setcontactoAction()
-    {
-      $data['clienteid'] = $this->_getParam('clienteid');
-      $data['contactoid'] = $this->_getParam('contactoid');
-      $data['nombre'] = $this->_getParam('nombre');
-      $data['area'] = $this->_getParam('area');
-      $data['correo'] = $this->_getParam('correo');
-      $contacto = new Admin_Model_DbTable_Contacto();
-      if ($data['contactoid'] == '') {
-        $lista = $contacto->_addContacto($data);
-      } else {
-        $lista = $contacto->_updateContacto($data);
-      }
-      $this->_helper->json->sendJson($lista);
-    }
 
     //subir logo del cliente
     public function subirlogoAction()
@@ -290,21 +174,31 @@ class ControlDocumentario_JsonController extends Zend_Controller_Action {
       $this->_helper->json->sendJson($respuesta);
     }
 
-    //guardar los detalles del transmittal
-    public function guardardetalleAction()
+    //agregar un contacto al cliente
+    public function setcontactoAction()
     {
-      $data['entregableid'] = $this->_getParam('codigo');
-      $data['tipo_envio'] = $this->_getParam('tipoenvio');
-      $data['revision'] = $this->_getParam('revision');
-      $data['estado_revision'] = $this->_getParam('estadorevision');
-      $data['transmittal'] = $this->_getParam('transmittal');
-      $data['correlativo'] = $this->_getParam('correlativo');
-      $data['emitido'] = $this->_getParam('emitido');
-      $data['fecha'] = $this->_getParam('fecha');
-      $data['estado'] = $this->_getParam('estado');
-      $detalle = new Admin_Model_DbTable_DetalleTransmittal();
-      $respuesta = $detalle->_addDetalle($data);
-      $this->_helper->json->sendJson($respuesta);
+      $data['clienteid'] = $this->_getParam('clienteid');
+      $data['contactoid'] = $this->_getParam('contactoid');
+      $data['nombre'] = $this->_getParam('nombre');
+      $data['area'] = $this->_getParam('area');
+      $data['correo'] = $this->_getParam('correo');
+      $contacto = new Admin_Model_DbTable_Contacto();
+      if ($data['contactoid'] == '') {
+        $lista = $contacto->_addContacto($data);
+      } else {
+        $lista = $contacto->_updateContacto($data);
+      }
+      $this->_helper->json->sendJson($lista);
+    }
+
+    //eliminar contacto de cliente
+    public function eliminarcontactoAction()
+    {
+      $clienteid = $this->_getParam('clienteid');
+      $contactoid = $this->_getParam('contactoid');
+      $contacto = new Admin_Model_DbTable_Contacto();
+      $lista = $contacto->_deleteContacto($clienteid, $contactoid);
+      $this->_helper->json->sendJson($lista);
     }
 
     //guardar los tipos de envio creados en la vista
@@ -318,6 +212,7 @@ class ControlDocumentario_JsonController extends Zend_Controller_Action {
       $this->_helper->json->sendJson($respuesta);
     }
 
+    //eliminar el tipo de envio de la tabla tipo_envio
     public function eliminartipodeenvioAction()
     {
       $data['empresa'] = $this->_getParam('empresa');
@@ -327,14 +222,14 @@ class ControlDocumentario_JsonController extends Zend_Controller_Action {
       $this->_helper->json->sendJson($lista);
     }
 
-    //eliminar contacto de cliente
-    public function eliminarcontactoAction()
+    //Actualiza el control documentario asignado a un proyecto
+    public function cambiarcontroldocumentarioAction()
     {
-      $clienteid = $this->_getParam('clienteid');
-      $contactoid = $this->_getParam('contactoid');
-      $contacto = new Admin_Model_DbTable_Contacto();
-      $lista = $contacto->_deleteContacto($clienteid, $contactoid);
-      $this->_helper->json->sendJson($lista);
+      $proyectoid = $this->_getParam('proyectoid');
+      $control_documentario = $this->_getParam('controldocumentario');
+      $proyecto = new Admin_Model_DbTable_Proyecto();
+      $respuesta = $proyecto->_updateControlDocumentario($proyectoid, $control_documentario);
+      $this->_helper->json->sendJson($respuesta);
     }
 
     //exportar lista de proyectos a xml

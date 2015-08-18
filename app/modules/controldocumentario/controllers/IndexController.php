@@ -14,6 +14,7 @@ class ControlDocumentario_IndexController extends Zend_Controller_Action {
             'layout' => 'layout',
         );
         Zend_Layout::startMvc($options);
+        $this->_helper->layout()->disableLayout();
     }
 
 
@@ -24,77 +25,77 @@ class ControlDocumentario_IndexController extends Zend_Controller_Action {
 
     public function indexAction()
     {
-
+      $this->_helper->layout()->enableLayout();
     }
 
     public function panelAction()
     {
-      $this->_helper->layout()->disableLayout();
+
     }
 
     public function proyectosAction()
     {
-      $this->_helper->layout()->disableLayout();
+
     }
 
     public function carpetasAction()
     {
-      $this->_helper->layout()->disableLayout();
+
     }
 
     public function reporteAction()
     {
-      $this->_helper->layout()->disableLayout();
+
     }
 
     public function transmittalAction()
     {
-      $this->_helper->layout()->disableLayout();
+
     }
 
     public function configurartrAction()
     {
-      $this->_helper->layout()->disableLayout();
+
     }
 
     public function anddesAction()
     {
-      $this->_helper->layout()->disableLayout();
+
     }
 
     public function clienteAction()
     {
-      $this->_helper->layout()->disableLayout();
+
     }
 
     public function contratistaAction()
     {
-      $this->_helper->layout()->disableLayout();
+
     }
 
     public function tablaentregablesAction()
     {
-      $this->_helper->layout()->disableLayout();
+
     }
 
     public function editartransmittalAction()
     {
-      $this->_helper->layout()->disableLayout();
+
     }
 
     public function modalcontactoAction()
     {
-      $this->_helper->layout()->disableLayout();
+
     }
 
     public function modallogoAction()
     {
-      $this->_helper->layout()->disableLayout();
+
     }
 
     public function modaltipoenvioAction()
     {
-      $this->_helper->layout()->disableLayout();
+
     }
 
 }

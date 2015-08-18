@@ -58,8 +58,6 @@ function(httpFactory, proyectoFactory) {
   vp.imprimir = function() {
     httpFactory.createPdfProyectos(estado_actual)
     .then(function(data) {
-      var URLprotocol = window.location.protocol;
-      var URLdomain = window.location.host;
       window.open(data.archivo, '_blank');
     })
     .catch(function(err) {

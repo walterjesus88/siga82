@@ -6,6 +6,7 @@ app.factory('entregableFactory', ['httpFactory', 'transmittalFactory',
     correlativo, emitido, fecha, respuesta_transmittal, respuesta_emitido,
     respuesta_fecha, estado, comentario) {
       this.codigo = codigo;
+      this.proyectoid = '';
       this.edt = edt;
       this.tipo = tipo;
       this.disciplina = disciplina;
@@ -33,6 +34,10 @@ app.factory('entregableFactory', ['httpFactory', 'transmittalFactory',
         this.transmittal_completo = '';
       } else {
         this.transmittal_completo = this.transmittal + '-' + this.correlativo;
+      }
+
+      this.setProyectoId = function(proyectoid) {
+        this.proyectoid = proyectoid;
       }
 
       this.actualizarCodigoAnddes = function() {
@@ -87,6 +92,26 @@ app.factory('entregableFactory', ['httpFactory', 'transmittalFactory',
         })
         .catch(function(data) {
 
+        });
+      }
+
+      this.guardarEntregable = function() {
+        httpFactory.setEntregable(this)
+        .then(function(data) {
+          alert('Entregable guardado satisfactoriamente');
+        })
+        .catch(function(err) {
+          alert('Error al guardar datos del entregable');
+        });
+      }
+
+      this.eliminarEntregable = function() {
+        httpFactory.deleteEntregable(this.codigo)
+        .then(function(data) {
+          alert('Entregable eliminado satisfactoriamente');
+        })
+        .catch(function(err) {
+          alert("Error al momento de eliminar entregable");
         });
       }
     }

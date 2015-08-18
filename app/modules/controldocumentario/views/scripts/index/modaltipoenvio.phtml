@@ -56,3 +56,4 @@
   <button type="button" class="btn btn-success btn-xs" ng-click="mt.guardar()">Guardar</button>
   <button type="button" class="btn btn-danger btn-xs" ng-click="mt.cancelar()">Cancelar</button>
 </footer>
+<alert ng-repeat="alert in mt.alerts" type="{{alert.type}}" close="mt.closeAlert($index)">{{alert.msg}}</alert>
