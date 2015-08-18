@@ -84,3 +84,17 @@
   </div>
 </div>
 <div id="modali"></div>
+
+<script>
+  $(document).ready(function() {
+    if ( $.fn.dataTable.isDataTable( '.datatable-order-search' ) ) {
+      table = $('.datatable-order-search').DataTable();
+    }
+    else {
+      table = $('.datatable-order-search').DataTable( {
+        paging: false,
+        ordering: true,
+      } );
+    }
+  } );
+</script>
