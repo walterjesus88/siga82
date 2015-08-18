@@ -105,6 +105,28 @@ function(httpFactory, $location, $q) {
         defered.reject(err);
       });
       return promise;      
+    },
+
+    setActualizarDatosxPerfomance: function(codigo_prop_proy,codigo_actividad,actividadid,cronogramaid,
+        codigo_cronograma,codigo_performance,porcentaje_performance,fecha_calculo_performance,proyectoid,revision_cronograma,
+        fecha_ingreso_performance)
+    {
+      var defered = $q.defer();
+      var promise = defered.promise;
+       //console.log("esoty en setActualizarDatosxPerfomance");
+       //console.log(uperformance);
+
+      httpFactory.setDatosxPerfomance(codigo_prop_proy,codigo_actividad,actividadid,cronogramaid,
+        codigo_cronograma,codigo_performance,porcentaje_performance,fecha_calculo_performance,proyectoid,revision_cronograma,
+        fecha_ingreso_performance,fecha_performance)
+      .then(function(data) {
+        datos = data;
+        defered.resolve(datos);
+      })
+      .catch(function(err) {
+        defered.reject(err);
+      });
+      return promise;      
     }
 
 

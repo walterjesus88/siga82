@@ -332,8 +332,9 @@ function(httpFactory, $scope,$q,proyectoFactory) {
 
 // console.log(this.performancedata);
 
-console.log('performance');
-console.log(proyecto['codigo']);
+// console.log('performance');
+// console.log(proyecto['codigo']);
+
 proyectoFactory.getDatosProyectoxPerfomance(proyecto['codigo'])
 .then(function(datax) {
     va.performance=datax;
@@ -341,9 +342,9 @@ proyectoFactory.getDatosProyectoxPerfomance(proyecto['codigo'])
     for (var i = va.performance.length - 1; i >= 0; i--) {
       //Things[i]
       va.thi=va.performance[i]['items'];
-      console.log(va.thi);
+      //console.log(va.thi);
     };
-    console.log("estas en performance");
+    //console.log("estas en performance");
   })
 .catch(function(err) {
     va.performance = {};
@@ -351,12 +352,47 @@ proyectoFactory.getDatosProyectoxPerfomance(proyecto['codigo'])
 
 //guardar datos de performance//
 va.saveTable = function() {
-  console.log("ohhhh");
 
-  console.log(va.performance);
+  //console.log(va.performance);
   // var results = [];
-  //   for (var i = $scope.users.length; i--;) {
-  //     var user = $scope.users[i];
+/*  for (var i = va.performance.length; i--;) {
+      var uperformance = va.performance[i];*/
+      // console.log(uperformance);
+      // console.log("ohhhh");
+  angular.forEach(va.performance, function(val) {
+      //console.log(val['items'].length);   
+      angular.forEach(val['items'], function(value) {
+        console.log(value['porcentaje_performance']);
+        console.log(value);
+
+        codigo_prop_proy=value['codigo_prop_proy'];
+        codigo_actividad=value['codigo_actividad'];
+        actividadid=value['actividadid'];
+        cronogramaid=value['cronogramaid'];
+        codigo_cronograma=value['codigo_cronograma'];
+        codigo_performance=value['codigo_performance'];
+        porcentaje_performance=value['porcentaje_performance'];
+        fecha_calculo_performance=value['fecha_calculo_performance'];
+        proyectoid=value['proyectoid'];
+        revision_cronograma=value['revision_cronograma'];
+        fecha_ingreso_performance=value['fecha_ingreso_performance'];
+        fecha_performance=value['fecha_performance'];
+
+        proyectoFactory.setActualizarDatosxPerfomance(codigo_prop_proy,codigo_actividad,actividadid,cronogramaid,
+        codigo_cronograma,codigo_performance,porcentaje_performance,fecha_calculo_performance,proyectoid,revision_cronograma,
+        fecha_ingreso_performance,fecha_performance)
+
+        .then(function(data) {
+          //console.log(data); 
+        })
+       .catch(function(err) {
+          //va.procronograma = {};
+        });
+
+      })
+ 
+  })
+
   //     // actually delete user
   //     if (user.isDeleted) {
   //       $scope.users.splice(i, 1);
@@ -368,7 +404,7 @@ va.saveTable = function() {
 
   //     // send on server
   //     results.push($http.post('/saveUser', user));      
-  //   }
+  //}
 
   //   return $q.all(results);
 };

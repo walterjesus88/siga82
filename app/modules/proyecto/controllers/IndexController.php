@@ -1535,9 +1535,44 @@ public function usuariosjsonAction() {
 }
 
 
+public function modificarperformanceAction() {
+  echo "obejjjjjjjjjjjjj";
+  echo $codigo_prop_proy = $this->_getParam("codigo_prop_proy");
+  echo $codigo_actividad = $this->_getParam("codigo_actividad");
+  echo $actividadid = $this->_getParam("actividadid");
+  echo $cronogramaid = $this->_getParam("cronogramaid");
+  echo $codigo_cronograma = $this->_getParam("codigo_cronograma");
+  echo $codigo_performance = $this->_getParam("codigo_performance");
+  echo $porcentaje_performance = $this->_getParam("porcentaje_performance");
+  echo $fecha_calculo_performance = $this->_getParam("fecha_calculo_performance");
+  echo $proyectoid = $this->_getParam("proyectoid");
+  echo $revision_cronograma = $this->_getParam("revision_cronograma");
+  echo $fecha_ingreso_performance = $this->_getParam("fecha_ingreso_performance"); 
+  echo $fecha_performance = $this->_getParam("fecha_performance");
+
+  
+  $where = array('codigo_prop_proy' => $codigo_prop_proy,'codigo_actividad' => $codigo_actividad,'actividadid' => $actividadid,
+  'cronogramaid' => $cronogramaid,'codigo_cronograma' => $codigo_cronograma,'codigo_performance' => $codigo_performance,
+  'proyectoid' => $proyectoid,'revision_cronograma' => $revision_cronograma,'fecha_performance' => $fecha_performance );
+
+  $data = array( 'porcentaje_performance' => $porcentaje_performance,'fecha_calculo_performance' => date("Y-m-d"),
+  'fecha_ingreso_performance' => $fecha_ingreso_performance);
+
+  print_r($where);
+  print_r($data);
+
+ 
+
+   $modperformancedetalles=new Admin_Model_DbTable_Performancedetalle();
+   $mpdetalle=$modperformancedetalles->_update($data,$where);
+
+   //if($mpdetalle){echo "si"} else {'no'};
+
+  exit();
+}
+
 public function proyectoxperformanceAction() {
   $proyectoid = $this->_getParam("proyectoid");
-  //echo "performanceeeeeeeeeeeee";
   
   $performance=new Admin_Model_DbTable_Performance();
   $where = array('proyectoid' =>$proyectoid );
@@ -1643,9 +1678,7 @@ public function guardarcurvaAction(){
     echo  $codigo_cronograma= $this->_getParam("codigo_cronograma");
     echo  $revision_propuesta= $this->_getParam("revision_propuesta");
 
-    ///echo "daijutyyyyyy";exit();  
-    //codigo_prop_proy, codigo_cronograma, proyectoid,
-    //codigo_curvas, revision_cronograma, fecha_ingreso_curvas/
+
     $data = array('codigo_prop_proy' => $codigo_prop_proy,'codigo_cronograma' => $codigo_cronograma,
     'proyectoid' => $proyectoid,
     //'codigo_curvas' => $codigo_curvas,
@@ -1653,7 +1686,7 @@ public function guardarcurvaAction(){
     'porcentaje_ejecutado' => $porcentaje_ejecutado,'porcentaje_propuesta' => $porcentaje_propuesta,
     'cronogramaid' => $cronogramaid, 'revision_propuesta' => $revision_propuesta );
 
-    //print_r($data);
+
     $guardarcurva=new Admin_Model_DbTable_Tiempoproyecto();
     $gcurva=$guardarcurva->_save($data);
 
