@@ -51,6 +51,33 @@ app.factory('httpFactory', ['$http','$q', function($http,$q) {
   
     },
 
+    setDatosxPerfomance: function(codigo_prop_proy,codigo_actividad,actividadid,cronogramaid,
+        codigo_cronograma,codigo_performance,porcentaje_performance,fecha_calculo_performance,proyectoid,revision_cronograma,
+        fecha_ingreso_performance,fecha_performance) {
+      var defered = $q.defer();
+      var promise = defered.promise;
+      $http.get(url + 'modificarperformance/codigo_prop_proy/' + codigo_prop_proy+
+        "/codigo_actividad/"+codigo_actividad+
+        "/actividadid/"+actividadid+
+        "/cronogramaid/"+cronogramaid+
+        "/codigo_cronograma/"+codigo_cronograma+
+        "/codigo_performance/"+codigo_performance+
+        "/porcentaje_performance/"+porcentaje_performance+
+        "/fecha_calculo_performance/"+fecha_calculo_performance+
+        "/proyectoid/"+proyectoid+
+        "/revision_cronograma/"+revision_cronograma+
+        "/fecha_ingreso_performance/"+fecha_ingreso_performance+
+        "/fecha_performance/"+fecha_performance
+      )
+      .success(function(data) {
+        defered.resolve(data);
+      })
+      .error(function(err) {
+        defered.reject(err);
+      });
+      return promise;
+    },
+
 
     getProyectos: function(estado) {
       var defered = $q.defer();

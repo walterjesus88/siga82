@@ -65,8 +65,8 @@
   </tr>
 
 
-<div ng-repeat="cronograma in CP.procronograma" >
-<!--   {{ cronograma.revision_cronograma }}
+<!-- <div ng-repeat="cronograma in CP.procronograma" >
+   {{ cronograma.revision_cronograma }}
   {{ cronograma.revision_propuesta }}
   {{ cronograma.cronogramaid }}
   {{ cronograma.codigo_cronograma }}
@@ -75,8 +75,8 @@
   {{ cronograma.duracion }}
   {{ cronograma.predecesoras }}
   {{ cronograma.sucesoras }}
-  {{ cronograma.nivel_esquema }} -->
-</div> 
+  {{ cronograma.nivel_esquema }}
+</div>  -->
 
 
 
@@ -86,7 +86,7 @@
   </div>
   <div class="col-md-2" >
     <select class="form-control" ng-model="CP.revi"         
-      ng-options="c.revision_cronograma for c in CP.procronograma">
+      ng-options="c.revision_cronograma for c in CP.procronograma ">
     </select> 
   </div>
   <div class="col-md-2" >
@@ -165,7 +165,7 @@
         </span>
     </td>
     <td>
-      <button type="button"  ng-click="CP.deleteFecha(label.codigo_curvas)" class="btn btn-danger pull-right">Del</button>
+      <button type="button"  ng-click="CP.deleteFecha(label.codigo_curvas)" class="btn btn-danger pull-right">El</button>
       <!-- ng-show="tableform.$visible" -->
     </td>
   </tr>

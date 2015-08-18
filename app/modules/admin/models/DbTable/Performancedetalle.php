@@ -28,5 +28,41 @@ class Admin_Model_DbTable_Performancedetalle extends Zend_Db_Table_Abstract
         }
     }
  
+    public function _save($data)
+    {
+        try{
+            if ($data['codigo_prop_proy']=='' ||  $data['codigo_actividad']=='' ||  $data['actividadid']==''
+            ||  $data['cronogramaid']=='' ||  $data['codigo_cronograma']=='' ||  $data['revision_cronograma']==''
+            ||  $data['proyectoid']=='' ||  $data['codigo_performance']=='' ||  $data['fecha_performance']==''
+
+            ) return false;
+            return $this->insert($data);
+            return false;
+        }catch (Exception $e){
+                //print "Error: Registration ".$e->getMessage();
+        }
+    }
+
+    public function _update($data,$pk)
+    {
+        try{
+            //if ($pk['id_tproyecto']=='' ||  $pk['proyectoid']=='' ) return false;
+            $where = "
+                codigo_prop_proy = '".$pk['codigo_prop_proy']."' and 
+                codigo_actividad = '".$pk['codigo_actividad']."' and 
+                actividadid = '".$pk['actividadid']."' and 
+                cronogramaid = '".$pk['cronogramaid']."' and 
+                codigo_cronograma = '".$pk['codigo_cronograma']."' and 
+                revision_cronograma = '".$pk['revision_cronograma']."' and 
+                proyectoid = '".$pk['proyectoid']."' and 
+                codigo_performance = '".$pk['codigo_performance']."' and 
+                fecha_performance = '".$pk['fecha_performance']."'
+            ";
+            return $this->update($data, $where);
+            return false;
+        }catch (Exception $e){
+            print "Error: Update curva".$e->getMessage();
+        }
+    }
 
 }
