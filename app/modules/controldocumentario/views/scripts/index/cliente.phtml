@@ -1,3 +1,69 @@
 <header>
-  <h1>Cliente</h1>
+  <button type="button" class="btn btn-success">TR</button>
 </header>
+<div class="panel">
+  <table class="table table-bordered">
+    <thead>
+      <th>
+        ITEM
+      </th>
+      <th>
+        TR
+      </th>
+      <th>
+        Codigo Anddes
+      </th>
+      <th>
+        Codigo Cliente
+      </th>
+      <th>
+        Descripción de Entregable
+      </th>
+      <th>
+        Rev.
+      </th>
+      <th>
+        Emitido
+      </th>
+      <th>
+        Fecha
+      </th>
+    </thead>
+    <tbody>
+      <tr ng-repeat="entregable in cl.entregables track by $index">
+        <td>
+          {{$index}}
+        </td>
+        <td>
+          <input type="text" ng-model="entregable.transmittal">
+        </td>
+        <td>
+          <input type="text" ng-model="entregable.codigo_anddes">
+        </td>
+        <td>
+          <input type="text" ng-model="entregable.codigo_cliente">
+        </td>
+        <td>
+          <input type="text" ng-model="entregable.descripcion">
+        </td>
+        <td>
+          <input type="text" ng-model="entregable.revision">
+        </td>
+        <td>
+          <input type="text" ng-model="entregable.emitido">
+        </td>
+        <td>
+          <input type="text" ng-model="entregable.fecha">
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<footer>
+  <button type="button" class="btn btn-info">Imprimir</button>
+  <button type="button" class="btn btn-primary">Agregar</button>
+  <button type="button" class="btn btn-warning">Editar</button>
+  <button type="button" class="btn btn-danger">Eliminar</button>
+  <button type="button" class="btn btn-default">Cancelar</button>
+  <button type="button" class="btn btn-success">Guardar</button>
+</footer>

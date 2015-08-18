@@ -67,11 +67,9 @@ app.controller('TransmittalCtrl', ['httpFactory', 'proyectoFactory', '$modal',
       }
     });
 
-    /*modalInstance.result.then(function (selectedItem) {
-      vt.selected = selectedItem;
-    }, function () {
-      alert('Modal dismissed at: ' + new Date());
-    });*/
+    modalInstance.result.then(function () {
+      window.location.reload();
+    });
   }
 
 }]);

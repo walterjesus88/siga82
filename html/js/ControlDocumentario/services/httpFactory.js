@@ -5,6 +5,8 @@ app.factory('httpFactory', ['$http', '$q', function($http, $q) {
 
   var url_json = '/controldocumentario/json/';
   var url_print = '/controldocumentario/print/';
+  var url_ent = '/controldocumentario/entregable/';
+  var url_tran = '/controldocumentario/transmittal/';
 
   var publico = {
     getIntegrantes: function(){
@@ -119,7 +121,7 @@ app.factory('httpFactory', ['$http', '$q', function($http, $q) {
     getCorrelativoTransmittal: function(proyectoid) {
       var defered = $q.defer();
       var promise = defered.promise;
-      $http.get(url_json + 'correlativotransmittal/proyectoid/' + proyectoid)
+      $http.get(url_tran + 'correlativotransmittal/proyectoid/' + proyectoid)
       .success(function(data) {
         defered.resolve(data);
       })
@@ -144,7 +146,7 @@ app.factory('httpFactory', ['$http', '$q', function($http, $q) {
     setConfiguracionTransmittal: function(datos) {
       var defered = $q.defer();
       var promise = defered.promise;
-      $http.post(url_json + 'guardarconfiguraciontransmittal/codificacion/' +
+      $http.post(url_tran + 'guardarconfiguraciontransmittal/codificacion/' +
       datos.codificacion + '/correlativo/' + datos.correlativo + '/formato/' +
       datos.formato + '/tipoenvio/' + datos.tipo_envio + '/clienteid/' +
       datos.clienteid + '/proyectoid/' + datos.proyecto + '/controldocumentario/' +
@@ -170,11 +172,11 @@ app.factory('httpFactory', ['$http', '$q', function($http, $q) {
       });
       return promise;
     },
-    getEntregables: function(proyectoid, estado) {
+    getEntregables: function(proyectoid, estado, clase) {
       var defered = $q.defer();
       var promise = defered.promise;
-      $http.get(url_json + 'entregables/proyectoid/' + proyectoid +
-      '/estado/' + estado)
+      $http.get(url_ent + 'entregables/proyectoid/' + proyectoid +
+      '/estado/' + estado + '/clase/' + clase)
       .success(function(data) {
         defered.resolve(data);
       })
@@ -186,7 +188,7 @@ app.factory('httpFactory', ['$http', '$q', function($http, $q) {
     setCodigoAnddes: function(entregableid, codigo_anddes) {
       var defered = $q.defer();
       var promise = defered.promise;
-      $http.post(url_json + 'actualizarcodigoanddes/entregableid/' + entregableid +
+      $http.post(url_ent + 'actualizarcodigoanddes/entregableid/' + entregableid +
       '/codigoanddes/' + codigo_anddes)
       .success(function(data) {
         defered.resolve(data);
@@ -199,7 +201,7 @@ app.factory('httpFactory', ['$http', '$q', function($http, $q) {
     setCodigoCliente: function(entregableid, codigo_cliente) {
       var defered = $q.defer();
       var promise = defered.promise;
-      $http.post(url_json + 'actualizarcodigocliente/entregableid/' + entregableid +
+      $http.post(url_ent + 'actualizarcodigocliente/entregableid/' + entregableid +
       '/codigocliente/' + codigo_cliente)
       .success(function(data) {
         defered.resolve(data);
@@ -227,7 +229,7 @@ app.factory('httpFactory', ['$http', '$q', function($http, $q) {
     setDetalleTransmittal: function(datos) {
       var defered = $q.defer();
       var promise = defered.promise;
-      $http.post(url_json + 'guardardetalle/codigo/' + datos.codigo + '/tipoenvio/' +
+      $http.post(url_tran + 'guardardetalle/codigo/' + datos.codigo + '/tipoenvio/' +
       datos.tipo_envio + '/revision/' +
       datos.revision + '/estadorevision/' + datos.estado_revision + '/transmittal/' +
       datos.transmittal + '/correlativo/' + datos.correlativo + '/emitido/' +
@@ -255,8 +257,21 @@ app.factory('httpFactory', ['$http', '$q', function($http, $q) {
     setTipoEnvio: function(tipo) {
       var defered = $q.defer();
       var promise = defered.promise;
-      $http.get(url_json + 'guardartiposdeenvio/empresa/' + tipo.empresa + '/abrev/' +
+      $http.post(url_json + 'guardartiposdeenvio/empresa/' + tipo.empresa + '/abrev/' +
       tipo.abrev + '/emitidopara/' + tipo.emitido_para)
+      .success(function(data) {
+        defered.resolve(data);
+      })
+      .error(function(err) {
+        defered.reject(err);
+      });
+      return promise;
+    },
+    deleteTipo: function(tipo) {
+      var defered = $q.defer();
+      var promise = defered.promise;
+      $http.delete(url_json + 'eliminartipodeenvio/empresa/' + tipo.empresa +
+      '/abrev/' + tipo.abrev)
       .success(function(data) {
         defered.resolve(data);
       })
@@ -269,6 +284,71 @@ app.factory('httpFactory', ['$http', '$q', function($http, $q) {
       var defered = $q.defer();
       var promise = defered.promise;
       $http.get(url_print + 'imprimirproyectos/estado/' + estado)
+      .success(function(data) {
+        defered.resolve(data);
+      })
+      .error(function(err) {
+        defered.reject(err);
+      });
+      return promise;
+    },
+    createPdfEdt: function(proyectoid) {
+      var defered = $q.defer();
+      var promise = defered.promise;
+      $http.get(url_print + 'imprimiredt/proyectoid/' + proyectoid)
+      .success(function(data) {
+        defered.resolve(data);
+      })
+      .error(function(err) {
+        defered.reject(err);
+      });
+      return promise;
+    },
+    createPdfRT: function(proyectoid, estado) {
+      var defered = $q.defer();
+      var promise = defered.promise;
+      $http.get(url_print + 'imprimirreportetransmittal/proyectoid/' + proyectoid +
+      '/estado/' + estado)
+      .success(function(data) {
+        defered.resolve(data);
+      })
+      .error(function(err) {
+        defered.reject(err);
+      });
+      return promise;
+    },
+    setEntregable: function(ent) {
+      var defered = $q.defer();
+      var promise = defered.promise;
+      $http.post(url_ent + 'guardarentregable/entregableid/' + ent.codigo +
+      '/proyectoid/' + ent.proyectoid +
+      '/tipo/' + ent.tipo + '/disciplina/' + ent.disciplina + '/codigoanddes/' +
+      ent.codigo_anddes + '/codigocliente/' + ent.codigo_cliente + '/descripcion/' +
+      ent.descripcion + '/revision/' + ent.revision)
+      .success(function(data) {
+        defered.resolve(data);
+      })
+      .error(function(err) {
+        defered.reject(err);
+      });
+      return promise;
+    },
+    deleteEntregable: function(entregableid) {
+      var defered = $q.defer();
+      var promise = defered.promise;
+      $http.delete(url_ent + 'eliminarentregable/entregableid/' + entregableid)
+      .success(function(data) {
+        defered.resolve(data);
+      })
+      .error(function(err) {
+        defered.reject(err);
+      });
+      return promise;
+    },
+    getDetallesinRespuesta: function(proyectoid) {
+      var defered = $q.defer();
+      var promise = defered.promise;
+      $http.get(url_tran + 'detallessinrespuesta/proyectoid/' + proyectoid)
       .success(function(data) {
         defered.resolve(data);
       })
