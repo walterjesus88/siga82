@@ -58,7 +58,7 @@ function(httpFactory, proyectoFactory) {
   vp.imprimir = function() {
     httpFactory.createPdfProyectos(estado_actual)
     .then(function(data) {
-      window.open('http://anddes-scp.local/' + data.archivo, '_blank');
+      window.open(data.archivo, '_blank');
     })
     .catch(function(err) {
 
