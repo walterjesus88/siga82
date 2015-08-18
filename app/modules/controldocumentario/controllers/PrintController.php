@@ -63,6 +63,56 @@ class ControlDocumentario_PrintController extends Zend_Controller_Action {
 
       $pdf->save($fileName, true);
       $respuesta['archivo'] = $fileName;
-      $this->_helper->json->sendJson($respuesta );
+      $this->_helper->json->sendJson($respuesta);
+    }
+
+    public function imprimiredtAction()
+    {
+      $proyectoid = $this->_getParam('proyectoid');
+      $edt = new Admin_Model_DbTable_ProyectoEdt();
+      $lista = $edt->_getEdtxProyectoid($proyectoid);
+
+      $fileName = 'EDT-'.$proyectoid.'-'.date("d-m-Y").'.pdf';
+      $pdf = new Zend_Pdf;
+      $page = $pdf->newPage(Zend_Pdf_Page::SIZE_A4);
+      $pdf->pages[] = $page;
+      $page->setFont(Zend_Pdf_Font::fontWithName(Zend_Pdf_Font::FONT_HELVETICA), 10);
+      $margen_superior = 800;
+      $margen_izquierdo = 20;
+      $columnas[0] = $margen_izquierdo;
+      $columnas[1] = $margen_izquierdo + 60;
+      $page->drawText('N', $columnas[0], $margen_superior);
+      $page->drawText('EDT', $columnas[1], $margen_superior);
+
+      for ($i=0; $i < sizeof($lista); $i++) {
+        $page->drawText($lista[$i]['codigo'], $columnas[0], $margen_superior - ($i + 1) * 10);
+        $page->drawText($lista[$i]['nombre'], $columnas[1], $margen_superior - ($i + 1) * 10);
+      }
+
+      $pdf->save($fileName, true);
+
+      $respuesta['archivo'] = $fileName;
+      $this->_helper->json->sendJson($respuesta);
+    }
+
+    public function imprimirreportetransmittalAction()
+    {
+      $proyectoid = $this->_getParam('proyectoid');
+      $estado = $this->_getParam('estado');
+      $entregable = new Admin_Model_DbTable_Listaentregabledetalle();
+      $lista = $entregable->_getEntregablexProyecto($proyectoid, $estado);
+
+      $fileName = 'LE-'.$proyectoid.'-'.$estado.'-'.date("d-m-Y").'.pdf';
+      $pdf = new Zend_Pdf;
+      $page = $pdf->newPage(Zend_Pdf_Page::SIZE_A4);
+      $pdf->pages[] = $page;
+      $page->setFont(Zend_Pdf_Font::fontWithName(Zend_Pdf_Font::FONT_HELVETICA), 10);
+      $margen_superior = 800;
+      $margen_izquierdo = 20;
+      $page->drawText('Proximamente...', $margen_izquierdo, $margen_superior);
+      $pdf->save($fileName, true);
+
+      $respuesta['archivo'] = $fileName;
+      $this->_helper->json->sendJson($respuesta);
     }
 }

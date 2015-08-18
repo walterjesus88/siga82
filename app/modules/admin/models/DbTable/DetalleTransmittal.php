@@ -51,4 +51,20 @@ class Admin_Model_DbTable_DetalleTransmittal extends Zend_Db_Table_Abstract
       $row->delete();
     }
 
+    public function _getDetalleSinRespuesta($proyectoid)
+    {
+      try {
+        $sql = $this->_db->query("select det.detalleid, led.codigo_anddes,
+        led.codigo_cliente, det.revision from detalle_transmittal as det inner join
+        lista_entregable_detalle as led on det.entregableid =
+        led.cod_le where led.proyectoid = '".$proyectoid."' and
+        (det.respuesta_transmittal is null or det.respuesta_transmittal = '')");
+        $rows = $sql->fetchAll();
+        return $rows;
+      } catch (Exception $e) {
+        print $e->getMessage();
+      }
+
+    }
+
 }

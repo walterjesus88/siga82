@@ -142,7 +142,7 @@ function($scope, httpFactory, transmittalFactory, proyectoFactory, $modal) {
       controller: 'ModalTipoEnvioCtrl',
       controllerAs: 'mt',
       templateUrl: '/controldocumentario/index/modaltipoenvio',
-      size: 'md'
+      size: 'lg'
     });
   }
 

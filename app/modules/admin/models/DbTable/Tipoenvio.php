@@ -54,15 +54,39 @@ class Admin_Model_DbTable_Tipoenvio extends Zend_Db_Table_Abstract
     public function _setTipoEnvio($data)
     {
       try {
-        $sql = $this->_db->query("insert into tipo_envio values ('".
-        $data['empresa']."', '".$data['abrev']."', '".$data['emitido_para']."')");
+        $sql = $this->_db->query("select * from tipo_envio where tipo = '".
+        $data['empresa']."' and codigo = '".$data['abrev']."'");
         $row = $sql->fetchAll();
-        $resp = $this->_getAll();
+        if (count($row) != 0) {
+          $sql = $this->_db->query("update tipo_envio set tipo = '".
+          $data['empresa']."', codigo = '".$data['abrev']."', emitido_para ='".
+          $data['emitido_para']."' where tipo = '".
+          $data['empresa']."' and codigo = '".$data['abrev']."'");
+          $row = $sql->fetchAll();
+          $resp = $this->_getAll();
+        } else {
+          $sql = $this->_db->query("insert into tipo_envio values ('".
+          $data['empresa']."', '".$data['abrev']."', '".$data['emitido_para']."')");
+          $row = $sql->fetchAll();
+          $resp = $this->_getAll();
+        }
         return $resp;
       } catch (Exception $e) {
         print $e->getMessage();
       }
+    }
 
+    public function _deleteTipoEnvio($data)
+    {
+      try {
+        $sql = $this->_db->query("delete from tipo_envio where tipo = '".
+        $data['empresa']."' and codigo = '".$data['abrev']."'");
+        $row = $sql->fetchAll();
+        $lista = $this->_getAll();
+        return $lista;
+      } catch (Exception $e) {
+        print $e->getMessage();
+      }
     }
 
 }

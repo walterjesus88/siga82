@@ -1,16 +1,11 @@
 app.controller('AnddesCtrl', ['httpFactory', 'entregableFactory', '$scope',
-'transmittalFactory',
-function(httpFactory, entregableFactory, $scope, transmittalFactory) {
+'transmittalFactory', '$rootScope',
+function(httpFactory, entregableFactory, $scope, transmittalFactory, $rootScope) {
 
   va = this;
 
   //obteniendo el codigo del proyecto del scope padre
   var proyecto = $scope.$parent.vt.proyecto;
-
-  /*array que contendra la lista de entregables de los proyectos y el que
-  contendra a los elementos seleccionados para generar transmittal*/
-  va.entregables = [];
-  va.seleccionados = [];
 
   //array que contendra la lista de edts por proyecto
   va.edt = [];
@@ -24,34 +19,72 @@ function(httpFactory, entregableFactory, $scope, transmittalFactory) {
     va.edt = [];
   });
 
-  //cargar los entregables
-  var listarEntregables = function(proyecto, estado_revision) {
-    httpFactory.getEntregables(proyecto, estado_revision)
-    .then(function(data) {
-      va.entregables = [];
-      data.forEach(function(item) {
-        entregable = new entregableFactory.Entregable(item.cod_le, item.edt,
-        item.tipo_documento, item.disciplina, item.codigo_anddes, item.codigo_cliente,
-        item.descripcion_entregable, item.revision_entregable, item.estado_revision, item.transmittal,
-        item.correlativo, item.emitido, item.fecha, item.respuesta_transmittal,
-        item.respuesta_emitido, item.respuesta_fecha, item.estado, item.comentario);
+  /*array que contendra la lista de entregables de los proyectos y el que
+  contendra a los elementos seleccionados para generar transmittal*/
+  va.entregables = [];
+  va.entregables_gestion = [];
+  va.entregables_comunicacion = [];
+  va.seleccionados = [];
 
-        va.entregables.push(entregable);
-      })
+  va.estado = 'Ultimo';
+  va.clase = 'Tecnico';
+
+  //cargar los entregables
+  var listarEntregables = function(proyecto, estado_revision, clase) {
+    httpFactory.getEntregables(proyecto, estado_revision, clase)
+    .then(function(data) {
+      if (clase == 'Tecnico') {
+        va.entregables = [];
+        data.forEach(function(item) {
+          entregable = new entregableFactory.Entregable(item.cod_le, item.edt,
+          item.tipo_documento, item.disciplina, item.codigo_anddes, item.codigo_cliente,
+          item.descripcion_entregable, item.revision_entregable, item.estado_revision, item.transmittal,
+          item.correlativo, item.emitido, item.fecha, item.respuesta_transmittal,
+          item.respuesta_emitido, item.respuesta_fecha, item.estado, item.comentario);
+          entregable.setProyectoId($scope.$parent.vt.proyecto.codigo);
+          va.entregables.push(entregable);
+        })
+        $rootScope.$broadcast('to_childrens', {lista: va.entregables, clase: 'Tecnico'});
+      } else if (clase == 'Gestion') {
+        va.entregables_gestion = [];
+        data.forEach(function(item) {
+          entregable = new entregableFactory.Entregable(item.cod_le, item.edt,
+          item.tipo_documento, item.disciplina, item.codigo_anddes, item.codigo_cliente,
+          item.descripcion_entregable, item.revision_entregable, item.estado_revision, item.transmittal,
+          item.correlativo, item.emitido, item.fecha, item.respuesta_transmittal,
+          item.respuesta_emitido, item.respuesta_fecha, item.estado, item.comentario);
+          entregable.setProyectoId($scope.$parent.vt.proyecto.codigo);
+          va.entregables_gestion.push(entregable);
+        })
+        $rootScope.$broadcast('to_childrens', {lista: va.entregables_gestion, clase: 'Gestion'});
+      } else if (clase == 'Comunicacion') {
+        va.entregables_comunicacion = [];
+        data.forEach(function(item) {
+          entregable = new entregableFactory.Entregable(item.cod_le, item.edt,
+          item.tipo_documento, item.disciplina, item.codigo_anddes, item.codigo_cliente,
+          item.descripcion_entregable, item.revision_entregable, item.estado_revision, item.transmittal,
+          item.correlativo, item.emitido, item.fecha, item.respuesta_transmittal,
+          item.respuesta_emitido, item.respuesta_fecha, item.estado, item.comentario);
+          entregable.setProyectoId($scope.$parent.vt.proyecto.codigo);
+          va.entregables_comunicacion.push(entregable);
+        })
+        $rootScope.$broadcast('to_childrens', {lista: va.entregables_comunicacion, clase: 'Comunicacion'});
+      }
     })
     .catch(function(err) {
-      va.entregables = [];
+      alert('No se pudieron obtener los entregables de ' + estado + ' del proyecto');
     });
   }
 
   //cargarlos datos de ultimas revisiones al cargar la pagina
-  listarEntregables(proyecto.codigo, 'Ultimo');
+  listarEntregables(proyecto.codigo, va.estado, va.clase);
 
   //estado de los paneles de la vista
   va.edt_activo = '';
   va.tecnicos_activo = 'active';
   va.gestion_activo = '';
   va.comunicacion_activo = '';
+  va.tabla_visible = 'active';
 
   //cambio de panel visible segun menu seleccionado
   va.cambiarPanel = function(panel) {
@@ -60,21 +93,31 @@ function(httpFactory, entregableFactory, $scope, transmittalFactory) {
       va.tecnicos_activo = '';
       va.gestion_activo = '';
       va.comunicacion_activo = '';
+      va.tabla_visible = '';
     } else if (panel == 'tecnicos') {
       va.edt_activo = '';
       va.tecnicos_activo = 'active';
       va.gestion_activo = '';
       va.comunicacion_activo = '';
+      va.tabla_visible = 'active';
+      va.clase = 'Tecnico';
+      listarEntregables(proyecto.codigo, 'Ultimo', va.clase);
     } else if (panel == 'gestion') {
       va.edt_activo = '';
       va.tecnicos_activo = '';
       va.gestion_activo = 'active';
       va.comunicacion_activo = '';
+      va.tabla_visible = 'active';
+      va.clase = 'Gestion';
+      listarEntregables(proyecto.codigo, 'Ultimo', va.clase);
     } else if (panel == 'comunicacion') {
       va.edt_activo = '';
       va.tecnicos_activo = '';
       va.gestion_activo = '';
       va.comunicacion_activo = 'active';
+      va.tabla_visible = 'active';
+      va.clase = 'Comunicacion';
+      listarEntregables(proyecto.codigo, 'Ultimo', va.clase);
     }
   }
 
@@ -95,8 +138,20 @@ function(httpFactory, entregableFactory, $scope, transmittalFactory) {
 
   //cambio de datos cargados de entregables
   va.cargarRevisiones = function(estado) {
-    listarEntregables(proyecto.codigo, estado);
+    listarEntregables(proyecto.codigo, estado, va.clase);
+    va.estado = estado;
     cambiarSubPanel('tablas');
+  }
+
+  //imprimir la lista de edt
+  va.imprimirEdt = function() {
+    httpFactory.createPdfEdt(proyecto.codigo)
+    .then(function(data) {
+      window.open(data.archivo, '_blank');
+    })
+    .catch(function(err) {
+
+    });
   }
 
   //generar el transmittal con los entregables seleccionados
@@ -145,5 +200,16 @@ function(httpFactory, entregableFactory, $scope, transmittalFactory) {
       entregable.guardarDetalle();
     });
     alert('Entregables Guardados Satisfactoriamente');
+  }
+
+  //imprimir el reporte de os entregables
+  va.imprimirReporteTr = function() {
+    httpFactory.createPdfRT(proyecto.codigo, va.estado)
+    .then(function(data) {
+      window.open(data.archivo, '_blank');
+    })
+    .catch(function(err) {
+
+    });
   }
 }]);

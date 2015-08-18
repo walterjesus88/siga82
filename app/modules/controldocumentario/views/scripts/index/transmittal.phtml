@@ -47,7 +47,9 @@
         </header>
         <div class="panel-body">
           <div class="">
-            <img ng-src="{{vt.proyecto.logo_cliente}}" alt="Logo Cliente" class="img-responsive"/>
+            <div class="col-md-8">
+              <img ng-src="{{vt.proyecto.logo_cliente}}" alt="Logo Cliente" class="img-responsive"/>
+            </div>
             <button type="button" class="btn btn-danger btn-xs" ng-click="vt.editarLogo()">Editar Logo</button>
           </div>
           <p>
@@ -82,7 +84,8 @@
         </div>
 
         <div ng-include="'/controldocumentario/index/cliente'"
-        class="tab-pane" ng-class="vt.clienteActivo">
+        class="tab-pane" ng-class="vt.clienteActivo"
+        ng-controller="ClienteCtrl as cl">
         </div>
 
         <div ng-include="'/controldocumentario/index/contratista'"

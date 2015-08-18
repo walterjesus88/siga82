@@ -14,6 +14,11 @@ app.factory('httpFactory', ['$http','$q', function($http,$q) {
       return $http.get(url + 'curvasjson/revision/'+revision+"/codigo/"+codigo+"/proyectoid/"+proyectoid);
       // +'/proyectoid/'+proyectoid);
     },   
+
+
+
+
+
     setCambiarfechaproyecto: function(value,column,id) {
       // var defered = $q.defer();
       // var promise = defered.promise;
@@ -64,6 +69,19 @@ app.factory('httpFactory', ['$http','$q', function($http,$q) {
       var defered = $q.defer();
       var promise = defered.promise;
       $http.get(url + 'proyecto/proyectoid/' + proyectoid)
+      .success(function(data) {
+        defered.resolve(data);
+      })
+      .error(function(err) {
+        defered.reject(err);
+      });
+      return promise;
+    },
+
+    getProyectoxPerfomance: function(proyectoid) {
+      var defered = $q.defer();
+      var promise = defered.promise;
+      $http.get(url + 'proyectoxperformance/proyectoid/' + proyectoid)
       .success(function(data) {
         defered.resolve(data);
       })

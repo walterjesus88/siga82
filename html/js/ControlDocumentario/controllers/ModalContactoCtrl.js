@@ -19,6 +19,12 @@ function($modalInstance, cliente, httpFactory) {
     mc.contactos = [];
   });
 
+  mc.alerts = [];
+
+  mc.closeAlert = function(index) {
+    mc.alerts.splice(index, 1);
+  }
+
   mc.seleccionar = function() {
     mc.contactos.forEach(function(cont) {
       if (cont.contactoid == mc.contacto.id) {
@@ -44,7 +50,7 @@ function($modalInstance, cliente, httpFactory) {
   mc.eliminar = function() {
     httpFactory.deleteContacto(mc.clienteid, mc.contacto.id)
     .then(function(data) {
-      alert('Contacto Eliminado');
+      mc.alerts.push({type: 'success', msg: 'Contacto eliminado satisfactoriamente'});
       mc.contactos = data;
       mc.contacto.id = '';
       mc.contacto.atencion = '';
@@ -52,7 +58,7 @@ function($modalInstance, cliente, httpFactory) {
       mc.contacto.correo = '';
     })
     .catch(function(err) {
-      alert('Error al momento de eliminar contacto');
+      mc.alerts.push({type: 'danger', msg: 'Error al momento de eliminar contacto'});
     })
   }
 
@@ -60,11 +66,11 @@ function($modalInstance, cliente, httpFactory) {
     mc.edicion = true;
     httpFactory.setContacto(mc.clienteid, mc.contacto)
     .then(function(data) {
-      alert('Contacto Guardado');
+      mc.alerts.push({type: 'success', msg: 'Contacto guardado satisfactoriamente'});
       mc.contactos = data;
     })
     .catch(function(err) {
-      alert('Error al momento de guardar contacto');
+      mc.alerts.push({type: 'danger', msg: 'Error al momento de guardar contacto'});
     });
   }
 

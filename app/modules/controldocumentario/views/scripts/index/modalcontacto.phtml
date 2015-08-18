@@ -34,3 +34,4 @@
   <button type="button" class="btn btn-success btn-xs" ng-click="mc.guardar()">Guardar</button>
   <button type="button" class="btn btn-danger btn-xs" ng-click="mc.cancelar()">Cancelar</button>
 </footer>
+<alert ng-repeat="alert in mc.alerts" type="{{alert.type}}" close="mc.closeAlert($index)">{{alert.msg}}</alert>
