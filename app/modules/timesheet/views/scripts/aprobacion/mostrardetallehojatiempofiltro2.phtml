@@ -5,7 +5,7 @@
     <section class="panel">
       <div class="panel-body">
         <div class="adv-table">
-          <div> <center>
+          <div> 
           <strong>Hoja Tiempo:</strong>
 
           <?php $equipo = explode(".", $this->uid);
@@ -13,85 +13,84 @@
                       echo (ucwords($equipo[1]));  ?> 
                       <strong>Semana:</strong>
           <?php echo $this->semana;  ?> 
-      </center> 
+      
             </div>
-
-    
-
-
-
-
-
-<div class="row">
-<form action="" id="form_time" class="form-horizontal">
-  <div class="col-sm-12">
-    <section class="panel">
-      <div class="panel-body">
-        <div class="adv-table tableContainer">
-          <table  class="display table table-bordered table-striped scrollTable">
-          <thead class="fixedHeader">
-            <tr>
+          <table  class="display table">
+          <thead>
+            <tr >
             <th style="width: 5%;">  </th>
-            <th style="width: 60%;" >Proyecto / Actividad: Tarea</th>
-            <th style="width: 10%; padding: 0"><div class="div-celda" style="width: 80px;">Tipo</div></th>
-            <th style="width: 10%; padding: 0"><div class="div-celda" style="width: 80px;">Tarea</div></th>
+            <th style="width: 70%;" >Proyecto / Actividad: Tarea</th>
+            <th style="width: 7%;">Facturable</th>
+            <th style="width: 7%;">Tarea No Facturable</th>
             <?php 
-              $fecha = $this->fecha;
-              $fecha_mostrar = $this->fecha_mostrar;
               $days_name = array("lun","mar","mié","jue","vie","sáb","dom");
+              $inicios = strtotime(($this->semana-1) . ' weeks '.$this->mos.' days', $this->enero); 
               for ($i=0; $i < 7; $i++) { ?>
-              <th style="width: 60px; padding:0;"><center class="div-celda">
+              <th style="width: 100px;"><center>
                 <?php print $days_name[$i] ?> <br><?php 
-                  list($dia, $mes, $anio) = split('[/.-]', $fecha);
-                  print $dia ?></center></th>
+                $dias[] = date('Y-m-d', strtotime("+ $i day", $inicios));
+                $dia[] = date('d', strtotime("+ $i day", $inicios));
+                echo $dia[$i];
+                ?></center></th>
                 <?php
-                  $newDate = date("Y-m-d", strtotime($fecha));
-                  $nuevafecha = strtotime ( '+1 day' , strtotime ( $newDate ) ) ;
-                  $fecha = date ( 'd-m-Y' , $nuevafecha );
                 }?>
-                <td style="padding: 0">
-                  <div class="div-celda">
-                    Total
-                  </div>
-                </td>
             </tr>
           </thead>
-          <tbody id="bodyScroll">
+          <tbody>
           <?php 
+            $fecha_= $dias[0];
             $fechaactual = $this->fecha;
             $fechaactual = date("Y-m-d", strtotime($fechaactual));
             $actividades = $this->actividades;
             $j=1;
-            //for ($k=0; $k < 7; $k++){
-              //print_r($actividades);
-            foreach ($actividades as $data_tareo)
-            { ?>      
+            $where_historial['uid_empleado']=$this->uid;
+            $where_historial['dni_empleado']=$this->dni;
+            $where_historial['etapa_validador']='FILTRO2';
+            $where_historial['semanaid']=$this->semana;
+            $where_historial['uid_validador']=$this->uid_validacion;
+            $where_historial['dni_validador']=$this->dni_validacion;
+            $where_historial['estado_historial']='A';
+            $tabla_historialusuario = new Admin_Model_DbTable_Historialaprobaciones();
+            $existe_historial=$tabla_historialusuario->_getBuscarEmpleadoxSemanaxEstadoxAprobacionGP($where_historial); 
+            ?>
+            <div class="col-md-4">
+              <textarea style="width:320px" title="Ingrese un comentario aqui..." placeholder="Añade un comentario..." name="comentario" id="comentario"></textarea>
+            </div>
+            <?php
+            if($existe_historial)
+            {              
+               ?>
+              <div class="col-md-3">
+                <button id="observar" class="btn btn-warning obs " type="button">
+                  Observar Hoja
+                </button>              
+                </div>
+                <?php
+              }
+            
+            else
+            { ?>
+                <div class="col-md-3">
+                <button id="aprobar" class="btn btn-success apro" type="button">
+                  Aprobar Hoja
+                </button>
+                <button id="observar" class="btn btn-warning obs " type="button">
+                  Observar Hoja
+                </button>  
+                </div>
+            <?php }
+            ?>    
+          
+
+            <?php
+            foreach ($actividades as $data_tareo) 
+            { ?>
             <tr class="gradeX" id ="tr_tareo_<?php echo $j?>">
-              <?php if ($data_tareo['estado_tareopersona']!='C') { ?>  
-              <td style="width: 5%; padding: 0">
-               <div class="div-celda" style="width: 25px"> 
-                <?php if ($data_tareo['tipo_actividad']=='G') {?>
-                  <a <?php if ($data_tareo['estado_tareopersona']=='C') { ?> disabled <?php }?> id ="crear_tareag_<?php echo $j?>"><i class="fa fa-plus-square-o"></i></a>
-                  <a title="Eliminar" id ="eliminar_tareo_<?php echo $j?>" ><i class="fa fa-minus-square-o"></i></a><?php }
-                if ($data_tareo['tipo_actividad']=='P') { ?>
-                  <a id ="crear_tareag_<?php echo $j?>" ><i class="fa fa-plus-square-o"></i></a>
-                  <a <?php if ($data_tareo['estado_tareopersona']=='C') { ?> disabled <?php }?> title="Eliminar" id ="eliminar_tareo_<?php echo $j?>" ><i class="fa fa-minus-square-o"></i></a>                                   
-                <?php }?>
-                <?php if ($data_tareo['tipo_actividad']=='A') { ?>
-                  <a ><i class="fa fa-plus-square-o"></i></a>
-                  <a <?php if ($data_tareo['estado_tareopersona']=='C') { ?> disabled <?php }?> title="Eliminar" id ="eliminar_tareo_<?php echo $j?>" ><i class="fa fa-minus-square-o"></i></a>                                   
-                <?php }?>
-               </div>
+              <td> 
+                  <?php echo $j?>
               </td>
-              <?php } else {?> 
-
-              <td style="width: 5%;"></td>
-
-              <?php } ?>
-
              
-              <td style="width: 60%; padding: 0">
-               <div class="div-celda" style="width: 100%">
+              <td style="width: 60%;">
                 <?php  
                   $buscaunidad = new Admin_Model_DbTable_Unidadminera();
                   $buscanombre_unidad=$buscaunidad->_getUnidadmineraxid($data_tareo['clienteid'],$data_tareo['unidad_mineraid']);
@@ -100,101 +99,91 @@
                   else
                     { $unidad_minera =$data_tareo['unidad_mineraid']; }
 
-                echo "<strong>"; echo $data_tareo['proyectoid']; echo "</strong>"; echo " "; echo "<strong>"; echo $unidad_minera; echo "</strong>"; echo " "; echo $data_tareo['nombre_proyecto'];  echo " "; 
-                echo $data_tareo['actividadid']; echo " ";
-                echo $data_tareo['nombre_actividad']; echo " ";
-                 //echo " ";echo $data_tareo['nombre'] ?>
-               </div>
-              </td>            
+                echo "<strong>"; echo $data_tareo['proyectoid']; echo "</strong>"; echo " "; echo "<strong>"; echo $unidad_minera; echo "</strong>"; echo " "; echo $data_tareo['nombre_proyecto'];  echo " "; echo $data_tareo['actividadid']; echo " ";echo $data_tareo['nombre'] ?>
+              </td>              
 
-              <td style="width: 10%; padding: 0;">
-              <div class="div-celda" style="width: 80px;">
+           <td>
                 <?php if ($data_tareo['tipo_actividad']=='G') {?>
                   
 
-                  <a disabled <?php if ($data_tareo['estado_tareopersona']=='C') { ?> disabled <?php }?> id ="nofacturable_cambio_<?php echo $j?>" class="btn btn-danger btn-xs ">No Facturable.</a>
+                  <a <?php if ($data_tareo['estado_tareopersona']=='C') { ?> disabled <?php }?> id ="nofacturable_cambio_<?php echo $j?>" class="btn btn-danger btn-xs ">No Facturable.</a>
                 <?php }
 
                 if ($data_tareo['tipo_actividad']=='P'){ ?>
-                <a disabled <?php if ($data_tareo['estado_tareopersona']=='C') { ?> disabled <?php }?> id ="facturable_tareo_<?php echo $j?>" class="btn btn-success btn-xs">Facturable</a>
-                <a disabled <?php if ($data_tareo['estado_tareopersona']=='C') { ?> disabled <?php }?> id ="nofacturable_tareo_<?php echo $j?>" class="btn btn-danger btn-xs" style="display:none">No Facturable</a>
+                <a <?php if ($data_tareo['estado_tareopersona']=='C') { ?> disabled <?php }?> id ="facturable_tareo_<?php echo $j?>" class="btn btn-success btn-xs">Facturable</a>
+                <a <?php if ($data_tareo['estado_tareopersona']=='C') { ?> disabled <?php }?> id ="nofacturable_tareo_<?php echo $j?>" class="btn btn-danger btn-xs" style="display:none">No Facturable</a>
 
                 <?php }?>
                 <?php if ($data_tareo['tipo_actividad']=='A') {?>
                   
 
-                  <a  disabled class="btn btn-info btn-xs ">Anddes</a>
+                  <a  class="btn btn-info btn-xs ">Anddes</a>
                 
 
                 <?php }?>
-              </div>
-              </td>            
 
-              <td style="width: 10%; padding: 0;"> 
-              <div class="div-celda" style="width: 80px;">
+              </td>           
+
+              <td> 
                 <?php if ($data_tareo['tipo_actividad']=='G') {
                   $dbactividadgeneral= new Admin_Model_DbTable_Actividadgeneral();
                   $datosactgeneral = $dbactividadgeneral->_getActividadgeneralxId($data_tareo['actividad_generalid']);
                  // print_r($datosactgeneral[0]['nombre']) 
-                    if ($data_tareo['actividad_generalid']) 
-                    { ?>
-                        <select <?php if ($data_tareo['estado_tareopersona']=='C') { ?> disabled <?php }?> id="select_generalg_<?php echo $j?>" class="form-control input-sm m-bot15 col-lg-10">                        
-                              <option value="<?php echo $data_tareo['actividad_generalid']?>"><?php print_r($datosactgeneral[0]['nombre']) ?></option>
-                                  <?php 
-                                      $areaid='25';
-                                      $actividad_generales = new Admin_Model_DbTable_Actividadgeneral();
-                                      $data_generales = $actividad_generales->_getActividadgeneralxArea($areaid);
-                                      foreach ($data_generales as $data_tareas)
-                                      { ?>
-                                      <option value="<?php echo $data_tareas['actividad_generalid']?>"><?php  echo $data_tareas['nombre']?></option>
-                                      <?php }?>
+                  if ($data_tareo['actividad_generalid']) { ?>
+                           <select disabled id="select_generalg_<?php echo $j?>" class="form-control input-sm m-bot15 col-lg-10">                        
+                            <option value="<?php echo $data_tareo['actividad_generalid']?>"><?php print_r($datosactgeneral[0]['nombre']) ?></option>
+                                <?php 
+                                    $areaid='90';
+                                    $actividad_generales = new Admin_Model_DbTable_Actividadgeneral();
+                                    $data_generales = $actividad_generales->_getActividadgeneralxArea($areaid);
+                                    foreach ($data_generales as $data_tareas) {?>
+                                    <option value="<?php echo $data_tareas['actividad_generalid']?>"><?php  echo strtoupper($data_tareas['nombre'])?></option>
+                                <?php }?>
                         </select>
-                      <?php
-                    } 
-                    else
-                    {
-                      ?>
-                        <select <?php if ($data_tareo['estado_tareopersona']=='C') { ?> disabled <?php }?> id="select_generalg_<?php echo $j?>" class="form-control input-sm m-bot15 col-lg-10">                        
-                          <option value="">Elija Tarea No Facturable</option>
-                                      <?php 
-                                          $areaid='25';
-                                          $actividad_generales = new Admin_Model_DbTable_Actividadgeneral();
-                                          $data_generales = $actividad_generales->_getActividadgeneralxArea($areaid);
-                                          foreach ($data_generales as $data_tareas) {?>
-                                          <option value="<?php echo $data_tareas['actividad_generalid']?>"><?php  echo $data_tareas['nombre']?></option>
-                                      <?php }?>
+                  <?php
+                  } else{
+                  ?>
+                         <select disabled id="select_generalg_<?php echo $j?>" class="form-control input-sm m-bot15 col-lg-10">
+                        
+                            <option value="">Tarea No Facturable</option>
+                                <?php 
+                                    $areaid='90';
+                                    $actividad_generales = new Admin_Model_DbTable_Actividadgeneral();
+                                    $data_generales = $actividad_generales->_getActividadgeneralxArea($areaid);
+                                    foreach ($data_generales as $data_tareas) {?>
+                                    <option value="<?php echo $data_tareas['actividad_generalid']?>"><?php  echo strtoupper($data_tareas['nombre'])?></option>
+                                <?php }?>
                         </select>
-                      <?php 
-                    } ?>
+                        <?php }?>
 
                   <?php }
+                  if ($data_tareo['tipo_actividad']=='P') {  ?>
+                  <div id="tarea_proyecto_<?php echo $j?>" >
+                   <?php echo "< none >" ?>
+                   </div>
+                  <div id="tarea_general_<?php echo $j?>" style="display:none">
 
-                  if ($data_tareo['tipo_actividad']=='P')
-                  {  ?>
-                    <div id="tarea_proyecto_<?php echo $j?>" >
-                     <?php echo "< none >" ?>
-                     </div>
-                    <div id="tarea_general_<?php echo $j?>" style="display:none">
+                  <select disabled id="select_generalp_<?php echo $j?>" class="form-control input-sm m-bot15 col-lg-10">
+                        
+                            <option value="">Seleccione Tarea</option>
+                                <?php 
+                                    $areaid='90';
+                                    $actividad_generales = new Admin_Model_DbTable_Actividadgeneral();
+                                    $data_generales = $actividad_generales->_getActividadgeneralxArea($areaid);
+                                    foreach ($data_generales as $data_tareas) {?>
+                                    <option value="<?php echo $data_tareas['actividad_generalid']?>"><?php  echo strtoupper($data_tareas['nombre'])?></option>
+                                <?php }?>
 
-                    <select id="select_generalp_<?php echo $j?>" class="form-control input-sm m-bot15 col-lg-10">                        
-                              <option <?php if ($data_tareo['estado_tareopersona']=='C') { ?> disabled <?php }?> value="">Seleccione Cliente</option>
-                                  <?php 
-                                      $areaid='25';
-                                      $actividad_generales = new Admin_Model_DbTable_Actividadgeneral();
-                                      $data_generales = $actividad_generales->_getActividadgeneralxArea($areaid);
-                                      foreach ($data_generales as $data_tareas) {?>
-                                      <option value="<?php echo $data_tareas['actividad_generalid']?>"><?php  echo $data_tareas['nombre']?></option>
-                                  <?php }?>
-                    </select>
 
-                    <?php
-                  }?>
-              </div>
-                
-              </td >
+                        </select>
 
-              <?php  $fecha = $this->fecha; 
-              $fecha = date("Y-m-d", strtotime($fecha));
+                  <?php }?>
+              </td>
+
+              <?php  
+              $fecha_x = $fecha_;
+              $fecha = $fecha_;            
+
                 for ($i=0; $i < 7; $i++) {
                 $proyectoid=$data_tareo['proyectoid'];
                 //  echo $proyectoid;echo "<br>";
@@ -217,72 +206,30 @@
                 $uid=$this->uid;
                 // echo $uid;echo "<br>";
                 $dni=$this->dni;
-                //  echo $dni;echo "<br>";
-
                 $equipo = new Admin_Model_DbTable_Equipo();
                 $estado_usuario='A';
-
+                //$data_equipo = $equipo->_getDatosxProyectoxUidXEstadoxCliente($uid,$dni,$estado_usuario,$data_tareo['codigo_prop_proy'],$data_tareo['proyectoid']);
                 $data_equipo = $equipo->_getDatosxEquipoxProyecto($uid,$dni,$data_tareo['codigo_prop_proy'],$data_tareo['proyectoid']);
-                $categoriaid=$data_equipo[0]['categoriaid'];
                 
+                $categoriaid=$data_equipo[0]['categoriaid'];
                 $areaid=$data_equipo[0]['areaid'];
                 $cargo=$data_equipo[0]['cargo'];
-
-
              
 
-                 //echo $categoriaid; echo "<br>";
+                //  echo $dni;echo "<br>";
+               // $cargo=$this->cargo;
+                // echo $cargo; echo "<br>";
                 $tareopersona = new Admin_Model_DbTable_Tareopersona();
-                $buscar_tarea=$tareopersona->_getTareoxProyectoxTareaxDia($proyectoid,$codigo,$revision,$actividadid,$actividad_padre,$semanaid,$fecha_tarea,$fecha_planificacion,$uid,$dni,$cargo,$resultado);
-             
-                //print_r($buscar_tarea);echo "<br>";
-                //print_r($buscar_tarea[0]['asignado']);
-
-                //$k=$a[$i][$j];
-              if ($data_tareo['tipo_actividad']=='G' and $data_tareo['actividad_generalid']=='')
-                {
+                $buscar_tarea=$tareopersona->_getTareoxProyectoxTareaxDia($proyectoid,$codigo,$revision,$actividadid,$actividad_padre,$semanaid,$fecha_tarea,$fecha_planificacion,$uid,$dni,$cargo,$resultado);           
                 ?>
-              <td style="width: 60px; padding:0;">
-              <div class="div-celda">
+              <td>
                 <center>
-                   <input disabled  class="form-control focusable" id="valor<?php echo $i?><?php echo $j?>" style="text-align: center;height: 26px; width: 40px; padding-right: 4px; padding-left: 4px;" maxlength="5" values= "<?php  print_r($buscar_tarea[0]['tipo_actividad']) ?>" value="<?php 
-                 if ($buscar_tarea) {
-
+                
+                <input  disabled class="form-control" id="valor<?php echo $i?><?php echo $j?>" style="text-align: center;height: 26px; width: 40px; padding-right: 4px; padding-left: 4px;" maxlength="2" values="valor<?php echo $i?><?php echo $j?>" value="<?php if ($buscar_tarea) {
                     if($buscar_tarea[0]['h_real']=='0') { echo "";} else { print_r($buscar_tarea[0]['h_real']);}
-                    }?>" 
-                     >
-                     <?php
-                       if($buscar_tarea)
-                      { 
-                        if(trim($buscar_tarea[0]['h_real'])=='' or $buscar_tarea[0]['h_real']=='0' or $buscar_tarea[0]['h_real']==null){
-                        }
-                        else
-                        {
-                       ?>
-                          <a data-toggle="modal" href="#myModalcomentario"><i class="fa fa-ellipsis-h"></i></a>
-                       <?php
-                        } 
-                      }   
-                      ?>
-                  </div>
-                </center>
-              </div>
-              </td>
+                    }?>" >
 
-                <?php 
-                } else {
-                ?>
-              <td style="width: 60px; padding:0;">
-              <div class="div-celda">
-                <center>
-                  <div class="btn-group">
-
-                    <input  <?php if ($data_tareo['estado_tareopersona']=='C') { ?> disabled <?php }?>    name="tiempo_id[<?php echo $j ?>][<?php echo $i ?>]" class="form-control focusable" id="valor<?php echo $i?><?php echo $j?>" style="text-align: center;height: 26px; width: 40px; padding-right: 4px; padding-left: 4px;" maxlength="4"  value="<?php 
-                    if ($buscar_tarea) {
-                      if($buscar_tarea[0]['h_real']=='0') { echo "";} else { print_r($buscar_tarea[0]['h_real']);}
-                      }?>" 
-                     > 
-                    <?php
+                                        <?php
                       if($buscar_tarea)
                       { 
                         if(trim($buscar_tarea[0]['h_real'])=='' or $buscar_tarea[0]['h_real']=='0' or $buscar_tarea[0]['h_real']==null){
@@ -291,13 +238,7 @@
                         {
                           if(trim($buscar_tarea[0]['comentario'])=='' or trim($buscar_tarea[0]['comentario'])==null) {
                         ?>
-                        <!-- data-toggle="modal" href="#myModalcomentario" -->
-                       
-                        <a   <?php if ($data_tareo['estado_tareopersona']=='C') { ?> disabled="disabled" <?php } else {?> id="coment<?php echo $i ?><?php echo $j?>"  hora="<?php echo $buscar_tarea[0]['h_real'] ?>" etapa="<?php echo $buscar_tarea[0]['etapa'] ?>" tipo-actividad="<?php echo $buscar_tarea[0]['tipo_actividad'] ?>" actividad-generalid="<?php echo $buscar_tarea[0]['actividad_generalid'] ?>" codigo-prop-proy="<?php echo $data_tareo['codigo_prop_proy'] ?>" proyectoid="<?php echo $data_tareo['proyectoid'] ?>" actividad-padre="<?php echo $buscar_tarea[0]['actividad_padre'] ?>" fecha-tarea="<?php echo $buscar_tarea[0]['fecha_tarea'] ?>" codigo-actividad="<?php echo $buscar_tarea[0]['codigo_actividad'] ?>" actividadid="<?php echo $buscar_tarea[0]['actividadid'] ?>" revision="<?php echo $buscar_tarea[0]['revision'] ?>" semanaid="<?php echo $buscar_tarea[0]['semanaid'] ?>" uid="<?php echo $data_tareo['uid'] ?>" dni="<?php echo $data_tareo['dni'] ?>" cargo="<?php echo $buscar_tarea[0]['cargo'] ?>" fecha-planificacion="<?php echo $buscar_tarea[0]['fecha_planificacion'] ?>"  <?php }?>
-                        comentario="<?php echo $buscar_tarea[0]['comentario'] ?>" 
-
-                       >
-                       <i style="color: #D6D6D8" class="fa fa-comment"></i></a>                   
+                                        
 
                       <?php }
                         else
@@ -314,925 +255,177 @@
                           } 
                         }
                       ?>
-                  </div>
+                      
 
-                  
-                  <input type="hidden" name="codigo_prop_proy[<?php echo $j ?>][<?php echo $i ?>]" value="<?php echo $data_tareo['codigo_prop_proy'] ?>"/>
-                  <input type="hidden" name="codigo_actividad[<?php echo $j ?>][<?php echo $i ?>]" value="<?php echo $data_tareo['codigo_actividad'] ?>"/>
-                  <input type="hidden" name="proyectoid[<?php echo $j ?>][<?php echo $i ?>]" value="<?php echo $data_tareo['proyectoid'] ?>"/>
-                  <input type="hidden" name="actividadid[<?php echo $j ?>][<?php echo $i ?>]" value="<?php echo $data_tareo['actividadid'] ?>"/>
-                  <input type="hidden" name="revision[<?php echo $j ?>][<?php echo $i ?>]" value="<?php echo $data_tareo['revision'] ?>"/>
-                  <input type="hidden" name="actividad_padre[<?php echo $j ?>][<?php echo $i ?>]" value="<?php echo $data_tareo['actividad_padre'] ?>"/>
-                  <input type="hidden" name="semanaid[<?php echo $j ?>][<?php echo $i ?>]" value="<?php echo $data_tareo['semanaid'] ?>"/>
-                  <input type="hidden" name="fecha_tarea[<?php echo $j ?>][<?php echo $i ?>]" value="<?php echo $fecha_tarea ?>"/>  
-                  <input type="hidden" name="asignado[<?php echo $j ?>][<?php echo $i ?>]" value="<?php echo $data_tareo['asignado'] ?>"/>                 
-                  <input type="hidden" name="tipo_actividad[<?php echo $j ?>][<?php echo $i ?>]" value="<?php echo $data_tareo['tipo_actividad'] ?>"/>  
-                  <input type="hidden" name="etapa[<?php echo $j ?>][<?php echo $i ?>]" value="<?php echo $data_tareo['etapa']?>"/> 
-                  <input type="hidden" name="actividad_generalid[<?php echo $j ?>][<?php echo $i ?>]" value="<?php echo $data_tareo['actividad_generalid'] ?>"/>
                 </center>
-
-                <script type="text/javascript">
-                  $(document).ready(function(){
-                    $("#valor<?php echo $i ?><?php echo $j?>").focus();
-                    $("#valor<?php echo $i ?><?php echo $j?>").keyup(function(e){
-
-                        
-                        var hora_real = $(this).val();
-
-                        var datospro = {
-                          'hora': hora_real,
-                          'etapa': "EJECUCION",
-                          'tipo_actividad': "<?php echo $data_tareo['tipo_actividad'] ?>",
-                          'actividad_generalid': "<?php echo $data_tareo['actividad_generalid'] ?>",
-                          'codigo_prop_proy': "<?php echo $data_tareo['codigo_prop_proy'] ?>",
-                          'proyectoid': "<?php echo $data_tareo['proyectoid'] ?>",
-                          'actividad_padre': "<?php echo $data_tareo['actividad_padre'] ?>",
-                          'codigo_actividad': "<?php echo $data_tareo['codigo_actividad'] ?>",
-                          'actividadid': "<?php echo $data_tareo['actividadid'] ?>",
-                          'revision': "<?php echo $data_tareo['revision'] ?>",
-                          'semanaid': "<?php echo $data_tareo['semanaid'] ?>",
-                          'cargo': "<?php echo $data_tareo['cargo'] ?>",
-                          'fecha_planificacion': "<?php echo $data_tareo['fecha_planificacion'] ?>",
-                          'fecha_tarea': "<?php echo $fecha_tarea ?>"
-                        }
-                        
-
-                        //borrar el elemento si existe y ademas no hay numero
-                        if ($(this).val()=='' && $(this).parent().children('a').length) {
-                          $(this).parent().children('#coment<?php echo $i ?><?php echo $j?>').remove();
-                        }
-
-
-
-                        //aparecer el icono cuando se rellena y no exista actualmente
-                        if (!isNaN(parseInt($(this).val())) && !$(this).parent().children('a').length) {
-                          nube = '<a disabled="disabled"> <i style="color: #D6D6D8" class="fa fa-comment"></i></a>';
-                          $(this).parent().append(nube);
-                          $(this).parent().children('a').attr("id","coment<?php echo $i ?><?php echo $j?>");
-                          $(this).parent().children('a').attr("etapa", datospro.etapa);
-                          $(this).parent().children('a').attr('tipo_actividad', datospro.tipo_actividad);
-                          $(this).parent().children('a').attr('actividad-generalid', datospro.actividad_generalid);
-                          $(this).parent().children('a').attr('codigo_prop_proy', datospro.codigo_prop_proy);
-                          $(this).parent().children('a').attr('proyectoid', datospro.proyectoid);
-                          $(this).parent().children('a').attr('actividad_padre', datospro.actividad_padre);
-                          $(this).parent().children('a').attr('codigo_actividad', datospro.codigo_actividad);
-                          $(this).parent().children('a').attr('actividadid', datospro.actividadid);
-                          $(this).parent().children('a').attr('revision', datospro.revision);
-                          $(this).parent().children('a').attr('semanaid', datospro.semanaid);
-                          $(this).parent().children('a').attr('cargo', datospro.cargo);
-                          $(this).parent().children('a').attr('fecha_planificacion', datospro.fecha_planificacion);
-                          $(this).parent().children('a').attr('fecha_tarea', datospro.fecha_tarea);
-                          $(this).parent().children('a').attr("comentario", "<?php echo $data_tareo['comentario'] ?>");
-                        };
-
-
-                        //Llamar al modal de ingreso de comentario y ademas obtener los datos de la tarea
-                        $(this).parent().children('a').on('click', function () {
-
-                            var comentario = $("#coment<?php echo $i ?><?php echo $j?>").attr('comentario');
-                            
-                            var cc=comentario;
-                            
-
-                            alertify.prompt("Escriba un comentario", function (e, str) {
-                            if (e) {
-                            
-                                var url="/timesheet/index/updatecoment/codigo_prop_proy/"+datospro.codigo_prop_proy+"/codigo_actividad/"+datospro.codigo_actividad+"/actividadid/"+datospro.actividadid+"/revision/"+datospro.revision+"/actividad_padre/"+datospro.actividad_padre+"/proyectoid/"+datospro.proyectoid+"/semanaid/"+datospro.semanaid+"/fecha_tarea/"+datospro.fecha_tarea+"/cargo/"+datospro.cargo+"/horareal/"+datospro.hora+"/tipo_actividad/"+datospro.tipo_actividad+"/etapa/"+datospro.etapa+"/actividad_generalid/"+datospro.actividad_generalid+"/fecha_planificacion/"+datospro.fecha_planificacion+"/comentario/"+str;
-
-                                  $.ajax({
-                                    type: "POST",
-                                    url: url,
-                                    data: $(this).serialize(),
-                                    dataType: "html",                                                 
-                                    error: function(){
-                                      alert("error petición ajax load");
-                                    },
-                                    success: function(data){
-                                
-                                    }
-                                  });
-
-                                alertify.success("ha sido guardado su comentario: " + str);
-                                $('#coment<?php echo $i ?><?php echo $j?>').children('i').attr('style', "color: #485BBD");
-
-                                $("#coment<?php echo $i ?><?php echo $j?>").attr('comentario', str);
-
-                                $('#agregarComentario').html('');
-                                
-                                $.ajax({
-                                  type: "GET",
-                                  url: '/timesheet/index/traercoment/semanaid/' + "<?php echo $this->semana; ?>",
-                                  success: function(data){
-                                    data.forEach(function (item) {
-                                      fila_comen = '<tr><th>' + item.fecha_tarea + '</th><th>' + item.proyecto + '</th><th>' + item.actividad + '</th><th>' + item.h_real + '</th><th>' + item.comentario + '</th></tr>';
-
-                                        $('#agregarComentario').append(fila_comen);
-
-                                    })
-                                
-                                  }
-                                })
-        
-                                
-
-                              } else {
-                                alertify.error("ha sido Cancelado");
-                              }
-                            }, cc);
-
-                        })  
-
-
-
-
-
-                        var hora_real=$(this).val(); 
-                        var codigo_prop_proy="<?php echo $data_tareo['codigo_prop_proy'] ?>";
-                        var codigo_actividad="<?php echo $data_tareo['codigo_actividad'] ?>";
-                        var actividadid="<?php echo $data_tareo['actividadid'] ?>";
-                        var revision="<?php echo $data_tareo['revision'] ?>";
-                        var actividad_padre="<?php echo $data_tareo['actividad_padre'] ?>";
-                        var proyectoid="<?php echo $data_tareo['proyectoid'] ?>";
-                        var semanaid="<?php echo $data_tareo['semanaid'] ?>";
-                        var fecha_tarea ="<?php echo $fecha ?>";
-                        var asignado="<?php echo $data_tareo['asignado'] ?>";
-                        var areaid="<?php echo $data_tareo['areaid'] ?>";
-                        var categoriaid ="<?php echo $data_tareo['categoriaid'] ?>";
-                        var dni="<?php echo $data_tareo['dni'] ?>";
-                        var cargo="<?php echo $data_tareo['cargo'] ?>";
-                        var tipo_actividad="<?php echo $data_tareo['tipo_actividad'] ?>";
-                        var etapa="<?php echo $data_tareo['etapa'] ?>";                        
-                        var actividad_generalid="<?php echo $data_tareo['actividad_generalid'] ?>";
-                        var h_propuesta="<?php echo $data_tareo['h_propuesta'] ?>";
-                        var fecha_calendario = $("#fechasemana").text();
-
-                        var uid="<?php echo $this->uid ?>";
-                        var dni_="<?php echo $this->dni ?>";
-                        var fechainiciomod="<?php echo $this->fecha_inicio_mod ?>";
-                        var fecha="<?php echo $this->fecha ?>";
-                        var fechaz="<?php echo $data_tareo['fecha_tarea'] ?>";
-
-                        /* codigo de lenon*/
-                        
-                        valor = parseFloat($(this).val()).toFixed(2);
-                        if (isNaN(valor) || valor < 0 || valor > 24) {
-                          $(this).val("");
-                        };
-                        max_horizontal = 50;
-                        max_vertical = 50;
-                        var matriz = new Array(max_horizontal);
-                        for (i = 0; i < max_horizontal; i++)
-                          matriz[i] = new Array(max_vertical);
-                        $("[id*=valor]").each(function(indice, elemento) {
-                          elemID = $(elemento).attr("id");
-                          horizontal = elemID.slice(5,6);
-                          vertical = elemID.slice(6,8);
-                          matriz[horizontal][vertical] = $(elemento).val();
-                        });
-                        maximo = 0;
-                        elemSuma = [];
-                        for (var hor = 0; hor < max_horizontal; hor++) {
-                          resSuma = 0;
-                          for (var ver = 0; ver < max_vertical; ver++) {
-                            if (typeof matriz[hor][ver] !== 'undefined') {
-                              if (isNaN(parseFloat(matriz[hor][ver]))) {
-                                matriz[hor][ver] = 0;
-                              };
-                              resSuma = resSuma + parseFloat(matriz[hor][ver]);
-                              maximo = hor+1;};
-                              
-                            };
-                            if (resSuma > 24) {
-                              resSuma = resSuma - parseFloat($(this).val());
-                              alert("La suma total no puede ser mayor a 24 horas");
-                              $(this).val("");
-                            };
-                          elemSuma.push(resSuma);
-                        };
-                        mostrar = elemSuma.slice(0, maximo);
-                        for (var i = 0; i < hor+1; i++) {
-                          //alert(mostrar[i]);
-                          $("#fecha_"+i).html(parseFloat(mostrar[i]).toFixed(2));
-                        };
-                        sumarHorizontales();
-
-                        var hora_real=$("#valor<?php echo $i?><?php echo $j?>").val(); 
-
-                        /* codigo de lenon ------*/
-
-                        //if (isNaN(hora_real)) {
-                           //entonces (no es numero) devuelvo el valor cadena vacia 
-                           //alert('la hora no puede ser una letra');
-                           //e.preventDefault();
-                        //}else{ 
-                           //En caso contrario (Si era un número) devuelvo el valor 
-                         var url="/timesheet/index/updatetareoreal/codigo_prop_proy/"+codigo_prop_proy+"/codigo_actividad/"+codigo_actividad+"/actividadid/"+actividadid+"/revision/"+revision+"/actividad_padre/"+actividad_padre+"/proyectoid/"+proyectoid+"/semanaid/"+semanaid+"/fecha_tarea/"+fecha_tarea+"/asignado/"+asignado+"/areaid/"+areaid+"/categoriaid/"+categoriaid+"/dni/"+dni+"/cargo/"+cargo+"/horareal/"+hora_real+"/tipo_actividad/"+tipo_actividad+"/etapa/"+etapa+"/actividad_generalid/"+actividad_generalid+"/fecha_calendario/"+fecha_calendario+"/h_propuesta/"+h_propuesta;   
-
-                          var url2='/timesheet/index/traersumahoras/semanaid/'+semanaid+'/fecha/'+fecha_tarea+'/fechainiciomod/'+fecha_tarea+'/uid/'+uid+'/dni/'+dni_+'/cargo/'+cargo;   
-                          //alert(url);            
-
-                           $.ajax({
-                                    type: "POST",
-                                    url: url,
-                                    data: $(this).serialize(),
-                                    dataType: "html",                                                 
-                                    error: function(){
-                                          alert("error petición ajax load");
-                                    },
-                                    success: function(data){                                                 
-                                          $("#carga").empty();
-                                          $("#carga").html(data);                  
-                                          $("#comentview").hide();                                          
-                                        
-                                    }
-                            });
-                        //} 
-                      });
-                    });
-                  
-                </script> 
-                </div>
               </td>
-
-              <div class="modal fade" id="myModalcomentario" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-sm">
-                  <div class="modal-content">
-                    <div class="modal-header">
-                      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                        <h4 class="modal-title">Ingrese un Comentario</h4>
-                    </div>
-                    <div class="modal-body"> 
-                      <div id="modaltimex"></div>                                  
-                    </div>
-                    <div class="modal-footer">
-                      <button class="btn btn-danger" id="savecoment" type="button"> Guardar</button>
-                      <button data-dismiss="modal" class="btn btn-default" type="button">Cerrar</button>                        
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-
-                    <script type="text/javascript">
-                    $(document).ready(function(){
-                          //$("#savecoment").click(function(){            
-                          $("#coment<?php echo $i ?><?php echo $j?>").click(function(){            
-                            //var coment=$("#message").val();
-                            var hora = $("#coment<?php echo $i ?><?php echo $j?>").attr('hora');
-                            var etapa = $("#coment<?php echo $i ?><?php echo $j?>").attr('etapa');
-                            var tipo_actividad = $("#coment<?php echo $i ?><?php echo $j?>").attr('tipo-actividad');
-                            var actividad_generalid = $("#coment<?php echo $i ?><?php echo $j?>").attr('actividad-generalid');
-                            var codigo_prop_proy = $("#coment<?php echo $i ?><?php echo $j?>").attr('codigo-prop-proy');
-                            var proyectoid = $("#coment<?php echo $i ?><?php echo $j?>").attr('proyectoid');
-                            var actividad_padre = $("#coment<?php echo $i ?><?php echo $j?>").attr('actividad-padre');
-                            var fecha_tarea = $("#coment<?php echo $i ?><?php echo $j?>").attr('fecha-tarea');
-                            
-                            var codigo_actividad = $("#coment<?php echo $i ?><?php echo $j?>").attr('codigo-actividad');
-                            var actividadid = $("#coment<?php echo $i ?><?php echo $j?>").attr('actividadid');
-                            var revision = $("#coment<?php echo $i ?><?php echo $j?>").attr('revision');
-                            var semanaid = $("#coment<?php echo $i ?><?php echo $j?>").attr('semanaid');
-                            var cargo = $("#coment<?php echo $i ?><?php echo $j?>").attr('cargo');
-                            var fecha_planificacion = $("#coment<?php echo $i ?><?php echo $j?>").attr('fecha-planificacion');
-                            var comentario = $("#coment<?php echo $i ?><?php echo $j?>").attr('comentario');
-                            
-                            var cc=comentario;
-
-
-                            var titulo = $('input[name=titulo]').val();
-      var autor = $('input[name=autor]').val();
-      var tag = $('input[name=tag]').val();
-
-      var template = '<article class="postg"> \
-        <div class="ss"> \
-          <table > \
-          <tr>\
-            <th style="width: 10%;">Fecha  </th>\
-            <th style="width: 30%;" >Proyecto </th> \
-            <th style="width: 20%;" > Actividad: Tarea</th> \
-            <th style="width: 5%;" > hora</th> \
-            <th style="width: 35%;" > Comentario</th> \
-          </tr>\
-          </table> \
-        </div> \
-        <div class="descripcion"> \
-          <figure class="imagen"> \
-            <img src="imagenes/foto.jpg" /> \
-          </figure> \
-          <div class="detalles"> \
-            <h2 class="titulo"> \
-              '+titulo+' \
-            </h2> \
-            <p class="autor"> \
-              por <a href="#">'+autor+'</a> \
-            </p> \
-            <a class="tag" href="#">'+tag+'</a> \
-            <p class="fecha">hace <strong>0</strong> min</p> \
-          </div> \
-        </div> \
-        <div class="acciones"> \
-          <div class="votos"> \
-            <a class="up" href="#"></a> \
-            <span class="total">0</span> \
-            <a class="down" href="#"></a> \
-          </div> \
-          <div class="datos"> \
-            <a class="comentarios" href="#"> \
-              0 \
-            </a> \
-            <a class="estrellita" href="#"></a> \
-          </div> \
-        </div> \
-      </article>';        
-             
-
-
-                            alertify.prompt("Escriba un comentario", function (e, str) {
-                            if (e) {
-                            
-                                var url="/timesheet/index/updatecoment/codigo_prop_proy/"+codigo_prop_proy+"/codigo_actividad/"+codigo_actividad+"/actividadid/"+actividadid+"/revision/"+revision+"/actividad_padre/"+actividad_padre+"/proyectoid/"+proyectoid+"/semanaid/"+semanaid+"/fecha_tarea/"+fecha_tarea+"/cargo/"+cargo+"/horareal/"+hora+"/tipo_actividad/"+tipo_actividad+"/etapa/"+etapa+"/actividad_generalid/"+actividad_generalid+"/fecha_planificacion/"+fecha_planificacion+"/comentario/"+str;
-
-                                  $.ajax({
-                                    type: "POST",
-                                    url: url,
-                                    data: $(this).serialize(),
-                                    dataType: "html",                                                 
-                                    error: function(){
-                                      alert("error petición ajax load");
-                                    },
-                                    success: function(data){
-                                
-                                    }
-                                  });
-
-                                alertify.success("ha sido guardado su comentario: " + str);
-                                $('#coment<?php echo $i ?><?php echo $j?>').children('i').attr('style', "color: #485BBD");
-
-                                $('#agregarComentario').html('');
-                                
-                                $.ajax({
-                                  type: "GET",
-                                  url: '/timesheet/index/traercoment/semanaid/' + "<?php echo $this->semana; ?>",
-                                  success: function(data){
-                                    data.forEach(function (item) {
-                                      fila_comen = '<tr><th>' + item.fecha_tarea + '</th><th>' + item.proyecto + '</th><th>' + item.actividad + '</th><th>' + item.h_real + '</th><th>' + item.comentario + '</th></tr>';
-
-                                        $('#agregarComentario').append(fila_comen);
-
-                                    })
-                                
-                                  }
-                                })
-
-                              } else {
-                                alertify.error("ha sido Cancelado");
-                              }
-                            }, cc);
-                             return false;                          
-
-
-                            // $("#savecoment").click(function(){
-                            //     var coment=$("#message").val();
-                            // });
-                    
-                          });
-                        });
-                        </script>
-
-
-
                 <?php 
-                }
                   $newDate = date("Y-m-d", strtotime($fecha));
                   $nuevafecha = strtotime ( '+1 day' , strtotime ( $newDate ) ) ;
                   $fecha = date ( 'Y-m-d' , $nuevafecha );?>
                 <?php }
                 ?>
-
-        <td style="padding: 0">
+                <td style="padding: 0">
                   <div id="suma-horizontal<?php echo $j?>" class="div-celda">
                     
                   </div>
                 </td>
-            </tr>
-
-              <script type="text/javascript">
-                $("#select_generalp_<?php echo $j?>").change(function(){
-                  var tarea_general = $(this).val(); 
-                  //alert(tarea_general);
-                  //alert('1');
-                   var codigo_prop_proy= '<?php echo $data_tareo['codigo_prop_proy']?>';
-                    var codigo_actividad='<?php echo $data_tareo['codigo_actividad']?>';
-                    var actividadid="<?php echo $data_tareo['actividadid']?>";
-                    var revision="<?php echo $data_tareo['revision']?>";
-                    var actividad_padre="<?php echo $data_tareo['actividad_padre'] ?>";
-                    var proyectoid="<?php echo $data_tareo['proyectoid']?>";
-                    var semanaid="<?php echo $data_tareo['semanaid']?>";
-                    var fecha_tarea="<?php echo $data_tareo['fecha_tarea'] ?>";
-                    var asignado="<?php echo $data_tareo['asignado']?>";
-                    var areaid="<?php echo $data_tareo['areaid']?>";
-                    var categoriaid="<?php echo $data_tareo['categoriaid']?>";
-                    var dni="<?php echo $data_tareo['dni']?>";
-                    var cargo="<?php echo $data_tareo['cargo']?>";
-                    var etapa="<?php echo $data_tareo['etapa']?>";
-                    var tipo_actividad="<?php echo $data_tareo['tipo_actividad']?>";
-                    var fecha_planificacion="<?php echo $data_tareo['fecha_planificacion']?>";
-                    var fecha = $("#fechasemana").text();
-
-                    var url="/timesheet/index/updateetapanb/codigo/"+codigo_prop_proy+"/codigo_actividad/"+codigo_actividad+"/actividadid/"+actividadid+"/revision/"+revision+"/actividad_padre/"+actividad_padre+"/proyectoid/"+proyectoid+"/semanaid/"+semanaid+"/fecha_tarea/"+fecha_tarea+"/asignado/"+asignado+"/areaid/"+areaid+"/categoriaid/"+categoriaid+"/dni/"+dni+"/cargo/"+cargo+"/tipo_actividad/"+tipo_actividad+"/etapa/"+etapa+"/fecha_planificacion/"+fecha_planificacion+"/tarea_general/"+tarea_general+"/fecha/"+fecha;
-
-
-                    //alert(url);
-                    //$("#carga").load(url);
-                    var dateObj = new Date();
-                    var dateFrom = $.datepicker.formatDate('mm/dd/yy', dateObj);
-                    var weekfrom = $.datepicker.iso8601Week(new Date(dateFrom));
-                    var diasSemana = new Array("Domingo","Lunes","Martes","Miércoles","Jueves","Viernes","Sábado");
-                    var day_select = diasSemana[dateObj.getDay()];
-                    for (i = 0; i < diasSemana.length; i++) { 
-                      if (diasSemana[i] == day_select) {
-                        if (i == 0) {
-                          var num_day = 6;
-                        } else {
-                          var num_day = i - 1;
-                        };
-                      };
-                    };
-                    fecha_inicio = mostrarFecha(dateObj,-num_day);
-                    urlfecha="/timesheet/index/registro/fecha/" + fecha_inicio;
-                    //$("#registros").load("/timesheet/index/registro/fecha/" + fecha_inicio); 
-                       //document.location.href="/timesheet/index/calendar";
-                    $.ajax({
-                        type: "POST",
-                        url: url,
-                        data: $(this).serialize(),
-                        dataType: "html",                                                 
-                        error: function(){
-                              alert("error petición ajax load");
-                        },
-                        success: function(data){      
-                                $("#carga").html(data);
-                                $.ajax({
-                                    type: "POST",
-                                    url: urlfecha,
-                                    data: $(this).serialize(),
-                                    dataType: "html",                                                 
-                                    error: function(){
-                                          alert("error petición ajax load");
-                                    },
-                                    success: function(data){      
-                                            $("#registro").html(data);     
-                                    }  
-                                });  
-                        }
-                    });    
-                    //$("#carga").load(url);
-
-                });
-
-                $("#select_generalg_<?php echo $j?>").change(function(){
-                  var tarea_general = $(this).val(); 
-                  //alert(tarea_general);
-                 //alert("2");
-                    var actividad_generalid="<?php echo $data_tareo['actividad_generalid']?>";
-                    //alert(actividad_generalid);
-                  var codigo_prop_proy= '<?php echo $data_tareo['codigo_prop_proy']?>';
-                    var codigo_actividad='<?php echo $data_tareo['codigo_actividad']?>';
-                    var actividadid="<?php echo $data_tareo['actividadid']?>";
-                    var revision="<?php echo $data_tareo['revision']?>";
-                    var actividad_padre="<?php echo $data_tareo['actividad_padre'] ?>";
-                    var proyectoid="<?php echo $data_tareo['proyectoid']?>";
-                    var semanaid="<?php echo $data_tareo['semanaid']?>";
-                    var fecha_tarea="<?php echo $data_tareo['fecha_tarea'] ?>";
-                    var asignado="<?php echo $data_tareo['asignado']?>";
-                    var areaid="<?php echo $data_tareo['areaid']?>";
-                    var categoriaid="<?php echo $data_tareo['categoriaid']?>";
-                    var dni="<?php echo $data_tareo['dni']?>";
-                    var cargo="<?php echo $data_tareo['cargo']?>";
-                    var etapa="<?php echo $data_tareo['etapa']?>";
-                    var tipo_actividad="<?php echo $data_tareo['tipo_actividad']?>";
-                    var fecha_planificacion="<?php echo $data_tareo['fecha_planificacion']?>";
-                    var fecha = $("#fechasemana").text();
-
-                    var url="/timesheet/index/updateetapanb/codigo/"+codigo_prop_proy+"/codigo_actividad/"+codigo_actividad+"/actividadid/"+actividadid+"/revision/"+revision+"/actividad_padre/"+actividad_padre+"/proyectoid/"+proyectoid+"/semanaid/"+semanaid+"/fecha_tarea/"+fecha_tarea+"/asignado/"+asignado+"/areaid/"+areaid+"/categoriaid/"+categoriaid+"/dni/"+dni+"/cargo/"+cargo+"/tipo_actividad/"+tipo_actividad+"/etapa/"+etapa+"/fecha_planificacion/"+fecha_planificacion+"/tarea_general/"+tarea_general+"/fecha/"+fecha+"/actividad_generalid/"+actividad_generalid+"/ban/0";
-                    //alert(url);
-                   
-                    if (isNaN(tarea_general)) {
-                           //entonces (no es numero) devuelvo el valor cadena vacia 
-                           alert('la actividad esta duplicada, cargue nuevamente la pagina');
-                           //e.preventDefault();
-                    }else{ 
-                    var dateObj = $('#datepicker').datepicker('getDate');
-                    var dateFrom = $.datepicker.formatDate('mm/dd/yy', dateObj);
-                    var weekfrom = $.datepicker.iso8601Week(new Date(dateFrom));
-                    var diasSemana = new Array("Domingo","Lunes","Martes","Miércoles","Jueves","Viernes","Sábado");
-                    var day_select = diasSemana[dateObj.getDay()];
-                    for (i = 0; i < diasSemana.length; i++) { 
-                      if (diasSemana[i] == day_select) {
-                        if (i == 0) {
-                          var num_day = 6;
-                        } else {
-                          var num_day = i - 1;
-                        };
-                      };
-                    };
-
-                    fecha_inicio = mostrarFecha(dateObj,-num_day);
-
-                    /*var dateObj = new Date();
-                    var dateFrom = $.datepicker.formatDate('mm/dd/yy', dateObj);
-                    var weekfrom = $.datepicker.iso8601Week(new Date(dateFrom));
-                    var diasSemana = new Array("Domingo","Lunes","Martes","Miércoles","Jueves","Viernes","Sábado");
-                    var day_select = diasSemana[dateObj.getDay()];
-                    for (i = 0; i < diasSemana.length; i++) { 
-                      if (diasSemana[i] == day_select) {
-                        if (i == 0) {
-                          var num_day = 6;
-                        } else {
-                          var num_day = i - 1;
-                        };
-                      };
-                    };
-                    fecha_inicio = mostrarFecha(dateObj,-num_day);*/
-                    urlfecha="/timesheet/index/registro/fecha/" + fecha_inicio;
-
-                  //  $("#registros").load("/timesheet/index/registro/fecha/" + fecha_inicio); 
-                    //document.location.href="/timesheet/index/calendar";
-                    $.ajax({
-                        type: "POST",
-                        url: url,
-                        data: $(this).serialize(),
-                        dataType: "html",                                                 
-                        error: function(){
-                              alert("error petición ajax load");
-                        },
-                        success: function(data){      
-                                $("#carga").html(data);
-                                $.ajax({
-                                    type: "POST",
-                                    url: urlfecha,
-                                    data: $(this).serialize(),
-                                    dataType: "html",                                                 
-                                    error: function(){
-                                          alert("error petición ajax load");
-                                    },
-                                    success: function(data){      
-                                            $("#registro").html(data);     
-                                    }
-                                });     
-                        }
-                    });    
-                    //$("#carga").load(url);
-                    //$("#registro").load();
-                  }
-                }); 
                 
+            </tr>    
 
-                $(document).ready(function(){
-                  $("#nofacturable_cambio_<?php echo $j?>").click(function(){
-                    //alert("ssss");
-                    //$("#tarea_general_<?php echo $j?>").show();
-                    //$("#facturable_tareo_<?php echo $j?>").hide();
-                    //$("#nofacturable_tareo_<?php echo $j?>").show();
-                    //$("#tarea_proyecto_<?php echo $j?>").hide();                   
-                    var codigo_prop_proy= "<?php echo $data_tareo['codigo_prop_proy']?>";
-                    var codigo_actividad="<?php echo $data_tareo['codigo_actividad']?>";
-                    var actividadid="<?php echo $data_tareo['actividadid']?>";
-                    var revision="<?php echo $data_tareo['revision']?>";
-                    var actividad_padre="<?php echo $data_tareo['actividad_padre'] ?>";
-                    var proyectoid="<?php echo $data_tareo['proyectoid']?>";
-                    var semanaid="<?php echo $data_tareo['semanaid']?>";
-                    var fecha_tarea="<?php echo $data_tareo['fecha_tarea'] ?>";
-                    var asignado="<?php echo $data_tareo['asignado']?>";
-                    var areaid="<?php echo $data_tareo['areaid']?>";
-                    var categoriaid="<?php echo $data_tareo['categoriaid']?>";
-                    var dni="<?php echo $data_tareo['dni']?>";
-                    var cargo="<?php echo $data_tareo['cargo']?>";
-                    var etapa="<?php echo $data_tareo['etapa']?>";
-                    var tipo_actividad="<?php echo $data_tareo['tipo_actividad']?>";
-                    var fecha_planificacion="<?php echo $data_tareo['fecha_planificacion']?>";
-                    var fecha = $("#fechasemana").text();
-
-                    var url="/timesheet/index/updateetapab/codigo/"+codigo_prop_proy+"/codigo_actividad/"+codigo_actividad+"/actividadid/"+actividadid+"/revision/"+revision+"/actividad_padre/"+actividad_padre+"/proyectoid/"+proyectoid+"/semanaid/"+semanaid+"/fecha_tarea/"+fecha_tarea+"/asignado/"+asignado+"/areaid/"+areaid+"/categoriaid/"+categoriaid+"/dni/"+dni+"/cargo/"+cargo+"/tipo_actividad/"+tipo_actividad+"/etapa/"+etapa+"/fecha_planificacion/"+fecha_planificacion+"/fecha/"+fecha;
-                    // alert(url);
-                   
-                    var dateObj = new Date();
-                    var dateFrom = $.datepicker.formatDate('mm/dd/yy', dateObj);
-                    var weekfrom = $.datepicker.iso8601Week(new Date(dateFrom));
-                    var diasSemana = new Array("Domingo","Lunes","Martes","Miércoles","Jueves","Viernes","Sábado");
-                    var day_select = diasSemana[dateObj.getDay()];
-                    for (i = 0; i < diasSemana.length; i++) { 
-                      if (diasSemana[i] == day_select) {
-                        if (i == 0) {
-                          var num_day = 6;
-                        } else {
-                          var num_day = i - 1;
-                        };
-                      };
-                    };
-                    fecha_inicio = mostrarFecha(dateObj,-num_day);
-                    urlfecha="/timesheet/index/registro/fecha/" + fecha_inicio;
-
-                    $.ajax({
-                        type: "POST",
-                        url: url,
-                        data: $(this).serialize(),
-                        dataType: "html",                                                 
-                        error: function(){
-                              alert("error petición ajax load");
-                        },
-                        success: function(data){      
-                                $("#carga").html(data);  
-                                $.ajax({
-                                    type: "POST",
-                                    url: urlfecha,
-                                    data: $(this).serialize(),
-                                    dataType: "html",                                                 
-                                    error: function(){
-                                          alert("error petición ajax load");
-                                    },
-                                    success: function(data){      
-                                            $("#registro").html(data);     
-                                    }
-                                });     
-                        }
-                    });                    
-                    //$("#carga").load(url);
-                    //$("#registro").load(); 
-                  });
-                });
-
-
-                $(document).ready(function(){
-                  $("#facturable_tareo_<?php echo $j?>").click(function(){
-
-                    var actividad_generalid="<?php echo $data_tareo['actividad_generalid']?>";
-
-                    var codigo_prop_proy= "<?php echo $data_tareo['codigo_prop_proy']?>";
-                    var codigo_actividad="<?php echo $data_tareo['codigo_actividad']?>";
-                    var actividadid="<?php echo $data_tareo['actividadid']?>";
-                    var revision="<?php echo $data_tareo['revision']?>";
-                    var actividad_padre="<?php echo $data_tareo['actividad_padre'] ?>";
-                    var proyectoid="<?php echo $data_tareo['proyectoid']?>";
-                    var semanaid="<?php echo $data_tareo['semanaid']?>";
-                    var fecha_tarea="<?php echo $data_tareo['fecha_tarea'] ?>";
-                    var asignado="<?php echo $data_tareo['asignado']?>";
-                    var areaid="<?php echo $data_tareo['areaid']?>";
-                    var categoriaid="<?php echo $data_tareo['categoriaid']?>";
-                    var dni="<?php echo $data_tareo['dni']?>";
-                    var cargo="<?php echo $data_tareo['cargo']?>";
-                    var etapa="<?php echo $data_tareo['etapa']?>";
-                    var tipo_actividad="<?php echo $data_tareo['tipo_actividad']?>";
-                    var fecha_planificacion="<?php echo $data_tareo['fecha_planificacion']?>";
-                    var fecha = $("#fechasemana").text();
-
-                    var url="/timesheet/index/updateetapanb/codigo/"+codigo_prop_proy+"/codigo_actividad/"+codigo_actividad+"/actividadid/"+actividadid+"/revision/"+revision+"/actividad_padre/"+actividad_padre+"/proyectoid/"+proyectoid+"/semanaid/"+semanaid+"/fecha_tarea/"+fecha_tarea+"/asignado/"+asignado+"/areaid/"+areaid+"/categoriaid/"+categoriaid+"/dni/"+dni+"/cargo/"+cargo+"/tipo_actividad/"+tipo_actividad+"/etapa/"+etapa+"/fecha_planificacion/"+fecha_planificacion+"/fecha/"+fecha+"/actividad_generalid/"+actividad_generalid+"/ban/1";
-
-
-
-                    //alert(url);
-
-                    var dateObj = new Date();
-                    var dateFrom = $.datepicker.formatDate('mm/dd/yy', dateObj);
-                    var weekfrom = $.datepicker.iso8601Week(new Date(dateFrom));
-                    var diasSemana = new Array("Domingo","Lunes","Martes","Miércoles","Jueves","Viernes","Sábado");
-                    var day_select = diasSemana[dateObj.getDay()];
-                    for (i = 0; i < diasSemana.length; i++) { 
-                      if (diasSemana[i] == day_select) {
-                        if (i == 0) {
-                          var num_day = 6;
-                        } else {
-                          var num_day = i - 1;
-                        };
-                      };
-                    };
-                    fecha_inicio = mostrarFecha(dateObj,-num_day);
-                    urlfecha="/timesheet/index/registro/fecha/" + fecha;
-             
-
-                    $.ajax({
-                        type: "POST",
-                        url: url,
-                        data: $(this).serialize(),
-                        dataType: "html",                                                 
-                        error: function(){
-                              alert("error petición ajax load");
-                        },
-                        success: function(data){      
-                              $("#carga").html(data);
-                              $.ajax({
-                                  type: "POST",
-                                  url: urlfecha,
-                                  data: $(this).serialize(),
-                                  dataType: "html",                                                 
-                                  error: function(){
-                                        alert("error petición ajax load");
-                                  },
-                                  success: function(data){      
-                                          $("#registro").html(data);
-                                          $("#facturable_tareo_<?php echo $j?>").hide();
-                                          $("#tarea_general_<?php echo $j?>").show();
-                                          $("#nofacturable_tareo_<?php echo $j?>").show();
-                                        
-                                  }
-                              }); 
-                          
-                        }
-                    });                                        
-                   
-                  });
-                });
-
-                $(document).ready(function(){
-                  $("#nofacturable_tareo_<?php echo $j?>").click(function(){
-
-                    $("#facturable_tareo_<?php echo $j?>").show();
-                    $("#tarea_general_<?php echo $j?>").hide();
-                    $("#nofacturable_tareo_<?php echo $j?>").hide(); 
-
-
-                  });
-                });
-
-                $(document).ready(function(){
-                  $("#crear_tareag_<?php echo $j?>").click(function(){
-
-                    //alert('sssszzzz');
-                    var codigo_prop_proy= '<?php echo $data_tareo['codigo_prop_proy']?>';
-                    var codigo_actividad='<?php echo $data_tareo['codigo_actividad']?>';
-                    var actividadid="<?php echo $data_tareo['actividadid']?>";
-                    var revision="<?php echo $data_tareo['revision']?>";
-                    var actividad_padre="<?php echo $data_tareo['actividad_padre'] ?>";
-                    var proyectoid="<?php echo $data_tareo['proyectoid']?>";
-                    var semanaid="<?php echo $data_tareo['semanaid']?>";
-                    var fecha_tarea="<?php echo $data_tareo['fecha_tarea'] ?>";
-                    var asignado="<?php echo $data_tareo['asignado']?>";
-                    var areaid="<?php echo $data_tareo['areaid']?>";
-                    var categoriaid="<?php echo $data_tareo['categoriaid']?>";
-                    var dni="<?php echo $data_tareo['dni']?>";
-                    var cargo="<?php echo $data_tareo['cargo']?>";
-                    var etapa="<?php echo $data_tareo['etapa']?>";
-                    var tipo_actividad="<?php echo $data_tareo['tipo_actividad']?>";
-                    var fecha_planificacion="<?php echo $data_tareo['fecha_planificacion']?>";
-                     var fecha = $("#fechasemana").text();
-
-
-                    var url="/timesheet/index/guardaractividadgeneral/codigo/"+codigo_prop_proy+"/codigo_actividad/"+codigo_actividad+"/actividadid/"+actividadid+"/revision/"+revision+"/actividad_padre/"+actividad_padre+"/proyectoid/"+proyectoid+"/semanaid/"+semanaid+"/fecha_tarea/"+fecha_tarea+"/asignado/"+asignado+"/areaid/"+areaid+"/categoriaid/"+categoriaid+"/dni/"+dni+"/cargo/"+cargo+"/tipo_actividad/"+tipo_actividad+"/etapa/"+etapa+"/fecha_planificacion/"+fecha_planificacion+"/fecha/"+fecha;
-                    
-                    //alert(url);
-                    var dateObj = $('#datepicker').datepicker('getDate');
-                    var dateFrom = $.datepicker.formatDate('mm/dd/yy', dateObj);
-                    var weekfrom = $.datepicker.iso8601Week(new Date(dateFrom));
-                    var diasSemana = new Array("Domingo","Lunes","Martes","Miércoles","Jueves","Viernes","Sábado");
-                    var day_select = diasSemana[dateObj.getDay()];
-                    for (i = 0; i < diasSemana.length; i++) { 
-                      if (diasSemana[i] == day_select) {
-                        if (i == 0) {
-                          var num_day = 6;
-                        } else {
-                          var num_day = i - 1;
-                        };
-                      };
-                    };
-
-                    fecha_inicio = mostrarFecha(dateObj,-num_day);
-                    urlfecha="/timesheet/index/registro/fecha/" + fecha_inicio;
-                     
-                     //$("#carga_nueva").load(url);
-                      $.ajax({
-                        type: "POST",
-                        url: url,
-                        data: $(this).serialize(),
-                        dataType: "html",                                                 
-                        error: function(){
-                              alert("error petición ajax load");
-                        },
-                        success: function(data){      
-                                $("#carga_nueva").html(data);
-                                $.ajax({
-                                  type: "POST",
-                                  url: urlfecha,
-                                  data: $(this).serialize(),
-                                  dataType: "html",                                                 
-                                  error: function(){
-                                        alert("error petición ajax load");
-                                  },
-                                  success: function(data){      
-                                          $("#registro").html(data);     
-                                  }
-                                });       
-                        }
-                      });
-                    //alert(urlfecha);
-                    //$("#registro").load(urlfecha);
-                  });
-                });
-            
-
-                $(document).ready(function(){
-                  $("#eliminar_tareo_<?php echo $j?>").click(function(){
-                    //$("#tr_tareo_<?php echo $j?>").hide();
-                    var codigo_prop_proy= '<?php echo $data_tareo['codigo_prop_proy']?>';
-                    var codigo_actividad='<?php echo $data_tareo['codigo_actividad']?>';
-                    var actividadid="<?php echo $data_tareo['actividadid']?>";
-                    var revision="<?php echo $data_tareo['revision']?>";
-                    var actividad_padre="<?php echo $data_tareo['actividad_padre'] ?>";
-                    var proyectoid="<?php echo $data_tareo['proyectoid']?>";
-                    var semanaid="<?php echo $data_tareo['semanaid']?>";
-                    var fecha_tarea="<?php echo $data_tareo['fecha_tarea'] ?>";
-                    var asignado="<?php echo $data_tareo['asignado']?>";
-                    var areaid="<?php echo $data_tareo['areaid']?>";
-                    var categoriaid="<?php echo $data_tareo['categoriaid']?>";
-                    var dni="<?php echo $data_tareo['dni']?>";
-                    var cargo="<?php echo $data_tareo['cargo']?>";
-                    var etapa="<?php echo $data_tareo['etapa']?>";
-                    var tipo_actividad="<?php echo $data_tareo['tipo_actividad']?>";
-                    var fecha_planificacion="<?php echo $data_tareo['fecha_planificacion']?>";
-                    var actividad_generalid="<?php echo $data_tareo['actividad_generalid']?>";
-                    var fecha_calendario = $("#fechasemana").text();
-                    
-                    var url="/timesheet/index/eliminartareo/codigo/"+codigo_prop_proy+"/codigo_actividad/"+codigo_actividad+"/actividadid/"+actividadid+"/revision/"+revision+"/actividad_padre/"+actividad_padre+"/proyectoid/"+proyectoid+"/semanaid/"+semanaid+"/fecha_tarea/"+fecha_tarea+"/asignado/"+asignado+"/areaid/"+areaid+"/categoriaid/"+categoriaid+"/dni/"+dni+"/cargo/"+cargo+"/tipo_actividad/"+tipo_actividad+"/etapa/"+etapa+"/fecha_planificacion/"+fecha_planificacion+"/actividad_generalid/"+actividad_generalid;
-
-                    //alert(url);
-
-                    var dateObj = $('#datepicker').datepicker('getDate');
-                    var dateFrom = $.datepicker.formatDate('mm/dd/yy', dateObj);
-                    var weekfrom = $.datepicker.iso8601Week(new Date(dateFrom));
-                    var diasSemana = new Array("Domingo","Lunes","Martes","Miércoles","Jueves","Viernes","Sábado");
-                    var day_select = diasSemana[dateObj.getDay()];
-                      for (i = 0; i < diasSemana.length; i++) 
-                      { 
-                        if (diasSemana[i] == day_select) {
-                            if (i == 0) {
-                                  var num_day = 6;
-                            } else {
-                                  var num_day = i - 1;
-                            };
-                        };
-                      };
-
-                    fecha_inicio = mostrarFecha(dateObj,-num_day);
-                    //document.location.href="/timesheet/index/calendar";
-                    urlfecha="/timesheet/index/registro/fecha/" + fecha_inicio;
-                            
-
-                    var r = confirm("Desea Eliminar esta tarea!");
-                    if (r == true)
-                    {
-                     // $("#tr_tareo_<?php echo $j?>").hide();
-                    //alert(url);
-                    //e.preventDefault;
-                            $.ajax({
-                                type: "POST",
-                                url: url,
-                                data: $(this).serialize(),
-                                dataType: "html",
-                                success: function(data){      
-                                    $("#carga_nueva").html(data);
-                                    $.ajax({
-                                        type: "POST",
-                                        url: urlfecha,
-                                        data: $(this).serialize(),
-                                        dataType: "html",
-                                        success: function(data){      
-                                            $("#registro").html(data);     
-                                        }
-                                    });     
-                                }
-                            });
-                    //$("#carga_nueva").load(url);
-                    //$("#registro").load();
-                    }
-                  });
-                });
-              </script>
+               
 
             <?php $j++;
              //}
             }?>
            </tbody>
-           <tfoot class="fixedFooter">
+           <div   id="comentariousers"></div>
+
+           <script type="text/javascript">        
+  $(document).ready(function(){
+    $("#submit_copiar").on("click",function(){
+      var fecha_calendario = $("#fechasemana").text();
+      var semanaid="<?php echo $this->semana ?>";
+      
+      url="/timesheet/index/copiartareo/fecha_calendario/"+fecha_calendario+'/semanaid/'+semanaid;
+         
+      alert(url);      
+      $.ajax({
+        type: "POST",
+        url: url,
+        data: $(this).serialize(),
+        dataType: "html",                                                 
+        error: function(){
+            alert("error petición ajax load");
+        },
+        success: function(data){      
+            $("#carga_copiar").empty();
+            $("#carga_copiar").html(data);           
+        }
+      });
+    });
+  })
+
+  $(document).ready(function () {
+    sumarHorizontales();
+  })
+
+  function sumarHorizontales () {
+    max_horizontal = 50;
+    max_vertical = 50;
+    var matriz = new Array(max_horizontal);
+    for (i = 0; i < max_horizontal; i++) {
+      matriz[i] = new Array(max_vertical);
+    }
+    $("[id*=valor]").each(function(indice, elemento) {
+      elemID = $(elemento).attr("id");
+      horizontal = elemID.slice(5,6);
+      vertical = elemID.slice(6,8);
+      matriz[horizontal][vertical] = $(elemento).val();
+    });
+    maximov = 0;
+    elemSuma = [];
+    horSuma = [];
+    
+    for (var ver = 0; ver < max_vertical; ver++) {
+      resSumah = 0;
+      for (var hor = 0; hor < max_horizontal; hor++) {
+        if (typeof matriz[hor][ver] !== 'undefined') {
+          if (isNaN(parseFloat(matriz[hor][ver]))) {
+            matriz[hor][ver] = 0;
+          };
+          resSumah = resSumah + parseFloat(matriz[hor][ver]);
+          maximov = ver+1;};
+          
+        };
+      horSuma.push(resSumah.toFixed(2));
+    };
+    mostrarver = horSuma.slice(1, maximov);
+    $("[id*=suma-horizontal]").each(function(indice, elemento) {
+      $(elemento).html(mostrarver[indice]);
+    });
+  }
+
+
+</script>
+
+           <script type="text/javascript">        
+                $(document).ready(function(){
+                    $("#aprobar").on("click",function(){
+                    alert('Aprobando Hoja de Tiempo');
+                    //var coment=$("#comentario").val();
+                    var captura_comentario = $("#comentario").val();   
+                    var coment= captura_comentario.replace(/\s/g,"_");
+
+                    var uid="<?php echo $this->uid ?>";
+                    var dni="<?php echo $this->dni ?>";
+                    var uid_validacion="<?php echo $this->uid_validacion ?>";
+                    var dni_validacion="<?php echo $this->dni_validacion ?>";
+                    var fecha_actual = "<?php echo date('Y-m-d') ?>"
+                    var semanaid="<?php echo $data_tareo['semanaid'] ?>";
+                    var cargo="<?php echo $data_tareo['cargo'] ?>";
+                    var categoriaid ="<?php echo $data_tareo['categoriaid'] ?>";
+                    url="/timesheet/aprobacion/aprobarhojatiempofiltro2/estado/A/uid/"+uid+"/dni/"+dni+"/semanaid/"+semanaid+'/cargo/'+cargo+'/uid_validacion/'+uid_validacion+'/dni_validacion/'+dni_validacion+'/etapa/FILTRO2'+'/fecha/'+fecha_actual+'/categoriaid/'+categoriaid+'/coment/'+coment;
+                   // alert(url);
+                    $("#comentariousers").load(url);
+                     $("#aprobar").hide();
+                              $("#observar").hide();
+                    });
+
+                })
+           </script>
+           <script type="text/javascript">
+                $(document).ready(function(){
+                  $("#observar").on("click",function(){
+                    alert('Aprobando Hoja de Tiempo');
+                    var captura_comentario = $("#comentario").val();   
+                    var coment= captura_comentario.replace(/\s/g,"_");
+                    var uid="<?php echo $this->uid ?>";
+                    var dni="<?php echo $this->dni ?>";
+                    var uid_validacion="<?php echo $this->uid_validacion ?>";
+                    var dni_validacion="<?php echo $this->dni_validacion ?>";
+                    var fecha_actual = "<?php echo date('Y-m-d') ?>"
+                    var semanaid="<?php echo $data_tareo['semanaid'] ?>";
+                    var cargo="<?php echo $data_tareo['cargo'] ?>";
+                    var categoriaid ="<?php echo $data_tareo['categoriaid'] ?>";
+                    url="/timesheet/aprobacion/aprobarhojatiempofiltro2/estado/R/uid/"+uid+"/dni/"+dni+"/semanaid/"+semanaid+'/cargo/'+cargo+'/coment/'+coment+'/uid_validacion/'+uid_validacion+'/dni_validacion/'+dni_validacion+'/etapa/FILTRO2'+'/fecha/'+fecha_actual+'/categoriaid/'+categoriaid;
+                   // alert(url);
+                    $("#comentariousers").load(url);
+                     $("#aprobar").hide();
+                              $("#observar").hide();
+                    });
+                });
+           </script>
           
            <?php if ( $this->actividades) {?>
           <tr >
-            <th style="width: 5%;"></th>
-            <th style="width: 60%;" ></th>
-            <th style="width: 10%; padding: 0;"><div class="div-celda" style="width: 80px;"></div></th>
-            <th style="width: 10%; padding: 0;"><div class="div-celda" style="width: 80px;"></div></th>
+            <th style="width: 5%;">  </th>
+            <th style="width: 22%;" > </th>
+            <th style="width: 13%;"> </th>
+            <th style="width: 27%;"> </th>
             <?php 
+
               $uid=$this->uid;
                 // echo $uid;echo "<br>";
               $dni=$this->dni;
-              $fecha = $this->fecha;
-              $fecha = date("Y-m-d", strtotime($fecha));
-              for ($i=0; $i < 7; $i++) { ?>
-              <th style="width: 60px; padding:0;">
-                <center class="div-celda">
-                    <div id="fecha_<?php echo $i?>" maxlength="4">
+              //$fecha = $this->fecha;
+              //$fecha = date("Y-m-d", strtotime($fecha));
+              for ($i=0; $i < 7; $i++) { 
+                //$dia[] = date('Y-m-d', strtotime("+ $i day", $inicios));
+                //$dia[] = date('Y-m-d', strtotime("+ $i day", $inicios));
+
+                $fecha_c=$dias[$i];              
+
+              ?>
+              <th style="width: 100px;">
+                <center>
+
+                    <div id="fecha_<?php echo $i?>">
                     <?php  $tareopersona = new Admin_Model_DbTable_Tareopersona();
-                    $sumar=$tareopersona-> _getHorasRealxDia($data_tareo['semanaid'],$fecha,$uid,$dni);
-                    print_r($sumar[0]['tareo_persona_horas_reales']); 
-                    ?>
+                    $sumar=$tareopersona-> _getHorasRealxDia($data_tareo['semanaid'],$fecha_c,$uid,$dni,$data_tareo['cargo']);
+                    print_r($sumar[0]['tareo_persona_horas_reales']); ?>
                     </div>
+
                   <!-- <div id="fecha_<?php //echo $i?>"> -->
                   <?php                
                   // $wheres=array('dni'=>$dni,'uid'=>$uid,'cargo'=>$data_tareo['cargo'],'semanaid'=>$data_tareo['semanaid'],'fecha_tarea'=>$fecha);
@@ -1241,7 +434,9 @@
                   // print_r($sh['h_totaldia']);
                   ?>
                   <!-- </div> -->
+
                 </center>
+
                 <center><div id="sumahoras<?php echo $i ?>"></div></center>
 
               </th>
@@ -1249,39 +444,12 @@
                   $newDate = date("Y-m-d", strtotime($fecha));
                   $nuevafecha = strtotime ( '+1 day' , strtotime ( $newDate ) ) ;
                   $fecha = date ( 'Y-m-d' , $nuevafecha );
-                }
-
-              ?>
-              <td style="padding: 0">
-                  <div class="div-celda">
-                    Total
-                  </div>
-                </td>
+                }?>
           </tr>
           <?php }?>
 
-          </tfoot> 
           </table>
         
-        </div>
-      </div>
-    </section>
-  </div>
-</form>
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-            
         <div   style="padding-top: 10px;padding-bottom: 10px;padding-right: 10px;padding-left: 10px;">
 
 
@@ -1362,11 +530,3 @@
 </div>
 
 
-
-<script>
-  //Funcion para poner el scroll personalizado a la tabla registro
-  $('#bodyScroll').ready(function ($) {
-    $('#bodyScroll').addClass('scrollContent');
-    $('#bodyScroll').perfectScrollbar();
-  });
-</script>
