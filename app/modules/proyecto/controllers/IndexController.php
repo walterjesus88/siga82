@@ -1532,8 +1532,56 @@ public function usuariosjsonAction() {
   $user=new Admin_Model_DbTable_Usuario();
   $us=$user->_getUsuarioAll();
   $this->_helper->json->sendJson($us);  
+}
 
 
+public function proyectoxperformanceAction() {
+  $proyectoid = $this->_getParam("proyectoid");
+  //echo "performanceeeeeeeeeeeee";
+  
+  $performance=new Admin_Model_DbTable_Performance();
+  $where = array('proyectoid' =>$proyectoid );
+  $perf=$performance->_getFilter($where);  
+
+  $i=0;
+  foreach ($perf as $keyper) {
+     
+      $wheredet['codigo_prop_proy']=$keyper['codigo_prop_proy'];
+      $wheredet['codigo_actividad']=$keyper['codigo_actividad']; 
+      $wheredet['proyectoid']=$keyper['proyectoid'];      
+      $wheredet['cronogramaid']=$keyper['cronogramaid'];
+      $wheredet['codigo_cronograma']=$keyper['codigo_cronograma'];
+      $wheredet['revision_cronograma']=$keyper['revision_cronograma'];
+      $wheredet['actividadid']=$keyper['actividadid'];
+      $wheredet['codigo_performance']=$keyper['codigo_performance'];   
+
+      $performancedetalle=new Admin_Model_DbTable_Performancedetalle();
+      $pdetalle=$performancedetalle->_getFilter($wheredet);
+
+      $ek[] = array(
+        'codigo_prop_proy' =>$keyper['codigo_prop_proy'],
+        'proyectoid' =>$keyper['proyectoid'],
+        'codigo_actividad' =>$keyper['codigo_actividad'],
+        'actividadid' =>$keyper['actividadid'],
+        'cronogramaid' =>$keyper['cronogramaid'],
+        'codigo_cronograma' =>$keyper['codigo_cronograma'],
+        'revision_cronograma' =>$keyper['revision_cronograma'],
+        'codigo_performance' =>$keyper['codigo_performance'],
+        'revision_propuesta' =>$keyper['revision_propuesta'],
+        'fecha_ingreso_performance' =>$keyper['fecha_ingreso_performance'],
+        'fecha_calculo_performance' =>$keyper['fecha_calculo_performance'],
+        'costo_real' =>$keyper['costo_real'],
+        'horas_real' =>$keyper['horas_real'],
+        'fecha_comienzo_real' =>$keyper['fecha_comienzo_real'],
+        'fecha_fin_real' =>$keyper['fecha_fin_real'],
+        'items'=> $pdetalle);
+      $i++;  
+  } 
+  
+  $this->_helper->json->sendJson($ek);  
+
+  //$arr = array(['bbb' =>'1']); 
+  //exit();
 }
 
 

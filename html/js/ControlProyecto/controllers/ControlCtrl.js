@@ -1,6 +1,6 @@
-app.controller('ControlCtrl', ['httpFactory', '$scope','$filter',
+app.controller('ControlCtrl', ['httpFactory', '$scope','$q',
 'proyectoFactory',
-function(httpFactory, $scope,$filter,proyectoFactory) {
+function(httpFactory, $scope,$q,proyectoFactory) {
 
   va = this;
 
@@ -118,11 +118,11 @@ function(httpFactory, $scope,$filter,proyectoFactory) {
       va.tecnicos_activo = '';
       va.gestion_activo = 'active';
       va.comunicacion_activo = '';
-    } else if (panel == 'comunicacion') {
+    } else if (panel == 'perfomance') {
       va.edt_activo = '';
       va.tecnicos_activo = '';
       va.gestion_activo = '';
-      va.comunicacion_activo = 'active';
+      va.perfomance_activo = 'active';
     }
   }
 
@@ -201,8 +201,7 @@ function(httpFactory, $scope,$filter,proyectoFactory) {
         va.dat=[];
         va.dat.push(va.inserted);
       }
-
-    
+   
       //console.log(va.codigo_cronograma);
 
       httpFactory.setGuardarCurva('1',va.fecha_ingreso_curvas,va.porcentaje_ejecutado,
@@ -239,7 +238,6 @@ function(httpFactory, $scope,$filter,proyectoFactory) {
       // console.log(proyectoid);
       console.log("imprimiendo avriables");
       //console.log(va.proyecto.codigo);
-
       httpFactory.getTiempos(revision.revision_cronograma,codigo,proyectoid)
       .success(function(data) {   //console.log(data);
         va.dat=data[0]['1'];
@@ -287,7 +285,6 @@ function(httpFactory, $scope,$filter,proyectoFactory) {
   };
   
 /*  console.log(va.revision);
-
   console.log(va.labelss);*/
   //va.series = ['29 Abr', '14 May', '21 May', '28 May', '04 Jun', '11 Jun', '18 Jun','25 Jun','02 Jun',];
 
@@ -299,11 +296,6 @@ function(httpFactory, $scope,$filter,proyectoFactory) {
       animationSteps: 150,
       animationEasing: "easeInOutQuint"
     };
-
-
-
-
-
   // va.data = [
   //   [65/100, 59/100, 80/100, 81/100, 56/100, 55/100, 40/100],
   //   [28/100, 48/100, 40/100, 19/100, 86/100, 27/100, 90/100]
@@ -315,6 +307,72 @@ function(httpFactory, $scope,$filter,proyectoFactory) {
   //   1: [1, 2, 3],
   //   2: [4, 5, 6]
   //   };
+
+/*aca nace perfomance*/
+//      this.performancedata = [
+//       { actividadid: 'actividad 1', expanded: true,
+//         items: [
+//           { 2015-05-05: 'Walk dog', completed: false },
+//           { fecha2: 'Write blog post', completed: true },
+//           { fecha3: 'Buy milk', completed: false },
+//         ]
+//       },
+//       { actividadid: 'actividad 2', expanded: false,
+//         items: [
+//           { 2015-05-05: 'Ask for holidays', completed: false }
+//         ]
+//       },
+//       { actividadid: 'actividad 3', expanded: false,
+//         items: [
+//           { 2015-05-05: 'War and peace', completed: false },
+//           { fecha2: '1Q84', completed: false },
+//         ]
+//       }
+//     ];
+
+// console.log(this.performancedata);
+
+console.log('performance');
+console.log(proyecto['codigo']);
+proyectoFactory.getDatosProyectoxPerfomance(proyecto['codigo'])
+.then(function(datax) {
+    va.performance=datax;
+    console.log(va.performance.length);
+    for (var i = va.performance.length - 1; i >= 0; i--) {
+      //Things[i]
+      va.thi=va.performance[i]['items'];
+      console.log(va.thi);
+    };
+    console.log("estas en performance");
+  })
+.catch(function(err) {
+    va.performance = {};
+});
+
+//guardar datos de performance//
+va.saveTable = function() {
+  console.log("ohhhh");
+
+  console.log(va.performance);
+  // var results = [];
+  //   for (var i = $scope.users.length; i--;) {
+  //     var user = $scope.users[i];
+  //     // actually delete user
+  //     if (user.isDeleted) {
+  //       $scope.users.splice(i, 1);
+  //     }
+  //     // mark as not new 
+  //     if (user.isNew) {
+  //       user.isNew = false;
+  //     }
+
+  //     // send on server
+  //     results.push($http.post('/saveUser', user));      
+  //   }
+
+  //   return $q.all(results);
+};
+
 
 
 

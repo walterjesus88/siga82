@@ -91,6 +91,20 @@ function(httpFactory, $location, $q) {
         defered.reject(err);
       });
       return promise;      
+    },
+
+    getDatosProyectoxPerfomance: function(proyectoid) {
+      var defered = $q.defer();
+      var promise = defered.promise;
+      httpFactory.getProyectoxPerfomance(proyectoid)
+      .then(function(data) {
+        datos = data;
+        defered.resolve(datos);
+      })
+      .catch(function(err) {
+        defered.reject(err);
+      });
+      return promise;      
     }
 
 
