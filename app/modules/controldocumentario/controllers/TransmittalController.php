@@ -64,6 +64,7 @@ class ControlDocumentario_TransmittalController extends Zend_Controller_Action {
     //guardar respuestas emitidas por los clientes o contratistas
     public function guardarrespuestaAction()
     {
+      $data['detalleid'] = $this->_getParam('detalleid');
       $data['respuesta_transmittal'] = $this->_getParam('respuestatransmittal');
       $data['codigo_anddes'] = $this->_getParam('codigoanddes');
       $data['codigo_cliente'] = $this->_getParam('codigocliente');
@@ -73,7 +74,7 @@ class ControlDocumentario_TransmittalController extends Zend_Controller_Action {
       $data['respuesta_fecha'] = $this->_getParam('fecha');
 
       $detalle = new Admin_Model_DbTable_DetalleTransmittal();
-      $respuesta = $detalle->_saveRespuesta($data);
+      $respuesta = $detalle->_setRespuesta($data);
       $this->_helper->json->sendJson($respuesta);
     }
 

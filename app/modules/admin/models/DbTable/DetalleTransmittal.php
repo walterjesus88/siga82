@@ -64,6 +64,24 @@ class Admin_Model_DbTable_DetalleTransmittal extends Zend_Db_Table_Abstract
       } catch (Exception $e) {
         print $e->getMessage();
       }
+    }
+
+    //guardar las respuestas emitidas por el cliente
+    public function _setRespuesta($data)
+    {
+      try {
+        $estado = 'Aprobado';
+        $sql = $this->_db->query("update detalle_transmittal set
+        respuesta_transmittal = '".$data['respuesta_transmittal']."',
+        respuesta_emitido = '".$data['respuesta_emitido']."',
+        respuesta_fecha = '".$data['respuesta_fecha']."',
+        estado = '".$estado."' where detalleid =".
+        $data['detalleid']);
+        $row = $sql->fetchAll();
+        return $row;
+      } catch (Exception $e) {
+        print $e->getMessage();
+      }
 
     }
 

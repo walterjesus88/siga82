@@ -356,6 +356,22 @@ app.factory('httpFactory', ['$http', '$q', function($http, $q) {
         defered.reject(err);
       });
       return promise;
+    },
+    setRespuesta: function(respuesta) {
+      var defered = $q.defer();
+      var promise = defered.promise;
+      $http.post(url_tran + 'guardarrespuesta/detalleid/' + respuesta.detalleid +
+      '/respuestatransmittal/' + respuesta.transmittal + '/codigoanddes/' +
+      respuesta.codigoanddes + '/codigocliente/' + respuesta.codigocliente +
+      '/descripcion/' + respuesta.descripcion + '/revision/' + respuesta.revision +
+      '/emitido/' + respuesta.emitido + '/fecha/' + respuesta.fecha)
+      .success(function(data) {
+        defered.resolve(data);
+      })
+      .error(function(err) {
+        defered.reject(err);
+      });
+      return promise;
     }
   }
 
