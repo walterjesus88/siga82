@@ -79,6 +79,20 @@ function(httpFactory, $location, $q) {
       return promise;      
     },
 
+    getVerCronogramaxActivo: function(proyectoid) {
+      var defered = $q.defer();
+      var promise = defered.promise;
+      httpFactory.getCronogramaxActivo(proyectoid)
+      .then(function(data) {
+        datos = data;
+        defered.resolve(datos);
+      })
+      .catch(function(err) {
+        defered.reject(err);
+      });
+      return promise;      
+    },
+
     getDatosProyectoxCronograma: function(proyectoid) {
       var defered = $q.defer();
       var promise = defered.promise;
@@ -93,10 +107,10 @@ function(httpFactory, $location, $q) {
       return promise;      
     },
 
-    getDatosProyectoxPerfomance: function(proyectoid) {
+    getDatosProyectoxPerfomance: function(proyectoid,revision) {
       var defered = $q.defer();
       var promise = defered.promise;
-      httpFactory.getProyectoxPerfomance(proyectoid)
+      httpFactory.getProyectoxPerfomance(proyectoid,revision)
       .then(function(data) {
         datos = data;
         defered.resolve(datos);
@@ -107,9 +121,7 @@ function(httpFactory, $location, $q) {
       return promise;      
     },
 
-    setActualizarDatosxPerfomance: function(codigo_prop_proy,codigo_actividad,actividadid,cronogramaid,
-        codigo_cronograma,codigo_performance,porcentaje_performance,fecha_calculo_performance,proyectoid,revision_cronograma,
-        fecha_ingreso_performance)
+    setActualizarDatosxPerfomance: function(codigo_prop_proy,codigo_actividad,actividadid,cronogramaid,codigo_cronograma,codigo_performance,porcentaje_performance,fecha_calculo_performance,proyectoid,revision_cronograma,fecha_ingreso_performance)
     {
       var defered = $q.defer();
       var promise = defered.promise;
@@ -127,7 +139,21 @@ function(httpFactory, $location, $q) {
         defered.reject(err);
       });
       return promise;      
-    }
+    },
+
+    setActualizarPerformance: function(codigo_prop_proy,codigo_actividad,actividadid,cronogramaid,codigo_cronograma,codigo_performance,fecha_calculo_performance,proyectoid,revision_cronograma,fecha_ingreso_performance,revision_propuesta,costo_real,horas_real,fecha_comienzo_real,fecha_fin_real) {
+      var defered = $q.defer();
+      var promise = defered.promise;
+      httpFactory.setModificarxPerformance(codigo_prop_proy,codigo_actividad,actividadid,cronogramaid,codigo_cronograma,codigo_performance,fecha_calculo_performance,proyectoid,revision_cronograma,fecha_ingreso_performance,revision_propuesta,costo_real,horas_real,fecha_comienzo_real,fecha_fin_real)
+      .then(function(data) {
+        datos = data;
+        defered.resolve(datos);
+      })
+      .catch(function(err) {
+        defered.reject(err);
+      });
+      return promise;      
+    },
 
 
   }

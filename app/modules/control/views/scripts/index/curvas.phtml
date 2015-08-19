@@ -16,7 +16,7 @@
     </td>
 	  <td style="width:30%">
         Fecha de Proyecto
-        <form editable-form name="nameform_fecha" onaftersave="CP.saveColumn('fecha_ingreso_curvas')" ng-show="nameform_fecha.$visible">
+        <form editable-form name="nameform_fecha" onaftersave="CP.saveColumn('fecha_curvas')" ng-show="nameform_fecha.$visible">
           <button type="submit" ng-disabled="nameform_fecha.$waiting" class="btn btn-warning">
             guardar
           </button>
@@ -104,7 +104,7 @@
         Fecha de Proyecto
       </div>
       <div class="col-md-2" >
-        <input class="form-control " type="text" ng-model="CP.fecha_ingreso_curvas"></input>
+        <input class="form-control " type="text" ng-model="CP.fecha_curvas"></input>
       </div>
       <div class="col-md-1" >
         Porcentaje Planificado
@@ -142,7 +142,7 @@
 
 
 
-  <tr ng-repeat="label in CP.dat | orderBy:'fecha_ingreso_curvas'  ">
+  <tr ng-repeat="label in CP.dat | orderBy:'fecha_curvas'  ">
     <!-- | filter:CP.revision -->
     <td >     
         <span editable-text="label.revision_cronograma" e-name="revision_cronograma" e-form="nameform_revision_cronograma" onbeforesave="checkName($data)">
@@ -150,8 +150,8 @@
         </span>
     </td>
   	<td >     
-        <span editable-text="label.fecha_ingreso_curvas" e-name="fecha_ingreso_curvas" e-form="nameform_fecha" onbeforesave="checkName($data)">
-          {{label.fecha_ingreso_curvas}}
+        <span editable-text="label.fecha_curvas" e-name="fecha_curvas" e-form="nameform_fecha" onbeforesave="checkName($data)">
+          {{label.fecha_curvas}}
         </span>
     </td>
 	<td >     
