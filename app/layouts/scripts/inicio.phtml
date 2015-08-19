@@ -41,100 +41,13 @@
             <!--logo start-->
             <a href="#" class="logo"><img width="150" src="/img/logo.jpg"></a>
             <!--logo end-->
-            
-             
             <div class="nav notify-row" id="top_menu">
                 <!--  notification start -->
                 <ul class="nav top-menu">
-                    <!-- settings start -->
-                    <!--
-                    <li class="dropdown">
-                        <a data-toggle="dropdown" class="dropdown-toggle" href="#">
-                            <i class="fa fa-tasks"></i>
-                            <span class="badge bg-success">2</span>
-                        </a>
-                          <ul class="dropdown-menu extended tasks-bar">
-                            <div class="notify-arrow notify-arrow-green"></div>
-                            <li>
-                                <p class="green">You have 6 pending tasks</p>
-                            </li>
-                            <li>
-                                <a href="#">
-                                    <div class="task-info">
-                                        <div class="desc">Dashboard v1.3</div>
-                                        <div class="percent">40%</div>
-                                    </div>
-                                    <div class="progress progress-striped">
-                                        <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 40%">
-                                            <span class="sr-only">40% Complete (success)</span>
-                                        </div>
-                                    </div>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#">
-                                    <div class="task-info">
-                                        <div class="desc">Database Update</div>
-                                        <div class="percent">60%</div>
-                                    </div>
-                                    <div class="progress progress-striped">
-                                        <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%">
-                                            <span class="sr-only">60% Complete (warning)</span>
-                                        </div>
-                                    </div>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#">
-                                    <div class="task-info">
-                                        <div class="desc">Iphone Development</div>
-                                        <div class="percent">87%</div>
-                                    </div>
-                                    <div class="progress progress-striped">
-                                        <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: 87%">
-                                            <span class="sr-only">87% Complete</span>
-                                        </div>
-                                    </div>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#">
-                                    <div class="task-info">
-                                        <div class="desc">Mobile App</div>
-                                        <div class="percent">33%</div>
-                                    </div>
-                                    <div class="progress progress-striped">
-                                        <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100" style="width: 33%">
-                                            <span class="sr-only">33% Complete (danger)</span>
-                                        </div>
-                                    </div>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#">
-                                    <div class="task-info">
-                                        <div class="desc">Dashboard v1.3</div>
-                                        <div class="percent">45%</div>
-                                    </div>
-                                    <div class="progress progress-striped active">
-                                        <div class="progress-bar"  role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: 45%">
-                                            <span class="sr-only">45% Complete</span>
-                                        </div>
-                                    </div>
-
-                                </a>
-                            </li>
-                            <li class="external">
-                                <a href="#">See All Tasks</a>
-                            </li>
-                        </ul>
-                    </li>-->
-                    <!-- settings end -->
-                    <!-- inbox dropdown start-->
                     <li id="header_inbox_bar" class="dropdown">
                         <a data-toggle="dropdown" class="dropdown-toggle" href="#">
                             <i class="fa fa-envelope-o"></i>
-                                              <?php 
+                            <?php 
                                 $k=0;
                                 $fecha = date("Y-m-d");
                                 $semanaid=date('W', strtotime($fecha)); 
@@ -163,10 +76,8 @@
                                     echo "</span>"      ;  
                                 }
                             ?>
-
-                            
                         </a>
-                         <ul class="dropdown-menu extended inbox">
+                        <ul class="dropdown-menu extended inbox">
                             <div class="notify-arrow notify-arrow-red"></div>
                             <li>
                                 <p class="red"> 
@@ -191,7 +102,7 @@
                                 }
 
                                 echo $k;
-                                echo " Mensajes sobre tu Hoja Tiempo";
+                                echo " Hojas de Tiempo Rechazadas";
                             ?>
 
                                 </p>
@@ -240,18 +151,334 @@
                             ?>
                         </ul>
                     </li>
-                    <!-- inbox dropdown end -->
-                    <!-- notification dropdown start-->
-                    <!--
-                    <li id="header_notification_bar" class="dropdown">
-                        <a data-toggle="dropdown" class="dropdown-toggle" href="#">
 
-                            <i class="fa fa-bell-o"></i>
-                            <span class="badge bg-warning">7</span>
+                    <li id="header_inbox_bar" class="dropdown">
+                        <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                            <i class="fa fa-envelope-o"></i>
+                              
+                            <?php
+                            $fecha = date("Y-m-d");
+                            $semanaid=date('W', strtotime($fecha)); 
+                            $hojasno_enviadas=array();
+                            $hojas_enviadas=array();
+                            $hojas_aprobadas=array();
+                            $hojas_rechazadas=array();
+                            $hojas_pendientes=array();
+                            $hojas_nollenadas=array();
+                            $tabla_planificacion= new Admin_Model_DbTable_Planificacion();
+                            for ($i=23;$i<$semanaid;$i++)
+                            {
+                                $planificacion = $tabla_planificacion->_getProyectosClientesxSemana($i,$uid,$dni);
+                                $total=0;
+                                $aprobadosgerente=0;
+                                $noenviados=0;
+                                $enviados=0;
+                                $rechazados=0;
+                                if ($planificacion) {
+                                  //  print_r($planificacion);
+                                    foreach ($planificacion as $proyectos_planificados) {
+                                        if ($proyectos_planificados['estado']=='AGP')
+                                        {
+                                            $aprobadosgerente++;
+                                        }
+
+                                        if ($proyectos_planificados['estado']=='')
+                                        {
+                                            $noenviados++;
+                                        }
+
+                                        if ($proyectos_planificados['estado']=='E')
+                                        {
+                                           $enviados++;
+                                        }
+
+                                        if ($proyectos_planificados['estado']=='R' or $proyectos_planificados['estado']=='RGP')
+                                        {
+                                           $rechazados++;
+                                        }
+                                        $total++;
+                                    }
+                                }
+                                else
+                                {
+                                    
+                                    $hojas_nollenadas[]=$i;
+                                }
+
+                                if ($aprobadosgerente!=0)
+                                {             
+                                    if ($total==$aprobadosgerente)
+                                    {
+                                        $hojas_aprobadas[]=$i;  
+
+                                    }
+                                    if ($aprobadosgerente<$total)
+                                    {
+                                        $hojas_pendientes[]=$i;  
+                                    }
+                                }
+
+                                if ($noenviados!=0)
+                                {
+                                      if ($total==$noenviados)
+                                    {
+                                        $hojasno_enviadas[]=$i;  
+                                    } 
+                                }
+
+                                if ($enviados!=0)
+                                {
+                                    if ($total==$enviados)
+                                    {
+                                        $hojas_enviadas[]=$i;  
+
+                                    }
+                                }
+
+                                if ($rechazados!=0)
+                                {
+                                     if ($total==$rechazados)
+                                    {
+                                        $hojas_rechazadas[]=$i;  
+
+                                    }
+                                }
+                            }
+                            
+                                echo "  <span class='badge bg-warning'>";
+                                if (count($hojasno_enviadas)!='0')
+                                {
+                                    print_r(count($hojasno_enviadas));
+                                }
+                                echo "</span>"  
+
+                            ?>
+                            
                         </a>
+                        <ul class="dropdown-menu extended inbox">
+                            <div class="notify-arrow notify-arrow-yellow"></div>
+                            <li>
+                                <p class="yellow"> 
+
+                                    <?php
+                            $fecha = date("Y-m-d");
+                            $semanaid=date('W', strtotime($fecha)); 
+                            $hojasno_enviadas=array();
+                            $hojas_enviadas=array();
+                            $hojas_aprobadas=array();
+                            $hojas_rechazadas=array();
+                            $hojas_pendientes=array();
+                            $hojas_nollenadas=array();
+                            $tabla_planificacion= new Admin_Model_DbTable_Planificacion();
+                            for ($i=23;$i<$semanaid;$i++)
+                            {
+                                $planificacion = $tabla_planificacion->_getProyectosClientesxSemana($i,$uid,$dni);
+                                $total=0;
+                                $aprobadosgerente=0;
+                                $noenviados=0;
+                                $enviados=0;
+                                $rechazados=0;
+                                if ($planificacion) {
+                                  //  print_r($planificacion);
+                                    foreach ($planificacion as $proyectos_planificados) {
+                                        if ($proyectos_planificados['estado']=='AGP')
+                                        {
+                                            $aprobadosgerente++;
+                                        }
+
+                                        if ($proyectos_planificados['estado']=='')
+                                        {
+                                            $noenviados++;
+                                        }
+
+                                        if ($proyectos_planificados['estado']=='E')
+                                        {
+                                           $enviados++;
+                                        }
+
+                                        if ($proyectos_planificados['estado']=='R' or $proyectos_planificados['estado']=='RGP')
+                                        {
+                                           $rechazados++;
+                                        }
+                                        $total++;
+                                    }
+                                }
+                                else
+                                {
+                                    
+                                    $hojas_nollenadas[]=$i;
+                                }
+
+                                if ($aprobadosgerente!=0)
+                                {             
+                                    if ($total==$aprobadosgerente)
+                                    {
+                                        $hojas_aprobadas[]=$i;  
+
+                                    }
+                                    if ($aprobadosgerente<$total)
+                                    {
+                                        $hojas_pendientes[]=$i;  
+                                    }
+                                }
+
+                                if ($noenviados!=0)
+                                {
+                                      if ($total==$noenviados)
+                                    {
+                                        $hojasno_enviadas[]=$i;  
+                                    } 
+                                }
+
+                                if ($enviados!=0)
+                                {
+                                    if ($total==$enviados)
+                                    {
+                                        $hojas_enviadas[]=$i;  
+
+                                    }
+                                }
+
+                                if ($rechazados!=0)
+                                {
+                                     if ($total==$rechazados)
+                                    {
+                                        $hojas_rechazadas[]=$i;  
+
+                                    }
+                                }
+                            }
+                            
+                                print_r(count($hojasno_enviadas));
+                                echo " Hojas de Tiempo No Enviadas";
+
+                                    
+                            ?>
+
+                              
+                            
+
+                                </p>
+                            </li>
+
+                            <?php
+                            $fecha = date("Y-m-d");
+                            $semanaid=date('W', strtotime($fecha)); 
+                            $hojasno_enviadas=array();
+                            $hojas_enviadas=array();
+                            $hojas_aprobadas=array();
+                            $hojas_rechazadas=array();
+                            $hojas_pendientes=array();
+                            $hojas_nollenadas=array();
+                            $tabla_planificacion= new Admin_Model_DbTable_Planificacion();
+                            for ($i=23;$i<$semanaid;$i++)
+                            {
+                                $planificacion = $tabla_planificacion->_getProyectosClientesxSemana($i,$uid,$dni);
+                                $total=0;
+                                $aprobadosgerente=0;
+                                $noenviados=0;
+                                $enviados=0;
+                                $rechazados=0;
+                                if ($planificacion) {
+                                  //  print_r($planificacion);
+                                    foreach ($planificacion as $proyectos_planificados) {
+                                        if ($proyectos_planificados['estado']=='AGP')
+                                        {
+                                            $aprobadosgerente++;
+                                        }
+
+                                        if ($proyectos_planificados['estado']=='')
+                                        {
+                                            $noenviados++;
+                                        }
+
+                                        if ($proyectos_planificados['estado']=='E')
+                                        {
+                                           $enviados++;
+                                        }
+
+                                        if ($proyectos_planificados['estado']=='R' or $proyectos_planificados['estado']=='RGP')
+                                        {
+                                           $rechazados++;
+                                        }
+                                        $total++;
+                                    }
+                                }
+                                else
+                                {
+                                    
+                                    $hojas_nollenadas[]=$i;
+                                }
+
+                                if ($aprobadosgerente!=0)
+                                {             
+                                    if ($total==$aprobadosgerente)
+                                    {
+                                        $hojas_aprobadas[]=$i;  
+
+                                    }
+                                    if ($aprobadosgerente<$total)
+                                    {
+                                        $hojas_pendientes[]=$i;  
+                                    }
+                                }
+
+                                if ($noenviados!=0)
+                                {
+                                      if ($total==$noenviados)
+                                    {
+                                        $hojasno_enviadas[]=$i;  
+
+                                    } 
+                                }
+
+                                if ($enviados!=0)
+                                {
+                                    if ($total==$enviados)
+                                    {
+                                        $hojas_enviadas[]=$i;  
+
+                                    }
+                                }
+
+                                if ($rechazados!=0)
+                                {
+                                     if ($total==$rechazados)
+                                    {
+                                        $hojas_rechazadas[]=$i;  
+
+                                    }
+                                }
+                            }
+                            
+                            foreach ($hojasno_enviadas as $noenviadas) {?>
+
+                                        <li>
+                                                <a href="#">
+                                                    
+                                                    <span class="from"><?php
+                                                    echo "Semana ";
+                                                    print_r($noenviadas);
+                                                    ?>
+                                                        
+                                                    </span>
+                                                </a>
+                                            </li>
+
+
+                                <?php
+                            }
+                              ?>
+                            
+
+                                
+                                            
+
+
+                        </ul>
                     </li>
-                    -->
-                <!--  notification end -->
+
+                </ul>
             </div>
             
 

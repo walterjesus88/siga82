@@ -174,12 +174,9 @@ $(document).ready(function(){
     $("#filtro_actividades").click(function(){
         var proyectoid = $(this).attr('proyectoid');
         var codigo = $(this).attr('codigo_proyecto');
-
-    //var proyectoid = $("#proyectoid").val();
-    //var codigo = $("#codigo_proyecto").val();
-    url="/proyecto/index/subiractividades/proyectoid/"+proyectoid+"/codigo/"+codigo;
-    alert(url);
-    //$("#cargar_importar").load(url);
+        url="/proyecto/index/subiractividades/proyectoid/"+proyectoid+"/codigo/"+codigo;
+        alert(url);
+        //$("#cargar_importar").load(url);
 });
 });
 
