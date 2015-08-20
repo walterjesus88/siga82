@@ -211,6 +211,58 @@ app.factory('httpFactory', ['$http', '$q', function($http, $q) {
       });
       return promise;
     },
+    setTipoEntregable: function(entregableid, tipo) {
+      var defered = $q.defer();
+      var promise = defered.promise;
+      $http.post(url_ent + 'actualizartipoentregable/entregableid/' +
+      entregableid + '/tipo/' + tipo)
+      .success(function(data) {
+        defered.resolve(data);
+      })
+      .error(function(err) {
+        defered.reject(err);
+      });
+      return promise;
+    },
+    setDisciplina: function(entregableid, disciplina) {
+      var defered = $q.defer();
+      var promise = defered.promise;
+      $http.post(url_ent + 'actualizardisciplina/entregableid/' + entregableid +
+      '/disciplina/' + disciplina)
+      .success(function(data) {
+        defered.resolve(data);
+      })
+      .error(function(err) {
+        defered.reject(err);
+      });
+      return promise;
+    },
+    setDescripcion: function(entregableid, descripcion) {
+      var defered = $q.defer();
+      var promise = defered.promise;
+      $http.post(url_ent + 'actualizardescripcion/entregableid/' + entregableid +
+      '/descripcion/' + descripcion)
+      .success(function(data) {
+        defered.resolve(data);
+      })
+      .error(function(err) {
+        defered.reject(err);
+      });
+      return promise;
+    },
+    setRevisionEntregable: function(entregableid, revision) {
+      var defered = $q.defer();
+      var promise = defered.promise;
+      $http.post(url_ent + 'actualizarrevisionentregable/entregableid/' +
+      entregableid + '/revision/' + revision)
+      .success(function(data) {
+        defered.resolve(data);
+      })
+      .error(function(err) {
+        defered.reject(err);
+      });
+      return promise;
+    },
     setContacto: function(clienteid, contacto) {
       var defered = $q.defer();
       var promise = defered.promise;
@@ -304,11 +356,11 @@ app.factory('httpFactory', ['$http', '$q', function($http, $q) {
       });
       return promise;
     },
-    createPdfRT: function(proyectoid, estado) {
+    createPdfRT: function(proyectoid, estado, clase) {
       var defered = $q.defer();
       var promise = defered.promise;
       $http.get(url_print + 'imprimirreportetransmittal/proyectoid/' + proyectoid +
-      '/estado/' + estado)
+      '/estado/' + estado + '/clase/' + clase)
       .success(function(data) {
         defered.resolve(data);
       })
@@ -324,7 +376,7 @@ app.factory('httpFactory', ['$http', '$q', function($http, $q) {
       '/proyectoid/' + ent.proyectoid +
       '/tipo/' + ent.tipo + '/disciplina/' + ent.disciplina + '/codigoanddes/' +
       ent.codigo_anddes + '/codigocliente/' + ent.codigo_cliente + '/descripcion/' +
-      ent.descripcion + '/revision/' + ent.revision)
+      ent.descripcion + '/revision/' + ent.revision + '/clase/' + ent.clase)
       .success(function(data) {
         defered.resolve(data);
       })

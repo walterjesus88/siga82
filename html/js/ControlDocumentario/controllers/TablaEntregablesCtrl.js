@@ -1,5 +1,6 @@
 app.controller('TablaEntregablesCtrl', ['$scope', 'entregableFactory',
-function($scope, entregableFactory) {
+'$routeParams',
+function($scope, entregableFactory, $routeParams) {
 
   te = this;
   te.clase = 'Tecnico';
@@ -21,10 +22,26 @@ function($scope, entregableFactory) {
 
   te.agregar = function() {
     var entregable = new entregableFactory.Entregable();
+    entregable.proyectoid = $routeParams.proyecto;
+    entregable.clase = te.clase;
     te.entregables.push(entregable);
   }
 
   te.editar = function() {
     // body...
+  }
+
+  te.eliminar = function() {
+    te.entregables.forEach(function(entregable) {
+      if (entregable.seleccionado == 'selected') {
+        entregable.eliminarEntregable();
+      }
+    })
+  }
+
+  te.guardar = function() {
+    te.entregables.forEach(function(entregable) {
+      entregable.guardarEntregable();
+    })
   }
 }]);

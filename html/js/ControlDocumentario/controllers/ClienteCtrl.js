@@ -40,6 +40,13 @@ function(httpFactory, $routeParams, respuestaFactory, transmittalFactory) {
   cl.guardar = function() {
     cl.respuestas.forEach(function(respuesta) {
       respuesta.guardarRespuesta();
+      cl.alerts.push({type: 'success', msg: 'Datos guardados satisfactoriamente'});
     });
+  }
+
+  cl.alerts = [];
+
+  cl.closeAlert = function(index) {
+    cl.alerts.splice(index, 1);
   }
 }]);

@@ -1,76 +1,78 @@
 <div class="panel-body">
-  <table class="table table-bordered">
-    <thead>
-      <th>
-        ITEM
-      </th>
-      <th>
-        TR
-      </th>
-      <th>
-        CODIGO ANDDES
-      </th>
-      <th>
-        CODIGO CLIENTE
-      </th>
-      <th>
-        DESCRIPCION
-      </th>
-      <th>
-        REVISION
-      </th>
-      <th>
-        ESTADO REVISION
-      </th>
-      <th>
-        EMITIDO
-      </th>
-      <th>
-        FECHA
-      </th>
-      <th>
-        ESTADO TR
-      </th>
-    </thead>
-    <tbody>
-      <tr ng-repeat="entregable in va.seleccionados">
-        <td>
-          {{$index + 1}}
-        </td>
-        <td>
-          {{entregable.transmittal_completo}}
-        </td>
-        <td>
-          {{entregable.codigo_anddes}}
-        </td>
-        <td>
-          {{entregable.codigo_cliente}}
-        </td>
-        <td>
-          {{entregable.descripcion}}
-        </td>
-        <td>
-          <select class="form-control" ng-model="entregable.revision"
-          ng-options="revision as revision for revision in va.revisiones">
-          </select>
-        </td>
-        <td>
-          {{entregable.estado_revision}}
-        </td>
-        <td>
-          <select class="form-control" ng-model="entregable.emitido"
-          ng-options="emitido.codigo as emitido.emitido_para for emitido in va.emisiones">
-          </select>
-        </td>
-        <td>
-          {{entregable.fecha}}
-        </td>
-        <td>
-          {{entregable.estado}}
-        </td>
-      </tr>
-    </tbody>
-  </table>
+  <div class="table-responsive">
+    <table class="table table-bordered">
+      <thead>
+        <th>
+          ITEM
+        </th>
+        <th>
+          TR
+        </th>
+        <th>
+          CODIGO ANDDES
+        </th>
+        <th>
+          CODIGO CLIENTE
+        </th>
+        <th>
+          DESCRIPCION
+        </th>
+        <th>
+          REVISION
+        </th>
+        <th>
+          ESTADO REVISION
+        </th>
+        <th>
+          EMITIDO
+        </th>
+        <th>
+          FECHA
+        </th>
+        <th>
+          ESTADO TR
+        </th>
+      </thead>
+      <tbody>
+        <tr ng-repeat="entregable in va.seleccionados">
+          <td>
+            {{$index + 1}}
+          </td>
+          <td>
+            {{entregable.transmittal_completo}}
+          </td>
+          <td>
+            {{entregable.codigo_anddes}}
+          </td>
+          <td>
+            {{entregable.codigo_cliente}}
+          </td>
+          <td>
+            {{entregable.descripcion}}
+          </td>
+          <td>
+            <select class="form-control" ng-model="entregable.revision"
+            ng-options="revision as revision for revision in va.revisiones">
+            </select>
+          </td>
+          <td>
+            {{entregable.estado_revision}}
+          </td>
+          <td>
+            <select class="form-control" ng-model="entregable.emitido"
+            ng-options="emitido.codigo as emitido.emitido_para for emitido in va.emisiones">
+            </select>
+          </td>
+          <td>
+            {{entregable.fecha}}
+          </td>
+          <td>
+            {{entregable.estado}}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 
   <section class="col-md-3 col-sm-6 form-group panel-body">
     <label for="">Tipo de Envío:</label>

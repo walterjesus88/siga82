@@ -39,7 +39,7 @@ function(httpFactory, entregableFactory, $routeParams, transmittalFactory, $root
         item.tipo_documento, item.disciplina, item.codigo_anddes, item.codigo_cliente,
         item.descripcion_entregable, item.revision_entregable, item.estado_revision, item.transmittal,
         item.correlativo, item.emitido, item.fecha, item.respuesta_transmittal,
-        item.respuesta_emitido, item.respuesta_fecha, item.estado, item.comentario);
+        item.respuesta_emitido, item.respuesta_fecha, item.estado, item.comentario, item.clase);
         entregable.setProyectoId(proyecto);
         ent_temp.push(entregable);
       })
@@ -148,6 +148,18 @@ function(httpFactory, entregableFactory, $routeParams, transmittalFactory, $root
           va.seleccionados.push(entregable);
         }
       });
+      va.entregables_gestion.forEach(function(entregable) {
+        if (entregable.seleccionado == 'selected') {
+          entregable.agregarToTransmittal(transmittal);
+          va.seleccionados.push(entregable);
+        }
+      });
+      va.entregables_comunicacion.forEach(function(entregable) {
+        if (entregable.seleccionado == 'selected') {
+          entregable.agregarToTransmittal(transmittal);
+          va.seleccionados.push(entregable);
+        }
+      });
       cambiarSubPanel('trans');
     } else {
       alert('Configure el Transmittal antes de agregar entregables');
@@ -187,7 +199,7 @@ function(httpFactory, entregableFactory, $routeParams, transmittalFactory, $root
 
   //imprimir el reporte de os entregables
   va.imprimirReporteTr = function() {
-    httpFactory.createPdfRT(proyecto, va.estado)
+    httpFactory.createPdfRT(proyecto, va.estado, va.clase)
     .then(function(data) {
       window.open(data.archivo, '_blank');
     })

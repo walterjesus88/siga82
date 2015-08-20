@@ -2,71 +2,73 @@
   <button type="button" class="btn btn-success">TR</button>
 </header>
 <div class="panel">
-  <table class="table table-bordered">
-    <thead>
-      <th>
-        ITEM
-      </th>
-      <th>
-        TR
-      </th>
-      <th>
-        Codigo Anddes
-      </th>
-      <th>
-        Codigo Cliente
-      </th>
-      <th>
-        Descripción de Entregable
-      </th>
-      <th>
-        Rev.
-      </th>
-      <th>
-        Emitido
-      </th>
-      <th>
-        Fecha
-      </th>
-    </thead>
-    <tbody>
-      <tr ng-repeat="entregable in cl.respuestas track by $index">
-        <td>
-          {{$index + 1}}
-        </td>
-        <td>
-          <input type="text" ng-model="entregable.transmittal">
-        </td>
-        <td>
-          <select ng-model="entregable.codigo_anddes" ng-change="entregable.cambiarCodigo('anddes')"
-          ng-options="detallesr.codigo_anddes as detallesr.codigo_anddes for detallesr in
-          cl.detalles_sin_respuesta">
-          </select>
-        </td>
-        <td>
-          <select ng-model="entregable.codigo_cliente" ng-change="entregable.cambiarCodigo('cliente')"
-          ng-options="detallesr.codigo_cliente as detallesr.codigo_cliente for detallesr in
-          cl.detalles_sin_respuesta">
-          </select>
-        </td>
-        <td>
-          <input type="text" ng-model="entregable.descripcion">
-        </td>
-        <td>
-          <input type="text" ng-model="entregable.revision">
-        </td>
-        <td>
-          <select ng-model="entregable.emitido"
-          ng-options="emitido.codigo as emitido.emitido_para for emitido in
-          cl.emisiones">
-          </select>
-        </td>
-        <td>
-          <input type="text" ng-model="entregable.fecha">
-        </td>
-      </tr>
-    </tbody>
-  </table>
+  <div class="table-responsive">
+    <table class="table table-bordered">
+      <thead>
+        <th>
+          ITEM
+        </th>
+        <th>
+          TR
+        </th>
+        <th>
+          Codigo Anddes
+        </th>
+        <th>
+          Codigo Cliente
+        </th>
+        <th>
+          Descripción de Entregable
+        </th>
+        <th>
+          Rev.
+        </th>
+        <th>
+          Emitido
+        </th>
+        <th>
+          Fecha
+        </th>
+      </thead>
+      <tbody>
+        <tr ng-repeat="entregable in cl.respuestas track by $index">
+          <td>
+            {{$index + 1}}
+          </td>
+          <td>
+            <input type="text" ng-model="entregable.transmittal">
+          </td>
+          <td>
+            <select ng-model="entregable.codigo_anddes" ng-change="entregable.cambiarCodigo('anddes')"
+            ng-options="detallesr.codigo_anddes as detallesr.codigo_anddes for detallesr in
+            cl.detalles_sin_respuesta">
+            </select>
+          </td>
+          <td>
+            <select ng-model="entregable.codigo_cliente" ng-change="entregable.cambiarCodigo('cliente')"
+            ng-options="detallesr.codigo_cliente as detallesr.codigo_cliente for detallesr in
+            cl.detalles_sin_respuesta">
+            </select>
+          </td>
+          <td>
+            <input type="text" ng-model="entregable.descripcion">
+          </td>
+          <td>
+            <input type="text" ng-model="entregable.revision">
+          </td>
+          <td>
+            <select ng-model="entregable.emitido"
+            ng-options="emitido.codigo as emitido.emitido_para for emitido in
+            cl.emisiones">
+            </select>
+          </td>
+          <td>
+            <input type="text" ng-model="entregable.fecha">
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </div>
 <footer>
   <button type="button" class="btn btn-info">Imprimir</button>
@@ -76,3 +78,7 @@
   <button type="button" class="btn btn-default">Cancelar</button>
   <button type="button" class="btn btn-success" ng-click="cl.guardar()">Guardar</button>
 </footer>
+
+<div class="panel">
+  <alert ng-repeat="alert in cl.alerts" type="{{alert.type}}" close="cl.closeAlert($index)">{{alert.msg}}</alert>
+</div>

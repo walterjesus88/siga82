@@ -47,11 +47,13 @@ class Admin_Model_DbTable_Listaentregabledetalle extends Zend_Db_Table_Abstract
         led.edt, led.tipo_documento, led.disciplina, led.codigo_anddes, led.codigo_cliente,
         led.descripcion_entregable, led.estado as estado_revision,
         det.transmittal, det.correlativo,
-        tip.emitido_para as emitido, det.fecha, det.respuesta_transmittal, det.respuesta_emitido,
-        det.respuesta_fecha, det.estado, det.comentario
+        tip.emitido_para as emitido, det.fecha, det.respuesta_transmittal,
+        ti.emitido_para as respuesta_emitido,
+        det.respuesta_fecha, det.estado, det.comentario, led.clase
         from lista_entregable_detalle as led left join detalle_transmittal as det
         on (led.cod_le = det.entregableid) left join tipo_envio as tip
-        on (det.emitido = tip.codigo and det.tipo_envio = tip.tipo)
+        on (det.emitido = tip.codigo and det.tipo_envio = tip.tipo) left join
+        tipo_envio as ti on (det.respuesta_emitido = ti.codigo and det.tipo_envio = ti.tipo)
         where led.proyectoid = '".$proyectoid."' and led.clase = '".$clase."'";
         if ($condicion == 'Ultimo') {
           $query1 = $query1." and led.estado = 'Ultimo'";
@@ -88,15 +90,75 @@ class Admin_Model_DbTable_Listaentregabledetalle extends Zend_Db_Table_Abstract
       $row->save();
     }
 
+    //guardar el tipo de documento
+    public function _setTipoEntregable($entregableid, $tipo)
+    {
+      $id = (int)$entregableid;
+      $row = $this->fetchRow('cod_le = ' . $id);
+      if (!$row) {
+           throw new Exception("No hay resultados para ese transmittal");
+      }
+      $row->tipo_documento = $tipo;
+      $row->save();
+    }
+
+    //guardar la disciplina
+    public function _setDisciplina($entregableid, $disciplina)
+    {
+      $id = (int)$entregableid;
+      $row = $this->fetchRow('cod_le = ' . $id);
+      if (!$row) {
+           throw new Exception("No hay resultados para ese transmittal");
+      }
+      $row->disciplina = $disciplina;
+      $row->save();
+    }
+
+    //guardar la descripcion
+    public function _setDescripcion($entregableid, $descripcion)
+    {
+      $id = (int)$entregableid;
+      $row = $this->fetchRow('cod_le = ' . $id);
+      if (!$row) {
+           throw new Exception("No hay resultados para ese transmittal");
+      }
+      $row->descripcion_entregable = $descripcion;
+      $row->save();
+    }
+
+    //guardar la revision
+    public function _setRevision($entregableid, $revision)
+    {
+      $id = (int)$entregableid;
+      $row = $this->fetchRow('cod_le = ' . $id);
+      if (!$row) {
+           throw new Exception("No hay resultados para ese transmittal");
+      }
+      $row->revision_entregable = $revision;
+      $row->save();
+    }
+
     //guardar los datos del detalle de entregable
     public function _setEntregable($data)
     {
       try {
         $id = (int)$data['entregableid'];
         if ($id == 0) {
+          $sql = $this->_db->query("select codigo_prop_proy from proyecto where
+          proyectoid = '".$data['proyectoid']."'");
+          $codigo = $sql->fetch();
+          $sql = $this->_db->query("insert into lista_entregable values ('".
+          $codigo['codigo_prop_proy']."', '".$data['proyectoid']."', '".
+          $data['revision']."')");
+          $row = $sql->fetch();
           $sql = $this->_db->query("insert into lista_entregable_detalle
-          () values () where cod_le = ".$id);
-          $row = $sql->fetchAll();
+          (codigo_prop_proy, proyectoid, revision_entregable, edt, tipo_documento,
+          disciplina, codigo_anddes, codigo_cliente, descripcion_entregable, estado,
+          clase) values ('".$codigo['codigo_prop_proy']."', '".$data['proyectoid']."', '".$data['revision']."',
+          '000', '".$data['tipo_documento']."', '".$data['disciplina']."',
+          '".$data['codigo_anddes']."', '".$data['codigo_cliente']."',
+          '".$data['descripcion']."', 'Ultimo', '".$data['clase']."')");
+          $row = $sql->fetch();
           $resp['resultado'] = 'guardado';
           return $resp;
         } else {
@@ -120,7 +182,7 @@ class Admin_Model_DbTable_Listaentregabledetalle extends Zend_Db_Table_Abstract
     public function _deleteEntregable($entregableid)
     {
       try {
-        $sql = $this->_db->query("deletefrom lista_entregable_detalle where
+        $sql = $this->_db->query("delete from lista_entregable_detalle where
         cod_le = '".$entregableid."'");
         $row = $sql->fetchAll();
         $resp['resultado'] = 'eliminado';

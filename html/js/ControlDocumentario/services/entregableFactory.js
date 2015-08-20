@@ -4,7 +4,7 @@ app.factory('entregableFactory', ['httpFactory', 'transmittalFactory',
     Entregable: function(codigo, edt, tipo, disciplina, codigo_anddes,
     codigo_cliente, descripcion, revision, estado_revision, transmittal,
     correlativo, emitido, fecha, respuesta_transmittal, respuesta_emitido,
-    respuesta_fecha, estado, comentario) {
+    respuesta_fecha, estado, comentario, clase) {
       this.codigo = codigo;
       this.proyectoid = '';
       this.edt = edt;
@@ -26,6 +26,7 @@ app.factory('entregableFactory', ['httpFactory', 'transmittalFactory',
       this.respuesta_fecha = respuesta_fecha;
       this.estado = estado;
       this.comentario = comentario;
+      this.clase = clase;
       this.seleccionado = '';
       this.estilo = '';
 
@@ -41,23 +42,75 @@ app.factory('entregableFactory', ['httpFactory', 'transmittalFactory',
       }
 
       this.actualizarCodigoAnddes = function() {
-        httpFactory.setCodigoAnddes(this.codigo, this.codigo_anddes)
-        .then(function(data) {
-          alert('Codigo Anddes Actualizado.');
-        })
-        .catch(function(err) {
-          alert('No se pudo actualizar el codigo de Anddes');
-        });
+        if (this.codigo != '' && this.codigo !=null && this.codigo !=undefined) {
+          httpFactory.setCodigoAnddes(this.codigo, this.codigo_anddes)
+          .then(function(data) {
+            alert('Codigo Anddes Actualizado.');
+          })
+          .catch(function(err) {
+            alert('No se pudo actualizar el codigo de Anddes');
+          });
+        }
       }
 
       this.actualizarCodigoCliente = function() {
-        httpFactory.setCodigoCliente(this.codigo, this.codigo_cliente)
-        .then(function(data) {
-          alert('Codigo Cliente Actualizado.');
-        })
-        .catch(function(err) {
-          alert('No se pudo actualizar el codigo de Cliente');
-        });
+        if (this.codigo != '' && this.codigo !=null && this.codigo !=undefined) {
+          httpFactory.setCodigoCliente(this.codigo, this.codigo_cliente)
+          .then(function(data) {
+            alert('Codigo Cliente Actualizado.');
+          })
+          .catch(function(err) {
+            alert('No se pudo actualizar el codigo de Cliente');
+          });
+        }
+      }
+
+      this.actualizarTipo = function() {
+        if (this.codigo != '' && this.codigo !=null && this.codigo !=undefined) {
+          httpFactory.setTipoEntregable(this.codigo, this.tipo)
+          .then(function(data) {
+            alert('Tipo de Documento Actualizado.');
+          })
+          .catch(function(err) {
+            alert('No se pudo actualizar el tipo de documento');
+          });
+        }
+      }
+
+      this.actualizarDisciplina = function() {
+        if (this.codigo != '' && this.codigo !=null && this.codigo !=undefined) {
+          httpFactory.setDisciplina(this.codigo, this.disciplina)
+          .then(function(data) {
+            alert('Disciplina Actualizada.');
+          })
+          .catch(function(err) {
+            alert('No se pudo actualizar la Disciplina');
+          });
+        }
+      }
+
+      this.actualizarDescripcion = function() {
+        if (this.codigo != '' && this.codigo !=null && this.codigo !=undefined) {
+          httpFactory.setDescripcion(this.codigo, this.descripcion)
+          .then(function(data) {
+            alert('La Descripción ha sido actualizada.');
+          })
+          .catch(function(err) {
+            alert('No se pudo actualizar la descripción');
+          });
+        }
+      }
+
+      this.actualizarRevision = function() {
+        if (this.codigo != '' && this.codigo !=null && this.codigo !=undefined) {
+          httpFactory.setRevisionEntregable(this.codigo, this.revision)
+          .then(function(data) {
+            alert('La revisión ha sido actualizada.');
+          })
+          .catch(function(err) {
+            alert('No se pudo actualizar la revisión');
+          });
+        }
       }
 
       this.agregarToTransmittal = function(transmittal) {
@@ -98,10 +151,10 @@ app.factory('entregableFactory', ['httpFactory', 'transmittalFactory',
       this.guardarEntregable = function() {
         httpFactory.setEntregable(this)
         .then(function(data) {
-          alert('Entregable guardado satisfactoriamente');
+
         })
         .catch(function(err) {
-          alert('Error al guardar datos del entregable');
+
         });
       }
 
@@ -111,7 +164,7 @@ app.factory('entregableFactory', ['httpFactory', 'transmittalFactory',
           alert('Entregable eliminado satisfactoriamente');
         })
         .catch(function(err) {
-          alert("Error al momento de eliminar entregable");
+          alert('No se pudo eliminar el entregable');
         });
       }
     }
