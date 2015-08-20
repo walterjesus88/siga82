@@ -1476,6 +1476,7 @@ public function verAction() {
          $data['predecesoras'] = $item['predecesoras'];
          $data['sucesoras'] = $item['sucesoras'];
          $data['nivel_esquema'] = $item['nivel_esquema'];
+         $data['state'] = $item['state'];
          $respuesta[$i] = $data;
          $i++;
       }
@@ -1703,23 +1704,23 @@ public function cambiarfechaproyetoAction(){
     $pk = array('codigo_curvas' => $id, );
 
     $fecha_proyecto= new Admin_Model_DbTable_Tiempoproyecto();   
-    $fproyecto=$fecha_proyecto-> _update($data,$pk);
+    $fproyecto=$fecha_proyecto->_update($data,$pk);
 
     $this->_helper->json->sendJson($fproyecto);    
 }
 
 public function guardarcurvaAction(){
 
-    echo $cronogramaid= $this->_getParam("cronogramaid");
-    echo $codigo_prop_proy= $this->_getParam("codigo_prop_proy");
-    echo $proyectoid= $this->_getParam("proyectoid");
+    $cronogramaid= $this->_getParam("cronogramaid");
+    $codigo_prop_proy= $this->_getParam("codigo_prop_proy");
+    $proyectoid= $this->_getParam("proyectoid");
     //echo  $codigo_curvas= $this->_getParam("codigo_curvas");
-    echo  $fecha_curvas= $this->_getParam("fecha_curvas");
-    echo  $porcentaje_ejecutado= $this->_getParam("porcentaje_ejecutado");
-    echo $porcentaje_propuesta= $this->_getParam("porcentaje_propuesta");
-    echo $revision_cronograma= $this->_getParam("revision_cronograma");
-    echo  $codigo_cronograma= $this->_getParam("codigo_cronograma");
-    echo  $revision_propuesta= $this->_getParam("revision_propuesta");
+    $fecha_curvas= $this->_getParam("fecha_curvas");
+    $porcentaje_ejecutado= $this->_getParam("porcentaje_ejecutado");
+    $porcentaje_propuesta= $this->_getParam("porcentaje_propuesta");
+    $revision_cronograma= $this->_getParam("revision_cronograma");
+    $codigo_cronograma= $this->_getParam("codigo_cronograma");
+    $revision_propuesta= $this->_getParam("revision_propuesta");
 
 
     $data = array('codigo_prop_proy' => $codigo_prop_proy,'codigo_cronograma' => $codigo_cronograma,
@@ -1740,6 +1741,18 @@ public function guardarcurvaAction(){
 public function eliminarcurvaAction(){
   $codigo_curvas= $this->_getParam("codigo_curvas");
   echo $codigo_curvas;
+  $where = array('codigo_curvas' =>$codigo_curvas, );
+  $delcurvas=new Admin_Model_DbTable_Tiempoproyecto();
+  $dcurvas=$delcurvas->_delete($where);
+
+  $this->_helper->json->sendJson($dcurvas);
+
+}
+
+
+public function egetdatosedtAction(){
+  $proyecto= $this->_getParam("proyectoiid");
+
   $where = array('codigo_curvas' =>$codigo_curvas, );
   $delcurvas=new Admin_Model_DbTable_Tiempoproyecto();
   $dcurvas=$delcurvas->_delete($where);

@@ -16,9 +16,6 @@ app.factory('httpFactory', ['$http','$q', function($http,$q) {
     },   
 
 
-
-
-
     setCambiarfechaproyecto: function(value,column,id) {
       // var defered = $q.defer();
       // var promise = defered.promise;
@@ -33,10 +30,9 @@ app.factory('httpFactory', ['$http','$q', function($http,$q) {
       //return promise;
     },
 
-    setGuardarCurva:function(codigo_curvas,fecha_curvas,porcentaje_ejecutado,porcentaje_propuesta,revision_cronograma,codigo_cronograma,codigo_prop_proy,proyectoid,cronogramaid,revision_propuesta)
+    setGuardarCurva:function(fecha_curvas,porcentaje_ejecutado,porcentaje_propuesta,revision_cronograma,codigo_cronograma,codigo_prop_proy,proyectoid,cronogramaid,revision_propuesta)
     {
-      return $http.post(url + 'guardarcurva/codigo_curvas/' +
-      codigo_curvas+"/fecha_curvas/"+fecha_ingreso_curvas+"/porcentaje_ejecutado/"+porcentaje_ejecutado  
+      return $http.post(url + 'guardarcurva/fecha_curvas/'+fecha_ingreso_curvas+"/porcentaje_ejecutado/"+porcentaje_ejecutado  
       +"/porcentaje_propuesta/"+porcentaje_propuesta
       +"/revision_cronograma/"+revision_cronograma+"/codigo_cronograma/"+codigo_cronograma+"/codigo_prop_proy/"
       +codigo_prop_proy+"/proyectoid/"+proyectoid+"/cronogramaid/"+cronogramaid+"/revision_propuesta/"+revision_propuesta)
@@ -172,6 +168,21 @@ app.factory('httpFactory', ['$http','$q', function($http,$q) {
       });
       return promise;
     },
+
+
+    getDatosxEDT: function(proyectoid) {
+      var defered = $q.defer();
+      var promise = defered.promise;
+      $http.get(url + 'getdatosedt/proyectoid/' + proyectoid)
+      .success(function(data) {
+        defered.resolve(data);
+      })
+      .error(function(err) {
+        defered.reject(err);
+      });
+      return promise;
+    },
+
 
 
   }

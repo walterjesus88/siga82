@@ -156,6 +156,21 @@ function(httpFactory, $location, $q) {
     },
 
 
+    /****EDT**/////
+    getDatosxEDT: function(proyectoid) {
+      var defered = $q.defer();
+      var promise = defered.promise;
+      httpFactory.getDatosxEDT(proyectoid)
+      .then(function(data) {
+        datos = data;
+        defered.resolve(datos);
+      })
+      .catch(function(err) {
+        defered.reject(err);
+      });
+      return promise;      
+    },
+
   }
   return publico;
 }]);
