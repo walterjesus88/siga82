@@ -1510,15 +1510,14 @@ public function listaproyectosAction()
 
 
 public function verjsonAction() {
-     //$areacat=new Admin_Model_DbTable_Area();
-     //$arcat=$areacat->_getAreaxProyecto();
+ 
     $bdequipoarea = new Admin_Model_DbTable_Equipoarea();
     $area=$bdequipoarea->_buscarAreasxProyecto('14.10.134-1101.10.09-D','1101.10.09');
     $i=0;
     foreach ($area as $verarea) {
       $bdequipo = new Admin_Model_DbTable_Equipo();
       $equipo=$bdequipo->_buscarEquipoxProyectoxArea('14.10.134-1101.10.09-D','1101.10.09',$verarea['areaid']);
-       //eq.areaid,a.orden,a.nombre
+
       $ek[] = array('name' =>$verarea['nombre'],'area'=>$verarea['areaid'] ,'items'=> $equipo);
       $i++;
     }    
@@ -1783,6 +1782,22 @@ public function setguardaredtAction(){
 
 }
 
+public function seteliminaredtAction(){
+  $codigoedt= $this->_getParam("codigoedt");
+  $codigoproyecto= $this->_getParam("codigoproyecto");
+  $proyectoid= $this->_getParam("proyectoid");
+
+  $where = array('codigo_edt' => $codigoedt,'proyectoid' => $proyectoid,'codigo_prop_proy' =>$codigoproyecto );
+  $eliminaredt=new Admin_Model_DbTable_ProyectoEdt();
+  $eedt=$eliminaredt->_delete($where);
+  echo "edt eliminar";
+  print_r($eedt);exit();
+
+  $this->_helper->json->sendJson($eedt);
+
+}
+
+
 public function setmodificaredtAction(){
     //echo "klllllllll";
     $proyectoid= $this->_getParam("proyectoid");
@@ -1805,10 +1820,7 @@ public function setmodificaredtAction(){
      );
 
     $modificaredt=new Admin_Model_DbTable_ProyectoEdt();
-    $medt=$modificaredt->_update($data,$pk);
-
-    //print_r($pk);
-    //print_r($data);exit();
+    $medt=$modificaredt->_update($data,$pk);  
 
     $this->_helper->json->sendJson($medt);
 
