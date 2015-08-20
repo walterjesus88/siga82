@@ -1,4 +1,5 @@
-app.controller('TablaEntregablesCtrl', ['$scope', function($scope) {
+app.controller('TablaEntregablesCtrl', ['$scope', 'entregableFactory',
+function($scope, entregableFactory) {
 
   te = this;
   te.clase = 'Tecnico';
@@ -17,4 +18,13 @@ app.controller('TablaEntregablesCtrl', ['$scope', function($scope) {
       te.desactivado = false;
     }
 	})
+
+  te.agregar = function() {
+    var entregable = new entregableFactory.Entregable();
+    te.entregables.push(entregable);
+  }
+
+  te.editar = function() {
+    // body...
+  }
 }]);

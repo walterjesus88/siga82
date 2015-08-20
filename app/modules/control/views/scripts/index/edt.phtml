@@ -8,20 +8,72 @@
               <th>
                 EDT
               </th>
+              <th>
+                Descripcion
+              </th>
             </thead>
             <tbody>
-            <!--<tr ng-repeat="edt in CP.edt track by $index">
+            <tr ng-repeat="edt in CP.edt" >
                 <td>
+                  <span editable-text="edt.codigo" e-name="codigo" e-form="rowform" onbeforesave="checkName($data, edt.id)" e-required>
                   {{edt.codigo}}
+                  </span>
                 </td>
                 <td>
+                  <span editable-text="edt.nombre" e-name="nombre" e-form="rowform" onbeforesave="checkName($data, edt.id)" e-required>
                   {{edt.nombre}}
+                  </span>
                 </td>
-            </tr>-->
+                <td>
+                  <span editable-text="edt.descripcion" e-name="descripcion" e-form="rowform" onbeforesave="checkName($data, edt.id)" e-required>
+                  {{edt.descripcion}}
+                  </span>
+                </td>
+                <td style="white-space: nowrap">
+                  <!-- form -->
+                  <form editable-form name="rowform" onbeforesave="CP.saveEdt($data, edt.codigo)" ng-show="rowform.$visible" class="form-buttons form-inline" shown="inserted ==   edt ">
+                    <button type="submit" ng-disabled="rowform.$waiting" class="btn btn-primary">
+                      save
+                    </button>
+                    <button type="button" ng-disabled="rowform.$waiting" ng-click="rowform.$cancel()" class="btn btn-default">
+                      cancel
+                    </button>
+                  </form>
+                  <div class="buttons" ng-show="!rowform.$visible">
+                    <button class="btn btn-primary" ng-click="rowform.$show()">editar</button>
+                    <button class="btn btn-danger" ng-click="removeUser($index)">eliminar</button>
+                  </div>  
+                </td>
+       
+            </tr>     
             </tbody>
-          </table>
+          </table>  
+
+
+             <div class="form-group">
+           
+              <div ng-show="CP.formVisibilityEdt" class="col-md-12" >             
+                <div class="col-md-2" >
+                  <input class="form-control " type="text" ng-model="CP.codigo"></input>
+                </div>              
+                <div class="col-md-2" >
+                  <input class="form-control" type="text" ng-model="CP.nombre"></input>
+                </div>              
+                <div class="col-md-2" >   
+                  <input class="form-control" type="text" ng-model="CP.descripcion"></input>   
+                </div>
+                <div class="col-md-3" >      
+                  <button class="btn btn-warning" ng-click="CP.GuardarEdt()">Guardar</button>
+                  <button class="btn btn-danger" ng-click="CP.CancelarEdt()">Cancelar</button>
+                </div>
+              </div>   
+
+              <button class="btn btn-primary" ng-click="CP.ShowFormEdt()" ng-hide="CP.formVisibilityEdt">
+                Anadir EDT
+              </button>
+
+           
+         
         </div>
-        <div class="col-md-6">
-          <button type="button" class="btn btn-default">Imprimir</button>
-        </div>
+        
       </div>

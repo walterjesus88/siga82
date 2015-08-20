@@ -1740,7 +1740,7 @@ public function guardarcurvaAction(){
 
 public function eliminarcurvaAction(){
   $codigo_curvas= $this->_getParam("codigo_curvas");
-  echo $codigo_curvas;
+  //echo $codigo_curvas;
   $where = array('codigo_curvas' =>$codigo_curvas, );
   $delcurvas=new Admin_Model_DbTable_Tiempoproyecto();
   $dcurvas=$delcurvas->_delete($where);
@@ -1750,14 +1750,67 @@ public function eliminarcurvaAction(){
 }
 
 
-public function egetdatosedtAction(){
-  $proyecto= $this->_getParam("proyectoiid");
+public function datosedtAction(){
+  $proyecto= $this->_getParam("proyectoid");
+  //echo $proyecto;
 
-  $where = array('codigo_curvas' =>$codigo_curvas, );
-  $delcurvas=new Admin_Model_DbTable_Tiempoproyecto();
-  $dcurvas=$delcurvas->_delete($where);
+  $edt= new Admin_Model_DbTable_ProyectoEdt();
+  $veredt=$edt->_getEdtxProyectoid($proyecto);
+  //print_r('estoy n edt');
+  //print_r($veredt);exit();
+  $this->_helper->json->sendJson($veredt);
 
-  $this->_helper->json->sendJson($dcurvas);
+}
+
+public function setguardaredtAction(){
+    $proyectoid= $this->_getParam("proyectoid");
+    $nombre= $this->_getParam("nombre");
+    $descripcion= $this->_getParam("descripcion");
+    $codigo_prop_proy= $this->_getParam("codigo_prop_proy");
+    $codigo= $this->_getParam("codigoedt");
+
+    $data = array('codigo_prop_proy' => $codigo_prop_proy, 
+        'nombre_edt' => $nombre,
+        'descripcion_edt' => $descripcion,
+        'proyectoid' => $proyectoid,
+        'codigo_edt' => $codigo,
+    );
+
+    $guardaredt=new Admin_Model_DbTable_ProyectoEdt();
+    $gedt=$guardaredt->_save($data);
+
+    $this->_helper->json->sendJson($gedt);
+
+}
+
+public function setmodificaredtAction(){
+    //echo "klllllllll";
+    $proyectoid= $this->_getParam("proyectoid");
+    $codigoedt= $this->_getParam("codigoedt");
+    $codigoproyecto= $this->_getParam("codigoproyecto");
+    
+    $codigoedtmodificado= $this->_getParam("codigoedtmodificado");
+    $nombremodificado= $this->_getParam("nombremodificado");
+    $descripcionmodificado= $this->_getParam("descripcionmodificado");
+    ///print_r($data);
+    // print_r($nombremodificado);
+    // print_r($codigoedtmodificado);
+    // print_r($descripcionmodificado);
+    // exit();
+
+    $data = array('codigo_edt' => $codigoedtmodificado, 'nombre_edt'=> $nombremodificado,'descripcion_edt'=> $descripcionmodificado);
+    $pk = array('codigo_edt' => $codigoedt,
+      'codigo_prop_proy' => $codigoproyecto,
+      'proyectoid' => $proyectoid,      
+     );
+
+    $modificaredt=new Admin_Model_DbTable_ProyectoEdt();
+    $medt=$modificaredt->_update($data,$pk);
+
+    //print_r($pk);
+    //print_r($data);exit();
+
+    $this->_helper->json->sendJson($medt);
 
 }
 

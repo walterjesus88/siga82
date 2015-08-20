@@ -18,7 +18,7 @@ function(httpFactory, $scope,$q,proyectoFactory) {
     .then(function(data) {
 
       revision=data[0]['revision_cronograma'];
-      console.log(revision);
+      //console.log(revision);
 
     //sirve para cargar datos una vez iniciado //
       httpFactory.getTiempos(revision,va.proyectop.codigo_prop_proy,proyecto['codigo'])
@@ -79,16 +79,16 @@ function(httpFactory, $scope,$q,proyectoFactory) {
 /*Trae datos de cronograma*/
   proyectoFactory.getDatosProyectoxCronograma(proyecto['codigo'])
   .then(function(datax) {
-    console.log(datax);
+    //console.log(datax);
     va.procronograma=datax;
     //console.log(va.procronograma[0]); 
-    console.log("xxxxxxd");
-    console.log(va.procronograma[0]);
-    console.log("xxxxxxd");
+    //console.log("xxxxxxd");
+    //console.log(va.procronograma[0]);
+    //console.log("xxxxxxd");
 
     for (var i = va.procronograma.length - 1; i >= 0; i--) {
 
-      console.log(va.procronograma[i]['state']);
+      //console.log(va.procronograma[i]['state']);
       if(va.procronograma[i]['state']=='A')
       {
         va.revi=va.procronograma[i]
@@ -151,7 +151,7 @@ function(httpFactory, $scope,$q,proyectoFactory) {
   }
 
   va.saveColumn= function(column){
-    console.log(column);
+    //console.log(column);
     // var results = [];
     angular.forEach(va.dat, function(fecha) {  
       //a=results.push($http.post('/saveColumn', {column: column, value: fecha[column], id: fecha.id_tproyecto}));
@@ -168,10 +168,10 @@ function(httpFactory, $scope,$q,proyectoFactory) {
 
 
   va.ShowForm=function(){  
-    va.formVisibility=true;
-    
+    va.formVisibility=true;    
   }
 
+ 
   va.Cancelarcurva=function(){
       va.formVisibility=false;    
   }
@@ -244,7 +244,7 @@ function(httpFactory, $scope,$q,proyectoFactory) {
       httpFactory.getTiempos(revision.revision_cronograma,codigo,proyectoid)
       .success(function(data) {   //console.log(data);
         va.dat=data[0]['1'];
-        console.log(va.dat);
+        //console.log(va.dat);
 
         var max = data[0]['1'].length;     
         var varx=[];
@@ -341,10 +341,7 @@ function(httpFactory, $scope,$q,proyectoFactory) {
 va.buscaperformance = function(revision) {
 
   revision_cronograma=revision.revision_cronograma;
-  //codigo_prop_proy=revision.codigo_prop_proy;
   proyectoid=revision.proyectoid;
-  //codigo_cronograma=revision.codigo_cronograma;
-  //cronogramaid=revision.cronogramaid;
 
   proyectoFactory.getDatosProyectoxPerfomance(proyectoid,revision_cronograma)
   .then(function(datax) {
@@ -370,13 +367,13 @@ proyectoFactory.getVerCronogramaxActivo(proyecto['codigo'])
 .then(function(data) {
 
   revision=data[0]['revision_cronograma'];
-  console.log(revision);
-  console.log('revision');
+  //console.log(revision);
+  //console.log('revision');
 
   proyectoFactory.getDatosProyectoxPerfomance(proyecto['codigo'],revision)
   .then(function(datax) {
       va.performance=datax;
-      console.log(va.performance);
+      //console.log(va.performance);
       for (var i = va.performance.length - 1; i >= 0; i--) {    
         va.thi=va.performance[i]['items'];
       };    
@@ -458,13 +455,59 @@ va.saveTable = function() {
 
 
 //////////////////////////*******/////////////////////////////////////
-proyectoFactory.getDatosxEDT(proyecto['codigo'])
+  //alert(proyecto['codigo']);
+  proyectoFactory.getDatosxEDT(proyecto['codigo'])
   .then(function(data) {
-          //console.log(data); 
+        console.log('edtdd'); 
+        console.log(data); 
+        va.edt=data;
   })
   .catch(function(err) {
-          //va.procronograma = {};
+            //va.procronograma = {};
   });
+
+
+  va.ShowFormEdt=function(){ 
+   va.formVisibilityEdt=true;    
+  }
+
+  va.GuardarEdt= function(){
+    console.log(va.codigo);
+    console.log(va.nombre);
+    console.log(va.descripcion);
+    console.log(va.proyectop.codigo_prop_proy);
+    console.log(va.proyectop,codigo);
+    proyectoFactory.setDatosxGuardarxEDT(va.codigo,va.nombre,va.descripcion,va.proyectop.codigo_prop_proy,va.proyectop.codigo)
+    .then(function(data) {
+        
+    })
+    .catch(function(err) {
+              //va.procronograma = {};
+    });
+  }
+
+  va.saveEdt=function(data,codigoedt){ 
+    console.log(data);
+    console.log(codigoedt);
+    codigoproyecto=va.proyectop.codigo_prop_proy;
+    proyectoid=va.proyectop.codigo;
+    codigoedtmodificado=data.codigo;
+    nombremodificado=data.nombre;
+    descripcionmodificado=data.descripcion;
+
+    console.log(nombremodificado);
+
+    proyectoFactory.setDatosxModificarxEDT(codigoedt,codigoproyecto,proyectoid,codigoedtmodificado,nombremodificado,descripcionmodificado)
+    .then(function(data) {
+          
+    })
+    .catch(function(err) {
+              //va.procronograma = {};
+    });
+    
+  }
+
+
 
 }]);
 

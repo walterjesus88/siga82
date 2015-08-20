@@ -1,12 +1,12 @@
-app.controller('ConfigurarTrCtrl', ['$scope', 'httpFactory', 'transmittalFactory',
+app.controller('ConfigurarTrCtrl', ['$routeParams', 'httpFactory', 'transmittalFactory',
 'proyectoFactory', '$modal',
-function($scope, httpFactory, transmittalFactory, proyectoFactory, $modal) {
+function($routeParams, httpFactory, transmittalFactory, proyectoFactory, $modal) {
 
   vc = this;
   //obtencion de los datos de configuracion del transmittal
   vc.transmittal = transmittalFactory.getConfiguracion();
 
-  proyectoFactory.getDatosProyecto($scope.$parent.vt.proyecto.codigo)
+  proyectoFactory.getDatosProyecto($routeParams.proyecto)
   .then(function(data) {
     vc.proyecto = data;
     //cargar los datos del transmittal con los datos del proyecto
@@ -17,7 +17,7 @@ function($scope, httpFactory, transmittalFactory, proyectoFactory, $modal) {
     vc.transmittal.tipo_proyecto = vc.proyecto.tipo_proyecto;
 
     vc.control_documentario = vc.transmittal.control_documentario.changeFormat();
-    //obtencion del numero correlativo correspondiente a este transmittal
+    //obtencion del numero correlativo que corresponderia a este transmittal
     httpFactory.getCorrelativoTransmittal(vc.transmittal.proyecto)
     .then(function(data) {
       vc.transmittal.correlativo = data.correlativo;

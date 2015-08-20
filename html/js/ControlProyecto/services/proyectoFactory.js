@@ -160,7 +160,40 @@ function(httpFactory, $location, $q) {
     getDatosxEDT: function(proyectoid) {
       var defered = $q.defer();
       var promise = defered.promise;
-      httpFactory.getDatosxEDT(proyectoid)
+     
+
+      httpFactory.getDatosxProyectoxEDT(proyectoid)
+      .then(function(data) {
+        datos = data;
+        defered.resolve(datos);
+      })
+      .catch(function(err) {
+        defered.reject(err);
+      });
+      return promise;      
+    },
+
+    setDatosxGuardarxEDT: function(codigoedt,nombre,descripcion,codigo_prop_proy,codigo) {
+      var defered = $q.defer();
+      var promise = defered.promise;
+     
+      
+      httpFactory.setDatosxGrabarxEDT(codigoedt,nombre,descripcion,codigo_prop_proy,codigo)
+      .then(function(data) {
+        datos = data;
+        defered.resolve(datos);
+      })
+      .catch(function(err) {
+        defered.reject(err);
+      });
+      return promise;      
+    },
+
+    setDatosxModificarxEDT: function(codigoedt,codigoproyecto,proyectoid,codigoedtmodificado,nombremodificado,descripcionmodificado) {
+      var defered = $q.defer();
+      var promise = defered.promise;     
+      
+      httpFactory.setDatosxModificarxEDT(codigoedt,codigoproyecto,proyectoid,codigoedtmodificado,nombremodificado,descripcionmodificado)
       .then(function(data) {
         datos = data;
         defered.resolve(datos);

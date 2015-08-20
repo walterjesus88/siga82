@@ -61,27 +61,32 @@
             {{$index + 1}}
           </td>
           <td>
-            {{entregable.edt}}
+            <input type="text" ng-model="entregable.edt" ng-model-options="{updateOn: 'blur'}"
+            ng-disabled="te.desactivado">
           </td>
           <td>
-            {{entregable.tipo}}
+            <input type="text" ng-model="entregable.tipo" ng-model-options="{updateOn: 'blur'}"
+            ng-disabled="te.desactivado">
           </td>
           <td>
-            {{entregable.disciplina}}
+            <input type="text" ng-model="entregable.disciplina" ng-model-options="{updateOn: 'blur'}"
+            ng-disabled="te.desactivado">
           </td>
           <td>
-            <input type="text" ng-model="entregable.codigo_anddes" ng-model-options="{ updateOn: 'blur' }"
+            <input type="text" ng-model="entregable.codigo_anddes" ng-model-options="{updateOn: 'blur'}"
                ng-change="entregable.actualizarCodigoAnddes()">
           </td>
           <td>
-            <input type="text" ng-model="entregable.codigo_cliente" ng-model-options="{ updateOn: 'blur' }"
+            <input type="text" ng-model="entregable.codigo_cliente" ng-model-options="{updateOn: 'blur'}"
                ng-change="entregable.actualizarCodigoCliente()">
           </td>
           <td>
-            {{entregable.descripcion}}
+            <input type="text" ng-model="entregable.descripcion" ng-model-options="{updateOn: 'blur'}"
+            ng-disabled="te.desactivado">
           </td>
           <td>
-            {{entregable.revision}}
+            <input type="text" ng-model="entregable.revision" ng-model-options="{updateOn: 'blur'}"
+            ng-disabled="te.desactivado">
           </td>
           <td>
             {{entregable.estado_revision}}
@@ -117,16 +122,17 @@
 
   <footer class="col-md-12 panel">
     <button type="button" class="btn btn-default" ng-click="va.imprimirReporteTr()">Imprimir</button>
-    <button type="button" class="btn btn-default" ng-click="va.agregarEntregable()"
+    <button type="button" class="btn btn-default" ng-click="te.agregar()"
     ng-disabled="te.desactivado">Agregar</button>
-    <button type="button" class="btn btn-default" ng-click="va.editarEntregable()"
+    <button type="button" class="btn btn-default" ng-click="va.editar()"
     ng-disabled="te.desactivado">Editar</button>
-    <button type="button" class="btn btn-default" ng-click="va.eliminarEntregable()"
+    <button type="button" class="btn btn-default" ng-click="va.eliminar()"
     ng-disabled="te.desactivado">Eliminar</button>
-    <button type="button" class="btn btn-default" ng-click="va.cancelarCambios()"
+    <button type="button" class="btn btn-default" ng-click="va.cancelar()"
     ng-disabled="te.desactivado">Cancelar</button>
-    <button type="button" class="btn btn-default" ng-click="va.guardarCambios()"
+    <button type="button" class="btn btn-default" ng-click="va.guardar()"
     ng-disabled="te.desactivado">Guardar</button>
     <button type="button" class="btn btn-default" ng-click="va.generarTr()">Generar Transmittal</button>
   </footer>
+
 </div>

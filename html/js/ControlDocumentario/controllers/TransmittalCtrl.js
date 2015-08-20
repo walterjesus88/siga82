@@ -53,6 +53,7 @@ app.controller('TransmittalCtrl', ['httpFactory', 'proyectoFactory', '$modal',
     }
   }
 
+  //cambiar el logo de la empresa
   vt.editarLogo = function() {
     var modalInstance = $modal.open({
       animation: true,
@@ -66,7 +67,7 @@ app.controller('TransmittalCtrl', ['httpFactory', 'proyectoFactory', '$modal',
         }
       }
     });
-
+    //recargar la pagina cuando se realizo el cambio para visualizar nuevo logo
     modalInstance.result.then(function () {
       window.location.reload();
     });

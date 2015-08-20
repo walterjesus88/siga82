@@ -169,13 +169,42 @@ app.factory('httpFactory', ['$http','$q', function($http,$q) {
       return promise;
     },
 
-
-    getDatosxEDT: function(proyectoid) {
+/*EDT*/
+    getDatosxProyectoxEDT: function(proyectoid) {
       var defered = $q.defer();
       var promise = defered.promise;
-      $http.get(url + 'getdatosedt/proyectoid/' + proyectoid)
+      $http.get(url + 'datosedt/proyectoid/' + proyectoid)
       .success(function(data) {
         defered.resolve(data);
+        
+      })
+      .error(function(err) {
+        defered.reject(err);
+      });
+      return promise;
+    },
+
+    setDatosxGrabarxEDT: function(codigoedt,nombre,descripcion,codigo_prop_proy,codigo) {
+      var defered = $q.defer();
+      var promise = defered.promise;
+      $http.get(url + 'setguardaredt/proyectoid/' + codigo+"/nombre/"+nombre+"/descripcion/"+descripcion+"/codigo_prop_proy/"+codigo_prop_proy+"/codigoedt/"+codigoedt)
+      .success(function(data) {
+        defered.resolve(data);
+        
+      })
+      .error(function(err) {
+        defered.reject(err);
+      });
+      return promise;
+    },
+
+    setDatosxModificarxEDT: function(codigoedt,codigoproyecto,proyectoid,codigoedtmodificado,nombremodificado,descripcionmodificado) {
+      var defered = $q.defer();
+      var promise = defered.promise;
+      $http.get(url + 'setmodificaredt/proyectoid/' + proyectoid+"/codigoedt/"+codigoedt+"/codigoproyecto/"+codigoproyecto+"/codigoedtmodificado/"+codigoedtmodificado+"/nombremodificado/"+nombremodificado+"/descripcionmodificado/"+descripcionmodificado)
+      .success(function(data) {
+        defered.resolve(data);
+        
       })
       .error(function(err) {
         defered.reject(err);
