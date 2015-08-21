@@ -1243,18 +1243,16 @@ public function subirpropuestaAction(){
 // Subir actvidades segun la nueva estructura //
 public function subiractividadesAction(){
   try {
+    $this->_helper->layout()->disablelayout();
     $proyectoid= $this->_getParam("proyectoid");
     $codigo_prop_proy= $this->_getParam("codigo");
-    //$proyectoid='1113.10.28';
-    
-    //$codigo_prop_proy='1113.10.28-15.10.176-A';
     $editproyect= new Admin_Model_DbTable_Proyecto();
     $where = array(
                       'codigo_prop_proy'    => $codigo_prop_proy,
                       'proyectoid'    => $proyectoid,
                       );
     $edit = $editproyect->_getOne($where);
-    //print_r($edit);
+    
     $proyectoid = $edit['proyectoid'];
     $codigo = $edit['codigo_prop_proy'];
     $propuestaid = $edit['propuestaid'];
@@ -1264,13 +1262,13 @@ public function subiractividadesAction(){
     include ($dir);
     $data = new Spreadsheet_Excel_Reader();
     $data->setOutputEncoding('CP1251');
-    //$data->read('./upload/proyecto/'.$proyectoid.'-HH.xls');
-    $data->read('proyectos_bruno.xls');
+    $data->read('./upload/proyecto/'.$proyectoid.'-HH.xls');
+    //$data->read('1proyecto.xls');
     $k=1;
     $columnas=$data->sheets[0]['numCols'];
     $filas=$data->sheets[0]['numRows'];
     //migrar actividades
-    for ($i = 2; $i <= $data->sheets[0]['numRows']-1; $i++) {
+    for ($i = 2; $i <= $data->sheets[0]['numRows']; $i++) {
       //$colsuma=$columnas-1;
       $actividadid=$data->sheets[0]['cells'][$i][1];
       $nombre=$data->sheets[0]['cells'][$i][2];
@@ -1282,7 +1280,7 @@ public function subiractividadesAction(){
         $k++;
         $j=0;
         $datosactividadpadre["actividadid"]=$actividadint;
-        $datosactividadpadre["codigo_actividad"]=$actividadid;
+        $datosactividadpadre["codigo_actividad"]=$proyectoid."-".$actividadid;
         $datosactividadpadre["codigo_prop_proy"]=$codigo;
         $datosactividadpadre["revision"]=$revision;
         //$datosactividadpadre["areaid"]=$areaid;
@@ -1313,7 +1311,7 @@ public function subiractividadesAction(){
           if (count($actividadeshijas)=='2'){
             $j++;
             $datosactividadhija["actividadid"]=$actividadint;
-            $datosactividadhija["codigo_actividad"]=$actividadid;
+            $datosactividadhija["codigo_actividad"]=$proyectoid."-".$actividadid;
             $datosactividadhija["codigo_prop_proy"]=$codigo;
             $datosactividadhija["revision"]=$revision;
             //$datosactividadhija["areaid"]=$areaid;
@@ -1341,7 +1339,7 @@ public function subiractividadesAction(){
 
             if (count($actividadeshijas)=='3'){
             $datosactividadnieta["actividadid"]=$actividadint;
-            $datosactividadnieta["codigo_actividad"]=$areaid."-".$actividadid;
+            $datosactividadnieta["codigo_actividad"]=$proyectoid."-".$actividadid;
             $datosactividadnieta["codigo_prop_proy"]=$codigo;
             $datosactividadnieta["revision"]=$revision;
             $datosactividadnieta["areaid"]=$areaid;

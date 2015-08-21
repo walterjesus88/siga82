@@ -159,7 +159,7 @@
                     <?php }?>
                 </div>
                 <div id='cargar_importar'>
-                    
+                    d
                 </div>
             </div>
         </div>
@@ -176,7 +176,7 @@ $(document).ready(function(){
         var codigo = $(this).attr('codigo_proyecto');
         url="/proyecto/index/subiractividades/proyectoid/"+proyectoid+"/codigo/"+codigo;
         alert(url);
-        //$("#cargar_importar").load(url);
+        $("#cargar_importar").load(url);
 });
 });
 
