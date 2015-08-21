@@ -187,7 +187,7 @@ app.factory('httpFactory', ['$http','$q', function($http,$q) {
     setDatosxGrabarxEDT: function(codigoedt,nombre,descripcion,codigo_prop_proy,codigo) {
       var defered = $q.defer();
       var promise = defered.promise;
-      $http.get(url + 'setguardaredt/proyectoid/' + codigo+"/nombre/"+nombre+"/descripcion/"+descripcion+"/codigo_prop_proy/"+codigo_prop_proy+"/codigoedt/"+codigoedt)
+      $http.post(url + 'setguardaredt/proyectoid/' + codigo+"/nombre/"+nombre+"/descripcion/"+descripcion+"/codigo_prop_proy/"+codigo_prop_proy+"/codigoedt/"+codigoedt)
       .success(function(data) {
         defered.resolve(data);
         
@@ -201,7 +201,22 @@ app.factory('httpFactory', ['$http','$q', function($http,$q) {
     setDatosxModificarxEDT: function(codigoedt,codigoproyecto,proyectoid,codigoedtmodificado,nombremodificado,descripcionmodificado) {
       var defered = $q.defer();
       var promise = defered.promise;
-      $http.get(url + 'setmodificaredt/proyectoid/' + proyectoid+"/codigoedt/"+codigoedt+"/codigoproyecto/"+codigoproyecto+"/codigoedtmodificado/"+codigoedtmodificado+"/nombremodificado/"+nombremodificado+"/descripcionmodificado/"+descripcionmodificado)
+      $http.post(url + 'setmodificaredt/proyectoid/' + proyectoid+"/codigoedt/"+codigoedt+"/codigoproyecto/"+codigoproyecto+"/codigoedtmodificado/"+codigoedtmodificado+"/nombremodificado/"+nombremodificado+"/descripcionmodificado/"+descripcionmodificado)
+      .success(function(data) {
+        defered.resolve(data);
+        
+      })
+      .error(function(err) {
+        defered.reject(err);
+      });
+      return promise;
+    },
+
+
+    setDatosxEliminarxEDT: function(codigoedt,codigoproyecto,proyectoid) {
+      var defered = $q.defer();
+      var promise = defered.promise;
+      $http.post(url + 'seteliminaredt/codigoedt/' + codigoedt+"/codigoproyecto/"+codigoproyecto+"/proyectoid/"+proyectoid)
       .success(function(data) {
         defered.resolve(data);
         

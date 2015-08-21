@@ -204,6 +204,21 @@ function(httpFactory, $location, $q) {
       return promise;      
     },
 
+    setEliminarxEDT: function(codigoedt,codigoproyecto,proyectoid) {
+      var defered = $q.defer();
+      var promise = defered.promise;     
+      
+      httpFactory.setDatosxEliminarxEDT(codigoedt,codigoproyecto,proyectoid)
+      .then(function(data) {
+        datos = data;
+        defered.resolve(datos);
+      })
+      .catch(function(err) {
+        defered.reject(err);
+      });
+      return promise;      
+    },
+
   }
   return publico;
 }]);

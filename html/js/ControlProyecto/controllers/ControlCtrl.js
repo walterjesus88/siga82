@@ -81,10 +81,6 @@ function(httpFactory, $scope,$q,proyectoFactory) {
   .then(function(datax) {
     //console.log(datax);
     va.procronograma=datax;
-    //console.log(va.procronograma[0]); 
-    //console.log("xxxxxxd");
-    //console.log(va.procronograma[0]);
-    //console.log("xxxxxxd");
 
     for (var i = va.procronograma.length - 1; i >= 0; i--) {
 
@@ -210,12 +206,13 @@ function(httpFactory, $scope,$q,proyectoFactory) {
       codigo_cronograma:va.revi.codigo_cronograma,    
       cronogramaid:va.revi.cronogramaid
 
-    };   
-      if(va.dat.length)
+    };
+
+    if(va.dat.length)
       {        
         va.dat.push(va.inserted);        
       }
-      else
+    else
       {        
         va.dat=[];
         va.dat.push(va.inserted);
@@ -476,17 +473,26 @@ va.saveTable = function() {
     console.log(va.nombre);
     console.log(va.descripcion);
     console.log(va.proyectop.codigo_prop_proy);
-    console.log(va.proyectop,codigo);
+    console.log(va.proyectop.codigo);
     proyectoFactory.setDatosxGuardarxEDT(va.codigo,va.nombre,va.descripcion,va.proyectop.codigo_prop_proy,va.proyectop.codigo)
     .then(function(data) {
-        
+
+      va.inserted = {
+        codigo:va.codigo,
+        nombre:va.nombre,
+        descripcion:va.descripcion,        
+      }
+
+      va.edt.push(va.inserted); 
+      console.log('guardar edt');  
+      console.log(va.edt);  
     })
     .catch(function(err) {
               //va.procronograma = {};
     });
   }
 
-  va.saveEdt=function(data,codigoedt){ 
+  va.ModificarEdt=function(data,codigoedt){ 
     console.log(data);
     console.log(codigoedt);
     codigoproyecto=va.proyectop.codigo_prop_proy;
@@ -502,11 +508,33 @@ va.saveTable = function() {
           
     })
     .catch(function(err) {
-              //va.procronograma = {};
+        console.log("error al modificar edt");
     });
     
   }
 
+  va.CancelarEdt=function(){
+    va.formVisibilityEdt=false;
+  }
+
+  va.EliminarEdt=function(index,codigoedt){
+   // console.log(index);
+   // console.log(edtcodigo);
+   // console.log(va.proyectop.codigo_prop_proy);
+   // console.log(va.proyectop.codigo);
+
+    codigoproyecto=va.proyectop.codigo_prop_proy;
+    proyectoid=va.proyectop.codigo;
+
+    proyectoFactory.setEliminarxEDT(codigoedt,codigoproyecto,proyectoid)
+    .then(function(data) {
+      va.edt.splice(index, 1);          
+    })
+    .catch(function(err) {
+        console.log("error al eliminar edt");
+    });
+
+  }
 
 
 }]);
