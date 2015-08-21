@@ -104,16 +104,28 @@ class ControlDocumentario_PrintController extends Zend_Controller_Action {
       $lista = $entregable->_getEntregablexProyecto($proyectoid, $estado, $clase);
 
       $fileName = 'LE-'.$proyectoid.'-'.$estado.'-'.date("d-m-Y").'.pdf';
-      $pdf = new Zend_Pdf;
       $page = $pdf->newPage(Zend_Pdf_Page::SIZE_A4);
       $pdf->pages[] = $page;
       $page->setFont(Zend_Pdf_Font::fontWithName(Zend_Pdf_Font::FONT_HELVETICA), 10);
       $margen_superior = 800;
       $margen_izquierdo = 20;
       $page->drawText('Proximamente...', $margen_izquierdo, $margen_superior);
-      $pdf->save($fileName, true);
+      $pdf->save($fileName);
 
       $respuesta['archivo'] = $fileName;
+      $this->_helper->json->sendJson($respuesta);
+    }
+
+    public function imprimirtransmittalAction()
+    {
+      $transmittal = $this->_getParam('transmittal');
+      $correlativo = $this->_getParam('correlativo');
+      $trans = new Admin_Model_DbTable_Transmittal();
+      $cabecera = $trans->_getTransmittal($transmittal, $correlativo);
+      $formato = new Admin_Model_DbTable_Formato();
+      $formato->_setFormato('anddes');
+      $formato->_setCabecera($cabecera);
+      $respuesta = $formato->_print();
       $this->_helper->json->sendJson($respuesta);
     }
 }

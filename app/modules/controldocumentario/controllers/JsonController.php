@@ -42,6 +42,33 @@ class ControlDocumentario_JsonController extends Zend_Controller_Action {
       $this->_helper->json->sendJson($respuesta);
     }
 
+    //devuelve la lista de carpetas de proyectos
+    public function carpetasAction()
+    {
+      $carpeta = new Admin_Model_DbTable_Carpeta();
+      $cps = $carpeta->_getAll();
+      $tipos = ['A', 'P', 'C', 'CA'];
+      $i = 0;
+      foreach ($cps as $fila) {
+        $proyecto = new Admin_Model_DbTable_Proyecto();
+        $datos = $proyecto->_getUbicacionesxCarpeta($fila['carpetaid']);
+        $data['carpetaid'] = $fila['carpetaid'];
+        $data['nombre'] = $fila['nombre'];
+        for ($j = 0; $j <  4; $j++) {
+          $data[$tipos[$j]] = 0;
+          foreach ($datos as $estado) {
+            if ($tipos[$j] == $estado['estado']) {
+              $data[$tipos[$j]] = $estado['count'];
+            }
+          }
+        }
+
+        $respuesta[$i] = $data;
+        $i++;
+      }
+      $this->_helper->json->sendJson($respuesta);
+    }
+
     //Devuelve la lista de proyectos por estado
     public function listaproyectosAction()
     {

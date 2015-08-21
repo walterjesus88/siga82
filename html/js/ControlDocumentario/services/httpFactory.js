@@ -21,6 +21,18 @@ app.factory('httpFactory', ['$http', '$q', function($http, $q) {
       });
       return promise;
     },
+    getCarpetas: function() {
+      var defered = $q.defer();
+      var promise = defered.promise;
+      $http.get(url_json + 'carpetas')
+      .success(function(data) {
+        defered.resolve(data);
+      })
+      .error(function(err) {
+        defered.reject(err);
+      });
+      return promise;
+    },
     getProyectos: function(estado) {
       var defered = $q.defer();
       var promise = defered.promise;
@@ -422,6 +434,19 @@ app.factory('httpFactory', ['$http', '$q', function($http, $q) {
       })
       .error(function(err) {
         defered.reject(err);
+      });
+      return promise;
+    },
+    createPdfTR: function(transmittal, correlativo) {
+      var defered = $q.defer();
+      var promise = defered.promise;
+      $http.post(url_print + 'imprimirtransmittal/transmittal/' + transmittal +
+      '/correlativo/' + correlativo)
+      .success(function(data) {
+        defered.resolve(data);
+      })
+      .error(function(err) {
+        defered.reject(data);
       });
       return promise;
     }

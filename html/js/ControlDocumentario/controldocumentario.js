@@ -22,7 +22,7 @@ app.config(['$routeProvider', function($routeProvider) {
   })
   .when("/carpetas", {
     controller: "CarpetasCtrl",
-    controllerAs: "reporte",
+    controllerAs: "uc",
     templateUrl: "/controldocumentario/index/carpetas"
   })
   .when("/reporte", {

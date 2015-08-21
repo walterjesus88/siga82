@@ -207,4 +207,9 @@ function(httpFactory, entregableFactory, $routeParams, transmittalFactory, $root
 
     });
   }
+
+  //imprimir el transmittal en edicion
+  va.imprimirTransmittal = function(argument) {
+    transmittalFactory.imprimirTransmittal();
+  }
 }]);

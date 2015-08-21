@@ -119,7 +119,13 @@ app.factory('transmittalFactory', ['httpFactory', function(httpFactory) {
       //retomar los valores de este transmittal para generar otro con estado en elaboracion
     },
     imprimirTransmittal: function() {
-      //generar un documento pdf del transmittal segun el formato seleccionado
+      httpFactory.createPdfTR(datos.codificacion, datos.correlativo)
+      .then(function(data) {
+        window.open(data.archivo, '_blank');
+      })
+      .catch(function(err) {
+
+      });
     }
 
   }

@@ -91,4 +91,11 @@ class Admin_Model_DbTable_Transmittal extends Zend_Db_Table_Abstract
       $row->save();
     }
 
+    //obtener los datos de un transmittal
+    public function _getTransmittal($transmittalid, $correlativo)
+    {
+      $row = $this->fetchRow("codificacion = '".$transmittalid."' and correlativo ='".$correlativo."'");
+      return $row;
+    }
+
 }
