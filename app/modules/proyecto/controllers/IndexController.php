@@ -1790,8 +1790,8 @@ public function seteliminaredtAction(){
   $where = array('codigo_edt' => $codigoedt,'proyectoid' => $proyectoid,'codigo_prop_proy' =>$codigoproyecto );
   $eliminaredt=new Admin_Model_DbTable_ProyectoEdt();
   $eedt=$eliminaredt->_delete($where);
-  echo "edt eliminar";
-  print_r($eedt);exit();
+  //echo "edt eliminar";
+  //print_r($eedt);exit();
 
   $this->_helper->json->sendJson($eedt);
 
