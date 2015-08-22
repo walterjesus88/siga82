@@ -95,4 +95,13 @@ class ControlDocumentario_TransmittalController extends Zend_Controller_Action {
       $respuesta = $detalle->_getDetalleSinRespuesta($proyectoid);
       $this->_helper->json->sendJson($respuesta);
     }
+
+    //lista de entregables con respuesta
+    public function obtenerrespuestasAction()
+    {
+      $proyectoid = $this->_getParam('proyectoid');
+      $detalle = new Admin_Model_DbTable_DetalleTransmittal();
+      $respuesta = $detalle->_getDetallesConRespuesta($proyectoid);
+      $this->_helper->json->sendJson($respuesta);
+    }
 }

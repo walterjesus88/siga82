@@ -19,6 +19,13 @@ function(httpFactory, entregableFactory, $routeParams, transmittalFactory, $root
     va.edt = [];
   });
 
+  va.atencion = {
+    codigo: '',
+    nombre: '',
+    area: '',
+    correo: ''
+  }
+
   /*array que contendra la lista de entregables de los proyectos y el que
   contendra a los elementos seleccionados para generar transmittal*/
   va.entregables = [];
@@ -140,6 +147,13 @@ function(httpFactory, entregableFactory, $routeParams, transmittalFactory, $root
   //generar el transmittal con los entregables seleccionados
   va.generarTr = function() {
     var transmittal = transmittalFactory.getConfiguracion();
+    va.atencion.codigo = transmittal.atencion;
+    httpFactory.getDatosContacto(transmittal.clienteid, va.atencion.codigo)
+    .then(function(data) {
+      va.atencion = data;
+    })
+    .catch(function(err) {
+    });
     va.seleccionados = [];
     if (transmittal.codificacion != '' && transmittal.codificacion != null) {
       va.entregables.forEach(function(entregable) {

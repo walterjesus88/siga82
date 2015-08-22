@@ -7,9 +7,20 @@ function(httpFactory, $routeParams, respuestaFactory, transmittalFactory) {
 
   cl.detalles_sin_respuesta = [];
 
+  cl.emitidos = [];
   cl.respuestas = [];
 
   cl.emisiones = [];
+
+  listarRespuestas = function() {
+    httpFactory.getRespuestas(proyectoid)
+    .then(function(data){
+      cl.emitidos = data;
+    })
+    .catch(function(err) {
+      cl.emitidos = [];
+    })
+  }
 
   listarEmisiones = function() {
     var transmittal = transmittalFactory.getConfiguracion();
@@ -22,17 +33,18 @@ function(httpFactory, $routeParams, respuestaFactory, transmittalFactory) {
     });
   }
 
+  //obtener los datos de respuestas emitidas y tipos de emision disponibles para estos entregables
+  listarRespuestas();
   listarEmisiones();
 
-  httpFactory.getDetallesinRespuesta(proyectoid)
-  .then(function(data) {
-    cl.detalles_sin_respuesta = data;
-  })
-  .catch(function(err) {
-    alert('No se pudo cargar los datos de los entregables emitidos sin respuesta');
-  });
-
   cl.agregar = function() {
+    httpFactory.getDetallesinRespuesta(proyectoid)
+    .then(function(data) {
+      cl.detalles_sin_respuesta = data;
+    })
+    .catch(function(err) {
+      alert('No se pudo cargar los datos de los entregables emitidos sin respuesta');
+    });
     respuesta = new respuestaFactory.Respuesta();
     cl.respuestas.push(respuesta);
   }

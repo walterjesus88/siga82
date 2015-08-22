@@ -66,6 +66,24 @@ class Admin_Model_DbTable_DetalleTransmittal extends Zend_Db_Table_Abstract
       }
     }
 
+    public function _getDetallesConRespuesta($proyectoid)
+    {
+      try {
+        $sql = $this->_db->query("select det.detalleid, det.respuesta_transmittal
+        as transmittal, led.codigo_anddes, led.codigo_cliente,
+        led.descripcion_entregable as descripcion, led.revision_entregable as
+        revision, det.respuesta_emitido as emitido, det.respuesta_fecha as fecha
+        from detalle_transmittal as det
+        inner join lista_entregable_detalle as led on det.entregableid =
+        led.cod_le where det.respuesta_transmittal is not null");
+        $rows = $sql->fetchAll();
+        return $rows;
+      } catch (Exception $e) {
+        print $e->getMessage();
+      }
+
+    }
+
     //guardar las respuestas emitidas por el cliente
     public function _setRespuesta($data)
     {

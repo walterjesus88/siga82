@@ -31,6 +31,35 @@
         </th>
       </thead>
       <tbody>
+        <tr ng-repeat="entregable in cl.emitidos track by $index">
+          <td>
+            {{$index + 1}}
+          </td>
+          <td>
+            {{entregable.transmittal}}
+          </td>
+          <td>
+            {{entregable.codigo_anddes}}
+          </td>
+          <td>
+            {{entregable.codigo_cliente}}
+          </td>
+          <td>
+            {{entregable.descripcion}}
+          </td>
+          <td>
+            {{entregable.revision}}
+          </td>
+          <td>
+            <select ng-model="entregable.emitido"
+            ng-options="emitido.codigo as emitido.emitido_para for emitido in
+            cl.emisiones">
+            </select>
+          </td>
+          <td>
+            {{entregable.fecha}}
+          </td>
+        </tr>
         <tr ng-repeat="entregable in cl.respuestas track by $index">
           <td>
             {{$index + 1}}

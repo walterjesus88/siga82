@@ -449,6 +449,31 @@ app.factory('httpFactory', ['$http', '$q', function($http, $q) {
         defered.reject(data);
       });
       return promise;
+    },
+    getRespuestas: function(proyectoid) {
+      var defered = $q.defer();
+      var promise = defered.promise;
+      $http.get(url_tran + 'obtenerrespuestas/proyectoid/' + proyectoid)
+      .success(function(data) {
+        defered.resolve(data);
+      })
+      .error(function(err) {
+        defered.reject(err);
+      });
+      return promise;
+    },
+    getDatosContacto: function(clienteid, contactoid) {
+      var defered = $q.defer();
+      var promise = defered.promise;
+      $http.get(url_json + 'obtenerdatoscontacto/clienteid/' + clienteid +
+      '/contactoid/' + contactoid)
+      .success(function(data) {
+        defered.resolve(data);
+      })
+      .error(function(err) {
+        defered.reject(err);
+      });
+      return promise;
     }
   }
 
