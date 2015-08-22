@@ -18,6 +18,21 @@
 </tbody>
 </table> -->
 
+<div class="form-group" class="col-md-4"  >
+  <div class="col-md-1" >
+      <label>Escoja una revision: </label> 
+  </div>
+  <div class="col-md-2" >
+    <select class="form-control" ng-model="CP.revi"         
+      ng-options="c.revision_cronograma for c in CP.procronograma ">
+    </select> 
+  </div>
+  <div class="col-md-2" >
+    <button class="btn btn-success" ng-click="CP.buscaperformance(CP.revi)" class="btn btn-primary btn-xs">Busca</button>
+  </div>
+</div>
+
+
 
  <form method="POST" action="#" editable-form name="tableform" onaftersave="CP.saveTable()" oncancel="cancel()" >
 <table class=" table table-striped table-hover table-bordered ">
@@ -32,19 +47,19 @@
 	        <th>Inicio Real</th>
 	        <th>Fin Real</th>
 	        <td ng-repeat="per in CP.thi" >
-			{{ per.fecha_ingreso_performance }}
+			{{ per.fecha_performance }}
 			</td>
 					
 	    
 	    </tr>
 	</thead>
 	<tbody>
-  		<tr ng-repeat-start="performance in CP.performance" >
+  		<tr ng-repeat-start="performance in CP.performance " >
           	<td >
             	{{ performance.actividadid }}  
           	</td>
           	<td>
-				{{ performance.codigo_actividad }}
+				{{ performance.nombre}}
 			</td> 
 			<td>
 				<span editable-text="performance.costo_real" e-form="tableform" onbeforesave="checkName($data, performance.codigo_performance)">

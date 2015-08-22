@@ -3,45 +3,22 @@
     <ul class="nav nav-tabs">
       <li ng-class="CP.edt_activo"><a href="" ng-click="CP.cambiarPanel('edt')">EDT</a></li>  
       <li ng-class="CP.perfomance_activo"><a href="" ng-click="CP.cambiarPanel('perfomance')">Perfomance</a></li>
-      <li ng-class="CP.tecnicos_activo"><a href="" ng-click="CP.cambiarPanel('tecnicos')" >Curva</a></li>
+      <li ng-class="CP.curva_activo"><a href="" ng-click="CP.cambiarPanel('curva')" >Curva</a></li>
     </ul>
   </nav>
   <div class="panel-body">
     <div class="tab-content">
 
-      <div class="tab-pane" ng-class="CP.edt_activo">
-        <div class="col-md-6">
-          <table class="table table-bordered">
-            <thead>
-              <th>
-                N°
-              </th>
-              <th>
-                EDT
-              </th>
-            </thead>
-            <tbody>
-            <!--<tr ng-repeat="edt in CP.edt track by $index">
-                <td>
-                  {{edt.codigo}}
-                </td>
-                <td>
-                  {{edt.nombre}}
-                </td>
-            </tr>-->
-            </tbody>
-          </table>
-        </div>
-        <div class="col-md-6">
-          <button type="button" class="btn btn-default">Imprimir</button>
-        </div>
+      <div ng-include="'/control/index/edt'" class="tab-pane" ng-class="CP.edt_activo">
+      fssss
       </div>
+
 
       <div ng-include="'/control/index/perfomance'" class="tab-pane" ng-class="CP.perfomance_activo">
         perfomance
       </div>
 
-      <div ng-include="'/control/index/curvas'"  class="tab-pane" ng-class="CP.tecnicos_activo">
+      <div ng-include="'/control/index/curvas'"  class="tab-pane" ng-class="CP.curva_activo">
           HHHCURVAAAA
       </div>
 

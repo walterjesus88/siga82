@@ -11,47 +11,62 @@ function(httpFactory, $scope,$q,proyectoFactory) {
   //carga de los datos del proyecto seleccionado
   proyectoFactory.getDatosProyecto(proyecto['codigo'])
   .then(function(data) {
-    //console.log("estoy en control de proyecto");
+  
     va.proyectop = data; 
 
+    proyectoFactory.getVerCronogramaxActivo(proyecto['codigo'])
+    .then(function(data) {
+
+      revision=data[0]['revision_cronograma'];
+      //console.log(revision);
+
     //sirve para cargar datos una vez iniciado //
-    httpFactory.getTiempos('A',va.proyectop.codigo_prop_proy,proyecto['codigo'])
-    .success(function(data) {         //console.log(data);
+      httpFactory.getTiempos(revision,va.proyectop.codigo_prop_proy,proyecto['codigo'])
+      .success(function(data) {         
 
-     va.dat=data[0]['1'];
-     //console.log(va.dat);
-     var max = data[0]['1'].length;     
-     var varx=[];
-     var vary=[];
-     var labelx=[];
+        va.dat=data[0]['1'];
+         //console.log(va.dat);
+        var max = data[0]['1'].length;     
+        var varx=[];
+        var vary=[];
+        var labelx=[];
 
-    var label= $.map(data[0], function(value, index) {   
-        for (var i =0; i < max; i++) {
-          a=[];
-                //console.log(value[i]['porc_avance_plani']);
-          a=value[i]['fecha_ingreso_curvas'];        
-          labelx.push(a);
-       };
-        return [labelx];
-    });    
-    
-    va.labels=label[0];
-    //console.log(va.labels);
+        var label= $.map(data[0], function(value, index) {   
+            for (var i =0; i < max; i++) {
+              a=[];
+                    //console.log(value[i]['porc_avance_plani']);
+              a=value[i]['fecha_curvas'];        
+              labelx.push(a);
+           };
+            return [labelx];
+        });    
+        
+        va.labels=label[0];
+        //console.log(va.labels);
 
-    var array = $.map(data[0], function(value, index) {   
-      for (var i =0; i < max; i++) {
-        a=[];
-        //console.log(value[i]['porc_avance_plani']);
-        a=parseFloat(value[i]['porcentaje_propuesta']);
-        b=parseFloat(value[i]['porcentaje_ejecutado']);
-        varx.push(a);
-        vary.push(b);
+        var array = $.map(data[0], function(value, index) {   
+          for (var i =0; i < max; i++) {
+            a=[];
+            //console.log(value[i]['porc_avance_plani']);
+            a=parseFloat(value[i]['porcentaje_propuesta']);
+            b=parseFloat(value[i]['porcentaje_ejecutado']);
+            varx.push(a);
+            vary.push(b);
 
-      };
-    return [varx,vary];
-    });
-    va.data = array;
+          };
+        return [varx,vary];
+        });
+        va.data = array;
 
+      })      
+      .error(function(data) {
+         va.data = [] ; 
+         console.log("no hay datos de busqueda");
+      });
+
+    })
+    .catch(function(err) {
+      //va.proyectop = {};
     });
 
 
@@ -64,12 +79,17 @@ function(httpFactory, $scope,$q,proyectoFactory) {
 /*Trae datos de cronograma*/
   proyectoFactory.getDatosProyectoxCronograma(proyecto['codigo'])
   .then(function(datax) {
-     //console.log(datax);
+    //console.log(datax);
     va.procronograma=datax;
-    //console.log(va.procronograma[0]); 
-    //console.log("xxxxxxd");
-    va.revi=va.procronograma[0];
 
+    for (var i = va.procronograma.length - 1; i >= 0; i--) {
+
+      //console.log(va.procronograma[i]['state']);
+      if(va.procronograma[i]['state']=='A')
+      {
+        va.revi=va.procronograma[i]
+      }
+    };
   })
  .catch(function(err) {
     va.procronograma = {};
@@ -97,7 +117,7 @@ function(httpFactory, $scope,$q,proyectoFactory) {
   va.edt = [];
 
   va.edt_activo = '';
-  va.tecnicos_activo = 'active';
+  va.curva_activo = 'active';
   va.gestion_activo = '';
   va.comunicacion_activo = '';
 
@@ -105,29 +125,29 @@ function(httpFactory, $scope,$q,proyectoFactory) {
   va.cambiarPanel = function(panel) {
     if (panel == 'edt') {
       va.edt_activo = 'active';
-      va.tecnicos_activo = '';
+      va.curva_activo = '';
       va.gestion_activo = '';
-      va.comunicacion_activo = '';
-    } else if (panel == 'tecnicos') {
+      va.perfomance_activo = '';
+    } else if (panel == 'curva') {
       va.edt_activo = '';
-      va.tecnicos_activo = 'active';
+      va.curva_activo = 'active';
       va.gestion_activo = '';
-      va.comunicacion_activo = '';
+      va.perfomance_activo = ''
     } else if (panel == 'gestion') {
       va.edt_activo = '';
-      va.tecnicos_activo = '';
+      va.curva_activo = '';
       va.gestion_activo = 'active';
       va.comunicacion_activo = '';
     } else if (panel == 'perfomance') {
       va.edt_activo = '';
-      va.tecnicos_activo = '';
+      va.curva_activo = '';
       va.gestion_activo = '';
       va.perfomance_activo = 'active';
     }
   }
 
   va.saveColumn= function(column){
-    console.log(column);
+    //console.log(column);
     // var results = [];
     angular.forEach(va.dat, function(fecha) {  
       //a=results.push($http.post('/saveColumn', {column: column, value: fecha[column], id: fecha.id_tproyecto}));
@@ -144,10 +164,10 @@ function(httpFactory, $scope,$q,proyectoFactory) {
 
 
   va.ShowForm=function(){  
-    va.formVisibility=true;
-    
+    va.formVisibility=true;    
   }
 
+ 
   va.Cancelarcurva=function(){
       va.formVisibility=false;    
   }
@@ -178,8 +198,8 @@ function(httpFactory, $scope,$q,proyectoFactory) {
       proyectoid:va.proyectop.codigo,
       //codigo_curvas: '1',
       //va.dat.length+1,  
-      fecha_curvas:  null,
-      fecha_ingreso_curvas: va.fecha_ingreso_curvas,
+      fecha_curvas:  va.fecha_curvas,
+      fecha_ingreso_curvas: null,
       porcentaje_ejecutado: va.porcentaje_ejecutado,
       porcentaje_propuesta: va.porcentaje_propuesta,
       revision_cronograma: va.revi.revision_cronograma,
@@ -187,24 +207,20 @@ function(httpFactory, $scope,$q,proyectoFactory) {
       cronogramaid:va.revi.cronogramaid
 
     };
-      //console.log(va.inserted);
-      //
-      //va.dat=[];
-      if(va.dat.length)
-      {
-        console.log("si hay");
+
+    if(va.dat.length)
+      {        
         va.dat.push(va.inserted);        
       }
-      else
-      {
-        console.log("ppppppppp");
+    else
+      {        
         va.dat=[];
         va.dat.push(va.inserted);
       }
    
       //console.log(va.codigo_cronograma);
 
-      httpFactory.setGuardarCurva('1',va.fecha_ingreso_curvas,va.porcentaje_ejecutado,
+      httpFactory.setGuardarCurva(va.fecha_curvas,va.porcentaje_ejecutado,
         va.porcentaje_propuesta,va.revi.revision_cronograma,va.revi.codigo_cronograma,va.proyectop.codigo_prop_proy
         ,va.proyectop.codigo,va.revi.cronogramaid,va.revi.revision_propuesta)
        
@@ -216,32 +232,16 @@ function(httpFactory, $scope,$q,proyectoFactory) {
         })
   };
 
-  va.saveUser_l = function(data,id) {
-    //console.log(data);
-    //console.log(id);
-    //angular.extend(data, {id: id});
-    //return $http.post('/saveUser', data);
-  };
-
-  va.checkName = function(data) {
-    //console.log('data');
-    // if (data !== 'awesome') {
-    //   return "Username should be `awesome`";
-    // }
-  };
 
   //va.revision=[]; 
   va.busca = function(revision,codigo,proyectoid) {
-    //va.revision=revision;
-      // console.log(revision.revision_cronograma);
-      // console.log(codigo);
-      // console.log(proyectoid);
+ 
       console.log("imprimiendo avriables");
-      //console.log(va.proyecto.codigo);
+
       httpFactory.getTiempos(revision.revision_cronograma,codigo,proyectoid)
       .success(function(data) {   //console.log(data);
         va.dat=data[0]['1'];
-        console.log(va.dat);
+        //console.log(va.dat);
 
         var max = data[0]['1'].length;     
         var varx=[];
@@ -308,7 +308,7 @@ function(httpFactory, $scope,$q,proyectoFactory) {
   //   2: [4, 5, 6]
   //   };
 
-/*aca nace perfomance*/
+////////////////////////////////////////////////////*aca nace perfomance*////////////////////////////////////////////////////////////////
 //      this.performancedata = [
 //       { actividadid: 'actividad 1', expanded: true,
 //         items: [
@@ -332,48 +332,209 @@ function(httpFactory, $scope,$q,proyectoFactory) {
 
 // console.log(this.performancedata);
 
-console.log('performance');
-console.log(proyecto['codigo']);
-proyectoFactory.getDatosProyectoxPerfomance(proyecto['codigo'])
-.then(function(datax) {
-    va.performance=datax;
-    console.log(va.performance.length);
-    for (var i = va.performance.length - 1; i >= 0; i--) {
-      //Things[i]
-      va.thi=va.performance[i]['items'];
-      console.log(va.thi);
-    };
-    console.log("estas en performance");
+// console.log('performance');
+
+///////////////////////////////////////////////////// Desde aqui comienza performance //////////////////////////////////////////////////////////////////////////////////////////////
+va.buscaperformance = function(revision) {
+
+  revision_cronograma=revision.revision_cronograma;
+  proyectoid=revision.proyectoid;
+
+  proyectoFactory.getDatosProyectoxPerfomance(proyectoid,revision_cronograma)
+  .then(function(datax) {
+      va.performance=datax;
+      console.log(va.performance);
+      for (var i = va.performance.length - 1; i >= 0; i--) {
+        //Things[i]
+        va.thi=va.performance[i]['items'];
+        //console.log(va.thi);
+      };
+      //console.log("estas en performance");
+    })
+  .catch(function(err) {
+      va.performance = {};
   })
-.catch(function(err) {
-    va.performance = {};
-});
 
-//guardar datos de performance//
-va.saveTable = function() {
-  console.log("ohhhh");
-
-  console.log(va.performance);
-  // var results = [];
-  //   for (var i = $scope.users.length; i--;) {
-  //     var user = $scope.users[i];
-  //     // actually delete user
-  //     if (user.isDeleted) {
-  //       $scope.users.splice(i, 1);
-  //     }
-  //     // mark as not new 
-  //     if (user.isNew) {
-  //       user.isNew = false;
-  //     }
-
-  //     // send on server
-  //     results.push($http.post('/saveUser', user));      
-  //   }
-
-  //   return $q.all(results);
 };
 
 
+
+//revision='A';
+proyectoFactory.getVerCronogramaxActivo(proyecto['codigo'])
+.then(function(data) {
+
+  revision=data[0]['revision_cronograma'];
+  //console.log(revision);
+  //console.log('revision');
+
+  proyectoFactory.getDatosProyectoxPerfomance(proyecto['codigo'],revision)
+  .then(function(datax) {
+      va.performance=datax;
+      //console.log(va.performance);
+      for (var i = va.performance.length - 1; i >= 0; i--) {    
+        va.thi=va.performance[i]['items'];
+      };    
+    })
+  .catch(function(err) {
+      va.performance = {};
+  });
+})
+.catch(function(err) {
+    //va.performance = {};
+});
+
+
+
+
+//guardar datos de performance//
+va.saveTable = function() {
+
+  angular.forEach(va.performance, function(val) {
+    
+      codigo_prop_proy=val['codigo_prop_proy'] ,
+      codigo_actividad=val['codigo_actividad'],
+      actividadid=val['actividadid'],
+      cronogramaid=val['cronogramaid'],
+      codigo_cronograma=val['codigo_cronograma'] ,
+      revision_cronograma=val['revision_cronograma'] ,
+      proyectoid=val['proyectoid'] ,
+      codigo_performance=val['codigo_performance'] ,
+      revision_propuesta=val['revision_propuesta'] , 
+      fecha_ingreso_performance=val['fecha_ingreso_performance'],
+      fecha_calculo_performance=val['fecha_calculo_performance'] ,
+      costo_real =val['costo_real'] ,
+      horas_real =val['horas_real'] ,
+      fecha_comienzo_real=val['fecha_comienzo_real'] ,
+      fecha_fin_real=val['fecha_fin_real'] ,
+
+      proyectoFactory.setActualizarPerformance(codigo_prop_proy,codigo_actividad,actividadid,cronogramaid,
+        codigo_cronograma,codigo_performance,fecha_calculo_performance,proyectoid,
+        revision_cronograma,fecha_ingreso_performance,revision_propuesta,costo_real,horas_real,fecha_comienzo_real,
+        fecha_fin_real)
+        .then(function(data) {
+          //console.log(data); 
+        })
+       .catch(function(err) {
+          //va.procronograma = {};
+        });
+
+      
+      angular.forEach(val['items'], function(value) {
+        //console.log(value['porcentaje_performance']);
+
+        codigo_prop_proy=value['codigo_prop_proy'];
+        codigo_actividad=value['codigo_actividad'];
+        actividadid=value['actividadid'];
+        cronogramaid=value['cronogramaid'];
+        codigo_cronograma=value['codigo_cronograma'];
+        codigo_performance=value['codigo_performance'];
+        porcentaje_performance=value['porcentaje_performance'];
+        fecha_calculo_performance=value['fecha_calculo_performance'];
+        proyectoid=value['proyectoid'];
+        revision_cronograma=value['revision_cronograma'];
+        fecha_ingreso_performance=value['fecha_ingreso_performance'];
+        fecha_performance=value['fecha_performance'];
+
+        proyectoFactory.setActualizarDatosxPerfomance(codigo_prop_proy,codigo_actividad,actividadid,cronogramaid,
+        codigo_cronograma,codigo_performance,porcentaje_performance,fecha_calculo_performance,proyectoid,revision_cronograma,
+        fecha_ingreso_performance,fecha_performance)
+        .then(function(data) {
+          //console.log(data); 
+        })
+       .catch(function(err) {
+          //va.procronograma = {};
+        });
+
+      })
+ 
+  });
+};
+
+
+//////////////////////////*******/////////////////////////////////////
+  //alert(proyecto['codigo']);
+  proyectoFactory.getDatosxEDT(proyecto['codigo'])
+  .then(function(data) {
+        console.log('edtdd'); 
+        console.log(data); 
+        va.edt=data;
+  })
+  .catch(function(err) {
+            //va.procronograma = {};
+  });
+
+
+  va.ShowFormEdt=function(){ 
+   va.formVisibilityEdt=true;    
+  }
+
+  va.GuardarEdt= function(){
+    console.log(va.codigo);
+    console.log(va.nombre);
+    console.log(va.descripcion);
+    console.log(va.proyectop.codigo_prop_proy);
+    console.log(va.proyectop.codigo);
+    proyectoFactory.setDatosxGuardarxEDT(va.codigo,va.nombre,va.descripcion,va.proyectop.codigo_prop_proy,va.proyectop.codigo)
+    .then(function(data) {
+
+      va.inserted = {
+        codigo:va.codigo,
+        nombre:va.nombre,
+        descripcion:va.descripcion,        
+      }
+
+      va.edt.push(va.inserted); 
+      console.log('guardar edt');  
+      console.log(va.edt);  
+    })
+    .catch(function(err) {
+              //va.procronograma = {};
+    });
+  }
+
+  va.ModificarEdt=function(data,codigoedt){ 
+    console.log(data);
+    console.log(codigoedt);
+    codigoproyecto=va.proyectop.codigo_prop_proy;
+    proyectoid=va.proyectop.codigo;
+    codigoedtmodificado=data.codigo;
+    nombremodificado=data.nombre;
+    descripcionmodificado=data.descripcion;
+
+    console.log(nombremodificado);
+
+    proyectoFactory.setDatosxModificarxEDT(codigoedt,codigoproyecto,proyectoid,codigoedtmodificado,nombremodificado,descripcionmodificado)
+    .then(function(data) {
+          
+    })
+    .catch(function(err) {
+        console.log("error al modificar edt");
+    });
+    
+  }
+
+  va.CancelarEdt=function(){
+    va.formVisibilityEdt=false;
+  }
+
+  va.EliminarEdt=function(index,codigoedt){
+   // console.log(index);
+   // console.log(edtcodigo);
+   // console.log(va.proyectop.codigo_prop_proy);
+   // console.log(va.proyectop.codigo);
+
+    codigoproyecto=va.proyectop.codigo_prop_proy;
+    proyectoid=va.proyectop.codigo;
+
+    proyectoFactory.setEliminarxEDT(codigoedt,codigoproyecto,proyectoid)
+    .then(function(data) {
+      va.edt.splice(index, 1);          
+    })
+    .catch(function(err) {
+        console.log("error al eliminar edt");
+    });
+
+  }
 
 
 }]);

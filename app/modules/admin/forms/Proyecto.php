@@ -111,6 +111,7 @@ class Admin_Form_Proyecto extends Zend_Form{
     $tipo_proyecto->addMultiOption('Ingeniería',"Ingeniería");
     $tipo_proyecto->addMultiOption('Geotécnia',"Geotécnia");
     $tipo_proyecto->addMultiOption('Construcción',"Construcción");
+    $tipo_proyecto->addMultiOption('Ambinetal',"Ambiental");
     $tipo_proyecto->addMultiOption('Otros',"Otros");
     $tipo_proyecto->setAttrib('class', 'form-control');
 

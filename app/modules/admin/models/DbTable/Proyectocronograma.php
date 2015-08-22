@@ -38,5 +38,19 @@ class Admin_Model_DbTable_Proyectocronograma extends Zend_Db_Table_Abstract
         }
     }
 
+    public function _getCronogramaxActivo($proyectoid){
+        try{
+            $sql=$this->_db->query("select *
+                from proyecto_cronograma where proyectoid='".$proyectoid."' and state='A'");
+            $row=$sql->fetchAll();
+            return $row;
+            }
+
+           catch (Exception $ex){
+            print $ex->getMessage();
+        }
+    }
+
+
  
 }

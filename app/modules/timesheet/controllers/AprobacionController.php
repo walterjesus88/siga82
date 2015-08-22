@@ -710,14 +710,12 @@ class Timesheet_AprobacionController extends Zend_Controller_Action {
   public function historicoAction(){
         try {
             $is_gerente_general= $this->sesion->personal->ucatcargo;  
-
+            $uid = $this->sesion->uid;
             $is_gerente = $this->sesion->is_gerente;
             $this->view->is_gerente= $is_gerente;
             $this->view->is_gerente_general= $is_gerente_general;
-            $uid = $this->_getParam('uid');
-            $this->view->uid= $uid;
+            $this->view->usuario= $uid;
 
-            
         }    
          catch (Exception $e) {
             print "Error: ".$e->getMessage();

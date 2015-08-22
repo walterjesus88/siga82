@@ -37,6 +37,12 @@ class Control_IndexController extends Zend_Controller_Action {
         
     }
 
+    public function edtAction() {
+      
+      $this->_helper->layout()->disableLayout();
+        
+    }
+
     public function detalleAction() {
       
       $this->_helper->layout()->disableLayout();
