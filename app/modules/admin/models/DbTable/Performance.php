@@ -44,8 +44,10 @@ class Admin_Model_DbTable_Performance extends Zend_Db_Table_Abstract
                 select p.codigo_prop_proy,p.codigo_actividad,p.proyectoid,p.cronogramaid,p.codigo_cronograma,
                 p.revision_cronograma,p.actividadid,p.codigo_performance,a.nombre,p.revision_propuesta
                 ,p.fecha_ingreso_performance,p.fecha_calculo_performance,p.costo_real,p.horas_real,
-                p.fecha_comienzo_real,p.fecha_fin_real  from proyecto_performance as p
-
+                p.fecha_comienzo_real,p.fecha_fin_real,p.fecha_comienzo,p.fecha_fin,
+                p.porcentaje_calculo,p.nivel_esquema,p.predecesoras,p.sucesoras,p.costo_presupuesto,
+                p.duracion
+                from proyecto_performance as p
                  inner join actividad as a
                 on a.codigo_prop_proy=p.codigo_prop_proy 
                 and a.codigo_actividad=p.codigo_actividad 

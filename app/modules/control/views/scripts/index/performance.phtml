@@ -40,14 +40,17 @@
 		<tr class="menu">    
 	        <th>Item</th>
 	        <th >Descripcion de Tareas</th>
+	        <th >Duracion</th>
 	        <th>US$/item</th>
 	        <th>hrs/item</th>	
+	        <th>US$/item</th>
+	        <th>%</th>	
 	        <th>Inicio Planificado</th>
 	        <th>Fin Planificado</th>
 	        <th>Inicio Real</th>
 	        <th>Fin Real</th>
 	        <td ng-repeat="per in CP.thi" >
-			{{ per.fecha_performance }}
+			{{ per.fecha }}
 			</td>
 					
 	    
@@ -60,22 +63,40 @@
           	</td>
           	<td>
 				{{ performance.nombre}}
+			</td>
+
+			<td>			
+				<span editable-text="performance.duracion" e-form="tableform" onbeforesave="checkName($data, performance.codigo_performance)">
+				{{ performance.duracion }}
+			</td>
+			<td>			
+				<span editable-text="performance.costo_presupuesto" e-form="tableform" onbeforesave="checkName($data, performance.codigo_performance)">
+				{{ performance.costo_presupuesto }}
 			</td> 
-			<td>
-				<span editable-text="performance.costo_real" e-form="tableform" onbeforesave="checkName($data, performance.codigo_performance)">
-				{{ performance.costo_real }}
-			</td> 
+
 			<td>			
 				<span editable-text="performance.horas_real" e-form="tableform" onbeforesave="checkName($data, performance.codigo_performance)">
 				{{ performance.horas_real }}
 			</td> 
+
 			<td>
-				<span editable-text="performance.fecha_ingreso_performance" e-form="tableform" onbeforesave="checkName($data, performance.codigo_performance)">
-				{{ performance.fecha_ingreso_performance }}
+				<span editable-text="performance.costo_real" e-form="tableform" onbeforesave="checkName($data, performance.codigo_performance)">
+				{{ performance.costo_real }}
+			</td>
+
+			<td>
+				<span editable-text="performance.porcentaje_calculo" e-form="tableform" onbeforesave="checkName($data, performance.codigo_performance)">
+				{{ performance.porcentaje_calculo }}
+			</td> 
+
+			
+			<td>
+				<span editable-text="performance.fecha_comienzo" e-form="tableform" onbeforesave="checkName($data, performance.codigo_performance)">
+				{{ performance.fecha_comienzo }}
 			</td> 
 			<td>
-				<span editable-text="performance.fecha_calculo_performance" e-form="tableform" onbeforesave="checkName($data, performance.codigo_performance)">
-				{{ performance.fecha_calculo_performance }}
+				<span editable-text="performance.fecha_fin" e-form="tableform" onbeforesave="checkName($data, performance.codigo_performance)">
+				{{ performance.fecha_fin }}
 				</span>
 			</td> 
 			<td>
@@ -91,7 +112,7 @@
 	        </td>
 
 
-	      	<td ng-repeat="item in performance.items" class="col-md-1">
+	      	<td ng-repeat="item in performance.items" >
 	          <!--   <input class="form-control" type="text" ng-model=" item.porcentaje_performance "></input> -->
 	          <span editable-text="item.porcentaje_performance" e-form="tableform" onbeforesave="checkName($data, item.porcentaje_performance)">
 	            {{ item.porcentaje_performance }}

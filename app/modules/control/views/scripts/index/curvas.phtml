@@ -16,7 +16,7 @@
     </td>
 	  <td style="width:30%">
         Fecha de Proyecto
-        <form editable-form name="nameform_fecha" onaftersave="CP.saveColumn('fecha_curvas')" ng-show="nameform_fecha.$visible">
+<!--         <form editable-form name="nameform_fecha" onaftersave="CP.saveColumn('fecha_curvas')" ng-show="nameform_fecha.$visible">
           <button type="submit" ng-disabled="nameform_fecha.$waiting" class="btn btn-warning">
             guardar
           </button>
@@ -26,7 +26,7 @@
         </form>  
         <button class="btn btn-success" ng-show="!nameform_fecha.$visible" ng-click="nameform_fecha.$show()">
           editar
-        </button>
+        </button> -->
     </td>
    	<td style="width:30%">
         Porcentaje de avance planificado
@@ -94,7 +94,7 @@
   </div>
 </div>
 
-<div class="form-group">
+<!-- <div class="form-group">
     <button class="btn btn-primary" ng-click="CP.ShowForm()" ng-hide="CP.formVisibility">
       Anadir Fecha
     </button>
@@ -125,7 +125,7 @@
       </div>
     </div>
 
-</div>
+</div> -->
 <!--   <div class="large-6 columns">
     <label>Escoja una revision: </label> 
       <select class="form-control"  ng-model="CP.revision">
@@ -145,13 +145,15 @@
   <tr ng-repeat="label in CP.dat | orderBy:'fecha_curvas'  ">
     <!-- | filter:CP.revision -->
     <td >     
-        <span editable-text="label.revision_cronograma" e-name="revision_cronograma" e-form="nameform_revision_cronograma" onbeforesave="checkName($data)">
+        <span>
+        <!--<span editable-text="label.revision_cronograma" e-name="revision_cronograma" e-form="nameform_revision_cronograma" onbeforesave="checkName($data)"> -->
           {{label.revision_cronograma}}
         </span>
     </td>
   	<td >     
-        <span editable-text="label.fecha_curvas" e-name="fecha_curvas" e-form="nameform_fecha" onbeforesave="checkName($data)">
-          {{label.fecha_curvas}}
+        <span>
+        <!--<span editable-text="label.fecha_curvas" e-name="fecha_curvas" e-form="nameform_fecha" onbeforesave="checkName($data)">-->
+          {{label.fecha_curvas}} 
         </span>
     </td>
 	<td >     
