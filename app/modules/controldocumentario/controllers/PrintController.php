@@ -119,9 +119,12 @@ class ControlDocumentario_PrintController extends Zend_Controller_Action {
       $correlativo = $this->_getParam('correlativo');
       $trans = new Admin_Model_DbTable_Transmittal();
       $cabecera = $trans->_getTransmittal($transmittal, $correlativo);
+      $detalle = new Admin_Model_DbTable_DetalleTransmittal();
+      $data = $detalle->_getDetallexTramittal($transmittal, $correlativo);
       $formato = new Admin_Model_DbTable_Formato();
       $formato->_setFormato('anddes');
       $formato->_setCabecera($cabecera);
+      $formato->_setData($data);
       $respuesta = $formato->_print();
       $this->_helper->json->sendJson($respuesta);
     }

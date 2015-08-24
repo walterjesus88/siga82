@@ -94,7 +94,17 @@ class Admin_Model_DbTable_Transmittal extends Zend_Db_Table_Abstract
     //obtener los datos de un transmittal
     public function _getTransmittal($transmittalid, $correlativo)
     {
-      $row = $this->fetchRow("codificacion = '".$transmittalid."' and correlativo ='".$correlativo."'");
+      $sql = $this->_db->query("select tra.codificacion, tra.correlativo,
+      tra.clienteid, cli.nombre_comercial, tra.proyectoid, tra.formato,
+      tra.tipo_envio, tra.control_documentario, tra.atencion,
+      concat(con.nombre1, ' ', con.ape_paterno) as nombre_atencion,
+      con.puesto_trabajo
+      from transmittal as tra inner join cliente as cli on
+      tra.clienteid = cli.clienteid
+      inner join contacto as con on (tra.atencion = con.contactoid and
+      tra.clienteid = con.clienteid)
+      where codificacion = '".$transmittalid."' and correlativo ='".$correlativo."'");
+      $row = $sql->fetch();
       return $row;
     }
 

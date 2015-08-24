@@ -4,14 +4,20 @@ class Admin_Model_DbTable_DetalleTransmittal extends Zend_Db_Table_Abstract
     protected $_name = 'detalle_transmittal';
     protected $_primary = array("detalleid");
 
-    public function _getDetallexTramittal($transmittalid)
+    public function _getDetallexTramittal($transmittal, $correlativo)
     {
-      $id = (int)$transmittalid;
-      $rows = $this->fetchAll('transmittalid = ' . $id);
-      if (!$rows) {
-           throw new Exception("No hay resultados para ese transmittal");
+      try {
+        $sql = $this->_db->query("select det.detalleid, led.descripcion_entregable,
+        led.codigo_anddes, led.tipo_documento, det.revision, det.emitido
+        from detalle_transmittal as det inner join lista_entregable_detalle as
+        led on (det.entregableid = led.cod_le)
+        where transmittal = '".$transmittal."' and correlativo = '".$correlativo."'");
+        $rows = $sql->fetchAll();
+        return $rows;
+      } catch (Exception $e) {
+        print $e->getMessage();
       }
-      return $rows->toArray();
+
     }
 
     public function _addDetalle($data)
