@@ -42,4 +42,14 @@ app.controller('CarpetasCtrl', ['httpFactory', function(httpFactory) {
     alert('No se pueden mostrar los datos, intentelo nuevamente');
   });
 
+  uc.imprimir = function() {
+    httpFactory.createPdfCarpetas()
+    .then(function(data) {
+      window.open(data.archivo, '_blank');
+    })
+    .catch(function(err) {
+
+    });
+  }
+
 }]);

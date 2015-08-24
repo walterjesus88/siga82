@@ -356,6 +356,18 @@ app.factory('httpFactory', ['$http', '$q', function($http, $q) {
       });
       return promise;
     },
+    createPdfCarpetas: function() {
+      var defered = $q.defer();
+      var promise = defered.promise;
+      $http.get(url_print + 'imprimircarpetas/')
+      .success(function(data) {
+        defered.resolve(data)
+      })
+      .error(function(err) {
+        defered.reject(err);
+      });
+      return promise;
+    },
     createPdfEdt: function(proyectoid) {
       var defered = $q.defer();
       var promise = defered.promise;

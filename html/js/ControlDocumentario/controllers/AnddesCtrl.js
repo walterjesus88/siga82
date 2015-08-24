@@ -11,7 +11,7 @@ function(httpFactory, entregableFactory, $routeParams, transmittalFactory, $root
   va.edt = [];
 
   //cargar los edt
-  httpFactory.getEdts(proyecto.codigo)
+  httpFactory.getEdts(proyecto)
   .then(function(data){
     va.edt = data;
   })

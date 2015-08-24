@@ -273,16 +273,15 @@ class ControlDocumentario_JsonController extends Zend_Controller_Action {
       $estado = $this->_getParam('estado');
       $proyecto = new Admin_Model_DbTable_Proyecto();
       $proyectos = $proyecto->_getAllExtendido($estado);
-      $xml = new DOMDocument('1.0', 'utf-8');
+      $xml = new DOMDocument('1.0', 'UTF-8');
       $node = $xml->createElement('Proyectos');
       $parnode = $xml->appendChild($node);
       foreach ($proyectos as $item) {
-        $nom = substr($item['nombre_proyecto'], 0, 2);
         $node = $xml->createElement('Proyecto');
         $newnode = $parnode->appendChild($node);
         $proyectoid = $xml->createElement('proyectoid', $item['proyectoid']);
         $cliente = $xml->createElement('cliente', $item['nombre_comercial']);
-        $nombre = $xml->createElement('nombre', $nom);
+        $nombre = $xml->createElement('nombre-proyecto', substr($item['nombre_proyecto'], 0 , 2));
         $gerente = $xml->createElement('gerente', $item['gerente_proyecto']);
         $control = $xml->createElement('control_proyecto', $item['control_proyecto']);
         $cd = $xml->createElement('control_documentario', $item['control_documentario']);
@@ -305,4 +304,6 @@ class ControlDocumentario_JsonController extends Zend_Controller_Action {
       $this->_response->setHeader('Content-Type', 'text/xml; charset=utf-8')
           ->setBody($output);
     }
+
+
 }
