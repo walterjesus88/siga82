@@ -31,13 +31,26 @@ class Control_IndexController extends Zend_Controller_Action {
     	
     }
 
-    public function perfomanceAction() {
+    public function performanceAction() {
+      
+      $this->_helper->layout()->disableLayout();
+        
+    }
+
+    public function fechacorteAction() {
       
       $this->_helper->layout()->disableLayout();
         
     }
 
     public function edtAction() {
+      
+      $this->_helper->layout()->disableLayout();
+        
+    }
+
+
+    public function cronogramaAction() {
       
       $this->_helper->layout()->disableLayout();
         

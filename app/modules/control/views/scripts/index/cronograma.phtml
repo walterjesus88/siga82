@@ -1,0 +1,106 @@
+<div class="form-group col-md-6">
+	<table class=" table table-striped table-hover table-bordered " >
+	<thead>	
+		<tr class="menu">    
+	        <th>Codigo Cronograma</th>
+	        <th>Revision</th>
+	        <th>Estado</th>
+
+	    </tr>
+	</thead>
+	<tbody>
+		<tr ng-repeat="cronograma in CP.procronograma" >
+
+			<td>			
+				<span editable-text="cronograma.codigo_cronograma" e-name="codigo_cronograma" e-form="rowform" onbeforesave="checkName($data, cronograma.cronogramaid)">
+				{{ cronograma.codigo_cronograma }}
+				</span>
+			</td>
+
+			<td>			
+				<span editable-text="cronograma.revision_cronograma" e-name="revision_cronograma" e-form="rowform" onbeforesave="checkName($data, cronograma.revision_cronograma)">
+				{{ cronograma.revision_cronograma }}
+				</span>
+			</td>
+
+			<td>			
+				<span editable-text="cronograma.state" e-name="state" e-form="rowform" onbeforesave="checkName($data, cronograma.state)">
+				{{ cronograma.state }}
+				</span>
+			</td>
+         	<td style="white-space: nowrap">
+                  <!-- form -->
+                  <form editable-form name="rowform" onbeforesave="CP.ModificarCronograma($data, cronograma.cronogramaid)" ng-show="rowform.$visible" class="form-buttons form-inline" shown="inserted ==   cronograma ">
+                    <button type="submit" ng-disabled="rowform.$waiting" class="btn btn-primary">
+                      guardar
+                    </button>
+                    <button type="button" ng-disabled="rowform.$waiting" ng-click="rowform.$cancel()" class="btn btn-default">
+                      cancelar
+                    </button>
+                  </form>
+                  <div class="buttons" ng-show="!rowform.$visible">
+                    <button class="btn btn-primary" ng-click="rowform.$show()">editar</button>
+                    <button class="btn btn-danger" ng-click="CP.EliminarCronograma($index,cronograma.cronogramaid,cronograma.revision_cronograma)">eliminar</button>
+                  </div>  
+            </td>
+			
+		</tr>
+	</tbody>
+	</table>
+</div>
+
+
+
+<div class="form-group col-md-4">
+           
+	<div ng-show="CP.formVisibilityCronograma" class="col-md-12" >
+
+		<div class="col-md-12">
+			<div class="col-md-6" >
+				<label> Codigo Cronograma</label>
+	        </div>
+			<div class="col-md-6" >
+				<input class="form-control"  type="text" ng-model="CP.codigocronograma"></input>
+			</div>
+	    </div>
+	                
+		<div class="col-md-12">
+			<div class="col-md-6" >
+	            <label> Revision</label>
+	        </div>        
+	        <div class="col-md-6" >
+	                    <input class="form-control" type="text" ng-model="CP.revision"></input>
+	        </div>
+		</div>  
+
+		<div class="col-md-12">
+			<div class="col-md-6" >
+				<label> Estado</label>
+			</div>      
+			<div class="col-md-6" >   
+				<input class="form-control" type="text" ng-model="CP.estado"></input>   
+			</div>
+		</div>
+
+		<div class="col-md-12">         
+			<div class="col-md-6" >      
+				<button class="btn btn-warning" ng-click="CP.GuardarCronograma()">Guardar</button>
+			</div>            
+			<div class="col-md-6" >      
+				<button class="btn btn-danger" ng-click="CP.CancelarCronograma()">Cancelar</button>
+			</div>
+		</div>
+	             
+	</div>
+	<button class="btn btn-primary" ng-click="CP.ShowFormCronograma()" ng-hide="CP.formVisibilityCronograma">
+	    Anadir Cronograma
+	</button>
+        
+</div>
+
+
+
+
+
+
+

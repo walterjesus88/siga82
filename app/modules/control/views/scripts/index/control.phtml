@@ -2,29 +2,38 @@
   <nav class="panel-heading tab-bg-dark-navy-blue">
     <ul class="nav nav-tabs">
       <li ng-class="CP.edt_activo"><a href="" ng-click="CP.cambiarPanel('edt')">EDT</a></li>  
-      <li ng-class="CP.perfomance_activo"><a href="" ng-click="CP.cambiarPanel('perfomance')">Perfomance</a></li>
+      <li ng-class="CP.performance_activo"><a href="" ng-click="CP.cambiarPanel('performance')">Performance</a></li>
       <li ng-class="CP.curva_activo"><a href="" ng-click="CP.cambiarPanel('curva')" >Curva</a></li>
+      <li ng-class="CP.cronograma_activo"><a href="" ng-click="CP.cambiarPanel('cronograma')" >Cronograma</a></li>
+
+      <li ng-class="CP.fechacorte_activo"><a href="" ng-click="CP.cambiarPanel('fechacorte')" >Fecha de Corte</a>
+      </li>
+
     </ul>
   </nav>
   <div class="panel-body">
     <div class="tab-content">
 
       <div ng-include="'/control/index/edt'" class="tab-pane" ng-class="CP.edt_activo">
-      fssss
+   
       </div>
 
 
-      <div ng-include="'/control/index/perfomance'" class="tab-pane" ng-class="CP.perfomance_activo">
-        perfomance
+      <div ng-include="'/control/index/performance'" class="tab-pane" ng-class="CP.performance_activo">
+
       </div>
 
       <div ng-include="'/control/index/curvas'"  class="tab-pane" ng-class="CP.curva_activo">
-          HHHCURVAAAA
+    
       </div>
 
-      <!--<div ng-include="'/control/index/curvas'"
-      ng-controller="CurvasCtrl as CP" class="tab-pane" ng-class="CP.curva_activo">
-      </div> -->
+      <div ng-include="'/control/index/cronograma'" class="tab-pane" ng-class="CP.cronograma_activo">
+      </div>
+
+      <div ng-include="'/control/index/fechacorte'" class="tab-pane" ng-class="CP.fechacorte_activo">
+          hsrh
+      </div> 
+
 
     </div>
   </div>
