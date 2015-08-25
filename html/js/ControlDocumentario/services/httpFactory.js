@@ -163,7 +163,8 @@ app.factory('httpFactory', ['$http', '$q', function($http, $q) {
       datos.formato + '/tipoenvio/' + datos.tipo_envio + '/clienteid/' +
       datos.clienteid + '/proyectoid/' + datos.proyecto + '/controldocumentario/' +
       datos.control_documentario + '/atencion/' + datos.atencion + '/diasalerta/'
-      + datos.dias_alerta + '/tipoproyecto/' + datos.tipo_proyecto)
+      + datos.dias_alerta + '/tipoproyecto/' + datos.tipo_proyecto + '/modoenvio/' +
+      datos.modo_envio)
       .success(function(data) {
         defered.resolve(data);
       })
@@ -479,6 +480,19 @@ app.factory('httpFactory', ['$http', '$q', function($http, $q) {
       var promise = defered.promise;
       $http.get(url_json + 'obtenerdatoscontacto/clienteid/' + clienteid +
       '/contactoid/' + contactoid)
+      .success(function(data) {
+        defered.resolve(data);
+      })
+      .error(function(err) {
+        defered.reject(err);
+      });
+      return promise;
+    },
+    setModoEnvio: function(transmittal, correlativo, modo) {
+      var defered = $q.defer();
+      var promise = defered.promise;
+      $http.post(url_tran + 'actualizarmodoenvio/transmittal/' + transmittal +
+      '/correlativo/' + correlativo + '/modo/' + modo)
       .success(function(data) {
         defered.resolve(data);
       })

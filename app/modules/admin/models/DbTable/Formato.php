@@ -44,8 +44,11 @@ class Admin_Model_DbTable_Formato extends Zend_Db_Table_Abstract
       $page->drawText($this->cabecera['proyectoid'], 360, 725);
       $page->drawText('¿de que estamos hablando?', 360, 710, 'UTF-8');
 
-      $page->drawText('X', 96, 693);
-      $page->drawText('X', 205, 693);
+      if ($this->cabecera['modo_envio'] == 'C') {
+        $page->drawText('X', 96, 693);
+      } elseif ($this->cabecera['modo_envio'] == 'F') {
+        $page->drawText('X', 205, 693);
+      }
 
       $page->drawText('¿Codigo de que?', 360, 695, 'UTF-8');
       $page->drawText(date("d-m-Y"), 510, 695);

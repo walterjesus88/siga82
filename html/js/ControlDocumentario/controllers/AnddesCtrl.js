@@ -6,6 +6,9 @@ function(httpFactory, entregableFactory, $routeParams, transmittalFactory, $root
 
   //obteniendo el codigo del proyecto de los parametros de la ruta
   var proyecto = $routeParams.proyecto;
+  va.transmittal = {};
+
+  va.modos = [{codigo: 'F', nombre: 'Fisico'}, {codigo: 'C', nombre: 'Correo'}];
 
   //array que contendra la lista de edts por proyecto
   va.edt = [];
@@ -144,33 +147,42 @@ function(httpFactory, entregableFactory, $routeParams, transmittalFactory, $root
     });
   }
 
+  //cambiar el modo de envio del transmittal
+  va.cambiarModoEnvio = function() {
+    if (va.transmittal.codificacion != '' && va.transmittal.codificacion != null) {
+      transmittalFactory.setModoEnvio(va.transmittal.modo_envio);
+    } else {
+      alert('No se ha configurado el transmittal');
+    }
+  }
+
   //generar el transmittal con los entregables seleccionados
   va.generarTr = function() {
-    var transmittal = transmittalFactory.getConfiguracion();
-    va.atencion.codigo = transmittal.atencion;
-    httpFactory.getDatosContacto(transmittal.clienteid, va.atencion.codigo)
+    va.transmittal = transmittalFactory.getConfiguracion();
+    va.atencion.codigo = va.transmittal.atencion;
+    httpFactory.getDatosContacto(va.transmittal.clienteid, va.atencion.codigo)
     .then(function(data) {
       va.atencion = data;
     })
     .catch(function(err) {
     });
     va.seleccionados = [];
-    if (transmittal.codificacion != '' && transmittal.codificacion != null) {
+    if (va.transmittal.codificacion != '' && va.transmittal.codificacion != null) {
       va.entregables.forEach(function(entregable) {
         if (entregable.seleccionado == 'selected') {
-          entregable.agregarToTransmittal(transmittal);
+          entregable.agregarToTransmittal(va.transmittal);
           va.seleccionados.push(entregable);
         }
       });
       va.entregables_gestion.forEach(function(entregable) {
         if (entregable.seleccionado == 'selected') {
-          entregable.agregarToTransmittal(transmittal);
+          entregable.agregarToTransmittal(va.transmittal);
           va.seleccionados.push(entregable);
         }
       });
       va.entregables_comunicacion.forEach(function(entregable) {
         if (entregable.seleccionado == 'selected') {
-          entregable.agregarToTransmittal(transmittal);
+          entregable.agregarToTransmittal(va.transmittal);
           va.seleccionados.push(entregable);
         }
       });
@@ -185,8 +197,8 @@ function(httpFactory, entregableFactory, $routeParams, transmittalFactory, $root
   va.emisiones = [];
 
   listarEmisiones = function() {
-    var transmittal = transmittalFactory.getConfiguracion();
-    httpFactory.getEmisionesByTipo(transmittal.tipo_envio)
+    va.transmittal = transmittalFactory.getConfiguracion();
+    httpFactory.getEmisionesByTipo(va.transmittal.tipo_envio)
     .then(function(data) {
       va.emisiones = data;
     })

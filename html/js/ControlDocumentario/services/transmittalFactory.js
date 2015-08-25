@@ -15,7 +15,8 @@ app.factory('transmittalFactory', ['httpFactory', function(httpFactory) {
     dias_alerta: '',
     area: '',
     tipo_proyecto: '',
-    correo: ''
+    correo: '',
+    modo_envio: 'F'
   };
 
   var transmittal = {
@@ -41,6 +42,7 @@ app.factory('transmittalFactory', ['httpFactory', function(httpFactory) {
       datos.tipo_proyecto = transmittal.tipo_proyecto;
       datos.correo = transmittal.correo;
       datos.logo = transmittal.logo;
+      datos.modo_envio = transmittal.modo_envio;
     },
 
     setCodificacion: function(codificacion) {
@@ -81,6 +83,16 @@ app.factory('transmittalFactory', ['httpFactory', function(httpFactory) {
     },
     setCorreo: function(correo) {
       datos.correo = correo;
+    },
+    setModoEnvio: function(modo_envio) {
+      datos.modo_envio = modo_envio;
+      httpFactory.setModoEnvio(datos.codificacion, datos.correlativo, datos.modo_envio)
+      .then(function(data) {
+        alert('Tipo de envio guardado');
+      })
+      .catch(function(err) {
+        alert('No se pudo guardar el tipo de envio');
+      });
     },
 
     guardarCambios: function() {

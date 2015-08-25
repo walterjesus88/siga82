@@ -2,7 +2,7 @@
 class Admin_Model_DbTable_Transmittal extends Zend_Db_Table_Abstract
 {
     protected $_name = 'transmittal';
-    protected $_primary = array("cofidicacion", "correlativo");
+    protected $_primary = array("codificacion", "correlativo");
 
      //Lista todos los transmittals procesados
     public function _getAll(){
@@ -69,7 +69,7 @@ class Admin_Model_DbTable_Transmittal extends Zend_Db_Table_Abstract
         $data['clienteid']."', '".$data['proyectoid']."', '".$data['formato'].
         "', '".$data['tipo_envio']."', '".$data['control_documentario'].
         "', '".$data['dias_alerta']."', '".$data['tipo_proyecto']."', '".
-        $data['atencion']."')");
+        $data['atencion']."', '".$data['modo_envio']."')");
         $row = $sql->fetchAll();
         return $row;
         //$this->insert($data);
@@ -98,7 +98,7 @@ class Admin_Model_DbTable_Transmittal extends Zend_Db_Table_Abstract
       tra.clienteid, cli.nombre_comercial, tra.proyectoid, tra.formato,
       tra.tipo_envio, tra.control_documentario, tra.atencion,
       concat(con.nombre1, ' ', con.ape_paterno) as nombre_atencion,
-      con.puesto_trabajo
+      con.puesto_trabajo, tra.modo_envio
       from transmittal as tra inner join cliente as cli on
       tra.clienteid = cli.clienteid
       inner join contacto as con on (tra.atencion = con.contactoid and
@@ -106,6 +106,23 @@ class Admin_Model_DbTable_Transmittal extends Zend_Db_Table_Abstract
       where codificacion = '".$transmittalid."' and correlativo ='".$correlativo."'");
       $row = $sql->fetch();
       return $row;
+    }
+
+    //guardar el modo de envio
+    public function _setModoEnvio($transmittal, $correlativo, $modo)
+    {
+      try {
+        $row = $this->fetchRow("codificacion = '".$transmittal."' and correlativo = '".
+        $correlativo."'");
+        $row->modo_envio = $modo;
+        $row->save();
+        $respuesta['resultado'] = 'Guardado';
+        return $respuesta;
+      } catch (Exception $e) {
+        print $e->getMessage();
+      }
+
+
     }
 
 }

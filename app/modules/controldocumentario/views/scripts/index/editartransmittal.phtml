@@ -76,8 +76,9 @@
 
   <section class="col-md-3 col-sm-6 form-group panel-body">
     <label for="">Tipo de Envío:</label>
-    <select class="form-control" ng-model="va.modo_envio_seleccionado"
-    ng-options="modo as modo for modo in va.modo">
+    <select class="form-control" ng-model="va.transmittal.modo_envio"
+    ng-options="modo.codigo as modo.nombre for modo in va.modos"
+    ng-change="va.cambiarModoEnvio()">
     </select>
   </section>
 
