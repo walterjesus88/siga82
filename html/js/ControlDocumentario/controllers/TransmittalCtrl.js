@@ -9,6 +9,7 @@ app.controller('TransmittalCtrl', ['httpFactory', 'proyectoFactory', '$modal',
   /*referencia del scope en vt, obtencion del proyecto seleccionado y el objeto
   que contendra los datos del proyecto*/
   var vt = this;
+  
   vt.proyecto = {
     codigo: $routeParams.proyecto
   };

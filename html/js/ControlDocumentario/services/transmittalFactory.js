@@ -25,14 +25,25 @@ app.factory('transmittalFactory', ['httpFactory', function(httpFactory) {
   };
 
   var publico = {
+    cargarTransmittal: function(proyectoid) {
+      httpFactory.getTransmittal(proyectoid)
+      .then(function(data) {
+        publico.setConfiguracion(data);
+      })
+      .catch(function(err) {
+
+      });
+    },
+
     getConfiguracion: function() {
       return datos;
     },
 
     setConfiguracion: function(transmittal) {
       datos.codificacion = transmittal.codificacion;
-      datos.formato = transmittal.formato;
-      datos.tipo_envio = transmittal.tipo_envio;
+      datos.correlativo = transmittal.correlativo;
+      datos.formato = transmittal.formato || datos.formato;
+      datos.tipo_envio = transmittal.tipo_envio || datos.tipo_envio;
       datos.clienteid = transmittal.clienteid;
       datos.cliente = transmittal.cliente;
       datos.control_documentario = transmittal.control_documentario;
@@ -42,7 +53,6 @@ app.factory('transmittalFactory', ['httpFactory', function(httpFactory) {
       datos.tipo_proyecto = transmittal.tipo_proyecto;
       datos.correo = transmittal.correo;
       datos.logo = transmittal.logo;
-      datos.modo_envio = transmittal.modo_envio;
     },
 
     setCodificacion: function(codificacion) {
@@ -98,10 +108,11 @@ app.factory('transmittalFactory', ['httpFactory', function(httpFactory) {
     guardarCambios: function() {
       httpFactory.setConfiguracionTransmittal(datos)
       .then(function(data) {
-        alert('Cambios guardados satisfactoriamente');
+        alert('Transmittal '+ datos.codificacion + '-'  + datos.correlativo +
+        ' creado satisfactoriamente');
       })
       .catch(function(err) {
-        alert('Error al guardar cambios, intentelo denuevo');
+        alert('No se pudo crear el transmittal solicitado');
       });
     },
     obtenerDatos: function() {

@@ -155,6 +155,18 @@ app.factory('httpFactory', ['$http', '$q', function($http, $q) {
       });
       return promise;
     },
+    getTransmittal: function(proyectoid) {
+      var defered = $q.defer();
+      var promise = defered.promise;
+      $http.get(url_tran + 'ultimotransmittal/proyectoid/' + proyectoid)
+      .success(function(data) {
+        defered.resolve(data);
+      })
+      .error(function(err) {
+        defered.reject(err);
+      });
+      return promise;
+    },
     setConfiguracionTransmittal: function(datos) {
       var defered = $q.defer();
       var promise = defered.promise;

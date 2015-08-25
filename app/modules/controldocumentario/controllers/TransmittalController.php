@@ -26,6 +26,15 @@ class ControlDocumentario_TransmittalController extends Zend_Controller_Action {
       $this->_helper->json->sendJson($correlativo);
     }
 
+    //Devuelve la configuracion de transmittal
+    public function ultimotransmittalAction()
+    {
+      $proyectoid = $this->_getParam('proyectoid');
+      $transmittal = new Admin_Model_DbTable_Transmittal();
+      $respuesta = $transmittal->_getConfiguracion($proyectoid);
+      $this->_helper->json->sendJson($respuesta);
+    }
+
     //Guarda los datos de configuracion del transmittal
     public function guardarconfiguraciontransmittalAction()
     {

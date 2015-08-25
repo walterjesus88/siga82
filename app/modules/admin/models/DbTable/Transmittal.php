@@ -15,12 +15,34 @@ class Admin_Model_DbTable_Transmittal extends Zend_Db_Table_Abstract
       }
     }
 
+    //Devuelve la configuracion del ultimo transmittal
+    public function _getConfiguracion($proyectoid)
+    {
+      try {
+        $sql = $this->_db->query("select tra.codificacion, tra.correlativo,
+        tra.formato, tra.tipo_envio, tra.clienteid, cli.nombre_comercial as cliente,
+        tra.control_documentario, tra.atencion, tra.dias_alerta, tra.tipo_proyecto,
+        con.puesto_trabajo as area, con.correo from transmittal as tra inner join
+        cliente as cli on (tra.clienteid = cli.clienteid) inner join contacto
+        as con on (tra.clienteid = con.clienteid and tra.atencion = con.contactoid)
+        where proyectoid = '".
+        $proyectoid."' order by codificacion desc, correlativo desc limit 1");
+        $row = $sql->fetch();
+        $correlativo = $this->_getCorrelativo($proyectoid, $row['codificacion']);
+        $row['correlativo'] = $correlativo['correlativo'];
+        return $row;
+      } catch (Exception $e) {
+        print $e->getMessage();
+      }
+    }
+
     //Devuelve el numero correlativo a asignar al nuevo transmittal
-    public function _getCorrelativo($proyectoid)
+    public function _getCorrelativo($proyectoid, $codificacion)
     {
       try {
         $sql = $this->_db->query("select cast(correlativo as int) from transmittal
-        where proyectoid='".$proyectoid."' order by correlativo desc limit 1");
+        where proyectoid='".$proyectoid."' and codificacion = '".$codificacion."' 
+        order by correlativo desc limit 1");
         $row = $sql->fetchAll();
         if (count($row) != 0) {
           $numero = (int) $row[0]['correlativo'];
@@ -121,8 +143,6 @@ class Admin_Model_DbTable_Transmittal extends Zend_Db_Table_Abstract
       } catch (Exception $e) {
         print $e->getMessage();
       }
-
-
     }
 
 }

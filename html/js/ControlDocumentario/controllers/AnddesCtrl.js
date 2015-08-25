@@ -10,18 +10,6 @@ function(httpFactory, entregableFactory, $routeParams, transmittalFactory, $root
 
   va.modos = [{codigo: 'F', nombre: 'Fisico'}, {codigo: 'C', nombre: 'Correo'}];
 
-  //array que contendra la lista de edts por proyecto
-  va.edt = [];
-
-  //cargar los edt
-  httpFactory.getEdts(proyecto)
-  .then(function(data){
-    va.edt = data;
-  })
-  .catch(function(err) {
-    va.edt = [];
-  });
-
   va.atencion = {
     codigo: '',
     nombre: '',
@@ -136,17 +124,6 @@ function(httpFactory, entregableFactory, $routeParams, transmittalFactory, $root
     cambiarSubPanel('tablas');
   }
 
-  //imprimir la lista de edt
-  va.imprimirEdt = function() {
-    httpFactory.createPdfEdt(proyecto)
-    .then(function(data) {
-      window.open(data.archivo, '_blank');
-    })
-    .catch(function(err) {
-
-    });
-  }
-
   //cambiar el modo de envio del transmittal
   va.cambiarModoEnvio = function() {
     if (va.transmittal.codificacion != '' && va.transmittal.codificacion != null) {
@@ -158,6 +135,8 @@ function(httpFactory, entregableFactory, $routeParams, transmittalFactory, $root
 
   //generar el transmittal con los entregables seleccionados
   va.generarTr = function() {
+    transmittalFactory.setConfiguracion(vc.transmittal);
+    transmittalFactory.guardarCambios();
     va.transmittal = transmittalFactory.getConfiguracion();
     va.atencion.codigo = va.transmittal.atencion;
     httpFactory.getDatosContacto(va.transmittal.clienteid, va.atencion.codigo)
