@@ -4,7 +4,7 @@
 		<tr class="menu">    
 	        <th>Codigo Cronograma</th>
 	        <th>Revision</th>
-	        <th>Estado</th>
+	        <!-- <th>Estado</th> -->
 
 	    </tr>
 	</thead>
@@ -23,11 +23,11 @@
 				</span>
 			</td>
 
-			<td>			
+			<!--<td>			
 				<span editable-text="cronograma.state" e-name="state" e-form="rowform" onbeforesave="checkName($data, cronograma.state)">
 				{{ cronograma.state }}
 				</span>
-			</td>
+			</td> -->
          	<td style="white-space: nowrap">
                   <!-- form -->
                   <form editable-form name="rowform" onbeforesave="CP.ModificarCronograma($data, cronograma.cronogramaid)" ng-show="rowform.$visible" class="form-buttons form-inline" shown="inserted ==   cronograma ">
@@ -73,7 +73,7 @@
 	        </div>
 		</div>  
 
-		<div class="col-md-12">
+	<!-- 	<div class="col-md-12">
 			<div class="col-md-6" >
 				<label> Estado</label>
 			</div>      
@@ -81,7 +81,7 @@
 				<input class="form-control" type="text" ng-model="CP.estado"></input>   
 			</div>
 		</div>
-
+ -->
 		<div class="col-md-12">         
 			<div class="col-md-6" >      
 				<button class="btn btn-warning" ng-click="CP.GuardarCronograma()">Guardar</button>

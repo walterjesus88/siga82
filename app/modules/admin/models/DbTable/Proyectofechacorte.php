@@ -99,19 +99,20 @@ class Admin_Model_DbTable_Proyectofechacorte extends Zend_Db_Table_Abstract
     }
 
        /*Devuelve el record segun la funcion Record de Notas */
-    public function _getRevisionxGenerar($codigo_prop_proy,$proyectoid){
+    public function _getRevisionxGenerar($data){
          try{
+            
             $sql = $this->_db->query("
 
-                select * from generar_revision('$codigo_prop_proy','$proyectoid') 
+                select * from generar_revision('".$data['codigo_prop_proy']."','".$data['proyectoid']."') 
                 ");
            
-            if ($sql) return $sql->fetchAll();
-            return false;
+                $row=$sql->fetchAll();
+                return $row;
+            
         }  catch (Exception $ex){
             print "Error: Obteniendo datos de tabla 'Matricula Curso'".$ex->getMessage();
         }
     }
 
- 
 }

@@ -349,7 +349,11 @@ app.factory('httpFactory', ['$http','$q', function($http,$q) {
     getGenerarxRevision: function(codigoproyecto,proyectoid) {
       var defered = $q.defer();
       var promise = defered.promise;
-      $http.post(url + 'generarrevision/codigo_prop_proy' + codigoproyecto + "/proyectoid/"+ proyectoid)
+        
+        //alert(codigoproyecto);
+        //alert(proyectoid);
+
+      $http.get(url + 'generarrevision/codigo_prop_proy/'+ codigoproyecto+'/proyectoid/'+proyectoid)
       .success(function(data) {
         defered.resolve(data);
         

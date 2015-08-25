@@ -105,22 +105,29 @@ function(httpFactory, $scope,$q,proyectoFactory) {
   }
 
   va.GuardarCronograma= function(){
+    va.estado='A';
 
     proyectoFactory.setDatosxGuardarxCronograma(va.codigocronograma,
       va.revision,va.estado,va.proyectop.codigo_prop_proy,va.proyectop.codigo)
     .then(function(data) {
+      
+      console.log(data);
 
       va.inserted = {
-        codigo_cronograma:data.codigo_cronograma,
-        codigo_prop_proy:data.codigo_prop_proy,
-        proyectoid:data.proyectoid,      
-        revision_cronograma:data.revision_cronograma,
-        state:data.state
+        codigo_cronograma:va.codigocronograma,      
+        revision_cronograma:va.revision,
+        state:va.estado
+      }      
+      //alert('LLEGO');
+      if(va.procronograma.length)
+        {        
+          va.procronograma.push(va.inserted);        
+        }
+      else
+      {        
+        va.procronograma=[];
+        va.procronograma.push(va.inserted);   
       }
-
-
-
-       va.procronograma.push(va.inserted); 
 
     })
     .catch(function(err) {
@@ -129,9 +136,6 @@ function(httpFactory, $scope,$q,proyectoFactory) {
   }
 
   va.ModificarCronograma=function(data,cronogramaid){
-
-    // console.log(data);
-    // console.log(cronogramaid);
 
     codigoproyecto=va.proyectop.codigo_prop_proy;
     proyectoid=va.proyectop.codigo;
@@ -459,6 +463,7 @@ va.generarrevision= function()
   codigoproyecto=va.proyectop.codigo_prop_proy;
   proyectoid=va.proyectop.codigo;
 
+
   proyectoFactory.getDatosxGenerarxRevision(codigoproyecto,proyectoid)
   .then(function(data) {
     
@@ -576,18 +581,12 @@ va.saveColumnfechacorte= function(column){
   
 };
 
- 
-
-
-
 ///////////////////////////////////////////////F I N  F E C H A S  D E  C O R T E /////////////////////////////////////////////
 
 proyectoFactory.getVerCronogramaxActivo(proyecto['codigo'])
 .then(function(data) {
-
   //console.log('cronogramaid');
   //console.log(data);
-
   revision=data[0]['revision_cronograma'];
  
   proyectoFactory.getDatosxProyectoxFechaxCorte(proyecto['codigo'],revision)
@@ -607,12 +606,12 @@ proyectoFactory.getVerCronogramaxActivo(proyecto['codigo'])
       // console.log("performance");
       // console.log(va.performance);
       // console.log("performance");
-
-
     })
   .catch(function(err) {
       va.performance = {};
   });
+
+
 })
 .catch(function(err) {
     //va.performance = {};

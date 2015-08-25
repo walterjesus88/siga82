@@ -1474,13 +1474,19 @@ public function guardarxproyectoxcronogramaAction()
 
   $data['codigo_cronograma'] = $this->_getParam('codigocronograma');   
   $data['revision_cronograma'] = $this->_getParam('revision');   
-  $data['state'] = $this->_getParam('estado');   
+  $data['state'] =$this->_getParam('estado');   
   $data['codigo_prop_proy'] = $this->_getParam('codigo_prop_proy');   
-  $data['proyectoid'] = $this->_getParam('proyectoid');   
+  $data['proyectoid'] = $this->_getParam('proyectoid');
+
+
+  $datastate['state']='I';$wherestate=null;
+  $modficarcronograma=new Admin_Model_DbTable_Proyectocronograma();
+  $mcronograma=$modficarcronograma->_update_state($datastate,$wherestate);
 
   $guardarcronograma=new Admin_Model_DbTable_Proyectocronograma();
   $gcronograma=$guardarcronograma->_save($data);
 
+  //exit();
   $this->_helper->json->sendJson($gcronograma);
 }
 
@@ -1729,10 +1735,8 @@ public function proyectoxperformanceAction() {
       $i++;  
   } 
   
-  $this->_helper->json->sendJson($ek);  
+  $this->_helper->json->sendJson($ek);
 
-  //$arr = array(['bbb' =>'1']); 
-  //exit();
 }
 
 
@@ -1948,10 +1952,12 @@ public function generarrevisionAction()
 {
   $codigo_prop_proy= $this->_getParam("codigo_prop_proy");
   $proyectoid= $this->_getParam("proyectoid");
+
   $generarrevision=new Admin_Model_DbTable_Proyectofechacorte();
-  $grevision=$generarrevision->_getRevisionxGenerar($codigo_prop_proy,$proyectoid);
-  if($grevision){echo "siii";}else{echo "nononno";}
-exit();
+  $data = array('codigo_prop_proy' =>$codigo_prop_proy,'proyectoid' =>$proyectoid,);
+
+  $grevision=$generarrevision->_getRevisionxGenerar($data);  
+
   $this->_helper->json->sendJson($grevision);
 
 }
