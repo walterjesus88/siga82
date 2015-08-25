@@ -384,6 +384,8 @@ function(httpFactory, $scope,$q,proyectoFactory) {
 
   };
   
+
+
 /*  console.log(va.revision);
   console.log(va.labelss);*/
   //va.series = ['29 Abr', '14 May', '21 May', '28 May', '04 Jun', '11 Jun', '18 Jun','25 Jun','02 Jun',];
@@ -452,6 +454,19 @@ va.buscaperformance = function(revision) {
 };
 
 /////////////////*******************************F E C H A S  D E  C O R T E ***************************/////////////////
+va.generarrevision= function()
+{
+  codigoproyecto=va.proyectop.codigo_prop_proy;
+  proyectoid=va.proyectop.codigo;
+
+  proyectoFactory.getDatosxGenerarxRevision(codigoproyecto,proyectoid)
+  .then(function(data) {
+    
+  })
+  .catch(function(err) {
+    va.thi = {};
+  });
+}
 
 va.buscafecha = function(revision) {
  

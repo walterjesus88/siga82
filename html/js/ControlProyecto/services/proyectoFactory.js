@@ -220,6 +220,20 @@ function(httpFactory, $location, $q) {
     },
 
     ////////////////////  F E C H A  D E  C O R T E /////////////////////////
+    getDatosxGenerarxRevision: function(codigoproyecto,proyectoid) {
+      var defered = $q.defer();
+      var promise = defered.promise;    
+
+      httpFactory.getGenerarxRevision(codigoproyecto,proyectoid)
+      .then(function(data) {
+        datos = data;
+        defered.resolve(datos);
+      })
+      .catch(function(err) {
+        defered.reject(err);
+      });
+      return promise;      
+    },
 
     getDatosxProyectoxFechaxCorte: function(proyectoid,revision) {
       var defered = $q.defer();

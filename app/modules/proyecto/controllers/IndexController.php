@@ -1941,10 +1941,19 @@ public function cambiarxfechaxcorteAction()
   $data[$columna]=$valorcolumna;
   $modificarfechaxcorte=new Admin_Model_DbTable_Proyectofechacorte();
   $mfechaxcorte=$modificarfechaxcorte->_update($data,$pk);
-
-  
-
   $this->_helper->json->sendJson($mfechaxcorte);
+}
+
+public function generarrevisionAction()
+{
+  $codigo_prop_proy= $this->_getParam("codigo_prop_proy");
+  $proyectoid= $this->_getParam("proyectoid");
+  $generarrevision=new Admin_Model_DbTable_Proyectofechacorte();
+  $grevision=$generarrevision->_getRevisionxGenerar($codigo_prop_proy,$proyectoid);
+  if($grevision){echo "siii";}else{echo "nononno";}
+exit();
+  $this->_helper->json->sendJson($grevision);
+
 }
 
 ////////////////// /F I N  D E  F U N C I O N E S  A N G U L A R //////
