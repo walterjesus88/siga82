@@ -46,7 +46,7 @@ class Proyecto_IndexController extends Zend_Controller_Action {
         } 
         else
         {
-          if($is_area=='26')
+          if($is_area=='26' || $is_area=='40')
           {
             $listaproyecto = new Admin_Model_DbTable_Proyecto();
               //$lista=$listaproyecto->_getProyectoAll();
