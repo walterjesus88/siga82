@@ -1486,6 +1486,7 @@ public function guardarxproyectoxcronogramaAction()
   $guardarcronograma=new Admin_Model_DbTable_Proyectocronograma();
   $gcronograma=$guardarcronograma->_save($data);
 
+
   //exit();
   $this->_helper->json->sendJson($gcronograma);
 }
@@ -1606,11 +1607,7 @@ public function modificarperformanceAction() {
 
    $modperformancedetalles=new Admin_Model_DbTable_Performancedetalle();
    $mpdetalle=$modperformancedetalles->_update($data,$where);
-
-
    $this->_helper->json->sendJson($mpdetalle);  
-
-
 }
 
 public function modificarperformancepadreAction() {
@@ -1657,12 +1654,8 @@ public function modificarperformancepadreAction() {
   'fecha_ingreso_performance' => date("Y-m-d"),'fecha_calculo_performance' => date("Y-m-d"),
    );
 
-  
-
   $modificarperformance= new Admin_Model_DbTable_Performance();
   $mperformance=$modificarperformance->_update($data,$where);
-
-
   $this->_helper->json->sendJson($mperformance);  
 
 }
@@ -1682,12 +1675,8 @@ public function proyectoxperformanceAction() {
   $proyectoid = $this->_getParam("proyectoid");
   $revision = $this->_getParam("revision");
   
-  $performance=new Admin_Model_DbTable_Performance();
-  //$where = array('proyectoid' =>$proyectoid );
-  //$perf=$performance->_getFilter($where);  
+  $performance=new Admin_Model_DbTable_Performance(); 
   $perf=$performance->_getBuscarActividadxPerformance($proyectoid,$revision);
-  //echo "globas";
-  //print_r($perf);exit();
 
   $i=0;
   foreach ($perf as $keyper) {
@@ -1745,10 +1734,6 @@ public function curvasjsonAction() {
   $revision_perf_curva = $this->_getParam("revision");
   $proyectoid = $this->_getParam("proyectoid");
   $codigo_prop_proy = $this->_getParam("codigo");  
-
-  // $proyectoid='1111.10.09';
-  // $revision_perf_curva='A';
-  // $codigo_prop_proy='15.10.036-1111.10.09-A';
 
   $where = array('proyectoid'=>$proyectoid,'revision_cronograma'=>$revision_perf_curva,'codigo_prop_proy' =>$codigo_prop_proy );
   $attrib = array('fecha_curvas','fecha_ingreso_curvas','porcentaje_ejecutado','porcentaje_propuesta','codigo_curvas','revision_cronograma');
