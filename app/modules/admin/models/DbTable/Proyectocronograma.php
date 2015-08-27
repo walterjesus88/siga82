@@ -67,16 +67,26 @@ class Admin_Model_DbTable_Proyectocronograma extends Zend_Db_Table_Abstract
 
     public function _update($data,$pk)
     {
-        try{
+        try{            
             $where = "
                 codigo_prop_proy = '".$pk['codigo_prop_proy']."' and         
                 cronogramaid = '".$pk['cronogramaid']."' and 
                 codigo_cronograma = '".$pk['codigo_cronograma']."' and 
                 revision_cronograma = '".$pk['revision_cronograma']."' and 
-                proyectoid = '".$pk['proyectoid']."'              
-          
+                proyectoid = '".$pk['proyectoid']."'
             ";
             return $this->update($data, $where);
+            return false;
+        }catch (Exception $e){
+            print "Error: Update curva".$e->getMessage();
+        }
+    }
+
+    public function _update_state($data,$pk)
+    {
+        try{            
+            
+            return $this->update($data, $pk);
             return false;
         }catch (Exception $e){
             print "Error: Update curva".$e->getMessage();

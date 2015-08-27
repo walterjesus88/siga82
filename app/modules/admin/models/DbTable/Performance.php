@@ -31,11 +31,6 @@ class Admin_Model_DbTable_Performance extends Zend_Db_Table_Abstract
     }
 
 
-// codigo_prop_proy, codigo_actividad, actividadid, revision
-
-// codigo_prop_proy, codigo_actividad, actividadid, cronogramaid, codigo_cronograma,
-// revision_cronograma, proyectoid, codigo_performance
-
     public function _getBuscarActividadxPerformance($proyectoid,$revision)
     {
         try{

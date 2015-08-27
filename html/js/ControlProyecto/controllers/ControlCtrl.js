@@ -14,59 +14,65 @@ function(httpFactory, $scope,$q,proyectoFactory) {
   
     va.proyectop = data; 
 
-    proyectoFactory.getVerCronogramaxActivo(proyecto['codigo'])
-    .then(function(data) {
+      proyectoFactory.getVerCronogramaxActivo(proyecto['codigo'])
+      .then(function(data) {
+        if(data=='')
+        {
+          console.log(data)
+        }
+        else
+        {
+          //alert('revveveveveve');
+          revision=data[0]['revision_cronograma'];  
+                //sirve para cargar datos una vez iniciado //
+          httpFactory.getTiempos(revision,va.proyectop.codigo_prop_proy,proyecto['codigo'])
+          .success(function(data) {         
 
-      revision=data[0]['revision_cronograma'];
-      //console.log(revision);
+            va.dat=data[0]['1'];
+         
+            var max = data[0]['1'].length;     
+            var varx=[];
+            var vary=[];
+            var labelx=[];
 
-    //sirve para cargar datos una vez iniciado //
-      httpFactory.getTiempos(revision,va.proyectop.codigo_prop_proy,proyecto['codigo'])
-      .success(function(data) {         
+            var label= $.map(data[0], function(value, index) {   
+                for (var i =0; i < max; i++) {
+                  a=[];
+                       
+                  a=value[i]['fecha_curvas'];        
+                  labelx.push(a);
+               };
+                return [labelx];
+            });    
+            
+            va.labels=label[0];
+            //console.log(va.labels);
 
-        va.dat=data[0]['1'];
-         //console.log(va.dat);
-        var max = data[0]['1'].length;     
-        var varx=[];
-        var vary=[];
-        var labelx=[];
+            var array = $.map(data[0], function(value, index) {   
+              for (var i =0; i < max; i++) {
+                a=[];
+                //console.log(value[i]['porc_avance_plani']);
+                a=parseFloat(value[i]['porcentaje_propuesta']);
+                b=parseFloat(value[i]['porcentaje_ejecutado']);
+                varx.push(a);
+                vary.push(b);
 
-        var label= $.map(data[0], function(value, index) {   
-            for (var i =0; i < max; i++) {
-              a=[];
-                    //console.log(value[i]['porc_avance_plani']);
-              a=value[i]['fecha_curvas'];        
-              labelx.push(a);
-           };
-            return [labelx];
-        });    
-        
-        va.labels=label[0];
-        //console.log(va.labels);
+              };
+            return [varx,vary];
+            });
+            va.data = array;
 
-        var array = $.map(data[0], function(value, index) {   
-          for (var i =0; i < max; i++) {
-            a=[];
-            //console.log(value[i]['porc_avance_plani']);
-            a=parseFloat(value[i]['porcentaje_propuesta']);
-            b=parseFloat(value[i]['porcentaje_ejecutado']);
-            varx.push(a);
-            vary.push(b);
-
-          };
-        return [varx,vary];
-        });
-        va.data = array;
-
-      })      
-      .error(function(data) {
-         va.data = [] ; 
-         console.log("no hay datos de busqueda");
-      });
+          })      
+          .error(function(data) {
+             va.data = [] ; 
+             console.log("no hay datos de busqueda");
+          });        
+        }
 
     })
     .catch(function(err) {
-      //va.proyectop = {};
+      va.procronograma = {};
+      //alert('no hay cronograma');
     });
 
 
@@ -76,15 +82,16 @@ function(httpFactory, $scope,$q,proyectoFactory) {
   });
 
 
+
+/*//va.procronograma=[];
 /*Trae datos de cronograma*/
   proyectoFactory.getDatosProyectoxCronograma(proyecto['codigo'])
-  .then(function(datax) {
+  .then(function(data) {
     //console.log(datax);
-    va.procronograma=datax;
-    //console.log(va.procronograma);
+    //alert('datax');
+    va.procronograma=data;
 
     for (var i = va.procronograma.length - 1; i >= 0; i--) {
-
       //console.log(va.procronograma[i]['state']);
       if(va.procronograma[i]['state']=='A')
       {
@@ -94,6 +101,8 @@ function(httpFactory, $scope,$q,proyectoFactory) {
   })
  .catch(function(err) {
     va.procronograma = {};
+    va.revi = {};
+    alert('ddddddddddd');
   });
 
 
@@ -105,22 +114,29 @@ function(httpFactory, $scope,$q,proyectoFactory) {
   }
 
   va.GuardarCronograma= function(){
+    va.estado='A';
 
     proyectoFactory.setDatosxGuardarxCronograma(va.codigocronograma,
       va.revision,va.estado,va.proyectop.codigo_prop_proy,va.proyectop.codigo)
     .then(function(data) {
+      
+      console.log(data);
 
       va.inserted = {
-        codigo_cronograma:data.codigo_cronograma,
-        codigo_prop_proy:data.codigo_prop_proy,
-        proyectoid:data.proyectoid,      
-        revision_cronograma:data.revision_cronograma,
-        state:data.state
+        codigo_cronograma:va.codigocronograma,      
+        revision_cronograma:va.revision,
+        state:va.estado
+      }      
+      //alert('LLEGO');
+      if(va.procronograma.length)
+        {        
+          va.procronograma.push(va.inserted);        
+        }
+      else
+      {        
+        va.procronograma=[];
+        va.procronograma.push(va.inserted);   
       }
-
-
-
-       va.procronograma.push(va.inserted); 
 
     })
     .catch(function(err) {
@@ -129,9 +145,6 @@ function(httpFactory, $scope,$q,proyectoFactory) {
   }
 
   va.ModificarCronograma=function(data,cronogramaid){
-
-    // console.log(data);
-    // console.log(cronogramaid);
 
     codigoproyecto=va.proyectop.codigo_prop_proy;
     proyectoid=va.proyectop.codigo;
@@ -258,8 +271,7 @@ function(httpFactory, $scope,$q,proyectoFactory) {
         .catch(function(err) {
           console.log('No se pudo cambiar Curvas');
         })
-    })
-    //return $q.all(results);   
+    })   
   };
 
 
@@ -384,6 +396,8 @@ function(httpFactory, $scope,$q,proyectoFactory) {
 
   };
   
+
+
 /*  console.log(va.revision);
   console.log(va.labelss);*/
   //va.series = ['29 Abr', '14 May', '21 May', '28 May', '04 Jun', '11 Jun', '18 Jun','25 Jun','02 Jun',];
@@ -452,6 +466,20 @@ va.buscaperformance = function(revision) {
 };
 
 /////////////////*******************************F E C H A S  D E  C O R T E ***************************/////////////////
+va.generarrevision= function()
+{
+  codigoproyecto=va.proyectop.codigo_prop_proy;
+  proyectoid=va.proyectop.codigo;
+
+
+  proyectoFactory.getDatosxGenerarxRevision(codigoproyecto,proyectoid)
+  .then(function(data) {
+    
+  })
+  .catch(function(err) {
+    va.thi = {};
+  });
+}
 
 va.buscafecha = function(revision) {
  
@@ -461,7 +489,7 @@ proyectoid=revision.proyectoid;
 //console.log(proyectoid);
 //console.log(revision);
 
-proyectoFactory.getDatosxProyectoxFechaxCorte(proyectoid,revision_cronograma)
+  proyectoFactory.getDatosxProyectoxFechaxCorte(proyectoid,revision_cronograma)
   .then(function(data) {
     va.thi=data;
     //console.log(va.thi);
@@ -513,25 +541,32 @@ va.GuardarFechaCorte = function() {
 
   proyectoFactory.setDatosxGuardarxFechaCorte(revision,codigoproyecto,proyectoid,fechacorte,tipocorte)
   .then(function(data) {
-    //alert('guardo'); 
+    //alert('FECHA CORTE'); 
+
+     console.log(data);
+     console.log(va.thi.length);
+
     va.inserted = {    
       codigo_prop_proy:codigoproyecto,
-      proyectoid:proyectoid,    
-      //fechacorteid: va.porcentaje_ejecutado,
+      proyectoid:proyectoid,   
+    
       tipo_corte: tipocorte,
       revision_cronograma: revision,
       fecha:fechacorte,     
     };
 
-    if(va.thi.length)
-      {        
-        va.thi.push(va.inserted);        
-      }
-    else
-      {        
-        va.thi=[];
-        va.thi.push(va.inserted);
-      }
+    va.thi.push(va.inserted);  
+    // if(va.thi.length)
+    //   {        
+    //     alert('tuu');     
+    //   }
+    // else
+    //   {        
+    //     va.thi=[];
+    //     va.thi.push(va.inserted);
+    //     alert('tuuxxxxx');     
+
+    //   }
       
 
   })
@@ -544,12 +579,7 @@ va.GuardarFechaCorte = function() {
 va.saveColumnfechacorte= function(column){
     //console.log(column);
     angular.forEach(va.thi, function(fechacorte) {  
-      // console.log('ff yiyi');
-      // console.log(fechacorte[column]);
-      // console.log(fechacorte['codigo_prop_proy']);
-      // console.log(fechacorte['proyectoid']);
-      // console.log(fechacorte['fechacorteid']);
-      // console.log(column);
+
       proyectoFactory.setDatosxCambiarxFechaxCorte(fechacorte[column],fechacorte['codigo_prop_proy'],fechacorte['proyectoid'],fechacorte['fechacorteid'],column)
         .then(function(data) {
           console.log('Curvas cambiado');
@@ -561,46 +591,44 @@ va.saveColumnfechacorte= function(column){
   
 };
 
- 
-
-
-
 ///////////////////////////////////////////////F I N  F E C H A S  D E  C O R T E /////////////////////////////////////////////
 
 proyectoFactory.getVerCronogramaxActivo(proyecto['codigo'])
 .then(function(data) {
 
-  //console.log('cronogramaid');
-  //console.log(data);
+  if(data=='')
+  {
+    console.log(data)
+    va.thi=[];
+  }
+  else
+  {
 
-  revision=data[0]['revision_cronograma'];
+    revision=data[0]['revision_cronograma'];
  
-  proyectoFactory.getDatosxProyectoxFechaxCorte(proyecto['codigo'],revision)
-  .then(function(data) {
-    va.thi=data;
-
-  })
-  .catch(function(err) {
-    va.thi = {};
-  });
-
-
-  proyectoFactory.getDatosProyectoxPerfomance(proyecto['codigo'],revision)
-  .then(function(datax) {
-      va.performance=datax;
-      
-      // console.log("performance");
-      // console.log(va.performance);
-      // console.log("performance");
-
+    proyectoFactory.getDatosxProyectoxFechaxCorte(proyecto['codigo'],revision)
+    .then(function(data) {
+      va.thi=data;
+      console.log('va.thi');
+      console.log(va.thi);
 
     })
-  .catch(function(err) {
-      va.performance = {};
-  });
+    .catch(function(err) {
+      va.thi = {};
+    });
+
+
+    proyectoFactory.getDatosProyectoxPerfomance(proyecto['codigo'],revision)
+    .then(function(datax) {
+        va.performance=datax;
+       })
+    .catch(function(err) {
+        va.performance = {};
+    });
+  }
 })
 .catch(function(err) {
-    //va.performance = {};
+    va.procronograma = {};
 });
 
 

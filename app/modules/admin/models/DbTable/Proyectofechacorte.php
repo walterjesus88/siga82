@@ -33,7 +33,7 @@ class Admin_Model_DbTable_Proyectofechacorte extends Zend_Db_Table_Abstract
     {
         try{
   
-            if ($data['codigo_prop_proy']==''  ||  $data['proyectoid']==''  ) return false;
+            if ($data['codigo_prop_proy']==''    ) return false;
             return $this->insert($data);
             return false;
         }catch (Exception $e){
@@ -98,5 +98,21 @@ class Admin_Model_DbTable_Proyectofechacorte extends Zend_Db_Table_Abstract
         }
     }
 
- 
+       /*Devuelve el record segun la funcion Record de Notas */
+    public function _getRevisionxGenerar($data){
+         try{
+            
+            $sql = $this->_db->query("
+
+                select * from generar_revision('".$data['codigo_prop_proy']."','".$data['proyectoid']."') 
+                ");
+           
+                $row=$sql->fetchAll();
+                return $row;
+            
+        }  catch (Exception $ex){
+            print "Error: Obteniendo datos de tabla 'Matricula Curso'".$ex->getMessage();
+        }
+    }
+
 }
