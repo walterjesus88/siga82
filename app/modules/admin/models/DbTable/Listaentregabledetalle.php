@@ -147,10 +147,20 @@ class Admin_Model_DbTable_Listaentregabledetalle extends Zend_Db_Table_Abstract
           $sql = $this->_db->query("select codigo_prop_proy from proyecto where
           proyectoid = '".$data['proyectoid']."'");
           $codigo = $sql->fetch();
-          $sql = $this->_db->query("insert into lista_entregable values ('".
-          $codigo['codigo_prop_proy']."', '".$data['proyectoid']."', '".
-          $data['revision']."')");
-          $row = $sql->fetch();
+
+          $sql = $this->_db->query("select * from lista_entregable where
+          codigo_prop_proy = '".$codigo['codigo_prop_proy']."' and
+          proyectoid = '".$data['proyectoid']."' and revision_entregable ='".
+          $data['revision']."'");
+          $resul = $sql->fetchAll();
+
+          if (sizeof($resul) == 0) {
+            $sql = $this->_db->query("insert into lista_entregable values ('".
+            $codigo['codigo_prop_proy']."', '".$data['proyectoid']."', '".
+            $data['revision']."')");
+            $row = $sql->fetch();
+          }
+
           $sql = $this->_db->query("insert into lista_entregable_detalle
           (codigo_prop_proy, proyectoid, revision_entregable, edt, tipo_documento,
           disciplina, codigo_anddes, codigo_cliente, descripcion_entregable, estado,

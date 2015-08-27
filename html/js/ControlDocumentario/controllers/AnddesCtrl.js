@@ -8,8 +8,10 @@ function(httpFactory, entregableFactory, $routeParams, transmittalFactory, $root
   var proyecto = $routeParams.proyecto;
   va.transmittal = {};
 
-  va.modos = [{codigo: 'F', nombre: 'Fisico'}, {codigo: 'C', nombre: 'Correo'}];
+  //modos de envio disponibles (fisico o orreo electronico)
+  va.modos = [{codigo: 'F', nombre: 'Físico'}, {codigo: 'C', nombre: 'Correo'}];
 
+  //objeto que se visualizara al pie de los entregables a emitir
   va.atencion = {
     codigo: '',
     nombre: '',
@@ -24,10 +26,12 @@ function(httpFactory, entregableFactory, $routeParams, transmittalFactory, $root
   va.entregables_comunicacion = [];
   va.seleccionados = [];
 
+  /*estados por defecto de la revision del transmittal y tipo de entregable por
+  defecto (Tecnico, Gestion, Comunicacion)*/
   va.estado = 'Ultimo';
   va.clase = 'Tecnico';
 
-  //cargar los entregables
+  //funcion para cargar los entregables de un proyecto, por estado y tipo (T, G, C)
   var listarEntregables = function(proyecto, estado_revision, clase) {
     httpFactory.getEntregables(proyecto, estado_revision, clase)
     .then(function(data) {
@@ -57,8 +61,12 @@ function(httpFactory, entregableFactory, $routeParams, transmittalFactory, $root
     });
   }
 
-  //cargarlos datos de ultimas revisiones al cargar la pagina
+  //cargar los entregables del proyecto con los datos por defecto (Ultimos, Tecnicos)
   listarEntregables(proyecto, va.estado, va.clase);
+
+  $rootScope.$on("to_parents", function(event, data){
+    listarEntregables(proyecto, va.estado, va.clase);
+  })
 
   //estado de los paneles de la vista
   va.edt_activo = '';
@@ -124,6 +132,54 @@ function(httpFactory, entregableFactory, $routeParams, transmittalFactory, $root
     cambiarSubPanel('tablas');
   }
 
+  //generar el transmittal con los entregables seleccionados
+  va.generarTr = function() {
+    transmittalFactory.guardarCambios();
+    transmittalFactory.getConfiguracion()
+    .then(function(data) {
+
+      va.transmittal = data;
+
+      //cargar los datos del contacto a mostrar en la vista del transmittal
+      va.atencion.codigo = va.transmittal.atencion;
+      httpFactory.getDatosContacto(va.transmittal.clienteid, va.atencion.codigo)
+      .then(function(data) {
+        va.atencion = data;
+      })
+      .catch(function(err) {
+      });
+
+      //listar todos los elementos seleccionados en las tablas anteriores
+      va.seleccionados = [];
+      if (va.transmittal.codificacion != '' && va.transmittal.codificacion != null) {
+        va.entregables.forEach(function(entregable) {
+          if (entregable.seleccionado == 'selected') {
+            entregable.agregarToTransmittal(va.transmittal);
+            va.seleccionados.push(entregable);
+          }
+        });
+        va.entregables_gestion.forEach(function(entregable) {
+          if (entregable.seleccionado == 'selected') {
+            entregable.agregarToTransmittal(va.transmittal);
+            va.seleccionados.push(entregable);
+          }
+        });
+        va.entregables_comunicacion.forEach(function(entregable) {
+          if (entregable.seleccionado == 'selected') {
+            entregable.agregarToTransmittal(va.transmittal);
+            va.seleccionados.push(entregable);
+          }
+        });
+        cambiarSubPanel('trans');
+      } else {
+        alert('Configure el Transmittal antes de agregar entregables');
+      }
+    })
+    .catch(function(err) {
+
+    });
+  }
+
   //cambiar el modo de envio del transmittal
   va.cambiarModoEnvio = function() {
     if (va.transmittal.codificacion != '' && va.transmittal.codificacion != null) {
@@ -133,56 +189,24 @@ function(httpFactory, entregableFactory, $routeParams, transmittalFactory, $root
     }
   }
 
-  //generar el transmittal con los entregables seleccionados
-  va.generarTr = function() {
-    transmittalFactory.setConfiguracion(vc.transmittal);
-    transmittalFactory.guardarCambios();
-    va.transmittal = transmittalFactory.getConfiguracion();
-    va.atencion.codigo = va.transmittal.atencion;
-    httpFactory.getDatosContacto(va.transmittal.clienteid, va.atencion.codigo)
-    .then(function(data) {
-      va.atencion = data;
-    })
-    .catch(function(err) {
-    });
-    va.seleccionados = [];
-    if (va.transmittal.codificacion != '' && va.transmittal.codificacion != null) {
-      va.entregables.forEach(function(entregable) {
-        if (entregable.seleccionado == 'selected') {
-          entregable.agregarToTransmittal(va.transmittal);
-          va.seleccionados.push(entregable);
-        }
-      });
-      va.entregables_gestion.forEach(function(entregable) {
-        if (entregable.seleccionado == 'selected') {
-          entregable.agregarToTransmittal(va.transmittal);
-          va.seleccionados.push(entregable);
-        }
-      });
-      va.entregables_comunicacion.forEach(function(entregable) {
-        if (entregable.seleccionado == 'selected') {
-          entregable.agregarToTransmittal(va.transmittal);
-          va.seleccionados.push(entregable);
-        }
-      });
-      cambiarSubPanel('trans');
-    } else {
-      alert('Configure el Transmittal antes de agregar entregables');
-    }
-  }
-
   //listas de revisiones y emisiones
-  va.revisiones = ['A', 'B', '0'];
+  va.revisiones = ['A', 'B', 'C', 'D', 'E', '0'];
   va.emisiones = [];
 
   listarEmisiones = function() {
-    va.transmittal = transmittalFactory.getConfiguracion();
-    httpFactory.getEmisionesByTipo(va.transmittal.tipo_envio)
+    transmittalFactory.getConfiguracion()
     .then(function(data) {
-      va.emisiones = data;
+      va.transmittal = data;
+      httpFactory.getEmisionesByTipo(va.transmittal.tipo_envio)
+      .then(function(data) {
+        va.emisiones = data;
+      })
+      .catch(function(err) {
+        va.emisiones = [];
+      });
     })
     .catch(function(err) {
-      va.emisiones = [];
+
     });
   }
 
@@ -202,7 +226,7 @@ function(httpFactory, entregableFactory, $routeParams, transmittalFactory, $root
     alert('Entregables Guardados Satisfactoriamente');
   }
 
-  //imprimir el reporte de os entregables
+  //imprimir el reporte de los entregables
   va.imprimirReporteTr = function() {
     httpFactory.createPdfRT(proyecto, va.estado, va.clase)
     .then(function(data) {

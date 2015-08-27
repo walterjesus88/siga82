@@ -1,6 +1,9 @@
 /*servicio Factory para configurar datos de Transmittal con include de
 httpFactory para poder enviar los datos de configuracion al servidor*/
-app.factory('transmittalFactory', ['httpFactory', function(httpFactory) {
+app.factory('transmittalFactory', ['httpFactory', '$q', function(httpFactory, $q) {
+
+  var defered = $q.defer();
+  var promise = defered.promise;
 
   var datos = {
     codificacion: '',
@@ -19,24 +22,20 @@ app.factory('transmittalFactory', ['httpFactory', function(httpFactory) {
     modo_envio: 'F'
   };
 
-  var transmittal = {
-    codigo: '',
-    entregables: []
-  };
-
   var publico = {
     cargarTransmittal: function(proyectoid) {
       httpFactory.getTransmittal(proyectoid)
       .then(function(data) {
         publico.setConfiguracion(data);
+        defered.resolve(datos);
       })
       .catch(function(err) {
-
+        defered.resolve(datos);
       });
     },
 
     getConfiguracion: function() {
-      return datos;
+      return promise;
     },
 
     setConfiguracion: function(transmittal) {
@@ -114,26 +113,6 @@ app.factory('transmittalFactory', ['httpFactory', function(httpFactory) {
       .catch(function(err) {
         alert('No se pudo crear el transmittal solicitado');
       });
-    },
-    obtenerDatos: function() {
-      alert('hola');
-    },
-
-
-    agregarEntregable: function(entregable) {
-      transmittal.entregables.push(entregable);
-    },
-    eliminarEntregable: function(entregableid) {
-      var temp = [];
-      for (var i = 0; i < transmittal.entregables.length; i++) {
-        if (transmittal.entregables[i].codigo != entregableid) {
-          temp.push(transmittal.entregables[i]);
-        }
-      }
-      transmittal.entregables = temp;
-    },
-    guardarTransmittal: function() {
-      //peticiones al servidor para guardar los entregables asociados al transmittal
     },
     emitirTransmittal: function() {
       //cambiar el estado a emitido haciendo imposible la modificacion o agregar entregables

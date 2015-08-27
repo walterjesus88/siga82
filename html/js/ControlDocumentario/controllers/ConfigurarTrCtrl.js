@@ -6,27 +6,33 @@ function($routeParams, httpFactory, transmittalFactory, proyectoFactory, $modal)
 
   transmittalFactory.cargarTransmittal($routeParams.proyecto);
   //obtencion de los datos de configuracion del transmittal
-  vc.transmittal = transmittalFactory.getConfiguracion();
-
-  proyectoFactory.getDatosProyecto($routeParams.proyecto)
+  transmittalFactory.getConfiguracion()
   .then(function(data) {
-    vc.proyecto = data;
-    vc.transmittal.proyecto = vc.proyecto.codigo;
-    //cargar los datos del transmittal con los datos del proyecto
-    if (vc.transmittal.codificacion == '' || vc.transmittal.codificacion == null ||
-    vc.transmittal.codificacion == undefined) {
-      vc.transmittal.clienteid = vc.proyecto.clienteid;
-      vc.transmittal.cliente = vc.proyecto.cliente;
-      vc.transmittal.control_documentario = vc.proyecto.control_documentario;
-      vc.transmittal.tipo_proyecto = vc.proyecto.tipo_proyecto;
-    }
+    vc.transmittal = data;
 
-    vc.control_documentario = vc.transmittal.control_documentario.changeFormat();
-    //obtencion del numero correlativo que corresponderia a este transmittal
-    listarContactos(data.clienteid);
+    proyectoFactory.getDatosProyecto($routeParams.proyecto)
+    .then(function(data) {
+      vc.proyecto = data;
+      vc.transmittal.proyecto = vc.proyecto.codigo;
+      //cargar los datos del transmittal con los datos del proyecto
+      if (vc.transmittal.codificacion == '' || vc.transmittal.codificacion == null ||
+      vc.transmittal.codificacion == undefined) {
+        vc.transmittal.clienteid = vc.proyecto.clienteid;
+        vc.transmittal.cliente = vc.proyecto.cliente;
+        vc.transmittal.control_documentario = vc.proyecto.control_documentario;
+        vc.transmittal.tipo_proyecto = vc.proyecto.tipo_proyecto;
+      }
+
+      vc.control_documentario = vc.transmittal.control_documentario.changeFormat();
+      //obtencion del numero correlativo que corresponderia a este transmittal
+      listarContactos(data.clienteid);
+    })
+    .catch(function(err) {
+      alert('No se pudo cargar los datos del proyecto');
+    });
   })
   .catch(function(err) {
-    alert('No se pudo cargar los datos del proyecto');
+
   });
 
   /*formatos, tipos de envio y los seleccionados por defecto; arrays de los

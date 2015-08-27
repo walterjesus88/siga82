@@ -4,6 +4,7 @@ function(httpFactory, $routeParams, respuestaFactory, transmittalFactory) {
   cl = this;
 
   var proyectoid = $routeParams.proyecto;
+  var transmittal = {};
 
   cl.detalles_sin_respuesta = [];
 
@@ -23,14 +24,22 @@ function(httpFactory, $routeParams, respuestaFactory, transmittalFactory) {
   }
 
   listarEmisiones = function() {
-    var transmittal = transmittalFactory.getConfiguracion();
-    httpFactory.getEmisionesByTipo(transmittal.tipo_envio)
+    transmittalFactory.getConfiguracion()
     .then(function(data) {
-      cl.emisiones = data;
+      transmittal = data;
+
+      httpFactory.getEmisionesByTipo(transmittal.tipo_envio)
+      .then(function(data) {
+        cl.emisiones = data;
+      })
+      .catch(function(err) {
+        cl.emisiones = [];
+      });
     })
     .catch(function(err) {
-      cl.emisiones = [];
+
     });
+
   }
 
   //obtener los datos de respuestas emitidas y tipos de emision disponibles para estos entregables
