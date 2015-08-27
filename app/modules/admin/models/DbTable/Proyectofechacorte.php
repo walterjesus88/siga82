@@ -33,7 +33,7 @@ class Admin_Model_DbTable_Proyectofechacorte extends Zend_Db_Table_Abstract
     {
         try{
   
-            if ($data['codigo_prop_proy']==''  ||  $data['proyectoid']==''  ) return false;
+            if ($data['codigo_prop_proy']==''    ) return false;
             return $this->insert($data);
             return false;
         }catch (Exception $e){

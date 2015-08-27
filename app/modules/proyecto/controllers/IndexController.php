@@ -1450,21 +1450,32 @@ public function verAction() {
       $proyectoxcronograma = new Admin_Model_DbTable_Proyectocronograma();
       $datos = $proyectoxcronograma->_getFilter($data);
 
-      $respuesta = [];
-      $data = [];
-      $i = 0;
+      if($datos)
+      {
+          $respuesta = [];
+          $data = [];
+          $i = 0;
 
-      foreach ($datos as $item) {
-         $data['codigo_prop_proy'] = $item['codigo_prop_proy'];
-         $data['codigo_cronograma'] = $item['codigo_cronograma'];
-         $data['revision_cronograma'] = $item['revision_cronograma'];
-         $data['proyectoid'] = $item['proyectoid'];
-         //$data['revision_propuesta'] = $item['revision_propuesta'];
-         $data['cronogramaid'] = $item['cronogramaid'];  
-         $data['state'] = $item['state'];
-         $respuesta[$i] = $data;
-         $i++;
+          foreach ($datos as $item) {
+             $data['codigo_prop_proy'] = $item['codigo_prop_proy'];
+             $data['codigo_cronograma'] = $item['codigo_cronograma'];
+             $data['revision_cronograma'] = $item['revision_cronograma'];
+             $data['proyectoid'] = $item['proyectoid'];
+             //$data['revision_propuesta'] = $item['revision_propuesta'];
+             $data['cronogramaid'] = $item['cronogramaid'];  
+             $data['state'] = $item['state'];
+             $respuesta[$i] = $data;
+             $i++;
+          }
+
       }
+      else
+      {
+        $respuesta = [];
+      }
+
+   
+
       $this->_helper->json->sendJson($respuesta);
   }
 
@@ -1665,6 +1676,15 @@ public function cronogramaxactivoAction() {
   $proyectoid = $this->_getParam("proyectoid");
   $proyectocronograma= new Admin_Model_DbTable_Proyectocronograma();
   $pcronograma=$proyectocronograma->_getCronogramaxActivo($proyectoid);
+  if($pcronograma)
+  {
+
+  }
+  else
+  {
+    $pcronograma=[];
+  }
+
   $this->_helper->json->sendJson($pcronograma); 
 }
 
@@ -1678,8 +1698,10 @@ public function proyectoxperformanceAction() {
   $performance=new Admin_Model_DbTable_Performance(); 
   $perf=$performance->_getBuscarActividadxPerformance($proyectoid,$revision);
 
-  $i=0;
-  foreach ($perf as $keyper) {
+  if($perf)
+  {
+      $i=0;
+      foreach ($perf as $keyper) {
      
       $wheredet['codigo_prop_proy']=$keyper['codigo_prop_proy'];
       $wheredet['codigo_actividad']=$keyper['codigo_actividad']; 
@@ -1722,8 +1744,13 @@ public function proyectoxperformanceAction() {
         'duracion' =>$keyper['duracion'],
         'items'=> $pdetalle);
       $i++;  
-  } 
-  
+      } 
+  }
+  else
+  {
+    $ek=[];
+  }
+ 
   $this->_helper->json->sendJson($ek);
 
 }
