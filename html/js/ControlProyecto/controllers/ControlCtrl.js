@@ -543,8 +543,8 @@ va.GuardarFechaCorte = function() {
   .then(function(data) {
     //alert('FECHA CORTE'); 
 
-     console.log(data);
-     console.log(va.thi.length);
+     // console.log(data);
+     // console.log(va.thi.length);
 
     va.inserted = {    
       codigo_prop_proy:codigoproyecto,
@@ -555,23 +555,25 @@ va.GuardarFechaCorte = function() {
       fecha:fechacorte,     
     };
 
-    va.thi.push(va.inserted);  
-    // if(va.thi.length)
-    //   {        
-    //     alert('tuu');     
-    //   }
-    // else
-    //   {        
-    //     va.thi=[];
-    //     va.thi.push(va.inserted);
-    //     alert('tuuxxxxx');     
+    //va.thi.push(va.inserted);  
+    if(va.thi)
+       {        
+         va.thi.push(va.inserted);
+         //alert('tuu');     
+       }
+     else
+       {        
+         va.thi=[];
+         va.thi.push(va.inserted);
+         //alert('tuuxxxxx');     
 
-    //   }
+      }
       
 
   })
   .catch(function(err) {
-    console.log("error al eliminar edt");
+    alert('error al guardar fecha posible ya hay una asignada igual');
+    
   });
 };
 
