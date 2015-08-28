@@ -2,7 +2,7 @@
 class Admin_Model_DbTable_Proyectofechacorte extends Zend_Db_Table_Abstract
 {
     protected $_name = 'proyecto_fechacorte';
-    protected $_primary = array("codigo_prop_proy", "proyectoid", "fechacorteid");
+    protected $_primary = array("codigo_prop_proy", "proyectoid", "fecha","revision_cronograma");
     protected $_sequence ="s_fecha_corte";
 
 
@@ -33,7 +33,7 @@ class Admin_Model_DbTable_Proyectofechacorte extends Zend_Db_Table_Abstract
     {
         try{
   
-            if ($data['codigo_prop_proy']==''    ) return false;
+            if ($data['codigo_prop_proy']=='' || $data['proyectoid']=='' || $data['fecha']=='' || $data['revision_cronograma']=='' ) return false;
             return $this->insert($data);
             return false;
         }catch (Exception $e){
@@ -89,7 +89,7 @@ class Admin_Model_DbTable_Proyectofechacorte extends Zend_Db_Table_Abstract
         try{          
             $where = "codigo_prop_proy = '".$pk['codigo_prop_proy']."' 
             and proyectoid = '".$pk['proyectoid']."' and 
-            fechacorteid = '".$pk['fechacorteid']."'
+            fechacorteid = '".$pk['fechacorteid']."' 
             ";
             return $this->update($data, $where);
             return false;

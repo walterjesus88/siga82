@@ -423,26 +423,26 @@ function(httpFactory, $scope,$q,proyectoFactory) {
   //   };
 
 ////////////////////////////////////////////////////*aca nace perfomance*////////////////////////////////////////////////////////////////
-//      this.performancedata = [
-//       { actividadid: 'actividad 1', expanded: true,
-//         items: [
-//           { 2015-05-05: 'Walk dog', completed: false },
-//           { fecha2: 'Write blog post', completed: true },
-//           { fecha3: 'Buy milk', completed: false },
-//         ]
-//       },
-//       { actividadid: 'actividad 2', expanded: false,
-//         items: [
-//           { 2015-05-05: 'Ask for holidays', completed: false }
-//         ]
-//       },
-//       { actividadid: 'actividad 3', expanded: false,
-//         items: [
-//           { 2015-05-05: 'War and peace', completed: false },
-//           { fecha2: '1Q84', completed: false },
-//         ]
-//       }
-//     ];
+    //  this.cronogramaxperformance = [
+    //   { revision_cronograma: 'A', expanded: true,
+    //     items: [
+    //       { 2015-05-05: 'Walk dog', completed: false },
+    //       { fecha2: 'Write blog post', completed: true },
+    //       { fecha3: 'Buy milk', completed: false },
+    //     ]
+    //   },
+    //   { revision_cronograma: 'B', expanded: false,
+    //     items: [
+    //       { 2015-05-05: 'Ask for holidays', completed: false }
+    //     ]
+    //   },
+    //   { revision_cronograma: 'C', expanded: false,
+    //     items: [
+    //       { 2015-05-05: 'War and peace', completed: false },
+    //       { fecha2: '1Q84', completed: false },
+    //     ]
+    //   }
+    // ];
 
 // console.log(this.performancedata);
 
@@ -456,6 +456,14 @@ va.buscaperformance = function(revision) {
 
   console.log(revision_cronograma);
   console.log(proyectoid);
+
+  proyectoFactory.getDatosxProyectoxFechaxCorte(proyectoid,revision_cronograma)
+  .then(function(data) {
+    va.thi=data; 
+  })
+  .catch(function(err) {
+    va.thi = {};
+  });
 
   proyectoFactory.getDatosProyectoxPerfomance(proyectoid,revision_cronograma)
   .then(function(datax) {
@@ -544,11 +552,6 @@ va.GuardarFechaCorte = function() {
 
   proyectoFactory.setDatosxGuardarxFechaCorte(revision,codigoproyecto,proyectoid,fechacorte,tipocorte)
   .then(function(data) {
-    //alert('FECHA CORTE'); 
-
-     console.log(data);
-     console.log(va.thi.length);
-
     va.inserted = {    
       codigo_prop_proy:codigoproyecto,
       proyectoid:proyectoid,   
@@ -558,23 +561,22 @@ va.GuardarFechaCorte = function() {
       fecha:fechacorte,     
     };
 
-    console.log(va.thi);
-    va.thi.push(va.inserted);  
-     // if(va.thi)
-     //  {        
-     //    alert('tuu');     
-     //  }
-     // else
-     //  {        
-     //     va.thi=[];
-     //     va.thi.push(va.inserted);
-     //     alert('tuuxxxxx');     
-     //  }
+    if(va.thi)
+       {        
+         va.thi.push(va.inserted);        
+       }
+     else
+       {        
+         va.thi=[];
+         va.thi.push(va.inserted);  
+      }
+
       
 
   })
   .catch(function(err) {
-    console.log("error al eliminar edt");
+    alert('error al guardar fecha posible ya hay una asignada igual');
+    
   });
 };
 
@@ -612,7 +614,7 @@ proyectoFactory.getVerCronogramaxActivo(proyecto['codigo'])
     proyectoFactory.getDatosxProyectoxFechaxCorte(proyecto['codigo'],revision)
     .then(function(data) {
       va.thi=data;
-      console.log('va.thi');
+      //alert('va.thi');
       console.log(va.thi);
 
     })
@@ -624,6 +626,10 @@ proyectoFactory.getVerCronogramaxActivo(proyecto['codigo'])
     proyectoFactory.getDatosProyectoxPerfomance(proyecto['codigo'],revision)
     .then(function(datax) {
         va.performance=datax;
+
+        console.log('va.performance');
+
+        console.log(va.performance);
        })
     .catch(function(err) {
         va.performance = {};
@@ -792,6 +798,16 @@ va.saveTable = function() {
     });
 
   }
+
+
+  va.toggleCategory = function(category) {
+      alert('mmmmmmmmmmm');
+      category.expanded = !category.expanded;
+    };
+
+
+
+
 
 }]);
 

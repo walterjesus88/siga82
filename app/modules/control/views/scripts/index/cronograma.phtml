@@ -104,3 +104,163 @@
 
 
 
+
+
+
+<!-- 
+
+      <div ng-repeat-start="category in CP.performance" class="animate-repeat-category">
+          <button class="btn btn-primary btn-block btn-sm" ng-click="CP.toggleCategory(category)">
+            {{ category.actividadid}}
+           
+            <span class="expand-indicator" ng-show="category.expanded">&mdash;</span>
+            <span class="expand-indicator" ng-show="!category.expanded">+</span>
+          </button>
+     
+        <div class="list-items animate-show-item" ng-show="category.expanded">
+          <ul>
+          <li ng-repeat="item in category.items" class="animate-repeat-item">
+            {{item.fecha_performance}}
+            <span ng-class="{done:item.completed}" ltc-editable class-off="done" ng-model="item.fecha_performance"></span>
+         
+          </li>
+          </ul>
+          <div class="no-items"><small ng-show="category.expanded && category.items.length==0">NO ITEMS!</small></div>
+        </div>
+
+        <div ng-repeat-end>
+          <button ng-show="category.expanded" class="btn btn-primary btn-block btn-sm animate-show-item" disabled="disabled">/ {{ category.actividadid}} </button>
+          <hr>
+        </div> -->
+
+
+
+<style type="text/css">
+body {
+  font-size: 12px;
+}
+span.done {
+  text-decoration: line-through;
+}
+
+span.expand-indicator {
+  float: right;
+  margin-right: 15px;
+  font-size: 12px;
+}
+
+div.list-items ul {
+  margin-top: 10px;
+}
+div.list-items li {
+  margin-top: 5px;
+  height: 22px;
+  cursor: default;
+}
+
+div.list-items li:hover {
+  background-color: #EEE;
+}
+
+div.list-items .btn {
+  float: right;
+  margin-right: 10px;
+}
+
+.no-items {
+  color: #999;
+  text-align: center;
+  margin-bottom: 5px;
+}
+
+
+/* Animations */
+.animate-show-item.ng-hide-add,
+.animate-show-item.ng-hide-remove {
+  -webkit-transition:0.33s ease all;
+  transition:0.5s linear all;
+
+  /* remember to add this */
+  display:block!important;
+  position: relative;
+  top: 0;
+  opacity:1;
+}
+.animate-show-item.ng-hide {
+  top: -15px;
+  opacity:0;
+}
+
+.animate-repeat-category.ng-enter,
+.animate-repeat-category.ng-leave,
+.animate-repeat-category.ng-move,
+.animate-repeat-item.ng-enter,
+.animate-repeat-item.ng-leave,
+.animate-repeat-item.ng-move {
+  -webkit-transition: 0.33s ease all;
+  transition: 0.33s eases all;
+  position:relative;
+}
+
+.animate-repeat-item.ng-enter {
+  left:-10px;
+  opacity:0;
+}
+.animate-repeat-item.ng-enter.ng-enter-active {
+  left:0;
+  opacity:1;
+}
+
+.animate-repeat-item.ng-leave {
+  left:0;
+  opacity:1;
+}
+.animate-repeat-item.ng-leave.ng-leave-active {
+  left:-10px;
+  opacity:0;
+}
+
+.animate-repeat-category.ng-enter {
+  top:-10px;
+  opacity:0;
+}
+.animate-repeat-category.ng-enter.ng-enter-active {
+  top:0;
+  opacity:1;
+}
+
+.animate-repeat-category.ng-leave {
+  top:0;
+  opacity:1;
+}
+.animate-repeat-category.ng-leave.ng-leave-active {
+  top:-10px;
+  opacity:0;
+}
+
+.animate-repeat-item.ng-move {
+  opacity:0.5;
+}
+.animate-repeat-item.ng-move.ng-move-active {
+  opacity:1;
+}
+
+/* bootstrap  overrides */
+.page-header {
+  margin: 10px 0 10px;
+  padding-bottom: 0;
+  text-align: center;
+}
+.form-control {
+  font-size: 12px;
+}
+
+.form-group {
+  margin-bottom: 8px;
+}
+
+hr {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+</style>
