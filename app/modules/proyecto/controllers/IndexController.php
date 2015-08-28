@@ -1934,6 +1934,7 @@ public function guardarxfechaxcorteAction()
   $data['codigo_prop_proy']= $this->_getParam("codigoproyecto");
   $data['proyectoid']= $this->_getParam("proyectoid");
   $data['tipo_corte']= $this->_getParam("tipocorte");
+  $data['state']= 'A';
 
   $guardarfechaxcorte=new Admin_Model_DbTable_Proyectofechacorte();
   $gfechaxcorte=$guardarfechaxcorte->_save($data);;

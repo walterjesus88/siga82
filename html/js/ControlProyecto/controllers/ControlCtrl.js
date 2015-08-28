@@ -3,8 +3,6 @@ app.controller('ControlCtrl', ['httpFactory', '$scope','$q',
 function(httpFactory, $scope,$q,proyectoFactory) {
 
   va = this;
-
-
   //obteniendo el codigo del proyecto del scope padre
   var proyecto = $scope.$parent.vt.proyecto;
 
@@ -18,7 +16,7 @@ function(httpFactory, $scope,$q,proyectoFactory) {
       .then(function(data) {
         if(data=='')
         {
-          console.log(data)
+          //console.log(data)
         }
         else
         {
@@ -102,7 +100,7 @@ function(httpFactory, $scope,$q,proyectoFactory) {
  .catch(function(err) {
     va.procronograma = {};
     va.revi = {};
-    alert('ddddddddddd');
+    //alert('ddddddddddd');
   });
 
 
@@ -123,6 +121,8 @@ function(httpFactory, $scope,$q,proyectoFactory) {
       console.log(data);
 
       va.inserted = {
+        codigo_prop_proy:va.proyectop.codigo_prop_proy,
+        proyectoid:va.proyectop.codigo,
         codigo_cronograma:va.codigocronograma,      
         revision_cronograma:va.revision,
         state:va.estado
@@ -284,22 +284,22 @@ function(httpFactory, $scope,$q,proyectoFactory) {
       va.formVisibility=false;    
   }
 
-  va.deleteFecha=function(codigo_curvas)
-  {
-    //console.log(codigo_curvas);
-    var filtered = $filter('filter')(va.dat, {codigo_curvas: codigo_curvas});
-    //console.log(filtered);
-    va.dat.splice(va.dat.indexOf(filtered[0]), 1);
+  // va.deleteFecha=function(codigo_curvas)
+  // {
+  //   //console.log(codigo_curvas);
+  //   var filtered = $filter('filter')(va.dat, {codigo_curvas: codigo_curvas});
+  //   //console.log(filtered);
+  //   va.dat.splice(va.dat.indexOf(filtered[0]), 1);
 
-    httpFactory.setEliminarfechaproyecto(codigo_curvas)
-    .then(function(data) {
-      console.log('Curvas eliminada');
-    })
-    .catch(function(err) {
-      console.log('No se pudo eliminar Curvas');
-    })    
+  //   httpFactory.setEliminarfechaproyecto(codigo_curvas)
+  //   .then(function(data) {
+  //     console.log('Curvas eliminada');
+  //   })
+  //   .catch(function(err) {
+  //     console.log('No se pudo eliminar Curvas');
+  //   })    
 
-  }
+  //}
 
 
   va.Guardarcurva = function() { 
@@ -423,26 +423,26 @@ function(httpFactory, $scope,$q,proyectoFactory) {
   //   };
 
 ////////////////////////////////////////////////////*aca nace perfomance*////////////////////////////////////////////////////////////////
-//      this.performancedata = [
-//       { actividadid: 'actividad 1', expanded: true,
-//         items: [
-//           { 2015-05-05: 'Walk dog', completed: false },
-//           { fecha2: 'Write blog post', completed: true },
-//           { fecha3: 'Buy milk', completed: false },
-//         ]
-//       },
-//       { actividadid: 'actividad 2', expanded: false,
-//         items: [
-//           { 2015-05-05: 'Ask for holidays', completed: false }
-//         ]
-//       },
-//       { actividadid: 'actividad 3', expanded: false,
-//         items: [
-//           { 2015-05-05: 'War and peace', completed: false },
-//           { fecha2: '1Q84', completed: false },
-//         ]
-//       }
-//     ];
+    //  this.cronogramaxperformance = [
+    //   { revision_cronograma: 'A', expanded: true,
+    //     items: [
+    //       { 2015-05-05: 'Walk dog', completed: false },
+    //       { fecha2: 'Write blog post', completed: true },
+    //       { fecha3: 'Buy milk', completed: false },
+    //     ]
+    //   },
+    //   { revision_cronograma: 'B', expanded: false,
+    //     items: [
+    //       { 2015-05-05: 'Ask for holidays', completed: false }
+    //     ]
+    //   },
+    //   { revision_cronograma: 'C', expanded: false,
+    //     items: [
+    //       { 2015-05-05: 'War and peace', completed: false },
+    //       { fecha2: '1Q84', completed: false },
+    //     ]
+    //   }
+    // ];
 
 // console.log(this.performancedata);
 
@@ -453,6 +453,17 @@ va.buscaperformance = function(revision) {
 
   revision_cronograma=revision.revision_cronograma;
   proyectoid=revision.proyectoid;
+
+  console.log(revision_cronograma);
+  console.log(proyectoid);
+
+  proyectoFactory.getDatosxProyectoxFechaxCorte(proyectoid,revision_cronograma)
+  .then(function(data) {
+    va.thi=data; 
+  })
+  .catch(function(err) {
+    va.thi = {};
+  });
 
   proyectoFactory.getDatosProyectoxPerfomance(proyectoid,revision_cronograma)
   .then(function(datax) {
@@ -486,8 +497,8 @@ va.buscafecha = function(revision) {
 revision_cronograma=revision.revision_cronograma;
 proyectoid=revision.proyectoid;
 
-//console.log(proyectoid);
-//console.log(revision);
+console.log(proyectoid);
+console.log(revision);
 
   proyectoFactory.getDatosxProyectoxFechaxCorte(proyectoid,revision_cronograma)
   .then(function(data) {
@@ -541,11 +552,6 @@ va.GuardarFechaCorte = function() {
 
   proyectoFactory.setDatosxGuardarxFechaCorte(revision,codigoproyecto,proyectoid,fechacorte,tipocorte)
   .then(function(data) {
-    //alert('FECHA CORTE'); 
-
-     console.log(data);
-     console.log(va.thi.length);
-
     va.inserted = {    
       codigo_prop_proy:codigoproyecto,
       proyectoid:proyectoid,   
@@ -555,23 +561,22 @@ va.GuardarFechaCorte = function() {
       fecha:fechacorte,     
     };
 
-    va.thi.push(va.inserted);  
-    // if(va.thi.length)
-    //   {        
-    //     alert('tuu');     
-    //   }
-    // else
-    //   {        
-    //     va.thi=[];
-    //     va.thi.push(va.inserted);
-    //     alert('tuuxxxxx');     
+    if(va.thi)
+       {        
+         va.thi.push(va.inserted);        
+       }
+     else
+       {        
+         va.thi=[];
+         va.thi.push(va.inserted);  
+      }
 
-    //   }
       
 
   })
   .catch(function(err) {
-    console.log("error al eliminar edt");
+    alert('error al guardar fecha posible ya hay una asignada igual');
+    
   });
 };
 
@@ -598,7 +603,7 @@ proyectoFactory.getVerCronogramaxActivo(proyecto['codigo'])
 
   if(data=='')
   {
-    console.log(data)
+    //console.log(data)
     va.thi=[];
   }
   else
@@ -609,7 +614,7 @@ proyectoFactory.getVerCronogramaxActivo(proyecto['codigo'])
     proyectoFactory.getDatosxProyectoxFechaxCorte(proyecto['codigo'],revision)
     .then(function(data) {
       va.thi=data;
-      console.log('va.thi');
+      //alert('va.thi');
       console.log(va.thi);
 
     })
@@ -621,6 +626,10 @@ proyectoFactory.getVerCronogramaxActivo(proyecto['codigo'])
     proyectoFactory.getDatosProyectoxPerfomance(proyecto['codigo'],revision)
     .then(function(datax) {
         va.performance=datax;
+
+        console.log('va.performance');
+
+        console.log(va.performance);
        })
     .catch(function(err) {
         va.performance = {};
@@ -789,6 +798,16 @@ va.saveTable = function() {
     });
 
   }
+
+
+  va.toggleCategory = function(category) {
+      alert('mmmmmmmmmmm');
+      category.expanded = !category.expanded;
+    };
+
+
+
+
 
 }]);
 
