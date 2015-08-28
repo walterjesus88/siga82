@@ -79,7 +79,7 @@ class Admin_Model_DbTable_Formato extends Zend_Db_Table_Abstract
         $page->drawText('X', 325, 110);
       }
 
-      $this->fileName = $this->cabecera['codificacion'].'-'.$this->cabecera['correlativo'].'sdfgh.pdf';
+      $this->fileName = $this->cabecera['codificacion'].'-'.$this->cabecera['correlativo'].'.pdf';
 
       //datos de entregables
     } elseif ($this->modelo == $this->formatos['barrick']) {
