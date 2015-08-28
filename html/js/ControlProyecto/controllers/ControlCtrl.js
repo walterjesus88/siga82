@@ -3,8 +3,6 @@ app.controller('ControlCtrl', ['httpFactory', '$scope','$q',
 function(httpFactory, $scope,$q,proyectoFactory) {
 
   va = this;
-
-
   //obteniendo el codigo del proyecto del scope padre
   var proyecto = $scope.$parent.vt.proyecto;
 
@@ -18,7 +16,7 @@ function(httpFactory, $scope,$q,proyectoFactory) {
       .then(function(data) {
         if(data=='')
         {
-          console.log(data)
+          //console.log(data)
         }
         else
         {
@@ -102,7 +100,7 @@ function(httpFactory, $scope,$q,proyectoFactory) {
  .catch(function(err) {
     va.procronograma = {};
     va.revi = {};
-    alert('ddddddddddd');
+    //alert('ddddddddddd');
   });
 
 
@@ -123,6 +121,8 @@ function(httpFactory, $scope,$q,proyectoFactory) {
       console.log(data);
 
       va.inserted = {
+        codigo_prop_proy:va.proyectop.codigo_prop_proy,
+        proyectoid:va.proyectop.codigo,
         codigo_cronograma:va.codigocronograma,      
         revision_cronograma:va.revision,
         state:va.estado
@@ -284,22 +284,22 @@ function(httpFactory, $scope,$q,proyectoFactory) {
       va.formVisibility=false;    
   }
 
-  va.deleteFecha=function(codigo_curvas)
-  {
-    //console.log(codigo_curvas);
-    var filtered = $filter('filter')(va.dat, {codigo_curvas: codigo_curvas});
-    //console.log(filtered);
-    va.dat.splice(va.dat.indexOf(filtered[0]), 1);
+  // va.deleteFecha=function(codigo_curvas)
+  // {
+  //   //console.log(codigo_curvas);
+  //   var filtered = $filter('filter')(va.dat, {codigo_curvas: codigo_curvas});
+  //   //console.log(filtered);
+  //   va.dat.splice(va.dat.indexOf(filtered[0]), 1);
 
-    httpFactory.setEliminarfechaproyecto(codigo_curvas)
-    .then(function(data) {
-      console.log('Curvas eliminada');
-    })
-    .catch(function(err) {
-      console.log('No se pudo eliminar Curvas');
-    })    
+  //   httpFactory.setEliminarfechaproyecto(codigo_curvas)
+  //   .then(function(data) {
+  //     console.log('Curvas eliminada');
+  //   })
+  //   .catch(function(err) {
+  //     console.log('No se pudo eliminar Curvas');
+  //   })    
 
-  }
+  //}
 
 
   va.Guardarcurva = function() { 
@@ -454,6 +454,9 @@ va.buscaperformance = function(revision) {
   revision_cronograma=revision.revision_cronograma;
   proyectoid=revision.proyectoid;
 
+  console.log(revision_cronograma);
+  console.log(proyectoid);
+
   proyectoFactory.getDatosProyectoxPerfomance(proyectoid,revision_cronograma)
   .then(function(datax) {
       va.performance=datax;
@@ -486,8 +489,8 @@ va.buscafecha = function(revision) {
 revision_cronograma=revision.revision_cronograma;
 proyectoid=revision.proyectoid;
 
-//console.log(proyectoid);
-//console.log(revision);
+console.log(proyectoid);
+console.log(revision);
 
   proyectoFactory.getDatosxProyectoxFechaxCorte(proyectoid,revision_cronograma)
   .then(function(data) {
@@ -555,18 +558,18 @@ va.GuardarFechaCorte = function() {
       fecha:fechacorte,     
     };
 
+    console.log(va.thi);
     va.thi.push(va.inserted);  
-    // if(va.thi.length)
-    //   {        
-    //     alert('tuu');     
-    //   }
-    // else
-    //   {        
-    //     va.thi=[];
-    //     va.thi.push(va.inserted);
-    //     alert('tuuxxxxx');     
-
-    //   }
+     // if(va.thi)
+     //  {        
+     //    alert('tuu');     
+     //  }
+     // else
+     //  {        
+     //     va.thi=[];
+     //     va.thi.push(va.inserted);
+     //     alert('tuuxxxxx');     
+     //  }
       
 
   })
@@ -598,7 +601,7 @@ proyectoFactory.getVerCronogramaxActivo(proyecto['codigo'])
 
   if(data=='')
   {
-    console.log(data)
+    //console.log(data)
     va.thi=[];
   }
   else
