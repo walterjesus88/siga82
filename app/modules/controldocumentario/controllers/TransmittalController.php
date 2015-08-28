@@ -88,6 +88,23 @@ class ControlDocumentario_TransmittalController extends Zend_Controller_Action {
       $this->_helper->json->sendJson($respuesta);
     }
 
+    //editar respuesta
+    public function editarrespuestaAction()
+    {
+      $data['detalleid'] = $this->_getParam('detalleid');
+      $data['respuesta_transmittal'] = $this->_getParam('respuestatransmittal');
+      $data['codigo_anddes'] = $this->_getParam('codigoanddes');
+      $data['codigo_cliente'] = $this->_getParam('codigocliente');
+      $data['descripcion'] = $this->_getParam('descripcion');
+      $data['revision'] = $this->_getParam('revision');
+      $data['respuesta_emitido'] = $this->_getParam('emitido');
+      $data['respuesta_fecha'] = $this->_getParam('fecha');
+
+      $detalle = new Admin_Model_DbTable_DetalleTransmittal();
+      $respuesta = $detalle->_updateRespuesta($data);
+      $this->_helper->json->sendJson($respuesta);
+    }
+
     //eliminar respuesta del cliente o contratistas
     public function eliminarrespuestaAction()
     {

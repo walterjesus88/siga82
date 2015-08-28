@@ -31,12 +31,14 @@
         </th>
       </thead>
       <tbody>
-        <tr ng-repeat="entregable in cl.emitidos track by $index">
+        <tr ng-repeat="entregable in cl.emitidos track by $index"
+        ng-click="entregable.seleccionarRespuesta()"
+        ng-class="entregable.estilo">
           <td>
             {{$index + 1}}
           </td>
           <td>
-            {{entregable.transmittal}}
+            <input type="text" ng-model="entregable.transmittal">
           </td>
           <td>
             {{entregable.codigo_anddes}}
@@ -57,7 +59,7 @@
             </select>
           </td>
           <td>
-            {{entregable.fecha}}
+            <input type="text" ng-model="entregable.fecha">
           </td>
         </tr>
         <tr ng-repeat="entregable in cl.respuestas track by $index">
@@ -100,11 +102,10 @@
   </div>
 </div>
 <footer>
-  <button type="button" class="btn btn-info">Imprimir</button>
+  <button type="button" class="btn btn-info" ng-click="cl.imprimir()">Imprimir</button>
   <button type="button" class="btn btn-primary" ng-click="cl.agregar()">Agregar</button>
-  <button type="button" class="btn btn-warning" ng-click="cl.editar()">Editar</button>
   <button type="button" class="btn btn-danger" ng-click="cl.eliminar()">Eliminar</button>
-  <button type="button" class="btn btn-default">Cancelar</button>
+  <button type="button" class="btn btn-default" ng-click="cl.cancelar()">Cancelar</button>
   <button type="button" class="btn btn-success" ng-click="cl.guardar()">Guardar</button>
 </footer>
 

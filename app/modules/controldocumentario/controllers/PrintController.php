@@ -113,6 +113,25 @@ class ControlDocumentario_PrintController extends Zend_Controller_Action {
       $this->_helper->json->sendJson($respuesta);
     }
 
+    public function imprimirreporteclienteAction()
+    {
+      $proyectoid = $this->_getParam('proyectoid');
+
+      $proyecto = new Admin_Model_DbTable_Proyecto();
+      $data['proyectoid'] = $proyectoid;
+      $cabecera = $proyecto->_getOnexProyectoidExtendido($data);
+
+      $detalle = new Admin_Model_DbTable_DetalleTransmittal();
+      $lista = $detalle->_getDetallesConRespuestaExtendido($proyectoid);
+
+      $formato = new Admin_Model_DbTable_Formato();
+      $formato->_setFormato('reporte_cliente');
+      $formato->_setCabecera($cabecera);
+      $formato->_setData($lista);
+      $respuesta = $formato->_print();
+      $this->_helper->json->sendJson($respuesta);
+    }
+
     public function imprimirtransmittalAction()
     {
       $transmittal = $this->_getParam('transmittal');

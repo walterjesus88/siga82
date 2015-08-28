@@ -23,6 +23,7 @@ function(httpFactory, $routeParams) {
       this.revision = '';
       this.emitido = '';
       this.fecha = '';
+      this.seleccionado = false;
 
       this.cambiarCodigo = function(codigo) {
         var anddes = '';
@@ -56,11 +57,40 @@ function(httpFactory, $routeParams) {
         .then(function(data) {
 
         })
-        .catch(function(data) {
+        .catch(function(err) {
 
         });
       }
 
+      this.actualizarRespuesta = function() {
+        httpFactory.updateRespuesta(this)
+        .then(function(data) {
+
+        })
+        .catch(function(err) {
+
+        });
+      }
+
+      this.seleccionarRespuesta = function() {
+        if (this.seleccionado == false) {
+          this.seleccionado = true;
+          this.estilo = 'post-highlight yellow';
+        } else {
+          this.seleccionado = false;
+          this.estilo = '';
+        }
+      }
+
+      this.eliminarRespuesta = function() {
+        httpFactory.deleteRespuesta(this.detalleid)
+        .then(function(data) {
+
+        })
+        .catch(function(err) {
+
+        });
+      }
     }
   }
   return publico;

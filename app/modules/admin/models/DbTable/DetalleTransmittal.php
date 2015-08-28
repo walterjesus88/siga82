@@ -109,4 +109,50 @@ class Admin_Model_DbTable_DetalleTransmittal extends Zend_Db_Table_Abstract
 
     }
 
+    //editar respuestas
+    public function _updateRespuesta($data)
+    {
+      try {
+        $estado = 'Aprobado';
+        $row = $this->fetchRow("detalleid = ".$data['detalleid']);
+        $row->respuesta_transmittal = $data['respuesta_transmittal'];
+        $row->respuesta_emitido = $data['respuesta_emitido'];
+        $row->respuesta_fecha = $data['respuesta_fecha'];
+        $row->estado = $estado;
+        $row->save();
+        return $row;
+      } catch (Exception $e) {
+        print $e->getMessage();
+      }
+
+    }
+
+    public function _deleteRespuesta($detalleid)
+    {
+      $sql = $this->_db->query("update detalle_transmittal set
+      respuesta_transmittal = null, respuesta_emitido = null,
+      respuesta_fecha = null, estado = 'Pendiente' where detalleid = ".$detalleid);
+      $row = $sql->fetchAll();
+      return $row;
+    }
+
+    public function _getDetallesConRespuestaExtendido($proyectoid)
+    {
+      try {
+        $sql = $this->_db->query("select det.detalleid, det.respuesta_transmittal
+        as transmittal, led.codigo_anddes, led.codigo_cliente,
+        led.descripcion_entregable as descripcion, led.revision_entregable as
+        revision, tip.emitido_para as emitido, det.respuesta_fecha as fecha
+        from detalle_transmittal as det
+        inner join lista_entregable_detalle as led on det.entregableid =
+        led.cod_le inner join tipo_envio as tip on (det.respuesta_emitido = tip.codigo
+        and tip.tipo = 'ANDDES')
+        where det.respuesta_transmittal is not null");
+        $rows = $sql->fetchAll();
+        return $rows;
+      } catch (Exception $e) {
+        print $e->getMessage();
+      }
+
+    }
 }

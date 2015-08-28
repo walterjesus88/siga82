@@ -16,7 +16,18 @@ function(httpFactory, $routeParams, respuestaFactory, transmittalFactory) {
   listarRespuestas = function() {
     httpFactory.getRespuestas(proyectoid)
     .then(function(data){
-      cl.emitidos = data;
+      data.forEach(function(resp) {
+        respuesta = new respuestaFactory.Respuesta();
+        respuesta.transmittal = resp.transmittal;
+        respuesta.detalleid = resp.detalleid;
+        respuesta.codigo_anddes = resp.codigo_anddes;
+        respuesta.codigo_cliente = resp.codigo_cliente;
+        respuesta.descripcion = resp.descripcion;
+        respuesta.emitido = resp.emitido;
+        respuesta.revision = resp.revision;
+        respuesta.fecha = resp.fecha;
+        cl.emitidos.push(respuesta);
+      })
     })
     .catch(function(err) {
       cl.emitidos = [];
@@ -59,8 +70,14 @@ function(httpFactory, $routeParams, respuestaFactory, transmittalFactory) {
   }
 
   cl.guardar = function() {
+    cl.emitidos.forEach(function(respuesta) {
+      respuesta.actualizarRespuesta();
+    })
     cl.respuestas.forEach(function(respuesta) {
-      respuesta.guardarRespuesta();
+      if (respuesta.transmittal != null && respuesta.transmittal != undefined &&
+      respuesta.transmittal != '') {
+        respuesta.guardarRespuesta();
+      }
       cl.alerts.push({type: 'success', msg: 'Datos guardados satisfactoriamente'});
     });
   }
@@ -69,5 +86,34 @@ function(httpFactory, $routeParams, respuestaFactory, transmittalFactory) {
 
   cl.closeAlert = function(index) {
     cl.alerts.splice(index, 1);
+  }
+
+  cl.eliminar = function() {
+    var temp = [];
+    for (var i = 0; i < cl.emitidos.length; i++) {
+      if (cl.emitidos[i].seleccionado == true) {
+        cl.emitidos[i].eliminarRespuesta();
+      }  else if (cl.emitidos[i].seleccionado == false) {
+        temp.push(cl.emitidos[i]);
+      }
+    }
+    cl.emitidos = temp;
+    cl.alerts.push({type: 'success', msg: 'Datos eliminados satisfactoriamente'});
+  }
+
+  cl.cancelar = function() {
+    cl.respuestas = [];
+    cl.emitidos = [];
+    listarRespuestas();
+  }
+
+  cl.imprimir = function() {
+    httpFactory.createPdfCliente(proyectoid)
+    .then(function(data) {
+      window.open(data.archivo, '_blank');
+    })
+    .catch(function(err) {
+
+    });
   }
 }]);

@@ -16,6 +16,7 @@ class Admin_Model_DbTable_Formato extends Zend_Db_Table_Abstract
     $this->formatos['proyectos'] = 'formatos/proyectos.pdf';
     $this->formatos['carpetas'] = 'formatos/carpetas.pdf';
     $this->formatos['reporte_transmittal'] = 'formatos/reporte-tr.pdf';
+    $this->formatos['reporte_cliente'] = 'formatos/cliente.pdf';
     $this->modelo = $this->formatos[$formato];
   }
 
@@ -170,16 +171,39 @@ class Admin_Model_DbTable_Formato extends Zend_Db_Table_Abstract
       }
 
       $this->fileName = 'Reporte Transmittal.pdf';
+    } elseif ($this->modelo == $this->formatos['reporte_cliente']) {
+      $page->drawText(date("d-m-Y"), 730, 550);
+      $page->drawText($this->cabecera['nombre_proyecto'], 85, 490, 'UTF-8');
+      $page->drawText($this->cabecera['proyectoid'], 85, 455);
+      $page->drawText($this->cabecera['gerente_proyecto'], 700, 490, 'UTF-8');
+      $page->drawText($this->cabecera['control_documentario'], 700, 455);
+
+      for ($i=0; $i < sizeof($this->data); $i++) {
+        $page->drawText((string)$i + 1, 5, 400 - ($i * 20));
+        $page->drawText($this->data[$i]['transmittal'], 20, 400 - ($i * 20));
+        $page->drawText($this->data[$i]['codigo_anddes'], 137, 400 - ($i * 20));
+        $page->drawText($this->data[$i]['codigo_cliente'], 250, 400 - ($i * 20));
+        $page->drawText($this->data[$i]['descripcion'], 380, 400 - ($i * 20));
+        $page->drawText($this->data[$i]['revision'], 610, 400 - ($i * 20));
+        $page->drawText($this->data[$i]['emitido'], 635, 400 - ($i * 20), 'UTF-8');
+        $page->drawText($this->data[$i]['fecha'], 775, 400 - ($i * 20));
+      }
+
+      $this->fileName = 'Reporte Cliente.pdf';
     }
     return $pdf;
   }
 
   public function _print()
   {
-    $pdf = Zend_Pdf::load($this->modelo);
-    $pdf_rellenado = $this->_rellenarFormato($pdf);
-    $pdf_rellenado->save($this->fileName);
-    $ruta['archivo'] = $this->fileName;
-    return $ruta;
+    try {
+      $pdf = Zend_Pdf::load($this->modelo);
+      $pdf_rellenado = $this->_rellenarFormato($pdf);
+      $pdf_rellenado->save($this->fileName);
+      $ruta['archivo'] = $this->fileName;
+      return $ruta;
+    } catch (Exception $e) {
+      print $e->getMessage();
+    }
   }
 }

@@ -451,9 +451,37 @@ app.factory('httpFactory', ['$http', '$q', function($http, $q) {
       var promise = defered.promise;
       $http.post(url_tran + 'guardarrespuesta/detalleid/' + respuesta.detalleid +
       '/respuestatransmittal/' + respuesta.transmittal + '/codigoanddes/' +
-      respuesta.codigoanddes + '/codigocliente/' + respuesta.codigocliente +
+      respuesta.codigo_anddes + '/codigocliente/' + respuesta.codigo_cliente +
       '/descripcion/' + respuesta.descripcion + '/revision/' + respuesta.revision +
       '/emitido/' + respuesta.emitido + '/fecha/' + respuesta.fecha)
+      .success(function(data) {
+        defered.resolve(data);
+      })
+      .error(function(err) {
+        defered.reject(err);
+      });
+      return promise;
+    },
+    updateRespuesta: function(respuesta) {
+      var defered = $q.defer();
+      var promise = defered.promise;
+      $http.put(url_tran + 'editarrespuesta/detalleid/' + respuesta.detalleid +
+      '/respuestatransmittal/' + respuesta.transmittal + '/codigoanddes/' +
+      respuesta.codigo_anddes + '/codigocliente/' + respuesta.codigo_cliente +
+      '/descripcion/' + respuesta.descripcion + '/revision/' + respuesta.revision +
+      '/emitido/' + respuesta.emitido + '/fecha/' + respuesta.fecha)
+      .success(function(data) {
+        defered.resolve(data);
+      })
+      .error(function(err) {
+        defered.reject(err);
+      });
+      return promise;
+    },
+    deleteRespuesta: function(detalleid) {
+      var defered = $q.defer();
+      var promise = defered.promise;
+      $http.delete(url_tran + 'eliminarrespuesta/detalleid/' + detalleid)
       .success(function(data) {
         defered.resolve(data);
       })
@@ -492,6 +520,18 @@ app.factory('httpFactory', ['$http', '$q', function($http, $q) {
       var promise = defered.promise;
       $http.get(url_json + 'obtenerdatoscontacto/clienteid/' + clienteid +
       '/contactoid/' + contactoid)
+      .success(function(data) {
+        defered.resolve(data);
+      })
+      .error(function(err) {
+        defered.reject(err);
+      });
+      return promise;
+    },
+    createPdfCliente: function(proyectoid) {
+      var defered = $q.defer();
+      var promise = defered.promise;
+      $http.post(url_print + 'imprimirreportecliente/proyectoid/' + proyectoid)
       .success(function(data) {
         defered.resolve(data);
       })
