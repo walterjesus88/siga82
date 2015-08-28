@@ -512,6 +512,19 @@ app.factory('httpFactory', ['$http', '$q', function($http, $q) {
         defered.reject(err);
       });
       return promise;
+    },
+    getReporte: function(proyectoid) {
+      var defered = $q.defer();
+      var promise = defered.promise;
+
+      $http.get(url_ent + 'obtenerreporte/proyectoid/' + proyectoid)
+      .success(function(data) {
+        defered.resolve(data);
+      })
+      .error(function(err) {
+        defered.reject(err);
+      });
+      return promise;
     }
   }
 

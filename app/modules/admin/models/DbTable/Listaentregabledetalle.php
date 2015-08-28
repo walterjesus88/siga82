@@ -202,4 +202,49 @@ class Admin_Model_DbTable_Listaentregabledetalle extends Zend_Db_Table_Abstract
       }
 
     }
+
+    //array con los reportes de todos los proyectos
+    public function _getReporteAll()
+    {
+      $proyecto = new Admin_Model_DbTable_Proyecto();
+      $lista = $proyecto->_getAllExtendido('A');
+
+      $respuesta = [];
+      $data = [];
+      $i = 0;
+      foreach ($lista as $item) {
+        $data['codigo'] = $item['proyectoid'];
+        $data['cliente'] = $item['nombre_comercial'];
+        $data['nombre'] = $item['nombre_proyecto'];
+        $data['gerente'] = $item['gerente_proyecto'];
+        $data['control_proyecto'] = $item['control_proyecto'];
+        $data['control_documentario'] = $item['control_documentario'];
+        $data['estado'] = $item['estado'];
+        $respuesta[$i]['proyecto'] = $data;
+
+        $sql = $this->_db->query("select * from lista_entregable_detalle
+        where proyectoid = '".$data['codigo']."'");
+        $rows = $sql->fetchAll();
+        $respuesta[$i]['entregables'] = $rows;
+
+        $i++;
+      }
+
+      $envio = [];
+      $j = 0;
+
+      for ($i=0; $i < sizeof($respuesta); $i++) {
+        if (sizeof($respuesta[$i]['entregables']) != 0) {
+          $envio[$j] = $respuesta[$i];
+          $j++;
+        }
+      }
+
+      return $envio;
+    }
+
+    public function _getReportexProyecto($proyectoid)
+    {
+      print "asdgf";
+    }
 }

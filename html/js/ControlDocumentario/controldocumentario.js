@@ -27,7 +27,7 @@ app.config(['$routeProvider', function($routeProvider) {
   })
   .when("/reporte", {
     controller: "ReporteCtrl",
-    controllerAs: "vr",
+    controllerAs: "reporte",
     templateUrl: "/controldocumentario/index/reporte"
   })
   .when("/transmittal/proyecto/:proyecto", {
