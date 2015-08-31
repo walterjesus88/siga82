@@ -353,6 +353,100 @@ function(httpFactory, $location, $q) {
       return promise;      
     },
 
+/////////////////////// L I S T A  D E  E N T R E G A B L E S /////////////////////////
+    getDatosxEntregable: function(proyectoid) {
+      var defered = $q.defer();
+      var promise = defered.promise;     
+
+      httpFactory.getEntregables(proyectoid)
+      .then(function(data) {
+        datos = data;
+        defered.resolve(datos);
+      })
+      .catch(function(err) {
+        defered.reject(err);
+      });
+      return promise;      
+    },
+
+    setDatosxGuardarxEntregable: function(codigoproyecto,proyectoid,revisionentregable) {
+      var defered = $q.defer();
+      var promise = defered.promise;     
+
+      httpFactory.setGuardarxEntregable(codigoproyecto,proyectoid,revisionentregable)
+      .then(function(data) {
+        datos = data;
+        defered.resolve(datos);
+      })
+      .catch(function(err) {
+        defered.reject(err);
+      });
+      return promise;      
+    },
+
+
+    getDatosxEntregablexActivo: function(proyectoid) {
+      var defered = $q.defer();
+      var promise = defered.promise;     
+
+      httpFactory.getEntregables(proyectoid)
+      .then(function(data) {
+        datos = data;
+        defered.resolve(datos);
+      })
+      .catch(function(err) {
+        defered.reject(err);
+      });
+      return promise;      
+    },
+    
+    getDatosListaxEntregables: function(proyectoid,revision) {
+      var defered = $q.defer();
+      var promise = defered.promise;     
+
+      httpFactory.getListaxEntregables(proyectoid,revision)
+      .then(function(data) {
+        datos = data;
+        defered.resolve(datos);
+      })
+      .catch(function(err) {
+        defered.reject(err);
+      });
+      return promise;      
+    },
+
+    setDatosxGuardarxListaxEntregables: function(codigo_prop_proy,proyectoid,revision_entregable,edt,tipo_documento,disciplina,codigo_anddes,codigo_cliente,fecha_0,fecha_a,fecha_b,descripcion_entregable) {
+      var defered = $q.defer();
+      var promise = defered.promise;     
+
+      httpFactory.setGuardarxListaxEntregables(codigo_prop_proy,proyectoid,revision_entregable,edt,tipo_documento,disciplina,codigo_anddes,codigo_cliente,fecha_0,fecha_a,fecha_b,descripcion_entregable)
+      .then(function(data) {
+        datos = data;
+        defered.resolve(datos);
+      })
+      .catch(function(err) {
+        defered.reject(err);
+      });
+      return promise;      
+    },
+
+    setDatosxEliminarxEntregable: function(edt,codigoproyecto,proyectoid,revision) {
+      var defered = $q.defer();
+      var promise = defered.promise;     
+
+      httpFactory.setEliminarxEntregable(edt,codigoproyecto,proyectoid,revision)
+      .then(function(data) {
+        datos = data;
+        defered.resolve(datos);
+      })
+      .catch(function(err) {
+        defered.reject(err);
+      });
+      return promise;      
+    },
+
+
+///////////////////////F I N   L I S T A  D E  E N T R E G A B L E S /////////////////////////
 
 
 

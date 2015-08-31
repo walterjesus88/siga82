@@ -34,7 +34,7 @@
 
 
 
- <form method="POST" action="#" editable-form name="tableform" onaftersave="CP.saveTable()" oncancel="cancel()" >
+<form method="POST" action="#" editable-form name="tableform" onaftersave="CP.saveTable()" oncancel="cancel()" >
 <table class=" table table-striped table-hover table-bordered ">
 	<thead>	
 		<tr class="menu">    
@@ -68,31 +68,42 @@
 			<td>			
 				<span editable-text="performance.duracion" e-form="tableform" onbeforesave="checkName($data, performance.codigo_performance)">
 				{{ performance.duracion }}
+				</span>
 			</td>
 			<td>			
 				<span editable-text="performance.costo_presupuesto" e-form="tableform" onbeforesave="checkName($data, performance.codigo_performance)">
 				{{ performance.costo_presupuesto }}
+				</span>
+
 			</td> 
 
 			<td>			
 				<span editable-text="performance.horas_real" e-form="tableform" onbeforesave="checkName($data, performance.codigo_performance)">
 				{{ performance.horas_real }}
+				</span>
+
 			</td> 
 
 			<td>
 				<span editable-text="performance.costo_real" e-form="tableform" onbeforesave="checkName($data, performance.codigo_performance)">
 				{{ performance.costo_real }}
+				</span>
+
 			</td>
 
 			<td>
 				<span editable-text="performance.porcentaje_calculo" e-form="tableform" onbeforesave="checkName($data, performance.codigo_performance)">
 				{{ performance.porcentaje_calculo }}
+				</span>
+
 			</td> 
 
 			
 			<td>
 				<span editable-text="performance.fecha_comienzo" e-form="tableform" onbeforesave="checkName($data, performance.codigo_performance)">
 				{{ performance.fecha_comienzo }}
+				</span>
+				
 			</td> 
 			<td>
 				<span editable-text="performance.fecha_fin" e-form="tableform" onbeforesave="checkName($data, performance.codigo_performance)">
@@ -134,7 +145,7 @@
     </button>
 </div>
 <div class="btn-form" ng-show="tableform.$visible">
-    <button type="button" ng-disabled="tableform.$waiting" ng-click="addUser()" class="btn btn-default pull-right">add row</button>
+
     <button type="submit" ng-disabled="tableform.$waiting" class="btn btn-primary">guardar</button>
     <button type="button" ng-disabled="tableform.$waiting" ng-click="tableform.$cancel()" class="btn btn-default">cancelar</button>
 </div>

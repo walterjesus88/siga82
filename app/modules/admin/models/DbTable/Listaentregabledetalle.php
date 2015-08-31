@@ -15,6 +15,41 @@ class Admin_Model_DbTable_Listaentregabledetalle extends Zend_Db_Table_Abstract
     }
 
 
+    public function _getOne($where){
+        try {
+            if ($where["codigo_prop_proy"]=='' || $where["proyectoid"]==''  ||  $where["revision_entregable"]==''  ||  $where["edt"]==''   ) return false;
+                
+                $wherestr= "codigo_prop_proy = '".$where['codigo_prop_proy']."' and  proyectoid = '".$where['proyectoid']."' and  revision_entregable = '".$where['revision_entregable']."' and edt = '".$where['edt']."'";
+
+                $row = $this->fetchRow($wherestr);
+                if($row) return $row->toArray();
+                return false;
+        } catch (Exception $e) {
+            print "Error: Read One Condition".$e->getMessage();
+        }
+    }
+
+
+    public function _update($data,$pk)
+    {
+        try{
+            //if ($pk['id_tproyecto']=='' ||  $pk['proyectoid']=='' ) return false;
+            $where = "
+                codigo_prop_proy = '".$pk['codigo_prop_proy']."' and 
+                revision_entregable = '".$pk['revision_entregable']."' and              
+                edt = '".$pk['edt']."' and 
+                proyectoid = '".$pk['proyectoid']."'
+            ";
+            return $this->update($data, $where);
+            return false;
+        }catch (Exception $e){
+            print "Error: Update curva".$e->getMessage();
+        }
+    }
+
+
+
+
          /* Lista toda las Personas */
     public function _getFilter($where=null,$attrib=null,$orders=null){
         try{
@@ -120,7 +155,7 @@ class Admin_Model_DbTable_Listaentregabledetalle extends Zend_Db_Table_Abstract
     public function _deleteEntregable($entregableid)
     {
       try {
-        $sql = $this->_db->query("deletefrom lista_entregable_detalle where
+        $sql = $this->_db->query("delete from lista_entregable_detalle where
         cod_le = '".$entregableid."'");
         $row = $sql->fetchAll();
         $resp['resultado'] = 'eliminado';
@@ -130,4 +165,24 @@ class Admin_Model_DbTable_Listaentregabledetalle extends Zend_Db_Table_Abstract
       }
 
     }
+
+    public function _delete($pk=null)
+    {
+        try{
+      
+            if ($pk['codigo_prop_proy']=='' ||  $pk['proyectoid']=='' ||  $pk['revision_entregable']=='' ||  $pk['edt']=='' ) return false;
+           
+            $where = "edt = '".$pk['edt']."'
+                    and codigo_prop_proy = '".$pk['codigo_prop_proy']."'
+                    and proyectoid = '".$pk['proyectoid']."'
+                    and revision_entregable = '".$pk['revision_entregable']."'
+                     ";
+
+            return $this->delete( $where);
+            return false;
+        }catch (Exception $e){
+            print "Error: Eliminar EDT".$e->getMessage();
+        }
+    }
+
 }

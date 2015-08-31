@@ -348,10 +348,7 @@ app.factory('httpFactory', ['$http','$q', function($http,$q) {
 
     getGenerarxRevision: function(codigoproyecto,proyectoid) {
       var defered = $q.defer();
-      var promise = defered.promise;
-        
-        //alert(codigoproyecto);
-        //alert(proyectoid);
+      var promise = defered.promise;     
 
       $http.get(url + 'generarrevision/codigo_prop_proy/'+ codigoproyecto+'/proyectoid/'+proyectoid)
       .success(function(data) {
@@ -366,6 +363,103 @@ app.factory('httpFactory', ['$http','$q', function($http,$q) {
 
 
   /////////////////////// F I N  F E C H A  C O R T E /////////////////////////
+ ///////////////////// L I S T A  D E  E N T R E G A B L E S /////////////////////////
+
+   getListaxEntregables: function(proyectoid,revision) {
+      var defered = $q.defer();
+      var promise = defered.promise;     
+
+      $http.get(url + 'getlistaentregables/proyectoid/'+ proyectoid+"/revision/"+revision)
+      .success(function(data) {
+        defered.resolve(data);
+        
+      })
+      .error(function(err) {
+        defered.reject(err);
+      });
+      return promise;
+    },
+
+
+   setGuardarxEntregable: function(codigoproyecto,proyectoid,revisionentregable) {
+      var defered = $q.defer();
+      var promise = defered.promise;     
+
+      $http.get(url + 'setguardarentregables/proyectoid/'+ proyectoid+"/revisionentregable/"+revisionentregable+"/codigoproyecto/"+codigoproyecto)
+      .success(function(data) {
+        defered.resolve(data);
+        
+      })
+      .error(function(err) {
+        defered.reject(err);
+      });
+      return promise;
+    },
+
+
+   getEntregables: function(proyectoid) {
+      var defered = $q.defer();
+      var promise = defered.promise; 
+
+
+      $http.get(url + 'getentregables/proyectoid/'+ proyectoid)
+      .success(function(data) {
+        defered.resolve(data);
+        
+      })
+      .error(function(err) {
+        defered.reject(err);
+      });
+      return promise;
+    },
+
+   setGuardarxListaxEntregables: function(codigo_prop_proy,proyectoid,revision_entregable,edt,tipo_documento,disciplina,codigo_anddes,codigo_cliente,fecha_0,fecha_a,fecha_b,descripcion_entregable) {
+      var defered = $q.defer();
+      var promise = defered.promise; 
+ 
+      $http.post(url + 'setguardarlistaentregables/proyectoid/'+ proyectoid
+      +"/codigo_prop_proy/"+codigo_prop_proy+
+      "/revision_entregable/"+revision_entregable+
+      "/edt/"+edt+
+      "/tipo_documento/"+tipo_documento+
+      "/disciplina/"+disciplina+
+      "/codigo_anddes/"+codigo_anddes+
+      "/codigo_cliente/"+codigo_cliente+
+      "/fecha_0/"+fecha_0+
+      "/fecha_a/"+fecha_a+
+      "/fecha_b/"+fecha_b+
+      "/descripcion_entregable/"+descripcion_entregable
+      )
+      .success(function(data) {
+        defered.resolve(data);
+        
+      })
+      .error(function(err) {
+        defered.reject(err);
+      });
+      return promise;
+    },
+
+   setEliminarxEntregable: function(edt,codigoproyecto,proyectoid,revision) {
+      var defered = $q.defer();
+      var promise = defered.promise; 
+ 
+      $http.post(url + 'seteliminarentregable/edt/'+ edt
+      +"/codigoproyecto/"+codigoproyecto+
+      "/proyectoid/"+proyectoid+"/revision/"+revision
+      )
+      .success(function(data) {
+        defered.resolve(data);
+        
+      })
+      .error(function(err) {
+        defered.reject(err);
+      });
+      return promise;
+    },
+
+
+ ///////////////////// F I N  L I S T A  D E  E N T R E G A B L E S /////////////////////////
 
 
   }
