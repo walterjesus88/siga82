@@ -76,15 +76,19 @@
 	        </span>
      	</td>
 	          <!-- {{ lista.edt }} -->
+ 		
+ 		<td >      
+	        <span editable-select="lista.tipo_documento" e-form="rowform" e-ng-options="s.value as s.text for s in CP.tipodocumentoE">
+	       	  {{ CP.showTipodoc(lista) }} 
+	        </span>
+     	</td>
 
-
-
-
-		<td  >
+		<!--<td>
 			<span editable-text="lista.tipo_documento" e-form="tableform" onbeforesave="checkName($data, lista.cod_le)">
 				{{ lista.tipo_documento }}
 			</span>
-		</td>
+		</td> -->
+
 		<td  >
 			<span editable-text="lista.disciplina" e-form="tableform" onbeforesave="checkName($data, lista.cod_le)">
 				{{ lista.disciplina }}

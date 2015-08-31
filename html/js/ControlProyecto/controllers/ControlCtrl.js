@@ -736,6 +736,19 @@ va.saveTable = function() {
     return selected.length ? selected[0].nombre : 'Not set';
   };
 
+  va.showTipodoc = function(lista) {
+    var selected = [];
+    if(lista.tipo_documento) {
+      selected = $filter('filter')(va.tipodocumentoE, {value: lista.tipo_documento});
+    }
+    return selected.length ? selected[0].text : 'Not set';
+  };
+
+  va.tipodocumentoE = [
+    {value: 'Plano', text: 'Plano'},
+    {value: 'Informe', text: 'Informe'},   
+  ]; 
+
   // va.statuses = [
   //   {value: 1, text: 'status1'},
   //   {value: 2, text: 'status2'},
