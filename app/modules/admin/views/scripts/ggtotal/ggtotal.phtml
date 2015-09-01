@@ -1,0 +1,59 @@
+
+<section class="panel">
+    <header class="panel-heading">
+        Lista de Gastos
+    </header>
+</section>
+
+<section class="panel">
+<div id="Proyecto_Activa">
+	<table class="table table-hover p-table datatable-order-search">
+		<thead>
+			<tr>  
+                <th style="width: 5%;">PROYECTO</th>
+                <th style="width: 35%;">NIVEL</th>
+                <th style="width: 45%;">TIPO</th>
+      </tr>
+		</thead>
+		<tbody>
+		<?php
+			foreach ($this->lista_de_gasto as $lista_gastos)
+		{ ?>
+			<tr>
+				<td class="p-name" >
+					<a href="#"> <?php print_r($lista_gastos['proyectoid']); ?> </a>
+				</td>
+				<td class="p-name">
+					<a href="#"> <?php print_r($lista_gastos['nivel']); ?> </a>
+				</td>
+				<td class="p-name">
+					<a href="#"> <?php print_r($lista_gastos['tipo']); ?> </a>
+				</td>
+  			
+			</tr>
+		<?php
+			}
+			?>
+		</tbody>
+	</table>
+</div>
+</section>
+
+<script type="text/javascript">
+  $(document).ready(function() {
+    $(function(){
+      $('select').customSelect();
+      });
+  });
+</script>
+
+<script>
+  $(document).ready(function() {
+    $('.datatable-order-search').dataTable( {
+        "paging":   true,
+        "ordering": true,
+        "info":     true
+    } );
+
+  } );
+</script>
