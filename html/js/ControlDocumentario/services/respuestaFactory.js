@@ -23,6 +23,10 @@ function(httpFactory, $routeParams) {
       this.revision = '';
       this.emitido = '';
       this.fecha = '';
+<<<<<<< HEAD
+=======
+      this.seleccionado = false;
+>>>>>>> b3ea4adfd828260c124dc421bb9fb09791b12353
 
       this.cambiarCodigo = function(codigo) {
         var anddes = '';
@@ -56,11 +60,47 @@ function(httpFactory, $routeParams) {
         .then(function(data) {
 
         })
+<<<<<<< HEAD
         .catch(function(data) {
+=======
+        .catch(function(err) {
+>>>>>>> b3ea4adfd828260c124dc421bb9fb09791b12353
 
         });
       }
 
+<<<<<<< HEAD
+=======
+      this.actualizarRespuesta = function() {
+        httpFactory.updateRespuesta(this)
+        .then(function(data) {
+
+        })
+        .catch(function(err) {
+
+        });
+      }
+
+      this.seleccionarRespuesta = function() {
+        if (this.seleccionado == false) {
+          this.seleccionado = true;
+          this.estilo = 'post-highlight yellow';
+        } else {
+          this.seleccionado = false;
+          this.estilo = '';
+        }
+      }
+
+      this.eliminarRespuesta = function() {
+        httpFactory.deleteRespuesta(this.detalleid)
+        .then(function(data) {
+
+        })
+        .catch(function(err) {
+
+        });
+      }
+>>>>>>> b3ea4adfd828260c124dc421bb9fb09791b12353
     }
   }
   return publico;

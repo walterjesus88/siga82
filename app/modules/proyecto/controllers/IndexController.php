@@ -1544,7 +1544,7 @@ public function eliminarxproyectoxcronogramaAction()
 }
   
 public function listaproyectosAction()
-  {
+{
       $estado = $this->_getParam('estado');
       $proyecto = new Admin_Model_DbTable_Proyecto();
       $proyectos = $proyecto->_getAllExtendido($estado);
@@ -1565,8 +1565,25 @@ public function listaproyectosAction()
         $i++;
       }
       $this->_helper->json->sendJson($respuesta);
-  }
+}
 
+
+public function setcambioestadoproyectoAction() {
+  $estado = $this->_getParam('estado');
+  $proyectoid = $this->_getParam('codigo');
+  $codigo_prop_proy = $this->_getParam('codigoproyecto');
+
+  $where = array('codigo_prop_proy' => $codigo_prop_proy, 'proyectoid' => $proyectoid );
+  $data['estado']=$estado;
+
+  print_r($where);
+  print_r($data);exit();
+
+  $cambiarestadoproyecto = new Admin_Model_DbTable_Proyecto();
+  $cestadoproyecto=$cambiarestadoproyecto->_update($data,$where);
+  
+  $this->_helper->json->sendJson($cestadoproyecto);
+}
 
 public function verjsonAction() {
  
@@ -1974,6 +1991,113 @@ public function generarrevisionAction()
   $this->_helper->json->sendJson($grevision);
 
 }
+
+public function getentregablesAction()
+{
+$proyectoid= $this->_getParam("proyectoid");
+$where = array('proyectoid' =>$proyectoid );
+$listaentregable=new Admin_Model_DbTable_Listaentregable();
+$lentregable=$listaentregable->_getFilter($where);
+$this->_helper->json->sendJson($lentregable);
+}
+
+public function getlistaentregablesAction()
+{
+
+  $proyectoid= $this->_getParam("proyectoid");
+  $revision_entregable= $this->_getParam("revision");
+
+
+$where = array('proyectoid' =>$proyectoid ,'revision_entregable'=>$revision_entregable);
+//print_r($where);exit();
+$listaentregable=new Admin_Model_DbTable_Listaentregabledetalle();
+$lentregable=$listaentregable->_getFilter($where);
+  
+//print_r($lentregable);
+$this->_helper->json->sendJson($lentregable);
+
+}
+
+
+
+public function setguardarentregablesAction()
+{
+  $data['proyectoid']= $this->_getParam("proyectoid");
+  $data['codigo_prop_proy']= $this->_getParam("codigoproyecto");
+  $data['revision_entregable']= $this->_getParam("revisionentregable");
+  $data['state']= 'A';
+
+  //print_r($data);exit();
+  $datastate['state']='I';$wherestate=null;
+  $modficarentregable=new Admin_Model_DbTable_Listaentregable();
+  $mentregable=$modficarentregable->_update_state($datastate,$wherestate);
+
+  $guardarentregable=new Admin_Model_DbTable_Listaentregable();
+  $gentregable=$guardarentregable->_save($data);
+  $this->_helper->json->sendJson($gentregable);
+
+}
+
+
+public function setguardarlistaentregablesAction()
+{
+
+  $data['proyectoid']= $this->_getParam("proyectoid");
+  $data['codigo_prop_proy']= $this->_getParam("codigo_prop_proy");
+  $data['revision_entregable']= $this->_getParam("revision_entregable");
+  $data['edt']= $this->_getParam("edt");
+  $data['tipo_documento']= $this->_getParam("tipo_documento");
+  $data['disciplina']= $this->_getParam("disciplina");
+  $data['codigo_anddes']= $this->_getParam("codigo_anddes");
+  $data['codigo_cliente']= $this->_getParam("codigo_cliente");
+  $data['fecha_0']= $this->_getParam("fecha_0");
+  $data['fecha_a']= $this->_getParam("fecha_a");
+  $data['fecha_b']= $this->_getParam("fecha_b");
+  $data['descripcion_entregable']= $this->_getParam("descripcion_entregable");
+  $data['clase']= 'Tecnico';
+  $data['revision_documento']= 'A';
+  $data['estado']= 'Ultimo';
+  // echo "hoohohohohohoh";
+  // print_r($data);
+  // exit();
+  $whereone['proyectoid']=$this->_getParam("proyectoid");
+  $whereone['codigo_prop_proy']=$this->_getParam("codigo_prop_proy");
+  $whereone['revision_entregable']=$this->_getParam("revision_entregable");
+  $whereone['edt']=$this->_getParam("edt");
+
+  $verentregable= new Admin_Model_DbTable_Listaentregabledetalle();
+  $ventregable=$verentregable->_getOne($whereone);
+
+  if($ventregable)
+  {
+    $actualizarlistaentregable=new Admin_Model_DbTable_Listaentregabledetalle();
+    $glentregable=$actualizarlistaentregable->_update($data,$whereone);
+  }
+
+  else
+  {
+    $guardarlistaentregable=new Admin_Model_DbTable_Listaentregabledetalle();
+    $glentregable=$guardarlistaentregable->_save($data);
+  }
+
+  $this->_helper->json->sendJson($glentregable);
+}
+
+
+public function seteliminarentregableAction()
+{
+  $edt= $this->_getParam("edt");
+  //echo $codigoentregable;exit();
+  $codigoproyecto= $this->_getParam("codigoproyecto");
+  $proyectoid= $this->_getParam("proyectoid");
+  $revision_entregable= $this->_getParam("revision");
+
+  $where = array('edt' => $edt , 'codigo_prop_proy' => $codigoproyecto , 'proyectoid' => $proyectoid , 'revision_entregable' => $revision_entregable);
+  $eliminarentregable=new Admin_Model_DbTable_Listaentregabledetalle();
+  $eentregable=$eliminarentregable->_delete($where);
+  $this->_helper->json->sendJson($eentregable);
+}
+
 
 ////////////////// /F I N  D E  F U N C I O N E S  A N G U L A R //////
 

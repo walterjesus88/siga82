@@ -49,6 +49,13 @@ class Control_IndexController extends Zend_Controller_Action {
         
     }
 
+    public function listaentregableAction() {
+      
+      $this->_helper->layout()->disableLayout();
+        
+    }
+
+
 
     public function cronogramaAction() {
       

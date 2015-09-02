@@ -48,11 +48,11 @@
         <div class="panel-body">
           <div class="">
             <div class="col-md-8">
-              <img ng-src="{{vt.proyecto.logo_cliente}}" alt="Logo Cliente" class="img-responsive"/>
+              <img fallback-src="../img/logo.jpg" ng-src="{{vt.proyecto.logo_cliente}}" alt="Logo Cliente" class="img-responsive"/>
             </div>
             <button type="button" class="btn btn-danger btn-xs" ng-click="vt.editarLogo()">Editar Logo</button>
           </div>
-          <p>
+          <p class="col-md-12">
           {{vt.proyecto.descripcion}}
           </p>
         </div>

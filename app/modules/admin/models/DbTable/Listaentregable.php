@@ -10,10 +10,22 @@ class Admin_Model_DbTable_Listaentregable extends Zend_Db_Table_Abstract
             //if ($data['codigo_prop_proy']=="" ) return false;
             return $this->insert($data);
         }catch (Exception $ex){
-            print "Error: Insertando un nuevo Proyecto".$ex->getMessage();
+            print "Error: Insertando un nuevo Entregable".$ex->getMessage();
         }
     }
 
+    
+    public function _update_state($data,$pk)
+    {
+        try{           
+            
+            return $this->update($data, $pk);
+            return false;
+        }catch (Exception $e){
+            print "Error: Update curva".$e->getMessage();
+        }
+    }
+ 
 
          /* Lista toda las Personas */
     public function _getFilter($where=null,$attrib=null,$orders=null){
@@ -38,4 +50,19 @@ class Admin_Model_DbTable_Listaentregable extends Zend_Db_Table_Abstract
             print "Error: Read Filter competencia ".$e->getMessage();
         }
     }
+
+    public function _getentregablexActivo($proyectoid){
+        try{
+            $sql=$this->_db->query("select *
+                from lista_entregable where proyectoid='".$proyectoid."' and state='A'");
+            $row=$sql->fetchAll();
+            return $row;
+            }
+
+           catch (Exception $ex){
+            print $ex->getMessage();
+        }
+    }
+
+
 }

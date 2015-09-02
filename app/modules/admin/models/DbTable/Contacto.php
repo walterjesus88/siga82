@@ -248,5 +248,16 @@ class Admin_Model_DbTable_Contacto extends Zend_Db_Table_Abstract
       return $lista;
     }
 
+    public function _getDatosContacto($clienteid, $contactoid)
+    {
+      $row = $this->fetchRow("clienteid = '".$clienteid."' and contactoid ='".
+      $contactoid."'");
+      $respuesta['codigo'] = $row['contactoid'];
+      $respuesta['nombre'] = $row['nombre1'].$row['ape_paterno'];
+      $respuesta['area'] = $row['puesto_trabajo'];
+      $respuesta['correo'] = $row['correo'];
+      return $respuesta;
+    }
+
 
 }

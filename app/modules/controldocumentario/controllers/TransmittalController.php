@@ -26,6 +26,15 @@ class ControlDocumentario_TransmittalController extends Zend_Controller_Action {
       $this->_helper->json->sendJson($correlativo);
     }
 
+    //Devuelve la configuracion de transmittal
+    public function ultimotransmittalAction()
+    {
+      $proyectoid = $this->_getParam('proyectoid');
+      $transmittal = new Admin_Model_DbTable_Transmittal();
+      $respuesta = $transmittal->_getConfiguracion($proyectoid);
+      $this->_helper->json->sendJson($respuesta);
+    }
+
     //Guarda los datos de configuracion del transmittal
     public function guardarconfiguraciontransmittalAction()
     {
@@ -39,6 +48,7 @@ class ControlDocumentario_TransmittalController extends Zend_Controller_Action {
       $data['dias_alerta'] = $this->_getParam('diasalerta');
       $data['tipo_proyecto'] = $this->_getParam('tipoproyecto');
       $data['atencion'] = $this->_getParam('atencion');
+      $data['modo_envio'] = $this->_getParam('modoenvio');
       $transmittal = new Admin_Model_DbTable_Transmittal();
       $respuesta = $transmittal->_saveConfiguracion($data);
       $this->_helper->json->sendJson($respuesta);
@@ -75,6 +85,26 @@ class ControlDocumentario_TransmittalController extends Zend_Controller_Action {
 
       $detalle = new Admin_Model_DbTable_DetalleTransmittal();
       $respuesta = $detalle->_setRespuesta($data);
+<<<<<<< HEAD
+=======
+      $this->_helper->json->sendJson($respuesta);
+    }
+
+    //editar respuesta
+    public function editarrespuestaAction()
+    {
+      $data['detalleid'] = $this->_getParam('detalleid');
+      $data['respuesta_transmittal'] = $this->_getParam('respuestatransmittal');
+      $data['codigo_anddes'] = $this->_getParam('codigoanddes');
+      $data['codigo_cliente'] = $this->_getParam('codigocliente');
+      $data['descripcion'] = $this->_getParam('descripcion');
+      $data['revision'] = $this->_getParam('revision');
+      $data['respuesta_emitido'] = $this->_getParam('emitido');
+      $data['respuesta_fecha'] = $this->_getParam('fecha');
+
+      $detalle = new Admin_Model_DbTable_DetalleTransmittal();
+      $respuesta = $detalle->_updateRespuesta($data);
+>>>>>>> b3ea4adfd828260c124dc421bb9fb09791b12353
       $this->_helper->json->sendJson($respuesta);
     }
 
@@ -93,6 +123,26 @@ class ControlDocumentario_TransmittalController extends Zend_Controller_Action {
       $proyectoid = $this->_getParam('proyectoid');
       $detalle = new Admin_Model_DbTable_DetalleTransmittal();
       $respuesta = $detalle->_getDetalleSinRespuesta($proyectoid);
+      $this->_helper->json->sendJson($respuesta);
+    }
+
+    //lista de entregables con respuesta
+    public function obtenerrespuestasAction()
+    {
+      $proyectoid = $this->_getParam('proyectoid');
+      $detalle = new Admin_Model_DbTable_DetalleTransmittal();
+      $respuesta = $detalle->_getDetallesConRespuesta($proyectoid);
+      $this->_helper->json->sendJson($respuesta);
+    }
+
+    //guardar el modo de envio seleccionado
+    public function actualizarmodoenvioAction()
+    {
+      $transmittal = $this->_getParam('transmittal');
+      $correlativo = $this->_getParam('correlativo');
+      $modo = $this->_getParam('modo');
+      $trans = new Admin_Model_DbTable_Transmittal();
+      $respuesta = $trans->_setModoEnvio($transmittal, $correlativo, $modo);
       $this->_helper->json->sendJson($respuesta);
     }
 }

@@ -21,6 +21,18 @@ app.factory('httpFactory', ['$http', '$q', function($http, $q) {
       });
       return promise;
     },
+    getCarpetas: function() {
+      var defered = $q.defer();
+      var promise = defered.promise;
+      $http.get(url_json + 'carpetas')
+      .success(function(data) {
+        defered.resolve(data);
+      })
+      .error(function(err) {
+        defered.reject(err);
+      });
+      return promise;
+    },
     getProyectos: function(estado) {
       var defered = $q.defer();
       var promise = defered.promise;
@@ -143,6 +155,18 @@ app.factory('httpFactory', ['$http', '$q', function($http, $q) {
       });
       return promise;
     },
+    getTransmittal: function(proyectoid) {
+      var defered = $q.defer();
+      var promise = defered.promise;
+      $http.get(url_tran + 'ultimotransmittal/proyectoid/' + proyectoid)
+      .success(function(data) {
+        defered.resolve(data);
+      })
+      .error(function(err) {
+        defered.reject(err);
+      });
+      return promise;
+    },
     setConfiguracionTransmittal: function(datos) {
       var defered = $q.defer();
       var promise = defered.promise;
@@ -151,7 +175,8 @@ app.factory('httpFactory', ['$http', '$q', function($http, $q) {
       datos.formato + '/tipoenvio/' + datos.tipo_envio + '/clienteid/' +
       datos.clienteid + '/proyectoid/' + datos.proyecto + '/controldocumentario/' +
       datos.control_documentario + '/atencion/' + datos.atencion + '/diasalerta/'
-      + datos.dias_alerta + '/tipoproyecto/' + datos.tipo_proyecto)
+      + datos.dias_alerta + '/tipoproyecto/' + datos.tipo_proyecto + '/modoenvio/' +
+      datos.modo_envio)
       .success(function(data) {
         defered.resolve(data);
       })
@@ -203,6 +228,58 @@ app.factory('httpFactory', ['$http', '$q', function($http, $q) {
       var promise = defered.promise;
       $http.post(url_ent + 'actualizarcodigocliente/entregableid/' + entregableid +
       '/codigocliente/' + codigo_cliente)
+      .success(function(data) {
+        defered.resolve(data);
+      })
+      .error(function(err) {
+        defered.reject(err);
+      });
+      return promise;
+    },
+    setTipoEntregable: function(entregableid, tipo) {
+      var defered = $q.defer();
+      var promise = defered.promise;
+      $http.post(url_ent + 'actualizartipoentregable/entregableid/' +
+      entregableid + '/tipo/' + tipo)
+      .success(function(data) {
+        defered.resolve(data);
+      })
+      .error(function(err) {
+        defered.reject(err);
+      });
+      return promise;
+    },
+    setDisciplina: function(entregableid, disciplina) {
+      var defered = $q.defer();
+      var promise = defered.promise;
+      $http.post(url_ent + 'actualizardisciplina/entregableid/' + entregableid +
+      '/disciplina/' + disciplina)
+      .success(function(data) {
+        defered.resolve(data);
+      })
+      .error(function(err) {
+        defered.reject(err);
+      });
+      return promise;
+    },
+    setDescripcion: function(entregableid, descripcion) {
+      var defered = $q.defer();
+      var promise = defered.promise;
+      $http.post(url_ent + 'actualizardescripcion/entregableid/' + entregableid +
+      '/descripcion/' + descripcion)
+      .success(function(data) {
+        defered.resolve(data);
+      })
+      .error(function(err) {
+        defered.reject(err);
+      });
+      return promise;
+    },
+    setRevisionEntregable: function(entregableid, revision) {
+      var defered = $q.defer();
+      var promise = defered.promise;
+      $http.post(url_ent + 'actualizarrevisionentregable/entregableid/' +
+      entregableid + '/revision/' + revision)
       .success(function(data) {
         defered.resolve(data);
       })
@@ -292,6 +369,18 @@ app.factory('httpFactory', ['$http', '$q', function($http, $q) {
       });
       return promise;
     },
+    createPdfCarpetas: function() {
+      var defered = $q.defer();
+      var promise = defered.promise;
+      $http.get(url_print + 'imprimircarpetas/')
+      .success(function(data) {
+        defered.resolve(data)
+      })
+      .error(function(err) {
+        defered.reject(err);
+      });
+      return promise;
+    },
     createPdfEdt: function(proyectoid) {
       var defered = $q.defer();
       var promise = defered.promise;
@@ -304,11 +393,11 @@ app.factory('httpFactory', ['$http', '$q', function($http, $q) {
       });
       return promise;
     },
-    createPdfRT: function(proyectoid, estado) {
+    createPdfRT: function(proyectoid, estado, clase) {
       var defered = $q.defer();
       var promise = defered.promise;
       $http.get(url_print + 'imprimirreportetransmittal/proyectoid/' + proyectoid +
-      '/estado/' + estado)
+      '/estado/' + estado + '/clase/' + clase)
       .success(function(data) {
         defered.resolve(data);
       })
@@ -324,7 +413,7 @@ app.factory('httpFactory', ['$http', '$q', function($http, $q) {
       '/proyectoid/' + ent.proyectoid +
       '/tipo/' + ent.tipo + '/disciplina/' + ent.disciplina + '/codigoanddes/' +
       ent.codigo_anddes + '/codigocliente/' + ent.codigo_cliente + '/descripcion/' +
-      ent.descripcion + '/revision/' + ent.revision)
+      ent.descripcion + '/revision/' + ent.revision + '/clase/' + ent.clase)
       .success(function(data) {
         defered.resolve(data);
       })
@@ -362,7 +451,11 @@ app.factory('httpFactory', ['$http', '$q', function($http, $q) {
       var promise = defered.promise;
       $http.post(url_tran + 'guardarrespuesta/detalleid/' + respuesta.detalleid +
       '/respuestatransmittal/' + respuesta.transmittal + '/codigoanddes/' +
+<<<<<<< HEAD
       respuesta.codigoanddes + '/codigocliente/' + respuesta.codigocliente +
+=======
+      respuesta.codigo_anddes + '/codigocliente/' + respuesta.codigo_cliente +
+>>>>>>> b3ea4adfd828260c124dc421bb9fb09791b12353
       '/descripcion/' + respuesta.descripcion + '/revision/' + respuesta.revision +
       '/emitido/' + respuesta.emitido + '/fecha/' + respuesta.fecha)
       .success(function(data) {
@@ -372,6 +465,113 @@ app.factory('httpFactory', ['$http', '$q', function($http, $q) {
         defered.reject(err);
       });
       return promise;
+<<<<<<< HEAD
+=======
+    },
+    updateRespuesta: function(respuesta) {
+      var defered = $q.defer();
+      var promise = defered.promise;
+      $http.put(url_tran + 'editarrespuesta/detalleid/' + respuesta.detalleid +
+      '/respuestatransmittal/' + respuesta.transmittal + '/codigoanddes/' +
+      respuesta.codigo_anddes + '/codigocliente/' + respuesta.codigo_cliente +
+      '/descripcion/' + respuesta.descripcion + '/revision/' + respuesta.revision +
+      '/emitido/' + respuesta.emitido + '/fecha/' + respuesta.fecha)
+      .success(function(data) {
+        defered.resolve(data);
+      })
+      .error(function(err) {
+        defered.reject(err);
+      });
+      return promise;
+    },
+    deleteRespuesta: function(detalleid) {
+      var defered = $q.defer();
+      var promise = defered.promise;
+      $http.delete(url_tran + 'eliminarrespuesta/detalleid/' + detalleid)
+      .success(function(data) {
+        defered.resolve(data);
+      })
+      .error(function(err) {
+        defered.reject(err);
+      });
+      return promise;
+    },
+    createPdfTR: function(transmittal, correlativo) {
+      var defered = $q.defer();
+      var promise = defered.promise;
+      $http.post(url_print + 'imprimirtransmittal/transmittal/' + transmittal +
+      '/correlativo/' + correlativo)
+      .success(function(data) {
+        defered.resolve(data);
+      })
+      .error(function(err) {
+        defered.reject(data);
+      });
+      return promise;
+    },
+    getRespuestas: function(proyectoid) {
+      var defered = $q.defer();
+      var promise = defered.promise;
+      $http.get(url_tran + 'obtenerrespuestas/proyectoid/' + proyectoid)
+      .success(function(data) {
+        defered.resolve(data);
+      })
+      .error(function(err) {
+        defered.reject(err);
+      });
+      return promise;
+    },
+    getDatosContacto: function(clienteid, contactoid) {
+      var defered = $q.defer();
+      var promise = defered.promise;
+      $http.get(url_json + 'obtenerdatoscontacto/clienteid/' + clienteid +
+      '/contactoid/' + contactoid)
+      .success(function(data) {
+        defered.resolve(data);
+      })
+      .error(function(err) {
+        defered.reject(err);
+      });
+      return promise;
+    },
+    createPdfCliente: function(proyectoid) {
+      var defered = $q.defer();
+      var promise = defered.promise;
+      $http.post(url_print + 'imprimirreportecliente/proyectoid/' + proyectoid)
+      .success(function(data) {
+        defered.resolve(data);
+      })
+      .error(function(err) {
+        defered.reject(err);
+      });
+      return promise;
+    },
+    setModoEnvio: function(transmittal, correlativo, modo) {
+      var defered = $q.defer();
+      var promise = defered.promise;
+      $http.post(url_tran + 'actualizarmodoenvio/transmittal/' + transmittal +
+      '/correlativo/' + correlativo + '/modo/' + modo)
+      .success(function(data) {
+        defered.resolve(data);
+      })
+      .error(function(err) {
+        defered.reject(err);
+      });
+      return promise;
+    },
+    getReporte: function(proyectoid) {
+      var defered = $q.defer();
+      var promise = defered.promise;
+
+      $http.get(url_ent + 'obtenerreporte/proyectoid/' + proyectoid)
+      .success(function(data) {
+        defered.resolve(data);
+      })
+      .error(function(err) {
+        defered.reject(err);
+      });
+      return promise;
+>>>>>>> b3ea4adfd828260c124dc421bb9fb09791b12353
     }
   }
 
