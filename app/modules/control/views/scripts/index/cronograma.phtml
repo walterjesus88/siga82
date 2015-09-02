@@ -97,8 +97,8 @@
     <div ng-repeat-start="category in CP.procronograma" class="animate-repeat-category">
           <button class="btn btn-primary btn-block btn-sm" ng-click="CP.toggleCategory(category)">
             	{{ category.codigo_cronograma }}-{{ category.revision_cronograma }}           
-            <!-- <span class="expand-indicator" ng-show="category.expanded">&mdash;</span> -->
-            <!-- <span class="expand-indicator" ng-show="!category.expanded">+</span> -->
+            <span class="expand-indicator" ng-show="category.expanded">&mdash;</span>
+            <span class="expand-indicator" ng-show="!category.expanded">+</span> 
           </button>
     </div>
      
@@ -175,7 +175,6 @@
 			</div>
 
 		</form>
-
         <!--  <ul>
           <li ng-repeat="item in category.items" class="animate-repeat-item">
             {{item.fecha_performance}}
@@ -186,11 +185,52 @@
           <div class="no-items"><small ng-show="category.expanded && category.items.length==0">NO ITEMS!</small></div>
         </div>
 
-        <div ng-repeat-end>
+    <div ng-repeat-end>
           <button ng-show="category.expanded" class="btn btn-primary btn-block btn-sm animate-show-item" disabled="disabled">/ {{ category.actividadid}} </button>
           <hr>
-        </div>
+    </div>
 
+
+
+<!--   <div ng-init="accordion=1">
+	<h3 class="accordion" ng-class="{active:accordion==1}">
+		<a href ng-click="accordion = 1">Section 1</a>
+	</h3>
+	<p class="accordion-content" ng-show="accordion==1">Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using</p>
+	    
+	<h3 class="accordion" ng-class="{active:accordion==2}">
+		<a href ng-click="accordion = 2">Section 2</a>
+	</h3>
+	<p class="accordion-content" ng-show="accordion==2">It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using</p>
+	    
+	<h3 class="accordion" ng-class="{active:accordion==3}">
+		<a href ng-click="accordion = 3">Section 3</a>
+	</h3>
+	<p class="accordion-content" ng-show="accordion==3">There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form</p>
+</div>
+ -->
+
+
+
+<!--   <accordion close-others="oneAtATime">
+    <accordion-group heading="Static Header, initially expanded" is-open="status.isFirstOpen" is-disabled="status.isFirstDisabled">
+      This content is straight in the template.
+    </accordion-group>
+    <accordion-group heading="{{group.title}}" ng-repeat="group in groups">
+      {{group.content}}
+    </accordion-group>
+    <accordion-group heading="Dynamic Body Content">
+      <p>The body of the accordion group grows to fit the contents</p>
+        <button type="button" class="btn btn-default btn-sm" ng-click="addItem()">Add Item</button>
+        <div ng-repeat="item in items">{{item}}</div>
+    </accordion-group>
+    <accordion-group is-open="status.open">
+        <accordion-heading>
+            I can have markup, too! <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></i>
+        </accordion-heading>
+        This is just some content to illustrate fancy headings.
+    </accordion-group>
+  </accordion> -->
 
 
 <style type="text/css">

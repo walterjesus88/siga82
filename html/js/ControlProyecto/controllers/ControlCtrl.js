@@ -842,6 +842,7 @@ va.saveTable = function() {
 
   }
 
+  va.oneAtATime = true;
 
   va.toggleCategory = function(revision) {
       //alert('mmmmmmmmmmm');
