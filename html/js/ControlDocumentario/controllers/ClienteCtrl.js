@@ -78,8 +78,8 @@ function(httpFactory, $routeParams, respuestaFactory, transmittalFactory) {
       respuesta.transmittal != '') {
         respuesta.guardarRespuesta();
       }
-      cl.alerts.push({type: 'success', msg: 'Datos guardados satisfactoriamente'});
     });
+    cl.alerts.push({type: 'success', msg: 'Datos guardados satisfactoriamente'});
   }
 
   cl.alerts = [];

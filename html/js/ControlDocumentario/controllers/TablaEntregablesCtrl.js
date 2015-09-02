@@ -5,6 +5,7 @@ function($scope, entregableFactory, $routeParams) {
   te = this;
   te.clase = 'Tecnico';
   te.desactivado = true;
+  te.colspan_1 = 9;
   te.entregables = $scope.$parent.va.entregables;
 
   $scope.$on("to_childrens", function(event, data){
@@ -14,10 +15,13 @@ function($scope, entregableFactory, $routeParams) {
     te.clase = data.clase;
     if (te.clase == 'Tecnico') {
       te.desactivado = true;
+      te.colspan_1 = 9;
     } else if (te.clase == 'Gestion') {
       te.desactivado = false;
+      te.colspan_1 = 8;
     } else if (te.clase == 'Comunicacion') {
       te.desactivado = false;
+      te.colspan_1 = 8;
     }
 	})
 

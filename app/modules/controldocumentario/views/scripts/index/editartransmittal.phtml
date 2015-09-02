@@ -1,4 +1,5 @@
-<div class="panel-body">
+<div ng-controller="TablaDetalleCtrl as td">
+<div class="panel-body" >
   <div class="table-responsive">
     <table class="table table-bordered">
       <thead>
@@ -34,40 +35,42 @@
         </th>
       </thead>
       <tbody>
-        <tr ng-repeat="entregable in va.seleccionados">
+        <tr ng-repeat="detalle in td.detalles" ng-click="td.seleccionar($index)"
+        ng-class="detalle.estilo">
           <td>
             {{$index + 1}}
           </td>
           <td>
-            {{entregable.transmittal_completo}}
+            {{detalle.transmittal_completo}}
           </td>
           <td>
-            {{entregable.codigo_anddes}}
+            {{detalle.codigo_anddes}}
           </td>
           <td>
-            {{entregable.codigo_cliente}}
+            {{detalle.codigo_cliente}}
           </td>
           <td>
-            {{entregable.descripcion}}
+            {{detalle.descripcion}}
           </td>
           <td>
-            <select class="form-control" ng-model="entregable.revision"
-            ng-options="revision as revision for revision in va.revisiones">
+            <!--select class="form-control" ng-model="detalle.revision"
+            ng-options="revision as revision for revision in td.revisiones">
+            </select-->
+            {{detalle.revision}}
+          </td>
+          <td>
+            {{detalle.estado_revision}}
+          </td>
+          <td>
+            <select class="form-control" ng-model="detalle.emitido"
+            ng-options="emitido.codigo as emitido.emitido_para for emitido in td.emisiones">
             </select>
           </td>
           <td>
-            {{entregable.estado_revision}}
+            <input type="text" ng-model="detalle.fecha">
           </td>
           <td>
-            <select class="form-control" ng-model="entregable.emitido"
-            ng-options="emitido.codigo as emitido.emitido_para for emitido in va.emisiones">
-            </select>
-          </td>
-          <td>
-            {{entregable.fecha}}
-          </td>
-          <td>
-            {{entregable.estado}}
+            {{detalle.estado}}
           </td>
         </tr>
       </tbody>
@@ -76,29 +79,29 @@
 
   <section class="col-md-3 col-sm-6 form-group panel-body">
     <label for="">Tipo de Envío:</label>
-    <select class="form-control" ng-model="va.transmittal.modo_envio"
-    ng-options="modo.codigo as modo.nombre for modo in va.modos"
-    ng-change="va.cambiarModoEnvio()">
+    <select class="form-control" ng-model="td.modo_seleccionado"
+    ng-options="modo.codigo as modo.nombre for modo in td.modos"
+    ng-change="td.cambiarModoEnvio()">
     </select>
   </section>
 
   <section class="col-md-3 col-sm-6 form-group panel-body">
     <label for="">Enviar a:</label>
-    <label for="">{{va.atencion.nombre}}</label>
-    <label for="">{{va.atencion.area}}</label>
-    <label for="">{{va.atencion.correo}}</label>
+    <label for="">{{td.atencion.nombre}}</label>
+    <label for="">{{td.atencion.area}}</label>
+    <label for="">{{td.atencion.correo}}</label>
     </select>
   </section>
 
 </div>
 
 <footer class="col-md-12 panel">
-  <button type="button" class="btn btn-default" ng-click="va.imprimirTransmittal()">Imprimir</button>
-  <button type="button" class="btn btn-default">Editar</button>
-  <button type="button" class="btn btn-default">Agregar</button>
-  <button type="button" class="btn btn-default" ng-click="va.guardarDetalleTr()">Guardar</button>
+  <button type="button" class="btn btn-info" ng-click="td.imprimirTransmittal()">Imprimir</button>
+  <button type="button" class="btn btn-warning">Agregar</button>
+  <button type="button" class="btn btn-success" ng-click="td.guardar()">Guardar</button>
   <button type="button" class="btn btn-default">Cancelar</button>
-  <button type="button" class="btn btn-default">Eliminar</button>
-  <button type="button" class="btn btn-default">Reenviar</button>
-  <button type="button" class="btn btn-default">Emitir</button>
+  <button type="button" class="btn btn-danger" ng-click="td.eliminar()">Eliminar</button>
+  <button type="button" class="btn btn-warning">Reenviar</button>
+  <button type="button" class="btn btn-primary" ng-click="td.emitir()">Emitir</button>
 </footer>
+</div>
