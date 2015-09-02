@@ -1544,7 +1544,7 @@ public function eliminarxproyectoxcronogramaAction()
 }
   
 public function listaproyectosAction()
-  {
+{
       $estado = $this->_getParam('estado');
       $proyecto = new Admin_Model_DbTable_Proyecto();
       $proyectos = $proyecto->_getAllExtendido($estado);
@@ -1565,8 +1565,25 @@ public function listaproyectosAction()
         $i++;
       }
       $this->_helper->json->sendJson($respuesta);
-  }
+}
 
+
+public function setcambioestadoproyectoAction() {
+  $estado = $this->_getParam('estado');
+  $proyectoid = $this->_getParam('codigo');
+  $codigo_prop_proy = $this->_getParam('codigoproyecto');
+
+  $where = array('codigo_prop_proy' => $codigo_prop_proy, 'proyectoid' => $proyectoid );
+  $data['estado']=$estado;
+
+  print_r($where);
+  print_r($data);exit();
+
+  $cambiarestadoproyecto = new Admin_Model_DbTable_Proyecto();
+  $cestadoproyecto=$cambiarestadoproyecto->_update($data,$where);
+  
+  $this->_helper->json->sendJson($cestadoproyecto);
+}
 
 public function verjsonAction() {
  

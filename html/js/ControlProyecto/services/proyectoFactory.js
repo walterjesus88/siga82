@@ -26,16 +26,17 @@ function(httpFactory, $location, $q) {
     Proyecto: function(codigo_prop_proy,codigo, cliente, nombre, gerente, control_proyecto,
       control_documentario, estado) {
       var estados = {
-        'A': 'Activo',
-        'P': 'Paralizado',
-        'C': 'Cerrado',
-        'CA': 'Cancelado'
+        'A': 'A',
+        'P': 'P',
+        'C': 'C',
+        'CA': 'CA'
       }
 
       //this.codigo=codigo_prop_proy;  
       //console.log("hola");
       //console.log(this.codigo_prop_proy);
 
+      this.codigo_prop_proy = codigo_prop_proy;
       this.codigo = codigo;
       this.cliente = cliente;
       this.nombre = nombre;
@@ -44,15 +45,28 @@ function(httpFactory, $location, $q) {
       this.control_documentario = control_documentario;
       this.estado = estados[estado];
 
-      this.cambiarControlDocumentario = function() {
-        httpFactory.setControlDocumentario(this.codigo, this.control_documentario)
-        .then(function(data) {
-          alert('Control Documentario cambiado');
-        })
-        .catch(function(err) {
-          alert('No se pudo cambiar el Control Documentario');
-        })
-      }
+      // this.cambiarControlDocumentario = function() {
+      //   httpFactory.setControlDocumentario(this.codigo, this.control_documentario)
+      //   .then(function(data) {
+      //     alert('Control Documentario cambiado');
+      //   })
+      //   .catch(function(err) {
+      //     alert('No se pudo cambiar el Control Documentario');
+      //   })
+      // }
+
+
+      // this.cambiarEstadoProyecto = function(index) {
+      //   httpFactory.setCambioEstadoProyecto(this.codigo, this.estado,this.codigo_prop_proy)
+      //   .then(function(data) {
+      //     alert('Estado del Proyecto cambiado');
+      //     console.log($parent.proyectos);
+      //     //this.proyectos.splice(index, 1);  
+      //   })
+      //   .catch(function(err) {
+      //     alert('No se pudo cambiar el Estado del Proyecto');
+      //   })
+      // }
 
       this.verInformacion = function() {
         //configuracionTransmittal.setProyecto(proyectoid);
@@ -64,6 +78,22 @@ function(httpFactory, $location, $q) {
         // +'/codigo/'+this.codigo_prop_proy        
       }
     },
+
+    setDatosxCambiarxEstadoproyecto: function(codigo,estado,codigo_prop_proy) {
+      var defered = $q.defer();
+      var promise = defered.promise;
+      httpFactory.setCambioEstadoProyecto(codigo,estado,codigo_prop_proy)
+      .then(function(data) {
+        datos = data;
+        defered.resolve(datos);
+      })
+      .catch(function(err) {
+        defered.reject(err);
+      });
+      return promise;      
+    },
+
+
 
     getDatosProyecto: function(proyectoid) {
       var defered = $q.defer();

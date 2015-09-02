@@ -127,6 +127,24 @@ app.factory('httpFactory', ['$http','$q', function($http,$q) {
       return promise;
     },
 
+    setCambioEstadoProyecto: function(codigo, estado,codigoproyecto) {
+      var defered = $q.defer();
+      var promise = defered.promise;
+      
+      alert(codigo);
+      alert(estado);
+      alert(codigoproyecto);
+      
+      $http.get(url + 'setcambioestadoproyecto/estado/' + estado+"/codigo/"+codigo+"/codigoproyecto/"+codigoproyecto)
+      .success(function(data) {
+        defered.resolve(data);
+      })
+      .error(function(err) {
+        defered.reject(err);
+      });
+      return promise;
+    },
+
     getProyectoById: function(proyectoid) {
       var defered = $q.defer();
       var promise = defered.promise;

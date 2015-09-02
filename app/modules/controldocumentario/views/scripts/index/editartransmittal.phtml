@@ -1,81 +1,84 @@
 <div class="panel-body">
-  <table class="table table-bordered">
-    <thead>
-      <th>
-        ITEM
-      </th>
-      <th>
-        TR
-      </th>
-      <th>
-        CODIGO ANDDES
-      </th>
-      <th>
-        CODIGO CLIENTE
-      </th>
-      <th>
-        DESCRIPCION
-      </th>
-      <th>
-        REVISION
-      </th>
-      <th>
-        ESTADO REVISION
-      </th>
-      <th>
-        EMITIDO
-      </th>
-      <th>
-        FECHA
-      </th>
-      <th>
-        ESTADO TR
-      </th>
-    </thead>
-    <tbody>
-      <tr ng-repeat="entregable in va.seleccionados">
-        <td>
-          {{$index + 1}}
-        </td>
-        <td>
-          {{entregable.transmittal_completo}}
-        </td>
-        <td>
-          {{entregable.codigo_anddes}}
-        </td>
-        <td>
-          {{entregable.codigo_cliente}}
-        </td>
-        <td>
-          {{entregable.descripcion}}
-        </td>
-        <td>
-          <select class="form-control" ng-model="entregable.revision"
-          ng-options="revision as revision for revision in va.revisiones">
-          </select>
-        </td>
-        <td>
-          {{entregable.estado_revision}}
-        </td>
-        <td>
-          <select class="form-control" ng-model="entregable.emitido"
-          ng-options="emitido.codigo as emitido.emitido_para for emitido in va.emisiones">
-          </select>
-        </td>
-        <td>
-          {{entregable.fecha}}
-        </td>
-        <td>
-          {{entregable.estado}}
-        </td>
-      </tr>
-    </tbody>
-  </table>
+  <div class="table-responsive">
+    <table class="table table-bordered">
+      <thead>
+        <th>
+          ITEM
+        </th>
+        <th>
+          TR
+        </th>
+        <th>
+          CODIGO ANDDES
+        </th>
+        <th>
+          CODIGO CLIENTE
+        </th>
+        <th>
+          DESCRIPCION
+        </th>
+        <th>
+          REVISION
+        </th>
+        <th>
+          ESTADO REVISION
+        </th>
+        <th>
+          EMITIDO
+        </th>
+        <th>
+          FECHA
+        </th>
+        <th>
+          ESTADO TR
+        </th>
+      </thead>
+      <tbody>
+        <tr ng-repeat="entregable in va.seleccionados">
+          <td>
+            {{$index + 1}}
+          </td>
+          <td>
+            {{entregable.transmittal_completo}}
+          </td>
+          <td>
+            {{entregable.codigo_anddes}}
+          </td>
+          <td>
+            {{entregable.codigo_cliente}}
+          </td>
+          <td>
+            {{entregable.descripcion}}
+          </td>
+          <td>
+            <select class="form-control" ng-model="entregable.revision"
+            ng-options="revision as revision for revision in va.revisiones">
+            </select>
+          </td>
+          <td>
+            {{entregable.estado_revision}}
+          </td>
+          <td>
+            <select class="form-control" ng-model="entregable.emitido"
+            ng-options="emitido.codigo as emitido.emitido_para for emitido in va.emisiones">
+            </select>
+          </td>
+          <td>
+            {{entregable.fecha}}
+          </td>
+          <td>
+            {{entregable.estado}}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 
   <section class="col-md-3 col-sm-6 form-group panel-body">
     <label for="">Tipo de Envío:</label>
-    <select class="form-control" ng-model="va.modo_envio_seleccionado"
-    ng-options="modo as modo for modo in va.modo">
+    <select class="form-control" ng-model="va.transmittal.modo_envio"
+    ng-options="modo.codigo as modo.nombre for modo in va.modos"
+    ng-change="va.cambiarModoEnvio()">
     </select>
   </section>
 
@@ -90,7 +93,7 @@
 </div>
 
 <footer class="col-md-12 panel">
-  <button type="button" class="btn btn-default">Imprimir</button>
+  <button type="button" class="btn btn-default" ng-click="va.imprimirTransmittal()">Imprimir</button>
   <button type="button" class="btn btn-default">Editar</button>
   <button type="button" class="btn btn-default">Agregar</button>
   <button type="button" class="btn btn-default" ng-click="va.guardarDetalleTr()">Guardar</button>

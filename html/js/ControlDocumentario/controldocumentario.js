@@ -22,12 +22,12 @@ app.config(['$routeProvider', function($routeProvider) {
   })
   .when("/carpetas", {
     controller: "CarpetasCtrl",
-    controllerAs: "reporte",
+    controllerAs: "uc",
     templateUrl: "/controldocumentario/index/carpetas"
   })
   .when("/reporte", {
     controller: "ReporteCtrl",
-    controllerAs: "vr",
+    controllerAs: "reporte",
     templateUrl: "/controldocumentario/index/reporte"
   })
   .when("/transmittal/proyecto/:proyecto", {
@@ -39,3 +39,14 @@ app.config(['$routeProvider', function($routeProvider) {
     redirectTo: '/'
   });
 }]);
+
+app.directive('fallbackSrc', function () {
+  var fallbackSrc = {
+    link: function postLink(scope, iElement, iAttrs) {
+      iElement.bind('error', function() {
+        angular.element(this).attr("src", iAttrs.fallbackSrc);
+      });
+    }
+   }
+   return fallbackSrc;
+});
