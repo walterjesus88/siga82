@@ -206,14 +206,12 @@ class Admin_Model_DbTable_Formatocp extends Zend_Db_Table_Abstract
   {
     try {
       $pdf = Zend_Pdf::load($this->modelo);
-      //print_r($pdf);
-      
-      //exit();
 
       $pdf_rellenado = $this->_rellenarFormato($pdf);
-      //$pdf_rellenado->save($this->fileName);
-      //$ruta['archivo'] = $this->fileName;
-      //return '$ruta';
+      $pdf_rellenado->save($this->fileName);
+      $ruta['archivo'] = $this->fileName;
+        return $ruta;
+        
     } catch (Exception $e) {
       print $e->getMessage();
     }
