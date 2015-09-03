@@ -1,10 +1,6 @@
 app.controller('TablaEntregablesCtrl', ['$scope', 'entregableFactory',
-<<<<<<< HEAD
-function($scope, entregableFactory) {
-=======
 '$routeParams',
 function($scope, entregableFactory, $routeParams) {
->>>>>>> b3ea4adfd828260c124dc421bb9fb09791b12353
 
   te = this;
   te.clase = 'Tecnico';
@@ -31,13 +27,6 @@ function($scope, entregableFactory, $routeParams) {
 
   te.agregar = function() {
     var entregable = new entregableFactory.Entregable();
-<<<<<<< HEAD
-    te.entregables.push(entregable);
-  }
-
-  te.editar = function() {
-    // body...
-=======
     entregable.proyectoid = $routeParams.proyecto;
     entregable.clase = te.clase;
     te.entregables.push(entregable);
@@ -61,6 +50,5 @@ function($scope, entregableFactory, $routeParams) {
 
   te.cancelar = function() {
     $scope.$emit('to_parents', {asd: 'asf'});
->>>>>>> b3ea4adfd828260c124dc421bb9fb09791b12353
   }
 }]);
