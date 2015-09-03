@@ -3,6 +3,7 @@
   $is_gerente=$this->is_gerente;
   $dni=$this->dni;
 ?>
+
 <section class="panel">
     <header class="panel-heading">
         Lista de Proyectos
@@ -14,6 +15,7 @@
     </span>
     </header>
 </section>
+
 <section class="panel"  >
     <?php if($is_area=='26') { ?> 
     <div class="panel-body" style="padding-bottom: 2px; padding-top: 5px;">
@@ -738,7 +740,7 @@ $(document).ready(function(){
 <script>
   $(document).ready(function() {
     $('.datatable-order-search').dataTable( {
-        "paging":   false,
+        "paging":   true,
         "ordering": true,
         "info":     true
     } );

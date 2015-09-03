@@ -11,7 +11,7 @@
     <span class="pull-right">
     </span>
     <span class="pull-right">
-    <a href="/proyecto/control/index" class=" btn btn-primary btn-sm" > Volver</a> 
+    <a href="/proyecto/index/listar" class=" btn btn-primary btn-sm" > Volver</a> 
    
   </span>
   </header>
@@ -335,7 +335,7 @@
                       </a>
                       <span class="pull-right">
                         <a class="btn btn-info btn-xs" id="anadir_<?php echo $i?>" href="#" proyectoid="<?php echo $this->proyecto['proyectoid']?>"  codigo-prop-proy="<?php echo $this->proyecto['codigo_prop_proy'] ?>" areaid="<?php print_r($lista['areaid'])?>">+ </a>
-                        <a class="btn btn-danger btn-xs" id="asigna_<?php echo $i?>" href="#" proyectoid="<?php echo $this->proyecto['proyectoid']?>"  codigo-prop-proy="<?php echo $this->proyecto['codigo_prop_proy'] ?>" areaid="<?php print_r($lista['areaid'])?>">H </a>
+                        <a class="btn btn-danger btn-xs" id="asigna_<?php echo $i?>" href="#" proyectoid="<?php echo $this->proyecto['proyectoid']?>"  codigo-prop-proy="<?php echo $this->proyecto['codigo_prop_proy'] ?>" areaid="<?php print_r($lista['areaid'])?>" >H </a>
                       </span>
                     </h4>
                   </div>
@@ -854,12 +854,13 @@
 
 <div class="modal fade" id="modalperson" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg">
+  <div class="">
     <div class="modal-content" style="width: 100%; top: 100%;  ">
       <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true" scrollbars=1>&times;</button>
           <h4 class="modal-title">Asignar Personas a una Actividad</h4>
       </div>
-      <div class="modal-body" style="padding-bottom: 1px;padding-top: 1px;padding-left: 1px;padding-right: 1px;">
+      <div class="modal-body" >
         <div id="modaltimes"></div>
       </div>
       <div class="modal-footer">
@@ -867,8 +868,10 @@
 
       </div>
     </div>
+    </div>
   </div>
 </div>
+
 
 <script type="text/javascript">
 
