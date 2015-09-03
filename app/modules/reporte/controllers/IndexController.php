@@ -8,14 +8,14 @@ class Reporte_IndexController extends Zend_Controller_Action {
             $this->_helper->redirector('index',"index",'default');
         }
         $login = $sesion->getStorage()->read();
-        $this->sesion = $login; 
+        $this->sesion = $login;
         $options = array(
             'layout' => 'inicio',
         );
         Zend_Layout::startMvc($options);
     }
 
-    //Funcion que devuelve los datos de tareopersona segun proyecto, implementado por repeticion en 
+    //Funcion que devuelve los datos de tareopersona segun proyecto, implementado por repeticion en
     //diferentes actions
     protected function obtenerTareopersona($codigo_prop_proy){
         $tareopersona = new Admin_Model_DbTable_Tareopersona();
@@ -24,7 +24,7 @@ class Reporte_IndexController extends Zend_Controller_Action {
 
         $respuesta = [];
         $i = 0;
-              
+
         foreach ($todos_tareopersona as $fila) {
            if ($fila['tipo_actividad']=='P') {
                $fila['tipo_actividad'] = 'Facturable';
@@ -59,14 +59,14 @@ class Reporte_IndexController extends Zend_Controller_Action {
         }
 
         return $respuesta;
-        
+
     }
-    
+
 
     /*Accion que devuelve la vista principal contenida el el archivo
     ../views/scripts/index/index.phtml*/
     public function indexAction() {
-        
+
     }
 
     /*Action que devuelde los registros con los campos necesarios para visualizacion
@@ -77,7 +77,7 @@ class Reporte_IndexController extends Zend_Controller_Action {
         $this->_helper->layout()->disableLayout();
         $codigo_prop_proy = $this->_getParam('codigo_prop_proy');
         $respuesta = $this->obtenerTareopersona($codigo_prop_proy);
-        $this->_helper->json->sendJson($respuesta);      
+        $this->_helper->json->sendJson($respuesta);
     }
 
     //Action que devuelve los datos de tareopersona en un archivo html
@@ -106,7 +106,7 @@ class Reporte_IndexController extends Zend_Controller_Action {
             $filares['id'] = $fila['clienteid'];
             $filares['nombre'] = $fila['nombre_comercial'];
             $respuesta[$i] = $filares;
-            $i++; 
+            $i++;
         }
         $this->_helper->json->sendJson($respuesta);
     }
@@ -143,7 +143,7 @@ class Reporte_IndexController extends Zend_Controller_Action {
             $filares['id'] = $fila['unidad_mineraid'];
             $filares['nombre'] = $fila['nombre'];
             $respuesta[$i] = $filares;
-            $i++; 
+            $i++;
         }
         $this->_helper->json->sendJson($respuesta);
     }
