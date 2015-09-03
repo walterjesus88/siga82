@@ -150,21 +150,4 @@ function(httpFactory, $routeParams, $scope, detalleFactory, transmittalFactory) 
     })
   }
 
-  td.cargarContacto = function(detalle) {
-
-    /*httpFactory.getDatosContactoxDetalle(detalle.detalleid)
-    .then(function(data) {
-      td.atencion.codigo = data.codigo;
-      td.atencion.nombre = data.nombre;
-      td.atencion.area = data.area;
-      td.atencion.correo = data.correo;
-    })
-    .catch(function(err) {
-      td.atencion.codigo = '';
-      td.atencion.nombre = '';
-      td.atencion.area = '';
-      td.atencion.correo = '';
-    });*/
-  }
-
 }]);

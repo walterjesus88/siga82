@@ -1,6 +1,4 @@
-app.factory('detalleFactory', ['httpFactory', '$q', function(httpFactory, $q) {
-  var defered = $q.defer();
-  var promise = defered.promise;
+app.factory('detalleFactory', ['httpFactory', function(httpFactory) {
 
   publico = {
     Detalle: function(item) {
@@ -23,13 +21,6 @@ app.factory('detalleFactory', ['httpFactory', '$q', function(httpFactory, $q) {
         if (this.seleccionado == false) {
           this.seleccionado = true;
           this.estilo = 'post-highlight yellow';
-          httpFactory.getDatosContactoxDetalle(this.detalleid)
-          .then(function(data) {
-            defered.resolve(data);
-          })
-          .catch(function(err) {
-            defered.reject(err);
-          });
         } else {
           this.seleccionado = false;
           this.estilo = '';
@@ -79,9 +70,6 @@ app.factory('detalleFactory', ['httpFactory', '$q', function(httpFactory, $q) {
           alert('Aun no se a emitido el transmittal');
         }
       }
-    },
-    obtenerAtencion: function() {
-      return promise;
     }
   }
   return publico;
