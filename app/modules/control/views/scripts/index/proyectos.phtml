@@ -55,7 +55,7 @@
 
           <td>
            <select class="form-control" ng-model="proyecto.estado"
-            ng-options="pro.value as pro.text for pro in vp.estadoproyecto" ng-change="vp.cambiarEstadoProyecto($index)">
+            ng-options="pro.value as pro.text for pro in vp.estadoproyecto" ng-change="vp.cambiarEstadoProyecto($index,proyecto.estado)">
             {{ vp.showEstadoproyecto(proyecto) }}
             </select>
           </td>

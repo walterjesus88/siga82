@@ -176,7 +176,7 @@ app.factory('httpFactory', ['$http', '$q', function($http, $q) {
       datos.clienteid + '/proyectoid/' + datos.proyecto + '/controldocumentario/' +
       datos.control_documentario + '/atencion/' + datos.atencion + '/diasalerta/'
       + datos.dias_alerta + '/tipoproyecto/' + datos.tipo_proyecto + '/modoenvio/' +
-      datos.modo_envio)
+      datos.modo_envio + '/estadoelaboracion/' + datos.estado_elaboracion)
       .success(function(data) {
         defered.resolve(data);
       })
@@ -310,7 +310,44 @@ app.factory('httpFactory', ['$http', '$q', function($http, $q) {
       datos.tipo_envio + '/revision/' +
       datos.revision + '/estadorevision/' + datos.estado_revision + '/transmittal/' +
       datos.transmittal + '/correlativo/' + datos.correlativo + '/emitido/' +
-      datos.emitido + '/fecha/' + datos.fecha + '/estado/' + datos.estado)
+      datos.emitido + '/fecha/' + datos.fecha)
+      .success(function(data) {
+        defered.resolve(data);
+      })
+      .error(function(err) {
+        defered.reject(err);
+      });
+      return promise;
+    },
+    updateDetalle: function(detalle) {
+      var defered = $q.defer();
+      var promise = defered.promise;
+      $http.put(url_tran + 'actualizardetalle/detalleid/' + detalle.detalleid +
+      '/emitido/' + detalle.emitido + '/fecha/' + detalle.fecha)
+      .success(function(data) {
+        defered.resolve(data);
+      })
+      .error(function(err) {
+        defered.reject(err);
+      });
+      return promise;
+    },
+    deleteDetalle: function(detalleid) {
+      var defered = $q.defer();
+      var promise = defered.promise;
+      $http.delete(url_tran + 'eliminardetalle/detalleid/' + detalleid)
+      .success(function(data) {
+        defered.resolve(data);
+      })
+      .error(function(err) {
+        defered.reject(err);
+      });
+      return promise;
+    },
+    getDetallesGenerados: function(proyectoid) {
+      var defered = $q.defer();
+      var promise = defered.promise;
+      $http.get(url_tran + 'detallesgenerados/proyectoid/' + proyectoid)
       .success(function(data) {
         defered.resolve(data);
       })
@@ -451,11 +488,7 @@ app.factory('httpFactory', ['$http', '$q', function($http, $q) {
       var promise = defered.promise;
       $http.post(url_tran + 'guardarrespuesta/detalleid/' + respuesta.detalleid +
       '/respuestatransmittal/' + respuesta.transmittal + '/codigoanddes/' +
-<<<<<<< HEAD
-      respuesta.codigoanddes + '/codigocliente/' + respuesta.codigocliente +
-=======
       respuesta.codigo_anddes + '/codigocliente/' + respuesta.codigo_cliente +
->>>>>>> b3ea4adfd828260c124dc421bb9fb09791b12353
       '/descripcion/' + respuesta.descripcion + '/revision/' + respuesta.revision +
       '/emitido/' + respuesta.emitido + '/fecha/' + respuesta.fecha)
       .success(function(data) {
@@ -465,8 +498,6 @@ app.factory('httpFactory', ['$http', '$q', function($http, $q) {
         defered.reject(err);
       });
       return promise;
-<<<<<<< HEAD
-=======
     },
     updateRespuesta: function(respuesta) {
       var defered = $q.defer();
@@ -521,11 +552,10 @@ app.factory('httpFactory', ['$http', '$q', function($http, $q) {
       });
       return promise;
     },
-    getDatosContacto: function(clienteid, contactoid) {
+    getDatosContactoxDetalle: function(detalleid) {
       var defered = $q.defer();
       var promise = defered.promise;
-      $http.get(url_json + 'obtenerdatoscontacto/clienteid/' + clienteid +
-      '/contactoid/' + contactoid)
+      $http.get(url_tran + 'obtenerdatoscontactodedetalle/detalleid/' + detalleid)
       .success(function(data) {
         defered.resolve(data);
       })
@@ -571,7 +601,31 @@ app.factory('httpFactory', ['$http', '$q', function($http, $q) {
         defered.reject(err);
       });
       return promise;
->>>>>>> b3ea4adfd828260c124dc421bb9fb09791b12353
+    },
+    setEmitido: function(transmittal, correlativo) {
+      var defered = $q.defer();
+      var promise = defered.promise;
+      $http.post(url_tran + 'emitirtransmittal/transmittal/' + transmittal +
+      '/correlativo/' + correlativo)
+      .success(function(data) {
+        defered.resolve(data);
+      })
+      .error(function(err) {
+        defered.reject(err);
+      });
+      return promise;
+    },
+    getModoEnvioxDetalle: function(detalleid) {
+      var defered = $q.defer();
+      var promise = defered.promise;
+      $http.get(url_tran + 'obtenermodoenvio/detalleid/' + detalleid)
+      .success(function(data) {
+        defered.resolve(data);
+      })
+      .error(function(err) {
+        defered.reject(err);
+      });
+      return promise;
     }
   }
 

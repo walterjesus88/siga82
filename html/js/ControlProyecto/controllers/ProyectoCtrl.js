@@ -39,12 +39,12 @@ function(httpFactory, proyectoFactory,$filter) {
     {value: 'P', text: 'Paralizado'},   
   ]; 
 
-  vp.cambiarEstadoProyecto= function(index)  
+  vp.cambiarEstadoProyecto= function(index,estado)  
   {
 
     // console.log(proyecto['codigo']);
     // console.log(proyecto['estado']);
-     console.log(proyecto.estado);
+     console.log(vp.estado);
 
     // proyectoFactory.setDatosxCambiarxEstadoproyecto(proyecto['codigo'],proyecto['estado'],proyecto['codigo_prop_proy'])
     // .then(function(data) {

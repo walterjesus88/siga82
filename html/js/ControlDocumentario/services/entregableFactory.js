@@ -125,7 +125,6 @@ app.factory('entregableFactory', ['httpFactory', 'transmittalFactory',
         }
         f = new Date();
         this.fecha = f.Ddmmyyyy();
-        this.estado = 'Pendiente por el cliente';
       }
 
       this.seleccionarEntregable = function() {

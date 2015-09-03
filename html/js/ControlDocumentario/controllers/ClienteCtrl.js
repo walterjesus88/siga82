@@ -8,38 +8,11 @@ function(httpFactory, $routeParams, respuestaFactory, transmittalFactory) {
 
   cl.detalles_sin_respuesta = [];
 
-<<<<<<< HEAD
-=======
   cl.emitidos = [];
->>>>>>> b3ea4adfd828260c124dc421bb9fb09791b12353
   cl.respuestas = [];
 
   cl.emisiones = [];
 
-<<<<<<< HEAD
-  listarEmisiones = function() {
-    var transmittal = transmittalFactory.getConfiguracion();
-    httpFactory.getEmisionesByTipo(transmittal.tipo_envio)
-    .then(function(data) {
-      cl.emisiones = data;
-    })
-    .catch(function(err) {
-      cl.emisiones = [];
-    });
-  }
-
-  listarEmisiones();
-
-  httpFactory.getDetallesinRespuesta(proyectoid)
-  .then(function(data) {
-    cl.detalles_sin_respuesta = data;
-  })
-  .catch(function(err) {
-    alert('No se pudo cargar los datos de los entregables emitidos sin respuesta');
-  });
-
-  cl.agregar = function() {
-=======
   listarRespuestas = function() {
     httpFactory.getRespuestas(proyectoid)
     .then(function(data){
@@ -92,16 +65,11 @@ function(httpFactory, $routeParams, respuestaFactory, transmittalFactory) {
     .catch(function(err) {
       alert('No se pudo cargar los datos de los entregables emitidos sin respuesta');
     });
->>>>>>> b3ea4adfd828260c124dc421bb9fb09791b12353
     respuesta = new respuestaFactory.Respuesta();
     cl.respuestas.push(respuesta);
   }
 
   cl.guardar = function() {
-<<<<<<< HEAD
-    cl.respuestas.forEach(function(respuesta) {
-      respuesta.guardarRespuesta();
-=======
     cl.emitidos.forEach(function(respuesta) {
       respuesta.actualizarRespuesta();
     })
@@ -110,8 +78,8 @@ function(httpFactory, $routeParams, respuestaFactory, transmittalFactory) {
       respuesta.transmittal != '') {
         respuesta.guardarRespuesta();
       }
-      cl.alerts.push({type: 'success', msg: 'Datos guardados satisfactoriamente'});
     });
+    cl.alerts.push({type: 'success', msg: 'Datos guardados satisfactoriamente'});
   }
 
   cl.alerts = [];
@@ -146,7 +114,6 @@ function(httpFactory, $routeParams, respuestaFactory, transmittalFactory) {
     })
     .catch(function(err) {
 
->>>>>>> b3ea4adfd828260c124dc421bb9fb09791b12353
     });
   }
 }]);

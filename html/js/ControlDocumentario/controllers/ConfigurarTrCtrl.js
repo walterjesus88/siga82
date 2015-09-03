@@ -4,21 +4,6 @@ function($routeParams, httpFactory, transmittalFactory, proyectoFactory, $modal)
 
   vc = this;
 
-<<<<<<< HEAD
-  proyectoFactory.getDatosProyecto($routeParams.proyecto)
-  .then(function(data) {
-    vc.proyecto = data;
-    //cargar los datos del transmittal con los datos del proyecto
-    vc.transmittal.proyecto = vc.proyecto.codigo;
-    vc.transmittal.clienteid = vc.proyecto.clienteid;
-    vc.transmittal.cliente = vc.proyecto.cliente;
-    vc.transmittal.control_documentario = vc.proyecto.control_documentario;
-    vc.transmittal.tipo_proyecto = vc.proyecto.tipo_proyecto;
-
-    vc.control_documentario = vc.transmittal.control_documentario.changeFormat();
-    //obtencion del numero correlativo que corresponderia a este transmittal
-    httpFactory.getCorrelativoTransmittal(vc.transmittal.proyecto)
-=======
   transmittalFactory.cargarTransmittal($routeParams.proyecto);
   //obtencion de los datos de configuracion del transmittal
   transmittalFactory.getConfiguracion()
@@ -26,7 +11,6 @@ function($routeParams, httpFactory, transmittalFactory, proyectoFactory, $modal)
     vc.transmittal = data;
 
     proyectoFactory.getDatosProyecto($routeParams.proyecto)
->>>>>>> b3ea4adfd828260c124dc421bb9fb09791b12353
     .then(function(data) {
       vc.proyecto = data;
       vc.transmittal.proyecto = vc.proyecto.codigo;

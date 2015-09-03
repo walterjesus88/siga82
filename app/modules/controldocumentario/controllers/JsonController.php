@@ -180,16 +180,6 @@ class ControlDocumentario_JsonController extends Zend_Controller_Action {
       $this->_helper->json->sendJson($lista);
     }
 
-    //datos del contacto seleccionado
-    public function obtenerdatoscontactoAction()
-    {
-      $clienteid = $this->_getParam('clienteid');
-      $contactoid = $this->_getParam('contactoid');
-      $contacto = new Admin_Model_DbTable_Contacto();
-      $respuesta = $contacto->_getDatosContacto($clienteid, $contactoid);
-      $this->_helper->json->sendJson($respuesta);
-    }
-
     //subir logo del cliente
     public function subirlogoAction()
     {

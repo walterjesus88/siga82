@@ -78,7 +78,8 @@ class Admin_Model_DbTable_Listaentregabledetalle extends Zend_Db_Table_Abstract
     public function _getEntregablexProyecto($proyectoid, $condicion, $clase)
     {
       try {
-        $query1 = "select led.cod_le, led.proyectoid, led.revision_entregable,
+        $query1 = "select led.cod_le, led.proyectoid, led.revision_documento as
+        revision_entregable,
         led.edt, led.tipo_documento, led.disciplina, led.codigo_anddes, led.codigo_cliente,
         led.descripcion_entregable, led.estado as estado_revision,
         det.transmittal, det.correlativo,
@@ -169,7 +170,7 @@ class Admin_Model_DbTable_Listaentregabledetalle extends Zend_Db_Table_Abstract
       if (!$row) {
            throw new Exception("No hay resultados para ese transmittal");
       }
-      $row->revision_entregable = $revision;
+      $row->revision_documento = $revision;
       $row->save();
     }
 
@@ -183,26 +184,14 @@ class Admin_Model_DbTable_Listaentregabledetalle extends Zend_Db_Table_Abstract
           proyectoid = '".$data['proyectoid']."'");
           $codigo = $sql->fetch();
 
-          $sql = $this->_db->query("select * from lista_entregable where
-          codigo_prop_proy = '".$codigo['codigo_prop_proy']."' and
-          proyectoid = '".$data['proyectoid']."' and revision_entregable ='".
-          $data['revision']."'");
-          $resul = $sql->fetchAll();
-
-          if (sizeof($resul) == 0) {
-            $sql = $this->_db->query("insert into lista_entregable values ('".
-            $codigo['codigo_prop_proy']."', '".$data['proyectoid']."', '".
-            $data['revision']."')");
-            $row = $sql->fetch();
-          }
-
           $sql = $this->_db->query("insert into lista_entregable_detalle
           (codigo_prop_proy, proyectoid, revision_entregable, edt, tipo_documento,
           disciplina, codigo_anddes, codigo_cliente, descripcion_entregable, estado,
-          clase) values ('".$codigo['codigo_prop_proy']."', '".$data['proyectoid']."', '".$data['revision']."',
+          clase, revision_documento, estado_entregable)
+          values ('".$codigo['codigo_prop_proy']."', '".$data['proyectoid']."', 'A',
           '000', '".$data['tipo_documento']."', '".$data['disciplina']."',
           '".$data['codigo_anddes']."', '".$data['codigo_cliente']."',
-          '".$data['descripcion']."', 'Ultimo', '".$data['clase']."')");
+          '".$data['descripcion']."', 'Ultimo', '".$data['clase']."', '".$data['revision']."', 1)");
           $row = $sql->fetch();
           $resp['resultado'] = 'guardado';
           return $resp;
