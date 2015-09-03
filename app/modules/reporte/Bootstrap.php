@@ -1,8 +1,8 @@
 <?php
 
-class Reporte_Bootstrap extends Zend_Application_Module_Bootstrap 
+class Reporte_Bootstrap extends Zend_Application_Module_Bootstrap
 {
-    
+
    protected function _initAutoload()
     {
         $autoloader = new Zend_Application_Module_Autoloader(array(
@@ -17,10 +17,15 @@ class Reporte_Bootstrap extends Zend_Application_Module_Bootstrap
                     'path' => 'models',
                     'namespace' => 'Model',
                 ),
+                'datatable' => array(
+                    'path' => 'datatables',
+                    'namespace' => 'DataTable',
+                ),
+
             )
         ));
         return $autoloader;
     }
-    
+
 }
 
