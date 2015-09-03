@@ -564,7 +564,7 @@ class Timesheet_IndexController extends Zend_Controller_Action {
         {
         ?>
           <script>                  
-            //alert("Se actualizo satisfactoriamente");
+            alert("Se actualizo satisfactoriamente");
           </script>
         <?php
         
