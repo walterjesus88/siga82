@@ -46,7 +46,8 @@
             ng-click="va.cargarRevisiones('all')">Historial Revisiones</button>
             <button type="button" class="btn btn-warning btn-xs"
             ng-click="va.editarTransmittal()">Transmittals</button>
-            <button type="button" class="btn btn-danger btn-xs">Planificación</button>
+            <button type="button" class="btn btn-danger btn-xs"
+            ng-click="va.verPlanificacion()">Planificación</button>
         </header>
 
         <div class="tab-content">
@@ -58,6 +59,9 @@
           <div ng-include="'/controldocumentario/index/editartransmittal'"
           class="tab-pane" ng-class="va.trans_activo">
 
+          </div>
+          <div ng-include="" class="tab-pane" ng-class="va.plan_activo">
+            
           </div>
         </div>
 

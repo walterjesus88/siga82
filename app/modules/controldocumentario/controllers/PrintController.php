@@ -54,10 +54,7 @@ class ControlDocumentario_PrintController extends Zend_Controller_Action {
         $sumatoria['C'] += $respuesta[$i]['C'];
       }
 
-      $formato = new Admin_Model_DbTable_Formato();
-      $formato->_setFormato('carpetas');
-      $formato->_setCabecera($sumatoria);
-      $formato->_setData($respuesta);
+      $formato = new Admin_Model_DbTable_Formato('carpetas', $sumatoria, $respuesta);
       $resp = $formato->_print();
       $this->_helper->json->sendJson($resp);
     }
@@ -68,10 +65,7 @@ class ControlDocumentario_PrintController extends Zend_Controller_Action {
       $proyecto = new Admin_Model_DbTable_Proyecto();
       $data = $proyecto->_getAllExtendido($estado);
       $cabecera['estado'] = $estado;
-      $formato = new Admin_Model_DbTable_Formato();
-      $formato->_setFormato('proyectos');
-      $formato->_setCabecera($cabecera);
-      $formato->_setData($data);
+      $formato = new Admin_Model_DbTable_Formato('proyectos', $cabecera, $data);
       $respuesta = $formato->_print();
       $this->_helper->json->sendJson($respuesta);
     }
@@ -84,10 +78,7 @@ class ControlDocumentario_PrintController extends Zend_Controller_Action {
       $cabecera = $proyecto->_getOnexProyectoidExtendido($data);
       $edt = new Admin_Model_DbTable_ProyectoEdt();
       $lista = $edt->_getEdtxProyectoid($proyectoid);
-      $formato = new Admin_Model_DbTable_Formato();
-      $formato->_setFormato('edt');
-      $formato->_setCabecera($cabecera);
-      $formato->_setData($lista);
+      $formato = new Admin_Model_DbTable_Formato('edt', $cabecera, $lista);
       $respuesta = $formato->_print();
       $this->_helper->json->sendJson($respuesta);
     }
@@ -105,10 +96,7 @@ class ControlDocumentario_PrintController extends Zend_Controller_Action {
       $entregable = new Admin_Model_DbTable_Listaentregabledetalle();
       $lista = $entregable->_getEntregablexProyecto($proyectoid, $estado, $clase);
 
-      $formato = new Admin_Model_DbTable_Formato();
-      $formato->_setFormato('reporte_transmittal');
-      $formato->_setCabecera($cabecera);
-      $formato->_setData($lista);
+      $formato = new Admin_Model_DbTable_Formato('reporte_transmittal', $cabecera, $lista);
       $respuesta = $formato->_print();
       $this->_helper->json->sendJson($respuesta);
     }
@@ -124,10 +112,7 @@ class ControlDocumentario_PrintController extends Zend_Controller_Action {
       $detalle = new Admin_Model_DbTable_DetalleTransmittal();
       $lista = $detalle->_getDetallesConRespuestaExtendido($proyectoid);
 
-      $formato = new Admin_Model_DbTable_Formato();
-      $formato->_setFormato('reporte_cliente');
-      $formato->_setCabecera($cabecera);
-      $formato->_setData($lista);
+      $formato = new Admin_Model_DbTable_Formato('reporte_cliente', $cabecera, $lista);
       $respuesta = $formato->_print();
       $this->_helper->json->sendJson($respuesta);
     }
@@ -140,10 +125,7 @@ class ControlDocumentario_PrintController extends Zend_Controller_Action {
       $cabecera = $trans->_getTransmittal($transmittal, $correlativo);
       $detalle = new Admin_Model_DbTable_DetalleTransmittal();
       $data = $detalle->_getDetallexTramittal($transmittal, $correlativo);
-      $formato = new Admin_Model_DbTable_Formato();
-      $formato->_setFormato('anddes');
-      $formato->_setCabecera($cabecera);
-      $formato->_setData($data);
+      $formato = new Admin_Model_DbTable_Formato('anddes', $cabecera, $data);
       $respuesta = $formato->_print();
       $this->_helper->json->sendJson($respuesta);
     }
