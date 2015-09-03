@@ -102,8 +102,8 @@
           </button>
     </div>
      
-        <div class="list-items animate-show-item" ng-show="category.expanded">
-
+        <div class="list-items animate-show-item" ng-show="">
+        	<!-- category.expanded -->
 		<form method="POST" action="#" editable-form name="tableform" onaftersave="CP.saveTable()" oncancel="cancel()" >
 			<table class=" table table-striped table-hover table-bordered ">
 				<thead>	
@@ -175,13 +175,11 @@
 			</div>
 
 		</form>
-        <!--  <ul>
+          <!--<ul>
           <li ng-repeat="item in category.items" class="animate-repeat-item">
             {{item.fecha_performance}}
-            <span ng-class="{done:item.completed}" ltc-editable class-off="done" ng-model="item.fecha_performance"></span>
-         
-          </li>
-          </ul> -->
+            <span ng-class="{done:item.completed}" ltc-editable class-off="done" ng-model="item.fecha_performance"></span>         
+          </li></ul>-->
           <div class="no-items"><small ng-show="category.expanded && category.items.length==0">NO ITEMS!</small></div>
         </div>
 
@@ -192,7 +190,8 @@
 
 
 
-<!--   <div ng-init="accordion=1">
+
+<div ng-init="accordion=1">
 	<h3 class="accordion" ng-class="{active:accordion==1}">
 		<a href ng-click="accordion = 1">Section 1</a>
 	</h3>
@@ -204,11 +203,11 @@
 	<p class="accordion-content" ng-show="accordion==2">It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using</p>
 	    
 	<h3 class="accordion" ng-class="{active:accordion==3}">
-		<a href ng-click="accordion = 3">Section 3</a>
+		<a href ng-click="accordion = 1">Section 3</a>
 	</h3>
 	<p class="accordion-content" ng-show="accordion==3">There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form</p>
 </div>
- -->
+
 
 
 

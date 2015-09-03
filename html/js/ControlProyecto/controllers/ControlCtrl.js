@@ -847,7 +847,8 @@ va.saveTable = function() {
   va.toggleCategory = function(revision) {
       //alert('mmmmmmmmmmm');
       console.log(revision);
-      revision.expanded = !revision.expanded;
+      console.log(revision['cronogramaid']);
+      //revision.expanded = !revision.expanded;
 
       revision_cronograma=revision.revision_cronograma;
       proyectoid=revision.proyectoid;
