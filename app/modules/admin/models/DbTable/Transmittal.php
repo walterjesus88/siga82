@@ -2,7 +2,7 @@
 class Admin_Model_DbTable_Transmittal extends Zend_Db_Table_Abstract
 {
     protected $_name = 'transmittal';
-    protected $_primary = array("cofidicacion", "correlativo");
+    protected $_primary = array("codificacion", "correlativo");
 
      //Lista todos los transmittals procesados
     public function _getAll(){
@@ -15,12 +15,34 @@ class Admin_Model_DbTable_Transmittal extends Zend_Db_Table_Abstract
       }
     }
 
+    //Devuelve la configuracion del ultimo transmittal
+    public function _getConfiguracion($proyectoid)
+    {
+      try {
+        $sql = $this->_db->query("select tra.codificacion, tra.correlativo,
+        tra.formato, tra.tipo_envio, tra.clienteid, cli.nombre_comercial as cliente,
+        tra.control_documentario, tra.atencion, tra.dias_alerta, tra.tipo_proyecto,
+        con.puesto_trabajo as area, con.correo from transmittal as tra inner join
+        cliente as cli on (tra.clienteid = cli.clienteid) inner join contacto
+        as con on (tra.clienteid = con.clienteid and tra.atencion = con.contactoid)
+        where proyectoid = '".
+        $proyectoid."' order by codificacion desc, correlativo desc limit 1");
+        $row = $sql->fetch();
+        $correlativo = $this->_getCorrelativo($proyectoid, $row['codificacion']);
+        $row['correlativo'] = $correlativo['correlativo'];
+        return $row;
+      } catch (Exception $e) {
+        print $e->getMessage();
+      }
+    }
+
     //Devuelve el numero correlativo a asignar al nuevo transmittal
-    public function _getCorrelativo($proyectoid)
+    public function _getCorrelativo($proyectoid, $codificacion)
     {
       try {
         $sql = $this->_db->query("select cast(correlativo as int) from transmittal
-        where proyectoid='".$proyectoid."' order by correlativo desc limit 1");
+        where proyectoid='".$proyectoid."' and codificacion = '".$codificacion."'
+        order by correlativo desc limit 1");
         $row = $sql->fetchAll();
         if (count($row) != 0) {
           $numero = (int) $row[0]['correlativo'];
@@ -49,27 +71,13 @@ class Admin_Model_DbTable_Transmittal extends Zend_Db_Table_Abstract
     //Almacena en la base de datos los valores de la configuracion del transmittal
     public function _saveConfiguracion($data)
     {
-      /*$newRow = $this->createRow();
-      $newRow->codificacion = $data['codificacion'];
-      $newRow->correlativo = $data['correlativo'];
-      $newRow->clienteid = $data['clienteid'];
-      $newRow->proyectoid = $data['proyectoid'];
-      $newRow->formato = $data['formato'];
-      $newRow->tipo_envio = $data['tipo_envio'];
-      $newRow->control_documentario = $data['control_documentario'];
-      $newRow->dias_alerta = $data['dias_alerta'];
-      $newRow->tipo_proyecto = $data['tipo_proyecto'];
-      $newRow->atencion = $data['atencion'];
-      $newRow->save();
-      return $respuesta['resultado'] = 'guardado';*/
-
       try {
         $sql = $this->_db->query("insert into transmittal values ('".
         $data['codificacion']."', '".$data['correlativo']."', '".
         $data['clienteid']."', '".$data['proyectoid']."', '".$data['formato'].
         "', '".$data['tipo_envio']."', '".$data['control_documentario'].
         "', '".$data['dias_alerta']."', '".$data['tipo_proyecto']."', '".
-        $data['atencion']."')");
+        $data['atencion']."', '".$data['modo_envio']."', '".$data['estado_elaboracion']."')");
         $row = $sql->fetchAll();
         return $row;
         //$this->insert($data);
@@ -80,15 +88,48 @@ class Admin_Model_DbTable_Transmittal extends Zend_Db_Table_Abstract
     }
 
     //Cambia el estado de elaboracion de un transmittal a cerrado
-    public function _cambiarEstadoElaboracion($transmittalid)
+    public function _cambiarEstadoElaboracion($transmittal, $correlativo)
     {
-      $id = (int)$transmittalid;
-      $row = $this->fetchRow('transmittalid = ' . $id);
+      $row = $this->fetchRow("codificacion = '".$transmittal.
+      "' and correlativo = '".$correlativo."'");
       if (!$row) {
            throw new Exception("No hay resultados para ese transmittal");
       }
-      $row->estado_elaboracion = 'emitido';
+      $row->estado_elaboracion = 'Emitido';
       $row->save();
+      return $row;
+    }
+
+    //obtener los datos de un transmittal
+    public function _getTransmittal($transmittalid, $correlativo)
+    {
+      $sql = $this->_db->query("select tra.codificacion, tra.correlativo,
+      tra.clienteid, cli.nombre_comercial, tra.proyectoid, tra.formato,
+      tra.tipo_envio, tra.control_documentario, tra.atencion,
+      concat(con.nombre1, ' ', con.ape_paterno) as nombre_atencion,
+      con.puesto_trabajo, tra.modo_envio
+      from transmittal as tra inner join cliente as cli on
+      tra.clienteid = cli.clienteid
+      inner join contacto as con on (tra.atencion = con.contactoid and
+      tra.clienteid = con.clienteid)
+      where codificacion = '".$transmittalid."' and correlativo ='".$correlativo."'");
+      $row = $sql->fetch();
+      return $row;
+    }
+
+    //guardar el modo de envio
+    public function _setModoEnvio($transmittal, $correlativo, $modo)
+    {
+      try {
+        $row = $this->fetchRow("codificacion = '".$transmittal."' and correlativo = '".
+        $correlativo."'");
+        $row->modo_envio = $modo;
+        $row->save();
+        $respuesta['resultado'] = 'Guardado';
+        return $respuesta;
+      } catch (Exception $e) {
+        print $e->getMessage();
+      }
     }
 
 }

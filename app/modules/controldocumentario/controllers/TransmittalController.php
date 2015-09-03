@@ -26,6 +26,15 @@ class ControlDocumentario_TransmittalController extends Zend_Controller_Action {
       $this->_helper->json->sendJson($correlativo);
     }
 
+    //Devuelve la configuracion de transmittal
+    public function ultimotransmittalAction()
+    {
+      $proyectoid = $this->_getParam('proyectoid');
+      $transmittal = new Admin_Model_DbTable_Transmittal();
+      $respuesta = $transmittal->_getConfiguracion($proyectoid);
+      $this->_helper->json->sendJson($respuesta);
+    }
+
     //Guarda los datos de configuracion del transmittal
     public function guardarconfiguraciontransmittalAction()
     {
@@ -39,6 +48,8 @@ class ControlDocumentario_TransmittalController extends Zend_Controller_Action {
       $data['dias_alerta'] = $this->_getParam('diasalerta');
       $data['tipo_proyecto'] = $this->_getParam('tipoproyecto');
       $data['atencion'] = $this->_getParam('atencion');
+      $data['modo_envio'] = $this->_getParam('modoenvio');
+      $data['estado_elaboracion'] = $this->_getParam('estadoelaboracion');
       $transmittal = new Admin_Model_DbTable_Transmittal();
       $respuesta = $transmittal->_saveConfiguracion($data);
       $this->_helper->json->sendJson($respuesta);
@@ -55,7 +66,6 @@ class ControlDocumentario_TransmittalController extends Zend_Controller_Action {
       $data['correlativo'] = $this->_getParam('correlativo');
       $data['emitido'] = $this->_getParam('emitido');
       $data['fecha'] = $this->_getParam('fecha');
-      $data['estado'] = $this->_getParam('estado');
       $detalle = new Admin_Model_DbTable_DetalleTransmittal();
       $respuesta = $detalle->_addDetalle($data);
       $this->_helper->json->sendJson($respuesta);
@@ -64,6 +74,7 @@ class ControlDocumentario_TransmittalController extends Zend_Controller_Action {
     //guardar respuestas emitidas por los clientes o contratistas
     public function guardarrespuestaAction()
     {
+      $data['detalleid'] = $this->_getParam('detalleid');
       $data['respuesta_transmittal'] = $this->_getParam('respuestatransmittal');
       $data['codigo_anddes'] = $this->_getParam('codigoanddes');
       $data['codigo_cliente'] = $this->_getParam('codigocliente');
@@ -73,7 +84,27 @@ class ControlDocumentario_TransmittalController extends Zend_Controller_Action {
       $data['respuesta_fecha'] = $this->_getParam('fecha');
 
       $detalle = new Admin_Model_DbTable_DetalleTransmittal();
-      $respuesta = $detalle->_saveRespuesta($data);
+      $respuesta = $detalle->_setRespuesta($data);
+<<<<<<< HEAD
+=======
+      $this->_helper->json->sendJson($respuesta);
+    }
+
+    //editar respuesta
+    public function editarrespuestaAction()
+    {
+      $data['detalleid'] = $this->_getParam('detalleid');
+      $data['respuesta_transmittal'] = $this->_getParam('respuestatransmittal');
+      $data['codigo_anddes'] = $this->_getParam('codigoanddes');
+      $data['codigo_cliente'] = $this->_getParam('codigocliente');
+      $data['descripcion'] = $this->_getParam('descripcion');
+      $data['revision'] = $this->_getParam('revision');
+      $data['respuesta_emitido'] = $this->_getParam('emitido');
+      $data['respuesta_fecha'] = $this->_getParam('fecha');
+
+      $detalle = new Admin_Model_DbTable_DetalleTransmittal();
+      $respuesta = $detalle->_updateRespuesta($data);
+>>>>>>> b3ea4adfd828260c124dc421bb9fb09791b12353
       $this->_helper->json->sendJson($respuesta);
     }
 
@@ -92,6 +123,100 @@ class ControlDocumentario_TransmittalController extends Zend_Controller_Action {
       $proyectoid = $this->_getParam('proyectoid');
       $detalle = new Admin_Model_DbTable_DetalleTransmittal();
       $respuesta = $detalle->_getDetalleSinRespuesta($proyectoid);
+      $this->_helper->json->sendJson($respuesta);
+    }
+
+    //lista de entregables con respuesta
+    public function obtenerrespuestasAction()
+    {
+      $proyectoid = $this->_getParam('proyectoid');
+      $detalle = new Admin_Model_DbTable_DetalleTransmittal();
+      $respuesta = $detalle->_getDetallesConRespuesta($proyectoid);
+      $this->_helper->json->sendJson($respuesta);
+    }
+
+    //guardar el modo de envio seleccionado
+    public function actualizarmodoenvioAction()
+    {
+      $transmittal = $this->_getParam('transmittal');
+      $correlativo = $this->_getParam('correlativo');
+      $modo = $this->_getParam('modo');
+      $trans = new Admin_Model_DbTable_Transmittal();
+      $respuesta = $trans->_setModoEnvio($transmittal, $correlativo, $modo);
+      $this->_helper->json->sendJson($respuesta);
+    }
+
+    //cambiar el estado del transmittal a emitido
+    public function emitirtransmittalAction()
+    {
+      try {
+        $transmittal = $this->_getParam('transmittal');
+        $correlativo = $this->_getParam('correlativo');
+        $trans = new Admin_Model_DbTable_Transmittal();
+        $respuesta = $trans->_cambiarEstadoElaboracion($transmittal, $correlativo);
+        $this->_helper->json->sendJson($respuesta);
+      } catch (Exception $e) {
+        print $e->getMessage();
+      }
+    }
+
+    //listar los detalles que han sido generados
+    public function detallesgeneradosAction()
+    {
+      $proyectoid = $this->_getParam('proyectoid');
+      $detalle = new Admin_Model_DbTable_DetalleTransmittal();
+      $lista = $detalle->_getDetallesxProyecto($proyectoid);
+      $this->_helper->json->sendJson($lista);
+    }
+
+    //eliminar detalles de transmittals en elaboracion
+    public function eliminardetalleAction()
+    {
+      $detalleid = $this->_getParam('detalleid');
+      $detalle = new Admin_Model_DbTable_DetalleTransmittal();
+      $respuesta = $detalle->_deleteDetalle($detalleid);
+      $this->_helper->json->sendJson($respuesta);
+    }
+
+    //guardar cambios detalle
+    public function actualizardetalleAction()
+    {
+      $data['detalleid'] = $this->_getParam('detalleid');
+      $data['emitido'] = $this->_getParam('emitido');
+      $data['fecha'] = $this->_getParam('fecha');
+      $detalle = new Admin_Model_DbTable_DetalleTransmittal();
+      $respuesta = $detalle->_updateDetalle($data);
+      $this->_helper->json->sendJson($respuesta);
+    }
+
+    //una funcion tipo pila para actualizar los estados de todos los detalles
+    public function actualizarestadodetalleAction()
+    {
+      $detalle = new Admin_Model_DbTable_DetalleTransmittal();
+      $lista = $detalle->_getAll();
+      $resp = [];
+      $i = 0;
+      foreach ($lista as $det) {
+        $resp[$i] = $detalle->_setEstado($det['detalleid']);
+        $i++;
+      }
+      $this->_helper->json->sendJson($lista);
+    }
+
+    //datos del contacto seleccionado
+    public function obtenerdatoscontactodedetalleAction()
+    {
+      $detalleid = $this->_getParam('detalleid');
+      $detalle = new Admin_Model_DbTable_DetalleTransmittal();
+      $respuesta = $detalle->_getDatosContactoxDetalle($detalleid);
+      $this->_helper->json->sendJson($respuesta);
+    }
+
+    public function obtenermodoenvioAction()
+    {
+      $detalleid = $this->_getParam('detalleid');
+      $detalle = new Admin_Model_DbTable_DetalleTransmittal();
+      $respuesta = $detalle->_getModoEnvio($detalleid);
       $this->_helper->json->sendJson($respuesta);
     }
 }

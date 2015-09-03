@@ -1,10 +1,3 @@
-<style type="text/css">
-  .editar {color: blue; cursor:pointer;}
-  #contenedorForm {margin-left: 45px; font-size:12px;}
-  .boton {   color: black; padding: 5px; margin: 10px;
-    background-color: #b9c9fe;
-    font-weight: bold; }
-</style>
 <section class="panel">
     <header class="panel-heading">
         <strong>  Proyecto: <?php print_r($this->proyecto['proyectoid']); echo " / ";
@@ -14,6 +7,7 @@
     </span>
     </header>
 </section>
+
 <div class="row">
     <div class="col-md-8">
         <section class="panel">
@@ -46,7 +40,7 @@
                                 foreach ($porciones as $value) {
                                     echo (ucwords($value));  echo " ";
                                 }
-                            //print_r($this->proyecto['gerente_proyecto'])?></p>
+                        ?></p>
                     </div>
                     <div class="bio-row">
                         <p><span class="bold">Estado</span>: <span class="label label-primary"></span><?php
@@ -139,15 +133,17 @@
                     $codigo_proyecto=$this->proyecto['codigo_prop_proy'];
                     $nombre_fichero = './upload/proyecto/'.$proyectoid.'-HH.xls';
                     if (file_exists($nombre_fichero)) { ?>
-                        <!--
-                        <a href="/proyecto/index/subiractividades/proyectoid/<?php echo $proyectoid?>/codigo/<?php echo $codigo_proyecto?>" class=" btn btn-primary btn-sm" >Subir Actividades</a>
-                        -->
+                        <a class="btn btn-danger btn-xs" id="filtro_actividades" href="#" proyectoid="<?php echo $proyectoid?>"  codigo_proyecto="<?php echo $codigo_proyecto ?>" > Subir Actividades </a>
+                        <br>
+                        <a class="btn btn-info btn-xs" id="filtro_areacategoria" href="#" proyectoid="<?php echo $proyectoid?>"  codigo_proyecto="<?php echo $codigo_proyecto ?>" > Subir Area x Categoria </a>
+                        <br>
+                        
+                        <a class="btn btn-primary btn-xs" id="filtro_hhproyecto" href="#" proyectoid="<?php echo $proyectoid?>"  codigo_proyecto="<?php echo $codigo_proyecto ?>" > Subir HH Proyecto </a>
 
-                         <a class="btn btn-danger btn-xs" id="filtro_actividades" href="#" proyectoid="<?php echo $proyectoid?>"  codigo_proyecto="<?php echo $codigo_proyecto ?>" > Subir Actividades </a>
-
-
-                        <a href="/proyecto/index/subirareacategoria/proyectoid/<?php echo $proyectoid?>/codigo/<?php echo $codigo_proyecto?>" class=" btn btn-primary btn-sm" >Subir Area x Categoria</a>
+                        <!--<a href="/proyecto/index/subirareacategoria/proyectoid/<?php echo $proyectoid?>/codigo/<?php echo $codigo_proyecto?>" class=" btn btn-primary btn-sm" >Subir Area x Categoria</a>
+                        
                         <a href="/proyecto/index/subirtareo/proyectoid/<?php echo $proyectoid?>/codigo/<?php echo $codigo_proyecto?>" class=" btn btn-primary btn-sm" >Subir HH Proyecto</a>
+                                                -->
                     <?php }else{?>
                     <form enctype="multipart/form-data" action="/../cargar_horas.php" method="post" >
                         <input type="hidden" name="MAX_FILE_SIZE" value="200000" />
@@ -169,23 +165,17 @@
 
 <script type="text/javascript">
     
-
 $(document).ready(function(){
     $("#filtro_actividades").click(function(){
         var proyectoid = $(this).attr('proyectoid');
         var codigo = $(this).attr('codigo_proyecto');
         url="/proyecto/index/subiractividades/proyectoid/"+proyectoid+"/codigo/"+codigo;
         alert(url);
-        //$("#cargar_importar").load(url);
+        $("#cargar_importar").load(url);
 });
 });
 
 </script>
-
-
-
-
-
 
 
   <div class="col-md-4">

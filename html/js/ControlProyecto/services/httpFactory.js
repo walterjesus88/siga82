@@ -16,9 +16,6 @@ app.factory('httpFactory', ['$http','$q', function($http,$q) {
     },   
 
 
-
-
-
     setCambiarfechaproyecto: function(value,column,id) {
       // var defered = $q.defer();
       // var promise = defered.promise;
@@ -33,10 +30,9 @@ app.factory('httpFactory', ['$http','$q', function($http,$q) {
       //return promise;
     },
 
-    setGuardarCurva:function(codigo_curvas,fecha_ingreso_curvas,porcentaje_ejecutado,porcentaje_propuesta,revision_cronograma,codigo_cronograma,codigo_prop_proy,proyectoid,cronogramaid,revision_propuesta)
+    setGuardarCurva:function(fecha_curvas,porcentaje_ejecutado,porcentaje_propuesta,revision_cronograma,codigo_cronograma,codigo_prop_proy,proyectoid,cronogramaid,revision_propuesta)
     {
-      return $http.post(url + 'guardarcurva/codigo_curvas/' +
-      codigo_curvas+"/fecha_ingreso_curvas/"+fecha_ingreso_curvas+"/porcentaje_ejecutado/"+porcentaje_ejecutado  
+      return $http.post(url + 'guardarcurva/fecha_curvas/'+fecha_ingreso_curvas+"/porcentaje_ejecutado/"+porcentaje_ejecutado  
       +"/porcentaje_propuesta/"+porcentaje_propuesta
       +"/revision_cronograma/"+revision_cronograma+"/codigo_cronograma/"+codigo_cronograma+"/codigo_prop_proy/"
       +codigo_prop_proy+"/proyectoid/"+proyectoid+"/cronogramaid/"+cronogramaid+"/revision_propuesta/"+revision_propuesta)
@@ -56,7 +52,7 @@ app.factory('httpFactory', ['$http','$q', function($http,$q) {
         fecha_ingreso_performance,fecha_performance) {
       var defered = $q.defer();
       var promise = defered.promise;
-      $http.get(url + 'modificarperformance/codigo_prop_proy/' + codigo_prop_proy+
+      $http.post(url + 'modificarperformance/codigo_prop_proy/' + codigo_prop_proy+
         "/codigo_actividad/"+codigo_actividad+
         "/actividadid/"+actividadid+
         "/cronogramaid/"+cronogramaid+
@@ -68,6 +64,45 @@ app.factory('httpFactory', ['$http','$q', function($http,$q) {
         "/revision_cronograma/"+revision_cronograma+
         "/fecha_ingreso_performance/"+fecha_ingreso_performance+
         "/fecha_performance/"+fecha_performance
+      )
+      .success(function(data) {
+        defered.resolve(data);
+      })
+      .error(function(err) {
+        defered.reject(err);
+      });
+      return promise;
+    },
+
+    setModificarxPerformance: function(codigo_prop_proy,codigo_actividad,actividadid,cronogramaid,codigo_cronograma,codigo_performance,fecha_calculo_performance,
+      proyectoid,revision_cronograma,fecha_ingreso_performance,revision_propuesta,costo_real,horas_real,fecha_comienzo_real,fecha_fin_real,
+      fecha_fin,fecha_comienzo,porcentaje_calculo,nivel_esquema,predecesoras,sucesoras,costo_presupuesto,duracion
+      ) {
+      var defered = $q.defer();
+      var promise = defered.promise;
+      $http.post(url + 'modificarperformancepadre/codigo_prop_proy/' + codigo_prop_proy+
+        "/codigo_actividad/"+codigo_actividad+
+        "/actividadid/"+actividadid+
+        "/cronogramaid/"+cronogramaid+
+        "/codigo_cronograma/"+codigo_cronograma+
+        "/codigo_performance/"+codigo_performance+        
+        "/fecha_calculo_performance/"+fecha_calculo_performance+
+        "/proyectoid/"+proyectoid+
+        "/revision_cronograma/"+revision_cronograma+
+        "/fecha_ingreso_performance/"+fecha_ingreso_performance+
+        "/revision_propuesta/"+revision_propuesta+
+        "/costo_real/"+costo_real+
+        "/horas_real/"+horas_real+       
+        "/fecha_comienzo_real/"+fecha_comienzo_real+
+        "/fecha_fin_real/"+fecha_fin_real
+        +"/fecha_fin/"+fecha_fin+  
+        "/fecha_comienzo/"+fecha_comienzo+  
+        "/porcentaje_calculo/"+porcentaje_calculo+  
+        "/nivel_esquema/"+nivel_esquema+  
+        "/predecesoras/"+predecesoras+  
+        "/sucesoras/"+sucesoras+  
+        "/costo_presupuesto/"+costo_presupuesto+  
+        "/duracion/"+duracion 
       )
       .success(function(data) {
         defered.resolve(data);
@@ -92,6 +127,24 @@ app.factory('httpFactory', ['$http','$q', function($http,$q) {
       return promise;
     },
 
+    setCambioEstadoProyecto: function(codigo, estado,codigoproyecto) {
+      var defered = $q.defer();
+      var promise = defered.promise;
+      
+      alert(codigo);
+      alert(estado);
+      alert(codigoproyecto);
+      
+      $http.get(url + 'setcambioestadoproyecto/estado/' + estado+"/codigo/"+codigo+"/codigoproyecto/"+codigoproyecto)
+      .success(function(data) {
+        defered.resolve(data);
+      })
+      .error(function(err) {
+        defered.reject(err);
+      });
+      return promise;
+    },
+
     getProyectoById: function(proyectoid) {
       var defered = $q.defer();
       var promise = defered.promise;
@@ -105,10 +158,10 @@ app.factory('httpFactory', ['$http','$q', function($http,$q) {
       return promise;
     },
 
-    getProyectoxPerfomance: function(proyectoid) {
+    getProyectoxPerfomance: function(proyectoid,revision) {
       var defered = $q.defer();
       var promise = defered.promise;
-      $http.get(url + 'proyectoxperformance/proyectoid/' + proyectoid)
+      $http.get(url + 'proyectoxperformance/proyectoid/' + proyectoid+"/revision/"+revision)
       .success(function(data) {
         defered.resolve(data);
       })
@@ -117,8 +170,8 @@ app.factory('httpFactory', ['$http','$q', function($http,$q) {
       });
       return promise;
     },
-
-    getProyectoxCronograma: function(proyectoid) {
+////////////////////************cronograma ***********////////////////////////////
+    getProyectoxCronograma: function(proyectoid,revision) {
       var defered = $q.defer();
       var promise = defered.promise;
       $http.get(url + 'proyectoxcronograma/proyectoid/' + proyectoid)
@@ -130,6 +183,302 @@ app.factory('httpFactory', ['$http','$q', function($http,$q) {
       });
       return promise;
     },
+
+    setGuardarxCronograma: function(codigocronograma,revision,estado,codigo_prop_proy,proyectoid) {
+      var defered = $q.defer();
+      var promise = defered.promise;
+      $http.post(url + 'guardarxproyectoxcronograma/codigocronograma/' + codigocronograma+"/revision/"+revision+"/estado/"+estado+"/codigo_prop_proy/"+codigo_prop_proy+"/proyectoid/"+proyectoid)
+      .success(function(data) {
+        defered.resolve(data);
+      })
+      .error(function(err) {
+        defered.reject(err);
+      });
+      return promise;
+    },
+
+    setModificarxCronograma: function(codigocronograma,codigo_prop_proy,proyectoid,revision,cronogramaid,state) {
+      var defered = $q.defer();
+      var promise = defered.promise;
+      $http.post(url + 'modificarxproyectoxcronograma/codigocronograma/' + codigocronograma+"/revision/"+revision+"/codigo_prop_proy/"+codigo_prop_proy+"/proyectoid/"+proyectoid+"/cronogramaid/"+cronogramaid+"/state/"+state)
+      .success(function(data) {
+        defered.resolve(data);
+      })
+      .error(function(err) {
+        defered.reject(err);
+      });
+      return promise;
+    },
+
+    setEliminarxCronograma: function(cronogramaid,codigoproyecto,proyectoid) {
+      var defered = $q.defer();
+      var promise = defered.promise;
+      $http.post(url + 'eliminarxproyectoxcronograma/cronogramaid/' + cronogramaid+"/codigoproyecto/"+codigoproyecto+"/proyectoid/"+proyectoid)
+      .success(function(data) {
+        defered.resolve(data);
+      })
+      .error(function(err) {
+        defered.reject(err);
+      });
+      return promise;
+    },
+
+
+
+  
+/////////////////////////**********fin de cronograma****************//////////////////
+
+
+
+
+
+    getCronogramaxActivo: function(proyectoid) {
+      var defered = $q.defer();
+      var promise = defered.promise;
+      $http.get(url + 'cronogramaxactivo/proyectoid/' + proyectoid)
+      .success(function(data) {
+        defered.resolve(data);
+      })
+      .error(function(err) {
+        defered.reject(err);
+      });
+      return promise;
+    },
+
+/*EDT*/
+    getDatosxProyectoxEDT: function(proyectoid) {
+      var defered = $q.defer();
+      var promise = defered.promise;
+      $http.get(url + 'datosedt/proyectoid/' + proyectoid)
+      .success(function(data) {
+        defered.resolve(data);
+        
+      })
+      .error(function(err) {
+        defered.reject(err);
+      });
+      return promise;
+    },
+
+    setDatosxGrabarxEDT: function(codigoedt,nombre,descripcion,codigo_prop_proy,codigo) {
+      var defered = $q.defer();
+      var promise = defered.promise;
+      $http.post(url + 'setguardaredt/proyectoid/' + codigo+"/nombre/"+nombre+"/descripcion/"+descripcion+"/codigo_prop_proy/"+codigo_prop_proy+"/codigoedt/"+codigoedt)
+      .success(function(data) {
+        defered.resolve(data);
+        
+      })
+      .error(function(err) {
+        defered.reject(err);
+      });
+      return promise;
+    },
+
+    setDatosxModificarxEDT: function(codigoedt,codigoproyecto,proyectoid,codigoedtmodificado,nombremodificado,descripcionmodificado) {
+      var defered = $q.defer();
+      var promise = defered.promise;
+      $http.post(url + 'setmodificaredt/proyectoid/' + proyectoid+"/codigoedt/"+codigoedt+"/codigoproyecto/"+codigoproyecto+"/codigoedtmodificado/"+codigoedtmodificado+"/nombremodificado/"+nombremodificado+"/descripcionmodificado/"+descripcionmodificado)
+      .success(function(data) {
+        defered.resolve(data);
+        
+      })
+      .error(function(err) {
+        defered.reject(err);
+      });
+      return promise;
+    },
+
+
+    setDatosxEliminarxEDT: function(codigoedt,codigoproyecto,proyectoid) {
+      var defered = $q.defer();
+      var promise = defered.promise;
+      $http.post(url + 'seteliminaredt/codigoedt/' + codigoedt+"/codigoproyecto/"+codigoproyecto+"/proyectoid/"+proyectoid)
+      .success(function(data) {
+        defered.resolve(data);
+        
+      })
+      .error(function(err) {
+        defered.reject(err);
+      });
+      return promise;
+    },
+
+////////////////////  F E C H A  D E  C O R T E /////////////////////////
+
+    getProyectoxFechaxCorte: function(proyectoid,revision) {
+      var defered = $q.defer();
+      var promise = defered.promise;
+      $http.get(url + 'proyectoxfechaxcorte/proyectoid/' + proyectoid+"/revision/"+revision)
+      .success(function(data) {
+        defered.resolve(data);
+        
+      })
+      .error(function(err) {
+        defered.reject(err);
+      });
+      return promise;
+    },
+
+
+    setEliminarxFechaCorte: function(fechacorteid) {
+      var defered = $q.defer();
+      var promise = defered.promise;
+      $http.post(url + 'eliminardxfechaxcorte/fechacorteid/' + fechacorteid)
+      .success(function(data) {
+        defered.resolve(data);
+        
+      })
+      .error(function(err) {
+        defered.reject(err);
+      });
+      return promise;
+    },
+
+    setGuardarxFechaCorte: function(revision,codigoproyecto,proyectoid,fechacorte,tipocorte) {
+      var defered = $q.defer();
+      var promise = defered.promise;
+      $http.post(url + 'guardarxfechaxcorte/fechacorte/' + fechacorte+"/revision/"+revision+
+        "/codigoproyecto/"+codigoproyecto+"/proyectoid/"+proyectoid+"/tipocorte/"+tipocorte)
+      .success(function(data) {
+        defered.resolve(data);
+        
+      })
+      .error(function(err) {
+        defered.reject(err);
+      });
+      return promise;
+    },
+
+    setCambiarxFechaxCorte: function(valorcolumna,codigoproyecto,proyectoid,fechacorteid,columna) {
+      var defered = $q.defer();
+      var promise = defered.promise;
+      $http.post(url + 'cambiarxfechaxcorte/valorcolumna/' + valorcolumna+"/codigoproyecto/"+codigoproyecto+
+        "/proyectoid/"+proyectoid+"/fechacorteid/"+fechacorteid+"/columna/"+columna)
+      .success(function(data) {
+        defered.resolve(data);
+        
+      })
+      .error(function(err) {
+        defered.reject(err);
+      });
+      return promise;
+    },
+
+    getGenerarxRevision: function(codigoproyecto,proyectoid) {
+      var defered = $q.defer();
+      var promise = defered.promise;     
+
+      $http.get(url + 'generarrevision/codigo_prop_proy/'+ codigoproyecto+'/proyectoid/'+proyectoid)
+      .success(function(data) {
+        defered.resolve(data);
+        
+      })
+      .error(function(err) {
+        defered.reject(err);
+      });
+      return promise;
+    },
+
+
+  /////////////////////// F I N  F E C H A  C O R T E /////////////////////////
+ ///////////////////// L I S T A  D E  E N T R E G A B L E S /////////////////////////
+
+   getListaxEntregables: function(proyectoid,revision) {
+      var defered = $q.defer();
+      var promise = defered.promise;     
+
+      $http.get(url + 'getlistaentregables/proyectoid/'+ proyectoid+"/revision/"+revision)
+      .success(function(data) {
+        defered.resolve(data);
+        
+      })
+      .error(function(err) {
+        defered.reject(err);
+      });
+      return promise;
+    },
+
+
+   setGuardarxEntregable: function(codigoproyecto,proyectoid,revisionentregable) {
+      var defered = $q.defer();
+      var promise = defered.promise;     
+
+      $http.get(url + 'setguardarentregables/proyectoid/'+ proyectoid+"/revisionentregable/"+revisionentregable+"/codigoproyecto/"+codigoproyecto)
+      .success(function(data) {
+        defered.resolve(data);
+        
+      })
+      .error(function(err) {
+        defered.reject(err);
+      });
+      return promise;
+    },
+
+
+   getEntregables: function(proyectoid) {
+      var defered = $q.defer();
+      var promise = defered.promise; 
+
+
+      $http.get(url + 'getentregables/proyectoid/'+ proyectoid)
+      .success(function(data) {
+        defered.resolve(data);
+        
+      })
+      .error(function(err) {
+        defered.reject(err);
+      });
+      return promise;
+    },
+
+   setGuardarxListaxEntregables: function(codigo_prop_proy,proyectoid,revision_entregable,edt,tipo_documento,disciplina,codigo_anddes,codigo_cliente,fecha_0,fecha_a,fecha_b,descripcion_entregable) {
+      var defered = $q.defer();
+      var promise = defered.promise; 
+ 
+      $http.post(url + 'setguardarlistaentregables/proyectoid/'+ proyectoid
+      +"/codigo_prop_proy/"+codigo_prop_proy+
+      "/revision_entregable/"+revision_entregable+
+      "/edt/"+edt+
+      "/tipo_documento/"+tipo_documento+
+      "/disciplina/"+disciplina+
+      "/codigo_anddes/"+codigo_anddes+
+      "/codigo_cliente/"+codigo_cliente+
+      "/fecha_0/"+fecha_0+
+      "/fecha_a/"+fecha_a+
+      "/fecha_b/"+fecha_b+
+      "/descripcion_entregable/"+descripcion_entregable
+      )
+      .success(function(data) {
+        defered.resolve(data);
+        
+      })
+      .error(function(err) {
+        defered.reject(err);
+      });
+      return promise;
+    },
+
+   setEliminarxEntregable: function(edt,codigoproyecto,proyectoid,revision) {
+      var defered = $q.defer();
+      var promise = defered.promise; 
+ 
+      $http.post(url + 'seteliminarentregable/edt/'+ edt
+      +"/codigoproyecto/"+codigoproyecto+
+      "/proyectoid/"+proyectoid+"/revision/"+revision
+      )
+      .success(function(data) {
+        defered.resolve(data);
+        
+      })
+      .error(function(err) {
+        defered.reject(err);
+      });
+      return promise;
+    },
+
+
+ ///////////////////// F I N  L I S T A  D E  E N T R E G A B L E S /////////////////////////
+
 
   }
 

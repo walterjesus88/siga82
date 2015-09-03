@@ -42,6 +42,33 @@ class ControlDocumentario_JsonController extends Zend_Controller_Action {
       $this->_helper->json->sendJson($respuesta);
     }
 
+    //devuelve la lista de carpetas de proyectos
+    public function carpetasAction()
+    {
+      $carpeta = new Admin_Model_DbTable_Carpeta();
+      $cps = $carpeta->_getAll();
+      $tipos = ['A', 'P', 'C', 'CA'];
+      $i = 0;
+      foreach ($cps as $fila) {
+        $proyecto = new Admin_Model_DbTable_Proyecto();
+        $datos = $proyecto->_getUbicacionesxCarpeta($fila['carpetaid']);
+        $data['carpetaid'] = $fila['carpetaid'];
+        $data['nombre'] = $fila['nombre'];
+        for ($j = 0; $j <  4; $j++) {
+          $data[$tipos[$j]] = 0;
+          foreach ($datos as $estado) {
+            if ($tipos[$j] == $estado['estado']) {
+              $data[$tipos[$j]] = $estado['count'];
+            }
+          }
+        }
+
+        $respuesta[$i] = $data;
+        $i++;
+      }
+      $this->_helper->json->sendJson($respuesta);
+    }
+
     //Devuelve la lista de proyectos por estado
     public function listaproyectosAction()
     {
@@ -153,8 +180,6 @@ class ControlDocumentario_JsonController extends Zend_Controller_Action {
       $this->_helper->json->sendJson($lista);
     }
 
-
-
     //subir logo del cliente
     public function subirlogoAction()
     {
@@ -238,16 +263,15 @@ class ControlDocumentario_JsonController extends Zend_Controller_Action {
       $estado = $this->_getParam('estado');
       $proyecto = new Admin_Model_DbTable_Proyecto();
       $proyectos = $proyecto->_getAllExtendido($estado);
-      $xml = new DOMDocument('1.0', 'utf-8');
+      $xml = new DOMDocument('1.0', 'UTF-8');
       $node = $xml->createElement('Proyectos');
       $parnode = $xml->appendChild($node);
       foreach ($proyectos as $item) {
-        $nom = substr($item['nombre_proyecto'], 0, 2);
         $node = $xml->createElement('Proyecto');
         $newnode = $parnode->appendChild($node);
         $proyectoid = $xml->createElement('proyectoid', $item['proyectoid']);
         $cliente = $xml->createElement('cliente', $item['nombre_comercial']);
-        $nombre = $xml->createElement('nombre', $nom);
+        $nombre = $xml->createElement('nombre-proyecto', substr($item['nombre_proyecto'], 0 , 2));
         $gerente = $xml->createElement('gerente', $item['gerente_proyecto']);
         $control = $xml->createElement('control_proyecto', $item['control_proyecto']);
         $cd = $xml->createElement('control_documentario', $item['control_documentario']);
@@ -270,4 +294,6 @@ class ControlDocumentario_JsonController extends Zend_Controller_Action {
       $this->_response->setHeader('Content-Type', 'text/xml; charset=utf-8')
           ->setBody($output);
     }
+
+
 }

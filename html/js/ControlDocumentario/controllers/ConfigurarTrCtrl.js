@@ -1,12 +1,11 @@
-app.controller('ConfigurarTrCtrl', ['$scope', 'httpFactory', 'transmittalFactory',
+app.controller('ConfigurarTrCtrl', ['$routeParams', 'httpFactory', 'transmittalFactory',
 'proyectoFactory', '$modal',
-function($scope, httpFactory, transmittalFactory, proyectoFactory, $modal) {
+function($routeParams, httpFactory, transmittalFactory, proyectoFactory, $modal) {
 
   vc = this;
-  //obtencion de los datos de configuracion del transmittal
-  vc.transmittal = transmittalFactory.getConfiguracion();
 
-  proyectoFactory.getDatosProyecto($scope.$parent.vt.proyecto.codigo)
+<<<<<<< HEAD
+  proyectoFactory.getDatosProyecto($routeParams.proyecto)
   .then(function(data) {
     vc.proyecto = data;
     //cargar los datos del transmittal con los datos del proyecto
@@ -17,18 +16,39 @@ function($scope, httpFactory, transmittalFactory, proyectoFactory, $modal) {
     vc.transmittal.tipo_proyecto = vc.proyecto.tipo_proyecto;
 
     vc.control_documentario = vc.transmittal.control_documentario.changeFormat();
-    //obtencion del numero correlativo correspondiente a este transmittal
+    //obtencion del numero correlativo que corresponderia a este transmittal
     httpFactory.getCorrelativoTransmittal(vc.transmittal.proyecto)
+=======
+  transmittalFactory.cargarTransmittal($routeParams.proyecto);
+  //obtencion de los datos de configuracion del transmittal
+  transmittalFactory.getConfiguracion()
+  .then(function(data) {
+    vc.transmittal = data;
+
+    proyectoFactory.getDatosProyecto($routeParams.proyecto)
+>>>>>>> b3ea4adfd828260c124dc421bb9fb09791b12353
     .then(function(data) {
-      vc.transmittal.correlativo = data.correlativo;
+      vc.proyecto = data;
+      vc.transmittal.proyecto = vc.proyecto.codigo;
+      //cargar los datos del transmittal con los datos del proyecto
+      if (vc.transmittal.codificacion == '' || vc.transmittal.codificacion == null ||
+      vc.transmittal.codificacion == undefined) {
+        vc.transmittal.clienteid = vc.proyecto.clienteid;
+        vc.transmittal.cliente = vc.proyecto.cliente;
+        vc.transmittal.control_documentario = vc.proyecto.control_documentario;
+        vc.transmittal.tipo_proyecto = vc.proyecto.tipo_proyecto;
+      }
+
+      vc.control_documentario = vc.transmittal.control_documentario.changeFormat();
+      //obtencion del numero correlativo que corresponderia a este transmittal
+      listarContactos(data.clienteid);
     })
     .catch(function(err) {
-      vc.transmittal.correlativo = '';
-    })
-    listarContactos(data.clienteid);
+      alert('No se pudo cargar los datos del proyecto');
+    });
   })
   .catch(function(err) {
-    alert('No se pudo cargar los datos del proyecto');
+
   });
 
   /*formatos, tipos de envio y los seleccionados por defecto; arrays de los
@@ -107,12 +127,6 @@ function($scope, httpFactory, transmittalFactory, proyectoFactory, $modal) {
         vc.datos_contacto_seleccionado.correo = contacto.correo;
       }
     })
-  }
-
-  //guardar los cambios efectuados en la configuracion del transmittal
-  vc.guardarConfiguracion = function() {
-    transmittalFactory.setConfiguracion(vc.transmittal);
-    transmittalFactory.guardarCambios();
   }
 
   //metodos para mostrar modales de ingreso de datos

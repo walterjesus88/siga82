@@ -6,17 +6,14 @@
 <p>{{ CP.proyectop.codigo }}</p> -->
 
 <table class=" table table-striped table-hover table-bordered " >
-  <!--<tr>
-  	<td><b>Fecha Inicio</b></td><td><p type="text" ng-model="CP.cuanto" size="4" ></p></td>
-  	<td><b>Fecha Final</b></td><td><p type="text" ng-model="CP.cuanto" size="4" ></p></td>
-  </tr>-->
+
   <tr>
     <td style="width:10%">
         Revision de Proyecto
     </td>
 	  <td style="width:30%">
         Fecha de Proyecto
-        <form editable-form name="nameform_fecha" onaftersave="CP.saveColumn('fecha_ingreso_curvas')" ng-show="nameform_fecha.$visible">
+<!--         <form editable-form name="nameform_fecha" onaftersave="CP.saveColumn('fecha_curvas')" ng-show="nameform_fecha.$visible">
           <button type="submit" ng-disabled="nameform_fecha.$waiting" class="btn btn-warning">
             guardar
           </button>
@@ -26,7 +23,7 @@
         </form>  
         <button class="btn btn-success" ng-show="!nameform_fecha.$visible" ng-click="nameform_fecha.$show()">
           editar
-        </button>
+        </button> -->
     </td>
    	<td style="width:30%">
         Porcentaje de avance planificado
@@ -57,26 +54,13 @@
         </button>
     </td>
 
-    <td>
-      <button type="button"  ng-click="deleteUser(user.id)" class="btn btn-danger pull-right">Eliminar</button>
+    <!-- <td> -->
+      <!-- <button type="button"  ng-click="deleteUser(user.id)" class="btn btn-danger pull-right">Eliminar</button> -->
       <!-- ng-show="tableform.$visible" -->
-    </td>
+    <!-- </td> -->
 
   </tr>
 
-
-<!-- <div ng-repeat="cronograma in CP.procronograma" >
-   {{ cronograma.revision_cronograma }}
-  {{ cronograma.revision_propuesta }}
-  {{ cronograma.cronogramaid }}
-  {{ cronograma.codigo_cronograma }}
-  {{ cronograma.fecha_comienzo }}
-  {{ cronograma.fecha_fin }}
-  {{ cronograma.duracion }}
-  {{ cronograma.predecesoras }}
-  {{ cronograma.sucesoras }}
-  {{ cronograma.nivel_esquema }}
-</div>  -->
 
 
 
@@ -94,7 +78,7 @@
   </div>
 </div>
 
-<div class="form-group">
+<!-- <div class="form-group">
     <button class="btn btn-primary" ng-click="CP.ShowForm()" ng-hide="CP.formVisibility">
       Anadir Fecha
     </button>
@@ -104,7 +88,7 @@
         Fecha de Proyecto
       </div>
       <div class="col-md-2" >
-        <input class="form-control " type="text" ng-model="CP.fecha_ingreso_curvas"></input>
+        <input class="form-control " type="text" ng-model="CP.fecha_curvas"></input>
       </div>
       <div class="col-md-1" >
         Porcentaje Planificado
@@ -125,7 +109,7 @@
       </div>
     </div>
 
-</div>
+</div> -->
 <!--   <div class="large-6 columns">
     <label>Escoja una revision: </label> 
       <select class="form-control"  ng-model="CP.revision">
@@ -139,19 +123,18 @@
       </select>
   </div> -->
 
-
-
-
-  <tr ng-repeat="label in CP.dat | orderBy:'fecha_ingreso_curvas'  ">
+  <tr ng-repeat="label in CP.dat | orderBy:'fecha_curvas'  ">
     <!-- | filter:CP.revision -->
     <td >     
-        <span editable-text="label.revision_cronograma" e-name="revision_cronograma" e-form="nameform_revision_cronograma" onbeforesave="checkName($data)">
+        <span>
+        <!--<span editable-text="label.revision_cronograma" e-name="revision_cronograma" e-form="nameform_revision_cronograma" onbeforesave="checkName($data)"> -->
           {{label.revision_cronograma}}
         </span>
     </td>
   	<td >     
-        <span editable-text="label.fecha_ingreso_curvas" e-name="fecha_ingreso_curvas" e-form="nameform_fecha" onbeforesave="checkName($data)">
-          {{label.fecha_ingreso_curvas}}
+        <span>
+        <!--<span editable-text="label.fecha_curvas" e-name="fecha_curvas" e-form="nameform_fecha" onbeforesave="checkName($data)">-->
+          {{label.fecha_curvas}} 
         </span>
     </td>
 	<td >     
@@ -164,10 +147,9 @@
           {{label.porcentaje_ejecutado}}
         </span>
     </td>
-    <td>
+    <!--<td>
       <button type="button"  ng-click="CP.deleteFecha(label.codigo_curvas)" class="btn btn-danger pull-right">El</button>
-      <!-- ng-show="tableform.$visible" -->
-    </td>
+    </td>  -->
   </tr>
 </table>
 

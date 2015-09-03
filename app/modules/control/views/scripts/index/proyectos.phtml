@@ -26,9 +26,7 @@
         <th>
           CONTROL DEL PROYECTO
         </th>
-        <th>
-          CONTROL DOCUMENTARIO
-        </th>
+      
         <th>
           ESTADO
         </th>
@@ -53,15 +51,24 @@
           <td>
             {{proyecto.control_proyecto}}
           </td>
+
+
           <td>
-            <select class="form-control" ng-model="proyecto.control_documentario"
-            ng-options="integrante.uid as integrante.nombre for integrante in vp.control_documentario"
-            ng-change="proyecto.cambiarControlDocumentario()">
+           <select class="form-control" ng-model="proyecto.estado"
+            ng-options="pro.value as pro.text for pro in vp.estadoproyecto" ng-change="vp.cambiarEstadoProyecto($index,proyecto.estado)">
+            {{ vp.showEstadoproyecto(proyecto) }}
             </select>
           </td>
-          <td>
-            {{proyecto.estado}}
-          </td>
+
+
+          <!--<td >      
+            <span editable-select="proyecto.estado" e-form="rowform" e-ng-options="pro.value as pro.text for pro in vp.estadoproyecto">
+              {{ vp.showEstadoproyecto(proyecto) }} 
+            </span>
+          </td> -->
+
+
+
           <td>
             <ul>
               <li>
@@ -70,16 +77,7 @@
                   Información
                 </button>
               </li>
-              <li>
-                <button type="button" class="btn btn-success btn-xs">
-                  Generar TR
-                </button>
-              </li>
-              <li>
-                <button type="button" class="btn btn-warning btn-xs">
-                  Generar RPT
-                </button>
-              </li>
+              
             </ul>
           </td>
         </tr>

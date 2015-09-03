@@ -1243,18 +1243,16 @@ public function subirpropuestaAction(){
 // Subir actvidades segun la nueva estructura //
 public function subiractividadesAction(){
   try {
+    $this->_helper->layout()->disablelayout();
     $proyectoid= $this->_getParam("proyectoid");
     $codigo_prop_proy= $this->_getParam("codigo");
-    //$proyectoid='1113.10.28';
-    
-    //$codigo_prop_proy='1113.10.28-15.10.176-A';
     $editproyect= new Admin_Model_DbTable_Proyecto();
     $where = array(
                       'codigo_prop_proy'    => $codigo_prop_proy,
                       'proyectoid'    => $proyectoid,
                       );
     $edit = $editproyect->_getOne($where);
-    //print_r($edit);
+    
     $proyectoid = $edit['proyectoid'];
     $codigo = $edit['codigo_prop_proy'];
     $propuestaid = $edit['propuestaid'];
@@ -1264,13 +1262,13 @@ public function subiractividadesAction(){
     include ($dir);
     $data = new Spreadsheet_Excel_Reader();
     $data->setOutputEncoding('CP1251');
-    //$data->read('./upload/proyecto/'.$proyectoid.'-HH.xls');
-    $data->read('proyectos_bruno.xls');
+    $data->read('./upload/proyecto/'.$proyectoid.'-HH.xls');
+    //$data->read('1proyecto.xls');
     $k=1;
     $columnas=$data->sheets[0]['numCols'];
     $filas=$data->sheets[0]['numRows'];
     //migrar actividades
-    for ($i = 2; $i <= $data->sheets[0]['numRows']-1; $i++) {
+    for ($i = 2; $i <= $data->sheets[0]['numRows']; $i++) {
       //$colsuma=$columnas-1;
       $actividadid=$data->sheets[0]['cells'][$i][1];
       $nombre=$data->sheets[0]['cells'][$i][2];
@@ -1282,7 +1280,7 @@ public function subiractividadesAction(){
         $k++;
         $j=0;
         $datosactividadpadre["actividadid"]=$actividadint;
-        $datosactividadpadre["codigo_actividad"]=$actividadid;
+        $datosactividadpadre["codigo_actividad"]=$proyectoid."-".$actividadid;
         $datosactividadpadre["codigo_prop_proy"]=$codigo;
         $datosactividadpadre["revision"]=$revision;
         //$datosactividadpadre["areaid"]=$areaid;
@@ -1313,7 +1311,7 @@ public function subiractividadesAction(){
           if (count($actividadeshijas)=='2'){
             $j++;
             $datosactividadhija["actividadid"]=$actividadint;
-            $datosactividadhija["codigo_actividad"]=$actividadid;
+            $datosactividadhija["codigo_actividad"]=$proyectoid."-".$actividadid;
             $datosactividadhija["codigo_prop_proy"]=$codigo;
             $datosactividadhija["revision"]=$revision;
             //$datosactividadhija["areaid"]=$areaid;
@@ -1341,7 +1339,7 @@ public function subiractividadesAction(){
 
             if (count($actividadeshijas)=='3'){
             $datosactividadnieta["actividadid"]=$actividadint;
-            $datosactividadnieta["codigo_actividad"]=$areaid."-".$actividadid;
+            $datosactividadnieta["codigo_actividad"]=$proyectoid."-".$actividadid;
             $datosactividadnieta["codigo_prop_proy"]=$codigo;
             $datosactividadnieta["revision"]=$revision;
             $datosactividadnieta["areaid"]=$areaid;
@@ -1412,11 +1410,7 @@ public function verAction() {
 
     $areacat=new Admin_Model_DbTable_Area();
     $arcat=$areacat->_getAreaxProyecto();
-    $this->view->area = $arcat; 
-
-
-
-  
+    $this->view->area = $arcat;  
 }   
 
 
@@ -1450,41 +1444,107 @@ public function verAction() {
     //Devuelve los datos de un proyecto en particular
   public function proyectoxcronogramaAction()
   {
-      $data['proyectoid'] = $this->_getParam('proyectoid');
+      $data['proyectoid'] = $this->_getParam('proyectoid');   
 
-      //echo $data['proyectoid'];
-      //echo "dd";
 
       $proyectoxcronograma = new Admin_Model_DbTable_Proyectocronograma();
       $datos = $proyectoxcronograma->_getFilter($data);
 
-      $respuesta = [];
-      $data = [];
-      $i = 0;
+      if($datos)
+      {
+          $respuesta = [];
+          $data = [];
+          $i = 0;
 
-      foreach ($datos as $item) {
-         $data['codigo_prop_proy'] = $item['codigo_prop_proy'];
-         $data['codigo_cronograma'] = $item['codigo_cronograma'];
-         $data['revision_cronograma'] = $item['revision_cronograma'];
-         $data['proyectoid'] = $item['proyectoid'];
-         $data['revision_propuesta'] = $item['revision_propuesta'];
-         $data['cronogramaid'] = $item['cronogramaid'];
-         $data['fecha_comienzo'] = $item['fecha_comienzo'];
-         $data['fecha_fin'] = $item['fecha_fin'];
-         $data['costo_presupuesto'] = $item['costo_presupuesto'];
-         $data['duracion'] = $item['duracion'];
-         $data['predecesoras'] = $item['predecesoras'];
-         $data['sucesoras'] = $item['sucesoras'];
-         $data['nivel_esquema'] = $item['nivel_esquema'];
-         $respuesta[$i] = $data;
-         $i++;
+          foreach ($datos as $item) {
+             $data['codigo_prop_proy'] = $item['codigo_prop_proy'];
+             $data['codigo_cronograma'] = $item['codigo_cronograma'];
+             $data['revision_cronograma'] = $item['revision_cronograma'];
+             $data['proyectoid'] = $item['proyectoid'];
+             //$data['revision_propuesta'] = $item['revision_propuesta'];
+             $data['cronogramaid'] = $item['cronogramaid'];  
+             $data['state'] = $item['state'];
+             $respuesta[$i] = $data;
+             $i++;
+          }
+
       }
+      else
+      {
+        $respuesta = [];
+      }
+
+   
+
       $this->_helper->json->sendJson($respuesta);
   }
 
 
+public function guardarxproyectoxcronogramaAction()
+{
+
+  $data['codigo_cronograma'] = $this->_getParam('codigocronograma');   
+  $data['revision_cronograma'] = $this->_getParam('revision');   
+  $data['state'] =$this->_getParam('estado');   
+  $data['codigo_prop_proy'] = $this->_getParam('codigo_prop_proy');   
+  $data['proyectoid'] = $this->_getParam('proyectoid');
+
+
+  $datastate['state']='I';$wherestate=null;
+  $modficarcronograma=new Admin_Model_DbTable_Proyectocronograma();
+  $mcronograma=$modficarcronograma->_update_state($datastate,$wherestate);
+
+  $guardarcronograma=new Admin_Model_DbTable_Proyectocronograma();
+  $gcronograma=$guardarcronograma->_save($data);
+
+
+  //exit();
+  $this->_helper->json->sendJson($gcronograma);
+}
+
+
+
+public function modificarxproyectoxcronogramaAction()
+{
+//codigocronograma/' + codigocronograma+"/revision/"+revision+"/codigoproyecto/"+codigoproyecto+"/proyectoid/"+proyectoid
+  $data['codigo_cronograma'] = $this->_getParam('codigocronograma');   
+  $data['revision_cronograma'] = $this->_getParam('revision');
+  $data['codigo_prop_proy'] = $this->_getParam('codigo_prop_proy');   
+  $data['proyectoid'] = $this->_getParam('proyectoid');  
+  $data['cronogramaid'] = $this->_getParam('cronogramaid'); 
+  $data['state'] = $this->_getParam('state'); 
+
+  $where = array('codigo_prop_proy' =>  $data['codigo_prop_proy'],
+          'codigo_cronograma' => $data['codigo_cronograma'],
+          'revision_cronograma' => $data['revision_cronograma'],
+          'cronogramaid' => $data['cronogramaid'],
+          'proyectoid' =>  $data['proyectoid'] );
+
+
+  $modificarcronograma=new Admin_Model_DbTable_Proyectocronograma();
+  $mcronograma=$modificarcronograma->_update($data,$where);
+
+
+
+  $this->_helper->json->sendJson($mcronograma);
+
+}
+
+public function eliminarxproyectoxcronogramaAction()
+{
+  $data['codigo_prop_proy'] = $this->_getParam('codigoproyecto');   
+  $data['proyectoid'] = $this->_getParam('proyectoid');  
+  $data['cronogramaid'] = $this->_getParam('cronogramaid');
+
+  $eliminarcronograma=new Admin_Model_DbTable_Proyectocronograma();
+  $ecronograma=$eliminarcronograma->_delete($data);
+
+  $this->_helper->json->sendJson($ecronograma);
+
+}
+  
 public function listaproyectosAction()
-  {
+{
       $estado = $this->_getParam('estado');
       $proyecto = new Admin_Model_DbTable_Proyecto();
       $proyectos = $proyecto->_getAllExtendido($estado);
@@ -1505,19 +1565,35 @@ public function listaproyectosAction()
         $i++;
       }
       $this->_helper->json->sendJson($respuesta);
-  }
+}
 
+
+public function setcambioestadoproyectoAction() {
+  $estado = $this->_getParam('estado');
+  $proyectoid = $this->_getParam('codigo');
+  $codigo_prop_proy = $this->_getParam('codigoproyecto');
+
+  $where = array('codigo_prop_proy' => $codigo_prop_proy, 'proyectoid' => $proyectoid );
+  $data['estado']=$estado;
+
+  print_r($where);
+  print_r($data);exit();
+
+  $cambiarestadoproyecto = new Admin_Model_DbTable_Proyecto();
+  $cestadoproyecto=$cambiarestadoproyecto->_update($data,$where);
+  
+  $this->_helper->json->sendJson($cestadoproyecto);
+}
 
 public function verjsonAction() {
-     //$areacat=new Admin_Model_DbTable_Area();
-     //$arcat=$areacat->_getAreaxProyecto();
+ 
     $bdequipoarea = new Admin_Model_DbTable_Equipoarea();
     $area=$bdequipoarea->_buscarAreasxProyecto('14.10.134-1101.10.09-D','1101.10.09');
     $i=0;
     foreach ($area as $verarea) {
       $bdequipo = new Admin_Model_DbTable_Equipo();
       $equipo=$bdequipo->_buscarEquipoxProyectoxArea('14.10.134-1101.10.09-D','1101.10.09',$verarea['areaid']);
-       //eq.areaid,a.orden,a.nombre
+
       $ek[] = array('name' =>$verarea['nombre'],'area'=>$verarea['areaid'] ,'items'=> $equipo);
       $i++;
     }    
@@ -1536,50 +1612,113 @@ public function usuariosjsonAction() {
 
 
 public function modificarperformanceAction() {
-  echo "obejjjjjjjjjjjjj";
-  echo $codigo_prop_proy = $this->_getParam("codigo_prop_proy");
-  echo $codigo_actividad = $this->_getParam("codigo_actividad");
-  echo $actividadid = $this->_getParam("actividadid");
-  echo $cronogramaid = $this->_getParam("cronogramaid");
-  echo $codigo_cronograma = $this->_getParam("codigo_cronograma");
-  echo $codigo_performance = $this->_getParam("codigo_performance");
-  echo $porcentaje_performance = $this->_getParam("porcentaje_performance");
-  echo $fecha_calculo_performance = $this->_getParam("fecha_calculo_performance");
-  echo $proyectoid = $this->_getParam("proyectoid");
-  echo $revision_cronograma = $this->_getParam("revision_cronograma");
-  echo $fecha_ingreso_performance = $this->_getParam("fecha_ingreso_performance"); 
-  echo $fecha_performance = $this->_getParam("fecha_performance");
 
-  
-  $where = array('codigo_prop_proy' => $codigo_prop_proy,'codigo_actividad' => $codigo_actividad,'actividadid' => $actividadid,
-  'cronogramaid' => $cronogramaid,'codigo_cronograma' => $codigo_cronograma,'codigo_performance' => $codigo_performance,
-  'proyectoid' => $proyectoid,'revision_cronograma' => $revision_cronograma,'fecha_performance' => $fecha_performance );
+   $codigo_prop_proy = $this->_getParam("codigo_prop_proy");
+   $codigo_actividad = $this->_getParam("codigo_actividad");
+   $actividadid = $this->_getParam("actividadid");
+   $cronogramaid = $this->_getParam("cronogramaid");
+   $codigo_cronograma = $this->_getParam("codigo_cronograma");
+   $codigo_performance = $this->_getParam("codigo_performance");
+   $porcentaje_performance = $this->_getParam("porcentaje_performance");
+   //$fecha_calculo_performance = $this->_getParam("fecha_calculo_performance");
+   $proyectoid = $this->_getParam("proyectoid");
+   $revision_cronograma = $this->_getParam("revision_cronograma");
+   $fecha_ingreso_performance = $this->_getParam("fecha_ingreso_performance"); 
+   $fecha_performance = $this->_getParam("fecha_performance");
 
-  $data = array( 'porcentaje_performance' => $porcentaje_performance,'fecha_calculo_performance' => date("Y-m-d"),
-  'fecha_ingreso_performance' => $fecha_ingreso_performance);
+   $where = array('codigo_prop_proy' => $codigo_prop_proy,'codigo_actividad' => $codigo_actividad,'actividadid' => $actividadid,
+   'cronogramaid' => $cronogramaid,'codigo_cronograma' => $codigo_cronograma,'codigo_performance' => $codigo_performance,
+   'proyectoid' => $proyectoid,'revision_cronograma' => $revision_cronograma,'fecha_performance' => $fecha_performance );
 
-  print_r($where);
-  print_r($data);
-
- 
+   $data = array( 'porcentaje_performance' => $porcentaje_performance,
+   'fecha_ingreso_performance' => date("Y-m-d"));
 
    $modperformancedetalles=new Admin_Model_DbTable_Performancedetalle();
    $mpdetalle=$modperformancedetalles->_update($data,$where);
-
-   //if($mpdetalle){echo "si"} else {'no'};
-
-  exit();
+   $this->_helper->json->sendJson($mpdetalle);  
 }
+
+public function modificarperformancepadreAction() {
+  $codigo_prop_proy = $this->_getParam("codigo_prop_proy");
+   $codigo_actividad = $this->_getParam("codigo_actividad");
+   $actividadid = $this->_getParam("actividadid");
+   $cronogramaid = $this->_getParam("cronogramaid");
+   $codigo_cronograma = $this->_getParam("codigo_cronograma");
+   $codigo_performance = $this->_getParam("codigo_performance");   
+   //$fecha_calculo_performance = $this->_getParam("fecha_calculo_performance");
+   $proyectoid = $this->_getParam("proyectoid");
+   $revision_cronograma = $this->_getParam("revision_cronograma");
+   //$fecha_ingreso_performance = $this->_getParam("fecha_ingreso_performance");  
+   $costo_real = $this->_getParam("costo_real");  
+   $horas_real = $this->_getParam("horas_real");  
+   $fecha_comienzo_real = $this->_getParam("fecha_comienzo_real");  
+   $fecha_fin_real = $this->_getParam("fecha_fin_real");
+
+    $fecha_fin = $this->_getParam("fecha_fin"); 
+ 
+    $fecha_comienzo = $this->_getParam("fecha_comienzo");  
+ 
+    $porcentaje_calculo = $this->_getParam("porcentaje_calculo");  
+
+    $nivel_esquema = $this->_getParam("nivel_esquema");  
+
+    $predecesoras = $this->_getParam("predecesoras");  
+
+    $sucesoras = $this->_getParam("sucesoras");  
+
+    $costo_presupuesto = $this->_getParam("costo_presupuesto");  
+
+    $duracion = $this->_getParam("duracion");  
+
+  $where = array('codigo_prop_proy' => $codigo_prop_proy,'codigo_actividad' => $codigo_actividad,'actividadid' => $actividadid,
+   'cronogramaid' => $cronogramaid,'codigo_cronograma' => $codigo_cronograma,'codigo_performance' => $codigo_performance,
+   'proyectoid' => $proyectoid,'revision_cronograma' => $revision_cronograma,);
+
+  $data = array('costo_real' => $costo_real,'horas_real' => $horas_real,
+  'fecha_comienzo_real' => $fecha_comienzo_real,'fecha_fin_real' => $fecha_fin_real,
+  'fecha_fin' => $fecha_fin,'fecha_comienzo' => $fecha_comienzo,
+  'porcentaje_calculo' => $porcentaje_calculo,'predecesoras' => $predecesoras,
+  'sucesoras' => $sucesoras,'costo_presupuesto' => $costo_presupuesto,'duracion' => $duracion,
+  'fecha_ingreso_performance' => date("Y-m-d"),'fecha_calculo_performance' => date("Y-m-d"),
+   );
+
+  $modificarperformance= new Admin_Model_DbTable_Performance();
+  $mperformance=$modificarperformance->_update($data,$where);
+  $this->_helper->json->sendJson($mperformance);  
+
+}
+
+ 
+public function cronogramaxactivoAction() {
+  $proyectoid = $this->_getParam("proyectoid");
+  $proyectocronograma= new Admin_Model_DbTable_Proyectocronograma();
+  $pcronograma=$proyectocronograma->_getCronogramaxActivo($proyectoid);
+  if($pcronograma)
+  {
+
+  }
+  else
+  {
+    $pcronograma=[];
+  }
+
+  $this->_helper->json->sendJson($pcronograma); 
+}
+
+
+
 
 public function proyectoxperformanceAction() {
   $proyectoid = $this->_getParam("proyectoid");
+  $revision = $this->_getParam("revision");
   
-  $performance=new Admin_Model_DbTable_Performance();
-  $where = array('proyectoid' =>$proyectoid );
-  $perf=$performance->_getFilter($where);  
+  $performance=new Admin_Model_DbTable_Performance(); 
+  $perf=$performance->_getBuscarActividadxPerformance($proyectoid,$revision);
 
-  $i=0;
-  foreach ($perf as $keyper) {
+  if($perf)
+  {
+      $i=0;
+      foreach ($perf as $keyper) {
      
       $wheredet['codigo_prop_proy']=$keyper['codigo_prop_proy'];
       $wheredet['codigo_actividad']=$keyper['codigo_actividad']; 
@@ -1588,12 +1727,15 @@ public function proyectoxperformanceAction() {
       $wheredet['codigo_cronograma']=$keyper['codigo_cronograma'];
       $wheredet['revision_cronograma']=$keyper['revision_cronograma'];
       $wheredet['actividadid']=$keyper['actividadid'];
-      $wheredet['codigo_performance']=$keyper['codigo_performance'];   
+      $wheredet['codigo_performance']=$keyper['codigo_performance']; 
+      $attrib = null;
+      $order = array('fecha_performance ASC');
 
       $performancedetalle=new Admin_Model_DbTable_Performancedetalle();
-      $pdetalle=$performancedetalle->_getFilter($wheredet);
+      $pdetalle=$performancedetalle->_getFilter($wheredet,$attrib,$order);
 
       $ek[] = array(
+        'nombre' =>$keyper['nombre'],
         'codigo_prop_proy' =>$keyper['codigo_prop_proy'],
         'proyectoid' =>$keyper['proyectoid'],
         'codigo_actividad' =>$keyper['codigo_actividad'],
@@ -1609,14 +1751,25 @@ public function proyectoxperformanceAction() {
         'horas_real' =>$keyper['horas_real'],
         'fecha_comienzo_real' =>$keyper['fecha_comienzo_real'],
         'fecha_fin_real' =>$keyper['fecha_fin_real'],
+        'fecha_comienzo' =>$keyper['fecha_comienzo'],
+        'fecha_fin' =>$keyper['fecha_fin'],
+        'porcentaje_calculo' =>$keyper['porcentaje_calculo'],
+        'nivel_esquema' =>$keyper['nivel_esquema'],
+        'predecesoras' =>$keyper['predecesoras'],
+        'sucesoras' =>$keyper['sucesoras'],
+        'costo_presupuesto' =>$keyper['costo_presupuesto'],
+        'duracion' =>$keyper['duracion'],
         'items'=> $pdetalle);
       $i++;  
-  } 
-  
-  $this->_helper->json->sendJson($ek);  
+      } 
+  }
+  else
+  {
+    $ek=[];
+  }
+ 
+  $this->_helper->json->sendJson($ek);
 
-  //$arr = array(['bbb' =>'1']); 
-  //exit();
 }
 
 
@@ -1626,10 +1779,6 @@ public function curvasjsonAction() {
   $proyectoid = $this->_getParam("proyectoid");
   $codigo_prop_proy = $this->_getParam("codigo");  
 
-  // $proyectoid='1111.10.09';
-  // $revision_perf_curva='A';
-  // $codigo_prop_proy='15.10.036-1111.10.09-A';
-
   $where = array('proyectoid'=>$proyectoid,'revision_cronograma'=>$revision_perf_curva,'codigo_prop_proy' =>$codigo_prop_proy );
   $attrib = array('fecha_curvas','fecha_ingreso_curvas','porcentaje_ejecutado','porcentaje_propuesta','codigo_curvas','revision_cronograma');
   $order = array('fecha_curvas ASC');
@@ -1638,9 +1787,6 @@ public function curvasjsonAction() {
   $tmp=$tiempo->_getFilter($where,$attrib,$order);
 
   $arr = array(['1' =>$tmp]);
-
-  //print_r($arr);exit();
-
   $this->_helper->json->sendJson($arr);
 
 }
@@ -1650,39 +1796,35 @@ public function cambiarfechaproyetoAction(){
     $id= $this->_getParam("id");
     $column= $this->_getParam("column");
 
-    // echo $value;
-    // echo "--";
-    // echo $id;
-    // echo "--";
-    // echo $column;
-    // echo "--";
     $data[$column]=$value;
+    $data['fecha_ingreso_curvas']=date("Y-m-d");
     $pk = array('codigo_curvas' => $id, );
 
     $fecha_proyecto= new Admin_Model_DbTable_Tiempoproyecto();   
-    $fproyecto=$fecha_proyecto-> _update($data,$pk);
+    $fproyecto=$fecha_proyecto->_update($data,$pk);
 
     $this->_helper->json->sendJson($fproyecto);    
 }
 
 public function guardarcurvaAction(){
 
-    echo $cronogramaid= $this->_getParam("cronogramaid");
-    echo $codigo_prop_proy= $this->_getParam("codigo_prop_proy");
-    echo $proyectoid= $this->_getParam("proyectoid");
+    $cronogramaid= $this->_getParam("cronogramaid");
+    $codigo_prop_proy= $this->_getParam("codigo_prop_proy");
+    $proyectoid= $this->_getParam("proyectoid");
     //echo  $codigo_curvas= $this->_getParam("codigo_curvas");
-    echo  $fecha_ingreso_curvas= $this->_getParam("fecha_ingreso_curvas");
-    echo  $porcentaje_ejecutado= $this->_getParam("porcentaje_ejecutado");
-    echo $porcentaje_propuesta= $this->_getParam("porcentaje_propuesta");
-    echo $revision_cronograma= $this->_getParam("revision_cronograma");
-    echo  $codigo_cronograma= $this->_getParam("codigo_cronograma");
-    echo  $revision_propuesta= $this->_getParam("revision_propuesta");
+    $fecha_curvas= $this->_getParam("fecha_curvas");
+    $porcentaje_ejecutado= $this->_getParam("porcentaje_ejecutado");
+    $porcentaje_propuesta= $this->_getParam("porcentaje_propuesta");
+    $revision_cronograma= $this->_getParam("revision_cronograma");
+    $codigo_cronograma= $this->_getParam("codigo_cronograma");
+    $revision_propuesta= $this->_getParam("revision_propuesta");
 
 
     $data = array('codigo_prop_proy' => $codigo_prop_proy,'codigo_cronograma' => $codigo_cronograma,
     'proyectoid' => $proyectoid,
     //'codigo_curvas' => $codigo_curvas,
-    'revision_cronograma' => $revision_cronograma,'fecha_ingreso_curvas' => $fecha_ingreso_curvas,
+    'revision_cronograma' => $revision_cronograma,'fecha_curvas' => $fecha_curvas,
+    'fecha_ingreso_curvas'=>$fecha_ingreso_curvas,
     'porcentaje_ejecutado' => $porcentaje_ejecutado,'porcentaje_propuesta' => $porcentaje_propuesta,
     'cronogramaid' => $cronogramaid, 'revision_propuesta' => $revision_propuesta );
 
@@ -1695,7 +1837,7 @@ public function guardarcurvaAction(){
 
 public function eliminarcurvaAction(){
   $codigo_curvas= $this->_getParam("codigo_curvas");
-  echo $codigo_curvas;
+  //echo $codigo_curvas;
   $where = array('codigo_curvas' =>$codigo_curvas, );
   $delcurvas=new Admin_Model_DbTable_Tiempoproyecto();
   $dcurvas=$delcurvas->_delete($where);
@@ -1704,6 +1846,260 @@ public function eliminarcurvaAction(){
 
 }
 
+
+public function datosedtAction(){
+  $proyecto= $this->_getParam("proyectoid");
+  //echo $proyecto;
+
+  $edt= new Admin_Model_DbTable_ProyectoEdt();
+  $veredt=$edt->_getEdtxProyectoid($proyecto);
+  //print_r('estoy n edt');
+  //print_r($veredt);exit();
+  $this->_helper->json->sendJson($veredt);
+
+}
+
+public function setguardaredtAction(){
+    $proyectoid= $this->_getParam("proyectoid");
+    $nombre= $this->_getParam("nombre");
+    $descripcion= $this->_getParam("descripcion");
+    $codigo_prop_proy= $this->_getParam("codigo_prop_proy");
+    $codigo= $this->_getParam("codigoedt");
+
+    $data = array('codigo_prop_proy' => $codigo_prop_proy, 
+        'nombre_edt' => $nombre,
+        'descripcion_edt' => $descripcion,
+        'proyectoid' => $proyectoid,
+        'codigo_edt' => $codigo,
+    );
+
+    $guardaredt=new Admin_Model_DbTable_ProyectoEdt();
+    $gedt=$guardaredt->_save($data);
+
+    $this->_helper->json->sendJson($gedt);
+
+}
+
+public function seteliminaredtAction(){
+  $codigoedt= $this->_getParam("codigoedt");
+  $codigoproyecto= $this->_getParam("codigoproyecto");
+  $proyectoid= $this->_getParam("proyectoid");
+
+  $where = array('codigo_edt' => $codigoedt,'proyectoid' => $proyectoid,'codigo_prop_proy' =>$codigoproyecto );
+  $eliminaredt=new Admin_Model_DbTable_ProyectoEdt();
+  $eedt=$eliminaredt->_delete($where);
+  //echo "edt eliminar";
+  //print_r($eedt);exit();
+
+  $this->_helper->json->sendJson($eedt);
+
+}
+
+
+public function setmodificaredtAction(){
+
+    $proyectoid= $this->_getParam("proyectoid");
+    $codigoedt= $this->_getParam("codigoedt");
+    $codigoproyecto= $this->_getParam("codigoproyecto");
+    
+    $codigoedtmodificado= $this->_getParam("codigoedtmodificado");
+    $nombremodificado= $this->_getParam("nombremodificado");
+    $descripcionmodificado= $this->_getParam("descripcionmodificado");
+
+    $data = array('codigo_edt' => $codigoedtmodificado, 'nombre_edt'=> $nombremodificado,'descripcion_edt'=> $descripcionmodificado);
+    $pk = array('codigo_edt' => $codigoedt,
+      'codigo_prop_proy' => $codigoproyecto,
+      'proyectoid' => $proyectoid,      
+     );
+
+    $modificaredt=new Admin_Model_DbTable_ProyectoEdt();
+    $medt=$modificaredt->_update($data,$pk);  
+
+    $this->_helper->json->sendJson($medt);
+
+}
+
+public function proyectoxfechaxcorteAction()
+{
+  $proyectoid= $this->_getParam("proyectoid");
+  $revision= $this->_getParam("revision");
+  $where = array('proyectoid' =>$proyectoid , 'revision_cronograma' =>$revision);  
+  $attrib = null;
+  $order = array('fecha ASC');
+
+  $fechaxcorte=new Admin_Model_DbTable_Proyectofechacorte();
+  $fcorte=$fechaxcorte->_getFilter($where,$attrib,$order);
+
+ $this->_helper->json->sendJson($fcorte);
+
+}
+
+public function eliminardxfechaxcorteAction()
+{
+  $fechacorteid= $this->_getParam("fechacorteid");
+  $where = array('fechacorteid' => $fechacorteid , );
+  $eliminarfechaxcorte=new Admin_Model_DbTable_Proyectofechacorte();
+  $efechacorte=$eliminarfechaxcorte->_delete($where);;
+
+  $this->_helper->json->sendJson($efechacorte);
+}
+
+public function guardarxfechaxcorteAction()
+{
+  $data['fecha']= $this->_getParam("fechacorte");
+  $data['revision_cronograma']= $this->_getParam("revision");
+  $data['codigo_prop_proy']= $this->_getParam("codigoproyecto");
+  $data['proyectoid']= $this->_getParam("proyectoid");
+  $data['tipo_corte']= $this->_getParam("tipocorte");
+  $data['state']= 'A';
+
+  $guardarfechaxcorte=new Admin_Model_DbTable_Proyectofechacorte();
+  $gfechaxcorte=$guardarfechaxcorte->_save($data);;
+
+  $this->_helper->json->sendJson($gfechaxcorte);
+}
+
+public function cambiarxfechaxcorteAction()
+{
+  $valorcolumna= $this->_getParam("valorcolumna");
+  $codigoproyecto= $this->_getParam("codigoproyecto");
+  $proyectoid= $this->_getParam("proyectoid");
+  $fechacorteid= $this->_getParam("fechacorteid");
+  $columna= $this->_getParam("columna");
+
+  $pk = array('codigo_prop_proy' =>  $codigoproyecto ,
+    'proyectoid' => $proyectoid , 
+    'fechacorteid' =>$fechacorteid , 
+  );
+
+  $data[$columna]=$valorcolumna;
+  $modificarfechaxcorte=new Admin_Model_DbTable_Proyectofechacorte();
+  $mfechaxcorte=$modificarfechaxcorte->_update($data,$pk);
+  $this->_helper->json->sendJson($mfechaxcorte);
+}
+
+public function generarrevisionAction()
+{
+  $codigo_prop_proy= $this->_getParam("codigo_prop_proy");
+  $proyectoid= $this->_getParam("proyectoid");
+
+  $generarrevision=new Admin_Model_DbTable_Proyectofechacorte();
+  $data = array('codigo_prop_proy' =>$codigo_prop_proy,'proyectoid' =>$proyectoid,);
+
+  $grevision=$generarrevision->_getRevisionxGenerar($data);  
+
+  $this->_helper->json->sendJson($grevision);
+
+}
+
+public function getentregablesAction()
+{
+$proyectoid= $this->_getParam("proyectoid");
+$where = array('proyectoid' =>$proyectoid );
+$listaentregable=new Admin_Model_DbTable_Listaentregable();
+$lentregable=$listaentregable->_getFilter($where);
+$this->_helper->json->sendJson($lentregable);
+}
+
+public function getlistaentregablesAction()
+{
+
+  $proyectoid= $this->_getParam("proyectoid");
+  $revision_entregable= $this->_getParam("revision");
+
+
+$where = array('proyectoid' =>$proyectoid ,'revision_entregable'=>$revision_entregable);
+//print_r($where);exit();
+$listaentregable=new Admin_Model_DbTable_Listaentregabledetalle();
+$lentregable=$listaentregable->_getFilter($where);
+  
+//print_r($lentregable);
+$this->_helper->json->sendJson($lentregable);
+
+}
+
+
+
+public function setguardarentregablesAction()
+{
+  $data['proyectoid']= $this->_getParam("proyectoid");
+  $data['codigo_prop_proy']= $this->_getParam("codigoproyecto");
+  $data['revision_entregable']= $this->_getParam("revisionentregable");
+  $data['state']= 'A';
+
+  //print_r($data);exit();
+  $datastate['state']='I';$wherestate=null;
+  $modficarentregable=new Admin_Model_DbTable_Listaentregable();
+  $mentregable=$modficarentregable->_update_state($datastate,$wherestate);
+
+  $guardarentregable=new Admin_Model_DbTable_Listaentregable();
+  $gentregable=$guardarentregable->_save($data);
+  $this->_helper->json->sendJson($gentregable);
+
+}
+
+
+public function setguardarlistaentregablesAction()
+{
+
+  $data['proyectoid']= $this->_getParam("proyectoid");
+  $data['codigo_prop_proy']= $this->_getParam("codigo_prop_proy");
+  $data['revision_entregable']= $this->_getParam("revision_entregable");
+  $data['edt']= $this->_getParam("edt");
+  $data['tipo_documento']= $this->_getParam("tipo_documento");
+  $data['disciplina']= $this->_getParam("disciplina");
+  $data['codigo_anddes']= $this->_getParam("codigo_anddes");
+  $data['codigo_cliente']= $this->_getParam("codigo_cliente");
+  $data['fecha_0']= $this->_getParam("fecha_0");
+  $data['fecha_a']= $this->_getParam("fecha_a");
+  $data['fecha_b']= $this->_getParam("fecha_b");
+  $data['descripcion_entregable']= $this->_getParam("descripcion_entregable");
+  $data['clase']= 'Tecnico';
+  $data['revision_documento']= 'A';
+  $data['estado']= 'Ultimo';
+  // echo "hoohohohohohoh";
+  // print_r($data);
+  // exit();
+  $whereone['proyectoid']=$this->_getParam("proyectoid");
+  $whereone['codigo_prop_proy']=$this->_getParam("codigo_prop_proy");
+  $whereone['revision_entregable']=$this->_getParam("revision_entregable");
+  $whereone['edt']=$this->_getParam("edt");
+
+  $verentregable= new Admin_Model_DbTable_Listaentregabledetalle();
+  $ventregable=$verentregable->_getOne($whereone);
+
+  if($ventregable)
+  {
+    $actualizarlistaentregable=new Admin_Model_DbTable_Listaentregabledetalle();
+    $glentregable=$actualizarlistaentregable->_update($data,$whereone);
+  }
+
+  else
+  {
+    $guardarlistaentregable=new Admin_Model_DbTable_Listaentregabledetalle();
+    $glentregable=$guardarlistaentregable->_save($data);
+  }
+
+  $this->_helper->json->sendJson($glentregable);
+}
+
+
+public function seteliminarentregableAction()
+{
+  $edt= $this->_getParam("edt");
+  //echo $codigoentregable;exit();
+  $codigoproyecto= $this->_getParam("codigoproyecto");
+  $proyectoid= $this->_getParam("proyectoid");
+  $revision_entregable= $this->_getParam("revision");
+
+  $where = array('edt' => $edt , 'codigo_prop_proy' => $codigoproyecto , 'proyectoid' => $proyectoid , 'revision_entregable' => $revision_entregable);
+  $eliminarentregable=new Admin_Model_DbTable_Listaentregabledetalle();
+  $eentregable=$eliminarentregable->_delete($where);
+  $this->_helper->json->sendJson($eentregable);
+}
+
+
+////////////////// /F I N  D E  F U N C I O N E S  A N G U L A R //////
 
 public function subirareacategoriaAction() {
     $proyectoid= $this->_getParam("proyectoid");

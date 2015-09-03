@@ -1,0 +1,156 @@
+<div class="form-group" class="col-md-12"  >
+	<div class="col-md-2" >
+    <label>Escoja una revision: </label> 
+  	</div>
+  	<div class="col-md-2" >
+    <select class="form-control" ng-model="CP.revisionE"         
+      ng-options="c.revision_entregable for c in CP.entregable ">
+    </select> 
+  	</div>
+  	<div class="col-md-2" >
+    <button class="btn btn-success" ng-click="CP.buscaentregables(CP.revisionE)" class="btn btn-primary btn-xs">Busca</button>
+  	</div>
+
+	<div class="form-group col-md-6">
+	           
+		<div ng-show="CP.formVisibilityEntregable" class="col-md-12" >	                
+			<div class="col-md-12">
+				<div class="col-md-3" >
+		            <label> Revision</label>
+		        </div>        
+		        <div class="col-md-3" >
+		                    <input class="form-control" type="text" ng-model="CP.revisionEntregable"></input>
+		        </div>
+		       
+				<div class="col-md-3" >      
+					<button class="btn btn-warning" ng-click="CP.GuardarEntregable()">Guardar</button>
+				</div>            
+				<div class="col-md-3" >      
+					<button class="btn btn-danger" ng-click="CP.CancelarEntregable()">Cancelar</button>
+				</div>
+			</div>
+		             
+		</div>
+		<button class="btn btn-primary" ng-click="CP.ShowFormEntregable()" ng-hide="CP.formVisibilityEntregable">
+		    Anadir Entregable
+		</button>
+	        
+	</div>
+
+</div>
+
+
+<form method="POST" action="#" editable-form name="tableform" onaftersave="CP.saveTableentregable()" oncancel="cancel()" >
+
+<table class=" table table-striped table-hover table-bordered ">
+<head>
+	<tr>
+
+		<td style="width:10%">EDT</td>
+		<td>tipo_documento</td>
+		<td>disciplina</td>
+		<td>Codigo Anddes</td>
+		<td>Codigo Cliente</td>
+
+		<td>descripcion</td>
+		<td>fecha_a</td>
+		<td>fecha_b</td>
+		<td>fecha_0</td>
+		<td><span ng-show="tableform.$visible">Action</span></td>
+	</tr>
+	
+</head>
+<body>
+	<tr ng-repeat="lista in CP.listaentregable track by $index">
+
+<!-- 
+		<td  >
+			<span editable-text="lista.edt" e-form="tableform" onbeforesave="checkName($data, lista.cod_le)">	
+				{{ lista.edt }}
+			</span>
+		</td> -->	
+
+    	<td >      
+	        <span editable-select="lista.edt" e-form="rowform" e-ng-options="s.codigo as s.nombre for s in CP.edt">
+	       	  {{ CP.showStatus(lista) }} 
+	        </span>
+     	</td>
+	          <!-- {{ lista.edt }} -->
+ 		
+ 		<td >      
+	        <span editable-select="lista.tipo_documento" e-form="rowform" e-ng-options="s.value as s.text for s in CP.tipodocumentoE">
+	       	  {{ CP.showTipodoc(lista) }} 
+	        </span>
+     	</td>
+
+		<!--<td>
+			<span editable-text="lista.tipo_documento" e-form="tableform" onbeforesave="checkName($data, lista.cod_le)">
+				{{ lista.tipo_documento }}
+			</span>
+		</td> -->
+
+		<td  >
+			<span editable-text="lista.disciplina" e-form="tableform" onbeforesave="checkName($data, lista.cod_le)">
+				{{ lista.disciplina }}
+			</span>
+		</td>
+		<td  >
+			<span editable-text="lista.codigo_anddes" e-form="tableform" onbeforesave="checkName($data, lista.cod_le)">
+				{{ lista.codigo_anddes }}
+			</span>
+
+		</td>
+		<td  >
+			<span editable-text="lista.codigo_cliente" e-form="tableform" onbeforesave="checkName($data, lista.cod_le)">
+				{{ lista.codigo_cliente }}
+			</span>
+
+		</td>
+		<td>
+			<span editable-text="lista.descripcion_entregable" e-form="tableform" onbeforesave="checkName($data, lista.cod_le)">	
+				{{ lista.descripcion_entregable }}
+			</span>
+
+		</td>
+		<td  >
+			<span editable-text="lista.fecha_a" e-form="tableform" onbeforesave="checkName($data, lista.cod_le)">
+				{{ lista.fecha_a }}
+			</span>
+
+		</td>
+		<td  >
+			<span editable-text="lista.fecha_b" e-form="tableform" onbeforesave="checkName($data, lista.cod_le)">
+				{{ lista.fecha_b }}
+			</span>
+
+		</td>
+		<td  >
+			<span editable-text="lista.fecha_0" e-form="tableform" onbeforesave="checkName($data, lista.cod_le)">
+				{{ lista.fecha_0 }}
+			</span>
+
+		</td>
+
+		<td><button type="button" ng-show="!tableform.$visible"   ng-click="CP.deleteEntregable($index,lista.edt)" class="btn btn-danger pull-right">Eliminar</button></td>
+		
+		
+	</tr>
+</body>
+</table>
+
+
+<div class="btn-edit">
+    <button type="button" class="btn btn-default" ng-show="!tableform.$visible" ng-click="tableform.$show()">
+        editar
+    </button>
+</div>
+<div class="btn-form" ng-show="tableform.$visible">
+ 	<button type="button" ng-disabled="tableform.$waiting" ng-click="CP.agregarListaentregable()" class="btn btn-default pull-right">Agregar Entregable</button>
+    <button type="submit" ng-disabled="tableform.$waiting" class="btn btn-primary">guardar</button>
+    <button type="button" ng-disabled="tableform.$waiting" ng-click="tableform.$cancel()" class="btn btn-default">cancelar</button>
+</div>
+</form>
+
+
+
+
