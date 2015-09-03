@@ -1,5 +1,6 @@
 app.factory('httpFactory', ['$http','$q', function($http,$q) {
   var url = '/proyecto/index/';
+  var url_print = '/control/print/';
   //var url = '/controldocumentario/index/'; 
 
   var publico = {
@@ -382,6 +383,20 @@ app.factory('httpFactory', ['$http','$q', function($http,$q) {
 
   /////////////////////// F I N  F E C H A  C O R T E /////////////////////////
  ///////////////////// L I S T A  D E  E N T R E G A B L E S /////////////////////////
+    createPdfEntregable: function(revision) {
+      var defered = $q.defer();
+      var promise = defered.promise;
+      $http.get(url_print + 'imprimirentregables/revision/' + revision)
+      .success(function(data) {
+        defered.resolve(data);
+      })
+      .error(function(err) {
+        defered.reject(err);
+      });
+      return promise;
+    },
+
+
 
    getListaxEntregables: function(proyectoid,revision) {
       var defered = $q.defer();
