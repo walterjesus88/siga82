@@ -22,7 +22,7 @@ $(document).ready(function() {
     );
   t_b.yadcf([
       {column_number: 0, filter_type: "range_date", filter_container_id: 'tb_sheet_time_filter_surrender', date_format: "dd/mm/yyyy", filter_default_label: ['Fecha de Inicio', 'Fecha Final']},
-      {column_number: 1, select_type: 'select', filter_container_id: "tb_sheet_time_filter_state", filter_default_label: "Todos los Estados", data: [{label: "No Enviado", value: "A"}, {label: "Enviado", value: "C"}] },
+      {column_number: 1, select_type: 'chosen', filter_container_id: "tb_sheet_time_filter_state", filter_default_label: "Todos los Estados", data: [{label: "No Enviado", value: "A"}, {label: "Enviado", value: "C"}] },
       {column_number: 2, select_type: 'chosen', filter_container_id: "tb_sheet_time_filter_area", filter_default_label: "Todos las Areas", data: filter },
     ]);
 });
