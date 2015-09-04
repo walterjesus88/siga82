@@ -19,7 +19,8 @@ app.factory('transmittalFactory', ['httpFactory', '$q', function(httpFactory, $q
     area: '',
     tipo_proyecto: '',
     correo: '',
-    modo_envio: 'F'
+    modo_envio: 'F',
+    estado_elaboracion: 'En Proceso'
   };
 
   var publico = {
@@ -51,7 +52,6 @@ app.factory('transmittalFactory', ['httpFactory', '$q', function(httpFactory, $q
       datos.area = transmittal.area;
       datos.tipo_proyecto = transmittal.tipo_proyecto;
       datos.correo = transmittal.correo;
-      datos.logo = transmittal.logo;
     },
 
     setCodificacion: function(codificacion) {
@@ -115,19 +115,28 @@ app.factory('transmittalFactory', ['httpFactory', '$q', function(httpFactory, $q
       });
     },
     emitirTransmittal: function() {
-      //cambiar el estado a emitido haciendo imposible la modificacion o agregar entregables
+      httpFactory.setEmitido(datos.codificacion, datos.correlativo)
+      .then(function(data) {
+        datos.estado_elaboracion = 'Emitido';
+        alert('Transmittal emitido');
+      })
     },
     reenviarTransmittal: function() {
       //retomar los valores de este transmittal para generar otro con estado en elaboracion
     },
     imprimirTransmittal: function() {
-      httpFactory.createPdfTR(datos.codificacion, datos.correlativo)
-      .then(function(data) {
-        window.open(data.archivo, '_blank');
-      })
-      .catch(function(err) {
+      if (datos.estado_elaboracion == 'Emitido') {
+        httpFactory.createPdfTR(datos.codificacion, datos.correlativo)
+        .then(function(data) {
+          window.open(data.archivo, '_blank');
+        })
+        .catch(function(err) {
 
-      });
+        });
+      } else {
+        alert('Aun no se a emitido el transmittal');
+      }
+
     }
 
   }

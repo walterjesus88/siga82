@@ -1,8 +1,8 @@
-<?php 
+<?php
 class Admin_Model_DbTable_Area extends Zend_Db_Table_Abstract
 {
     protected $_name = 'area';
-    protected $_primary = array("areaid");
+    protected $_primary = 'areaid';
 
 
     public function _getAreaAll(){
@@ -20,13 +20,13 @@ class Admin_Model_DbTable_Area extends Zend_Db_Table_Abstract
         try{
             $sql=$this->_db->query("
                select * from area
-               where areaid='$areaid' 
+               where areaid='$areaid'
 
             ");
             $row=$sql->fetchAll();
-            return $row;           
-            }  
-            
+            return $row;
+            }
+
            catch (Exception $ex){
             print $ex->getMessage();
         }
@@ -36,14 +36,14 @@ class Admin_Model_DbTable_Area extends Zend_Db_Table_Abstract
      {
         try{
             $sql=$this->_db->query("
-               select * from area where tag like '%$tagarea%' 
-               
+               select * from area where tag like '%$tagarea%'
+
 
             ");
             $row=$sql->fetchAll();
-            return $row;           
-            }  
-            
+            return $row;
+            }
+
            catch (Exception $ex){
             print $ex->getMessage();
         }
@@ -56,13 +56,13 @@ class Admin_Model_DbTable_Area extends Zend_Db_Table_Abstract
         try{
             $sql=$this->_db->query("
                select * from area
-               where ispropuesta='S'  
+               where ispropuesta='S'
 
             ");
             $row=$sql->fetchAll();
-            return $row;           
-            }  
-            
+            return $row;
+            }
+
            catch (Exception $ex){
             print $ex->getMessage();
         }
@@ -73,14 +73,14 @@ class Admin_Model_DbTable_Area extends Zend_Db_Table_Abstract
         try{
             $sql=$this->_db->query("
                select * from area
-               where isproyecto='S' 
+               where isproyecto='S'
                order by  nombre
 
             ");
             $row=$sql->fetchAll();
-            return $row;           
-            }  
-            
+            return $row;
+            }
+
            catch (Exception $ex){
             print $ex->getMessage();
         }
@@ -91,13 +91,13 @@ class Admin_Model_DbTable_Area extends Zend_Db_Table_Abstract
         try{
             $sql=$this->_db->query("
                select * from area
-               where iscontacto='S'  
+               where iscontacto='S'
 
             ");
             $row=$sql->fetchAll();
-            return $row;           
-            }  
-            
+            return $row;
+            }
+
            catch (Exception $ex){
             print $ex->getMessage();
         }
@@ -108,13 +108,13 @@ class Admin_Model_DbTable_Area extends Zend_Db_Table_Abstract
         try{
             $sql=$this->_db->query("
                select * from area
-               where iscomercial='S'  
+               where iscomercial='S'
 
             ");
             $row=$sql->fetchAll();
-            return $row;           
-            }  
-            
+            return $row;
+            }
+
            catch (Exception $ex){
             print $ex->getMessage();
         }
@@ -130,7 +130,7 @@ class Admin_Model_DbTable_Area extends Zend_Db_Table_Abstract
         }
     }
 
-   
+
 
         public function _save($data)
     {

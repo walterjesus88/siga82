@@ -2,80 +2,6 @@
   <button type="button" class="btn btn-success">TR</button>
 </header>
 <div class="panel">
-<<<<<<< HEAD
-  <table class="table table-bordered">
-    <thead>
-      <th>
-        ITEM
-      </th>
-      <th>
-        TR
-      </th>
-      <th>
-        Codigo Anddes
-      </th>
-      <th>
-        Codigo Cliente
-      </th>
-      <th>
-        Descripción de Entregable
-      </th>
-      <th>
-        Rev.
-      </th>
-      <th>
-        Emitido
-      </th>
-      <th>
-        Fecha
-      </th>
-    </thead>
-    <tbody>
-      <tr ng-repeat="entregable in cl.respuestas track by $index">
-        <td>
-          {{$index + 1}}
-        </td>
-        <td>
-          <input type="text" ng-model="entregable.transmittal">
-        </td>
-        <td>
-          <select ng-model="entregable.codigo_anddes" ng-change="entregable.cambiarCodigo('anddes')"
-          ng-options="detallesr.codigo_anddes as detallesr.codigo_anddes for detallesr in
-          cl.detalles_sin_respuesta">
-          </select>
-        </td>
-        <td>
-          <select ng-model="entregable.codigo_cliente" ng-change="entregable.cambiarCodigo('cliente')"
-          ng-options="detallesr.codigo_cliente as detallesr.codigo_cliente for detallesr in
-          cl.detalles_sin_respuesta">
-          </select>
-        </td>
-        <td>
-          <input type="text" ng-model="entregable.descripcion">
-        </td>
-        <td>
-          <input type="text" ng-model="entregable.revision">
-        </td>
-        <td>
-          <select ng-model="entregable.emitido"
-          ng-options="emitido.codigo as emitido.emitido_para for emitido in
-          cl.emisiones">
-          </select>
-        </td>
-        <td>
-          <input type="text" ng-model="entregable.fecha">
-        </td>
-      </tr>
-    </tbody>
-  </table>
-</div>
-<footer>
-  <button type="button" class="btn btn-info">Imprimir</button>
-  <button type="button" class="btn btn-primary" ng-click="cl.agregar()">Agregar</button>
-  <button type="button" class="btn btn-warning" ng-click="cl.editar()">Editar</button>
-  <button type="button" class="btn btn-danger" ng-click="cl.eliminar()">Eliminar</button>
-  <button type="button" class="btn btn-default">Cancelar</button>
-=======
   <div class="table-responsive">
     <table class="table table-bordered">
       <thead>
@@ -156,10 +82,10 @@
             </select>
           </td>
           <td>
-            <input type="text" ng-model="entregable.descripcion">
+            {{entregable.descripcion}}
           </td>
           <td>
-            <input type="text" ng-model="entregable.revision">
+            {{entregable.revision}}
           </td>
           <td>
             <select ng-model="entregable.emitido"
@@ -180,7 +106,6 @@
   <button type="button" class="btn btn-primary" ng-click="cl.agregar()">Agregar</button>
   <button type="button" class="btn btn-danger" ng-click="cl.eliminar()">Eliminar</button>
   <button type="button" class="btn btn-default" ng-click="cl.cancelar()">Cancelar</button>
->>>>>>> b3ea4adfd828260c124dc421bb9fb09791b12353
   <button type="button" class="btn btn-success" ng-click="cl.guardar()">Guardar</button>
 </footer>
 
