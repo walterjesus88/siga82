@@ -85,8 +85,6 @@ class ControlDocumentario_TransmittalController extends Zend_Controller_Action {
 
       $detalle = new Admin_Model_DbTable_DetalleTransmittal();
       $respuesta = $detalle->_setRespuesta($data);
-<<<<<<< HEAD
-=======
       $this->_helper->json->sendJson($respuesta);
     }
 
@@ -104,7 +102,6 @@ class ControlDocumentario_TransmittalController extends Zend_Controller_Action {
 
       $detalle = new Admin_Model_DbTable_DetalleTransmittal();
       $respuesta = $detalle->_updateRespuesta($data);
->>>>>>> b3ea4adfd828260c124dc421bb9fb09791b12353
       $this->_helper->json->sendJson($respuesta);
     }
 

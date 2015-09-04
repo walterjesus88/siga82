@@ -1072,6 +1072,18 @@ va.GuardarEntregable=function(){
 }
 
 
+va.imprimir=function(){
+  console.log('dddddddadad');
+  httpFactory.createPdfEntregable('A')
+  .then(function(data) {
+    console.log(data);
+    //window.open(data.archivo, '_blank');
+  })
+  .catch(function(err) {
+
+  });
+
+}
 
 ///////////F I N  L I S T A  D E  E N T R E G A B L E ////////////////////////////////
 }]);

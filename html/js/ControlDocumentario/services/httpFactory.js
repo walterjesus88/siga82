@@ -488,11 +488,7 @@ app.factory('httpFactory', ['$http', '$q', function($http, $q) {
       var promise = defered.promise;
       $http.post(url_tran + 'guardarrespuesta/detalleid/' + respuesta.detalleid +
       '/respuestatransmittal/' + respuesta.transmittal + '/codigoanddes/' +
-<<<<<<< HEAD
-      respuesta.codigoanddes + '/codigocliente/' + respuesta.codigocliente +
-=======
       respuesta.codigo_anddes + '/codigocliente/' + respuesta.codigo_cliente +
->>>>>>> b3ea4adfd828260c124dc421bb9fb09791b12353
       '/descripcion/' + respuesta.descripcion + '/revision/' + respuesta.revision +
       '/emitido/' + respuesta.emitido + '/fecha/' + respuesta.fecha)
       .success(function(data) {
@@ -502,8 +498,6 @@ app.factory('httpFactory', ['$http', '$q', function($http, $q) {
         defered.reject(err);
       });
       return promise;
-<<<<<<< HEAD
-=======
     },
     updateRespuesta: function(respuesta) {
       var defered = $q.defer();
@@ -607,9 +601,6 @@ app.factory('httpFactory', ['$http', '$q', function($http, $q) {
         defered.reject(err);
       });
       return promise;
-<<<<<<< HEAD
->>>>>>> b3ea4adfd828260c124dc421bb9fb09791b12353
-=======
     },
     setEmitido: function(transmittal, correlativo) {
       var defered = $q.defer();
@@ -635,7 +626,6 @@ app.factory('httpFactory', ['$http', '$q', function($http, $q) {
         defered.reject(err);
       });
       return promise;
->>>>>>> modulocd
     }
   }
 
