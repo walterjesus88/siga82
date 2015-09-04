@@ -21,27 +21,14 @@ $objPHPExcel->getActiveSheet()->setTitle('Reporte HT');
 $row = 1;
 for ($i = 0; $i < count($data); $i++) {
   $row += 1;
-  $name_area = $tb_area->fetchRow($tb_area->select()->where('areaid = ?', $sheet_time['areaid']))->toArray();
   $objPHPExcel->getActiveSheet()
-              ->setCellValue('A' . $row, $name_area['nombre'])
+              ->setCellValue('A' . $row, $$data[$i]['areaid'])
               ->setCellValue('B' . $row, $data[$i]['uid'])
               ->setCellValue('C' . $row, $data[$i]['semanaid'])
-              ->setCellValue('G' . $row, status_name($data[$i]['estado']));
+              ->setCellValue('G' . $row, $data[$i]['estado']);
 }
 
-function status_name($estado){
-  switch ($estado) {
-    case 'A':
-      return "No enviado";
-      break;
-    case 'C':
-      return "Enviado";
-      break;
-    default:
-      return "no existe";
-      break;
-  }
-}
+
 
 $objPHPExcel->setActiveSheetIndex(0);
 header('Content-Type: application/vnd.ms-excel');
