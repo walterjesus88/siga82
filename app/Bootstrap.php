@@ -10,7 +10,10 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
             $view->headMeta()->appendHttpEquiv('Content-Type', 'text/html;charset=utf-8');
             //$view->headMeta()->appendHttpEquiv('Cache-Control', 'no-cache');
 
-            $view->headLink()->prependStylesheet('/external_library/bootstrap/css/bootstrap.min.css')
+            $view
+
+                    //->headLink()->prependStylesheet('/external_library/bootstrap/css/bootstrap.min.css'
+                    ->headLink()->prependStylesheet('/css/bootstrap.min.css')
                      ->headLink()->prependStylesheet('/external_library/bootstrap/css/bootstrap-theme.min.css')
                      ->headLink()->appendStylesheet('/js/api_datatable/yadcf/jquery.dataTables.yadcf.css')
                      ->headLink()->appendStylesheet('/js/api_datatable/chosen/chosen.min.css')
