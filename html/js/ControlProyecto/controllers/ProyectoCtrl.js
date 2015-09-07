@@ -11,6 +11,7 @@ function(httpFactory, proyectoFactory,$filter) {
   vp.proyectos = [];
   vp.control_documentario = [];
 
+
   //funcion para obtener los proyectos del servidor
   var listarProyectos = function(estado) {
     httpFactory.getProyectos(estado)
@@ -22,7 +23,7 @@ function(httpFactory, proyectoFactory,$filter) {
           item.nombre, item.gerente, item.control_proyecto,
           item.control_documentario, item.estado);
         vp.proyectos.push(proyecto);
-        console.log(data);
+       // console.log(data);
 
       });
     })
@@ -44,7 +45,7 @@ function(httpFactory, proyectoFactory,$filter) {
 
     // console.log(proyecto['codigo']);
     // console.log(proyecto['estado']);
-     console.log(vp.estado);
+     //console.log(vp.estado);
 
     // proyectoFactory.setDatosxCambiarxEstadoproyecto(proyecto['codigo'],proyecto['estado'],proyecto['codigo_prop_proy'])
     // .then(function(data) {

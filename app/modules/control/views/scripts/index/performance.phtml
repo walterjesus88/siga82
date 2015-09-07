@@ -39,14 +39,21 @@
 	<thead>	
 		<tr class="menu">    
 	        <th>Item</th>
+	        <th>Actividad Id</th>
 	        <th >Descripcion de Tareas</th>
-	        <th >Duracion</th>
+	        <th >Predecesora</th>
 	        <th>US$/item</th>
 	        <th>hrs/item</th>	
 	        <th>US$/item</th>
+	        <th>hrs/item</th>	
+	        <th>%</th>	
+	        <th>hrs/item</th>	
+	        <th>US$/item</th>
+	        
 	        <th>%</th>	
 	        <th>Inicio Planificado</th>
 	        <th>Fin Planificado</th>
+	        <th >Duracion</th>
 	        <th>Inicio Real</th>
 	        <th>Fin Real</th>
 	        <td ng-repeat="per in CP.thi" >
@@ -59,57 +66,83 @@
 	<tbody>
   		<tr ng-repeat-start="performance in CP.performance " >
           	<td >
+            	{{ $index }}  
+          	</td>
+          	<td >
             	{{ performance.actividadid }}  
           	</td>
           	<td>
 				{{ performance.nombre}}
 			</td>
-
-			<td>			
-				<span editable-text="performance.duracion" e-form="tableform" onbeforesave="checkName($data, performance.codigo_performance)">
-				{{ performance.duracion }}
+ 			<td>
+				{{ performance.predecesoras }}
+			</td>
+          	<td>			
+				<span editable-text="performance.horas_propuesta" e-form="tableform" onbeforesave="checkName($data, performance.codigo_performance)">
+				{{ performance.horas_propuesta }}
 				</span>
 			</td>
-			<td>			
-				<span editable-text="performance.costo_presupuesto" e-form="tableform" onbeforesave="checkName($data, performance.codigo_performance)">
-				{{ performance.costo_presupuesto }}
-				</span>
 
-			</td> 
+			<td>			
+				<span editable-text="performance.costo_propuesta" e-form="tableform" onbeforesave="checkName($data, performance.codigo_performance)">
+				{{ performance.costo_propuesta }}
+				</span>
+			</td>
+
+			<td>			
+				<span editable-text="performance.horas_planificado" e-form="tableform" onbeforesave="checkName($data, performance.codigo_performance)">
+				{{ performance.horas_planificado }}
+				</span>
+			</td>
+
+			<td>			
+				<span editable-text="performance.costo_planificado" e-form="tableform" onbeforesave="checkName($data, performance.codigo_performance)">
+				{{ performance.costo_planificado }}
+				</span>
+			</td>
+
+			<td>			
+				<span editable-text="performance.porcentaje_planificado" e-form="tableform" onbeforesave="checkName($data, performance.codigo_performance)">
+				{{ performance.porcentaje_planificado }}
+				</span>
+			</td>
 
 			<td>			
 				<span editable-text="performance.horas_real" e-form="tableform" onbeforesave="checkName($data, performance.codigo_performance)">
 				{{ performance.horas_real }}
 				</span>
-
 			</td> 
 
 			<td>
 				<span editable-text="performance.costo_real" e-form="tableform" onbeforesave="checkName($data, performance.codigo_performance)">
 				{{ performance.costo_real }}
 				</span>
-
+			</td>
+	
+			<td>
+				<span editable-text="performance.porcentaje_real" e-form="tableform" onbeforesave="checkName($data, performance.porcentaje_real)">
+				{{ performance.porcentaje_real }}
+				</span>
 			</td>
 
-			<td>
-				<span editable-text="performance.porcentaje_calculo" e-form="tableform" onbeforesave="checkName($data, performance.codigo_performance)">
-				{{ performance.porcentaje_calculo }}
-				</span>
-
-			</td> 
-
-			
+	
 			<td>
 				<span editable-text="performance.fecha_comienzo" e-form="tableform" onbeforesave="checkName($data, performance.codigo_performance)">
-				{{ performance.fecha_comienzo }}
-				</span>
-				
+				{{ performance.fecha_comienzo | date:'medium' }}
+				</span>				
 			</td> 
 			<td>
 				<span editable-text="performance.fecha_fin" e-form="tableform" onbeforesave="checkName($data, performance.codigo_performance)">
 				{{ performance.fecha_fin }}
 				</span>
-			</td> 
+			</td>
+
+			<td>			
+				<span editable-text="performance.duracion" e-form="tableform" onbeforesave="checkName($data, performance.codigo_performance)" ng-enter="CP.calculafechafin()">
+				{{ performance.duracion }}
+				</span>
+			</td>
+
 			<td>
 				<span editable-text="performance.fecha_comienzo_real" e-form="tableform" onbeforesave="checkName($data, performance.codigo_performance)">
 				{{ performance.fecha_comienzo_real }}
@@ -151,3 +184,4 @@
 </div>
 
 </form>
+    <input id="taskName" class="form-control" type="text" placeholder="type task name"  ng-enter="CP.calculafechafin()" />

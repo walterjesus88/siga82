@@ -1,3 +1,17 @@
+app.directive('ngEnter', function () {
+    return function (scope, element, attrs) {
+        element.bind("keydown keypress", function (event) {
+            if(event.which === 13) {
+                scope.$apply(function (){
+                    scope.$eval(attrs.ngEnter);
+                });
+
+                event.preventDefault();
+            }
+        });
+    };
+});
+
 app.controller('ControlCtrl', ['httpFactory', '$scope','$filter','$q',
 'proyectoFactory',
 function(httpFactory, $scope,$filter,$q,proyectoFactory) {
@@ -18,11 +32,10 @@ function(httpFactory, $scope,$filter,$q,proyectoFactory) {
         {
           //console.log(data)
         }
-        else
-        {
-          //alert('revveveveveve');
+        else        {
+        
           revision=data[0]['revision_cronograma'];  
-                //sirve para cargar datos una vez iniciado //
+          //sirve para cargar datos una vez iniciado //
           httpFactory.getTiempos(revision,va.proyectop.codigo_prop_proy,proyecto['codigo'])
           .success(function(data) {         
 
@@ -339,8 +352,6 @@ function(httpFactory, $scope,$filter,$q,proyectoFactory) {
         va.dat=[];
         va.dat.push(va.inserted);
       }
-   
-      //console.log(va.codigo_cronograma);
 
       httpFactory.setGuardarCurva(va.fecha_curvas,va.porcentaje_ejecutado,
         va.porcentaje_propuesta,va.revi.revision_cronograma,va.revi.codigo_cronograma,va.proyectop.codigo_prop_proy
@@ -354,16 +365,14 @@ function(httpFactory, $scope,$filter,$q,proyectoFactory) {
         })
   };
 
-
-  //va.revision=[]; 
   va.busca = function(revision,codigo,proyectoid) {
  
       console.log("imprimiendo avriables");
 
       httpFactory.getTiempos(revision.revision_cronograma,codigo,proyectoid)
-      .success(function(data) {   //console.log(data);
+      .success(function(data) {
         va.dat=data[0]['1'];
-        //console.log(va.dat);
+  
 
         var max = data[0]['1'].length;     
         var varx=[];
@@ -373,19 +382,15 @@ function(httpFactory, $scope,$filter,$q,proyectoFactory) {
         var label= $.map(data[0], function(value, index) {   
             for (var i =0; i < max; i++) {
               a=[];
-              //console.log(value[i]['porc_avance_plani']);
               a=value[i]['fecha_ingreso_curvas'];        
               labelx.push(a);
             };
               return [labelx];
         });    
-        va.labels=label[0];
-        //console.log(va.labels);
-
+        va.labels=label[0]; 
         var array = $.map(data[0], function(value, index) {   
             for (var i =0; i < max; i++) {
               a=[];
-              //console.log(value[i]['porc_avance_plani']);
               a=parseFloat(value[i]['porcentaje_propuesta']);
               b=parseFloat(value[i]['porcentaje_ejecutado']);
               varx.push(a);
@@ -395,8 +400,7 @@ function(httpFactory, $scope,$filter,$q,proyectoFactory) {
               return [varx,vary];
         });
 
-        va.data = array;
-        //console.log(va.data[0] );   
+        va.data = array; 
        
        })
       .error(function(data) {
@@ -409,7 +413,6 @@ function(httpFactory, $scope,$filter,$q,proyectoFactory) {
   //va.series = ['29 Abr', '14 May', '21 May', '28 May', '04 Jun', '11 Jun', '18 Jun','25 Jun','02 Jun',];
 
   va.series = ['Planeado', 'Real'];
-  //va.legend = ['Planessado', 'Ressasal'];
 
   va.options = {  
       legend: true,
@@ -450,8 +453,6 @@ function(httpFactory, $scope,$filter,$q,proyectoFactory) {
     //   }
     // ];
 
-
-
 ///////////////////////////////////////////////////// Desde aqui comienza performance //////////////////////////////////////////////////////////////////////////////////////////////
 va.buscaperformance = function(revision) {
 
@@ -472,6 +473,7 @@ va.buscaperformance = function(revision) {
   proyectoFactory.getDatosProyectoxPerfomance(proyectoid,revision_cronograma)
   .then(function(datax) {
       va.performance=datax;
+      console.log(va.performance);
 
     })
   .catch(function(err) {
@@ -622,7 +624,7 @@ proyectoFactory.getVerCronogramaxActivo(proyecto['codigo'])
     .then(function(datax) {
         va.performance=datax;
 
-        //console.log('va.performance');
+        //console.log(va.performance);
         ///console.log(va.performance);
        })
     .catch(function(err) {
@@ -634,12 +636,16 @@ proyectoFactory.getVerCronogramaxActivo(proyecto['codigo'])
     va.procronograma = {};
 });
 
-
+//calculara la fecha fin de la actividad //
+va.calculafechafin= function()
+{
+  console.log('ssss');
+}
 
 
 //guardar datos de performance//
 va.saveTable = function() {
-  console.log(va.performance);
+  //console.log(va.performance);
 
   angular.forEach(va.performance, function(val) {
     
@@ -648,67 +654,343 @@ va.saveTable = function() {
       actividadid=val['actividadid'],
       cronogramaid=val['cronogramaid'],
       codigo_cronograma=val['codigo_cronograma'] ,
-      codigo_performance=val['codigo_performance'] ,
-      fecha_calculo_performance=val['fecha_calculo_performance'] ,
+      codigo_performance=val['codigo_performance'] ,     
       proyectoid=val['proyectoid'] ,
       revision_cronograma=val['revision_cronograma'] ,
       fecha_ingreso_performance=val['fecha_ingreso_performance'],
       revision_propuesta=val['revision_propuesta'] , 
+
       costo_real =val['costo_real'] ,
       horas_real =val['horas_real'] ,
+
+      costo_propuesta =val['costo_propuesta'],
+      horas_propuesta =val['horas_propuesta'],
+      horas_planificado =val['horas_planificado'],
+      costo_planificado =val['costo_planificado'],
+      porcentaje_planificado =val['porcentaje_planificado'],
+      porcentaje_real =val['porcentaje_real'],
+        
+      fecha_comienzo=val['fecha_comienzo'] ,
+
       fecha_comienzo_real=val['fecha_comienzo_real'] ,
       fecha_fin_real=val['fecha_fin_real'] ,
-
-      fecha_fin=val['fecha_fin'] ,
-      fecha_comienzo=val['fecha_comienzo'] ,
-      porcentaje_calculo=val['porcentaje_calculo'] ,
-      nivel_esquema=val['nivel_esquema'] ,
-      predecesoras=val['predecesoras'] ,
-      sucesoras=val['sucesoras'] ,
-      costo_presupuesto=val['costo_presupuesto'] ,
       duracion=val['duracion'],
 
-      proyectoFactory.setActualizarPerformance(codigo_prop_proy,codigo_actividad,actividadid,cronogramaid,
-        codigo_cronograma,codigo_performance,fecha_calculo_performance,proyectoid,
-        revision_cronograma,fecha_ingreso_performance,revision_propuesta,costo_real,horas_real,fecha_comienzo_real,
-        fecha_fin_real,fecha_fin,fecha_comienzo,porcentaje_calculo,nivel_esquema,predecesoras,sucesoras,costo_presupuesto,
-        duracion
-        )
-        .then(function(data) {
-          //console.log(data); 
-        })
-       .catch(function(err) {
-          //va.procronograma = {};
-        });
+
+    fecha_comienzo = fecha_comienzo.toString();
+
+    predecesoras=val['predecesoras'],
+
+
+ // expression='CF';
+  
+  cadena= predecesoras;
+  //console.log("cadena"+cadena);
+
+
+// hoy = new Date('2015-04-27'); 
+// i=0; 
+// while (i<6) {
+//   hoy.setTime(hoy.getTime()+24*60*60*1000); // añadimos 1 día
+//     if (hoy.getDay() == 0 || hoy.getDay() == 6   )
+//     {
+//       console.log(hoy.getDay());
+//       //i--;
+//     }
+  
+//     else
+//     {
+//       console.log(hoy.getDay());
+//       i++;
+//     }
+// }
+
+// mes = hoy.getMonth()+1;
+// if (mes<10) mes = '0'+mes;
+// fecha = hoy.getDate()+ '-' + mes + '-' + hoy.getFullYear(); 
+// console.log(fecha);
+
+// console.log(jik);
+
+
+
+if( cadena!=null)
+{
+  texto =  ['FC','CF','CC','FF'];
+
+  for (var i = texto.length - 1; i >= 0; i--) {
+    //console.log("textoputo"+texto[i]);
+    if(cadena.indexOf(texto[i])!=-1)
+    {
+      
+      console.log("si haysss encon"+texto[i]);
+      console.log(cadena);
+      console.log(cadena.indexOf(texto[i]));
+
+      switch(texto[i]) {
+      case 'FC':
+          console.log("FC-----------");
+
+          posicion = cadena.indexOf(texto[i]);
+
+          signo=['+','-'];
+
+          for (var i = signo.length - 1; i >= 0; i--) {
+            signo[i];
+            if(cadena.indexOf(signo[i])!=-1)
+            {
+               posiciondelmas = cadena.indexOf(signo[i]);
+         
+
+              console.log("signo"+signo[i]);
+              //console.log("posiciondelmas"+posiciondelmas);
+              if(posiciondelmas!=-1)
+              {
+                console.log("posiciondelmas"+posiciondelmas);
+                valordias=cadena.substring(posiciondelmas+1);       
+                console.log("valordias"+valordias);
+              }
+              else
+              {
+                valordias=1;
+                console.log("valordias1110000"+valordias);
+              }
+              //EXTRAE EL ITEM//
+              valoritem=cadena.substring(0, posicion);
+              console.log("valoritem"+valoritem);
+              console.log(va.performance[valoritem]);          
+              fecha_comienzo_pred=va.performance[valoritem]['fecha_comienzo'];
+              fecha_fin_pred=va.performance[valoritem]['fecha_fin'];
+
+              console.log("fecha_fin_pred"+fecha_fin_pred);
+              
+              fecha = new Date(fecha_fin_pred);
+              // tiempo=fecha.getTime();
+              // console.log("getTime"+tiempo);
+
+              if(signo[i]=='+')
+              {
+              
+                // console.log("vcccccccccmas"+valordias);
+                // milisegundos=parseInt(valordias*24*60*60*1000);
+                // total=fecha.setTime(tiempo+milisegundos);
+
+                //hoy = new Date(fecha_fin_pred); 
+
+                 ki=0; 
+                while (ki<valordias) {
+                  console.log("la fecha sumo");
+
+                   fecha.setTime(fecha.getTime()+24*60*60*1000); // añadimos 1 día
+                    if (fecha.getDay() == 0 || fecha.getDay() == 6   )
+                    {
+                      console.log(fecha.getDay());
+                      
+                    }                  
+                    else
+                    {
+                //       console.log(fecha.getDay());
+                      console.log(ki);
+                      ki++;
+                    }
+                 }
+                  //console.log(ff);
+              }
+              else
+              {
+                valordias=parseInt(valordias)-1;
+                console.log("vcccccccccmenos"+valordias);
+
+                milisegundos=parseInt(valordias*24*60*60*1000);
+                total=fecha.setTime(tiempo-milisegundos);
+                console.log("la fecha resto"+total);
+              }
+
+              // mes = fecha.getMonth()+1;
+              // if (mes<10) mes = '0'+mes;
+              // fecha = fecha.getDate()+ '-' + mes + '-' + fecha
+              // .getFullYear(); 
+              // console.log("mierda de fecha"+fecha);
+
+              day=fecha.getDate();
+              month=fecha.getMonth()+1;
+              year=fecha.getFullYear();
+
+              if (month.toString().length < 2) 
+              {
+                console.log('si');
+                month = '0' + month;
+              }
+              if (day.toString().length < 2) 
+              {
+                console.log('si222');
+                day = '0' + day;
+              }
+              fecha_FC=year+"-"+month+"-"+day,
+              fecha_comienzo=fecha_FC;
+              console.log("fecha_FC"+fecha_FC); 
+
+            }
+          };
+
+         break;
+
+      case 'CF':
+          console.log("CF------------");          
+          break;
+
+      case 'CC':
+          console.log("CC-----------");   
+
+          // posicion = cadena.indexOf(texto[i]);
+
+
+          // posiciondelmas = cadena.indexOf('+');
+          // //console.log("posicion"+posicion);
+          // if(posiciondelmas!=-1)
+          // {
+          //   console.log("posiciondelmas"+posiciondelmas);
+          //   valordias=cadena.substring(posiciondelmas+1);       
+          //   console.log("valordias"+valordias);
+          // }
+          // else
+          // {
+          //   valordias=1;
+          //   console.log("valordias"+valordias);
+
+          // }       
+          // //EXTRAE EL ITEM//
+          // valoritem=cadena.substring(0, posicion);
+          // console.log("valoritem"+valoritem);
+          // console.log(va.performance[valoritem]);          
+          // fecha_comienzo_pred=va.performance[valoritem]['fecha_comienzo'];
+          // fecha_fin_pred=va.performance[valoritem]['fecha_fin'];
+
+          // console.log("fecha_comienzo_pred"+fecha_comienzo_pred);
+          // fecha = new Date(fecha_comienzo_pred);
+          // tiempo=fecha.getTime("fecha_comienzo_pred"+fecha_comienzo_pred);
+          // milisegundos=parseInt(valordias*24*60*60*1000);
+          // total=fecha.setTime(tiempo+milisegundos);
+          // day=fecha.getDate();
+          // month=fecha.getMonth()+1;
+          // year=fecha.getFullYear();
+
+          // if (month.toString().length < 2) 
+          // {
+          //   console.log('si');
+          //   month = '0' + month;
+          // }
+          // if (day.toString().length < 2) 
+          // {
+          //   console.log('si222');
+          //   day = '0' + day;
+          // }
+          // fecha_CC=year+"-"+month+"-"+day,
+          // console.log("fecha_CC"+fecha_CC);
+
+          // fecha_comienzo=fecha_CC;
+
+          break;
+      case 'FF':
+          console.log("FF------------");          
+          break;
+      default:
+          console.log("VVVVVV");
+          
+      }
+
+
+    }
+    else
+    {
+     // console.log("nelfececeec"+texto[i]);
+    }
+  };
+}
+
+
+
+
+    // console.log("fecha de inicioss"+fecha_comienzo);  
+    // if(fecha_comienzo!=null){
+    // //fecha_comienzo = fecha_comienzo.replace(/-/g, '/');
+    // fec=fecha_comienzo.toString();
+    // }
+
+    // //console.log("fecha de iniciosss----"+fec);  
+
+    // fecha = new Date(fec);
+    // tiempo=fecha.getTime();
+    // milisegundos=parseInt(duracion*24*60*60*1000);
+    // total=fecha.setTime(tiempo+milisegundos);
+    // day=fecha.getDate();
+    // month=fecha.getMonth()+1;
+    // year=fecha.getFullYear();
+
+    // if (month.toString().length < 2) 
+    // {
+    //   console.log('si');
+    //   month = '0' + month;
+    // }
+    // if (day.toString().length < 2) 
+    // {
+    //   console.log('si222');
+    //   day = '0' + day;
+    // }
+     
+    // fecha_fin=year+"-"+month+"-"+day,
+    fecha_fin=val['fecha_fin'],
+
+
+
+ 
+    nivel_esquema=val['nivel_esquema'] ,
+    predecesoras=val['predecesoras'] ,
+    sucesoras=val['sucesoras'] ,
+
+
+    proyectoFactory.setActualizarPerformance(
+      codigo_prop_proy,codigo_actividad,actividadid,cronogramaid,codigo_cronograma,codigo_performance,
+      proyectoid,revision_cronograma,fecha_ingreso_performance,revision_propuesta,
+      costo_real,horas_real,costo_propuesta,horas_propuesta,horas_planificado,costo_planificado,porcentaje_planificado,
+      porcentaje_real,fecha_comienzo_real,fecha_fin_real,
+      fecha_fin,fecha_comienzo,nivel_esquema,predecesoras,sucesoras,duracion
+    )
+    .then(function(data) {
+      //console.log(data); 
+    })
+    .catch(function(err) {
+      //va.procronograma = {};
+    });
 
       
-      angular.forEach(val['items'], function(value) {
-        //console.log(value['porcentaje_performance']);
+      // angular.forEach(val['items'], function(value) {
+       
 
-        codigo_prop_proy=value['codigo_prop_proy'];
-        codigo_actividad=value['codigo_actividad'];
-        actividadid=value['actividadid'];
-        cronogramaid=value['cronogramaid'];
-        codigo_cronograma=value['codigo_cronograma'];
-        codigo_performance=value['codigo_performance'];
-        porcentaje_performance=value['porcentaje_performance'];
-        fecha_calculo_performance=value['fecha_calculo_performance'];
-        proyectoid=value['proyectoid'];
-        revision_cronograma=value['revision_cronograma'];
-        fecha_ingreso_performance=value['fecha_ingreso_performance'];
-        fecha_performance=value['fecha_performance'];
+      //   codigo_prop_proy=value['codigo_prop_proy'];
+      //   codigo_actividad=value['codigo_actividad'];
+      //   actividadid=value['actividadid'];
+      //   cronogramaid=value['cronogramaid'];
+      //   codigo_cronograma=value['codigo_cronograma'];
+      //   codigo_performance=value['codigo_performance'];
+      //   porcentaje_performance=value['porcentaje_performance'];
+      //   //fecha_calculo_performance=value['fecha_calculo_performance'];
+      //   proyectoid=value['proyectoid'];
+      //   revision_cronograma=value['revision_cronograma'];
+      //   fecha_ingreso_performance=value['fecha_ingreso_performance'];
+      //   fecha_performance=value['fecha_performance'];
 
-        proyectoFactory.setActualizarDatosxPerfomance(codigo_prop_proy,codigo_actividad,actividadid,cronogramaid,
-        codigo_cronograma,codigo_performance,porcentaje_performance,fecha_calculo_performance,proyectoid,revision_cronograma,
-        fecha_ingreso_performance,fecha_performance)
-        .then(function(data) {
-          //console.log(data); 
-        })
-       .catch(function(err) {
-          //va.procronograma = {};
-        });
+      //   proyectoFactory.setActualizarDatosxPerfomance(codigo_prop_proy,codigo_actividad,actividadid,cronogramaid,
+      //   codigo_cronograma,codigo_performance,porcentaje_performance,proyectoid,revision_cronograma,
+      //   fecha_ingreso_performance,fecha_performance)
+      //   .then(function(data) {
+        
+      //   })
+      //  .catch(function(err) {
+      //     //va.procronograma = {};
+      //   });
 
-      })
+      // })
  
   });
 };
