@@ -638,12 +638,42 @@ order by t.proyectoid,t.actividadid,t.tipo_actividad desc
         }
     }
 
-    public function _count_all()
+    public function _count_all($where)
     {
         try {
-            $sql = $this->_db->query("select count(*) as count from tareo_persona");
-            $count_all = $sql->fetchAll();
-            return $count_all;
+            $select_1 = $this->_db
+                            ->select()
+                            ->distinct()
+                            ->from("tareo_persona", array('uid', 'areaid', 'semanaid', 'estado'));
+            $select_2 = $this->_db
+                            ->select()
+                            ->from(new Zend_Db_Expr('(' . $select_1 . ')'), "COUNT(*) AS total");
+            if ($where["sSearch"]) {
+                $select_2->where("areaid Ilike ? ", $where['sSearch']);
+            }
+            if ($where["sSearch_0"] && split("-yadcf_delim-", $where["sSearch_0"])) {
+                $dates = split("-yadcf_delim-", $where["sSearch_0"]);
+                if (count(array_filter($dates)) == 1 && $dates[0]) {
+                    $select_2->where("fecha_tarea >= ?", $this->set_format_date($dates[0]));
+                }else{
+                    if (!$dates[0]){
+                        $select_2->where("fecha_tarea  <= ?", $this->set_format_date($dates[1]));
+                    }else{
+                        $select_2->where("fecha_tarea >= ?", $this->set_format_date($dates[0]));
+                        $select_2->where("fecha_tarea <= ?", $this->set_format_date($dates[1]));
+                    }
+                }
+            }
+            if ($where["sSearch_1"]) {
+                $select_2->where("estado = ?", $where['sSearch_1']);
+            }
+            if ($where["sSearch_2"]) {
+                $select_2->where("areaid = ?", $where['sSearch_2']);
+            }
+            $results = $select_2->query();
+            $rows = $results->fetchAll();
+            if ($rows) return $rows;
+            return false;
         } catch (Exception $e) {
             print $e->getMessage();
         }
@@ -658,9 +688,21 @@ order by t.proyectoid,t.actividadid,t.tipo_actividad desc
                             ->from("tareo_persona",array("uid", "areaid","semanaid","estado"))
                             ->order($sort_column)
                             ->limit($per_page, $page);
-
             if ($where["sSearch"]) {
-                $select->where("areaid Ilike ? ", $where['sSearch']);
+                $select->where("areaid Ilike ? ", "%" . $where['sSearch'] . "%");
+            }
+            if ($where["sSearch_0"] && split("-yadcf_delim-", $where["sSearch_0"])) {
+                $dates = split("-yadcf_delim-", $where["sSearch_0"]);
+                if (count(array_filter($dates)) == 1 && $dates[0]) {
+                    $select->where("fecha_tarea >= ?", $this->set_format_date($dates[0]));
+                }else{
+                    if (!$dates[0]){
+                        $select->where("fecha_tarea <= ?", $this->set_format_date($dates[1]));
+                    }else{
+                        $select->where("fecha_tarea >= ?", $this->set_format_date($dates[0]));
+                        $select->where("fecha_tarea <= ?", $this->set_format_date($dates[1]));
+                    }
+                }
             }
             if ($where["sSearch_1"]) {
                 $select->where("estado = ?", $where['sSearch_1']);
@@ -675,5 +717,10 @@ order by t.proyectoid,t.actividadid,t.tipo_actividad desc
         } catch (Exception $e) {
             print $e->getMessage();
         }
+    }
+
+    private function set_format_date($date){
+        $date_t = new Zend_Date($date);
+        return $date_t->get("YYYY-MM-dd");
     }
 }
