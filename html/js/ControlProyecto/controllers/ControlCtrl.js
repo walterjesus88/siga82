@@ -775,21 +775,19 @@ if( cadena!=null)
                 // milisegundos=parseInt(valordias*24*60*60*1000);
                 // total=fecha.setTime(tiempo+milisegundos);
 
-                //hoy = new Date(fecha_fin_pred); 
-
+                // F U N C I O N  P A R A  E L I M I N A R  S A B A D O S  Y  D O M I N G O S // 
                  ki=0; 
                 while (ki<valordias) {
-                  console.log("la fecha sumo");
-
+                  
                    fecha.setTime(fecha.getTime()+24*60*60*1000); // añadimos 1 día
-                    if (fecha.getDay() == 0 || fecha.getDay() == 6   )
+                    if (fecha.getDay() == 0 || fecha.getDay() == 6)
                     {
                       console.log(fecha.getDay());
                       
                     }                  
                     else
                     {
-                //       console.log(fecha.getDay());
+               
                       console.log(ki);
                       ki++;
                     }
@@ -842,53 +840,73 @@ if( cadena!=null)
       case 'CC':
           console.log("CC-----------");   
 
-          // posicion = cadena.indexOf(texto[i]);
+          posicion = cadena.indexOf(texto[i]);
 
 
-          // posiciondelmas = cadena.indexOf('+');
-          // //console.log("posicion"+posicion);
-          // if(posiciondelmas!=-1)
-          // {
-          //   console.log("posiciondelmas"+posiciondelmas);
-          //   valordias=cadena.substring(posiciondelmas+1);       
-          //   console.log("valordias"+valordias);
-          // }
-          // else
-          // {
-          //   valordias=1;
-          //   console.log("valordias"+valordias);
+          posiciondelmas = cadena.indexOf('+');
+          //console.log("posicion"+posicion);
+          if(posiciondelmas!=-1)
+          {
+            console.log("posiciondelmas"+posiciondelmas);
+            valordias=cadena.substring(posiciondelmas+1);       
+            console.log("valordias"+valordias);
+          }
+          else
+          {
+            valordias=1;
+            console.log("valordiascero"+valordias);
 
-          // }       
+          }       
           // //EXTRAE EL ITEM//
-          // valoritem=cadena.substring(0, posicion);
-          // console.log("valoritem"+valoritem);
-          // console.log(va.performance[valoritem]);          
-          // fecha_comienzo_pred=va.performance[valoritem]['fecha_comienzo'];
-          // fecha_fin_pred=va.performance[valoritem]['fecha_fin'];
+
+
+
+          valoritem=cadena.substring(0, posicion);
+
+          console.log("valoritem"+valoritem);
+          console.log(va.performance[valoritem]);          
+          fecha_comienzo_pred=va.performance[valoritem]['fecha_comienzo'];
+          fecha_fin_pred=va.performance[valoritem]['fecha_fin'];
 
           // console.log("fecha_comienzo_pred"+fecha_comienzo_pred);
           // fecha = new Date(fecha_comienzo_pred);
           // tiempo=fecha.getTime("fecha_comienzo_pred"+fecha_comienzo_pred);
           // milisegundos=parseInt(valordias*24*60*60*1000);
           // total=fecha.setTime(tiempo+milisegundos);
-          // day=fecha.getDate();
-          // month=fecha.getMonth()+1;
-          // year=fecha.getFullYear();
+          fecha = new Date(fecha_comienzo_pred);
 
-          // if (month.toString().length < 2) 
-          // {
-          //   console.log('si');
-          //   month = '0' + month;
-          // }
-          // if (day.toString().length < 2) 
-          // {
-          //   console.log('si222');
-          //   day = '0' + day;
-          // }
-          // fecha_CC=year+"-"+month+"-"+day,
-          // console.log("fecha_CC"+fecha_CC);
+            ki=0; 
 
-          // fecha_comienzo=fecha_CC;
+            while (ki<valordias)
+            {
+              fecha.setTime(fecha.getTime()+24*60*60*1000); // añadimos 1 día
+                if (fecha.getDay() == 0 || fecha.getDay() == 6)
+                {
+                  console.log(fecha.getDay());
+                   
+                }                  
+                  else
+                {
+                  console.log(ki);
+                  ki++;
+                }
+            }
+            day=fecha.getDate();
+            month=fecha.getMonth()+1;
+            year=fecha.getFullYear();
+
+            if (month.toString().length < 2) 
+            {           
+              month = '0' + month;
+            }
+            if (day.toString().length < 2) 
+            {          
+              day = '0' + day;
+            }
+            fecha_CC=year+"-"+month+"-"+day,
+            console.log("fecha_CC"+fecha_CC);
+
+            fecha_comienzo=fecha_CC;
 
           break;
       case 'FF':
