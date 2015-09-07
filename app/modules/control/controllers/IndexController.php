@@ -25,6 +25,12 @@ class Control_IndexController extends Zend_Controller_Action {
     	
     }
 
+    public function angularpracticaAction() {
+      
+      $this->_helper->layout()->disableLayout();
+      
+    }
+
     public function curvasAction() {
       
       $this->_helper->layout()->disableLayout();

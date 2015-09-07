@@ -1,9 +1,60 @@
 app.factory('httpFactory', ['$http','$q', function($http,$q) {
   var url = '/proyecto/index/';
   var url_print = '/control/print/';
+  var url_control = '/control/funciones/';
   //var url = '/controldocumentario/index/'; 
 
   var publico = {
+    getAreas: function(isproyecto) {
+      var defered = $q.defer();
+      var promise = defered.promise;
+
+      //alert(isproyecto);
+      
+      $http.get(url_control + 'llamarareas/isproyecto/'+isproyecto)
+      .success(function(data) {
+        defered.resolve(data);
+      })
+      .error(function(err) {
+        defered.reject(err);
+      });
+      return promise;
+    },
+
+    setGuardarArea: function(nombre,areaid) {
+      var defered = $q.defer();
+      var promise = defered.promise;
+
+      //alert(isproyecto);
+      
+      $http.get(url_control + 'guardararea/nombre/'+nombre+"/areaid/"+areaid)
+      .success(function(data) {
+        defered.resolve(data);
+      })
+      .error(function(err) {
+        defered.reject(err);
+      });
+      return promise;
+    },
+
+    setEliminarxArea: function(areaid) {
+      var defered = $q.defer();
+      var promise = defered.promise;
+
+      //alert(isproyecto);
+      
+      $http.get(url_control + 'eliminarea/areaid/'+areaid)
+      .success(function(data) {
+        defered.resolve(data);
+      })
+      .error(function(err) {
+        defered.reject(err);
+      });
+      return promise;
+    },
+
+
+
     getIntegrantes: function(){
       return $http.get(url + 'verjson')
       //return $http.get(url + 'integrantes')
@@ -75,34 +126,44 @@ app.factory('httpFactory', ['$http','$q', function($http,$q) {
       return promise;
     },
 
-    setModificarxPerformance: function(codigo_prop_proy,codigo_actividad,actividadid,cronogramaid,codigo_cronograma,codigo_performance,fecha_calculo_performance,
-      proyectoid,revision_cronograma,fecha_ingreso_performance,revision_propuesta,costo_real,horas_real,fecha_comienzo_real,fecha_fin_real,
-      fecha_fin,fecha_comienzo,porcentaje_calculo,nivel_esquema,predecesoras,sucesoras,costo_presupuesto,duracion
+    setModificarxPerformance: function(
+      codigo_prop_proy,codigo_actividad,actividadid,cronogramaid,codigo_cronograma,codigo_performance,
+      proyectoid,revision_cronograma,fecha_ingreso_performance,revision_propuesta,
+      costo_real,horas_real,costo_propuesta,horas_propuesta,horas_planificado,costo_planificado,porcentaje_planificado,
+      porcentaje_real,fecha_comienzo_real,fecha_fin_real,
+      fecha_fin,fecha_comienzo,nivel_esquema,predecesoras,sucesoras,duracion
+
       ) {
       var defered = $q.defer();
       var promise = defered.promise;
+        //console.log("predecesoras"+predecesoras);
       $http.post(url + 'modificarperformancepadre/codigo_prop_proy/' + codigo_prop_proy+
         "/codigo_actividad/"+codigo_actividad+
         "/actividadid/"+actividadid+
         "/cronogramaid/"+cronogramaid+
         "/codigo_cronograma/"+codigo_cronograma+
         "/codigo_performance/"+codigo_performance+        
-        "/fecha_calculo_performance/"+fecha_calculo_performance+
         "/proyectoid/"+proyectoid+
+   
         "/revision_cronograma/"+revision_cronograma+
         "/fecha_ingreso_performance/"+fecha_ingreso_performance+
         "/revision_propuesta/"+revision_propuesta+
         "/costo_real/"+costo_real+
-        "/horas_real/"+horas_real+       
+        "/horas_real/"+horas_real+
+        "/costo_propuesta/"+costo_propuesta+  
+        "/horas_propuesta/"+horas_propuesta+
+        "/horas_planificado/"+horas_planificado+
+        "/costo_planificado/"+costo_planificado+
+        "/porcentaje_planificado/"+porcentaje_planificado+
+        "/porcentaje_real/"+porcentaje_real+     
         "/fecha_comienzo_real/"+fecha_comienzo_real+
-        "/fecha_fin_real/"+fecha_fin_real
-        +"/fecha_fin/"+fecha_fin+  
+        "/fecha_fin_real/"+fecha_fin_real+
+        "/fecha_fin/"+fecha_fin+  
         "/fecha_comienzo/"+fecha_comienzo+  
-        "/porcentaje_calculo/"+porcentaje_calculo+  
+        
         "/nivel_esquema/"+nivel_esquema+  
         "/predecesoras/"+predecesoras+  
         "/sucesoras/"+sucesoras+  
-        "/costo_presupuesto/"+costo_presupuesto+  
         "/duracion/"+duracion 
       )
       .success(function(data) {

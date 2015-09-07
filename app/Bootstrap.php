@@ -10,7 +10,10 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
             $view->headMeta()->appendHttpEquiv('Content-Type', 'text/html;charset=utf-8');
             //$view->headMeta()->appendHttpEquiv('Cache-Control', 'no-cache');
 
-            $view->headLink()->prependStylesheet('/external_library/bootstrap/css/bootstrap.min.css')
+            $view
+
+                    //->headLink()->prependStylesheet('/external_library/bootstrap/css/bootstrap.min.css'
+                    ->headLink()->prependStylesheet('/css/bootstrap.min.css')
                      ->headLink()->prependStylesheet('/external_library/bootstrap/css/bootstrap-theme.min.css')
                      ->headLink()->appendStylesheet('/js/api_datatable/yadcf/jquery.dataTables.yadcf.css')
                      ->headLink()->appendStylesheet('/js/api_datatable/chosen/chosen.min.css')
@@ -22,7 +25,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
                      ->headLink()->appendStylesheet('/assets/font-awesome/css/font-awesome.css')
                      ->headLink()->appendStylesheet('/assets/data-tables/DT_bootstrap.css')
                      ->headLink()->appendStylesheet('/assets/fullcalendar/fullcalendar/bootstrap-fullcalendar.css')
-                     ->headLink()->appendStylesheet('/assets/jquery-easy-pie-chart/jquery.easy-pie-chart.css')
+                     //->headLink()->appendStylesheet('/assets/jquery-easy-pie-chart/jquery.easy-pie-chart.css')
                      ->headLink()->appendStylesheet('/css/owl.carousel.css')
                      ->headLink()->appendStylesheet('/css/slidebars.css')
                      ->headLink()->appendStylesheet('/css/soon.css')
@@ -89,7 +92,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
                         ->headScript()->appendFile('/js/jquery.scrollTo.min.js')
                         ->headScript()->appendFile('/js/jquery.nicescroll.js')
                         ->headScript()->appendFile('/js/jquery.sparkline.js')
-                        // ->headScript()->appendFile('/assets/jquery-easy-pie-chart/jquery.easy-pie-chart.js')
+                        ->headScript()->appendFile('/assets/jquery-easy-pie-chart/jquery.easy-pie-chart.js')
                         // ->headScript()->appendFile('/assets/bootstrap-datepicker/js/bootstrap-datepicker.js')
                         // ->headScript()->appendFile('/assets/bootstrap-datetimepicker/js/bootstrap-datetimepicker.js')
                         // ->headScript()->appendFile('/assets/bootstrap-daterangepicker/moment.min.js')
@@ -101,7 +104,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
                         ->headScript()->appendFile('/js/slidebars.min.js')
                         ->headScript()->appendFile('/js/sparkline-chart.js')
                         ->headScript()->appendFile('/js/easy-pie-chart.js')
-                        ->headScript()->appendFile('/js/advanced-form-components.js')
+                        //->headScript()->appendFile('/js/advanced-form-components.js')
                         ->headScript()->appendFile('/js/jquery-ui.js')
                         ->headScript()->appendFile('/js/datepicker-es.js')
                         ->headScript()->appendFile('/js/count.js')

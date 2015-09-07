@@ -1645,41 +1645,45 @@ public function modificarperformancepadreAction() {
    $cronogramaid = $this->_getParam("cronogramaid");
    $codigo_cronograma = $this->_getParam("codigo_cronograma");
    $codigo_performance = $this->_getParam("codigo_performance");   
-   //$fecha_calculo_performance = $this->_getParam("fecha_calculo_performance");
    $proyectoid = $this->_getParam("proyectoid");
    $revision_cronograma = $this->_getParam("revision_cronograma");
-   //$fecha_ingreso_performance = $this->_getParam("fecha_ingreso_performance");  
    $costo_real = $this->_getParam("costo_real");  
    $horas_real = $this->_getParam("horas_real");  
+   $costo_propuesta = $this->_getParam("costo_propuesta");  
+   $horas_propuesta = $this->_getParam("horas_propuesta");  
+   $horas_planificado = $this->_getParam("horas_planificado");  
+   $costo_planificado = $this->_getParam("costo_planificado");  
+   $porcentaje_planificado = $this->_getParam("porcentaje_planificado");  
+   $porcentaje_real = $this->_getParam("porcentaje_real"); 
+
    $fecha_comienzo_real = $this->_getParam("fecha_comienzo_real");  
    $fecha_fin_real = $this->_getParam("fecha_fin_real");
+   $fecha_fin = $this->_getParam("fecha_fin"); 
+   $fecha_comienzo = $this->_getParam("fecha_comienzo");
+   $nivel_esquema = $this->_getParam("nivel_esquema");
+   $predecesoras = $this->_getParam("predecesoras"); 
 
-    $fecha_fin = $this->_getParam("fecha_fin"); 
- 
-    $fecha_comienzo = $this->_getParam("fecha_comienzo");  
- 
-    $porcentaje_calculo = $this->_getParam("porcentaje_calculo");  
 
-    $nivel_esquema = $this->_getParam("nivel_esquema");  
+   $predecesoras = str_replace(" ", "+", $predecesoras);
 
-    $predecesoras = $this->_getParam("predecesoras");  
-
-    $sucesoras = $this->_getParam("sucesoras");  
-
-    $costo_presupuesto = $this->_getParam("costo_presupuesto");  
-
-    $duracion = $this->_getParam("duracion");  
+   $sucesoras = $this->_getParam("sucesoras");    
+   $duracion = $this->_getParam("duracion");  
 
   $where = array('codigo_prop_proy' => $codigo_prop_proy,'codigo_actividad' => $codigo_actividad,'actividadid' => $actividadid,
    'cronogramaid' => $cronogramaid,'codigo_cronograma' => $codigo_cronograma,'codigo_performance' => $codigo_performance,
    'proyectoid' => $proyectoid,'revision_cronograma' => $revision_cronograma,);
 
   $data = array('costo_real' => $costo_real,'horas_real' => $horas_real,
+  'costo_propuesta' => $costo_propuesta,'horas_propuesta' => $horas_propuesta,
+  'horas_planificado' => $horas_planificado,'costo_planificado' => $costo_planificado,
+  'porcentaje_planificado' => $porcentaje_planificado,'porcentaje_real' => $porcentaje_real,
+  
   'fecha_comienzo_real' => $fecha_comienzo_real,'fecha_fin_real' => $fecha_fin_real,
   'fecha_fin' => $fecha_fin,'fecha_comienzo' => $fecha_comienzo,
-  'porcentaje_calculo' => $porcentaje_calculo,'predecesoras' => $predecesoras,
-  'sucesoras' => $sucesoras,'costo_presupuesto' => $costo_presupuesto,'duracion' => $duracion,
-  'fecha_ingreso_performance' => date("Y-m-d"),'fecha_calculo_performance' => date("Y-m-d"),
+  'predecesoras' => $predecesoras,
+  'nivel_esquema' => $nivel_esquema,
+  'sucesoras' => $sucesoras,'duracion' => $duracion,
+  'fecha_ingreso_performance' => date("Y-m-d")
    );
 
   $modificarperformance= new Admin_Model_DbTable_Performance();
@@ -1729,7 +1733,7 @@ public function proyectoxperformanceAction() {
       $wheredet['actividadid']=$keyper['actividadid'];
       $wheredet['codigo_performance']=$keyper['codigo_performance']; 
       $attrib = null;
-      $order = array('fecha_performance ASC');
+      $order = array('actividadid asc');
 
       $performancedetalle=new Admin_Model_DbTable_Performancedetalle();
       $pdetalle=$performancedetalle->_getFilter($wheredet,$attrib,$order);
@@ -1746,19 +1750,27 @@ public function proyectoxperformanceAction() {
         'codigo_performance' =>$keyper['codigo_performance'],
         'revision_propuesta' =>$keyper['revision_propuesta'],
         'fecha_ingreso_performance' =>$keyper['fecha_ingreso_performance'],
-        'fecha_calculo_performance' =>$keyper['fecha_calculo_performance'],
+        //'fecha_calculo_performance' =>$keyper['fecha_calculo_performance'],
         'costo_real' =>$keyper['costo_real'],
         'horas_real' =>$keyper['horas_real'],
+        'costo_propuesta' =>$keyper['costo_propuesta'],
+        'horas_propuesta' =>$keyper['horas_propuesta'],
+        'horas_planificado' =>$keyper['horas_planificado'],
+        'costo_planificado' =>$keyper['costo_planificado'],
+
+        'duracion' =>$keyper['duracion'],
+        'porcentaje_planificado' =>$keyper['porcentaje_planificado'],
+        'porcentaje_real' =>$keyper['porcentaje_real'],
+        
+
         'fecha_comienzo_real' =>$keyper['fecha_comienzo_real'],
         'fecha_fin_real' =>$keyper['fecha_fin_real'],
         'fecha_comienzo' =>$keyper['fecha_comienzo'],
         'fecha_fin' =>$keyper['fecha_fin'],
-        'porcentaje_calculo' =>$keyper['porcentaje_calculo'],
+        
         'nivel_esquema' =>$keyper['nivel_esquema'],
         'predecesoras' =>$keyper['predecesoras'],
         'sucesoras' =>$keyper['sucesoras'],
-        'costo_presupuesto' =>$keyper['costo_presupuesto'],
-        'duracion' =>$keyper['duracion'],
         'items'=> $pdetalle);
       $i++;  
       } 

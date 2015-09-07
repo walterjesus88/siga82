@@ -79,6 +79,8 @@ function(httpFactory, $location, $q) {
       }
     },
 
+
+
     setDatosxCambiarxEstadoproyecto: function(codigo,estado,codigo_prop_proy) {
       var defered = $q.defer();
       var promise = defered.promise;
@@ -171,10 +173,23 @@ function(httpFactory, $location, $q) {
       return promise;      
     },
 
-    setActualizarPerformance: function(codigo_prop_proy,codigo_actividad,actividadid,cronogramaid,codigo_cronograma,codigo_performance,fecha_calculo_performance,proyectoid,revision_cronograma,fecha_ingreso_performance,revision_propuesta,costo_real,horas_real,fecha_comienzo_real,fecha_fin_real,fecha_fin,fecha_comienzo,porcentaje_calculo,nivel_esquema,predecesoras,sucesoras,costo_presupuesto,duracion) {
+    setActualizarPerformance: function(
+      codigo_prop_proy,codigo_actividad,actividadid,cronogramaid,codigo_cronograma,codigo_performance,
+      proyectoid,revision_cronograma,fecha_ingreso_performance,revision_propuesta,
+      costo_real,horas_real,costo_propuesta,horas_propuesta,horas_planificado,costo_planificado,porcentaje_planificado,
+      porcentaje_real,fecha_comienzo_real,fecha_fin_real,
+      fecha_fin,fecha_comienzo,nivel_esquema,predecesoras,sucesoras,duracion
+
+      ) {
       var defered = $q.defer();
       var promise = defered.promise;
-      httpFactory.setModificarxPerformance(codigo_prop_proy,codigo_actividad,actividadid,cronogramaid,codigo_cronograma,codigo_performance,fecha_calculo_performance,proyectoid,revision_cronograma,fecha_ingreso_performance,revision_propuesta,costo_real,horas_real,fecha_comienzo_real,fecha_fin_real,fecha_fin,fecha_comienzo,porcentaje_calculo,nivel_esquema,predecesoras,sucesoras,costo_presupuesto,duracion)
+      httpFactory.setModificarxPerformance(
+        codigo_prop_proy,codigo_actividad,actividadid,cronogramaid,codigo_cronograma,codigo_performance,
+        proyectoid,revision_cronograma,fecha_ingreso_performance,revision_propuesta,
+        costo_real,horas_real,costo_propuesta,horas_propuesta,horas_planificado,costo_planificado,porcentaje_planificado,
+        porcentaje_real,fecha_comienzo_real,fecha_fin_real,
+        fecha_fin,fecha_comienzo,nivel_esquema,predecesoras,sucesoras,duracion
+        )
       .then(function(data) {
         datos = data;
         defered.resolve(datos);
@@ -478,6 +493,43 @@ function(httpFactory, $location, $q) {
 
 ///////////////////////F I N   L I S T A  D E  E N T R E G A B L E S /////////////////////////
 
+
+
+//prueba de area //////////////
+
+    setDatosxGuardarxArea: function(nombre,areaid) {
+      var defered = $q.defer();
+      var promise = defered.promise;     
+
+      httpFactory.setGuardarArea(nombre,areaid)
+      .then(function(data) {
+        datos = data;
+        defered.resolve(datos);
+      })
+      .catch(function(err) {
+        defered.reject(err);
+      });
+      return promise;      
+    },
+
+    setDatosxEliminarxArea: function(areaid) {
+      var defered = $q.defer();
+      var promise = defered.promise;     
+
+      httpFactory.setEliminarxArea(areaid)
+      .then(function(data) {
+        datos = data;
+        defered.resolve(datos);
+      })
+      .catch(function(err) {
+        defered.reject(err);
+      });
+      return promise;      
+    },
+
+////////////////////////////////
+
+  
 
 
   }
