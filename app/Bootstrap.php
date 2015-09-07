@@ -10,7 +10,10 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
             $view->headMeta()->appendHttpEquiv('Content-Type', 'text/html;charset=utf-8');
             //$view->headMeta()->appendHttpEquiv('Cache-Control', 'no-cache');
 
-            $view->headLink()->prependStylesheet('/external_library/bootstrap/css/bootstrap.min.css')
+            $view
+
+                    //->headLink()->prependStylesheet('/external_library/bootstrap/css/bootstrap.min.css'
+                    ->headLink()->prependStylesheet('/css/bootstrap.min.css')
                      ->headLink()->prependStylesheet('/external_library/bootstrap/css/bootstrap-theme.min.css')
                      ->headLink()->appendStylesheet('/js/api_datatable/yadcf/jquery.dataTables.yadcf.css')
                      ->headLink()->appendStylesheet('/js/api_datatable/chosen/chosen.min.css')
@@ -34,16 +37,17 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
                      ->headLink()->appendStylesheet('/css/angular-chart.css');
 
             $view   ->headScript()->appendFile('/js/jquery.js')
-                        ->headScript()->appendFile('/js/api_datatable/api.datatable.js')
+                        ->headScript()->appendFile('/js/adt/vendor/datatables/media/js/jquery.dataTables.js')
+                        ->headScript()->appendFile('/external_library/bootstrap/js/dataTables.bootstrap.min.js')
                         ->headScript()->appendFile('/js/api_datatable/chosen/chosen.jquery.min.js')
                         ->headScript()->appendFile('/js/api_datatable/chosen/chosen.proto.min.js')
                         ->headScript()->appendFile('/js/api_datatable/yadcf/jquery.dataTables.yadcf.js')
+                        ->headScript()->appendFile('/js/api_datatable/api.datatable.js')
                         ->headScript()->appendFile('/js/metodosglobales.js')
                         ->headScript()->appendFile('/js/jquery-ui-1.9.2.custom.min.js')
                         ->headScript()->appendFile('/js/jquery-migrate-1.2.1.min.js')
                         ->headScript()->appendFile('/js/bootstrap.min.js')
                         //begin: librerias para el funcionamiento de angular datatable
-                        ->headScript()->appendFile('/js/adt/vendor/datatables/media/js/jquery.dataTables.js')
                         ->headScript()->appendFile('/js/adt/vendor/highlightjs/highlight.pack.js')
                         ->headScript()->appendFile('/js/adt/vendor/backtotop/backtotop.min.js')
                         ->headScript()->appendFile('/js/adt/vendor/angular/angular.js')
@@ -116,11 +120,13 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 
             $view->headTitle()->setSeparator(' - ');
             $view->headTitle('Sistema de Planificación y Control | Anddes');
+            // $view->setHelperPath(APPLICATION_PATH . "/helpers","Timesheet_View_Helper");
             Zend_Session::start();
             Zend_Layout::startMvc(APPLICATION_PATH . '/layouts/scripts');
             $view = Zend_Layout::getMvcInstance()->getView();
             $viewRenderer = Zend_controller_Action_HelperBroker::getStaticHelper('ViewRenderer');
             $viewRenderer->setView($view);
+            Zend_Controller_Action_HelperBroker::addPath(APPLICATION_PATH .'/helpers',"Timesheet_View_Helper");
             $moneda = new Zend_Locale('es_PE');
             Zend_Registry::set('Zend_Locale', $moneda);
             return;

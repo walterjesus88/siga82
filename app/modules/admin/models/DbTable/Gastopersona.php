@@ -1,10 +1,10 @@
-<?php 
+<?php
 class Admin_Model_DbTable_Gastopersona extends Zend_Db_Table_Abstract
 {
     protected $_name = 'gasto_persona';
     protected $_primary = array("codigo_prop_proy", "proyectoid", "revision", "categoriaid", "gastoid", "uid", "dni", "gasto_persona_id");
 
-     /* Lista toda las Personas */    
+     /* Lista toda las Personas */
     public function _getGastopersonaAll(){
         try{
             $f = $this->fetchAll();
@@ -40,7 +40,7 @@ class Admin_Model_DbTable_Gastopersona extends Zend_Db_Table_Abstract
     {
         try{
 
-        
+
             //if ($pk['codigo_prop_proy']=='' ||  $pk['propuestaid']=='' ||  $pk['revision']=='' ) return false;
             $where = "codigo_prop_proy = '".$pk['codigo_prop_proy']."' and proyectoid='".$pk['proyectoid']."' and revision='".$pk['revision']."'
             and uid='".$pk['uid']."' and dni='".$pk['dni']."' and numero_rendicion='".$pk['numero_rendicion']."' ";
@@ -81,7 +81,7 @@ class Admin_Model_DbTable_Gastopersona extends Zend_Db_Table_Abstract
                 if ($orders<>null || $orders<>"") {
                     if (is_array($orders))
                         $select->order($orders);
-                }   
+                }
                 $results = $select->query();
                 $rows = $results->fetchAll();
                 if ($rows) return $rows;
@@ -108,8 +108,8 @@ class Admin_Model_DbTable_Gastopersona extends Zend_Db_Table_Abstract
         try{
             if ($fecha_gasto=='' || $uid=='' || $dni=='') return false;
             $sql=$this->_db->query("
-               select proyectoid from gasto_persona 
-               where fecha_gasto='$fecha_gasto' and uid='$uid' and dni='$dni' 
+               select proyectoid from gasto_persona
+               where fecha_gasto='$fecha_gasto' and uid='$uid' and dni='$dni'
                group by proyectoid order by proyectoid;
             ");
             $row=$sql->fetchAll();
@@ -124,8 +124,8 @@ class Admin_Model_DbTable_Gastopersona extends Zend_Db_Table_Abstract
         try{
             if ($numero=='' || $uid=='' || $dni=='') return false;
             $sql=$this->_db->query("
-               select proyectoid from gasto_persona 
-               where numero_rendicion='$numero' and uid='$uid' and dni='$dni' 
+               select proyectoid from gasto_persona
+               where numero_rendicion='$numero' and uid='$uid' and dni='$dni'
                group by proyectoid order by proyectoid;
             ");
             $row=$sql->fetchAll();
@@ -148,5 +148,41 @@ class Admin_Model_DbTable_Gastopersona extends Zend_Db_Table_Abstract
         }catch (Exception $e){
             print "Error: Read One Add ".$e->getMessage();
         }
+    }
+
+    public function _count_datatable($where){
+        try {
+            $select = $this->_db
+                            ->select()
+                            ->from(new Zend_Db_Expr('(' . $this->_select_datatable() . ')'), "COUNT(*) AS total");
+            $results = $select->query();
+            $rows = $results->fetchAll();
+            if ($rows) return $rows;
+            return false;
+        } catch (Exception $e) {
+            print "Error: Read One Condition".$e->getMessage();
+        }
+    }
+    public function _dataTable($page, $per_page, $sort_column, $sort_direction, $where){
+        try {
+            $select = $this->_select_datatable()
+                        ->order($sort_column)
+                        ->limit($per_page, $page);
+            $results = $select->query();
+            $rows = $results->fetchAll();
+            if ($rows) return $rows;
+            return false;
+        } catch (Exception $e) {
+            print "Error: Read fetch datatable ".$e->getMessage();
+        }
+    }
+    public function _select_datatable(){
+        return $this->_db
+                    ->select()
+                    ->from(array("gp" => "gasto_persona"))
+                    ->join(array('p' => 'proyecto'),
+                                'gp.proyectoid = p.proyectoid')
+                    ->join(array('u' => 'usuario'),
+                                'gp.uid = u.uid');
     }
 }

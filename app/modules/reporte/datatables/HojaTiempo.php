@@ -6,11 +6,11 @@
     public function as_json($params)
     {
       $tb_sheet_time =  new Admin_Model_DbTable_Tareopersona();
-      $count_all = $tb_sheet_time ->_count_all();
+      $count_all = $tb_sheet_time ->_count_all($params);
       return array(
         'sEcho' => intval($params["sEcho"]),
-        'iTotalRecords' => $count_all[0]['count'],
-        'iTotalDisplayRecords' => $count_all[0]['count'],
+        'iTotalRecords' => 1752,//$count_all[0]['total'],
+        'iTotalDisplayRecords' => 124,//$count_all[0]['total'],
         'aaData'=> $this->data($params)
       );
     }

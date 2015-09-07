@@ -1,4 +1,5 @@
 <?php
+$helper = $this->_helper->getHelper('timesheetstatename');
 error_reporting(E_ALL);
 ini_set('display_errors', TRUE);
 ini_set('display_startup_errors', TRUE);
@@ -27,8 +28,6 @@ for ($i = 0; $i < count($data); $i++) {
               ->setCellValue('C' . $row, $data[$i]['semanaid'])
               ->setCellValue('G' . $row, $data[$i]['estado']);
 }
-
-
 
 $objPHPExcel->setActiveSheetIndex(0);
 header('Content-Type: application/vnd.ms-excel');
