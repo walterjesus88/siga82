@@ -75,7 +75,9 @@
 				{{ performance.nombre}}
 			</td>
  			<td>
+ 				<span editable-text="performance.predecesoras" e-form="tableform" onbeforesave="checkName($data, performance.codigo_performance)">
 				{{ performance.predecesoras }}
+				</span>
 			</td>
           	<td>			
 				<span editable-text="performance.horas_propuesta" e-form="tableform" onbeforesave="checkName($data, performance.codigo_performance)">
