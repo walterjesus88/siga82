@@ -15,17 +15,21 @@ $objPHPExcel->getActiveSheet()
             ->setCellValue('E1', 'Estado de Aprovación');
 
 $sheet_times = new Reporte_DataTable_HojaTiempo();
+$tb_area = new Admin_Model_DbTable_Area();
 $data = $sheet_times->sheet_times($this->params);
 $objPHPExcel->getActiveSheet()->setTitle('Reporte HT');
 $row = 1;
 for ($i = 0; $i < count($data); $i++) {
   $row += 1;
   $objPHPExcel->getActiveSheet()
-              ->setCellValue('A' . $row, $data[$i]['areaid'])
+              ->setCellValue('A' . $row, $$data[$i]['areaid'])
               ->setCellValue('B' . $row, $data[$i]['uid'])
               ->setCellValue('C' . $row, $data[$i]['semanaid'])
               ->setCellValue('G' . $row, $data[$i]['estado']);
 }
+
+
+
 $objPHPExcel->setActiveSheetIndex(0);
 header('Content-Type: application/vnd.ms-excel');
 header('Content-Disposition: attachment;filename="Reporte HT Rev B.xls"');
@@ -42,3 +46,4 @@ header ('Pragma: public'); // HTTP/1.0
 $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
 $objWriter->save('php://output');
 exit;
+

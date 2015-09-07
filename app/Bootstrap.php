@@ -10,8 +10,14 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
             $view->headMeta()->appendHttpEquiv('Content-Type', 'text/html;charset=utf-8');
             //$view->headMeta()->appendHttpEquiv('Cache-Control', 'no-cache');
 
-            $view->headLink()->prependStylesheet('/css/bootstrap.min.css')
+            $view->headLink()->prependStylesheet('/external_library/bootstrap/css/bootstrap.min.css')
+                     ->headLink()->prependStylesheet('/external_library/bootstrap/css/bootstrap-theme.min.css')
                      ->headLink()->appendStylesheet('/js/api_datatable/yadcf/jquery.dataTables.yadcf.css')
+                     ->headLink()->appendStylesheet('/js/api_datatable/chosen/chosen.min.css')
+                     ->headLink()->appendStylesheet('/js/api_datatable/api.datatable.css')
+                     ->headLink()->appendStylesheet('/js/api_datatable/dataTables.bootstrap.min.css')
+                     ->headLink()->appendStylesheet('/js/api_datatable/buttons.bootstrap.min.css')
+                     ->headLink()->appendStylesheet('/js/api_datatable/select.bootstrap.min.css')
                      ->headLink()->appendStylesheet('/css/bootstrap-reset.css')
                      ->headLink()->appendStylesheet('/assets/font-awesome/css/font-awesome.css')
                      ->headLink()->appendStylesheet('/assets/data-tables/DT_bootstrap.css')
@@ -29,6 +35,8 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 
             $view   ->headScript()->appendFile('/js/jquery.js')
                         ->headScript()->appendFile('/js/api_datatable/api.datatable.js')
+                        ->headScript()->appendFile('/js/api_datatable/chosen/chosen.jquery.min.js')
+                        ->headScript()->appendFile('/js/api_datatable/chosen/chosen.proto.min.js')
                         ->headScript()->appendFile('/js/api_datatable/yadcf/jquery.dataTables.yadcf.js')
                         ->headScript()->appendFile('/js/metodosglobales.js')
                         ->headScript()->appendFile('/js/jquery-ui-1.9.2.custom.min.js')

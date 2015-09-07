@@ -1,0 +1,12 @@
+.content-filter-datatable{
+  width: 100%;
+}
+.content-filter-datatable .content-elemnt-filter{
+  float: left;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+.icon-export-export{
+  background-image: url('/img/file-search/xls.png');
+  background-repeat: no-repeat;
+}
