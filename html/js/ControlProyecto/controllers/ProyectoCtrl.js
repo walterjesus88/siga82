@@ -12,6 +12,19 @@ function(httpFactory, proyectoFactory,$filter) {
   vp.control_documentario = [];
 
 
+  var isproyecto='S';
+
+  httpFactory.getAreas(isproyecto)
+    .then(function(data) {
+      vp.area=data;
+      //console.log(vp.area); 
+      })
+    .catch(function(err) {
+      vp.area = [];
+    });
+
+
+
   //funcion para obtener los proyectos del servidor
   var listarProyectos = function(estado) {
     httpFactory.getProyectos(estado)

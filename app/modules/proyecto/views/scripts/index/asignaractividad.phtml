@@ -10,12 +10,12 @@ if ($this->equipo) {
     <a href="/proyecto/index/asignaractividad/proyectoid/<?php echo $this->proyectoid ?>/codigo_prop_proy/<?php echo $this->codigo_prop_proy ?>/areaid/<?php echo $this->areaid ?>"> </a>
     <table class="table table-hover" style="padding: 1px;table-layout:auto;" >
         <thead>
-            <tr>  
+            <tr>
                 <th style="width: 250px;">
                     <center>Actividades</center>
                      <!-- <center>Seleccionar todas las actividades</center> -->
                 </th>
-                    
+
 
 <style type="text/css">
     .contscroll{
@@ -27,11 +27,10 @@ if ($this->equipo) {
         overflow: auto;
         /*background-color: #F5FFFA;*/
         background-color: #F0FFFF;
-        
-        
+
     }
 </style>
-                                            
+
                 <?php
                 $c=0;
                 $a=0;
@@ -47,7 +46,7 @@ if ($this->equipo) {
                     //} else {
 
                         // print_r($listaequipo);
-                            
+
                     ?>
 
                     <th style="width: 50px;padding-top: 1px;padding-right: 1px;padding-bottom: 1px;padding-left: 1px;" style="width: 150px; font-size: 10px;" class="p-name" id="nomact_<?php echo $c?>"><center>
@@ -77,17 +76,14 @@ if ($this->equipo) {
                             $acti= new Admin_Model_DbTable_Activaractividad();
                             $activr= $acti-> _getConteoactivar($codigo_prop_proy,$proyectoid,$uid,$dni,$estado,$areaid,$categoriaid);
                         ?>
-                        
-<!-- ---------------------------Seleccionar todo por usuarios--------------------------------------------- -->
-                        
+
+                            <!---Seleccionar todo por usuarios -->
+
                         <br>
 
                         <input name="todoagrega" id="todoagrega_<?php echo $c ?>" value="A_<?php echo $c?>" type="checkbox" >
 
-                        
-
-                        
-                        <script type="text/javascript"> 
+                        <script type="text/javascript">
                         $("#marcar_<?php echo $a ?><?php echo $b ?>").click(function(){ alert("hola");
 
 
@@ -98,19 +94,19 @@ if ($this->equipo) {
                                 //alert('url1');
                                 var j="<?php echo $c ?>";
                                 var toten="<?php echo $cont ?>";
-                                if($("#todoagrega_<?php echo $c?>").is(':checked')) 
-                                {  
-                                    for (i = 0; i < toten; i++){          
+                                if($("#todoagrega_<?php echo $c?>").is(':checked'))
+                                {
+                                    for (i = 0; i < toten; i++){
                                         document.getElementById("agrega_"+i+j).checked=1;
                                     }
                                     estado='A';
-                                    console.log('act');                   
-                                } else {    
-                                    for (i = 0; i < toten; i++){      
+                                    console.log('act');
+                                } else {
+                                    for (i = 0; i < toten; i++){
                                         document.getElementById("agrega_"+i+j).checked=0;
                                     }
                                     estado='I';
-                                    console.log('desact'); 
+                                    console.log('desact');
                                 }
                                 var codigo_prop_proy="<?php echo $listaequipo['codigo_prop_proy'] ?>";
                                 var cargo="<?php echo $listaequipo['cargo'] ?>";
@@ -120,7 +116,7 @@ if ($this->equipo) {
                                 var proyectoid="<?php echo $listaequipo['proyectoid'] ?>";
                                 var categoriaid="<?php echo $listaequipo['categoriaid'] ?>";
                                 var areaid="<?php echo $listaequipo['areaid'] ?>";
-                                var cargo="<?php echo $listaequipo['cargo'] ?>";   
+                                var cargo="<?php echo $listaequipo['cargo'] ?>";
                                 url="/proyecto/index/agregartodoactividad/cargo/"+cargo+"/areaid/"+areaid+"/uid/"+uid+"/dni/"+dni+"/proyectoid/"+proyectoid+"/categoriaid/"+ categoriaid+"/codigo_prop_proy/"+codigo_prop_proy+"/estado/"+estado;
                                 $.ajax({
                                     type: "POST",
@@ -128,59 +124,58 @@ if ($this->equipo) {
                                     data: $(this).serialize(),
                                     dataType: "html",
                                     success: function(data)
-                                    {                                     
-                                      
+                                    {
                                     }
                                 });
                             });
                         </script>
-                        <!-- -------------------------------------------------------------------------- -->
+                        <!--  -->
 
 
                         </center>
-                    </th>                                            
-                <?php 
-                $c++; 
+                    </th>
+                <?php
+                $c++;
                 $a++;
-            } 
-       
+            }
+
 
                 ?>
             </tr>
         </thead>
         <tbody style="font-size: 10px;">
 
-        
+
 
         <?php
             $c=0;
             $a=0;
             foreach ($this->actividades as $listaactividad)
-                {         
+                {
                 ?>
                 <tr>
-                    <td style="width: auto;padding-top: 1px;padding-right: 1px;padding-bottom: 1px;padding-left: 1px;" style="width: auto; font-size: 10px;" id="nomact_<?php echo $c?>">                    
+                    <td style="width: auto;padding-top: 1px;padding-right: 1px;padding-bottom: 1px;padding-left: 1px;" style="width: auto; font-size: 10px;" id="nomact_<?php echo $c?>">
 
-                        <?php 
+                        <?php
                         if ($listaactividad['hijo']=='S')
                         {
                             echo "<center>";
-                            echo "<strong>"; echo $listaactividad['actividadid']; echo "</strong>"; echo " -  "; echo $listaactividad['nombre'];    
+                            echo "<strong>"; echo $listaactividad['actividadid']; echo "</strong>"; echo " -  "; echo $listaactividad['nombre'];
                             echo "</center>";
                         }
                         if ($listaactividad['hijo']=='N')
                         {
-                            echo "<strong>"; echo $listaactividad['actividadid']; echo "</strong>"; echo " -  "; echo $listaactividad['nombre']; 
+                            echo "<strong>"; echo $listaactividad['actividadid']; echo "</strong>"; echo " -  "; echo $listaactividad['nombre'];
                         }
                         ?>
                         <?php //echo strlen($listaactividad['actividadid']) ?>
-                    </td>  
-                            
+                    </td>
+
                      <?php
                        $i=0;
-                       $b=0;              
+                       $b=0;
                       //foreach ($this->actividades as $listaactividad)
-                       foreach ($this->equipo as $listaequipo) 
+                       foreach ($this->equipo as $listaequipo)
                       {
                         $wheres=array('codigo_prop_proy'=>$listaactividad['codigo_prop_proy'],'codigo_actividad'=>$listaactividad['codigo_actividad'],'proyectoid'=>$listaequipo['proyectoid'],'actividadid'=>$listaactividad['actividadid'],'uid'=>$listaequipo['uid'],'dni'=>$listaequipo['dni'],'cargo'=>$listaequipo['cargo'],'areaid'=>$listaequipo['areaid'],'categoriaid'=>$listaequipo['categoriaid']);
 
@@ -189,35 +184,35 @@ if ($this->equipo) {
                           // print_r($activar);
                       ?>
                         <td style="width: auto;padding-top: 1px;padding-right: 1px;padding-bottom: 1px;padding-left: 1px;" > <center>
-                        
+
                           <?php
-                            if($listaactividad['hijo']=='N') 
-                            { 
+                            if($listaactividad['hijo']=='N')
+                            {
 
                               if($activar['estado']=='A' )
-                              {  
+                              {
                                  // print_r(strlen($activar['actividadid']));
                                  ?>
                                   <input id="agrega_<?php echo $c?><?php echo $i?>" type="checkbox"  checked="checked" name="agreg[<?php echo $c?>][<?php echo $i?>]" value="<?php echo $i ?><?php echo $c ?>">
-                             
+
                                 <?php 
                               }
                               else
                               { ?>
-                               
+
                                 <input id="agrega_<?php echo $c?><?php echo $i?>" type="checkbox" name="agreg[<?php echo $c?>][<?php echo $i?>]" value="<?php echo $i ?><?php echo $c ?>" >
-                                <?php 
+                                <?php
                               }
 
                             }
                             else
                             { ?>
                                 <input disabled style="display:none" id="agrega_<?php echo $c?><?php echo $i?>" type="checkbox" name="agreg[<?php echo $c?>][<?php echo $i?>]" value="<?php echo $i ?><?php echo $c ?>" >
-                            <?php 
+                            <?php
                             }
-                            ?>  
+                            ?>
 
-                            
+
 
                             <script type="text/javascript">
                                 var checkboxValues = "";
@@ -231,15 +226,15 @@ if ($this->equipo) {
 
                             </script>
 
-                            <script type="text/javascript">                         
-                                $("#agrega_<?php echo $c?><?php echo $i?>").click(function(){ 
+                            <script type="text/javascript">
+                                $("#agrega_<?php echo $c?><?php echo $i?>").click(function(){
                                 //alert("<?php echo $c?><?php echo $i ?>");
-                                if($("#agrega_<?php echo $c?><?php echo $i?>").is(':checked')) {  
+                                if($("#agrega_<?php echo $c?><?php echo $i?>").is(':checked')) {
                                     estado='A';
-                                    console.log('act'); 
-                                } else {    
+                                    console.log('act');
+                                } else {
                                     estado='I';
-                                    console.log('desact'); 
+                                    console.log('desact');
                                 }
                                 var cargo="<?php echo $listaequipo['cargo'] ?>";
                                 var areaid="<?php echo $listaequipo['areaid'] ?>";
@@ -264,32 +259,32 @@ if ($this->equipo) {
                                     type: "POST",
                                     url: url,
                                     data: $(this).serialize(),
-                                    dataType: "html",                                                 
+                                    dataType: "html",
                                     // error: function(){
                                     //   alert("error petición ajax load");
                                     // },
                                     success: function(data){
                                     }
                               });
-                           });                   
+                           });
                           </script></center>
                         </td>
                      <?php
                       $i++;
-                      }                                 
+                      }
                      ?>
                 </tr>
                 <?php $c++;
             }        }  else {?>
-                
+
                 <!-- echo "No existe persona habilitada"; -->
-                    
-                    
-                <center><b>No existe persona habilitada porfavor habilitar persona</b></center>
-                
+
+
+                <center><b><h4>No existe persona habilitada por favor habilitar persona (+)</h4></b></center>
+
 
                 <?php
-            } 
+            }
           ?>
           </tbody>
     </table>

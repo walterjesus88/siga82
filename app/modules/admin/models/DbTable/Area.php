@@ -11,7 +11,7 @@ class Admin_Model_DbTable_Area extends Zend_Db_Table_Abstract
                 if ($attrib=='') $select->from("area");
                 else $select->from("area",$attrib);
                 foreach ($where as $atri=>$value){
-                    $select->where("$atri = ?", $value);                    
+                    $select->where("$atri = ?", $value);
                 }
                 if ($orders<>null || $orders<>"") {
                     if (is_array($orders))
