@@ -38,7 +38,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 
             $view   ->headScript()->appendFile('/js/jquery.js')
                         ->headScript()->appendFile('/js/adt/vendor/datatables/media/js/jquery.dataTables.js')
-                        ->headScript()->appendFile('/external_library/bootstrap/js/dataTables.bootstrap.min.js')
+                        //->headScript()->appendFile('/external_library/bootstrap/js/dataTables.bootstrap.min.js')
                         ->headScript()->appendFile('/js/api_datatable/chosen/chosen.jquery.min.js')
                         ->headScript()->appendFile('/js/api_datatable/chosen/chosen.proto.min.js')
                         ->headScript()->appendFile('/js/api_datatable/yadcf/jquery.dataTables.yadcf.js')
