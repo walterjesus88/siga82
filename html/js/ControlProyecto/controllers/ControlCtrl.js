@@ -687,17 +687,19 @@ va.saveTable = function() {
   cadena= predecesoras;
   //console.log("cadena"+cadena);
 
+// fecvvv='2015-04-28';
+// fecvvv = fecvvv.replace(/-/g, '/');
+// console.log(fecvvv);
 
-// hoy = new Date('2015-04-27'); 
-// i=0; 
-// while (i<6) {
-//   hoy.setTime(hoy.getTime()+24*60*60*1000); // añadimos 1 día
-//     if (hoy.getDay() == 0 || hoy.getDay() == 6   )
+// hoy = new Date(fecvvv); 
+// i=1; 
+// while (i<=12-1) {
+//     hoy.setTime(hoy.getTime()-24*60*60*1000); // añadimos 1 día
+//     if (hoy.getDay() == 6  || hoy.getDay() == 0    )
 //     {
 //       console.log(hoy.getDay());
 //       //i--;
-//     }
-  
+//     }  
 //     else
 //     {
 //       console.log(hoy.getDay());
@@ -705,11 +707,17 @@ va.saveTable = function() {
 //     }
 // }
 
-// mes = hoy.getMonth()+1;
-// if (mes<10) mes = '0'+mes;
-// fecha = hoy.getDate()+ '-' + mes + '-' + hoy.getFullYear(); 
-// console.log(fecha);
+// day=hoy.getDate();
+// month=hoy.getMonth()+1;
+// year=hoy.getFullYear();
 
+// if (month.toString().length < 2) 
+// {  month = '0' + month; }
+// if (day.toString().length < 2) 
+// {  day = '0' + day;}
+// fecha_menos=year+"-"+month+"-"+day,
+
+// console.log("fecha_menos"+fecha_menos);
 // console.log(jik);
 
 
@@ -736,100 +744,104 @@ if( cadena!=null)
           signo=['+','-'];
 
           for (var i = signo.length - 1; i >= 0; i--) {
-            signo[i];
+            
+
             if(cadena.indexOf(signo[i])!=-1)
             {
-               posiciondelmas = cadena.indexOf(signo[i]);
-         
-
-              console.log("signo"+signo[i]);
+              posiciondelmas = cadena.indexOf(signo[i]);        
+              //console.log("signo"+signo[i]);
               //console.log("posiciondelmas"+posiciondelmas);
               if(posiciondelmas!=-1)
               {
-                console.log("posiciondelmas"+posiciondelmas);
+                //console.log("posiciondelmas"+posiciondelmas);
                 valordias=cadena.substring(posiciondelmas+1);       
-                console.log("valordias"+valordias);
+                //console.log("valordias"+valordias);
               }
               else
               {
                 valordias=1;
-                console.log("valordias1110000"+valordias);
+                //console.log("valordias1110000"+valordias);
               }
               //EXTRAE EL ITEM//
               valoritem=cadena.substring(0, posicion);
-              console.log("valoritem"+valoritem);
-              console.log(va.performance[valoritem]);          
+              //console.log("valoritem"+valoritem);
+              //console.log(va.performance[valoritem]);          
               fecha_comienzo_pred=va.performance[valoritem]['fecha_comienzo'];
               fecha_fin_pred=va.performance[valoritem]['fecha_fin'];
 
-              console.log("fecha_fin_pred"+fecha_fin_pred);
-              
-              fecha = new Date(fecha_fin_pred);
+              //console.log("fecha_fin_pred"+fecha_fin_pred);              
               // tiempo=fecha.getTime();
               // console.log("getTime"+tiempo);
-
               if(signo[i]=='+')
               {
-              
-                // console.log("vcccccccccmas"+valordias);
-                // milisegundos=parseInt(valordias*24*60*60*1000);
-                // total=fecha.setTime(tiempo+milisegundos);
+                //S U M A 
+                // F U N C I O N  P A R A  E L I M I N A R  S A B A D O S  Y  D O M I N G O S // 
+                fecha = new Date(fecha_fin_pred);
 
-                //hoy = new Date(fecha_fin_pred); 
-
-                 ki=0; 
+                ki=0; 
                 while (ki<valordias) {
-                  console.log("la fecha sumo");
-
+                  
                    fecha.setTime(fecha.getTime()+24*60*60*1000); // añadimos 1 día
-                    if (fecha.getDay() == 0 || fecha.getDay() == 6   )
-                    {
-                      console.log(fecha.getDay());
-                      
-                    }                  
+                    if (fecha.getDay() == 0 || fecha.getDay() == 6)
+                    { // console.log(fecha.getDay());     
+                     }                  
                     else
                     {
-                //       console.log(fecha.getDay());
-                      console.log(ki);
+               //       console.log(ki);
                       ki++;
                     }
                  }
-                  //console.log(ff);
+                
               }
               else
               {
-                valordias=parseInt(valordias)-1;
-                console.log("vcccccccccmenos"+valordias);
+                //RESTA
+                // F U N C I O N  P A R A  E L I M I N A R  S A B A D O S  Y  D O M I N G O S // 
+                //console.log("vcccccccccmenos"+valordias);            
+                fecha_fin_pred = fecha_fin_pred.replace(/-/g, '/');
 
-                milisegundos=parseInt(valordias*24*60*60*1000);
-                total=fecha.setTime(tiempo-milisegundos);
-                console.log("la fecha resto"+total);
+                console.log("fecha trans"+fecha_fin_pred);
+                fecha = new Date(fecha_fin_pred);
+                //milisegundos=parseInt(valordias*24*60*60*1000);
+                //total=fecha.setTime(tiempo-milisegundos);
+                //console.log("la fecha resto"+total);
+
+                //hoy = new Date('2015/04/27'); 
+                ki=1; 
+                while (ki<=12-1) {
+                    fecha.setTime(fecha.getTime()-24*60*60*1000); // añadimos 1 día
+                    if (fecha.getDay() == 6  || fecha.getDay() == 0    )
+                    {
+                      console.log(fecha.getDay());
+                      //i--;
+                    }  
+                    else
+                    {
+                      console.log(fecha.getDay());
+                      ki++;
+                    }
+                }
+
               }
 
-              // mes = fecha.getMonth()+1;
-              // if (mes<10) mes = '0'+mes;
-              // fecha = fecha.getDate()+ '-' + mes + '-' + fecha
-              // .getFullYear(); 
-              // console.log("mierda de fecha"+fecha);
+                day=fecha.getDate();
+                month=fecha.getMonth()+1;
+                year=fecha.getFullYear();
 
-              day=fecha.getDate();
-              month=fecha.getMonth()+1;
-              year=fecha.getFullYear();
+                if (month.toString().length < 2) 
+                {  month = '0' + month;
+                }
+                if (day.toString().length < 2) 
+                {  day = '0' + day;
+                }
+                fecha_FC=year+"-"+month+"-"+day,
+                fecha_comienzo=fecha_FC;
+                console.log("fecha_FC"+fecha_FC); 
 
-              if (month.toString().length < 2) 
-              {
-                console.log('si');
-                month = '0' + month;
-              }
-              if (day.toString().length < 2) 
-              {
-                console.log('si222');
-                day = '0' + day;
-              }
-              fecha_FC=year+"-"+month+"-"+day,
-              fecha_comienzo=fecha_FC;
-              console.log("fecha_FC"+fecha_FC); 
-
+            }
+            else
+            {
+              alert("com FC SIN paramentro");
             }
           };
 
@@ -842,53 +854,88 @@ if( cadena!=null)
       case 'CC':
           console.log("CC-----------");   
 
-          // posicion = cadena.indexOf(texto[i]);
+          posicion = cadena.indexOf(texto[i]);     
 
+          signo=['+','-'];
 
-          // posiciondelmas = cadena.indexOf('+');
-          // //console.log("posicion"+posicion);
-          // if(posiciondelmas!=-1)
-          // {
-          //   console.log("posiciondelmas"+posiciondelmas);
-          //   valordias=cadena.substring(posiciondelmas+1);       
-          //   console.log("valordias"+valordias);
-          // }
-          // else
-          // {
-          //   valordias=1;
-          //   console.log("valordias"+valordias);
+          for (var i = signo.length - 1; i >= 0; i--) {
+           // if(cadena.indexOf(signo[i])!=-1)
+           // {
+              
+              posiciondelmas = cadena.indexOf(signo[i]); 
+              if(posiciondelmas!=-1)
+              {
+                valordias=cadena.substring(posiciondelmas+1);   
+              } 
+              else
+              {
+                valordias=1;
+                alert("com cC SIN paramentro");
 
-          // }       
-          // //EXTRAE EL ITEM//
-          // valoritem=cadena.substring(0, posicion);
-          // console.log("valoritem"+valoritem);
-          // console.log(va.performance[valoritem]);          
-          // fecha_comienzo_pred=va.performance[valoritem]['fecha_comienzo'];
-          // fecha_fin_pred=va.performance[valoritem]['fecha_fin'];
+              }
 
+              // //EXTRAE EL ITEM//
+              valoritem=cadena.substring(0, posicion);
+              console.log("valoritem"+valoritem);
+              console.log(va.performance[valoritem]);          
+              fecha_comienzo_pred=va.performance[valoritem]['fecha_comienzo'];
+              fecha_fin_pred=va.performance[valoritem]['fecha_fin'];
+
+              if(signo[i]=='+')
+              {
+
+                fecha = new Date(fecha_comienzo_pred);
+                ki=0; 
+                while (ki<valordias)
+                {
+                  fecha.setTime(fecha.getTime()+24*60*60*1000); // añadimos 1 día
+                    if (fecha.getDay() == 0 || fecha.getDay() == 6)
+                    {
+                     // console.log(fecha.getDay());                       
+                    }                  
+                      else
+                    {
+                      //console.log(ki);
+                      ki++;
+                    }
+                }
+
+              }
+              else
+              {
+                  //// L A R E S T A   D E  C C /////////
+              }
+
+                day=fecha.getDate();
+                month=fecha.getMonth()+1;
+                year=fecha.getFullYear();
+
+                if (month.toString().length < 2) 
+                {           
+                  month = '0' + month;
+                }
+                if (day.toString().length < 2) 
+                {          
+                  day = '0' + day;
+                }
+                fecha_CC=year+"-"+month+"-"+day,
+                console.log("fecha_CC"+fecha_CC);
+
+                fecha_comienzo=fecha_CC;
+            //}
+            //else
+           // {
+             // alert("com cC SIN paramentro");
+           // }
+
+          }
+     
+     
           // console.log("fecha_comienzo_pred"+fecha_comienzo_pred);
           // fecha = new Date(fecha_comienzo_pred);
           // tiempo=fecha.getTime("fecha_comienzo_pred"+fecha_comienzo_pred);
           // milisegundos=parseInt(valordias*24*60*60*1000);
-          // total=fecha.setTime(tiempo+milisegundos);
-          // day=fecha.getDate();
-          // month=fecha.getMonth()+1;
-          // year=fecha.getFullYear();
-
-          // if (month.toString().length < 2) 
-          // {
-          //   console.log('si');
-          //   month = '0' + month;
-          // }
-          // if (day.toString().length < 2) 
-          // {
-          //   console.log('si222');
-          //   day = '0' + day;
-          // }
-          // fecha_CC=year+"-"+month+"-"+day,
-          // console.log("fecha_CC"+fecha_CC);
-
-          // fecha_comienzo=fecha_CC;
+          // total=fecha.setTime(tiempo+milisegundos);  
 
           break;
       case 'FF':

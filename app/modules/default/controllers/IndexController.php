@@ -138,6 +138,10 @@ class IndexController extends Zend_Controller_Action {
                                    
                         }
                         $auth->getStorage()->write($data);
+                        /*tiempo Expiracion de la Sesion PHP en segundos*/
+                        $authSession = new Zend_Session_Namespace('Zend_Auth');
+                        $authSession->setExpirationSeconds(1200);
+
                         // Registrando el Acceso en la BD
                         
                         // $clientIp = $this->getRequest()->getClientIp();

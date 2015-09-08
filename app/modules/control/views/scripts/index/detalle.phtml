@@ -1,20 +1,26 @@
+
+
 <div>
   <div class="panel">
     <div class="col-md-8">
       <div class="panel">
-        <header class="bio-graph-heading project-heading">
-          <strong>
-              <p>
-                Proyecto: {{vt.proyecto.codigo}}
+        
+
+        <header class="panel-heading">
+        <strong>  
+          <p> 
+            Proyecto: {{vt.proyecto.codigo}}
+          
+                
+              
+              
+                / {{vt.proyecto.nombre}}
               </p>
-              <p>
-                Codigo: {{vt.proyecto.codigo_prop_proy}}
-              </p>
-              <p>
-                {{vt.proyecto.nombre}}
-              </p>
-          </strong>
+        </strong>
+        <span class="pull-right">
+        </span>
         </header>
+
         <div class="panel-body bio-graph-info">
           <div class="bio-row">
             <span class="bold">Cliente:</span>
@@ -25,8 +31,8 @@
             {{vt.proyecto.unidad_minera}}
           </div>
           <div class="bio-row">
-            <span class="bold">Código:</span>
-            {{vt.proyecto.codigo}}
+            <span class="bold">Gerente Proyecto:</span>
+            {{vt.proyecto.gerente_proyecto}}
           </div>
           <div class="bio-row">
             <span class="bold">Estado:</span>
