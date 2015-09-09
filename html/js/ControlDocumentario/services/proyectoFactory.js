@@ -21,7 +21,7 @@ function(httpFactory, $location, $q) {
 
   var publico = {
     Proyecto: function(codigo, cliente, nombre, gerente, control_proyecto,
-      control_documentario, estado) {
+      control_documentario, estado, unidad_red) {
       var estados = {
         'A': 'Activo',
         'P': 'Paralizado',
@@ -35,6 +35,17 @@ function(httpFactory, $location, $q) {
       this.control_proyecto = control_proyecto.changeFormat();
       this.control_documentario = control_documentario;
       this.estado = estados[estado];
+      this.carpeta = unidad_red;
+
+      this.cambiarCarpeta = function() {
+        httpFactory.setCarpeta(this.codigo, this.carpeta)
+        .then(function(data) {
+          alert('Carpeta cambiada');
+        })
+        .catch(function(err) {
+          alert('No se pudo cambiar la carpeta');
+        });
+      }
 
       this.cambiarControlDocumentario = function() {
         httpFactory.setControlDocumentario(this.codigo, this.control_documentario)

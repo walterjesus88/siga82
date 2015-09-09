@@ -18,7 +18,7 @@ class Admin_Model_DbTable_Listaentregabledetalle extends Zend_Db_Table_Abstract
     public function _getOne($where){
         try {
             if ($where["codigo_prop_proy"]=='' || $where["proyectoid"]==''  ||  $where["revision_entregable"]==''  ||  $where["edt"]==''   ) return false;
-                
+
                 $wherestr= "codigo_prop_proy = '".$where['codigo_prop_proy']."' and  proyectoid = '".$where['proyectoid']."' and  revision_entregable = '".$where['revision_entregable']."' and edt = '".$where['edt']."'";
 
                 $row = $this->fetchRow($wherestr);
@@ -35,9 +35,9 @@ class Admin_Model_DbTable_Listaentregabledetalle extends Zend_Db_Table_Abstract
         try{
             //if ($pk['id_tproyecto']=='' ||  $pk['proyectoid']=='' ) return false;
             $where = "
-                codigo_prop_proy = '".$pk['codigo_prop_proy']."' and 
-                revision_entregable = '".$pk['revision_entregable']."' and              
-                edt = '".$pk['edt']."' and 
+                codigo_prop_proy = '".$pk['codigo_prop_proy']."' and
+                revision_entregable = '".$pk['revision_entregable']."' and
+                edt = '".$pk['edt']."' and
                 proyectoid = '".$pk['proyectoid']."'
             ";
             return $this->update($data, $where);
@@ -231,9 +231,9 @@ class Admin_Model_DbTable_Listaentregabledetalle extends Zend_Db_Table_Abstract
     public function _delete($pk=null)
     {
         try{
-      
+
             if ($pk['codigo_prop_proy']=='' ||  $pk['proyectoid']=='' ||  $pk['revision_entregable']=='' ||  $pk['edt']=='' ) return false;
-           
+
             $where = "edt = '".$pk['edt']."'
                     and codigo_prop_proy = '".$pk['codigo_prop_proy']."'
                     and proyectoid = '".$pk['proyectoid']."'
@@ -291,6 +291,37 @@ class Admin_Model_DbTable_Listaentregabledetalle extends Zend_Db_Table_Abstract
     public function _getReportexProyecto($proyectoid)
     {
       print "asdgf";
+    }
+
+    public function _createRevision($data)
+    {
+      try {
+        $id = (int)$data['entregableid'];
+
+        $ent = $this->fetchRow('cod_le ='.$id);
+        $ent->estado = 'Old';
+        $ent->save();
+
+        $revision_documento = chr(ord($ent->revision_documento) + 1);
+
+        $sql = $this->_db->query("insert into lista_entregable_detalle
+        (codigo_prop_proy, proyectoid, revision_entregable, edt, tipo_documento,
+        disciplina, codigo_anddes, codigo_cliente, descripcion_entregable,
+        fecha_a, fecha_b, fecha_0, estado, clase, revision_documento,
+        estado_entregable) values ('".
+        $ent->codigo_prop_proy."', '".$ent->proyectoid."', '".$ent->revision_entregable.
+        "', '".$ent->edt."', '".$ent->tipo_documento."', '".$ent->disciplina."',
+        '".$ent->codigo_anddes."', '".$ent->codigo_cliente."', '".
+        $ent->descripcion_entregable."', '".$ent->fecha_a."', '".$ent->fecha_b.
+        "', '".$ent->fecha_0."', 'Ultimo', '".$ent->clase."', '".
+        $revision_documento."', '".$ent->estado_entregable."')");
+
+        $res = $sql->fetch();
+
+        return $res;
+      } catch (Exception $e) {
+        print $e->getMessage();
+      }
     }
 
 }

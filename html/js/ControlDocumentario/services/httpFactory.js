@@ -155,6 +155,19 @@ app.factory('httpFactory', ['$http', '$q', function($http, $q) {
       });
       return promise;
     },
+    setCarpeta: function(proyectoid, unidad_red) {
+      var defered = $q.defer();
+      var promise = defered.promise;
+      $http.post(url_json + 'cambiarcarpeta/proyectoid/' +
+      proyectoid + '/unidadred/' + unidad_red)
+      .success(function(data) {
+        defered.resolve(data);
+      })
+      .error(function(err) {
+        defered.reject(err);
+      });
+      return promise;
+    },
     getTransmittal: function(proyectoid) {
       var defered = $q.defer();
       var promise = defered.promise;
@@ -619,6 +632,18 @@ app.factory('httpFactory', ['$http', '$q', function($http, $q) {
       var defered = $q.defer();
       var promise = defered.promise;
       $http.get(url_tran + 'obtenermodoenvio/detalleid/' + detalleid)
+      .success(function(data) {
+        defered.resolve(data);
+      })
+      .error(function(err) {
+        defered.reject(err);
+      });
+      return promise;
+    },
+    createRevision: function(entregableid) {
+      var defered = $q.defer();
+      var promise = defered.promise;
+      $http.post(url_ent + 'guardarrevision/entregableid/' + entregableid)
       .success(function(data) {
         defered.resolve(data);
       })

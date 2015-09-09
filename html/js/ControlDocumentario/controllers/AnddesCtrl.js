@@ -153,6 +153,37 @@ function(httpFactory, entregableFactory, $routeParams, transmittalFactory, $root
     }
   }
 
+  //funcion para generar nuevas revisiones de los elementos seleccionados
+  va.generarRev = function() {
+    
+    va.seleccionados = [];
+
+    va.entregables.forEach(function(entregable) {
+      if (entregable.seleccionado == 'selected') {
+        va.seleccionados.push(entregable);
+      }
+    });
+    va.entregables_gestion.forEach(function(entregable) {
+      if (entregable.seleccionado == 'selected') {
+        va.seleccionados.push(entregable);
+      }
+    });
+    va.entregables_comunicacion.forEach(function(entregable) {
+      if (entregable.seleccionado == 'selected') {
+        va.seleccionados.push(entregable);
+      }
+    });
+
+    if (va.seleccionados.length != 0) {
+      va.seleccionados.forEach(function(entregable) {
+        entregable.generarRevision();
+      });
+      $rootScope.$broadcast('recarga_detalles');
+    } else {
+      alert('Seleccione un entregable para generar Revisiones');
+    }
+  }
+
   //generar el transmittal con los entregables seleccionados
   va.generarTr = function() {
     transmittalFactory.getConfiguracion()

@@ -30,6 +30,9 @@
           CONTROL DOCUMENTARIO
         </th>
         <th>
+          CARPETA
+        </th>
+        <th>
           ESTADO
         </th>
         <th>
@@ -57,6 +60,12 @@
             <select class="form-control" ng-model="proyecto.control_documentario"
             ng-options="integrante.uid as integrante.nombre for integrante in vp.control_documentario"
             ng-change="proyecto.cambiarControlDocumentario()">
+            </select>
+          </td>
+          <td>
+            <select class="form-control" ng-model="proyecto.carpeta"
+            ng-options="carpeta.carpetaid as carpeta.nombre for carpeta in vp.carpetas"
+            ng-change="proyecto.cambiarCarpeta()">
             </select>
           </td>
           <td>
