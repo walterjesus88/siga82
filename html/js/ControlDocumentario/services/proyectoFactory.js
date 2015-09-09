@@ -48,7 +48,15 @@ function(httpFactory, $location, $q) {
 
       this.verInformacion = function() {
         //configuracionTransmittal.setProyecto(proyectoid);
-        $location.path("/transmittal/proyecto/" + this.codigo);
+        $location.path("/transmittal/proyecto/" + this.codigo + '/informacion');
+      }
+
+      this.accesoDirectoTR = function() {
+        $location.path("/transmittal/proyecto/" + this.codigo + '/generartr');
+      }
+
+      this.accesoDirectoRPT = function() {
+        $location.path("/transmittal/proyecto/" + this.codigo + '/generarrpt');
       }
     },
 

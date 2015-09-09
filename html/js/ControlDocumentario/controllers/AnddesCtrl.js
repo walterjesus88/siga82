@@ -7,6 +7,9 @@ function(httpFactory, entregableFactory, $routeParams, transmittalFactory, $root
   //obteniendo el codigo del proyecto de los parametros de la ruta
   var proyecto = $routeParams.proyecto;
 
+  //obteniendo la variable de la vista a mostrar
+  var vista = $routeParams.vista;
+
   va.transmittal = {};
 
   /*estados por defecto de la revision del transmittal y tipo de entregable por
@@ -119,9 +122,20 @@ function(httpFactory, entregableFactory, $routeParams, transmittalFactory, $root
 
   /*sub paneles dee la vista para visualizar los datos de ultimas revisiones,
   historial de revisiones, transmittal y planificacion*/
-  va.tabla_activa = 'active';
-  va.trans_activo = '';
-  va.plan_activo = '';
+  if (vista == 'informacion') {
+    va.tabla_activa = 'active';
+    va.trans_activo = '';
+    va.plan_activo = '';
+  } else if (vista == 'generartr') {
+    va.tabla_activa = '';
+    va.trans_activo = 'active';
+    va.plan_activo = '';
+  } else if (vista == 'generarrpt') {
+    va.tabla_activa = '';
+    va.trans_activo = '';
+    va.plan_activo = 'active';
+  }
+
 
   var cambiarSubPanel = function(panel) {
     if (panel == 'tablas') {
