@@ -1,8 +1,17 @@
 <?php
 class Admin_Model_DbTable_Tareopersona extends Zend_Db_Table_Abstract
 {
+    const NOT_ENVOY = "A";
+    const ENVOY = "C";
+
+    public $status  = array( self::NOT_ENVOY => "No enviado", self::ENVOY => "Enviado" );
+
     protected $_name = 'tareo_persona';
     protected $_primary = array("codigo_prop_proy", "codigo_actividad", "actividadid", "revision", "actividad_padre","proyectoid", "semanaid","fecha_tarea","uid","dni","cargo","fecha_planificacion","etapa","tipo_actividad");
+
+    public function _getNameStatus($status){
+        return $this->status[$status];
+    }
 
     public function _getTareopersonaXUid($where=array()){
         try{
@@ -606,19 +615,6 @@ order by t.proyectoid,t.actividadid,t.tipo_actividad desc
       }
     }
 
-
-    /*public function _getEstado_HojaTiempo($where=array()){
-      try {
-        $sql = $this->_db->query("select distinct (estado) where uid='".$where['uid']."' and
-          dni='".$where['dni']."' and semanaid='".$where['semanaid'].
-          "';");
-        $row=$sql->fetchAll();
-        return $row;
-      } catch (Exception $ex) {
-        print $ex->getMessage();
-      }
-    }*/
-
      public function _getEstado_HojaTiempo($semanaid,$uid,$dni)
      {
         try{
@@ -653,14 +649,16 @@ order by t.proyectoid,t.actividadid,t.tipo_actividad desc
             }
             if ($where["sSearch_0"] && split("-yadcf_delim-", $where["sSearch_0"])) {
                 $dates = split("-yadcf_delim-", $where["sSearch_0"]);
-                if (count(array_filter($dates)) == 1 && $dates[0]) {
-                    $select_2->where("fecha_tarea >= ?", $this->set_format_date($dates[0]));
-                }else{
-                    if (!$dates[0]){
-                        $select_2->where("fecha_tarea  <= ?", $this->set_format_date($dates[1]));
+                if (count(array_filter($dates)) > 0) {
+                    if (count(array_filter($dates)) == 1 && $dates[0]) {
+                        $select_2->where("semanaid >= ?", $this->convert_date_to_week($dates[0]));
                     }else{
-                        $select_2->where("fecha_tarea >= ?", $this->set_format_date($dates[0]));
-                        $select_2->where("fecha_tarea <= ?", $this->set_format_date($dates[1]));
+                        if ($dates[0]){
+                            $select_2->where("semanaid  <= ?", $this->convert_date_to_week($dates[1]));
+                        }else{
+                            $select_2->where("semanaid >= ?", $this->convert_date_to_week($dates[0]));
+                            $select_2->where("semanaid <= ?", $this->convert_date_to_week($dates[1]));
+                        }
                     }
                 }
             }
@@ -685,22 +683,25 @@ order by t.proyectoid,t.actividadid,t.tipo_actividad desc
             $select = $this->_db
                             ->select()
                             ->distinct()
-                            ->from("tareo_persona",array("uid", "areaid","semanaid","estado"))
-                            ->order($sort_column)
-                            ->limit($per_page, $page);
+                            ->from("tareo_persona",array("uid", "areaid","semanaid","estado"));
+            if (!array_key_exists("format", $where)) {
+                $select->order($sort_column)->limit($per_page, $page);
+            }
             if ($where["sSearch"]) {
                 $select->where("areaid Ilike ? ", "%" . $where['sSearch'] . "%");
             }
             if ($where["sSearch_0"] && split("-yadcf_delim-", $where["sSearch_0"])) {
                 $dates = split("-yadcf_delim-", $where["sSearch_0"]);
-                if (count(array_filter($dates)) == 1 && $dates[0]) {
-                    $select->where("fecha_tarea >= ?", $this->set_format_date($dates[0]));
-                }else{
-                    if (!$dates[0]){
-                        $select->where("fecha_tarea <= ?", $this->set_format_date($dates[1]));
-                    }else{
+                if (count(array_filter($dates)) > 0) {
+                    if (count(array_filter($dates)) == 1 && $dates[0]) {
                         $select->where("fecha_tarea >= ?", $this->set_format_date($dates[0]));
-                        $select->where("fecha_tarea <= ?", $this->set_format_date($dates[1]));
+                    }else{
+                        if ($dates[0]){
+                            $select->where("fecha_tarea <= ?", $this->set_format_date($dates[1]));
+                        }else{
+                            $select->where("fecha_tarea >= ?", $this->set_format_date($dates[0]));
+                            $select->where("fecha_tarea <= ?", $this->set_format_date($dates[1]));
+                        }
                     }
                 }
             }
@@ -709,6 +710,9 @@ order by t.proyectoid,t.actividadid,t.tipo_actividad desc
             }
             if ($where["sSearch_2"]) {
                 $select->where("areaid = ?", $where['sSearch_2']);
+            }
+            if ($where["sSearch_3"]) {
+                $select->where("uid = ?", $where['sSearch_3']);
             }
             $results = $select->query();
             $rows = $results->fetchAll();
@@ -722,5 +726,9 @@ order by t.proyectoid,t.actividadid,t.tipo_actividad desc
     private function set_format_date($date){
         $date_t = new Zend_Date($date);
         return $date_t->get("YYYY-MM-dd");
+    }
+    private function convert_date_to_week($date){
+        $date_t = new Zend_Date($date);
+        return $date_t->get(Zend_Date::WEEK);
     }
 }

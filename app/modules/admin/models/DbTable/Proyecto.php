@@ -4,6 +4,12 @@ class Admin_Model_DbTable_Proyecto extends Zend_Db_Table_Abstract
     protected $_name = 'proyecto';
     protected $_primary = array("codigo_prop_proy", "proyectoid");
 
+    public function _getNameManager($id){
+        return $this->fetchRow($this->select()
+                    ->where('proyectoid = ?', $id))
+                    ->toArray();
+    }
+
      /* Lista toda las Personas */
     public function _getProyectoAll(){
         try{
@@ -14,8 +20,6 @@ class Admin_Model_DbTable_Proyecto extends Zend_Db_Table_Abstract
             print "Error: Al momento de leer todas las personas".$e->getMessage();
         }
     }
-
-
 
     //Funcion para obtener un proyecto en particular para el modulo de reportes
     public function _show($id)

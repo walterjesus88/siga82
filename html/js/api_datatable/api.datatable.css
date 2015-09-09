@@ -1,5 +1,7 @@
 .content-filter-datatable{
   width: 100%;
+  display: inline-table;
+  margin-top: 15px;
 }
 .content-filter-datatable .content-elemnt-filter{
   float: left;
@@ -9,4 +11,8 @@
 .icon-export-export{
   background-image: url('/img/file-search/xls.png');
   background-repeat: no-repeat;
+}
+.datatable-export-excel{
+  float: right;
+  margin-right: 20px;
 }

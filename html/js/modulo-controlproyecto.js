@@ -1,5 +1,5 @@
 
-angular.module('moduloCp', ['ngRoute', 'chart.js','ui.bootstrap','ui.bootstrap.tpls','ui.router','checklist-model','dialogs','xeditable'])
+angular.module('moduloTc', ['ngRoute', 'chart.js','ui.bootstrap','ui.bootstrap.tpls','ui.router','checklist-model','dialogs','xeditable'])
 .config(['$routeProvider', function($routeProvider) {
   $routeProvider
 

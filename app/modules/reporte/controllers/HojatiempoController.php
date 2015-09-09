@@ -42,15 +42,26 @@ class Reporte_HojatiempoController extends Zend_Controller_Action {
     }
 
     public function filterAction()
-    {   $data = array();
+    {   $data = array('areas','users');
         $params = $this->getRequest()->getParams();
         $this->_helper->layout()->disableLayout();
         $tb_area = new Admin_Model_DbTable_Area();
-        $areas = $tb_area->_getAreaAll();
-        foreach ($areas as $key => $area) {
-            $data[$key]["label"] = $area['nombre'];
-            $data[$key]["value"] = $area["areaid"];
+        $areas_t = $tb_area->_getAreaAll();
+        $areas = array();
+        foreach ($areas_t as $key => $area) {
+            $areas[$key]["label"] = $area['nombre'];
+            $areas[$key]["value"] = $area["areaid"];
         }
+        $tb_user = new Admin_Model_DbTable_Usuario();
+        $tb_person = new Admin_Model_DbTable_Persona();
+        $users_t = $tb_user->_getUsuarioAll();
+        foreach ($users_t as $key => $user) {
+            // $data_person = $tb_person->fetchRow($tb_person->select()->where('dni = ?', $user['dni']))->toArray();
+            $users[$key]["label"] = $user['uid'];
+            $users[$key]["value"] = $user['uid'];
+        }
+        $data['areas'] = $areas;
+        $data['users'] = $users;
         $this->_helper->json->sendJson($data);
     }
 
