@@ -18,13 +18,16 @@
     public function data($params)
     {
       $data = array();
+      $tb_planning =  new Admin_Model_DbTable_Planificacion();
+      $tb_project =  new Admin_Model_DbTable_Proyecto();
+
       if ($this->plamings($params)) {
         foreach ($this->plamings($params) as $key => $plaming) {
           $data[$key][0] = $plaming['nombre'];
           $data[$key][1] = $plaming["uid"];
           $data[$key][2] = $plaming["semanaid"];
-          $data[$key][3] = $plaming["semanaid"];
-          $data[$key][4] = $this->estado_name($plaming["estado"]);
+          $data[$key][3] = $tb_project->_getNameManager($plaming["proyectoid"])["gerente_proyecto"];
+          $data[$key][4] = $tb_planning->_getStatusName($plaming["estado"]);
           $data[$key][5] = $plaming["billable"];
           $data[$key][6] = $plaming["nonbillable"];
         }
@@ -57,35 +60,12 @@
 
     public function sort_column($params)
     {
-      $column = ["ar.nombre", "uid", "semanaid", "estado", "estado", "billable", "nonbillable"];
+      $column = ["ar.nombre", "pa.uid", "pa.semanaid", "pa.estado", "pa.estado", "pa.billable", "pa.nonbillable"];
       return $column[intval($params["iSortCol_0"])];
     }
 
     public function sort_direction($params)
     {
       return $params["sSortDir_0"] = ($params["sSortDir_0"] == "desc" ? "desc" : "asc");
-    }
-
-    private function estado_name($estado){
-      switch ($estado) {
-        case 'E':
-          return "Enviado para aprobacion jefe inmediato";
-          break;
-        case 'A':
-          return "Aprobado Jefe Inmediato";
-          break;
-        case 'AGP':
-          return "Aprobado Gerente Proyecto";
-          break;
-        case 'RGP':
-          return "Rechazado Gerente Proyecto";
-          break;
-        case 'R':
-          return "Rechazado por Jefe inmediato";
-          break;
-        default:
-          return "No llena hoja de tiempo";
-          break;
-      }
     }
  }

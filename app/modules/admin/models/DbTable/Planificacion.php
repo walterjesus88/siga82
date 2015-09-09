@@ -1,6 +1,22 @@
 <?php
 class Admin_Model_DbTable_Planificacion extends Zend_Db_Table_Abstract
 {
+    const ENVOY = 'E';
+    const APROVED_J_I = 'A';
+    const APROVED_G_P = 'AGP';
+    const AFFCAST_R_P = 'RGP';
+    const AFFCAST = 'R';
+    const STATUS_D = "D";
+    public $status = array(self::ENVOY => "Enviado para aprobacion jefe inmediato",
+                            self::APROVED_J_I => "Aprobado Jefe Inmediato",
+                            self::APROVED_G_P => "Aprobado Gerente Proyecto",
+                            self::AFFCAST_R_P => "Rechazado Gerente Proyecto",
+                            self::AFFCAST     => "Rechazado por Jefe inmediato",
+                            self::STATUS_D     => "No llena hoja de tiempo");
+
+    public function _getStatusName($status){
+        return (is_null($status))? $this->status["D"] : $this->status[$status];
+    }
     protected $_name = 'planificacion';
     protected $_primary = array("codigo_prop_proy","proyectoid","semanaid","uid","dni","categoriaid","areaid","cargo");
      /* Lista toda las Personas */
@@ -288,14 +304,16 @@ class Admin_Model_DbTable_Planificacion extends Zend_Db_Table_Abstract
             }
             if ($where["sSearch_0"] && split("-yadcf_delim-", $where["sSearch_0"])) {
                 $dates = split("-yadcf_delim-", $where["sSearch_0"]);
-                if (count(array_filter($dates)) == 1 && $dates[0]) {
-                    $select->where("fecha_creacion >= ?", $this->set_format_date($dates[0]));
-                }else{
-                    if (!$dates[0]){
-                        $select->where("fecha_creacion <= ?", $this->set_format_date($dates[1]));
+                if (count(array_filter($dates) > 0 )) {
+                    if (count(array_filter($dates)) == 1 && $dates[0]) {
+                        $select->where("pa.fecha_creacion >= ?", $this->set_format_date($dates[0]));
                     }else{
-                        $select->where("fecha_creacion >= ?", $this->set_format_date($dates[0]));
-                        $select->where("fecha_creacion <= ?", $this->set_format_date($dates[1]));
+                        if (!$dates[0]){
+                            $select->where("pa.fecha_creacion <= ?", $this->set_format_date($dates[1]));
+                        }else{
+                            $select->where("pa.fecha_creacion >= ?", $this->set_format_date($dates[0]));
+                            $select->where("pa.fecha_creacion <= ?", $this->set_format_date($dates[1]));
+                        }
                     }
                 }
             }
@@ -312,28 +330,34 @@ class Admin_Model_DbTable_Planificacion extends Zend_Db_Table_Abstract
     }
     public function _dataTable($page, $per_page, $sort_column, $sort_direction, $where){
         try {
-            $select = $this->_select_datatable()
-                        ->order($sort_column)
-                        ->limit($per_page, $page);
+            $select = $this->_select_datatable();
+            if (!array_key_exists("format", $where)) {
+                $select->order($sort_column)->limit($per_page, $page);
+            }
+
             if ($where["sSearch"]) {
                 $select->where("ar.nombre Ilike  ? ", "%" . $where['sSearch'] . "%");
             }
+
             if ($where["sSearch_0"] && split("-yadcf_delim-", $where["sSearch_0"])) {
                 $dates = split("-yadcf_delim-", $where["sSearch_0"]);
-                if (count(array_filter($dates)) == 1 && $dates[0]) {
-                    $select->where("pa.fecha_creacion >= ?", $this->set_format_date($dates[0]));
-                }else{
-                    if (!$dates[0]){
-                        $select->where("pa.fecha_creacion <= ?", $this->set_format_date($dates[1]));
-                    }else{
+                if (count(array_filter($dates) > 0 )) {                    if (count(array_filter($dates)) == 1 && $dates[0]) {
                         $select->where("pa.fecha_creacion >= ?", $this->set_format_date($dates[0]));
-                        $select->where("pa.fecha_creacion <= ?", $this->set_format_date($dates[1]));
+                    }else{
+                        if (!$dates[0]){
+                            $select->where("pa.fecha_creacion <= ?", $this->set_format_date($dates[1]));
+                        }else{
+                            $select->where("pa.fecha_creacion >= ?", $this->set_format_date($dates[0]));
+                            $select->where("pa.fecha_creacion <= ?", $this->set_format_date($dates[1]));
+                        }
                     }
                 }
             }
+
             if ($where["sSearch_1"]) {
                 $select->where("pa.estado = ?", $where['sSearch_1']);
             }
+
             $results = $select->query();
             $rows = $results->fetchAll();
             if ($rows) return $rows;
@@ -350,5 +374,9 @@ class Admin_Model_DbTable_Planificacion extends Zend_Db_Table_Abstract
                             array('funcion', 'fecha_creacion', 'uid', 'areaid', 'semanaid', 'proyectoid', 'estado', 'h_totaldia', 'billable', 'nonbillable', 'adm'))
                     ->join(array('ar' => 'area'),
                                 'ar.areaid = pa.areaid');
+    }
+    private function set_format_date($date){
+        $date_t = new Zend_Date($date);
+        return $date_t->get("YYYY-MM-dd");
     }
 }
