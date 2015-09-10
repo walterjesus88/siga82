@@ -720,6 +720,9 @@ va.saveTable = function() {
 
 // console.log("fecha_menos"+fecha_menos);
 // console.log(jik);
+
+
+
 if( cadena!=null)
 {
   texto =  ['FC','CF','CC','FF'];
@@ -729,13 +732,18 @@ if( cadena!=null)
     if(cadena.indexOf(texto[i])!=-1)
     {
       
+      posicion = cadena.indexOf(texto[i]);               
+      valoritem=cadena.substring(0, posicion);
+      fecha_sincro_comienzo=va.performance[valoritem]['fecha_comienzo'];
+      fecha_sincro_fin=va.performance[valoritem]['fecha_fin'];
+      
       console.log("si haysss encon"+texto[i]);
       console.log(cadena);
       console.log(cadena.indexOf(texto[i]));
 
       switch(texto[i]) {
       case 'FC':
-          //alert("FC-----------");
+          alert("FC-----------");
 
           posicion = cadena.indexOf(texto[i]);
           valoritem=cadena.substring(0, posicion);        
@@ -749,7 +757,6 @@ if( cadena!=null)
               //alert("+ o -");
                
                 //EXTRAE EL ITEM//  
-
                 if(cadena.indexOf('+')!=-1)
                 {           
 
@@ -825,14 +832,15 @@ if( cadena!=null)
                 }
                 fecha_FC=year+"-"+month+"-"+day,
                 fecha_comienzo=fecha_FC;
-                //alert("fecha_FC"+fecha_FC);   
+                //alert("fecha_FC"+fecha_FC);  
+                //va.performance[valoritem]['fecha_comienzo']=fecha_comienzo;
+                fecha_sincro_comienzo=fecha_comienzo;
+                alert("fecha_sincro_comienzo:FC"+fecha_sincro_comienzo);
+
             }
               else
             {
-                //posiciondelmas = cadena.indexOf(signo[i]);               
-
-                //alert('posiciondelmas'+posiciondelmas);               
-                //alert('puto gerente');               
+                //posiciondelmas = cadena.indexOf(signo[i]);
                 //alert("signo"+signo[i]+" ^^^^"+i );
                 valordias=1;
                 //alert('no tiene signo');                
@@ -855,9 +863,12 @@ if( cadena!=null)
                 }
                 fecha_FC=year+"-"+month+"-"+day,
                 //alert("fecha_FC"+fecha_FC);
-                fecha_comienzo=fecha_FC;              
+                fecha_comienzo=fecha_FC;        
+                fecha_sincro_comienzo=fecha_comienzo;
+                alert("fecha_sincro_comienzo:FC"+fecha_sincro_comienzo); 
             };
           //};
+
 
          break;
 
@@ -867,8 +878,10 @@ if( cadena!=null)
           posicion = cadena.indexOf(texto[i]);               
           valoritem=cadena.substring(0, posicion);
               //console.log("valoritem"+valoritem);
-              //console.log(va.performance[valoritem]);          
+              //console.log(va.performance[valoritem]);    
+
           fecha_comienzo_pred=va.performance[valoritem]['fecha_comienzo'];
+          
           fecha_fin_pred=va.performance[valoritem]['fecha_fin'];
 
           //for (var i = signo.length - 1; i >= 0; i--) {
@@ -978,22 +991,19 @@ if( cadena!=null)
           break;
 
       case 'CC':
-          console.log("CC-----------");   
-
-          posicion = cadena.indexOf(texto[i]);     
-
-          signo=['+','-'];
+          alert("CC-----------");
+          posicion = cadena.indexOf(texto[i]);               
           valoritem=cadena.substring(0, posicion);
               //console.log("valoritem"+valoritem);
               //console.log(va.performance[valoritem]);          
-          fecha_comienzo_pred=va.performance[valoritem]['fecha_comienzo'];
+         // fecha_comienzo_pred=va.performance[valoritem]['fecha_comienzo'];     
+          fecha_comienzo_pred=fecha_sincro_comienzo;
+          //alert(fecha_comienzo_pred);
           fecha_fin_pred=va.performance[valoritem]['fecha_fin'];
-
           //for (var i = signo.length - 1; i >= 0; i--) {
            // if(cadena.indexOf(signo[i])!=-1)
            // {  
               //alert("signo[i]"+signo[i]);
-
           if(cadena.indexOf('+')!=-1 || cadena.indexOf('-')!=-1)
           {
                 if(cadena.indexOf('+')!=-1)
@@ -1058,9 +1068,9 @@ if( cadena!=null)
                 }
                 fecha_CC=year+"-"+month+"-"+day,
                 //alert("fecha_CC"+fecha_CC);
-
                 fecha_comienzo=fecha_CC;
-
+                fecha_sincro_comienzo=fecha_comienzo;
+                alert("fecha_sincro_comienzo:CC"+fecha_sincro_comienzo);
           } 
           else
           {
@@ -1085,13 +1095,13 @@ if( cadena!=null)
                 }
                 fecha_CC=year+"-"+month+"-"+day,
                 //alert("fecha_CC"+fecha_CC);
-                fecha_comienzo=fecha_CC;  
-
-
+                fecha_comienzo=fecha_CC; 
+                fecha_sincro_comienzo=fecha_comienzo;
+                alert("fecha_sincro_comienzo:CC"+fecha_sincro_comienzo);
           };
-              // //EXTRAE EL ITEM//
-
+          
           break;
+
       case 'FF':
           //console.log("FF------------");
 
