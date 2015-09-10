@@ -79,7 +79,14 @@ class Admin_Model_DbTable_Usuario extends Zend_Db_Table_Abstract
         }
     }
 
-
+    public function _update($data,$str=''){
+        try{
+            if ($str=="") return false;
+            return $this->update($data,$str);
+        }catch (Exception $ex){
+            print "Error: Actualizando un registro de usuario".$ex->getMessage();
+        }
+    }
 
 }
 

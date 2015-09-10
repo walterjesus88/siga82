@@ -1,5 +1,6 @@
-var app=angular.module('moduloTb',['ngRoute', 'chart.js','ui.bootstrap','ui.bootstrap.tpls','ui.router','checklist-model','dialogs','xeditable','datatables',])
-.config(['$routeProvider', function($routeProvider){
+var app=angular.module('moduloTb',['ngRoute', 'chart.js','ui.bootstrap','ui.bootstrap.tpls',
+	'ui.router','checklist-model','dialogs','xeditable','datatables',])
+app.config(['$routeProvider', function($routeProvider){
 	$routeProvider
 
 

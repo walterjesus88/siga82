@@ -163,10 +163,7 @@ class Admin_Model_DbTable_Area extends Zend_Db_Table_Abstract
     {
         try{
             //if ($pk['id_tproyecto']=='' ||  $pk['proyectoid']=='' ) return false;
-            $where = "
-                areaid = '".$pk['areaid']."'
-
-            ";
+            $where = "areaid = '".$pk['areaid']."'";
             return $this->update($data, $where);
             return false;
         }catch (Exception $e){
@@ -174,7 +171,18 @@ class Admin_Model_DbTable_Area extends Zend_Db_Table_Abstract
         }
     }
 
-
+    public function _updatearea($data,$pk)
+    {
+        try{
+            if ($pk=='' ) return false;
+            $where = "areaid = '".$pk."' ";
+            return $this->update($data, $where);
+            // print_r($this->update($data, $where);
+            return false;
+        }catch (Exception $e){
+            print "Error: Update area".$e->getMessage();
+        }
+    }
 
         public function _save($data)
     {

@@ -23,7 +23,7 @@
 </section>
 
 
-<table datatable="ng" class="table table-condensed table-hover p-table">
+<table datatable="ng" class="table table-condensed table-hover p-table dataTables_wrappe table-striped">
 
 
 <thead>
@@ -37,14 +37,14 @@
   <th style="width: 10%;">ORDEN</th>
 </thead>
 
-<tr ng-repeat="areas in va.area">
+<tr ng-repeat="areas in va.area track by $index">
   <td>
     <span editable-text="areas.areaid" e-from="tableform" e-required>
        {{areas.areaid}}
     </span>
   </td>
   <td>
-    <span editable-text="areas.nombre" e-from="tableform" e-required>
+    <span editable-text="areas.nombre" e-from="tableform" e-required >
       {{areas.nombre}}
     </span>
   </td>

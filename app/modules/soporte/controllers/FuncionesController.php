@@ -33,42 +33,30 @@ class Soporte_FuncionesController extends Zend_Controller_Action {
 
     public function guardarareaAction()
     {
-      $areaid = $this->_getParam('areaid');
-      $nombre = $this->_getParam('nombre');
 
-      $where = array('nombre' =>$nombre , );
-      $pk = array('areaid' =>$areaid , );
-      $guardararea= new Admin_Model_DbTable_Area();
-      $garea=$guardararea->_update_pk($where,$pk);
-
-      // print_r($where);
       // print_r($pk);
       // print_r($garea);
 
       // exit();
 
+        $areaid = $this->_getParam('areaid');
+        $formdata['nombre']=$nombre = $this->_getParam("nombre");
+        $formdata['area_padre']=$area_padre = $this->_getParam("area_padre");
+        $formdata['isproyecto']=$isproyecto = $this->_getParam("isproyecto");
+        $formdata['ispropuesta']=$ispropuesta = $this->_getParam("ispropuesta");
+        $formdata['iscontacto']=$iscontacto = $this->_getParam("iscontacto");
+        $formdata['iscomercial']=$iscomercial = $this->_getParam("iscomercial");
+        $formdata['orden']=$orden = $this->_getParam("orden");
+        print_r($nombre);
+        $guardararea=new Admin_Model_DbTable_Area();
+        $garea=$guardararea->_updatearea($formdata, $areaid);
+
+        print_r($nombre);
+        alert($nombre);
+      exit();
+
       $this->_helper->json->sendJson($garea);
 
+
     }
-
-
-    // public function eliminareaAction()
-    // {
-    //   $areaid = $this->_getParam('areaid');
-
-    //   ///$where = array('nombre' =>$nombre , );
-    //   $pk = array('areaid' =>$areaid , );
-    //   $eliminararea= new Admin_Model_DbTable_Area();
-    //   $earea=$eliminararea->_delete($pk);
-
-    //   // print_r($where);
-    //   // print_r($pk);
-    //   // print_r($garea);
-
-    //   // exit();
-
-    //   $this->_helper->json->sendJson($earea);
-
-    // }
-
 }
