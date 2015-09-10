@@ -1,53 +1,46 @@
+ <body ng-controller="AdminCtrl">
+ 
+     {{va.usuarios_acl}}
+
+
+
 
 <div class="panel">
-
+  
   <section class="panel">
     <header class="panel-heading">
         Lista de Proyectos
     <span class="pull-right">
+        
 
-
-      <button type="button" class="btn btn-success btn-xs" ng-click="vp.cargarProyectos('A')">Activo</button>
-      <button type="button" class="btn btn-warning btn-xs" ng-click="vp.cargarProyectos('C')">Cerrado</button>
-      <button type="button" class="btn btn-info btn-xs"  ng-click="vp.cargarProyectos('CA')">Cancelado</button>
-      <button type="button" class="btn btn-danger btn-xs"  ng-click="vp.cargarProyectos('P')">Paralizado</button>
-
+      <button type="button" class="btn btn-success btn-xs" ng-click="va.cargarProyectos('A')">Activos</button>
+      <button type="button" class="btn btn-warning btn-xs" ng-click="va.cargarProyectos('C')">Cerrados</button>
     </span>
     </header>
 </section>
 
   <div class="panel-body">
-
+    
+ 
          <table datatable="ng" class="table table-condensed table-hover p-table">
       <thead>
-
-         <th style="width: 10%;">Código</th>
-                <th style="width: 20%;">Cliente</th>
-                <th style="width: 35;">Nombre</th>
-                <th style="width: 10%;">Gerente Proyecto</th>
-                <th style="width: 10%;">Control Proyecto</th>
-
+        
+         <th style="width: 10%;">Usuario</th>
+                <th style="width: 20%;">Area</th>
+                
+                
                 <th style="width: 5%;">Estado</th>
                 <th style="width: 10%;">Acciones</th>
       </thead>
       <tbody>
-        <tr ng-repeat="proyecto in vp.proyectos track by $index">
+        <tr ng-repeat="usuario in va.usuarios_acl track by $index">
           <td>
-            {{proyecto.codigo}}
+            {{usuario.uid}}
           </td>
           <td>
-            {{proyecto.cliente}}
+            {{usuario.areaid}}
           </td>
-          <td>
-            {{proyecto.nombre}}
-          </td>
-          <td>
-            {{proyecto.gerente}}
-          </td>
-          <td>
-            {{proyecto.control_proyecto}}
-          </td>
-
+          
 
           <td>
            <select ng-model="proyecto.estado"
@@ -57,9 +50,9 @@
           </td>
 
 
-          <!--<td >
+          <!--<td >      
             <span editable-select="proyecto.estado" e-form="rowform" e-ng-options="pro.value as pro.text for pro in vp.estadoproyecto">
-              {{ vp.showEstadoproyecto(proyecto) }}
+              {{ vp.showEstadoproyecto(proyecto) }} 
             </span>
           </td> -->
 
@@ -73,7 +66,7 @@
                   Información
                 </button>
               </li>
-
+              
             </ul>
           </td>
         </tr>
@@ -87,3 +80,5 @@
     <button type="button" class="btn btn-default">Imprimir</button>
   </div>
 </div>
+
+  </body>

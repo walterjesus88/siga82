@@ -4,39 +4,88 @@ function(httpFactory, areaFactory,$filter) {
   /*referencia del scope y  los arrays que contendra a los proyectos y a los
   integrantes de control documentario*/
   var va = this;
-  va.listaareas = [];
+  // va.listaareas = [];
   // va.control_documentario = [];
 
-va.variable=[{nombre:"jesus", texto:"jajaja"},{nombre:"mario", texto:"jojojo"}];
+  // var isproyecto='S';
 
-  var isproyecto='S';
-
-  httpFactory.getAreas(isproyecto)
+  httpFactory.getAreas()
     .then(function(data) {
       va.area=data;
-      console.log(va.area);
+      // console.log(va.area);
       })
     .catch(function(err) {
       va.area = [];
     });
 
+    va.agregarArea = function() {
+    if(va.area)
+    {
+      va.inserted = {
+        // id: va.area.length+1,
+        areaid: null,
+        nombre: null,
+        area_padre: null ,
+        isproyecto: null ,
+        ispropuesta: null ,
+        iscontacto: null ,
+        iscomercial: null ,
+        orden: null ,
+      };
+    }
+    else
+    {
+      va.area=[];
+      va.inserted = {
+        // id: va.area.length+1,
+        areaid: null,
+        nombre: null,
+        area_padre: null ,
+        isproyecto: null ,
+        ispropuesta: null ,
+        iscontacto: null ,
+        iscomercial: null ,
+        orden: null ,
+      };
+    }
+    va.area.push(va.inserted);
+};
 
-     //funcion para obtener los proyectos del servidor
-  // var listarAreas = function(isproyecto) {
-  //   httpFactory.getAreas(isproyecto)
-  //   .then(function(data) {
-  //     //console.log(data);
-  //     va.listaareas = [];
-  //     data.forEach(function(item) {
-  //       area = new areaFactory.Area(item.areaid,item.nombre);
-  //       va.listaareas.push(listararea);
-  //      // console.log(data);
 
-  //     });
-  //   })
-  //   .catch(function(err) {
-  //     va.listaareas = [];
-  //   });
-  // }
+
+  va.guardararea=function()
+{
+  // console.log(va.area);
+  angular.forEach(va.area, function(val) {
+
+
+    areaid=val['areaid'];
+    nombre=val['nombre'];
+    area_padre=val['area_padre'];
+    isproyecto=val['isproyecto'];
+    ispropuesta=val['ispropuesta'];
+    iscontacto=val['iscontacto'];
+    iscomercial=val['iscomercial'];
+    orden=val['orden'];
+
+    httpFactory.setGuardarArea(areaid,nombre,area_padre,isproyecto,ispropuesta,iscontacto,iscomercial,orden)
+    .then(function(data) {
+     // va.area=data;
+
+    })
+    .catch(function(err) {
+      va.area = {};
+    })
+
+  })
+
+}
 
 }]);
+
+app.run(function(editableOptions) {
+  editableOptions.theme = 'bs3';
+});
+/*app.run(function(editableOptions) {
+  editableOptions.theme = 'bs2';
+});*/

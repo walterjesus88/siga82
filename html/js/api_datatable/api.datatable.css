@@ -12,7 +12,24 @@
   background-image: url('/img/file-search/xls.png');
   background-repeat: no-repeat;
 }
+<<<<<<< HEAD
+
+.dataTables_wrapper .dataTables_paginate .paginate_button {
+    box-sizing: border-box;
+    display: inline-block;
+    min-width: 1.5em;
+    padding: 0.5em 1em;
+    margin-left: 2px;
+    text-align: center;
+    text-decoration: none !important;
+    cursor: pointer;
+    color: #333 !important;
+    border: 1px solid transparent;
+    border-radius: 2px;/
+}
+=======
 .datatable-export-excel{
   float: right;
   margin-right: 20px;
 }
+>>>>>>> 42595d5554fd03a89fc43008f73625820e7427ac
