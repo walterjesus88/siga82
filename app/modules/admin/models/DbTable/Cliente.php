@@ -4,13 +4,7 @@ class Admin_Model_DbTable_Cliente extends Zend_Db_Table_Abstract
     protected $_name = 'cliente';
     protected $_primary = array("clienteid");
 
-<<<<<<< HEAD
-=======
-    /* Lista toda las Cliente */
-   
 
-
->>>>>>> 42595d5554fd03a89fc43008f73625820e7427ac
      /* Lista toda las Personas */    
     public function _getClienteAll(){
         try{
