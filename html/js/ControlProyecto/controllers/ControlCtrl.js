@@ -612,7 +612,7 @@ proyectoFactory.getVerCronogramaxActivo(proyecto['codigo'])
     .then(function(data) {
       va.thi=data;
       //alert('va.thi');
-      console.log(va.thi);
+      //console.log(va.thi);
 
     })
     .catch(function(err) {
@@ -646,7 +646,7 @@ va.calculafechafin= function()
 //guardar datos de performance//
 va.saveTable = function() {
   //console.log(va.performance);
-
+ cont=1;
   angular.forEach(va.performance, function(val) {
     
       codigo_prop_proy=val['codigo_prop_proy'] ,
@@ -685,7 +685,7 @@ va.saveTable = function() {
 
  // expression='CF';
   
-  cadena= predecesoras;
+    cadena= predecesoras;
   //console.log("cadena"+cadena);
 
 // fecvvv='2015-04-28';
@@ -721,7 +721,9 @@ va.saveTable = function() {
 // console.log("fecha_menos"+fecha_menos);
 // console.log(jik);
 
+console.log(va.performance);
 
+cont=0;
 
 if( cadena!=null)
 {
@@ -733,9 +735,12 @@ if( cadena!=null)
     {
       
       posicion = cadena.indexOf(texto[i]);               
-      valoritem=cadena.substring(0, posicion);
+      valoritem=cadena.substring(0, posicion); 
+
+    
       fecha_sincro_comienzo=va.performance[valoritem]['fecha_comienzo'];
       fecha_sincro_fin=va.performance[valoritem]['fecha_fin'];
+   
       
       console.log("si haysss encon"+texto[i]);
       console.log(cadena);
@@ -835,7 +840,7 @@ if( cadena!=null)
                 //alert("fecha_FC"+fecha_FC);  
                 //va.performance[valoritem]['fecha_comienzo']=fecha_comienzo;
                 fecha_sincro_comienzo=fecha_comienzo;
-                alert("fecha_sincro_comienzo:FC"+fecha_sincro_comienzo);
+                //alert("fecha_sincro_comienzo:FC"+fecha_sincro_comienzo);
 
             }
               else
@@ -865,7 +870,7 @@ if( cadena!=null)
                 //alert("fecha_FC"+fecha_FC);
                 fecha_comienzo=fecha_FC;        
                 fecha_sincro_comienzo=fecha_comienzo;
-                alert("fecha_sincro_comienzo:FC"+fecha_sincro_comienzo); 
+                //alert("fecha_sincro_comienzo:FC"+fecha_sincro_comienzo); 
             };
           //};
 
@@ -992,14 +997,15 @@ if( cadena!=null)
 
       case 'CC':
           alert("CC-----------");
+
           posicion = cadena.indexOf(texto[i]);               
           valoritem=cadena.substring(0, posicion);
               //console.log("valoritem"+valoritem);
               //console.log(va.performance[valoritem]);          
          // fecha_comienzo_pred=va.performance[valoritem]['fecha_comienzo'];     
           fecha_comienzo_pred=fecha_sincro_comienzo;
-          //alert(fecha_comienzo_pred);
-          fecha_fin_pred=va.performance[valoritem]['fecha_fin'];
+          console.log("dato que llega para empezar fecha_comienzo_pred"+fecha_comienzo_pred);
+          //fecha_fin_pred=va.performance[valoritem]['fecha_fin'];
           //for (var i = signo.length - 1; i >= 0; i--) {
            // if(cadena.indexOf(signo[i])!=-1)
            // {  
@@ -1026,7 +1032,6 @@ if( cadena!=null)
                         ki++;
                       }
                   }
-
                 }
                 else
                 {
@@ -1069,20 +1074,21 @@ if( cadena!=null)
                 fecha_CC=year+"-"+month+"-"+day,
                 //alert("fecha_CC"+fecha_CC);
                 fecha_comienzo=fecha_CC;
-                fecha_sincro_comienzo=fecha_comienzo;
-                alert("fecha_sincro_comienzo:CC"+fecha_sincro_comienzo);
+     
+                console.log("fecha_comienzo:CC + o -"+fecha_comienzo);
+       
+
           } 
           else
           {
                 valordias=1;
-                //alert("com cC SIN paramentro");
+    
                 fecha = new Date(fecha_comienzo_pred);
 
                 tiempo=fecha.getTime();
                 milisegundos=parseInt(valordias*24*60*60*1000);
                 total=fecha.setTime(tiempo+milisegundos);
-                //alert('ccccccccccccccc');
-
+ 
                 day=fecha.getDate();
                 month=fecha.getMonth()+1;
                 year=fecha.getFullYear();
@@ -1096,8 +1102,9 @@ if( cadena!=null)
                 fecha_CC=year+"-"+month+"-"+day,
                 //alert("fecha_CC"+fecha_CC);
                 fecha_comienzo=fecha_CC; 
-                fecha_sincro_comienzo=fecha_comienzo;
-                alert("fecha_sincro_comienzo:CC"+fecha_sincro_comienzo);
+    
+                console.log("fecha_comienzo:CC // "+fecha_comienzo);
+                        
           };
           
           break;
