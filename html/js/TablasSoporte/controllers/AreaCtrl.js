@@ -22,7 +22,7 @@ function(httpFactory, areaFactory,$filter) {
     if(va.area)
     {
       va.inserted = {
-        // id: va.area.length+1,
+        id: va.area.length+1,
         areaid: null,
         nombre: null,
         area_padre: null ,
@@ -31,13 +31,14 @@ function(httpFactory, areaFactory,$filter) {
         iscontacto: null ,
         iscomercial: null ,
         orden: null ,
+        // isnew: true,
       };
     }
     else
     {
       va.area=[];
       va.inserted = {
-        // id: va.area.length+1,
+        id: va.area.length+1,
         areaid: null,
         nombre: null,
         area_padre: null ,
@@ -49,6 +50,7 @@ function(httpFactory, areaFactory,$filter) {
       };
     }
     va.area.push(va.inserted);
+    // console.log(va.area);
 };
 
 
@@ -71,10 +73,10 @@ function(httpFactory, areaFactory,$filter) {
     httpFactory.setGuardarArea(areaid,nombre,area_padre,isproyecto,ispropuesta,iscontacto,iscomercial,orden)
     .then(function(data) {
      // va.area=data;
-
+    alert('Cambios guardados satisfactoriamente');
     })
     .catch(function(err) {
-      va.area = {};
+      va.area = [];
     })
 
   })
