@@ -4,6 +4,11 @@ class Admin_Model_DbTable_Area extends Zend_Db_Table_Abstract
     protected $_name = 'area';
     protected $_primary = 'areaid';
 
+    public function _getName($id){
+        return $this->fetchRow($this->select()
+                    ->where('areaid = ?', $id))
+                    ->toArray();
+    }
     public function _getFilter($where=null,$attrib=null,$orders=null){
         try{
             //if($where['eid']=='' || $where['oid']=='') return false;
@@ -159,8 +164,8 @@ class Admin_Model_DbTable_Area extends Zend_Db_Table_Abstract
         try{
             //if ($pk['id_tproyecto']=='' ||  $pk['proyectoid']=='' ) return false;
             $where = "
-                areaid = '".$pk['areaid']."'                              
-          
+                areaid = '".$pk['areaid']."'
+
             ";
             return $this->update($data, $where);
             return false;
@@ -185,10 +190,10 @@ class Admin_Model_DbTable_Area extends Zend_Db_Table_Abstract
        public function _delete($pk=null)
         {
             try{
-          
-               
+
+
                 $where = "areaid = '".$pk['areaid']."'
-                       
+
                          ";
 
                 return $this->delete( $where);

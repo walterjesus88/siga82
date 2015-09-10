@@ -9,8 +9,8 @@
       $count_all = $tb_sheet_time ->_count_all($params);
       return array(
         'sEcho' => intval($params["sEcho"]),
-        'iTotalRecords' => 1752,//$count_all[0]['total'],
-        'iTotalDisplayRecords' => 124,//$count_all[0]['total'],
+        'iTotalRecords' => $count_all[0]['total'],
+        'iTotalDisplayRecords' => $count_all[0]['total'],
         'aaData'=> $this->data($params)
       );
     }
@@ -19,13 +19,14 @@
     {
       $data = array();
       $tb_area = new Admin_Model_DbTable_Area();
+      $tb_sheet_time =  new Admin_Model_DbTable_Tareopersona();
       if ($this->sheet_times($params)) {
         foreach ($this->sheet_times($params) as $key => $sheet_time) {
-          $name_area = $tb_area->fetchRow($tb_area->select()->where('areaid = ?', $sheet_time['areaid']))->toArray();
+          $name_area = $tb_area->_getName($sheet_time["areaid"]);
           $data[$key][0] = $name_area['nombre'];
           $data[$key][1] = $sheet_time["uid"];
           $data[$key][2] = $sheet_time["semanaid"];
-          $data[$key][3] = $this->estado_name($sheet_time["estado"]);
+          $data[$key][3] = $tb_sheet_time->_getNameStatus($sheet_time["estado"]);
         }
       }
       return $data;
@@ -46,7 +47,7 @@
 
     public function page($params)
     {
-      return $params["iDisplayStart"]/$this->per_page($params) + 1;
+      return $params["iDisplayStart"] / $this->per_page($params) + 1;
     }
 
     public function per_page($params)
@@ -65,17 +66,4 @@
       return $params["sSortDir_0"] = ($params["sSortDir_0"] == "desc" ? "desc" : "asc");
     }
 
-    private function estado_name($estado){
-      switch ($estado) {
-        case 'A':
-          return "No enviado";
-          break;
-        case 'C':
-          return "Enviado";
-          break;
-        default:
-          return "no existe";
-          break;
-      }
-    }
  }
