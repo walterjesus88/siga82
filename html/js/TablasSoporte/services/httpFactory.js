@@ -1,16 +1,16 @@
-app.factory('httpFactory', ['$http', '$q' , function($http,$q){
+app.factory('httpFactory', ['$http','$q', function($http,$q) {
 
 var url="/listararea/index/";//ruta vista
 var url_area='/soporte/funciones/';//ruta controlador funciones
 
 var publico = {
-    getAreas: function(isproyecto) {
+    getAreas: function() {
       var defered = $q.defer();
       var promise = defered.promise;
 
-      alert(isproyecto);
+      // alert(isproyecto);
 
-      $http.get(url_area + 'llamarareas/isproyecto/'+isproyecto)
+      $http.get(url_area + 'llamarareas/')
       .success(function(data) {
         defered.resolve(data);
       })
@@ -20,13 +20,13 @@ var publico = {
       return promise;
     },
 
-    setGuardarArea: function(nombre,areaid) {
+    setGuardarArea: function(areaid,nombre,area_padre,isproyecto,ispropuesta,iscontacto,iscomercial,orden) {
       var defered = $q.defer();
       var promise = defered.promise;
 
       //alert(isproyecto);
 
-      $http.get(url_area + 'guardararea/nombre/'+nombre+"/areaid/"+areaid)
+      $http.get(url_area + 'guardararea/areaid/'+areaid+"/nombre/"+nombre+"/area_padre/"+area_padre+"/isproyecto/"+isproyecto+"/ispropuesta/"+ispropuesta+"/iscontacto/"+iscontacto+"/iscomercial/"+iscomercial+"/orden/"+orden)
       .success(function(data) {
         defered.resolve(data);
       })
@@ -36,7 +36,7 @@ var publico = {
       return promise;
     },
 
-    setEliminarxArea: function(areaid) {
+   /* setEliminarxArea: function(areaid) {
       var defered = $q.defer();
       var promise = defered.promise;
 
@@ -50,7 +50,7 @@ var publico = {
         defered.reject(err);
       });
       return promise;
-    },
+    },*/
 
 }
   return publico;

@@ -19,11 +19,12 @@ class Soporte_FuncionesController extends Zend_Controller_Action {
 
     public function llamarareasAction()
     {
-      $isproyecto = $this->_getParam('isproyecto');
+      // $isproyecto = $this->_getParam('isproyecto');
 
-      $where = array('isproyecto' =>$isproyecto , );
+      // $where = array('isproyecto' =>$isproyecto , );
       $areas= new Admin_Model_DbTable_Area();
-      $a=$areas->_getFilter($where);
+      // $a=$areas->_getFilter($where);
+      $a=$areas->_getAreaAll();
 
       $this->_helper->json->sendJson($a);
 
@@ -51,28 +52,23 @@ class Soporte_FuncionesController extends Zend_Controller_Action {
     }
 
 
-    public function eliminareaAction()
-    {
-      $areaid = $this->_getParam('areaid');
+    // public function eliminareaAction()
+    // {
+    //   $areaid = $this->_getParam('areaid');
 
-      ///$where = array('nombre' =>$nombre , );
-      $pk = array('areaid' =>$areaid , );
-      $eliminararea= new Admin_Model_DbTable_Area();
-      $earea=$eliminararea->_delete($pk);
+    //   ///$where = array('nombre' =>$nombre , );
+    //   $pk = array('areaid' =>$areaid , );
+    //   $eliminararea= new Admin_Model_DbTable_Area();
+    //   $earea=$eliminararea->_delete($pk);
 
-      // print_r($where);
-      // print_r($pk);
-      // print_r($garea);
+    //   // print_r($where);
+    //   // print_r($pk);
+    //   // print_r($garea);
 
-      // exit();
+    //   // exit();
 
-      $this->_helper->json->sendJson($earea);
+    //   $this->_helper->json->sendJson($earea);
 
-    }
-
-
-
-
-
+    // }
 
 }

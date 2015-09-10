@@ -1,62 +1,10 @@
- <!-- INICIO DE LA TABLA DE PRUEBA AREA EN ANGULAR-->
- <div class="panel">
- <header class="panel-heading">
- <h2>Areas</h2>
- <div class="btn-edit">
-    <button type="button" class="btn btn-default" ng-show="!tableform.$visible" ng-click="tableform.$show()">
-        editar
-    </button>
-</div>
- <div class="panel-body">
-
- <form method="POST" action="#" editable-form name="tableform" onaftersave="vp.guardararea()" oncancel="cancel()" >
-<table class="table table-hover p-table">
-
- <tr ng-repeat="areas in vp.area">
-
-  <td>
-  <span editable-text="areas.areaid" e-from="tableform">
-   {{areas.areaid}}
-   </span>
-  </td>
-  <td>
-  <span editable-text="areas.nombre" e-from="tableform">
-  {{areas.nombre}}
- </span>
-  </td>
-
- </tr>
-
-<div class="btn-form" ng-show="tableform.$visible">
-
-    <button type="submit" ng-disabled="tableform.$waiting" class="btn btn-primary">guardar</button>
-    <button type="button" ng-disabled="tableform.$waiting" ng-click="tableform.$cancel()" class="btn btn-default">cancelar</button>
-</div>
-
-</table>
- <div class="btn-edit">
-    <button type="button" class="btn btn-default" ng-show="!tableform.$visible" ng-click="tableform.$show()">
-        editar
-    </button>
-</div>
-<div class="btn-form" ng-show="tableform.$visible">
-
-    <button type="submit" ng-disabled="tableform.$waiting" class="btn btn-primary">guardar</button>
-    <button type="button" ng-disabled="tableform.$waiting" ng-click="tableform.$cancel()" class="btn btn-default">cancelar</button>
-</div>
-</form>
-</div>
-</header>
-</div>
-
-<!-- FIN DE LA TABLA DE PRUEBA AREA EN ANGULAR-->
 <div class="panel">
-  
+
   <section class="panel">
     <header class="panel-heading">
         Lista de Proyectos
     <span class="pull-right">
-        
+
 
       <button type="button" class="btn btn-success btn-xs" ng-click="vp.cargarProyectos('A')">Activo</button>
       <button type="button" class="btn btn-warning btn-xs" ng-click="vp.cargarProyectos('C')">Cerrado</button>
@@ -68,17 +16,16 @@
 </section>
 
   <div class="panel-body">
-    
- 
+
          <table datatable="ng" class="table table-condensed table-hover p-table">
       <thead>
-        
+
          <th style="width: 10%;">Código</th>
                 <th style="width: 20%;">Cliente</th>
                 <th style="width: 35;">Nombre</th>
                 <th style="width: 10%;">Gerente Proyecto</th>
                 <th style="width: 10%;">Control Proyecto</th>
-                
+
                 <th style="width: 5%;">Estado</th>
                 <th style="width: 10%;">Acciones</th>
       </thead>
@@ -109,9 +56,9 @@
           </td>
 
 
-          <!--<td >      
+          <!--<td >
             <span editable-select="proyecto.estado" e-form="rowform" e-ng-options="pro.value as pro.text for pro in vp.estadoproyecto">
-              {{ vp.showEstadoproyecto(proyecto) }} 
+              {{ vp.showEstadoproyecto(proyecto) }}
             </span>
           </td> -->
 
@@ -125,7 +72,7 @@
                   Información
                 </button>
               </li>
-              
+
             </ul>
           </td>
         </tr>
