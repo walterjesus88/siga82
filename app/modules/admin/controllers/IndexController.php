@@ -27,7 +27,11 @@ class Admin_IndexController extends Zend_Controller_Action {
       $this->_helper->layout()->disableLayout();
              
     }
-   
+    
+    public function modalusuarioAction()
+    {
+  $this->_helper->layout()->disableLayout();
+    }
     
 }
 
