@@ -187,7 +187,7 @@ class Admin_Model_DbTable_Area extends Zend_Db_Table_Abstract
         public function _save($data)
     {
         try{
-            if ($data['areaid']=='' ||  $data['clienteid']=='' ) return false;
+            if ($data['areaid']=='' ) return false;
             return $this->insert($data);
             return false;
         }catch (Exception $e){

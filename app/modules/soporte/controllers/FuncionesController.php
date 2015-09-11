@@ -39,6 +39,35 @@ class Soporte_FuncionesController extends Zend_Controller_Action {
 
       // exit();
 
+        $formdata['areaid']=$areaid = $this->_getParam('areaid');
+        $formdata['nombre']=$nombre = $this->_getParam("nombre");
+        $formdata['area_padre']=$area_padre = $this->_getParam("area_padre");
+        $formdata['isproyecto']=$isproyecto = $this->_getParam("isproyecto");
+        $formdata['ispropuesta']=$ispropuesta = $this->_getParam("ispropuesta");
+        $formdata['iscontacto']=$iscontacto = $this->_getParam("iscontacto");
+        $formdata['iscomercial']=$iscomercial = $this->_getParam("iscomercial");
+        $formdata['orden']=$orden = $this->_getParam("orden");
+        print_r($nombre);
+        $guardararea=new Admin_Model_DbTable_Area();
+        $garea=$guardararea->_save($formdata);
+
+        print_r($nombre);
+        
+      exit();
+
+      $this->_helper->json->sendJson($garea);
+
+
+    }
+
+    public function modificarareaAction()
+    {
+
+      // print_r($pk);
+      // print_r($garea);
+
+      // exit();
+
         $areaid = $this->_getParam('areaid');
         $formdata['nombre']=$nombre = $this->_getParam("nombre");
         $formdata['area_padre']=$area_padre = $this->_getParam("area_padre");
