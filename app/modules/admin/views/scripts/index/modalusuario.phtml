@@ -1,0 +1,52 @@
+<div class="modal-dialog modal-m " style="border-width:7px; 
+    border-style:solid;  ">
+    <div class="modal-header" style=" background: rgba(0, 105, 173, 1);">
+      <button type="button" class="close" aria-hidden="true" ng-click="mc.cerrar()">x</button>
+      <h4 class="modal-title">Añadir Usuario</h4>
+    </div>
+    <div class="modal-body">
+      <div class="col-md-6">
+        <section class="form-group">
+          <label for="">Nombre y Apellido:</label>
+          <input type="text" class="form-control" ng-disabled="mc.edicion"
+          ng-model="mc.contacto.atencion">
+        </section>
+        <section class="form-group">
+          <label for="">Área:</label>
+          <input type="text" class="form-control" ng-disabled="mc.edicion"
+          ng-model="mc.contacto.area">
+        </section>
+        <section class="form-group">
+          <label for="">Correo:</label>
+          <input type="text" class="form-control" ng-disabled="mc.edicion"
+          ng-model="mc.contacto.correo">
+        </section>
+      </div>
+      <div class="col-md-6">
+        <section class="form-group">
+          <label for="">Nombre y Apellido:</label>
+          <input type="text" class="form-control" ng-disabled="mc.edicion"
+          ng-model="mc.contacto.atencion">
+        </section>
+        <section class="form-group">
+          <label for="">Área:</label>
+          <input type="text" class="form-control" ng-disabled="mc.edicion"
+          ng-model="mc.contacto.area">
+        </section>
+        <section class="form-group">
+          <label for="">Correo:</label>
+          <input type="text" class="form-control" ng-disabled="mc.edicion"
+          ng-model="mc.contacto.correo">
+        </section>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-success btn-xs" ng-click="mc.agregar()">Agregar</button>
+        <button type="button" class="btn btn-info btn-xs" ng-click="mc.modificar()">Modificar</button>
+        <button type="button" class="btn btn-warning btn-xs" ng-click="mc.eliminar()">Eliminar</button>
+
+      <button type="button" class="btn btn-success btn-xs" ng-click="mc.guardar()">Guardar</button>
+      <button type="button" class="btn btn-danger btn-xs" ng-click="mc.cancelar()">Cancelar</button>
+    </div>
+    <alert ng-repeat="alert in mc.alerts" type="{{alert.type}}" close="mc.closeAlert($index)">{{alert.msg}}</alert>
+  </div>
