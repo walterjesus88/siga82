@@ -104,14 +104,17 @@ class Admin_Model_DbTable_Transmittal extends Zend_Db_Table_Abstract
     public function _getTransmittal($transmittalid, $correlativo)
     {
       $sql = $this->_db->query("select tra.codificacion, tra.correlativo,
-      tra.clienteid, cli.nombre_comercial, tra.proyectoid, tra.formato,
+      tra.clienteid, cli.nombre_comercial, tra.proyectoid,
+      pro.nombre_proyecto, tra.formato,
       tra.tipo_envio, tra.control_documentario, tra.atencion,
       concat(con.nombre1, ' ', con.ape_paterno) as nombre_atencion,
-      con.puesto_trabajo, tra.modo_envio
+      con.puesto_trabajo, tra.modo_envio, uni.nombre as unidad_minera
       from transmittal as tra inner join cliente as cli on
-      tra.clienteid = cli.clienteid
+      (tra.clienteid = cli.clienteid)
       inner join contacto as con on (tra.atencion = con.contactoid and
       tra.clienteid = con.clienteid)
+      inner join proyecto as pro on (tra.proyectoid = pro.proyectoid)
+      inner join unidad_minera as uni on (pro.unidad_mineraid = uni.unidad_mineraid)
       where codificacion = '".$transmittalid."' and correlativo ='".$correlativo."'");
       $row = $sql->fetch();
       return $row;
@@ -130,6 +133,20 @@ class Admin_Model_DbTable_Transmittal extends Zend_Db_Table_Abstract
       } catch (Exception $e) {
         print $e->getMessage();
       }
+    }
+
+    public function _updateContacto($codificacion, $correlativo, $contactoid)
+    {
+      try {
+        $transmittal = $this->fetchRow("codificacion = '".$codificacion."' and
+        correlativo = '".$correlativo."'");
+        $transmittal->atencion = $contactoid;
+        $transmittal->save();
+        return $transmittal;
+      } catch (Exception $e) {
+        print $e->getMessage();
+      }
+
     }
 
 }

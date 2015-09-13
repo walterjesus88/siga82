@@ -255,8 +255,8 @@ class Admin_Model_DbTable_Formato extends Zend_Db_Table_Abstract
     $page->drawText($this->cabecera['puesto_trabajo'], 70, 725, 'UTF-8');
     $page->drawText($this->cabecera['nombre_atencion'], 70, 710, 'UTF-8');
     $page->drawText($this->cabecera['codificacion'].'-'.$this->cabecera['correlativo'], 360, 740);
-    $page->drawText($this->cabecera['proyectoid'], 360, 725);
-    $page->drawText('¿de que estamos hablando?', 360, 710, 'UTF-8');
+    $page->drawText($this->cabecera['nombre_proyecto'], 360, 725, 'UTF-8');
+    $page->drawText($this->cabecera['unidad_minera'], 360, 710, 'UTF-8');
 
     if ($this->cabecera['modo_envio'] == 'C') {
       $page->drawText('X', 96, 693);
@@ -264,7 +264,7 @@ class Admin_Model_DbTable_Formato extends Zend_Db_Table_Abstract
       $page->drawText('X', 205, 693);
     }
 
-    $page->drawText('¿Codigo de que?', 360, 695, 'UTF-8');
+    $page->drawText($this->cabecera['proyectoid'], 360, 695, 'UTF-8');
     $page->drawText(date("d-m-Y"), 510, 695);
 
     //cuerpo
@@ -274,22 +274,8 @@ class Admin_Model_DbTable_Formato extends Zend_Db_Table_Abstract
       $page->drawText($this->data[$i]['codigo_anddes'], 30, 650 - ($i * 20));
       $page->drawText($this->data[$i]['revision'], 145, 650 - ($i * 20));
       $page->drawText($this->data[$i]['descripcion_entregable'], 170, 650 - ($i * 20), 'UTF-8');
-      $page->drawText($this->data[$i]['tipo_documento'], 505, 650 - ($i * 20));
-
-    }
-    $page->setFont($this->font, $this->font_size);
-    if ($this->data[0]['emitido'] == 'A') {
-      $page->drawText('X', 40, 155);
-    } elseif ($this->data[0]['emitido'] == 'B') {
-      $page->drawText('X', 40, 133);
-    } elseif ($this->data[0]['emitido'] == 'C') {
-      $page->drawText('X', 40, 110);
-    } elseif ($this->data[0]['emitido'] == 'AP') {
-      $page->drawText('X', 325, 155);
-    } elseif ($this->data[0]['emitido'] == 'AC') {
-      $page->drawText('X', 325, 133);
-    } elseif ($this->data[0]['emitido'] == 'NA') {
-      $page->drawText('X', 325, 110);
+      $page->drawText($this->data[$i]['emitido'], 520, 650 - ($i * 20));
+      $page->drawText($this->data[$i]['cantidad'], 570, 650 - ($i * 20));
     }
 
     $pdf = new Zend_Pdf();

@@ -19,7 +19,7 @@ class Admin_Model_DbTable_DetalleTransmittal extends Zend_Db_Table_Abstract
     {
       try {
         $sql = $this->_db->query("select det.detalleid, led.descripcion_entregable,
-        led.codigo_anddes, led.tipo_documento, det.revision, det.emitido
+        led.codigo_anddes, led.tipo_documento, det.revision, det.emitido, det.cantidad
         from detalle_transmittal as det inner join lista_entregable_detalle as
         led on (det.entregableid = led.cod_le)
         where transmittal = '".$transmittal."' and correlativo = '".$correlativo."'");
@@ -64,6 +64,7 @@ class Admin_Model_DbTable_DetalleTransmittal extends Zend_Db_Table_Abstract
       }
       $row->emitido = $data['emitido'];
       $row->fecha = $data['fecha'];
+      $row->cantidad = $data['cantidad'];
       $row->save();
       $row = $this->_setEstado($data['detalleid']);
       return $row;
@@ -188,7 +189,7 @@ class Admin_Model_DbTable_DetalleTransmittal extends Zend_Db_Table_Abstract
         $sql = $this->_db->query("select det.detalleid, det.transmittal,
         det.correlativo, led.codigo_anddes, led.codigo_cliente, led.descripcion_entregable,
         det.revision as revision_entregable, led.estado as estado_revision, det.emitido,
-        det.fecha, tra.estado_elaboracion from detalle_transmittal as det inner join
+        det.fecha, tra.estado_elaboracion, det.cantidad from detalle_transmittal as det inner join
         lista_entregable_detalle as led on (led.cod_le = det.entregableid)
         inner join transmittal as tra on (tra.codificacion = det.transmittal and
         tra.correlativo = det.correlativo)

@@ -86,6 +86,7 @@ class ControlDocumentario_JsonController extends Zend_Controller_Action {
         $data['control_proyecto'] = $item['control_proyecto'];
         $data['control_documentario'] = $item['control_documentario'];
         $data['estado'] = $item['estado'];
+        $data['unidad_red'] = $item['unidad_red'];
         $respuesta[$i] = $data;
         $i++;
       }
@@ -114,6 +115,14 @@ class ControlDocumentario_JsonController extends Zend_Controller_Action {
       $clienteid = $this->_getParam('clienteid');
       $contacto = new Admin_Model_DbTable_Contacto();
       $cons = $contacto->_getContactoxCliente($clienteid);
+      $this->_helper->json->sendJson($cons);
+    }
+
+    public function contactosbyproyectoAction()
+    {
+      $proyectoid = $this->_getParam('proyectoid');
+      $contacto = new Admin_Model_DbTable_Contacto();
+      $cons = $contacto->_getContactosxProyecto($proyectoid);
       $this->_helper->json->sendJson($cons);
     }
 
@@ -254,6 +263,15 @@ class ControlDocumentario_JsonController extends Zend_Controller_Action {
       $control_documentario = $this->_getParam('controldocumentario');
       $proyecto = new Admin_Model_DbTable_Proyecto();
       $respuesta = $proyecto->_updateControlDocumentario($proyectoid, $control_documentario);
+      $this->_helper->json->sendJson($respuesta);
+    }
+
+    public function cambiarcarpetaAction()
+    {
+      $proyectoid = $this->_getParam('proyectoid');
+      $unidad_red = $this->_getParam('unidadred');
+      $proyecto = new Admin_Model_DbTable_Proyecto();
+      $respuesta = $proyecto->_updateUnidadRed($proyectoid, $unidad_red);
       $this->_helper->json->sendJson($respuesta);
     }
 

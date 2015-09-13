@@ -21,7 +21,7 @@ function(httpFactory, proyectoFactory) {
       data.forEach(function(item) {
         proyecto = new proyectoFactory.Proyecto(item.codigo, item.cliente,
           item.nombre, item.gerente, item.control_proyecto,
-          item.control_documentario, item.estado);
+          item.control_documentario, item.estado, item.unidad_red);
         vp.proyectos.push(proyecto);
       });
     })
@@ -41,6 +41,14 @@ function(httpFactory, proyectoFactory) {
   })
   .catch(function(err) {
     vp.control_documentario = [];
+  });
+
+  httpFactory.getCarpetas()
+  .then(function(data) {
+    vp.carpetas = data
+  })
+  .catch(function(err) {
+    vp.carpetas = [];
   });
 
   //carga inicial de los proyectos con estado activo
