@@ -80,6 +80,7 @@ function(httpFactory, entregableFactory, $routeParams, transmittalFactory, $root
 
   //estado de los paneles de la vista
   va.edt_activo = '';
+  va.le_activo = '';
   va.tecnicos_activo = 'active';
   va.gestion_activo = '';
   va.comunicacion_activo = '';
@@ -89,12 +90,21 @@ function(httpFactory, entregableFactory, $routeParams, transmittalFactory, $root
   va.cambiarPanel = function(panel) {
     if (panel == 'edt') {
       va.edt_activo = 'active';
+      va.le_activo = '';
+      va.tecnicos_activo = '';
+      va.gestion_activo = '';
+      va.comunicacion_activo = '';
+      va.tabla_visible = '';
+    } else if (panel == 'le') {
+      va.edt_activo = '';
+      va.le_activo = 'active';
       va.tecnicos_activo = '';
       va.gestion_activo = '';
       va.comunicacion_activo = '';
       va.tabla_visible = '';
     } else if (panel == 'tecnicos') {
       va.edt_activo = '';
+      va.le_activo = '';
       va.tecnicos_activo = 'active';
       va.gestion_activo = '';
       va.comunicacion_activo = '';
@@ -103,6 +113,7 @@ function(httpFactory, entregableFactory, $routeParams, transmittalFactory, $root
       listarEntregables(proyecto, 'Ultimo', va.clase);
     } else if (panel == 'gestion') {
       va.edt_activo = '';
+      va.le_activo = '';
       va.tecnicos_activo = '';
       va.gestion_activo = 'active';
       va.comunicacion_activo = '';
@@ -111,6 +122,7 @@ function(httpFactory, entregableFactory, $routeParams, transmittalFactory, $root
       listarEntregables(proyecto, 'Ultimo', va.clase);
     } else if (panel == 'comunicacion') {
       va.edt_activo = '';
+      va.le_activo = '';
       va.tecnicos_activo = '';
       va.gestion_activo = '';
       va.comunicacion_activo = 'active';
@@ -155,7 +167,7 @@ function(httpFactory, entregableFactory, $routeParams, transmittalFactory, $root
 
   //funcion para generar nuevas revisiones de los elementos seleccionados
   va.generarRev = function() {
-    
+
     va.seleccionados = [];
 
     va.entregables.forEach(function(entregable) {

@@ -197,6 +197,22 @@ class Admin_Model_DbTable_Contacto extends Zend_Db_Table_Abstract
       }
     }
 
+    public function _getContactosxProyecto($proyectoid)
+    {
+      try {
+        $sql = $this->_db->query("select con.contactoid, con.clienteid,
+        con.puesto_trabajo, con.correo, concat(con.nombre1, ' ', con.ape_paterno) as nombre
+        from contacto as con inner join proyecto as pro on
+        (con.clienteid = pro.clienteid)
+        where pro.proyectoid='".$proyectoid."' order by nombre");
+        $row = $sql->fetchAll();
+        return $row;
+      } catch (Exception $e) {
+        print $e->getMessage();
+      }
+
+    }
+
     public function _addContacto($data)
     {
       try {

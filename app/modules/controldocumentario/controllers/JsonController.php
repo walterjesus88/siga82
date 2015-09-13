@@ -118,6 +118,14 @@ class ControlDocumentario_JsonController extends Zend_Controller_Action {
       $this->_helper->json->sendJson($cons);
     }
 
+    public function contactosbyproyectoAction()
+    {
+      $proyectoid = $this->_getParam('proyectoid');
+      $contacto = new Admin_Model_DbTable_Contacto();
+      $cons = $contacto->_getContactosxProyecto($proyectoid);
+      $this->_helper->json->sendJson($cons);
+    }
+
     //Devuelve la lista de tipos de proyecto de la tabla proyecto
     public function tipoproyectoAction()
     {

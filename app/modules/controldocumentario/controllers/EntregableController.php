@@ -16,6 +16,14 @@ class ControlDocumentario_EntregableController extends Zend_Controller_Action {
         Zend_Layout::startMvc($options);
     }
 
+    public function listaentregablesAction()
+    {
+      $proyectoid = $this->_getParam('proyectoid');
+      $entregable = new Admin_Model_DbTable_Listaentregabledetalle();
+      $respuesta = $entregable->_getListaEntregables($proyectoid);
+      $this->_helper->json->sendJson($respuesta);
+    }
+
     //Devuelve la lista de entregables de un proyecto
     public function entregablesAction()
     {

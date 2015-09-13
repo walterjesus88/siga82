@@ -74,6 +74,23 @@ class Admin_Model_DbTable_Listaentregabledetalle extends Zend_Db_Table_Abstract
         }
     }
 
+    public function _getListaEntregables($proyectoid)
+    {
+      try {
+        $query1 = "select led.cod_le, led.proyectoid, led.revision_documento as
+        revision_entregable, led.edt, led.tipo_documento, led.disciplina,
+        led.codigo_anddes, led.codigo_cliente, led.descripcion_entregable,
+        led.estado as estado_revision, led.clase, led.fecha_a, led.fecha_b, led.fecha_0
+        from lista_entregable_detalle as led
+        where led.proyectoid = '".$proyectoid."' and led.clase = 'Tecnico'";
+        $sql = $this->_db->query($query1);
+        $row = $sql->fetchAll();
+        return $row;
+      } catch (Exception $e) {
+        print $e->getMessage();
+      }
+    }
+
     //obtener los entregables de un proyecto
     public function _getEntregablexProyecto($proyectoid, $condicion, $clase)
     {
