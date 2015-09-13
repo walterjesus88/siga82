@@ -72,16 +72,21 @@ class Admin_Model_DbTable_Transmittal extends Zend_Db_Table_Abstract
     public function _saveConfiguracion($data)
     {
       try {
-        $sql = $this->_db->query("insert into transmittal values ('".
-        $data['codificacion']."', '".$data['correlativo']."', '".
-        $data['clienteid']."', '".$data['proyectoid']."', '".$data['formato'].
-        "', '".$data['tipo_envio']."', '".$data['control_documentario'].
-        "', '".$data['dias_alerta']."', '".$data['tipo_proyecto']."', '".
-        $data['atencion']."', '".$data['modo_envio']."', '".$data['estado_elaboracion']."')");
-        $row = $sql->fetchAll();
-        return $row;
-        //$this->insert($data);
-        //return $respuesta['resultado'] = 'guardado';
+        $transmittal = $this->createRow();
+        $transmittal->codificacion = $data['codificacion'];
+        $transmittal->correlativo = $data['correlativo'];
+        $transmittal->clienteid = $data['clienteid'];
+        $transmittal->proyectoid = $data['proyectoid'];
+        $transmittal->formato = $data['formato'];
+        $transmittal->tipo_envio = $data['tipo_envio'];
+        $transmittal->control_documentario = $data['control_documentario'];
+        $transmittal->dias_alerta = $data['dias_alerta'];
+        $transmittal->tipo_proyecto = $data['tipo_proyecto'];
+        $transmittal->atencion = $data['atencion'];
+        $transmittal->modo_envio = $data['modo_envio'];
+        $transmittal->estado_elaboracion = $data['estado_elaboracion'];
+        $transmittal->save();
+        return $transmittal;
       } catch (Exception $e) {
         print $e->getMessage();
       }

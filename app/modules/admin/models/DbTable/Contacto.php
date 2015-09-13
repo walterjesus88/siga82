@@ -227,10 +227,15 @@ class Admin_Model_DbTable_Contacto extends Zend_Db_Table_Abstract
         } else {
           $numero = 1;
         }
-        $sql = $this->_db->query("insert into contacto (contactoid, clienteid,
-        puesto_trabajo, correo, nombre1) values('".$numero."', '".$data['clienteid'].
-        "', '".$data['area']."', '".$data['correo']."', '".$data['nombre']."')");
-        $row = $sql->fetchAll();
+
+        $contacto = $this->createRow();
+        $contacto->contactoid = (string)$numero;
+        $contacto->clienteid = $data['clienteid'];
+        $contacto->puesto_trabajo = $data['area'];
+        $contacto->correo = $data['correo'];
+        $contacto->nombre1 = $data['nombre'];
+        $contacto->save();
+
         $lista = $this->_getContactoxCliente($data['clienteid']);
         return $lista;
       } catch (Exception $e) {
@@ -242,11 +247,12 @@ class Admin_Model_DbTable_Contacto extends Zend_Db_Table_Abstract
     public function _updateContacto($data)
     {
       try {
-        $sql = $this->_db->query("update contacto set puesto_trabajo = '".
-        $data['area']."', correo = '".$data['correo']."', nombre1 ='".
-        $data['nombre']."' where clienteid = '".$data['clienteid'].
+        $contacto = $this->fetchRow("clienteid = '".$data['clienteid'].
         "' and contactoid = '".$data['contactoid']."'");
-        $row = $sql->fetchAll();
+        $contacto->puesto_trabajo = $data['area'];
+        $contacto->correo = $data['correo'];
+        $contacto->nombre1 = $data['nombre'];
+        $contacto->save();
         $lista = $this->_getContactoxCliente($data['clienteid']);
         return $lista;
       } catch (Exception $e) {
@@ -257,11 +263,15 @@ class Admin_Model_DbTable_Contacto extends Zend_Db_Table_Abstract
 
     public function _deleteContacto($clienteid, $contactoid)
     {
-      $sql = $this->_db->query("delete from contacto where clienteid = '".
-      $clienteid."' and contactoid ='".$contactoid."'");
-      $row = $sql->fetchAll();
-      $lista = $this->_getContactoxCliente($clienteid);
-      return $lista;
+      try {
+        $contacto = $this->fetchRow("clienteid = '".$clienteid."' and contactoid = '".
+        $contactoid."'");
+        $contacto->delete();
+        $lista = $this->_getContactoxCliente($clienteid);
+        return $lista;
+      } catch (Exception $e) {
+        print $e->getMessage();
+      }
     }
 
     public function _getDatosContacto($clienteid, $contactoid)
