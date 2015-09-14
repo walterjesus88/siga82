@@ -62,9 +62,9 @@ class Soporte_FuncionesclienteController extends Zend_Controller_Action {
         $guardarcliente=new Admin_Model_DbTable_Cliente();
         $gcliente=$guardarcliente->_save($formdata);
 
-        print_r($nombre);
+      //   print_r($nombre);
         
-      exit();
+      // exit();
 
       $this->_helper->json->sendJson($gcliente);
 
@@ -104,7 +104,7 @@ class Soporte_FuncionesclienteController extends Zend_Controller_Action {
 
         // print_r($nombre);
         // alert($nombre);
-      exit();
+      // exit();
 
       $this->_helper->json->sendJson($gcliente);
 

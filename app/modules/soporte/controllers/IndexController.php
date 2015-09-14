@@ -25,4 +25,10 @@ class Soporte_IndexController extends Zend_Controller_Action {
 
     }
 
+    public function listarunidadmineraAction() {
+
+      $this->_helper->layout()->disableLayout();
+
+    }
+
 }
