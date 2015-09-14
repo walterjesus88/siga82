@@ -33,6 +33,9 @@
         <th>
           ESTADO TR
         </th>
+        <th>
+          CANTIDAD
+        </th>
       </thead>
       <tbody>
         <tr ng-repeat="detalle in td.detalles" ng-click="td.seleccionar($index)"
@@ -72,6 +75,9 @@
           <td>
             {{detalle.estado}}
           </td>
+          <td>
+            <input type="number" ng-model="detalle.cantidad">
+          </td>
         </tr>
       </tbody>
     </table>
@@ -87,7 +93,10 @@
 
   <section class="col-md-3 col-sm-6 form-group panel-body">
     <label for="">Enviar a:</label>
-    <label for="">{{td.atencion.nombre}}</label>
+    <select class="form-control" ng-model="td.atencion.codigo"
+    ng-change="td.cambiarContacto()"
+    ng-options="contactos.contactoid as contactos.nombre for contactos in td.contactos">
+    </select>
     <label for="">{{td.atencion.area}}</label>
     <label for="">{{td.atencion.correo}}</label>
     </select>
@@ -97,7 +106,7 @@
 
 <footer class="col-md-12 panel">
   <button type="button" class="btn btn-info" ng-click="td.imprimirTransmittal()">Imprimir</button>
-  <button type="button" class="btn btn-warning">Agregar</button>
+  <button type="button" class="btn btn-warning" ng-click="td.agregar()">Agregar</button>
   <button type="button" class="btn btn-success" ng-click="td.guardar()">Guardar</button>
   <button type="button" class="btn btn-default">Cancelar</button>
   <button type="button" class="btn btn-danger" ng-click="td.eliminar()">Eliminar</button>

@@ -30,7 +30,7 @@ app.config(['$routeProvider', function($routeProvider) {
     controllerAs: "reporte",
     templateUrl: "/controldocumentario/index/reporte"
   })
-  .when("/transmittal/proyecto/:proyecto", {
+  .when("/transmittal/proyecto/:proyecto/:vista", {
     controller: "TransmittalCtrl",
     controllerAs: "vt",
     templateUrl: "/controldocumentario/index/transmittal"

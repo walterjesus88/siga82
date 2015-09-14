@@ -1,0 +1,84 @@
+<div class="panel" ng-controller="LECtrl as le">
+  <div class="panel-body">
+    <div class="table-responsive">
+      <table class="table table-bordered table-condensed">
+        <thead>
+          <th>
+            ITEM
+          </th>
+          <th>
+            EDT
+          </th>
+          <th>
+            TIPO DOCUMENTO
+          </th>
+          <th>
+            DISCIPLINA
+          </th>
+          <th>
+            CODIGO ANDDES
+          </th>
+          <th>
+            CODIGO CLIENTE
+          </th>
+          <th>
+            DESCRIPCION ENTREGABLES
+          </th>
+          <th>
+            REVISION
+          </th>
+          <th>
+            FECHA A
+          </th>
+          <th>
+            FECHA B
+          </th>
+          <th>
+            FECHA 0
+          </th>
+        </thead>
+        <tbody>
+          <tr ng-repeat="entregable in le.entregables">
+            <td>
+              {{$index + 1}}
+            </td>
+            <td>
+              {{entregable.edt}}
+            </td>
+            <td>
+              {{entregable.tipo}}
+            </td>
+            <td>
+              {{entregable.disciplina}}
+            </td>
+            <td>
+              <input type="text" ng-model="entregable.codigo_anddes"
+              ng-model-options="{updateOn: 'blur'}"
+              ng-change="entregable.actualizarCodigoAnddes()">
+            </td>
+            <td>
+              <input type="text" ng-model="entregable.codigo_cliente"
+              ng-model-options="{updateOn: 'blur'}"
+              ng-change="entregable.actualizarCodigoCliente()">
+            </td>
+            <td>
+              {{entregable.descripcion}}
+            </td>
+            <td>
+              {{entregable.revision}}
+            </td>
+            <td>
+              {{entregable.fecha_a}}
+            </td>
+            <td>
+              {{entregable.fecha_b}}
+            </td>
+            <td>
+              {{entregable.fecha_0}}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

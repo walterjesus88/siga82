@@ -16,6 +16,14 @@ class ControlDocumentario_EntregableController extends Zend_Controller_Action {
         Zend_Layout::startMvc($options);
     }
 
+    public function listaentregablesAction()
+    {
+      $proyectoid = $this->_getParam('proyectoid');
+      $entregable = new Admin_Model_DbTable_Listaentregabledetalle();
+      $respuesta = $entregable->_getListaEntregables($proyectoid);
+      $this->_helper->json->sendJson($respuesta);
+    }
+
     //Devuelve la lista de entregables de un proyecto
     public function entregablesAction()
     {
@@ -146,6 +154,14 @@ class ControlDocumentario_EntregableController extends Zend_Controller_Action {
         }
       }*/
       $this->_helper->json->sendJson($lista);
+    }
+
+    public function guardarrevisionAction()
+    {
+      $data['entregableid'] = $this->_getParam('entregableid');
+      $entregable = new Admin_Model_DbTable_Listaentregabledetalle();
+      $respuesta = $entregable->_createRevision($data);
+      $this->_helper->json->sendJson($respuesta);
     }
 
   }

@@ -1,0 +1,62 @@
+<!--Modal para agregar entregables a un transmittal -->
+<header class="modal-header">
+  <button type="button" class="close" aria-hidden="true" ng-click="me.cancelar()">x</button>
+  <h4 class="modal-title">Agregar Entregables:</h1>
+</header>
+<div class="modal-body">
+  <table class="table table-condensed table-bordered">
+    <thead>
+      <th>
+        EDT
+      </th>
+      <th>
+        TIPO
+      </th>
+      <th>
+        DISCIPLINA
+      </th>
+      <th>
+        CODIGO ANDDES
+      </th>
+      <th>
+        CODIGO CLIENTE
+      </th>
+      <th>
+        DESCRIPCION
+      </th>
+      <th>
+        REVISION
+      </th>
+    </thead>
+    <tbody>
+      <tr ng-repeat="entregable in me.entregables" ng-click="entregable.seleccionarEntregable()"
+      ng-class="entregable.estilo">
+        <td>
+          {{entregable.edt}}
+        </td>
+        <td>
+          {{entregable.tipo}}
+        </td>
+        <td>
+          {{entregable.disciplina}}
+        </td>
+        <td>
+          {{entregable.codigo_anddes}}
+        </td>
+        <td>
+          {{entregable.codigo_cliente}}
+        </td>
+        <td>
+          {{entregable.descripcion}}
+        </td>
+        <td>
+          {{entregable.revision}}
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<footer class="modal-footer">
+  <button type="button" class="btn btn-success btn-xs" ng-click="me.agregar()">Agregar</button>
+  <button type="button" class="btn btn-danger btn-xs" ng-click="me.cancelar()">Cancelar</button>
+</footer>

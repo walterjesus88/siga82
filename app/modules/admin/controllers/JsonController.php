@@ -28,7 +28,7 @@ class Admin_JsonController extends Zend_Controller_Action {
         $estado_usuario = $this->_getParam('estado');    
         $where = array('estado' =>$estado_usuario , );
         $usuarios= new Admin_Model_DbTable_Usuario();
-        $array=$usuarios->_getFilter($where);
+        $array=$usuarios->UsuarioxEstado($estado_usuario);
         $this->_helper->json->sendJson($array);
     }
 

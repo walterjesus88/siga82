@@ -1,5 +1,5 @@
-app.controller('AdminCtrl', ['$scope','httpFactory', 'adminFactory',
-    function($scope,httpFactory, adminFactory) {
+app.controller('AdminCtrl', ['$scope','httpFactory', 'adminFactory', '$modal',
+    function($scope,httpFactory, adminFactory,$modal) {
         var va = this;
         var estado_actual = 'A';
 
@@ -26,8 +26,8 @@ app.controller('AdminCtrl', ['$scope','httpFactory', 'adminFactory',
                 .then(function(data) {
                     va.usuarios = [];
                     data.forEach(function(item) {
-                        usuario = new adminFactory.Usuario(item.uid, item.estado,
-                        item.areaid,item.nombreestado);
+                        usuario = new adminFactory.Usuario(item.uid,item.nombre_completo, item.nombre_area,
+                        item.areaid,item.estado);
                         va.usuarios.push(usuario);
                     });
                 })
@@ -38,6 +38,25 @@ app.controller('AdminCtrl', ['$scope','httpFactory', 'adminFactory',
 
         listarUsuarios(estado_actual);
 
+        va.anadirUsuario = function() {
+            console.log("error al modificar edt");
+            var modalInstance = $modal.open({
+                animation: true,
+                controller: 'ModalUsuarioCtrl',
+                controllerAs: 'mc',
+                templateUrl: '/admin/index/modalusuario',
+                size: 'md',
+               /* resolve: {
+                    cliente: function () {
+                        return vc.transmittal.clienteid;
+                    }
+                }*/
+            });
+
+            /*modalInstance.result.then(function () {
+            }, function () {
+                listarContactos(vc.transmittal.clienteid);
+            });*/
+        }
     }
 ]);
-
