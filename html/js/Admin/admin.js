@@ -2,7 +2,7 @@ var app= angular.module('moduloAdmin', ['ngRoute', 'chart.js','ui.bootstrap','ui
 .config(['$routeProvider', function($routeProvider) {
   $routeProvider
 
-  .when("/", {
+  .when("/acl", {
     controller: "AdminCtrl",
     controllerAs: "va",
     templateUrl: "/admin/index/acl"

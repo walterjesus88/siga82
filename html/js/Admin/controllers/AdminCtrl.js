@@ -57,6 +57,28 @@ app.controller('AdminCtrl', ['$scope','httpFactory', 'adminFactory', '$modal',
             }, function () {
                 listarContactos(vc.transmittal.clienteid);
             });*/
-        }
+        };
+
+        va.verModulos = function() {
+            console.log("error al modificar edt");
+            var modalInstance = $modal.open({
+                animation: true,
+                controller: 'ModalUsuarioCtrl',
+                controllerAs: 'mc',
+                templateUrl: '/admin/index/modalusuario',
+                size: 'md',
+               /* resolve: {
+                    cliente: function () {
+                        return vc.transmittal.clienteid;
+                    }
+                }*/
+            });
+
+            /*modalInstance.result.then(function () {
+            }, function () {
+                listarContactos(vc.transmittal.clienteid);
+            });*/
+        };
+
     }
 ]);
