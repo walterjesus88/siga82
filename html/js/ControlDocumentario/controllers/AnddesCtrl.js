@@ -7,6 +7,9 @@ function(httpFactory, entregableFactory, $routeParams, transmittalFactory, $root
   //obteniendo el codigo del proyecto de los parametros de la ruta
   var proyecto = $routeParams.proyecto;
 
+  //obteniendo la variable de la vista a mostrar
+  var vista = $routeParams.vista;
+
   va.transmittal = {};
 
   /*estados por defecto de la revision del transmittal y tipo de entregable por
@@ -77,6 +80,7 @@ function(httpFactory, entregableFactory, $routeParams, transmittalFactory, $root
 
   //estado de los paneles de la vista
   va.edt_activo = '';
+  va.le_activo = '';
   va.tecnicos_activo = 'active';
   va.gestion_activo = '';
   va.comunicacion_activo = '';
@@ -86,12 +90,21 @@ function(httpFactory, entregableFactory, $routeParams, transmittalFactory, $root
   va.cambiarPanel = function(panel) {
     if (panel == 'edt') {
       va.edt_activo = 'active';
+      va.le_activo = '';
+      va.tecnicos_activo = '';
+      va.gestion_activo = '';
+      va.comunicacion_activo = '';
+      va.tabla_visible = '';
+    } else if (panel == 'le') {
+      va.edt_activo = '';
+      va.le_activo = 'active';
       va.tecnicos_activo = '';
       va.gestion_activo = '';
       va.comunicacion_activo = '';
       va.tabla_visible = '';
     } else if (panel == 'tecnicos') {
       va.edt_activo = '';
+      va.le_activo = '';
       va.tecnicos_activo = 'active';
       va.gestion_activo = '';
       va.comunicacion_activo = '';
@@ -100,6 +113,7 @@ function(httpFactory, entregableFactory, $routeParams, transmittalFactory, $root
       listarEntregables(proyecto, 'Ultimo', va.clase);
     } else if (panel == 'gestion') {
       va.edt_activo = '';
+      va.le_activo = '';
       va.tecnicos_activo = '';
       va.gestion_activo = 'active';
       va.comunicacion_activo = '';
@@ -108,6 +122,7 @@ function(httpFactory, entregableFactory, $routeParams, transmittalFactory, $root
       listarEntregables(proyecto, 'Ultimo', va.clase);
     } else if (panel == 'comunicacion') {
       va.edt_activo = '';
+      va.le_activo = '';
       va.tecnicos_activo = '';
       va.gestion_activo = '';
       va.comunicacion_activo = 'active';
@@ -119,9 +134,20 @@ function(httpFactory, entregableFactory, $routeParams, transmittalFactory, $root
 
   /*sub paneles dee la vista para visualizar los datos de ultimas revisiones,
   historial de revisiones, transmittal y planificacion*/
-  va.tabla_activa = 'active';
-  va.trans_activo = '';
-  va.plan_activo = '';
+  if (vista == 'informacion') {
+    va.tabla_activa = 'active';
+    va.trans_activo = '';
+    va.plan_activo = '';
+  } else if (vista == 'generartr') {
+    va.tabla_activa = '';
+    va.trans_activo = 'active';
+    va.plan_activo = '';
+  } else if (vista == 'generarrpt') {
+    va.tabla_activa = '';
+    va.trans_activo = '';
+    va.plan_activo = 'active';
+  }
+
 
   var cambiarSubPanel = function(panel) {
     if (panel == 'tablas') {
@@ -136,6 +162,37 @@ function(httpFactory, entregableFactory, $routeParams, transmittalFactory, $root
       va.tabla_activa = '';
       va.trans_activo = '';
       va.plan_activo = 'active';
+    }
+  }
+
+  //funcion para generar nuevas revisiones de los elementos seleccionados
+  va.generarRev = function() {
+
+    va.seleccionados = [];
+
+    va.entregables.forEach(function(entregable) {
+      if (entregable.seleccionado == 'selected') {
+        va.seleccionados.push(entregable);
+      }
+    });
+    va.entregables_gestion.forEach(function(entregable) {
+      if (entregable.seleccionado == 'selected') {
+        va.seleccionados.push(entregable);
+      }
+    });
+    va.entregables_comunicacion.forEach(function(entregable) {
+      if (entregable.seleccionado == 'selected') {
+        va.seleccionados.push(entregable);
+      }
+    });
+
+    if (va.seleccionados.length != 0) {
+      va.seleccionados.forEach(function(entregable) {
+        entregable.generarRevision();
+      });
+      $rootScope.$broadcast('recarga_detalles');
+    } else {
+      alert('Seleccione un entregable para generar Revisiones');
     }
   }
 

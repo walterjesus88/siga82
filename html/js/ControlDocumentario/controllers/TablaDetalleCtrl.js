@@ -1,6 +1,7 @@
 app.controller('TablaDetalleCtrl', ['httpFactory', '$routeParams', '$scope',
-'detalleFactory', 'transmittalFactory',
-function(httpFactory, $routeParams, $scope, detalleFactory, transmittalFactory) {
+'detalleFactory', 'transmittalFactory', '$modal',
+function(httpFactory, $routeParams, $scope, detalleFactory, transmittalFactory,
+$modal) {
 
   td = this;
 
@@ -56,6 +57,14 @@ function(httpFactory, $routeParams, $scope, detalleFactory, transmittalFactory) 
     area: '',
     correo: ''
   }
+
+  httpFactory.getContactosByProyecto(proyectoid)
+  .then(function(data) {
+    td.contactos = data;
+  })
+  .catch(function(err) {
+    td.contactos = [];
+  });
 
   //cambiar el modo de envio del transmittal
   td.cambiarModoEnvio = function() {
@@ -148,6 +157,50 @@ function(httpFactory, $routeParams, $scope, detalleFactory, transmittalFactory) 
     .catch(function(err) {
       td.modo_seleccionado = '';
     })
+  }
+
+  td.agregar = function(index) {
+    var trans;
+    var corr;
+    for (var i = 0; i < td.detalles.length; i++) {
+      if (td.detalles[i].seleccionado == true) {
+        trans = td.detalles[i].transmittal;
+        corr = td.detalles[i].correlativo;
+      }
+    }
+
+    var modalInstance = $modal.open({
+      animation: true,
+      controller: 'ModalEntregablesCtrl',
+      controllerAs: 'me',
+      templateUrl: '/controldocumentario/index/modalentregables',
+      size: 'md',
+      resolve: {
+        proyecto: function() {
+          return proyectoid;
+        },
+        transmittal: function () {
+          return trans;
+        },
+        correlativo: function () {
+          return corr;
+        }
+      }
+    });
+
+    modalInstance.result.then(function () {
+    }, function () {
+      listarDetalles();
+    });
+  }
+
+  td.cambiarContacto = function() {
+    for (var i = 0; i < td.detalles.length; i++) {
+      if (td.detalles[i].seleccionado == true) {
+        td.detalles[i].cambiarContacto(td.atencion.codigo);
+      }
+    }
+    alert('Contacto cambiado');
   }
 
 }]);

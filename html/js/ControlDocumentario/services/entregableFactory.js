@@ -166,6 +166,16 @@ app.factory('entregableFactory', ['httpFactory', 'transmittalFactory',
           alert('No se pudo eliminar el entregable');
         });
       }
+
+      this.generarRevision = function() {
+        httpFactory.createRevision(this.codigo)
+        .then(function(data) {
+
+        })
+        .catch(function(err) {
+
+        });
+      }
     }
   }
   return publico;

@@ -137,8 +137,19 @@ app.factory('transmittalFactory', ['httpFactory', '$q', function(httpFactory, $q
         alert('Aun no se a emitido el transmittal');
       }
 
+    },
+    getTransmittal: function(codificacion, correlativo) {
+      var defered = $q.defer();
+      var promise = defered.promise;
+      httpFactory.getDataTransmittal(codificacion, correlativo)
+      .then(function(data) {
+        defered.resolve(data);
+      })
+      .catch(function(err) {
+        defered.reject(err);
+      });
+      return promise;
     }
-
   }
 
   return publico;

@@ -81,6 +81,18 @@ app.factory('httpFactory', ['$http', '$q', function($http, $q) {
       });
       return promise;
     },
+    getContactosByProyecto: function(proyectoid) {
+      var defered = $q.defer();
+      var promise = defered.promise;
+      $http.get(url_json + 'contactosbyproyecto/proyectoid/' + proyectoid)
+      .success(function(data) {
+        defered.resolve(data);
+      })
+      .error(function(err) {
+        defered.reject(data);
+      });
+      return promise;
+    },
     deleteContacto: function(clienteid, contactoid) {
       var defered = $q.defer();
       var promise = defered.promise;
@@ -98,6 +110,19 @@ app.factory('httpFactory', ['$http', '$q', function($http, $q) {
       var defered = $q.defer();
       var promise = defered.promise;
       $http.get(url_json + 'tipoenvio/')
+      .success(function(data) {
+        defered.resolve(data);
+      })
+      .error(function(err) {
+        defered.reject(err);
+      });
+      return promise;
+    },
+    setContactoAsignado: function(codificacion, correlativo, contactoid) {
+      var defered = $q.defer();
+      var promise = defered.promise;
+      $http.get(url_tran + 'cambiarcontacto/codificacion/' + codificacion +
+      '/correlativo/' + correlativo + '/contactoid/' + contactoid)
       .success(function(data) {
         defered.resolve(data);
       })
@@ -155,6 +180,19 @@ app.factory('httpFactory', ['$http', '$q', function($http, $q) {
       });
       return promise;
     },
+    setCarpeta: function(proyectoid, unidad_red) {
+      var defered = $q.defer();
+      var promise = defered.promise;
+      $http.post(url_json + 'cambiarcarpeta/proyectoid/' +
+      proyectoid + '/unidadred/' + unidad_red)
+      .success(function(data) {
+        defered.resolve(data);
+      })
+      .error(function(err) {
+        defered.reject(err);
+      });
+      return promise;
+    },
     getTransmittal: function(proyectoid) {
       var defered = $q.defer();
       var promise = defered.promise;
@@ -202,6 +240,18 @@ app.factory('httpFactory', ['$http', '$q', function($http, $q) {
       var promise = defered.promise;
       $http.get(url_ent + 'entregables/proyectoid/' + proyectoid +
       '/estado/' + estado + '/clase/' + clase)
+      .success(function(data) {
+        defered.resolve(data);
+      })
+      .error(function(err) {
+        defered.reject(err);
+      });
+      return promise;
+    },
+    getListaEntregables: function(proyectoid) {
+      var defered = $q.defer();
+      var promise = defered.promise;
+      $http.get(url_ent + 'listaentregables/proyectoid/' + proyectoid)
       .success(function(data) {
         defered.resolve(data);
       })
@@ -323,7 +373,8 @@ app.factory('httpFactory', ['$http', '$q', function($http, $q) {
       var defered = $q.defer();
       var promise = defered.promise;
       $http.put(url_tran + 'actualizardetalle/detalleid/' + detalle.detalleid +
-      '/emitido/' + detalle.emitido + '/fecha/' + detalle.fecha)
+      '/emitido/' + detalle.emitido + '/fecha/' + detalle.fecha + '/cantidad/' +
+      detalle.cantidad)
       .success(function(data) {
         defered.resolve(data);
       })
@@ -619,6 +670,31 @@ app.factory('httpFactory', ['$http', '$q', function($http, $q) {
       var defered = $q.defer();
       var promise = defered.promise;
       $http.get(url_tran + 'obtenermodoenvio/detalleid/' + detalleid)
+      .success(function(data) {
+        defered.resolve(data);
+      })
+      .error(function(err) {
+        defered.reject(err);
+      });
+      return promise;
+    },
+    createRevision: function(entregableid) {
+      var defered = $q.defer();
+      var promise = defered.promise;
+      $http.post(url_ent + 'guardarrevision/entregableid/' + entregableid)
+      .success(function(data) {
+        defered.resolve(data);
+      })
+      .error(function(err) {
+        defered.reject(err);
+      });
+      return promise;
+    },
+    getDataTransmittal: function(codificacion, correlativo) {
+      var defered = $q.defer();
+      var promise = defered.promise;
+      $http.get(url_tran + 'obtenertransmittal/codificacion/' + codificacion +
+      '/correlativo/' + correlativo)
       .success(function(data) {
         defered.resolve(data);
       })

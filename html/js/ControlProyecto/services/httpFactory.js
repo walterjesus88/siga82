@@ -92,6 +92,8 @@ app.factory('httpFactory', ['$http','$q', function($http,$q) {
     },
 
 
+
+
     setEliminarfechaproyecto:function(codigo_curvas)
     {
       return $http.post(url + 'eliminarcurva/codigo_curvas/' +
@@ -100,10 +102,11 @@ app.factory('httpFactory', ['$http','$q', function($http,$q) {
     },
 
     setDatosxPerfomance: function(codigo_prop_proy,codigo_actividad,actividadid,cronogramaid,
-        codigo_cronograma,codigo_performance,porcentaje_performance,fecha_calculo_performance,proyectoid,revision_cronograma,
+        codigo_cronograma,codigo_performance,porcentaje_performance,proyectoid,revision_cronograma,
         fecha_ingreso_performance,fecha_performance) {
       var defered = $q.defer();
       var promise = defered.promise;
+
       $http.post(url + 'modificarperformance/codigo_prop_proy/' + codigo_prop_proy+
         "/codigo_actividad/"+codigo_actividad+
         "/actividadid/"+actividadid+
@@ -111,7 +114,7 @@ app.factory('httpFactory', ['$http','$q', function($http,$q) {
         "/codigo_cronograma/"+codigo_cronograma+
         "/codigo_performance/"+codigo_performance+
         "/porcentaje_performance/"+porcentaje_performance+
-        "/fecha_calculo_performance/"+fecha_calculo_performance+
+       
         "/proyectoid/"+proyectoid+
         "/revision_cronograma/"+revision_cronograma+
         "/fecha_ingreso_performance/"+fecha_ingreso_performance+
@@ -126,6 +129,8 @@ app.factory('httpFactory', ['$http','$q', function($http,$q) {
       return promise;
     },
 
+
+
     setModificarxPerformance: function(
       codigo_prop_proy,codigo_actividad,actividadid,cronogramaid,codigo_cronograma,codigo_performance,
       proyectoid,revision_cronograma,fecha_ingreso_performance,revision_propuesta,
@@ -134,6 +139,7 @@ app.factory('httpFactory', ['$http','$q', function($http,$q) {
       fecha_fin,fecha_comienzo,nivel_esquema,predecesoras,sucesoras,duracion
 
       ) {
+     //alert(horas_real);
       var defered = $q.defer();
       var promise = defered.promise;
         //console.log("predecesoras"+predecesoras);
@@ -440,6 +446,24 @@ app.factory('httpFactory', ['$http','$q', function($http,$q) {
       });
       return promise;
     },
+
+    getTareoxActividadesxProyecto: function(proyectoid,fecha_inicio,fecha_corte,actividadid) {
+       var defered = $q.defer();
+       var promise = defered.promise;   
+
+      //console.log("acssss"+actividadid);
+      $http.get(url + 'gettareoxactividadesxproyecto/proyectoid/'+ proyectoid+'/fecha_inicio/'+fecha_inicio+'/fecha_corte/'+fecha_corte+'/actividadid/'+actividadid)
+      .success(function(data) {
+
+          
+        defered.resolve(data);        
+      })
+      .error(function(err) {
+        defered.reject(err);
+      });
+      return promise;
+    },
+
 
 
   /////////////////////// F I N  F E C H A  C O R T E /////////////////////////

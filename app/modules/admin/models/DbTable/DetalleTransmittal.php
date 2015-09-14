@@ -19,7 +19,7 @@ class Admin_Model_DbTable_DetalleTransmittal extends Zend_Db_Table_Abstract
     {
       try {
         $sql = $this->_db->query("select det.detalleid, led.descripcion_entregable,
-        led.codigo_anddes, led.tipo_documento, det.revision, det.emitido
+        led.codigo_anddes, led.tipo_documento, det.revision, det.emitido, det.cantidad
         from detalle_transmittal as det inner join lista_entregable_detalle as
         led on (det.entregableid = led.cod_le)
         where transmittal = '".$transmittal."' and correlativo = '".$correlativo."'");
@@ -34,22 +34,21 @@ class Admin_Model_DbTable_DetalleTransmittal extends Zend_Db_Table_Abstract
     public function _addDetalle($data)
     {
       try {
-        $sql = $this->_db->query("insert into detalle_transmittal
-        (entregableid, tipo_envio, revision, estado_revision, transmittal, correlativo,
-        emitido, fecha, estado) values (".$data['entregableid'].
-        ", '".$data['tipo_envio']."', '".$data['revision']."', '".$data['estado_revision']."', '".
-        $data['transmittal']."', '".$data['correlativo']."', '".$data['emitido'].
-        "', '".$data['fecha']."', 'estado')");
-        $row = $sql->fetchAll();
-        $lista = $this->_getAll();
-        $resp = [];
-        $i = 0;
-        foreach ($lista as $det) {
-          $resp[$i] = $this->_setEstado($det['detalleid']);
-          $i++;
-        }
+        $detalle = $this->createRow();
+        $detalle->entregableid = $data['entregableid'];
+        $detalle->tipo_envio = $data['tipo_envio'];
+        $detalle->revision = $data['revision'];
+        $detalle->estado_revision = $data['estado_revision'];
+        $detalle->transmittal = $data['transmittal'];
+        $detalle->correlativo = $data['correlativo'];
+        $detalle->emitido = $data['emitido'];
+        $detalle->fecha = $data['fecha'];
+        $detalle->estado = 'temporal';
+        $detalle->save();
+
+        $estado = $this->_setEstado($detalle->detalleid);
         $respuesta['resultado'] = 'guardado';
-        return $data;
+        return $respuesta;
       } catch (Exception $e) {
         print $e->getMessage();
       }
@@ -59,11 +58,9 @@ class Admin_Model_DbTable_DetalleTransmittal extends Zend_Db_Table_Abstract
     {
       $id = (int)$data['detalleid'];
       $row = $this->fetchRow('detalleid = ' . $id);
-      if (!$row) {
-           throw new Exception("No hay resultados para ese transmittal");
-      }
       $row->emitido = $data['emitido'];
       $row->fecha = $data['fecha'];
+      $row->cantidad = $data['cantidad'];
       $row->save();
       $row = $this->_setEstado($data['detalleid']);
       return $row;
@@ -72,9 +69,6 @@ class Admin_Model_DbTable_DetalleTransmittal extends Zend_Db_Table_Abstract
     public function _deleteDetalle($detalleid)
     {
       $row = $this->fetchRow('detalleid = ' . $detalleid);
-      if (!$row) {
-           throw new Exception("No hay resultados para ese transmittal");
-      }
       $row->delete();
       return $row;
     }
@@ -83,16 +77,14 @@ class Admin_Model_DbTable_DetalleTransmittal extends Zend_Db_Table_Abstract
     public function _setRespuesta($data)
     {
       try {
-        $estado = 'Aprobado';
-        $sql = $this->_db->query("update detalle_transmittal set
-        respuesta_transmittal = '".$data['respuesta_transmittal']."',
-        respuesta_emitido = '".$data['respuesta_emitido']."',
-        respuesta_fecha = '".$data['respuesta_fecha']."',
-        estado = '".$estado."' where detalleid =".
-        $data['detalleid']);
-        $row = $sql->fetchAll();
+        $detalle = $this->fetchRow("detalleid =".$data['detalleid']);
+        $detalle->respuesta_transmittal = $data['respuesta_transmittal'];
+        $detalle->respuesta_emitido = $data['respuesta_emitido'];
+        $detalle->respuesta_fecha = $data['respuesta_fecha'];
+        $detalle->estado = 'temporal';
+        $detalle->save();
         $row = $this->_setEstado($data['detalleid']);
-        return $row;
+        return $detalle;
       } catch (Exception $e) {
         print $e->getMessage();
       }
@@ -103,12 +95,10 @@ class Admin_Model_DbTable_DetalleTransmittal extends Zend_Db_Table_Abstract
     public function _updateRespuesta($data)
     {
       try {
-        $estado = 'Aprobado';
         $row = $this->fetchRow("detalleid = ".$data['detalleid']);
         $row->respuesta_transmittal = $data['respuesta_transmittal'];
         $row->respuesta_emitido = $data['respuesta_emitido'];
         $row->respuesta_fecha = $data['respuesta_fecha'];
-        $row->estado = $estado;
         $row->save();
         $row = $this->_setEstado($data['detalleid']);
         return $row;
@@ -188,7 +178,7 @@ class Admin_Model_DbTable_DetalleTransmittal extends Zend_Db_Table_Abstract
         $sql = $this->_db->query("select det.detalleid, det.transmittal,
         det.correlativo, led.codigo_anddes, led.codigo_cliente, led.descripcion_entregable,
         det.revision as revision_entregable, led.estado as estado_revision, det.emitido,
-        det.fecha, tra.estado_elaboracion from detalle_transmittal as det inner join
+        det.fecha, tra.estado_elaboracion, det.cantidad from detalle_transmittal as det inner join
         lista_entregable_detalle as led on (led.cod_le = det.entregableid)
         inner join transmittal as tra on (tra.codificacion = det.transmittal and
         tra.correlativo = det.correlativo)
