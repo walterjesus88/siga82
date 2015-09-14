@@ -701,10 +701,7 @@ va.checkName=function(data, id)
   // nombre =val['nombre'];
   // items=val['items'];
 
-  console.log(va.performance);
-
-
-
+ // console.log(va.performance);
   cadena=data; ///predecesoras//
  
   predecesoras=cadena;
@@ -748,7 +745,9 @@ va.checkName=function(data, id)
   fecha_inicio_proyecto=va.proyectop.fecha_inicio;
 
   calcula_fecha_planificadas=proyectoFactory.restaFechas(f_comienzo,fecha_corte0)
-  console.log(calcula_fecha_planificadas);
+  
+  //console.log(f_comienzo);
+  //console.log(fecha_corte0);
 
   calcula_h_planificadas=calcula_fecha_planificadas*h_dias_propuesta;
   calculo_c_planificadas=calcula_fecha_planificadas*c_propuesta;
@@ -1669,11 +1668,34 @@ va.checkName=function(data, id)
                
       });
 
+     angular.forEach(items, function(value) {      
 
+        codigo_prop_proy=value['codigo_prop_proy'];
+        codigo_actividad=value['codigo_actividad'];
+        actividadid=value['actividadid'];
+        cronogramaid=value['cronogramaid'];
+        codigo_cronograma=value['codigo_cronograma'];
+        codigo_performance=value['codigo_performance'];
+        porcentaje_performance=value['porcentaje_performance'];
+        proyectoid=value['proyectoid'];
+        revision_cronograma=value['revision_cronograma'];
+        fecha_ingreso_performance=value['fecha_ingreso_performance'];
+        fecha_performance=value['fecha_performance'];
+
+      console.log(proyectoid);
+
+
+        proyectoFactory.setActualizarDatosxPerfomance(codigo_prop_proy,codigo_actividad,actividadid,cronogramaid,
+        codigo_cronograma,codigo_performance,porcentaje_performance,proyectoid,revision_cronograma,
+        fecha_ingreso_performance,fecha_performance)
+        .then(function(data) {
+        })
+       .catch(function(err) {
+          //va.procronograma = {};
+        });
+
+      })
  // });
-
-
-
 }
 
 

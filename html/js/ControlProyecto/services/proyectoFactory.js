@@ -166,7 +166,7 @@ function(httpFactory, $location, $q) {
       return promise;      
     },
 
-    setActualizarDatosxPerfomance: function(codigo_prop_proy,codigo_actividad,actividadid,cronogramaid,codigo_cronograma,codigo_performance,porcentaje_performance,fecha_calculo_performance,proyectoid,revision_cronograma,fecha_ingreso_performance)
+    setActualizarDatosxPerfomance: function(codigo_prop_proy,codigo_actividad,actividadid,cronogramaid,codigo_cronograma,codigo_performance,porcentaje_performance,proyectoid,revision_cronograma,fecha_ingreso_performance,fecha_performance)
     {
       var defered = $q.defer();
       var promise = defered.promise;
@@ -174,7 +174,7 @@ function(httpFactory, $location, $q) {
        //console.log(uperformance);
 
       httpFactory.setDatosxPerfomance(codigo_prop_proy,codigo_actividad,actividadid,cronogramaid,
-        codigo_cronograma,codigo_performance,porcentaje_performance,fecha_calculo_performance,proyectoid,revision_cronograma,
+        codigo_cronograma,codigo_performance,porcentaje_performance,proyectoid,revision_cronograma,
         fecha_ingreso_performance,fecha_performance)
       .then(function(data) {
         datos = data;

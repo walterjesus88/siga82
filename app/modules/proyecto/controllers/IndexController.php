@@ -1650,6 +1650,8 @@ public function modificarperformanceAction() {
    $codigo_cronograma = $this->_getParam("codigo_cronograma");
    $codigo_performance = $this->_getParam("codigo_performance");
    $porcentaje_performance = $this->_getParam("porcentaje_performance");
+
+   echo $porcentaje_performance;
    //$fecha_calculo_performance = $this->_getParam("fecha_calculo_performance");
    $proyectoid = $this->_getParam("proyectoid");
    $revision_cronograma = $this->_getParam("revision_cronograma");
@@ -1665,6 +1667,14 @@ public function modificarperformanceAction() {
 
    $modperformancedetalles=new Admin_Model_DbTable_Performancedetalle();
    $mpdetalle=$modperformancedetalles->_update($data,$where);
+
+   print_r($data);
+   print_r($where);
+
+   echo('expression');
+   print_r($mpdetalle);
+   exit();
+
    $this->_helper->json->sendJson($mpdetalle);  
 }
 
