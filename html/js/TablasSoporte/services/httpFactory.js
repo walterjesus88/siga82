@@ -3,6 +3,7 @@ app.factory('httpFactory', ['$http','$q', function($http,$q) {
 // var url="/listararea/index/";//ruta vista
 var url_area='/soporte/funcionesarea/';//ruta controlador funcionesarrea
 var url_cliente='/soporte/funcionescliente/';//ruta controlador funcionescliente
+var url_unimin='/soporte/funcionesunidadminera/';//ruta controlador funcionesunidadminera
 
 var publico = {
 
@@ -53,7 +54,7 @@ var publico = {
     setEliminarArea: function(areaid) {
       var defered = $q.defer();
       var promise = defered.promise;
-      $http.post(url_area + 'eliminarare/areaid/' + areaid)
+      $http.post(url_area + 'eliminararea/areaid/' + areaid)
       .success(function(data) {
         defered.resolve(data);
         
@@ -124,6 +125,66 @@ getClientes: function() {
       return promise;
     },
 /*FIN CLIENTE*/
+
+/*INICIO UNIDAD MINERA*/
+    getUnidadMineras: function() {
+      var defered = $q.defer();
+      var promise = defered.promise;
+      $http.get(url_unimin + 'llamarunidadminera/')
+      .success(function(data) {
+        defered.resolve(data);
+
+      })
+      .error(function(err) {
+        defered.reject(err);
+      });
+      return promise;
+    },
+
+    setGuardarUnidadMinera: function(unidad_mineraid,clienteid,nombre,estado,direccion,paisid,departamentoid,distritoid,tag,isunidadminera) {
+      var defered = $q.defer();
+      var promise = defered.promise;
+      $http.get(url_unimin + 'guardarunidadminera/unidad_mineraid/'+unidad_mineraid+"/clienteid/"+clienteid+"/nombre/"+nombre+"/estado/"+estado+"/direccion/"+direccion+"/paisid/"+paisid+"/departamentoid/"+departamentoid+"/distritoid/"+distritoid+"/tag/"+tag+"/isunidadminera/"+isunidadminera)
+      .success(function(data) {
+        defered.resolve(data);
+        alert(unidad_mineraid,clienteid);
+
+      })
+      .error(function(err) {
+        defered.reject(err);
+      });
+      return promise;
+    },
+
+    setModificarUnidadMinera: function(unidad_mineraid,clienteid,nombre,estado,direccion,paisid,departamentoid,distritoid,tag,isunidadminera) {
+      var defered = $q.defer();
+      var promise = defered.promise;
+      $http.get(url_unimin + 'modificarunidadminera/unidad_mineraid/'+unidad_mineraid+"/clienteid/"+clienteid+"/nombre/"+nombre+"/estado/"+estado+"/direccion/"+direccion+"/paisid/"+paisid+"/departamentoid/"+departamentoid+"/distritoid/"+distritoid+"/tag/"+tag+"/isunidadminera/"+isunidadminera)
+      .success(function(data) {
+        defered.resolve(data);
+        alert(unidad_mineraid,clienteid);
+      })
+      .error(function(err) {
+        defered.reject(err);
+      });
+      return promise;
+    },
+
+
+    setEliminarUnidadMinera: function(unidad_mineraid,clienteid) {
+      var defered = $q.defer();
+      var promise = defered.promise;
+      $http.post(url_unimin + 'eliminarunidadminera/unidad_mineraid/' + unidad_mineraid+"/clienteid/"+clienteid)
+      .success(function(data) {
+        defered.resolve(data);
+        
+      })
+      .error(function(err) {
+        defered.reject(err);
+      });
+      return promise;
+    },
+/*FIN UNIDAD MINERA*/
 
 
 
