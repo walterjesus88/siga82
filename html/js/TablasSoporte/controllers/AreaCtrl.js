@@ -77,7 +77,7 @@ va.ModificarArea=function(){
     httpFactory.setModificarArea(areaid,nombre,area_padre,isproyecto,ispropuesta,iscontacto,iscomercial,orden)
     .then(function(data) {
      // va.area=data;
-    alert('Cambios guardados satisfactoriamente');
+    // alert('Cambios guardados satisfactoriamente');
     })
     .catch(function(err) {
       va.area = [];

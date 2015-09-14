@@ -19,4 +19,10 @@ class Soporte_IndexController extends Zend_Controller_Action {
 
     }
 
+    public function listarclienteAction() {
+
+      $this->_helper->layout()->disableLayout();
+
+    }
+
 }

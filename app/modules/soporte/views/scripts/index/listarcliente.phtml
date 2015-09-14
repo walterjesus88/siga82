@@ -1,0 +1,282 @@
+ <!-- INICIO DE LA TABLA DE PRUEBA CLIENTE EN ANGULAR-->
+ <div class="panel">
+ <section class="panel">
+ <header class="panel-heading">
+ <h2>Lista de Clientes</h2>
+
+
+
+ <div class="btn-edit">
+  <button type="button" class="btn btn-default" ng-show="!tableform.$visible" ng-click="tableform.$show(); vc.CancelarCliente()">
+    editar
+  </button>
+  <button class="btn btn-primary" ng-click="vc.ShowFormCliente()" ng-hide="vc.formVisibilityCliente; vc.tableVisibilityCliente" ng-show="!tableform.$visible">Agregar Cliente</button>
+</div>
+<!-- inicio del formulario para ingresar datos -->
+  <div class="form-group ">
+    <div ng-show="vc.formVisibilityCliente"  >
+      <form name='validinput'>
+        <div class="input-group">
+          <div class="panel">
+          <div class="panel-heading">
+            <div class="col-xs-3" >
+              <span class="input-group-addon">RUC ID</span>
+              <input type="text" class="form-control input-sm" placeholder='clienteid' name='clienteid' data-ng-model="vc.clienteid"  required data-ng-class='{error: validinput.clienteid.$invalid && !validinput.$pristine}'>
+            </div>
+            <div class="col-xs-3" >
+              <span class="input-group-addon">Nombre Comercial</span>
+              <input type="text" class="form-control input-sm" placeholder='nombre_comercial' name='nombre_comercial' data-ng-model="vc.nombre_comercial"  required data-ng-class='{ error: validinput.nombre_comercial.$invalid && !validinput.$pristine }'>
+            </div>
+            <div class="col-xs-3" >
+              <span class="input-group-addon">Nombre</span>
+              <input type="text" class="form-control input-sm" placeholder='nombre' name='nombre' data-ng-model="vc.nombre"  required data-ng-class='{ error: validinput.nombre.$invalid && !validinput.$pristine }'>
+            </div>
+            <div class="col-xs-3" >
+              <span class="input-group-addon">Codigo Anddes</span>
+              <input type="text" class="form-control input-sm" placeholder='codigoid' name='codigoid' data-ng-model="vc.codigoid"/>
+            </div>
+            <div class="col-xs-3" >
+              <span class="input-group-addon">Fecha de Registro</span>
+              <input type="text" class="form-control input-sm" placeholder='fecha_registro' name='fecha_registro' data-ng-model="vc.fecha_registro"/>
+            </div>
+            <div class="col-xs-3" >
+              <span class="input-group-addon">Web</span>
+              <input type="text" class="form-control input-sm" placeholder='web' name='web' data-ng-model="vc.web"/>
+            </div>
+            <div class="col-xs-3" >
+              <span class="input-group-addon">Dirección</span>
+              <input type="text" class="form-control input-sm" placeholder='direccion' name='direccion' data-ng-model="vc.direccion"/>
+            </div>
+            <div class="col-xs-3" >
+              <span class="input-group-addon">Pais</span>
+              <input type="text" class="form-control input-sm" placeholder='paisid' name='paisid' data-ng-model="vc.paisid"/>
+            </div>
+            <div class="col-xs-3" >
+              <span class="input-group-addon">Departamento</span>
+              <input type="text" class="form-control input-sm" placeholder='departamentoid' name='departamentoid' data-ng-model="vc.departamentoid"/>
+            </div>
+            <div class="col-xs-3" >
+              <span class="input-group-addon">Provincia</span>
+              <input type="text" class="form-control input-sm" placeholder='provinciaid' name='provinciaid' data-ng-model="vc.provinciaid"/>
+            </div>
+            <div class="col-xs-3" >
+              <span class="input-group-addon">Distrito</span>
+              <input type="text" class="form-control input-sm" placeholder='distritoid' name='distritoid' data-ng-model="vc.distritoid"/>
+            </div>
+            <div class="col-xs-3" >
+              <span class="input-group-addon">Estado</span>
+              <input type="text" class="form-control input-sm" placeholder='estado' name='estado' data-ng-model="vc.estado"/>
+            </div>
+            <div class="col-xs-3" >
+              <span class="input-group-addon">Tag</span>
+              <input type="text" class="form-control input-sm" placeholder='tag' name='tag' data-ng-model="vc.tag"/>
+            </div>
+            <div class="col-xs-3" >
+              <span class="input-group-addon">Proveedor</span>
+              <input type="text" class="form-control input-sm" placeholder='isproveedor' name='isproveedor' data-ng-model="vc.isproveedor"/>
+            </div>
+            <div class="col-xs-3" >
+              <span class="input-group-addon">Cliente</span>
+              <input type="text" class="form-control input-sm" placeholder='iscliente' name='iscliente' data-ng-model="vc.iscliente"/>
+            </div>
+            <div class="col-xs-3" >
+              <span class="input-group-addon">Abreviatura</span>
+              <input type="text" class="form-control input-sm" placeholder='abreviatura' name='abreviatura' data-ng-model="vc.abreviatura"/>
+            </div>
+            <div class="col-xs-3" >
+              <span class="input-group-addon">Tipo de Cliente</span>
+              <input type="text" class="form-control input-sm" placeholder='tipo_cliente' name='tipo_cliente' data-ng-model="vc.tipo_cliente"/>
+            </div>
+            <div class="col-xs-3" >
+              <span class="input-group-addon">Ruc</span>
+              <input type="text" class="form-control input-sm" placeholder='ruc' name='ruc' data-ng-model="vc.ruc"/>
+            </div>
+            <div class="col-xs-3" >
+              <span class="input-group-addon">Socio</span>
+              <input type="text" class="form-control input-sm" placeholder='issocio' name='issocio' data-ng-model="vc.issocio"/>
+            </div>
+            
+          </div>
+          </div>
+        </div>
+
+
+      <div class="panel-heading col-md-6">
+        <div class="btn-group">
+          <button class="btn btn-warning" ng-click="vc.GuardarCliente()" data-ng-disabled='!validinput.$valid'>Guardar</button>
+          <button class="btn btn-danger" ng-click="vc.CancelarCliente()">Cancelar</button>
+        </div>
+      </div>
+
+    </form>
+    </div>
+  </div>
+<!-- fin del formulario para ingresar datos -->
+
+
+</section>
+
+
+<!-- inicio del formulario para modificar datos -->
+<div class="panel-heading">
+<form method="POST" action="#" editable-form name="tableform" onaftersave="vc.ModificarCliente()" oncancel="cancel()" >
+
+<section class="panel-heading">
+<div class="btn-form" ng-show="tableform.$visible">
+  <div class="btn-group">
+    <button type="submit" ng-disabled="tableform.$waiting" class="btn btn-success">guardar</button>
+    <button type="button" ng-disabled="tableform.$waiting" ng-click="tableform.$cancel()" class="btn btn-danger">cancelar</button>
+    </div>
+</div>
+
+
+
+</section>
+
+<font size=1>
+<table datatable="ng" class="table table-condensed table-hover p-table dataTables_wrappe table-striped">
+<div>
+  <thead>
+    <th style="width: 5%;">RUC ID</th>
+    <th style="width: 5%;">NOMBRE COMERCIAL</th>
+    <th style="width: 5%;">NOMBRE</th>
+    <th style="width: 5%;">CODIGO ANDDES</th>
+    <th style="width: 5%;">FECHA DE REGISTRO</th>
+    <th style="width: 5%;">WEB</th>
+    <th style="width: 5%;">DIRECCION</th>
+    <th style="width: 5%;">PAIS</th>
+    <th style="width: 5%;">DEPARTAMENTO</th>
+    <th style="width: 5%;">PROVINCIA</th>
+    <th style="width: 5%;">DISTRITO</th>
+    <th style="width: 5%;">ESTADO</th>
+    <th style="width: 5%;">TAG</th>
+    <th style="width: 5%;">PROVEEDOR</th>
+    <th style="width: 5%;">CLEINTE</th>
+    <th style="width: 5%;">ABREVIATURA</th>
+    <th style="width: 5%;">TIPO DE CLIENTE</th>
+    <th style="width: 5%;">RUC</th>
+    <th style="width: 5%;">SOCIO</th>
+  </thead>
+
+
+  <tr ng-repeat="clientes in vc.cliente">
+    <td>
+      <span editable-text="clientes.clienteid" e-from="tableform" e-required>
+         {{clientes.clienteid}}
+      </span>
+    </td>
+    <td>
+      <span editable-text="clientes.nombre_comercial" e-from="tableform" e-required >
+        {{clientes.nombre_comercial}}
+      </span>
+    </td>
+    <td>
+      <span editable-text="clientes.nombre" e-from="tableform">
+        {{clientes.nombre}}
+      </span>
+    </td>
+    <td>
+      <span editable-text="clientes.codigoid" e-from="tableform" >
+        {{clientes.codigoid}}
+      </span>
+    </td>
+    <td>
+      <span editable-text="clientes.fecha_registro" e-from="tableform">
+        {{clientes.fecha_registro}}
+      </span>
+    </td>
+    <td>
+      <span editable-text="clientes.web" e-from="tableform">
+        {{clientes.web}}
+      </span>
+    </td>
+    <td>
+      <span editable-text="clientes.direccion" e-from="tableform">
+        {{clientes.direccion}}
+      </span>
+    </td>
+    <td>
+      <span editable-text="clientes.paisid" e-from="tableform">
+        {{clientes.paisid}}
+      </span>
+    </td>
+    <td>
+      <span editable-text="clientes.departamentoid" e-from="tableform">
+        {{clientes.departamentoid}}
+      </span>
+    </td>
+    <td>
+      <span editable-text="clientes.provinciaid" e-from="tableform">
+        {{clientes.provinciaid}}
+      </span>
+    </td>
+    <td>
+      <span editable-text="clientes.distritoid" e-from="tableform">
+        {{clientes.distritoid}}
+      </span>
+    </td>
+    <td>
+      <span editable-text="clientes.estado" e-from="tableform">
+        {{clientes.estado}}
+      </span>
+    </td>
+    <td>
+      <span editable-text="clientes.tag" e-from="tableform">
+        {{clientes.tag}}
+      </span>
+    </td>
+    <td>
+      <span editable-text="clientes.isproveedor" e-from="tableform">
+        {{clientes.isproveedor}}
+      </span>
+    </td>
+    <td>
+      <span editable-text="clientes.iscliente" e-from="tableform">
+        {{clientes.iscliente}}
+      </span>
+    </td>
+    <td>
+      <span editable-text="clientes.abreviatura" e-from="tableform">
+        {{clientes.abreviatura}}
+      </span>
+    </td>
+    <td>
+      <span editable-text="clientes.tipo_cliente" e-from="tableform">
+        {{clientes.tipo_cliente}}
+      </span>
+    </td>
+    <td>
+      <span editable-text="clientes.ruc" e-from="tableform">
+        {{clientes.ruc}}
+      </span>
+    </td>
+    <td>
+      <span editable-text="clientes.issocio" e-from="tableform">
+        {{clientes.issocio}}
+      </span>
+    </td>
+  </tr>
+
+</table>
+</font>
+
+<section class="panel-heading">
+<!-- <div class="btn-form" ng-show="tableform.$visible">
+    <button type="button" ng-disabled="tableform.$waiting" ng-click="vc.agregarArea()" class="btn btn-primary ">Agregar Area</button>
+    <button type="submit" ng-disabled="tableform.$waiting" class="btn btn-success">guardar</button>
+    <button type="button" ng-disabled="tableform.$waiting" ng-click="tableform.$cancel()" class="btn btn-danger">cancelar</button>
+</div> -->
+</section>
+
+</form>
+</div>
+
+<section class="panel-heading">
+<div class="btn-edit">
+    <!-- <button type="button" class="btn btn-default" ng-show="!tableform.$visible" ng-click="tableform.$show()">
+        editar
+    </button> -->
+</div>
+</section>
+<!-- fin del formulario para modificar datos -->
+</div>

@@ -1,6 +1,6 @@
 <?php
 
-class Soporte_FuncionesController extends Zend_Controller_Action {
+class Soporte_FuncionesareaController extends Zend_Controller_Action {
 
     public function init()
     {
@@ -17,7 +17,7 @@ class Soporte_FuncionesController extends Zend_Controller_Action {
     }
 
 
-    public function llamarareasAction()
+    public function llamarareaAction()
     {
       // $isproyecto = $this->_getParam('isproyecto');
 

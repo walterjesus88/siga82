@@ -10,11 +10,11 @@ app.config(['$routeProvider', function($routeProvider){
     	templateUrl: "/soporte/index/listararea"
   	})
 
-	/*.when("/",{
-		controller: "SoporteCtrl",
-		controllerAs: "vs",
-		templateUrl: "/soporte/index/"
-	})*/
+	.when("/cliente",{
+		controller: "ClienteCtrl",
+		controllerAs: "vc",
+		templateUrl: "/soporte/index/listarcliente"
+	})
 
 	.otherwise({redirecTo: '/'});
 }])
