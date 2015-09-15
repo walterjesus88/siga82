@@ -113,7 +113,6 @@ class Admin_Model_DbTable_Unidadminera extends Zend_Db_Table_Abstract
             // $where = "unidad_mineraid = '".$pk['unidad_mineraid']."'  and clienteid = '".$pk['clienteid']."' ";
             $where = "unidad_mineraid = '".$pk['unidad_mineraid']."'";
             return $this->update($data, $where);
-            print_r($this->update($data, $where);
             return false;
         }catch (Exception $e){
             print "Error: Update unidada minera".$e->getMessage();
