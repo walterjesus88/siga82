@@ -607,13 +607,21 @@ proyectoFactory.getVerCronogramaxActivo(proyecto['codigo'])
   {
 
     revision=data[0]['revision_cronograma'];
- 
+  //F E C H A S  D E  C O R T E///
     proyectoFactory.getDatosxProyectoxFechaxCorte(proyecto['codigo'],revision)
     .then(function(data) {
       va.thi=data;
-      //alert('va.thi');
-      //console.log(va.thi);
+      ///lert(va.thi);
+      angular.forEach(va.thi, function(val,id) {
+        
+        if(val['state_performance']=='A')
+        {
+          va.fecha_corte_activa=val['fecha'];
+          console.log(va.fecha_corte_activa);
+        }
 
+
+      });
     })
     .catch(function(err) {
       va.thi = {};
@@ -661,7 +669,7 @@ va.checkName=function(data, id)
   //alert('Cambia moddddlo');
   //console.log(data);
   //console.log(id);
-  //console.log(va.performance);
+  console.log(va.performance);
 
 //angular.forEach(va.performance, function(val,id) {
     
@@ -736,23 +744,27 @@ va.checkName=function(data, id)
   items=va.performance[id]['items'];
   fecha_comienzo_real =va.performance[id]['fecha_comienzo_real'];
   fecha_fin_real =va.performance[id]['fecha_fin_real'];
-  fecha_corte0 =va.performance[id]['fecha_corte_activa'];
+  fecha_corte0 =va.fecha_corte_activa;
 
  /////C A L C U L A  H O R A S  P L A N I F I C A D A S//////
   h_dias_propuesta=horas_propuesta/duracion;
+
   c_propuesta=costo_propuesta/duracion;
 
   fecha_inicio_proyecto=va.proyectop.fecha_inicio;
-
+  console.log(f_comienzo);
+  console.log(fecha_corte0);
   calcula_fecha_planificadas=proyectoFactory.restaFechas(f_comienzo,fecha_corte0)
   
-  //console.log(f_comienzo);
-  //console.log(fecha_corte0);
+  
+  console.log(calcula_fecha_planificadas);
 
   calcula_h_planificadas=calcula_fecha_planificadas*h_dias_propuesta;
   calculo_c_planificadas=calcula_fecha_planificadas*c_propuesta;
-  horas_planificado=calcula_h_planificadas;
-  costo_planificado=calculo_c_planificadas;
+  horas_planificado=Math.round(calcula_h_planificadas);
+  costo_planificado=Math.round(calculo_c_planificadas);
+
+ // console.log(horas_planificado);
   porcentaje_planificado=Math.round((calculo_c_planificadas/costo_propuesta)*100);
  
 
@@ -865,12 +877,12 @@ va.checkName=function(data, id)
 
                       if (month.toString().length < 2) 
                       {
-                        console.log('si');
+                        //console.log('si');
                         month = '0' + month;
                       }
                       if (day.toString().length < 2) 
                       {
-                        console.log('si222');
+                        //console.log('si222');
                         day = '0' + day;
                       }
                        
@@ -1310,11 +1322,11 @@ va.checkName=function(data, id)
                         fecha.setTime(fecha.getTime()-24*60*60*1000); // añadimos 1 día
                         if (fecha.getDay() == 6  || fecha.getDay() == 0    )
                         {
-                          console.log(fecha.getDay());                                        
+                          //console.log(fecha.getDay());                                        
                         }  
                         else
                         {
-                          console.log(fecha.getDay());
+                          //console.log(fecha.getDay());
                           ki++;
                         }
                     }
@@ -1682,7 +1694,7 @@ va.checkName=function(data, id)
         fecha_ingreso_performance=value['fecha_ingreso_performance'];
         fecha_performance=value['fecha_performance'];
 
-      console.log(proyectoid);
+     // console.log(proyectoid);
 
 
         proyectoFactory.setActualizarDatosxPerfomance(codigo_prop_proy,codigo_actividad,actividadid,cronogramaid,
