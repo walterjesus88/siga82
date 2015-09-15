@@ -19,10 +19,10 @@
         <div class="panel-body">
             <table datatable="ng" class="table table-condensed table-hover p-table">
                 <thead>
-                    <th style="width: 30%;">Usuario</th>
-                    <th style="width: 30%;">Area</th>
-                    <th style="width: 5%;">Estado</th>
-                    <th style="width: 10%;">Acciones</th>
+                    <th style="width: 20%;">Usuario</th>
+                    <th style="width: 40%;">Area</th>
+                    <th style="width: 10%;">Estado</th>
+                    <th style="width: 30%;">Acciones</th>
                 </thead>
                 <tbody>
                     <tr ng-repeat="usuario in va.usuarios track by $index">
@@ -36,6 +36,10 @@
                         <td>
                             <ul>
                                 <li>
+                                    <button type="button" class="btn btn-success btn-xs" ng-click="va.verModulos()">
+                                    Modulos
+                                    </button>
+                                
                                     <button type="button" class="btn btn-info btn-xs" ng-click="proyecto.verInformacion()">
                                     Información
                                     </button>

@@ -36,11 +36,11 @@ function(httpFactory, $location, $q) {
       return promise;
     },
 
-    setModificarArea: function(codigoedt,codigoproyecto,proyectoid,codigoedtmodificado,nombremodificado,descripcionmodificado) {
+    setModificarArea: function(areaid,nombre,area_padre,isproyecto,ispropuesta,iscontacto,iscomercial,orden) {
       var defered = $q.defer();
       var promise = defered.promise;
 
-      httpFactory.setModificarArea(codigoedt,codigoproyecto,proyectoid,codigoedtmodificado,nombremodificado,descripcionmodificado)
+      httpFactory.setModificarArea(areaid,nombre,area_padre,isproyecto,ispropuesta,iscontacto,iscomercial,orden)
       .then(function(data) {
         datos = data;
         defered.resolve(datos);
