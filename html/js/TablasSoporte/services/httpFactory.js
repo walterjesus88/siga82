@@ -42,7 +42,6 @@ var publico = {
       $http.get(url_area + 'modificararea/areaid/'+areaid+"/nombre/"+nombre+"/area_padre/"+area_padre+"/isproyecto/"+isproyecto+"/ispropuesta/"+ispropuesta+"/iscontacto/"+iscontacto+"/iscomercial/"+iscomercial+"/orden/"+orden)
       .success(function(data) {
         defered.resolve(data);
-        
       })
       .error(function(err) {
         defered.reject(err);
@@ -57,7 +56,6 @@ var publico = {
       $http.post(url_area + 'eliminararea/areaid/' + areaid)
       .success(function(data) {
         defered.resolve(data);
-        
       })
       .error(function(err) {
         defered.reject(err);
@@ -102,7 +100,6 @@ getClientes: function() {
       $http.get(url_cliente + 'modificarcliente/clienteid/'+clienteid+"/nombre_comercial/"+nombre_comercial+"/nombre/"+nombre+"/codigoid/"+codigoid+"/fecha_registro/"+fecha_registro+"/web/"+web+"/direccion/"+direccion+"/paisid/"+paisid+"/departamentoid/"+departamentoid+"/provinciaid/"+provinciaid+"/distritoid/"+estado+"/tag/"+tag+"/isproveedor/"+isproveedor+"/iscliente/"+iscliente+"/abreviatura/"+abreviatura+"/tipo_cliente/"+tipo_cliente+"/ruc/"+ruc+"/issocio/"+issocio)
       .success(function(data) {
         defered.resolve(data);
-        
       })
       .error(function(err) {
         defered.reject(err);
@@ -117,7 +114,6 @@ getClientes: function() {
       $http.post(url_cliente + 'eliminarcliente/clienteid/' + clienteid)
       .success(function(data) {
         defered.resolve(data);
-        
       })
       .error(function(err) {
         defered.reject(err);
@@ -148,7 +144,6 @@ getClientes: function() {
       .success(function(data) {
         defered.resolve(data);
         alert(unidad_mineraid,clienteid);
-
       })
       .error(function(err) {
         defered.reject(err);
@@ -162,7 +157,8 @@ getClientes: function() {
       $http.get(url_unimin + 'modificarunidadminera/unidad_mineraid/'+unidad_mineraid+"/clienteid/"+clienteid+"/nombre/"+nombre+"/estado/"+estado+"/direccion/"+direccion+"/paisid/"+paisid+"/departamentoid/"+departamentoid+"/distritoid/"+distritoid+"/tag/"+tag+"/isunidadminera/"+isunidadminera)
       .success(function(data) {
         defered.resolve(data);
-        alert(unidad_mineraid,clienteid);
+        // alert(url_unimin);
+        // console.log(unidad_mineraid,clienteid,nombre,estado,direccion,paisid,departamentoid,distritoid,tag,isunidadminera);
       })
       .error(function(err) {
         defered.reject(err);
@@ -177,7 +173,6 @@ getClientes: function() {
       $http.post(url_unimin + 'eliminarunidadminera/unidad_mineraid/' + unidad_mineraid+"/clienteid/"+clienteid)
       .success(function(data) {
         defered.resolve(data);
-        
       })
       .error(function(err) {
         defered.reject(err);

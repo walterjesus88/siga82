@@ -48,7 +48,7 @@ class Soporte_FuncionesunidadmineraController extends Zend_Controller_Action {
         $guardarunidadminera=new Admin_Model_DbTable_Unidadminera();
         $gunidadminera=$guardarunidadminera->_save($formdata);
 
-// print_r($formdata);
+// print_r($gunidadminera);
 // exit();
 
       $this->_helper->json->sendJson($gunidadminera);
@@ -60,7 +60,6 @@ class Soporte_FuncionesunidadmineraController extends Zend_Controller_Action {
     {
 
         $unidad_mineraid = $this->_getParam('unidad_mineraid');
-        // $clienteid = $this->_getParam("clienteid");
         $formdata['clienteid']=$clienteid = $this->_getParam("clienteid");
         $formdata['nombre']=$nombre = $this->_getParam("nombre");
         $formdata['estado']=$estado = $this->_getParam("estado");
@@ -71,12 +70,13 @@ class Soporte_FuncionesunidadmineraController extends Zend_Controller_Action {
         $formdata['tag']=$tag = $this->_getParam("tag");
         $formdata['isunidadminera']=$isunidadminera = $this->_getParam("isunidadminera");
 
+        print_r($nombre);
+
         $guardarunidadminera=new Admin_Model_DbTable_Unidadminera();
         $gunidadminera=$guardarunidadminera->_updateunidadminera($formdata, $unidad_mineraid);
 
-// print_r($formdata);
-// exit();
-// 
+        print_r($gunidadminera);
+
       $this->_helper->json->sendJson($gunidadminera);
 
 

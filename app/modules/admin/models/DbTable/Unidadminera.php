@@ -28,16 +28,6 @@ class Admin_Model_DbTable_Unidadminera extends Zend_Db_Table_Abstract
         }
     }
 
-     /* Lista toda las Personas */    
-    public function _getUnidadmineraAll(){
-        try{
-            $f = $this->fetchAll();
-            if ($f) return $f->toArray ();
-            return false;
-        }catch (Exception $e){
-            print "Error: Al momento de leer todas las -".$e->getMessage();
-        }
-    }
  
   public function _getUnidadmineraxIndice($clienteid)
      {
@@ -105,18 +95,38 @@ class Admin_Model_DbTable_Unidadminera extends Zend_Db_Table_Abstract
         }
     }
 
+     /* Lista toda las Unidad Minera */
+    public function _getUnidadmineraAll(){
+        try{
+            $f = $this->fetchAll();
+            if ($f) return $f->toArray ();
+            return false;
+        }catch (Exception $e){
+            print "Error: Al momento de leer todas las unidad mineras".$e->getMessage();
+        }
+    }
+
+    // public function _updateunidadminera($data,$pk)
+    // {
+    //     try{
+    //         if ($pk=='' ) return false;
+    //         $where = "unidad_mineraid = '".$pk."' and clienteid = '".$pk."'";
+    //         return $this->update($data, $where);
+    //         return false;
+    //     }catch (Exception $e){
+    //         print "Error: Update unidada minera".$e->getMessage();
+    //     }
+    // }
 
     public function _updateunidadminera($data,$pk)
     {
         try{
             if ($pk=='' ) return false;
-            // $where = "unidad_mineraid = '".$pk['unidad_mineraid']."'  and clienteid = '".$pk['clienteid']."' ";
-            $where = "unidad_mineraid = '".$pk['unidad_mineraid']."'";
+            $where = "unidad_mineraid = '".$pk."' ";
             return $this->update($data, $where);
-            print_r($this->update($data, $where);
             return false;
         }catch (Exception $e){
-            print "Error: Update unidada minera".$e->getMessage();
+            print "Error: Update cliente".$e->getMessage();
         }
     }
 
@@ -124,6 +134,7 @@ class Admin_Model_DbTable_Unidadminera extends Zend_Db_Table_Abstract
     {
         try{
             if ($data['unidad_mineraid']=='' || $data['clienteid']=='') return false;
+
             return $this->insert($data);
             return false;
         }catch (Exception $e){
