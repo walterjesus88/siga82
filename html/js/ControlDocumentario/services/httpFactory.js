@@ -93,6 +93,20 @@ app.factory('httpFactory', ['$http', '$q', function($http, $q) {
       });
       return promise;
     },
+    setContacto: function(clienteid, contacto) {
+      var defered = $q.defer();
+      var promise = defered.promise;
+      $http.post(url_json + 'setcontacto/clienteid/' + clienteid +
+      '/contactoid/' + contacto.id + '/nombre/' + contacto.atencion + '/area/' +
+      contacto.area + '/correo/' + contacto.correo)
+      .success(function(data) {
+        defered.resolve(data);
+      })
+      .error(function(err) {
+        defered.reject(err);
+      });
+      return promise;
+    },
     deleteContacto: function(clienteid, contactoid) {
       var defered = $q.defer();
       var promise = defered.promise;
@@ -106,6 +120,10 @@ app.factory('httpFactory', ['$http', '$q', function($http, $q) {
       });
       return promise;
     },
+
+
+
+
     getTiposEnvio: function() {
       var defered = $q.defer();
       var promise = defered.promise;
@@ -338,21 +356,6 @@ app.factory('httpFactory', ['$http', '$q', function($http, $q) {
       });
       return promise;
     },
-    setContacto: function(clienteid, contacto) {
-      var defered = $q.defer();
-      var promise = defered.promise;
-      $http.post(url_json + 'setcontacto/clienteid/' + clienteid +
-      '/contactoid/' + contacto.id + '/nombre/' + contacto.atencion + '/area/' +
-      contacto.area + '/correo/' + contacto.correo)
-      .success(function(data) {
-        defered.resolve(data);
-      })
-      .error(function(err) {
-        defered.reject(err);
-      });
-      return promise;
-    },
-
     setDetalleTransmittal: function(datos) {
       var defered = $q.defer();
       var promise = defered.promise;

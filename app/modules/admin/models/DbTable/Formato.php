@@ -267,6 +267,14 @@ class Admin_Model_DbTable_Formato extends Zend_Db_Table_Abstract
     $page->drawText($this->cabecera['proyectoid'], 360, 695, 'UTF-8');
     $page->drawText(date("d-m-Y"), 510, 695);
 
+    if (file_exists('img/cliente/'.$this->cabecera['clienteid'].'.jpg')) {
+      $image = Zend_Pdf_Image::imageWithPath('img/cliente/'.$this->cabecera['clienteid'].'.jpg');
+    } else {
+      $image = Zend_Pdf_Image::imageWithPath('img/logo.jpg');
+    }
+
+    $page->drawImage($image, 450, 780, 580, 820);
+
     //cuerpo
     $page->setFont($this->font, 7);
     for ($i=0; $i < sizeof($this->data); $i++) {

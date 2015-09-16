@@ -1,8 +1,8 @@
 /*servicio Factory que simula una clase Proyecto con include de httpFactory para
 poder actualizar el control documentario y $location para redigir a las vistas
 de informacion, generar transmittal y generar reporte*/
-app.factory('proyectoFactory', ['httpFactory', '$location', '$q',
-function(httpFactory, $location, $q) {
+app.factory('proyectoFactory', ['httpFactory', '$q',
+function(httpFactory, $q) {
 
   var datos = {
     codigo: '',
@@ -20,22 +20,21 @@ function(httpFactory, $location, $q) {
   };
 
   var publico = {
-    Proyecto: function(codigo, cliente, nombre, gerente, control_proyecto,
-      control_documentario, estado, unidad_red) {
+    Proyecto: function(item) {
       var estados = {
         'A': 'Activo',
         'P': 'Paralizado',
         'C': 'Cerrado',
         'CA': 'Cancelado'
       }
-      this.codigo = codigo;
-      this.cliente = cliente;
-      this.nombre = nombre;
-      this.gerente = gerente.changeFormat();
-      this.control_proyecto = control_proyecto.changeFormat();
-      this.control_documentario = control_documentario;
-      this.estado = estados[estado];
-      this.carpeta = unidad_red;
+      this.codigo = item.codigo;
+      this.cliente = item.cliente;
+      this.nombre = item.nombre;
+      this.gerente = item.gerente.changeFormat();
+      this.control_proyecto = item.control_proyecto.changeFormat();
+      this.control_documentario = item.control_documentario;
+      this.estado = estados[item.estado];
+      this.carpeta = item.unidad_red;
 
       this.cambiarCarpeta = function() {
         httpFactory.setCarpeta(this.codigo, this.carpeta)
@@ -55,19 +54,6 @@ function(httpFactory, $location, $q) {
         .catch(function(err) {
           alert('No se pudo cambiar el Control Documentario');
         })
-      }
-
-      this.verInformacion = function() {
-        //configuracionTransmittal.setProyecto(proyectoid);
-        $location.path("/transmittal/proyecto/" + this.codigo + '/informacion');
-      }
-
-      this.accesoDirectoTR = function() {
-        $location.path("/transmittal/proyecto/" + this.codigo + '/generartr');
-      }
-
-      this.accesoDirectoRPT = function() {
-        $location.path("/transmittal/proyecto/" + this.codigo + '/generarrpt');
       }
     },
 

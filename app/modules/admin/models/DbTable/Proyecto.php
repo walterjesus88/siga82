@@ -338,13 +338,8 @@ class Admin_Model_DbTable_Proyecto extends Zend_Db_Table_Abstract
     public function _getUbicacionesxCarpeta($carpetaid)
     {
       try {
-        if ($carpetaid == 8) {
-          $sql = $this->_db->query("select estado, count(estado) from proyecto
-          where unidad_red is null group by estado");
-        } else {
-          $sql = $this->_db->query("select estado, count(estado) from proyecto
-          where unidad_red = ".$carpetaid." group by estado");
-        }
+        $sql = $this->_db->query("select estado, count(estado) from proyecto
+        where unidad_red = ".$carpetaid." group by estado");
         $rows = $sql->fetchAll();
         return $rows;
       } catch (Exception $e) {

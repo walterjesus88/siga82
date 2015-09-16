@@ -2,8 +2,8 @@
 obtener la lista de proyectos, proyectoFactory para crear objetos de la clase
 Proyecto*/
 
-app.controller('ProyectoCtrl', ['httpFactory', 'proyectoFactory',
-function(httpFactory, proyectoFactory) {
+app.controller('ProyectoCtrl', ['httpFactory', 'proyectoFactory', '$location',
+function(httpFactory, proyectoFactory, $location) {
 
   /*referencia del scope y  los arrays que contendra a los proyectos y a los
   integrantes de control documentario*/
@@ -19,9 +19,7 @@ function(httpFactory, proyectoFactory) {
     .then(function(data) {
       vp.proyectos = [];
       data.forEach(function(item) {
-        proyecto = new proyectoFactory.Proyecto(item.codigo, item.cliente,
-          item.nombre, item.gerente, item.control_proyecto,
-          item.control_documentario, item.estado, item.unidad_red);
+        proyecto = new proyectoFactory.Proyecto(item);
         vp.proyectos.push(proyecto);
       });
     })
@@ -71,6 +69,18 @@ function(httpFactory, proyectoFactory) {
     .catch(function(err) {
 
     });
+  }
+
+  vp.verInformacion = function(index) {
+    $location.path("/transmittal/proyecto/" + vp.proyectos[index].codigo + '/informacion');
+  }
+
+  vp.accesoDirectoTR = function(index) {
+    $location.path("/transmittal/proyecto/" + vp.proyectos[index].codigo + '/generartr');
+  }
+
+  vp.accesoDirectoRPT = function(index) {
+    $location.path("/transmittal/proyecto/" + vp.proyectos[index].codigo + '/generarrpt');
   }
 
 }]);

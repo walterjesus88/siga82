@@ -7,11 +7,7 @@ function(httpFactory, $routeParams, entregableFactory) {
   httpFactory.getListaEntregables(proyectoid, 'All', 'Tecnico')
   .then(function(data) {
     data.forEach(function(item) {
-      entregable = new entregableFactory.Entregable(item.cod_le, item.edt,
-      item.tipo_documento, item.disciplina, item.codigo_anddes, item.codigo_cliente,
-      item.descripcion_entregable, item.revision_entregable, item.estado_revision, item.transmittal,
-      item.correlativo, item.emitido, item.fecha, item.respuesta_transmittal,
-      item.respuesta_emitido, item.respuesta_fecha, item.estado, item.comentario, item.clase);
+      entregable = new entregableFactory.Entregable(item);
       entregable.setProyectoId(proyectoid);
       entregable.fecha_a = item.fecha_a;
       entregable.fecha_b = item.fecha_b;
