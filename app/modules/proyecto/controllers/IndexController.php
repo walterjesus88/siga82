@@ -1491,13 +1491,13 @@ public function guardarxproyectoxcronogramaAction()
 
 
   $datastate['state']='I';
-  $wherestate = array('codigo_cronograma' => $data['codigo_cronograma'],
-                     'revision_cronograma' => $data['revision_cronograma'],
+  $wherestate = array(                    
                      'codigo_prop_proy' => $data['codigo_prop_proy'],
                      'proyectoid' => $data['proyectoid'],
                     );
+
   $modficarcronograma=new Admin_Model_DbTable_Proyectocronograma();
-  $mcronograma=$modficarcronograma->_update($datastate,$wherestate);
+  $mcronograma=$modficarcronograma->_update_state($datastate,$wherestate);
 
   $guardarcronograma=new Admin_Model_DbTable_Proyectocronograma();
   $gcronograma=$guardarcronograma->_save($data);
@@ -1858,10 +1858,6 @@ public function proyectoxperformanceAction() {
         //     print_r($value['fecha_performance']);
         //   }
         // }
-      
-      
-
-    
       $i++;  
       } 
   }
