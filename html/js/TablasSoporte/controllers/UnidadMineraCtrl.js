@@ -1,5 +1,5 @@
 app.controller('UnidadMineraCtrl', ['httpFactory', 'unidadmineraFactory','$filter',
-function(httpFactory, unidadFactory,$filter) {
+function(httpFactory, unidadmineraFactory,$filter) {
 
   /*referencia del scope y  los arrays que contendra a los proyectos y a los
   integrantes de control documentario*/
@@ -22,11 +22,11 @@ vum.ShowFormUnidadMinera=function(){
 
 vum.GuardarUnidadMinera= function(){
 
-console.log(vum.unidad_mineraid,clienteid,nombre);
+// console.log(vum.unidad_mineraid,vum.clienteid,vum.nombre);
     unidadmineraFactory.setGuardarUnidadMinera(vum.unidad_mineraid,vum.clienteid,vum.nombre,vum.estado,vum.direccion,vum.paisid,vum.departamentoid,vum.distritoid,vum.tag,vum.isunidadminera)
     .then(function(data) {
 /*insertar una nueva fila*/
-console.log(vum.unidad_mineraid,clienteid,nombre);
+// console.log(vum.unidad_mineraid,clienteid,nombre);
       vum.inserted = {
         unidad_mineraid:vum.unidad_mineraid,
         clienteid:vum.clienteid,
@@ -41,8 +41,8 @@ console.log(vum.unidad_mineraid,clienteid,nombre);
       }
 
       vum.unidadminera.push(vum.inserted);
-      console.log('guardar area');
-      console.log(vum.inserted);
+      console.log('guardar unidad minera');
+      // console.log(vum.inserted);
       vum.formVisibilityUnidadMinera=false;
 
     })
@@ -70,14 +70,13 @@ vum.ModificarUnidadMinera=function(){
     httpFactory.setModificarUnidadMinera(unidad_mineraid,clienteid,nombre,estado,direccion,paisid,departamentoid,distritoid,tag,isunidadminera)
     .then(function(data) {
 
-    // alert('Cambios guardados satisfactoriamente');
     })
     .catch(function(err) {
       vum.unidadminera = [];
     })
 
   })
-  alert(vum.unidad_mineraid);
+
   }
 
   vum.CancelarUnidadMinera=function(){
