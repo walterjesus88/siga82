@@ -132,7 +132,7 @@ function(httpFactory, $scope,$filter,$q,proyectoFactory) {
       va.revision,va.estado,va.proyectop.codigo_prop_proy,va.proyectop.codigo)
     .then(function(data) {
       
-      console.log(data);
+      //console.log(data);
 
       va.inserted = {
         codigo_prop_proy:va.proyectop.codigo_prop_proy,
@@ -752,12 +752,12 @@ va.checkName=function(data, id)
   c_propuesta=costo_propuesta/duracion;
 
   fecha_inicio_proyecto=va.proyectop.fecha_inicio;
-  console.log(f_comienzo);
-  console.log(fecha_corte0);
+  //console.log(f_comienzo);
+  //console.log(fecha_corte0);
   calcula_fecha_planificadas=proyectoFactory.restaFechas(f_comienzo,fecha_corte0)
   
   
-  console.log(calcula_fecha_planificadas);
+  //console.log(calcula_fecha_planificadas);
 
   calcula_h_planificadas=calcula_fecha_planificadas*h_dias_propuesta;
   calculo_c_planificadas=calcula_fecha_planificadas*c_propuesta;
@@ -1711,120 +1711,14 @@ va.checkName=function(data, id)
 }
 
 
-
-
-//guardar datos de performance//
-va.saveTablexxx5556= function() {
-  //console.log(va.performance);
- cont=1;
-
- //console.log(va.performance);
-
-  angular.forEach(va.performance, function(val,key) {
-    
-      codigo_prop_proy=val['codigo_prop_proy'] ,
-      codigo_actividad=val['codigo_actividad'],
-      actividadid=val['actividadid'],
-      cronogramaid=val['cronogramaid'],
-      codigo_cronograma=val['codigo_cronograma'] ,
-      codigo_performance=val['codigo_performance'] ,     
-      proyectoid=val['proyectoid'] ,
-      revision_cronograma=val['revision_cronograma'] ,
-      fecha_ingreso_performance=val['fecha_ingreso_performance'],
-      revision_propuesta=val['revision_propuesta'] , 
-
-      costo_real =val['costo_real'] ,
-      horas_real =val['horas_real'] ,
-
-      costo_propuesta =val['costo_propuesta'],
-      horas_propuesta =val['horas_propuesta'],
-      horas_planificado =val['horas_planificado'],
-      costo_planificado =val['costo_planificado'],
-      porcentaje_planificado =val['porcentaje_planificado'],
-      porcentaje_real =val['porcentaje_real'],
-        
-      fecha_comienzo=val['fecha_comienzo'] ,
-
-      fecha_comienzo_real=val['fecha_comienzo_real'] ,
-      fecha_fin_real=val['fecha_fin_real'] ,
-      duracion=val['duracion'],
-      fecha_fin=val['fecha_fin'],
-      predecesoras=val['predecesoras'],
-
-
-      nivel_esquema=val['nivel_esquema'] ,
- 
-      sucesoras=val['sucesoras'] ;
-      nombre=val['nombre'] ;
-
-    console.log(va.performance);  
-     
-  fecha_corte0='2015-06-06';
-
-  fecha_inicio_proyecto='2015-06-01';  
-
-
-      
-      //console.log(va.horas_tareo);
-
-
-
-
-    // proyectoFactory.setActualizarPerformance(
-    //   codigo_prop_proy,codigo_actividad,actividadid,cronogramaid,codigo_cronograma,codigo_performance,
-    //   proyectoid,revision_cronograma,fecha_ingreso_performance,revision_propuesta,
-    //   costo_real,horas_real,costo_propuesta,horas_propuesta,horas_planificado,costo_planificado,porcentaje_planificado,
-    //   porcentaje_real,fecha_comienzo_real,fecha_fin_real,
-    //   fecha_fin,fecha_comienzo,nivel_esquema,predecesoras,sucesoras,duracion
-    // )
-    // .then(function(data) {
-      
-    // })
-    // .catch(function(err) {
-     
-    // });
-
-      
-      // angular.forEach(val['items'], function(value) {
-       
-
-      //   codigo_prop_proy=value['codigo_prop_proy'];
-      //   codigo_actividad=value['codigo_actividad'];
-      //   actividadid=value['actividadid'];
-      //   cronogramaid=value['cronogramaid'];
-      //   codigo_cronograma=value['codigo_cronograma'];
-      //   codigo_performance=value['codigo_performance'];
-      //   porcentaje_performance=value['porcentaje_performance'];
-      //   //fecha_calculo_performance=value['fecha_calculo_performance'];
-      //   proyectoid=value['proyectoid'];
-      //   revision_cronograma=value['revision_cronograma'];
-      //   fecha_ingreso_performance=value['fecha_ingreso_performance'];
-      //   fecha_performance=value['fecha_performance'];
-
-      //   proyectoFactory.setActualizarDatosxPerfomance(codigo_prop_proy,codigo_actividad,actividadid,cronogramaid,
-      //   codigo_cronograma,codigo_performance,porcentaje_performance,proyectoid,revision_cronograma,
-      //   fecha_ingreso_performance,fecha_performance)
-      //   .then(function(data) {
-        
-      //   })
-      //  .catch(function(err) {
-      //     //va.procronograma = {};
-      //   });
-
-      // })
- 
-  });
-};
-
-
 //////////////////////////*******/////////////////////////////////////
   //alert(proyecto['codigo']);
   proyectoFactory.getDatosxEDT(proyecto['codigo'])
   .then(function(data) {
 
         va.edt=data;
-        console.log(va.edt);
-        console.log('va.edt');
+        //console.log(va.edt);
+        //console.log('va.edt');
   })
   .catch(function(err) {
             //va.procronograma = {};

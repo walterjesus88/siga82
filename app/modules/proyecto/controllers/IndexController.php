@@ -1490,9 +1490,14 @@ public function guardarxproyectoxcronogramaAction()
   $data['proyectoid'] = $this->_getParam('proyectoid');
 
 
-  $datastate['state']='I';$wherestate=null;
+  $datastate['state']='I';
+  $wherestate = array('codigo_cronograma' => $data['codigo_cronograma'],
+                     'revision_cronograma' => $data['revision_cronograma'],
+                     'codigo_prop_proy' => $data['codigo_prop_proy'],
+                     'proyectoid' => $data['proyectoid'],
+                    );
   $modficarcronograma=new Admin_Model_DbTable_Proyectocronograma();
-  $mcronograma=$modficarcronograma->_update_state($datastate,$wherestate);
+  $mcronograma=$modficarcronograma->_update($datastate,$wherestate);
 
   $guardarcronograma=new Admin_Model_DbTable_Proyectocronograma();
   $gcronograma=$guardarcronograma->_save($data);
@@ -1795,7 +1800,16 @@ public function proyectoxperformanceAction() {
       $horas_tareo=$shorastareo[0]['suma'];  
       $costohoras=$costohoras[0]['costo'];  
 
+      if($keyper['costo_propuesta']==null || $keyper['costo_propuesta']=='null')
+      {
+        $porcentaje_real=0;
+      }
+      else
+      {
+
       $porcentaje_real= round((floatval($costohoras)/floatval($keyper['costo_propuesta']))*100);
+      }
+
       //$porcentaje_planificado= (floatval($keyper['costo_planificado'])/floatval($keyper['costo_propuesta']))*100;
 
       $ek[] = array(
