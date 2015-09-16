@@ -1490,9 +1490,14 @@ public function guardarxproyectoxcronogramaAction()
   $data['proyectoid'] = $this->_getParam('proyectoid');
 
 
-  $datastate['state']='I';$wherestate=null;
+  $datastate['state']='I';
+  $wherestate = array('codigo_cronograma' => $data['codigo_cronograma'],
+                     'revision_cronograma' => $data['revision_cronograma'],
+                     'codigo_prop_proy' => $data['codigo_prop_proy'],
+                     'proyectoid' => $data['proyectoid'],
+                    );
   $modficarcronograma=new Admin_Model_DbTable_Proyectocronograma();
-  $mcronograma=$modficarcronograma->_update_state($datastate,$wherestate);
+  $mcronograma=$modficarcronograma->_update($datastate,$wherestate);
 
   $guardarcronograma=new Admin_Model_DbTable_Proyectocronograma();
   $gcronograma=$guardarcronograma->_save($data);
@@ -1604,6 +1609,36 @@ public function verjsonAction() {
 }
 
 
+
+public function gettareoxactividadesxproyectoAction() {
+
+  $proyectoid = $this->_getParam("proyectoid");
+  $fecha_inicio = $this->_getParam("fecha_inicio");
+  $fecha_corte = $this->_getParam("fecha_corte");
+  $actividadid = $this->_getParam("actividadid");
+
+  $tareopersona=new Admin_Model_DbTable_Performance();
+  $tpersona=$tareopersona->_getSumaxHoraxTareopxActividades($proyectoid,$fecha_inicio,$fecha_corte,$actividadid);
+  
+  $i=0;
+  $ek=[];
+  foreach ($tpersona as $value) {
+   
+      $ek['actividadid']=$actividadid;
+      $ek['suma']=$value['suma'];
+      
+  
+    $i++;
+  }
+ 
+  //print_r($ek);
+  //exit();
+
+  $this->_helper->json->sendJson($ek);  
+
+
+}
+
 public function usuariosjsonAction() {
   $user=new Admin_Model_DbTable_Usuario();
   $us=$user->_getUsuarioAll();
@@ -1620,6 +1655,8 @@ public function modificarperformanceAction() {
    $codigo_cronograma = $this->_getParam("codigo_cronograma");
    $codigo_performance = $this->_getParam("codigo_performance");
    $porcentaje_performance = $this->_getParam("porcentaje_performance");
+
+   ///echo $porcentaje_performance;
    //$fecha_calculo_performance = $this->_getParam("fecha_calculo_performance");
    $proyectoid = $this->_getParam("proyectoid");
    $revision_cronograma = $this->_getParam("revision_cronograma");
@@ -1635,6 +1672,14 @@ public function modificarperformanceAction() {
 
    $modperformancedetalles=new Admin_Model_DbTable_Performancedetalle();
    $mpdetalle=$modperformancedetalles->_update($data,$where);
+
+   // print_r($data);
+   // print_r($where);
+
+   // echo('expression');
+   // print_r($mpdetalle);
+   // exit();
+
    $this->_helper->json->sendJson($mpdetalle);  
 }
 
@@ -1688,6 +1733,7 @@ public function modificarperformancepadreAction() {
 
   $modificarperformance= new Admin_Model_DbTable_Performance();
   $mperformance=$modificarperformance->_update($data,$where);
+
   $this->_helper->json->sendJson($mperformance);  
 
 }
@@ -1716,8 +1762,18 @@ public function proyectoxperformanceAction() {
   $proyectoid = $this->_getParam("proyectoid");
   $revision = $this->_getParam("revision");
   
+  $proyecto= new Admin_Model_DbTable_Proyecto();
+  $codigo = array('proyectoid' =>$proyectoid, );
+  $datosproyecto = $proyecto->_getOnexcodigoproyecto($codigo);
+  $fecha_inicio=$datosproyecto['fecha_inicio'];
+  $fecha_final=$datosproyecto['fecha_cierre'];
+
   $performance=new Admin_Model_DbTable_Performance(); 
   $perf=$performance->_getBuscarActividadxPerformance($proyectoid,$revision);
+
+  $state_fechacorte=new Admin_Model_DbTable_Proyectofechacorte();
+  $f_state_corte=$state_fechacorte->_getProyectoxFechaxCortexActivaxProyecto($proyectoid);
+  $fecha_corte_activa=$f_state_corte[0]['fecha'];
 
   if($perf)
   {
@@ -1738,8 +1794,27 @@ public function proyectoxperformanceAction() {
       $performancedetalle=new Admin_Model_DbTable_Performancedetalle();
       $pdetalle=$performancedetalle->_getFilter($wheredet,$attrib,$order);
 
+      
+      $shorastareo=$performance->_getSumaxHoraxTareopxActividades($proyectoid,$fecha_inicio,$fecha_corte_activa,$keyper['actividadid']);
+      $costohoras=$performance->_getCostoxHoraxTareopxActividades($proyectoid,$fecha_inicio,$fecha_corte_activa,$keyper['actividadid']);
+      $horas_tareo=$shorastareo[0]['suma'];  
+      $costohoras=$costohoras[0]['costo'];  
+
+      if($keyper['costo_propuesta']==null || $keyper['costo_propuesta']=='null')
+      {
+        $porcentaje_real=0;
+      }
+      else
+      {
+
+      $porcentaje_real= round((floatval($costohoras)/floatval($keyper['costo_propuesta']))*100);
+      }
+
+      //$porcentaje_planificado= (floatval($keyper['costo_planificado'])/floatval($keyper['costo_propuesta']))*100;
+
       $ek[] = array(
         'nombre' =>$keyper['nombre'],
+        //'fecha_corte_activa'=> $fecha_corte_activa,
         'codigo_prop_proy' =>$keyper['codigo_prop_proy'],
         'proyectoid' =>$keyper['proyectoid'],
         'codigo_actividad' =>$keyper['codigo_actividad'],
@@ -1750,17 +1825,16 @@ public function proyectoxperformanceAction() {
         'codigo_performance' =>$keyper['codigo_performance'],
         'revision_propuesta' =>$keyper['revision_propuesta'],
         'fecha_ingreso_performance' =>$keyper['fecha_ingreso_performance'],
-        //'fecha_calculo_performance' =>$keyper['fecha_calculo_performance'],
-        'costo_real' =>$keyper['costo_real'],
-        'horas_real' =>$keyper['horas_real'],
+        'costo_real' =>$costohoras,
         'costo_propuesta' =>$keyper['costo_propuesta'],
         'horas_propuesta' =>$keyper['horas_propuesta'],
         'horas_planificado' =>$keyper['horas_planificado'],
         'costo_planificado' =>$keyper['costo_planificado'],
 
         'duracion' =>$keyper['duracion'],
+        //'porcentaje_planificado' =>$porcentaje_planificado,
         'porcentaje_planificado' =>$keyper['porcentaje_planificado'],
-        'porcentaje_real' =>$keyper['porcentaje_real'],
+        'porcentaje_real' =>$porcentaje_real,
         
 
         'fecha_comienzo_real' =>$keyper['fecha_comienzo_real'],
@@ -1771,7 +1845,23 @@ public function proyectoxperformanceAction() {
         'nivel_esquema' =>$keyper['nivel_esquema'],
         'predecesoras' =>$keyper['predecesoras'],
         'sucesoras' =>$keyper['sucesoras'],
+   
+
+        'horas_real' =>$horas_tareo,
+
         'items'=> $pdetalle);
+
+        // print_r($pdetalle);
+        // foreach ($pdetalle as $value) {
+        //   if($value['state']=='A')
+        //   {    
+        //     print_r($value['fecha_performance']);
+        //   }
+        // }
+      
+      
+
+    
       $i++;  
       } 
   }
@@ -1780,6 +1870,8 @@ public function proyectoxperformanceAction() {
     $ek=[];
   }
  
+
+
   $this->_helper->json->sendJson($ek);
 
 }
@@ -1844,7 +1936,7 @@ public function guardarcurvaAction(){
     $guardarcurva=new Admin_Model_DbTable_Tiempoproyecto();
     $gcurva=$guardarcurva->_save($data);
 
-    exit();
+    //exit();
 }
 
 public function eliminarcurvaAction(){

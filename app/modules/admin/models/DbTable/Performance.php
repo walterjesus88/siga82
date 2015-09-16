@@ -31,6 +31,48 @@ class Admin_Model_DbTable_Performance extends Zend_Db_Table_Abstract
     }
 
 
+    public function _getSumaxHoraxTareopxActividades($proyectoid,$f_inicio,$f_corte,$actividadid)
+    {
+        try{
+            $sql=$this->_db->query("
+                select sum(cast((case when h_real='' or h_real is null then '0' else h_real end) as double precision)) as suma
+                from tareo_persona 
+                where actividadid='$actividadid' and  proyectoid='$proyectoid' and fecha_tarea BETWEEN '$f_inicio' AND
+                '$f_corte' 
+                ");
+            $row=$sql->fetchAll();
+            return $row;           
+            }  
+           catch (Exception $ex){
+            print $ex->getMessage();
+        }
+    }
+
+    public function _getCostoxHoraxTareopxActividades($proyectoid,$f_inicio,$f_corte,$actividadid)
+    {
+        try{
+            $sql=$this->_db->query("                
+            select 
+            sum(
+             (cast((case when h_real='' or h_real is null then '0' else h_real end) as double precision))
+            *(cast((case when e.rate_proyecto='' or e.rate_proyecto is null then '0' else e.rate_proyecto end) as double precision))
+            )  as costo          
+            from tareo_persona as tp
+            inner join equipo as e
+            on tp.uid=e.uid and tp.proyectoid=e.proyectoid
+
+            where tp.proyectoid='$proyectoid' and actividadid='$actividadid' 
+            and fecha_tarea BETWEEN '$f_inicio' AND '$f_corte'
+                ");
+            $row=$sql->fetchAll();
+            return $row;           
+            }  
+           catch (Exception $ex){
+            print $ex->getMessage();
+        }
+    }
+
+
     public function _getBuscarActividadxPerformance($proyectoid,$revision)
     {
         try{

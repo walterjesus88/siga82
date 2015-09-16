@@ -17,6 +17,25 @@
 	</td>
 </tbody>
 </table> -->
+<div class="panel">
+	<label>
+	FECHA DE INICIO:
+	</label>
+	<span>
+	{{CP.proyectop.fecha_inicio }}
+	</span>
+	</br>
+	<label>
+	FECHA DE CIERRE:
+	</label>
+	<span>
+	{{CP.proyectop.fecha_cierre }}
+
+	{{CP.fecha_corte_activa}}
+	</span>
+
+</div>
+
 
 <div class="form-group" class="col-md-4"  >
   <div class="col-md-1" >
@@ -35,17 +54,38 @@
 
 
 <form method="POST" action="#" editable-form name="tableform" onaftersave="CP.saveTable()" oncancel="cancel()" >
+
+<div class="btn-edit">
+    <button type="button" class="btn btn-default" ng-show="!tableform.$visible" ng-click="tableform.$show()">
+        editar
+    </button>
+</div>
+<div class="btn-form" ng-show="tableform.$visible">
+
+    <button type="submit" ng-disabled="tableform.$waiting" class="btn btn-primary">guardar</button>
+    <button type="button" ng-disabled="tableform.$waiting" ng-click="tableform.$cancel()" class="btn btn-default">cancelar</button>
+</div>
+
 <table class=" table table-striped table-hover table-bordered ">
 	<thead>	
+		<tr class="menu">    
+	        <th colspan="3"><center>Informe de Trabajo</center></th>	 
+	        <th colspan="3"><center>Propuesta</center></th>
+ 	        <th colspan="3"><center>Planificado</center></th>
+ 	        <th colspan="3"><center>Real</center></th>
+ 	        <th colspan="5"><center>Fechas</center></th>
+	        <th colspan="5"><center>fechas corte (Performance y Curva s)</center></th>
+	    </tr>
 		<tr class="menu">    
 	        <th>Item</th>
 	        <th>Actividad Id</th>
 	        <th >Descripcion de Tareas</th>
 	        <th >Predecesora</th>
-	        <th>US$/item</th>
+ 	        <th>Presupuesto</th>
+	        <th>duracion</th> 
 	        <th>hrs/item</th>	
 	        <th>US$/item</th>
-	        <th>hrs/item</th>	
+	        
 	        <th>%</th>	
 	        <th>hrs/item</th>	
 	        <th>US$/item</th>
@@ -71,17 +111,15 @@
           	<td >
             	{{ performance.actividadid }}  
           	</td>
+
+       
+
           	<td>
 				{{ performance.nombre}}
 			</td>
  			<td>
- 				<span editable-text="performance.predecesoras" e-form="tableform" onbeforesave="checkName($data, performance.codigo_performance)">
+ 				<span editable-text="performance.predecesoras" e-form="tableform" onaftersave="CP.checkName($data,$index)" e-ng-change="CP.cambio($data,$index)" ng-model="performance.predecesoras">
 				{{ performance.predecesoras }}
-				</span>
-			</td>
-          	<td>			
-				<span editable-text="performance.horas_propuesta" e-form="tableform" onbeforesave="checkName($data, performance.codigo_performance)">
-				{{ performance.horas_propuesta }}
 				</span>
 			</td>
 
@@ -91,6 +129,14 @@
 				</span>
 			</td>
 
+
+        	<td>			
+				<span editable-text="performance.horas_propuesta" e-form="tableform" onbeforesave="checkName($data, performance.codigo_performance)">
+				{{ performance.horas_propuesta }}
+				</span>
+			</td>
+
+		
 			<td>			
 				<span editable-text="performance.horas_planificado" e-form="tableform" onbeforesave="checkName($data, performance.codigo_performance)">
 				{{ performance.horas_planificado }}
@@ -129,13 +175,18 @@
 
 	
 			<td>
-				<span editable-text="performance.fecha_comienzo" e-form="tableform" onbeforesave="checkName($data, performance.codigo_performance)">
-				{{ performance.fecha_comienzo | date:'medium' }}
+				<span editable-text="performance.fecha_comienzo" e-form="tableform" onbeforesave="checkName($data, performance.codigo_performance)"
+				>
+				{{ (performance.fecha_comienzo | date:'medium')  || 'empty' }}
 				</span>				
 			</td> 
+
+
+
+
 			<td>
 				<span editable-text="performance.fecha_fin" e-form="tableform" onbeforesave="checkName($data, performance.codigo_performance)">
-				{{ performance.fecha_fin }}
+				{{ (performance.fecha_fin | date:'medium')  || 'empty' }}
 				</span>
 			</td>
 
@@ -158,13 +209,13 @@
 	        </td>
 
 
-	      	<td ng-repeat="item in performance.items" >
-	          <!--   <input class="form-control" type="text" ng-model=" item.porcentaje_performance "></input> -->
+	   	<td ng-repeat="item in performance.items" >
+	       
 	          <span editable-text="item.porcentaje_performance" e-form="tableform" onbeforesave="checkName($data, item.porcentaje_performance)">
 	            {{ item.porcentaje_performance }}
 	          </span>
 	             
-	        </td>	        
+	        </td>	         
         </tr>
 
    <tr ng-repeat-end>
@@ -174,16 +225,7 @@
 	</tbody>
 </table> 
 
-<div class="btn-edit">
-    <button type="button" class="btn btn-default" ng-show="!tableform.$visible" ng-click="tableform.$show()">
-        editar
-    </button>
-</div>
-<div class="btn-form" ng-show="tableform.$visible">
 
-    <button type="submit" ng-disabled="tableform.$waiting" class="btn btn-primary">guardar</button>
-    <button type="button" ng-disabled="tableform.$waiting" ng-click="tableform.$cancel()" class="btn btn-default">cancelar</button>
-</div>
 
 </form>
-    <input id="taskName" class="form-control" type="text" placeholder="type task name"  ng-enter="CP.calculafechafin()" />
+ 

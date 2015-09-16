@@ -25,14 +25,7 @@ va.ShowFormArea=function(){
   }
 
 va.GuardarArea= function(){
-    // console.log(va.areaid);
-    // console.log(va.nombre);
-    // console.log(va.area_padre);
-    // console.log(va.isproyecto);
-    // console.log(va.ispropuesta);
-    // console.log(va.iscontacto);
-    // console.log(va.iscomercial);
-    // console.log(va.orden);
+
     areaFactory.setGuardarArea(va.areaid,va.nombre,va.area_padre,va.isproyecto,va.ispropuesta,va.iscontacto,va.iscomercial,va.orden)
     .then(function(data) {
 /*insertar una nueva fila*/
@@ -49,13 +42,13 @@ va.GuardarArea= function(){
       }
 
       va.area.push(va.inserted); 
-      // console.log('guardar edt');  
-      // console.log(va.edt);  
+      // console.log('guardar area');  
+      // console.log(va.area);  
       va.formVisibilityArea=false;
 
     })
     .catch(function(err) {
-              //va.procronograma = {};
+              va.area = {};
     });
   }
 
@@ -77,7 +70,7 @@ va.ModificarArea=function(){
     httpFactory.setModificarArea(areaid,nombre,area_padre,isproyecto,ispropuesta,iscontacto,iscomercial,orden)
     .then(function(data) {
      // va.area=data;
-    alert('Cambios guardados satisfactoriamente');
+    // alert('Cambios guardados satisfactoriamente');
     })
     .catch(function(err) {
       va.area = [];

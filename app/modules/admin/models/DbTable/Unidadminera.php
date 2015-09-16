@@ -4,16 +4,30 @@ class Admin_Model_DbTable_Unidadminera extends Zend_Db_Table_Abstract
     protected $_name = 'unidad_minera';
     protected $_primary = array("unidad_mineraid", "clienteid");
 
-     /* Lista toda las Personas */    
-    public function _getUnidadmineraAll(){
+
+    public function _getFilter($where=null,$attrib=null,$orders=null){
         try{
-            $f = $this->fetchAll();
-            if ($f) return $f->toArray ();
-            return false;
+            //if($where['eid']=='' || $where['oid']=='') return false;
+                $select = $this->_db->select();
+                if ($attrib=='') $select->from("unidad_minera");
+                else $select->from("unidad_minera",$attrib);
+                foreach ($where as $atri=>$value){
+                    $select->where("$atri = ?", $value);
+                }
+                if ($orders<>null || $orders<>"") {
+                    if (is_array($orders))
+                        $select->order($orders);
+                }
+                $results = $select->query();
+                $rows = $results->fetchAll();
+                //print_r($results);
+                if ($rows) return $rows;
+                return false;
         }catch (Exception $e){
-            print "Error: Al momento de leer todas las -".$e->getMessage();
+            print "Error: Read Filter competencia ".$e->getMessage();
         }
     }
+
  
   public function _getUnidadmineraxIndice($clienteid)
      {
@@ -80,6 +94,71 @@ class Admin_Model_DbTable_Unidadminera extends Zend_Db_Table_Abstract
             print "Error: Read One Add_reportacad_adm ".$e->getMessage();
         }
     }
+
+     /* Lista toda las Unidad Minera */
+    public function _getUnidadmineraAll(){
+        try{
+            $f = $this->fetchAll();
+            if ($f) return $f->toArray ();
+            return false;
+        }catch (Exception $e){
+            print "Error: Al momento de leer todas las unidad mineras".$e->getMessage();
+        }
+    }
+
+    // public function _updateunidadminera($data,$pk)
+    // {
+    //     try{
+    //         if ($pk=='' ) return false;
+    //         $where = "unidad_mineraid = '".$pk."' and clienteid = '".$pk."'";
+    //         return $this->update($data, $where);
+    //         return false;
+    //     }catch (Exception $e){
+    //         print "Error: Update unidada minera".$e->getMessage();
+    //     }
+    // }
+
+    public function _updateunidadminera($data,$pk)
+    {
+        try{
+            if ($pk=='' ) return false;
+            $where = "unidad_mineraid = '".$pk."' ";
+            return $this->update($data, $where);
+            return false;
+        }catch (Exception $e){
+            print "Error: Update cliente".$e->getMessage();
+        }
+    }
+
+        public function _save($data)
+    {
+        try{
+            if ($data['unidad_mineraid']=='' || $data['clienteid']=='') return false;
+
+            return $this->insert($data);
+            return false;
+        }catch (Exception $e){
+                print "Error: Registration ".$e->getMessage();
+        }
+    }
+
+
+    public function _delete($pk=null)
+        {
+            try{
+
+
+                $where = "unidad_mineraid = '".$pk['unidad_mineraid']."'
+
+                         ";
+
+                return $this->delete( $where);
+                return false;
+            }catch (Exception $e){
+                print "Error: Eliminar unidad minera".$e->getMessage();
+            }
+        }
  
+
 
 }
