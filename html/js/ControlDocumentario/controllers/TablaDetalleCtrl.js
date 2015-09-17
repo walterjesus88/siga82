@@ -157,6 +157,14 @@ $modal) {
     .catch(function(err) {
       td.modo_seleccionado = '';
     })
+
+    httpFactory.getCodigoPreferencialxDetalle(detalle.detalleid)
+    .then(function(data) {
+      td.codigo_seleccionado = data.codigo;
+    })
+    .catch(function(err) {
+      td.codigo_seleccionado = '';
+    })
   }
 
   td.agregar = function(index) {
@@ -201,6 +209,28 @@ $modal) {
       }
     }
     alert('Contacto cambiado');
+  }
+
+  td.codigo_seleccionado = '';
+  td.codigos = ['CODIGO ANDDES', 'CODIGO CLIENTE'];
+
+  td.cambiarCodigoPreferencial = function() {
+    var j = 0;
+    for (var i = 0; i < td.detalles.length; i++) {
+      if (td.detalles[i].seleccionado == true) {
+        j++;
+        httpFactory.updateCodigoPreferencial(td.detalles[i].transmittal, td.detalles[i].correlativo, td.codigo_seleccionado)
+        .then(function(data) {
+
+        })
+        .catch(function(err) {
+
+        });
+      }
+    }
+    if (j != 0) {
+      alert('Codigo a imprimir en el Transmittal guardado');
+    }
   }
 
 }]);

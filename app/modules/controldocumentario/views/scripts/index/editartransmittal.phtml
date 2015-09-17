@@ -102,6 +102,14 @@
     </select>
   </section>
 
+  <section class="col-md-3 col-sm-6 form-group panel-body">
+    <label for="">Imprimir con código:</label>
+    <select class="form-control" ng-model="td.codigo_seleccionado"
+    ng-options="codigo as codigo for codigo in td.codigos"
+    ng-change="td.cambiarCodigoPreferencial()">
+    </select>
+  </section>
+
 </div>
 
 <footer class="col-md-12 panel">

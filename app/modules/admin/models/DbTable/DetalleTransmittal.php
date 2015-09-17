@@ -19,7 +19,8 @@ class Admin_Model_DbTable_DetalleTransmittal extends Zend_Db_Table_Abstract
     {
       try {
         $sql = $this->_db->query("select det.detalleid, led.descripcion_entregable,
-        led.codigo_anddes, led.tipo_documento, det.revision, det.emitido, det.cantidad
+        led.codigo_anddes, led.codigo_cliente, led.tipo_documento, det.revision,
+        det.emitido, det.cantidad
         from detalle_transmittal as det inner join lista_entregable_detalle as
         led on (det.entregableid = led.cod_le)
         where transmittal = '".$transmittal."' and correlativo = '".$correlativo."'");
@@ -200,6 +201,21 @@ class Admin_Model_DbTable_DetalleTransmittal extends Zend_Db_Table_Abstract
         det.correlativo = tra.correlativo) inner join contacto as con
         on (tra.clienteid = con.clienteid and tra.atencion = con.contactoid)
         where det.detalleid = ".$detalleid);
+        $row = $sql->fetch();
+        return $row;
+      } catch (Exception $e) {
+        print $e->getMessage();
+      }
+
+    }
+
+    public function _getCodigoPreferencial($detalleid)
+    {
+      try {
+        $sql = $this->_db->query("select tra.codigo_preferencial as codigo
+        from detalle_transmittal as det inner join
+        transmittal as tra on (det.transmittal = tra.codificacion and
+        det.correlativo = tra.correlativo) where det.detalleid = ".$detalleid);
         $row = $sql->fetch();
         return $row;
       } catch (Exception $e) {
