@@ -196,7 +196,10 @@ function(httpFactory, $location, $q) {
       {
       var defered = $q.defer();
       var promise = defered.promise;
-      //alert(predecesoras);
+      console.log(predecesoras);
+      console.log(costo_real);
+
+
       httpFactory.setModificarxPerformance(
         codigo_prop_proy,codigo_actividad,actividadid,cronogramaid,codigo_cronograma,codigo_performance,
         proyectoid,revision_cronograma,fecha_ingreso_performance,revision_propuesta,

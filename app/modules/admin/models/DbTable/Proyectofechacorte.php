@@ -127,7 +127,7 @@ class Admin_Model_DbTable_Proyectofechacorte extends Zend_Db_Table_Abstract
                 return $row;
             
         }  catch (Exception $ex){
-            print "Error: Obteniendo datos de tabla 'Matricula Curso'".$ex->getMessage();
+            print "Error: Obteniendo datos de tabla 'Fecha de Corte'".$ex->getMessage();
         }
     }
 

@@ -767,10 +767,11 @@ va.checkName=function(data, id)
  // console.log(horas_planificado);
   porcentaje_planificado=Math.round((calculo_c_planificadas/costo_propuesta)*100);
  
+ console.log(cadena);
 
- if( cadena!='null' )
+ if( cadena!=null )
   {
-   // console.log("duracion"+duracion);
+    console.log("duracion"+duracion);
     texto =  ['FC','CF','CC','FF'];
 
     for (var i = texto.length - 1; i >= 0; i--)
@@ -1539,7 +1540,8 @@ va.checkName=function(data, id)
 
   }
   else
-  {
+  { alert('kkkk');
+
     
     if(f_comienzo=='null' && f_fin=='null')
     {
@@ -1627,6 +1629,7 @@ va.checkName=function(data, id)
 
   }
 
+  //console.log(dsdad);
     va.performance[id] = 
     { 
                   actividadid:actividadid,
