@@ -280,7 +280,7 @@ class Admin_Model_DbTable_Proyecto extends Zend_Db_Table_Abstract
       try {
         $sql = $this->_db->query("select pro.codigo_prop_proy, pro.proyectoid, cli.nombre_comercial,
         pro.nombre_proyecto, pro.gerente_proyecto, pro.control_proyecto,
-        pro.control_documentario, pro.estado
+        pro.control_documentario, pro.estado, pro.unidad_red
         from proyecto as pro inner join cliente as cli
         on pro.clienteid = cli.clienteid where pro.estado='".$estado."'");
         $row = $sql->fetchAll();
@@ -322,16 +322,24 @@ class Admin_Model_DbTable_Proyecto extends Zend_Db_Table_Abstract
       }
     }
 
+    public function _updateUnidadRed($proyectoid, $unidad_red)
+    {
+      try {
+        $proyecto = $this->fetchRow("proyectoid = '".$proyectoid."'");
+        $proyecto->unidad_red = $unidad_red;
+        $proyecto->save();
+        return $proyecto;
+      } catch (Exception $e) {
+        print $e->getMessage();
+      }
+
+    }
+
     public function _getUbicacionesxCarpeta($carpetaid)
     {
       try {
-        if ($carpetaid == 8) {
-          $sql = $this->_db->query("select estado, count(estado) from proyecto
-          where unidad_red is null group by estado");
-        } else {
-          $sql = $this->_db->query("select estado, count(estado) from proyecto
-          where unidad_red = ".$carpetaid." group by estado");
-        }
+        $sql = $this->_db->query("select estado, count(estado) from proyecto
+        where unidad_red = ".$carpetaid." group by estado");
         $rows = $sql->fetchAll();
         return $rows;
       } catch (Exception $e) {

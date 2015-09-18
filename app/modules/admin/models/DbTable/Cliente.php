@@ -4,30 +4,6 @@ class Admin_Model_DbTable_Cliente extends Zend_Db_Table_Abstract
     protected $_name = 'cliente';
     protected $_primary = array("clienteid");
 
-    /* Lista toda las Cliente */
-    public function _getFilter($where=null,$attrib=null,$orders=null){
-        try{
-            //if($where['eid']=='' || $where['oid']=='') return false;
-                $select = $this->_db->select();
-                if ($attrib=='') $select->from("cliente");
-                else $select->from("cliente",$attrib);
-                foreach ($where as $atri=>$value){
-                    $select->where("$atri = ?", $value);                    
-                }
-                if ($orders<>null || $orders<>"") {
-                    if (is_array($orders))
-                        $select->order($orders);
-                }
-                $results = $select->query();
-                $rows = $results->fetchAll();
-                //print_r($results);
-                if ($rows) return $rows;
-                return false;
-        }catch (Exception $e){
-            print "Error: Read Filter competencia ".$e->getMessage();
-        }
-    }
-
 
      /* Lista toda las Personas */    
     public function _getClienteAll(){
@@ -152,6 +128,9 @@ class Admin_Model_DbTable_Cliente extends Zend_Db_Table_Abstract
         }
     }
 
+
+
+
      public function _buscarCliente($cliente){
         try{
             $sql=$this->_db->query("
@@ -179,7 +158,29 @@ class Admin_Model_DbTable_Cliente extends Zend_Db_Table_Abstract
         }
     }
 
- 
+ public function _updatecliente($data,$pk)
+    {
+        try{
+            if ($pk=='' ) return false;
+            $where = "clienteid = '".$pk."' ";
+            return $this->update($data, $where);
+            // print_r($this->update($data, $where);
+            return false;
+        }catch (Exception $e){
+            print "Error: Update cliente".$e->getMessage();
+        }
+    }
+
+        public function _save($data)
+    {
+        try{
+            if ($data['clienteid']=='' ) return false;
+            return $this->insert($data);
+            return false;
+        }catch (Exception $e){
+                print "Error: Registration ".$e->getMessage();
+        }
+    }
 
 
 }

@@ -72,16 +72,22 @@ class Admin_Model_DbTable_Transmittal extends Zend_Db_Table_Abstract
     public function _saveConfiguracion($data)
     {
       try {
-        $sql = $this->_db->query("insert into transmittal values ('".
-        $data['codificacion']."', '".$data['correlativo']."', '".
-        $data['clienteid']."', '".$data['proyectoid']."', '".$data['formato'].
-        "', '".$data['tipo_envio']."', '".$data['control_documentario'].
-        "', '".$data['dias_alerta']."', '".$data['tipo_proyecto']."', '".
-        $data['atencion']."', '".$data['modo_envio']."', '".$data['estado_elaboracion']."')");
-        $row = $sql->fetchAll();
-        return $row;
-        //$this->insert($data);
-        //return $respuesta['resultado'] = 'guardado';
+        $transmittal = $this->createRow();
+        $transmittal->codificacion = $data['codificacion'];
+        $transmittal->correlativo = $data['correlativo'];
+        $transmittal->clienteid = $data['clienteid'];
+        $transmittal->proyectoid = $data['proyectoid'];
+        $transmittal->formato = $data['formato'];
+        $transmittal->tipo_envio = $data['tipo_envio'];
+        $transmittal->control_documentario = $data['control_documentario'];
+        $transmittal->dias_alerta = $data['dias_alerta'];
+        $transmittal->tipo_proyecto = $data['tipo_proyecto'];
+        $transmittal->atencion = $data['atencion'];
+        $transmittal->modo_envio = $data['modo_envio'];
+        $transmittal->estado_elaboracion = $data['estado_elaboracion'];
+        $transmittal->codigo_preferencial = 'CODIGO ANDDES';
+        $transmittal->save();
+        return $transmittal;
       } catch (Exception $e) {
         print $e->getMessage();
       }
@@ -104,14 +110,17 @@ class Admin_Model_DbTable_Transmittal extends Zend_Db_Table_Abstract
     public function _getTransmittal($transmittalid, $correlativo)
     {
       $sql = $this->_db->query("select tra.codificacion, tra.correlativo,
-      tra.clienteid, cli.nombre_comercial, tra.proyectoid, tra.formato,
-      tra.tipo_envio, tra.control_documentario, tra.atencion,
+      tra.clienteid, cli.nombre_comercial, tra.proyectoid,
+      pro.nombre_proyecto, tra.formato,
+      tra.tipo_envio, tra.control_documentario, tra.atencion, tra.codigo_preferencial,
       concat(con.nombre1, ' ', con.ape_paterno) as nombre_atencion,
-      con.puesto_trabajo, tra.modo_envio
+      con.puesto_trabajo, tra.modo_envio, uni.nombre as unidad_minera
       from transmittal as tra inner join cliente as cli on
-      tra.clienteid = cli.clienteid
+      (tra.clienteid = cli.clienteid)
       inner join contacto as con on (tra.atencion = con.contactoid and
       tra.clienteid = con.clienteid)
+      inner join proyecto as pro on (tra.proyectoid = pro.proyectoid)
+      inner join unidad_minera as uni on (pro.unidad_mineraid = uni.unidad_mineraid)
       where codificacion = '".$transmittalid."' and correlativo ='".$correlativo."'");
       $row = $sql->fetch();
       return $row;
@@ -130,6 +139,34 @@ class Admin_Model_DbTable_Transmittal extends Zend_Db_Table_Abstract
       } catch (Exception $e) {
         print $e->getMessage();
       }
+    }
+
+    public function _updateContacto($codificacion, $correlativo, $contactoid)
+    {
+      try {
+        $transmittal = $this->fetchRow("codificacion = '".$codificacion."' and
+        correlativo = '".$correlativo."'");
+        $transmittal->atencion = $contactoid;
+        $transmittal->save();
+        return $transmittal;
+      } catch (Exception $e) {
+        print $e->getMessage();
+      }
+
+    }
+
+    public function _updateCodigoPreferencial($codificacion, $correlativo, $cod_pre)
+    {
+      try {
+        $transmittal = $this->fetchRow("codificacion = '".$codificacion."' and
+        correlativo = '".$correlativo."'");
+        $transmittal->codigo_preferencial = $cod_pre;
+        $transmittal->save();
+        return $transmittal;
+      } catch (Exception $e) {
+        print $e->getMessage();
+      }
+
     }
 
 }

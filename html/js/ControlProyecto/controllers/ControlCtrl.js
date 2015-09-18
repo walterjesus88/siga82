@@ -25,6 +25,7 @@ function(httpFactory, $scope,$filter,$q,proyectoFactory) {
   .then(function(data) {
   
     va.proyectop = data; 
+    console.log(va.proyectop);
 
       proyectoFactory.getVerCronogramaxActivo(proyecto['codigo'])
       .then(function(data) {
@@ -131,7 +132,7 @@ function(httpFactory, $scope,$filter,$q,proyectoFactory) {
       va.revision,va.estado,va.proyectop.codigo_prop_proy,va.proyectop.codigo)
     .then(function(data) {
       
-      console.log(data);
+      //console.log(data);
 
       va.inserted = {
         codigo_prop_proy:va.proyectop.codigo_prop_proy,
@@ -473,7 +474,6 @@ va.buscaperformance = function(revision) {
   proyectoFactory.getDatosProyectoxPerfomance(proyectoid,revision_cronograma)
   .then(function(datax) {
       va.performance=datax;
-      console.log(va.performance);
 
     })
   .catch(function(err) {
@@ -607,13 +607,21 @@ proyectoFactory.getVerCronogramaxActivo(proyecto['codigo'])
   {
 
     revision=data[0]['revision_cronograma'];
- 
+  //F E C H A S  D E  C O R T E///
     proyectoFactory.getDatosxProyectoxFechaxCorte(proyecto['codigo'],revision)
     .then(function(data) {
       va.thi=data;
-      //alert('va.thi');
-      console.log(va.thi);
+      ///lert(va.thi);
+      angular.forEach(va.thi, function(val,id) {
+        
+        if(val['state_performance']=='A')
+        {
+          va.fecha_corte_activa=val['fecha'];
+          console.log(va.fecha_corte_activa);
+        }
 
+
+      });
     })
     .catch(function(err) {
       va.thi = {};
@@ -624,7 +632,7 @@ proyectoFactory.getVerCronogramaxActivo(proyecto['codigo'])
     .then(function(datax) {
         va.performance=datax;
 
-        //console.log(va.performance);
+        console.log(va.performance);
         ///console.log(va.performance);
        })
     .catch(function(err) {
@@ -642,188 +650,387 @@ va.calculafechafin= function()
   console.log('ssss');
 }
 
-
-//guardar datos de performance//
-va.saveTable = function() {
-  //console.log(va.performance);
-
-  angular.forEach(va.performance, function(val) {
-    
-      codigo_prop_proy=val['codigo_prop_proy'] ,
-      codigo_actividad=val['codigo_actividad'],
-      actividadid=val['actividadid'],
-      cronogramaid=val['cronogramaid'],
-      codigo_cronograma=val['codigo_cronograma'] ,
-      codigo_performance=val['codigo_performance'] ,     
-      proyectoid=val['proyectoid'] ,
-      revision_cronograma=val['revision_cronograma'] ,
-      fecha_ingreso_performance=val['fecha_ingreso_performance'],
-      revision_propuesta=val['revision_propuesta'] , 
-
-      costo_real =val['costo_real'] ,
-      horas_real =val['horas_real'] ,
-
-      costo_propuesta =val['costo_propuesta'],
-      horas_propuesta =val['horas_propuesta'],
-      horas_planificado =val['horas_planificado'],
-      costo_planificado =val['costo_planificado'],
-      porcentaje_planificado =val['porcentaje_planificado'],
-      porcentaje_real =val['porcentaje_real'],
-        
-      fecha_comienzo=val['fecha_comienzo'] ,
-
-      fecha_comienzo_real=val['fecha_comienzo_real'] ,
-      fecha_fin_real=val['fecha_fin_real'] ,
-      duracion=val['duracion'],
-
-
-    fecha_comienzo = fecha_comienzo.toString();
-
-    predecesoras=val['predecesoras'],
-
-
- // expression='CF';
-  
-  cadena= predecesoras;
-  //console.log("cadena"+cadena);
-
-// fecvvv='2015-04-28';
-// fecvvv = fecvvv.replace(/-/g, '/');
-// console.log(fecvvv);
-
-// hoy = new Date(fecvvv); 
-// i=1; 
-// while (i<=12-1) {
-//     hoy.setTime(hoy.getTime()-24*60*60*1000); // añadimos 1 día
-//     if (hoy.getDay() == 6  || hoy.getDay() == 0    )
-//     {
-//       console.log(hoy.getDay());
-//       //i--;
-//     }  
-//     else
-//     {
-//       console.log(hoy.getDay());
-//       i++;
-//     }
-// }
-
-// day=hoy.getDate();
-// month=hoy.getMonth()+1;
-// year=hoy.getFullYear();
-
-// if (month.toString().length < 2) 
-// {  month = '0' + month; }
-// if (day.toString().length < 2) 
-// {  day = '0' + day;}
-// fecha_menos=year+"-"+month+"-"+day,
-
-// console.log("fecha_menos"+fecha_menos);
-// console.log(jik);
-
-
-
-if( cadena!=null)
+va.cambio= function(data, id)
 {
-  texto =  ['FC','CF','CC','FF'];
 
-  for (var i = texto.length - 1; i >= 0; i--) {
-    //console.log("textoputo"+texto[i]);
-    if(cadena.indexOf(texto[i])!=-1)
+
+
+ // console.log(id);
+ // console.log(data);
+ // console.log(va.performance[3]);
+
+  //vars={ fecha_comienzo: 'data' }
+  //va.performance[3].push(vars);
+
+}
+
+va.checkName=function(data, id)
+{
+  //alert('Cambia moddddlo');
+  //console.log(data);
+  //console.log(id);
+  console.log(va.performance);
+
+//angular.forEach(va.performance, function(val,id) {
+    
+  // codigo_prop_proy=val['codigo_prop_proy'] ,
+  // predecesoras=val['predecesoras'];
+  // //console.log(predecesoras);
+  // cadena=predecesoras;
+
+  // duracion=val['duracion'];
+  // actividadid=val['actividadid'];
+  // f_comienzo=val['fecha_comienzo'];
+  // f_fin=val['fecha_fin'];
+
+  // nivel_esquema=val['nivel_esquema'] ,
+  // sucesoras=val['sucesoras'] ;
+  // codigo_prop_proy=val['codigo_prop_proy'] ,
+  // codigo_actividad=val['codigo_actividad'],
+
+  // cronogramaid=val['cronogramaid'],
+  // codigo_cronograma=val['codigo_cronograma'] ,
+  // codigo_performance=val['codigo_performance'] ,     
+  // proyectoid=val['proyectoid'] ,
+  // revision_cronograma=val['revision_cronograma'] ,
+  // fecha_ingreso_performance=val['fecha_ingreso_performance'],
+  // revision_propuesta=val['revision_propuesta'] , 
+  // costo_real =val['costo_real'] ,
+  // horas_real =val['horas_real'] ,
+
+  // costo_propuesta =val['costo_propuesta'],
+  // horas_propuesta =val['horas_propuesta'],
+  // horas_planificado =val['horas_planificado'],
+  // costo_planificado =val['costo_planificado'],
+  // porcentaje_planificado =val['porcentaje_planificado'],
+  // porcentaje_real =val['porcentaje_real'];
+  // fecha_comienzo_real =val['fecha_comienzo_real'];
+  // fecha_fin_real =val['fecha_fin_real'];
+  // nombre =val['nombre'];
+  // items=val['items'];
+
+ // console.log(va.performance);
+  cadena=data; ///predecesoras//
+ 
+  predecesoras=cadena;
+ 
+  duracion=va.performance[id]['duracion'];
+  actividadid=va.performance[id]['actividadid'];
+  f_comienzo=va.performance[id]['fecha_comienzo'];
+  f_fin=va.performance[id]['fecha_fin'];
+
+  nivel_esquema=va.performance[id]['nivel_esquema'] ,
+  sucesoras=va.performance[id]['sucesoras'] ;
+  codigo_prop_proy=va.performance[id]['codigo_prop_proy'] ,
+  codigo_actividad=va.performance[id]['codigo_actividad'],
+
+  cronogramaid=va.performance[id]['cronogramaid'],
+  codigo_cronograma=va.performance[id]['codigo_cronograma'] ,
+  codigo_performance=va.performance[id]['codigo_performance'] ,     
+  proyectoid=va.performance[id]['proyectoid'] ,
+  revision_cronograma=va.performance[id]['revision_cronograma'] ,
+  fecha_ingreso_performance=va.performance[id]['fecha_ingreso_performance'],
+  revision_propuesta=va.performance[id]['revision_propuesta'] , 
+  costo_real =va.performance[id]['costo_real'] ,
+  horas_real =va.performance[id]['horas_real'] ,
+
+  costo_propuesta =va.performance[id]['costo_propuesta'],
+  horas_propuesta =va.performance[id]['horas_propuesta'],
+  horas_planificado =va.performance[id]['horas_planificado'],
+  costo_planificado =va.performance[id]['costo_planificado'],
+  porcentaje_planificado =va.performance[id]['porcentaje_planificado'],
+  porcentaje_real =va.performance[id]['porcentaje_real'];
+  nombre =va.performance[id]['nombre'];
+  items=va.performance[id]['items'];
+  fecha_comienzo_real =va.performance[id]['fecha_comienzo_real'];
+  fecha_fin_real =va.performance[id]['fecha_fin_real'];
+  fecha_corte0 =va.fecha_corte_activa;
+
+ /////C A L C U L A  H O R A S  P L A N I F I C A D A S//////
+  h_dias_propuesta=horas_propuesta/duracion;
+
+  c_propuesta=costo_propuesta/duracion;
+
+  fecha_inicio_proyecto=va.proyectop.fecha_inicio;
+  //console.log(f_comienzo);
+  //console.log(fecha_corte0);
+  calcula_fecha_planificadas=proyectoFactory.restaFechas(f_comienzo,fecha_corte0)
+  
+  
+  //console.log(calcula_fecha_planificadas);
+
+  calcula_h_planificadas=calcula_fecha_planificadas*h_dias_propuesta;
+  calculo_c_planificadas=calcula_fecha_planificadas*c_propuesta;
+  horas_planificado=Math.round(calcula_h_planificadas);
+  costo_planificado=Math.round(calculo_c_planificadas);
+
+ // console.log(horas_planificado);
+  porcentaje_planificado=Math.round((calculo_c_planificadas/costo_propuesta)*100);
+ 
+ console.log(cadena);
+
+ if( cadena!=null )
+  {
+    console.log("duracion"+duracion);
+    texto =  ['FC','CF','CC','FF'];
+
+    for (var i = texto.length - 1; i >= 0; i--)
     {
-      
-      console.log("si haysss encon"+texto[i]);
-      console.log(cadena);
-      console.log(cadena.indexOf(texto[i]));
+      if(cadena.indexOf(texto[i])!=-1)
+      {      
+        posicion = cadena.indexOf(texto[i]);               
+        valoritem=cadena.substring(0, posicion); 
 
-      switch(texto[i]) {
-      case 'FC':
-          console.log("FC-----------");
+        fecha_sincro_comienzo=va.performance[valoritem]['fecha_comienzo'];
+        fecha_sincro_fin=va.performance[valoritem]['fecha_fin']; 
 
-          posicion = cadena.indexOf(texto[i]);
+        //console.log("fecha_sincro_comienzo"+fecha_sincro_comienzo);
+        //console.log("fecha_sincro_fin"+fecha_sincro_fin);
 
-          signo=['+','-'];
+        switch(texto[i]) {
+        case 'CC':
+         if(cadena.indexOf('+')!=-1 || cadena.indexOf('-')!=-1)
+          {
+                  if(cadena.indexOf('+')!=-1)
+                  {
+                    posiciondelmas = cadena.indexOf('+'); 
+                    valordias=cadena.substring(posiciondelmas+1);
 
-          for (var i = signo.length - 1; i >= 0; i--) {
-            
-
-            if(cadena.indexOf(signo[i])!=-1)
-            {
-              posiciondelmas = cadena.indexOf(signo[i]);        
-              //console.log("signo"+signo[i]);
-              //console.log("posiciondelmas"+posiciondelmas);
-              if(posiciondelmas!=-1)
-              {
-                //console.log("posiciondelmas"+posiciondelmas);
-                valordias=cadena.substring(posiciondelmas+1);       
-                //console.log("valordias"+valordias);
-              }
-              else
-              {
-                valordias=1;
-                //console.log("valordias1110000"+valordias);
-              }
-              //EXTRAE EL ITEM//
-              valoritem=cadena.substring(0, posicion);
-              //console.log("valoritem"+valoritem);
-              //console.log(va.performance[valoritem]);          
-              fecha_comienzo_pred=va.performance[valoritem]['fecha_comienzo'];
-              fecha_fin_pred=va.performance[valoritem]['fecha_fin'];
-
-              //console.log("fecha_fin_pred"+fecha_fin_pred);              
-              // tiempo=fecha.getTime();
-              // console.log("getTime"+tiempo);
-              if(signo[i]=='+')
-              {
-                //S U M A 
-                // F U N C I O N  P A R A  E L I M I N A R  S A B A D O S  Y  D O M I N G O S // 
-                fecha = new Date(fecha_fin_pred);
-
-                ki=0; 
-                while (ki<valordias) {
-                  
-                   fecha.setTime(fecha.getTime()+24*60*60*1000); // añadimos 1 día
-                    if (fecha.getDay() == 0 || fecha.getDay() == 6)
-                    { // console.log(fecha.getDay());     
-                     }                  
-                    else
+                    fecha = new Date(fecha_sincro_comienzo);
+                    ki=0; 
+                    while (ki<valordias)
                     {
-               //       console.log(ki);
-                      ki++;
+                      fecha.setTime(fecha.getTime()+24*60*60*1000); // añadimos 1 día
+                        if (fecha.getDay() == 0 || fecha.getDay() == 6)
+                        {                                             
+                        }                  
+                          else
+                        { ki++;
+                        }
                     }
-                 }
-                
-              }
-              else
-              {
-                //RESTA
-                // F U N C I O N  P A R A  E L I M I N A R  S A B A D O S  Y  D O M I N G O S // 
-                //console.log("vcccccccccmenos"+valordias);            
-                fecha_fin_pred = fecha_fin_pred.replace(/-/g, '/');
+                  }
+                  else
+                  {
+                    //// L A R E S T A   D E  C C /////////
+                    posiciondelmenos = cadena.indexOf('-'); 
+                    valordias=cadena.substring(posiciondelmenos+1);
 
-                console.log("fecha trans"+fecha_fin_pred);
-                fecha = new Date(fecha_fin_pred);
-                //milisegundos=parseInt(valordias*24*60*60*1000);
-                //total=fecha.setTime(tiempo-milisegundos);
-                //console.log("la fecha resto"+total);
-
-                //hoy = new Date('2015/04/27'); 
-                ki=1; 
-                while (ki<=12-1) {
-                    fecha.setTime(fecha.getTime()-24*60*60*1000); // añadimos 1 día
-                    if (fecha.getDay() == 6  || fecha.getDay() == 0    )
+                    fecha_sincro_comienzo = fecha_sincro_comienzo.replace(/-/g, '/');
+                   // alert("fecha trans"+fecha_comienzo_pred);
+                    fecha = new Date(fecha_sincro_comienzo);
+                    
+                    ki=1; 
+                    while (ki<=valordias-1) 
                     {
-                      console.log(fecha.getDay());
-                      //i--;
-                    }  
-                    else
-                    {
-                      console.log(fecha.getDay());
-                      ki++;
+                        fecha.setTime(fecha.getTime()-24*60*60*1000); // añadimos 1 día
+                        if (fecha.getDay() == 6  || fecha.getDay() == 0    )
+                        {
+                          console.log(fecha.getDay());                                        
+                        }  
+                        else
+                        {
+                          console.log(fecha.getDay());
+                          ki++;
+                        }
                     }
+                  }
+
+                  day=fecha.getDate();
+                  month=fecha.getMonth()+1;
+                  year=fecha.getFullYear();
+
+                  if (month.toString().length < 2) 
+                  {           
+                    month = '0' + month;
+                  }
+                  if (day.toString().length < 2) 
+                  {          
+                    day = '0' + day;
+                  }
+                  fecha_CC=year+"-"+month+"-"+day,
+                  //alert("fecha_CC"+fecha_CC);
+                  fecha_comienzo=fecha_CC;
+
+                       /* C A L C U L O  F E C H A  F I N  C O N  D U R A C I O N*/
+                  if(fecha_comienzo!=null)
+                    {                
+                      fec=fecha_comienzo.toString();
+                      fecha = new Date(fec);
+                      // tiempo=fecha.getTime();
+                      // milisegundos=parseInt(duracion*24*60*60*1000);
+                      // total=fecha.setTime(tiempo+milisegundos);
+                      ki=0; 
+                      while (ki<duracion) {
+                        
+                        fecha.setTime(fecha.getTime()+24*60*60*1000); // añadimos 1 día
+                          if (fecha.getDay() == 0 || fecha.getDay() == 6)
+                          {     
+                           }                  
+                          else
+                          {         
+                            ki++;
+                          }
+                      }
+
+                      day=fecha.getDate();
+                      month=fecha.getMonth()+1;
+                      year=fecha.getFullYear();
+
+                      if (month.toString().length < 2) 
+                      {
+                        //console.log('si');
+                        month = '0' + month;
+                      }
+                      if (day.toString().length < 2) 
+                      {
+                        //console.log('si222');
+                        day = '0' + day;
+                      }
+                       
+                      fecha_fin=year+"-"+month+"-"+day;
+                    }            
+
+                  //console.log("fecha_comienzo:CC + o -"+fecha_comienzo);
+          }          
+            else
+          {
+                valordias=1;    
+                fecha = new Date(fecha_sincro_comienzo);
+                // tiempo=fecha.getTime();
+                // milisegundos=parseInt(valordias*24*60*60*1000);
+                // total=fecha.setTime(tiempo+milisegundos);
+                cc_ki=0; 
+                  while (cc_ki<valordias) {
+                        
+                         fecha.setTime(fecha.getTime()+24*60*60*1000); // añadimos 1 día
+                          if (fecha.getDay() == 0 || fecha.getDay() == 6)
+                          {     
+                           }                  
+                          else
+                          {         
+                            cc_ki++;
+                          }
                 }
+ 
+                day=fecha.getDate();
+                month=fecha.getMonth()+1;
+                year=fecha.getFullYear();
 
-              }
+                if (month.toString().length < 2) 
+                {  month = '0' + month;
+                }
+                if (day.toString().length < 2) 
+                {  day = '0' + day;
+                }
+                fecha_CC=year+"-"+month+"-"+day,
+                //alert("fecha_CC"+fecha_CC);
+                fecha_comienzo=fecha_CC; 
 
+                /* C A L C U L O  F E C H A  F I N  C O N  D U R A C I O N*/
+                if(fecha_comienzo!=null)
+                  {
+                  //fecha_comienzo = fecha_comienzo.replace(/-/g, '/');
+                    fec=fecha_comienzo.toString();
+                    fecha = new Date(fec);
+
+                    ki=0; 
+                    while (ki<duracion) {
+                        
+                         fecha.setTime(fecha.getTime()+24*60*60*1000); // añadimos 1 día
+                          if (fecha.getDay() == 0 || fecha.getDay() == 6)
+                          {     
+                           }                  
+                          else
+                          {         
+                            ki++;
+                          }
+                    }
+
+                    // tiempo=fecha.getTime();
+                    // milisegundos=parseInt(duracion*24*60*60*1000);
+                    // total=fecha.setTime(tiempo+milisegundos);
+                    day=fecha.getDate();
+                    month=fecha.getMonth()+1;
+                    year=fecha.getFullYear();
+
+                    if (month.toString().length < 2) 
+                    {
+                      console.log('si');
+                      month = '0' + month;
+                    }
+                    if (day.toString().length < 2) 
+                    {
+                      console.log('si222');
+                      day = '0' + day;
+                    }
+                     
+                    fecha_fin=year+"-"+month+"-"+day;
+                  }      
+     
+    
+                //console.log("fecha_comienzo:CC // "+fecha_comienzo);
+                        
+          };
+        break;
+
+        case 'FC':
+          //alert("FC-----------");
+          //signo=['+','-'];
+          //for (var i = signo.length - 1; i >= 0; i--) {             
+            if(cadena.indexOf('+')!=-1 || cadena.indexOf('-')!=-1)
+            {
+              //alert("+ o -");               
+                //EXTRAE EL ITEM//  
+                if(cadena.indexOf('+')!=-1)
+                {           
+
+                  posiciondelmas = cadena.indexOf('+');               
+                   
+                  valordias=cadena.substring(posiciondelmas+1);                        
+                  //S U M A 
+                  // F U N C I O N  P A R A  E L I M I N A R  S A B A D O S  Y  D O M I N G O S // 
+                  fecha = new Date(fecha_sincro_fin);
+
+                  ki=0; 
+                  while (ki<valordias) {
+                    
+                     fecha.setTime(fecha.getTime()+24*60*60*1000); // añadimos 1 día
+                      if (fecha.getDay() == 0 || fecha.getDay() == 6)
+                      {     
+                       }                  
+                      else
+                      {         
+                        ki++;
+                      }
+                   }
+                          
+                }
+                else
+                {
+                  //RESTA
+                  // F U N C I O N  P A R A  E L I M I N A R  S A B A D O S  Y  D O M I N G O S // 
+                  posiciondelmenos = cadena.indexOf('-');            
+                   
+                  valordias=cadena.substring(posiciondelmenos+1);
+
+                  fecha_sincro_fin = fecha_sincro_fin.replace(/-/g, '/');
+                  console.log("fecha trans"+fecha_sincro_fin);
+                  fecha = new Date(fecha_sincro_fin);
+
+                  ki=1; 
+                  while (ki<=valordias-1) {
+                      fecha.setTime(fecha.getTime()-24*60*60*1000); // añadimos 1 día
+                      if (fecha.getDay() == 6  || fecha.getDay() == 0    )
+                      {                                                            
+                      }  
+                      else
+                      {                      
+                        ki++;
+                      }
+                  }
+                 
+                }
+             //}
                 day=fecha.getDate();
                 month=fecha.getMonth()+1;
                 year=fecha.getFullYear();
@@ -836,75 +1043,177 @@ if( cadena!=null)
                 }
                 fecha_FC=year+"-"+month+"-"+day,
                 fecha_comienzo=fecha_FC;
-                console.log("fecha_FC"+fecha_FC); 
+                /*C A L C U L A R   F E C H A   F I N */
+                    
+                  if(fecha_comienzo!=null)
+                  {
+                  //fecha_comienzo = fecha_comienzo.replace(/-/g, '/');
+                    fec=fecha_comienzo.toString();
+                    fecha = new Date(fec);
+                    // tiempo=fecha.getTime();
+                    // milisegundos=parseInt(duracion*24*60*60*1000);
+                    // total=fecha.setTime(tiempo+milisegundos);
 
-            }
-            else
-            {
-              alert("com FC SIN paramentro");
-            }
-          };
-
-         break;
-
-      case 'CF':
-          console.log("CF------------");          
-          break;
-
-      case 'CC':
-          console.log("CC-----------");   
-
-          posicion = cadena.indexOf(texto[i]);     
-
-          signo=['+','-'];
-
-          for (var i = signo.length - 1; i >= 0; i--) {
-           // if(cadena.indexOf(signo[i])!=-1)
-           // {
-              
-              posiciondelmas = cadena.indexOf(signo[i]); 
-              if(posiciondelmas!=-1)
-              {
-                valordias=cadena.substring(posiciondelmas+1);   
-              } 
-              else
-              {
-                valordias=1;
-                alert("com cC SIN paramentro");
-
-              }
-
-              // //EXTRAE EL ITEM//
-              valoritem=cadena.substring(0, posicion);
-              console.log("valoritem"+valoritem);
-              console.log(va.performance[valoritem]);          
-              fecha_comienzo_pred=va.performance[valoritem]['fecha_comienzo'];
-              fecha_fin_pred=va.performance[valoritem]['fecha_fin'];
-
-              if(signo[i]=='+')
-              {
-
-                fecha = new Date(fecha_comienzo_pred);
-                ki=0; 
-                while (ki<valordias)
-                {
-                  fecha.setTime(fecha.getTime()+24*60*60*1000); // añadimos 1 día
-                    if (fecha.getDay() == 0 || fecha.getDay() == 6)
+                    ki=0; 
+                    while (ki<duracion)
                     {
-                     // console.log(fecha.getDay());                       
-                    }                  
-                      else
-                    {
-                      //console.log(ki);
-                      ki++;
+                      fecha.setTime(fecha.getTime()+24*60*60*1000); // añadimos 1 día
+                        if (fecha.getDay() == 0 || fecha.getDay() == 6)
+                        {                                             
+                        }                  
+                          else
+                        { ki++;
+                        }
                     }
+
+                    day=fecha.getDate();
+                    month=fecha.getMonth()+1;
+                    year=fecha.getFullYear();
+
+                    if (month.toString().length < 2) 
+                    {
+                      console.log('si');
+                      month = '0' + month;
+                    }
+                    if (day.toString().length < 2) 
+                    {
+                      console.log('si222');
+                      day = '0' + day;
+                    }
+                     
+                    fecha_fin=year+"-"+month+"-"+day;
+                  }                 
+        
+
+            }
+              else
+            {
+       
+                valordias=1;
+       
+                fecha = new Date(fecha_sincro_fin);         
+                // tiempo=fecha.getTime();
+                // milisegundos=parseInt(valordias*24*60*60*1000);
+                // total=fecha.setTime(tiempo+milisegundos); 
+
+                ki=0; 
+                    while (ki<valordias)
+                    {
+                      fecha.setTime(fecha.getTime()+24*60*60*1000); // añadimos 1 día
+                        if (fecha.getDay() == 0 || fecha.getDay() == 6)
+                        {                                             
+                        }                  
+                          else
+                        { ki++;
+                        }
                 }
 
-              }
-              else
-              {
+                day=fecha.getDate();
+                month=fecha.getMonth()+1;
+                year=fecha.getFullYear();
+
+                if (month.toString().length < 2) 
+                {  month = '0' + month;
+                }
+                if (day.toString().length < 2) 
+                {  day = '0' + day;
+                }
+                fecha_FC=year+"-"+month+"-"+day,
+         
+                fecha_comienzo=fecha_FC; 
+                /*C A L C U L A R   F E C H A   C O M I E N Z O*/
+                  if(fecha_comienzo!=null)
+                  {
+                  //fecha_comienzo = fecha_comienzo.replace(/-/g, '/');
+                    fec=fecha_comienzo.toString();
+                    fecha = new Date(fec);
+                    // tiempo=fecha.getTime();
+                    // milisegundos=parseInt(duracion*24*60*60*1000);
+                    // total=fecha.setTime(tiempo+milisegundos);
+
+                    ki=0; 
+                    while (ki<duracion)
+                    {
+                      fecha.setTime(fecha.getTime()+24*60*60*1000); // añadimos 1 día
+                        if (fecha.getDay() == 0 || fecha.getDay() == 6)
+                        {                                             
+                        }                  
+                          else
+                        { ki++;
+                        }
+                    }
+
+                    day=fecha.getDate();
+                    month=fecha.getMonth()+1;
+                    year=fecha.getFullYear();
+
+                    if (month.toString().length < 2) 
+                    {
+                      console.log('si');
+                      month = '0' + month;
+                    }
+                    if (day.toString().length < 2) 
+                    {
+                      console.log('si222');
+                      day = '0' + day;
+                    }
+                     
+                    fecha_fin=year+"-"+month+"-"+day;
+                  }      
+                /*F I N  C A L C U L A R   F E C H A   C O M I E N Z O*/
+     
+            };
+            break;
+        
+        case 'CF':
+          //console.log("CF------------"); 
+          if(cadena.indexOf('+')!=-1 || cadena.indexOf('-')!=-1)
+          {             
+                if(cadena.indexOf('+')!=-1)
+                {
+                  posiciondelmas = cadena.indexOf('+'); 
+                  valordias=cadena.substring(posiciondelmas+1);
+
+                  fecha = new Date(fecha_sincro_comienzo);
+                  ki=0; 
+                  while (ki<valordias)
+                  {
+                    fecha.setTime(fecha.getTime()+24*60*60*1000); // añadimos 1 día
+                      if (fecha.getDay() == 0 || fecha.getDay() == 6)
+                      {                                         
+                      }                  
+                        else
+                      {                       
+                        ki++;
+                      }
+                  }
+
+                }
+                else
+                {
                   //// L A R E S T A   D E  C C /////////
-              }
+                  posiciondelmenos = cadena.indexOf('-'); 
+                  valordias=cadena.substring(posiciondelmenos+1);
+
+                  fecha_comienzo_pred = fecha_sincro_comienzo.replace(/-/g, '/');
+                 // alert("fecha trans"+fecha_comienzo_pred);
+                  fecha = new Date(fecha_sincro_comienzo);
+                  
+                  ki=1; 
+                  while (ki<=valordias-1) 
+                  {
+                      fecha.setTime(fecha.getTime()-24*60*60*1000); // añadimos 1 día
+                      if (fecha.getDay() == 6  || fecha.getDay() == 0    )
+                      {
+                        //console.log(fecha.getDay());                                        
+                      }  
+                      else
+                      {
+                        //console.log(fecha.getDay());
+                        ki++;
+                      }
+                  }
+                }
 
                 day=fecha.getDate();
                 month=fecha.getMonth()+1;
@@ -918,129 +1227,491 @@ if( cadena!=null)
                 {          
                   day = '0' + day;
                 }
-                fecha_CC=year+"-"+month+"-"+day,
-                console.log("fecha_CC"+fecha_CC);
+                fecha_CF=year+"-"+month+"-"+day,
+                //alert("fecha_CF"+fecha_CF);
+                fecha_fin=fecha_CF;
 
-                fecha_comienzo=fecha_CC;
-            //}
-            //else
-           // {
-             // alert("com cC SIN paramentro");
-           // }
+                // C A L C U L O  F E C H A  C O M I E N Z O  R E S T A //
+                if(fecha_fin!=null)
+                  {
+                    fec = fecha_fin.replace(/-/g, '/');
+                    fec=fec.toString();
+                    fecha = new Date(fec);
+                    // tiempo=fecha.getTime();
+                    // milisegundos=parseInt(duracion*24*60*60*1000);
+                    // total=fecha.setTime(tiempo-milisegundos);
+                    ki=1; 
+                    while (ki<=duracion-1) 
+                    {
+                        fecha.setTime(fecha.getTime()-24*60*60*1000); // añadimos 1 día
+                        if (fecha.getDay() == 6  || fecha.getDay() == 0    )
+                        {
+                          //console.log(fecha.getDay());                                        
+                        }  
+                        else
+                        {
+                          //console.log(fecha.getDay());
+                          ki++;
+                        }
+                    }
 
-          }
-     
-     
-          // console.log("fecha_comienzo_pred"+fecha_comienzo_pred);
-          // fecha = new Date(fecha_comienzo_pred);
-          // tiempo=fecha.getTime("fecha_comienzo_pred"+fecha_comienzo_pred);
-          // milisegundos=parseInt(valordias*24*60*60*1000);
-          // total=fecha.setTime(tiempo+milisegundos);  
+                    day=fecha.getDate();
+                    month=fecha.getMonth()+1;
+                    year=fecha.getFullYear();
 
-          break;
-      case 'FF':
-          console.log("FF------------");          
-          break;
-      default:
-          console.log("VVVVVV");
-          
+                    if (month.toString().length < 2) 
+                    {                      
+                      month = '0' + month;
+                    }
+                    if (day.toString().length < 2) 
+                    {
+                      day = '0' + day;
+                    }
+                     
+                    fecha_comienzo=year+"-"+month+"-"+day;
+                  }
+                  //F I N  C A L C U L O  F E C H A  C O M I E N Z O  R E S T A //
+          } 
+          else
+          {
+                valordias=1;        
+                fecha = new Date(fecha_sincro_comienzo);
+                // tiempo=fecha.getTime();
+                // milisegundos=parseInt(valordias*24*60*60*1000);
+                // total=fecha.setTime(tiempo+milisegundos);  
+
+                cf_ki=0; 
+                  while (cf_ki<duracion) {
+                        
+                         fecha.setTime(fecha.getTime()+24*60*60*1000); // añadimos 1 día
+                          if (fecha.getDay() == 0 || fecha.getDay() == 6)
+                          {     
+                           }                  
+                          else
+                          {         
+                            cf_ki++;
+                          }
+                }           
+
+                day=fecha.getDate();
+                month=fecha.getMonth()+1;
+                year=fecha.getFullYear();
+
+                if (month.toString().length < 2) 
+                {  month = '0' + month;
+                }
+                if (day.toString().length < 2) 
+                {  day = '0' + day;
+                }
+                fecha_CF=year+"-"+month+"-"+day,
+                //alert("fecha_CC"+fecha_CC);
+                fecha_fin=fecha_CF;
+
+                // C A L C U L O  F E C H A  C O M I E N Z O  R E S T A //
+                if(fecha_fin!=null)
+                  {
+                    fec = fecha_fin.replace(/-/g, '/');
+                    fec=fec.toString();
+                    fecha = new Date(fec);
+
+                    // tiempo=fecha.getTime();
+                    // milisegundos=parseInt(duracion*24*60*60*1000);
+                    // total=fecha.setTime(tiempo-milisegundos);
+                    ki=1; 
+                    while (ki<=duracion-1) 
+                    {
+                        fecha.setTime(fecha.getTime()-24*60*60*1000); // añadimos 1 día
+                        if (fecha.getDay() == 6  || fecha.getDay() == 0    )
+                        {
+                          //console.log(fecha.getDay());                                        
+                        }  
+                        else
+                        {
+                          //console.log(fecha.getDay());
+                          ki++;
+                        }
+                    }
+
+                    day=fecha.getDate();
+                    month=fecha.getMonth()+1;
+                    year=fecha.getFullYear();
+
+                    if (month.toString().length < 2) 
+                    {                     
+                      month = '0' + month;
+                    }
+                    if (day.toString().length < 2) 
+                    {                      
+                      day = '0' + day;
+                    }
+                     
+                    fecha_comienzo=year+"-"+month+"-"+day;
+                  }     
+                  //F I N   C A L C U L O  F E C H A  C O M I E N Z O  R E S T A //
+          };
+        break;
+
+        case 'FF':
+
+          if(cadena.indexOf('+')!=-1 || cadena.indexOf('-')!=-1)
+          {
+                if(cadena.indexOf('+')!=-1)
+                {
+                  posiciondelmas = cadena.indexOf('+'); 
+                  valordias=cadena.substring(posiciondelmas+1);
+
+                  fecha = new Date(fecha_sincro_fin);
+                  ki=0; 
+                  while (ki<valordias)
+                  {
+                    fecha.setTime(fecha.getTime()+24*60*60*1000); // añadimos 1 día
+                      if (fecha.getDay() == 0 || fecha.getDay() == 6)
+                      {                                       
+                      }                  
+                        else
+                      {                        
+                        ki++;
+                      }
+                  }
+
+                }
+                else
+                {
+                  //// L A R E S T A   D E  C C /////////
+                  posiciondelmenos = cadena.indexOf('-'); 
+                  valordias=cadena.substring(posiciondelmenos+1);
+
+                  fec = fecha_sincro_fin.replace(/-/g, '/');
+                 // alert("fecha trans"+fecha_comienzo_pred);
+                  fecha = new Date(fec);
+                  
+                  ki=1; 
+                  while (ki<=valordias-1) 
+                  {
+                      fecha.setTime(fecha.getTime()-24*60*60*1000); // añadimos 1 día
+                      if (fecha.getDay() == 6  || fecha.getDay() == 0    )
+                      {                                                               
+                      }  
+                      else
+                      {                        
+                        ki++;
+                      }
+                  }
+                }
+
+                day=fecha.getDate();
+                month=fecha.getMonth()+1;
+                year=fecha.getFullYear();
+
+                if (month.toString().length < 2) 
+                {           
+                  month = '0' + month;
+                }
+                if (day.toString().length < 2) 
+                {          
+                  day = '0' + day;
+                }
+                fecha_FF=year+"-"+month+"-"+day,
+                //alert("fecha_CC"+fecha_CC);
+
+                fecha_fin=fecha_FF;
+
+                // C A L C U L O  F E C H A  C O M I E N Z O  R E S T A //
+                if(fecha_fin!=null)
+                  {
+                    fec = fecha_fin.replace(/-/g, '/');
+                    fec=fec.toString();
+                    fecha = new Date(fec);
+                    // tiempo=fecha.getTime();
+                    // milisegundos=parseInt(duracion*24*60*60*1000);
+                    // total=fecha.setTime(tiempo-milisegundos);
+                    ki=1; 
+                    while (ki<=duracion-1) 
+                    {
+                        fecha.setTime(fecha.getTime()-24*60*60*1000); // añadimos 1 día
+                        if (fecha.getDay() == 6  || fecha.getDay() == 0    )
+                        {                                                 
+                        }  
+                        else
+                        {
+                          ki++;
+                        }
+                    }
+
+                    day=fecha.getDate();
+                    month=fecha.getMonth()+1;
+                    year=fecha.getFullYear();
+
+                    if (month.toString().length < 2) 
+                    {                      
+                      month = '0' + month;
+                    }
+                    if (day.toString().length < 2) 
+                    {
+                      day = '0' + day;
+                    }
+                     
+                    fecha_comienzo=year+"-"+month+"-"+day;
+                  }
+                  //F I N  C A L C U L O  F E C H A  C O M I E N Z O  R E S T A //
+          } 
+          else
+          {
+                valordias=1;          
+                fecha = new Date(fecha_sincro_fin);      
+
+                ff_ki=0; 
+                while (ff_ki<valordias) {
+                        
+                  fecha.setTime(fecha.getTime()+24*60*60*1000); // añadimos 1 día
+                    if (fecha.getDay() == 0 || fecha.getDay() == 6)
+                    {     
+                    }                  
+                    else
+                    {         
+                      ff_ki++;
+                    }
+                }         
+            
+
+                day=fecha.getDate();
+                month=fecha.getMonth()+1;
+                year=fecha.getFullYear();
+
+                if (month.toString().length < 2) 
+                {  month = '0' + month;
+                }
+                if (day.toString().length < 2) 
+                {  day = '0' + day;
+                }
+                fecha_FF=year+"-"+month+"-"+day,
+                //alert("fecha_CC"+fecha_CC);
+                fecha_fin=fecha_FF;  
+
+                // C A L C U L O  F E C H A  C O M I E N Z O  R E S T A //
+                if(fecha_fin!=null)
+                  {
+                    fec = fecha_fin.replace(/-/g, '/');
+                    fec=fec.toString();
+                    fecha = new Date(fec);
+                    // tiempo=fecha.getTime();
+                    // milisegundos=parseInt(duracion*24*60*60*1000);
+                    // total=fecha.setTime(tiempo-milisegundos);
+                    ki=1; 
+                    while (ki<=duracion-1) 
+                    {
+                        fecha.setTime(fecha.getTime()-24*60*60*1000); // añadimos 1 día
+                        if (fecha.getDay() == 6  || fecha.getDay() == 0    )
+                        {
+                          //console.log(fecha.getDay());                                        
+                        }  
+                        else
+                        {
+                          //console.log(fecha.getDay());
+                          ki++;
+                        }
+                    }
+
+                    day=fecha.getDate();
+                    month=fecha.getMonth()+1;
+                    year=fecha.getFullYear();
+
+                    if (month.toString().length < 2) 
+                    {                      
+                      month = '0' + month;
+                    }
+                    if (day.toString().length < 2) 
+                    {
+                      day = '0' + day;
+                    }
+                     
+                    fecha_comienzo=year+"-"+month+"-"+day;
+                  }
+                  //F I N  C A L C U L O  F E C H A  C O M I E N Z O  R E S T A //
+
+          };
+        break;
+
+        }
       }
+    }
 
+    /**ACA ESTABA EL VA.PERFORMANCE[ID]**/  
 
+  }
+  else
+  { alert('kkkk');
+
+    
+    if(f_comienzo=='null' && f_fin=='null')
+    {
+      f_comienzo='';
+      f_fin='';
     }
     else
     {
-     // console.log("nelfececeec"+texto[i]);
-    }
-  };
-}
-
-
-
-
-    // console.log("fecha de inicioss"+fecha_comienzo);  
-    // if(fecha_comienzo!=null){
-    // //fecha_comienzo = fecha_comienzo.replace(/-/g, '/');
-    // fec=fecha_comienzo.toString();
-    // }
-
-    // //console.log("fecha de iniciosss----"+fec);  
-
-    // fecha = new Date(fec);
-    // tiempo=fecha.getTime();
-    // milisegundos=parseInt(duracion*24*60*60*1000);
-    // total=fecha.setTime(tiempo+milisegundos);
-    // day=fecha.getDate();
-    // month=fecha.getMonth()+1;
-    // year=fecha.getFullYear();
-
-    // if (month.toString().length < 2) 
-    // {
-    //   console.log('si');
-    //   month = '0' + month;
-    // }
-    // if (day.toString().length < 2) 
-    // {
-    //   console.log('si222');
-    //   day = '0' + day;
-    // }
-     
-    // fecha_fin=year+"-"+month+"-"+day,
-    fecha_fin=val['fecha_fin'],
-
-
-
- 
-    nivel_esquema=val['nivel_esquema'] ,
-    predecesoras=val['predecesoras'] ,
-    sucesoras=val['sucesoras'] ,
-
-
-    proyectoFactory.setActualizarPerformance(
-      codigo_prop_proy,codigo_actividad,actividadid,cronogramaid,codigo_cronograma,codigo_performance,
-      proyectoid,revision_cronograma,fecha_ingreso_performance,revision_propuesta,
-      costo_real,horas_real,costo_propuesta,horas_propuesta,horas_planificado,costo_planificado,porcentaje_planificado,
-      porcentaje_real,fecha_comienzo_real,fecha_fin_real,
-      fecha_fin,fecha_comienzo,nivel_esquema,predecesoras,sucesoras,duracion
-    )
-    .then(function(data) {
-      //console.log(data); 
-    })
-    .catch(function(err) {
-      //va.procronograma = {};
-    });
-
-      
-      // angular.forEach(val['items'], function(value) {
-       
-
-      //   codigo_prop_proy=value['codigo_prop_proy'];
-      //   codigo_actividad=value['codigo_actividad'];
-      //   actividadid=value['actividadid'];
-      //   cronogramaid=value['cronogramaid'];
-      //   codigo_cronograma=value['codigo_cronograma'];
-      //   codigo_performance=value['codigo_performance'];
-      //   porcentaje_performance=value['porcentaje_performance'];
-      //   //fecha_calculo_performance=value['fecha_calculo_performance'];
-      //   proyectoid=value['proyectoid'];
-      //   revision_cronograma=value['revision_cronograma'];
-      //   fecha_ingreso_performance=value['fecha_ingreso_performance'];
-      //   fecha_performance=value['fecha_performance'];
-
-      //   proyectoFactory.setActualizarDatosxPerfomance(codigo_prop_proy,codigo_actividad,actividadid,cronogramaid,
-      //   codigo_cronograma,codigo_performance,porcentaje_performance,proyectoid,revision_cronograma,
-      //   fecha_ingreso_performance,fecha_performance)
-      //   .then(function(data) {
+      if(f_comienzo=='null')
+      {
         
-      //   })
-      //  .catch(function(err) {
-      //     //va.procronograma = {};
-      //   });
+        fec = f_fin.replace(/-/g, '/');
+        fec=fec.toString();
+        fecha = new Date(fec);
+            
+        ki=1; 
+        while (ki<=duracion-1) 
+        {
+          fecha.setTime(fecha.getTime()-24*60*60*1000); // añadimos 1 día
+          if (fecha.getDay() == 6  || fecha.getDay() == 0    )
+            {  }
+            else
+            {
+              ki++;
+            }
+        }
 
-      // })
- 
-  });
-};
+        day=fecha.getDate();
+        month=fecha.getMonth()+1;
+        year=fecha.getFullYear();
+
+        if (month.toString().length < 2) 
+        {                     
+          month = '0' + month;
+        }
+        if (day.toString().length < 2) 
+        {                      
+          day = '0' + day;
+        }
+                      
+        fecha_comienzo=year+"-"+month+"-"+day;
+        fecha_fin=f_fin;
+
+      }
+      else
+      {
+        //alert(id+":::"+f_comienzo);
+        fec=f_comienzo.toString();
+        fecha = new Date(fec);
+
+        ki=0; 
+        while (ki<duracion) {
+                          
+          fecha.setTime(fecha.getTime()+24*60*60*1000); // añadimos 1 día
+          if (fecha.getDay() == 0 || fecha.getDay() == 6)
+          {     
+          }                  
+          else
+          {         
+            ki++;
+          }
+        }
+
+        day=fecha.getDate();
+        month=fecha.getMonth()+1;
+        year=fecha.getFullYear();
+
+        if (month.toString().length < 2) 
+        {
+          month = '0' + month;
+        }
+        if (day.toString().length < 2) 
+        {
+          day = '0' + day;
+        }
+                       
+        fecha_fin=year+"-"+month+"-"+day;
+        //alert(id+"fin"+fecha_fin);
+        fecha_comienzo=f_comienzo;
+      }
+
+    }
+
+    /**ACA ESTABA EL VA.PERFORMANCE[ID]**/   
+
+  }
+
+  //console.log(dsdad);
+    va.performance[id] = 
+    { 
+                  actividadid:actividadid,
+                  fecha_comienzo: fecha_comienzo,        
+                  fecha_fin: fecha_fin,
+                  duracion:duracion,
+                  predecesoras:predecesoras,
+                  nombre:nombre,
+                  nivel_esquema:nivel_esquema ,
+                  sucesoras:nivel_esquema ,
+                  codigo_prop_proy:codigo_prop_proy ,
+                  codigo_actividad:codigo_actividad,
+
+                  cronogramaid:cronogramaid,
+                  codigo_cronograma:codigo_cronograma ,
+                  codigo_performance:codigo_performance,     
+                  proyectoid:proyectoid ,
+                  revision_cronograma:revision_cronograma ,
+                  fecha_ingreso_performance:fecha_ingreso_performance,
+                  revision_propuesta:revision_propuesta, 
+
+                  costo_real :costo_real,
+                  horas_real :horas_real,
+
+                  costo_propuesta :costo_propuesta,
+                  horas_propuesta :horas_propuesta,
+                  horas_planificado :horas_planificado,
+                  costo_planificado :costo_planificado,
+                  porcentaje_planificado :porcentaje_planificado,
+                  porcentaje_real :porcentaje_real,  
+                  fecha_comienzo_real:fecha_comienzo_real ,
+      fecha_fin_real:fecha_fin_real,
+      items:items,      
+    };  
+
+
+   
+
+   //   G U A R D A R  P E R F O R M A N  C E//
+      proyectoFactory.setActualizarPerformance(
+        codigo_prop_proy,codigo_actividad,actividadid,cronogramaid,codigo_cronograma,codigo_performance,
+        proyectoid,revision_cronograma,fecha_ingreso_performance,revision_propuesta,costo_real,
+        horas_real,costo_propuesta,horas_propuesta,horas_planificado,costo_planificado,
+        porcentaje_planificado,porcentaje_real,fecha_comienzo_real,fecha_fin_real,
+        fecha_fin,fecha_comienzo,nivel_esquema,cadena,sucesoras,duracion
+      )
+      .then(function(datax) {
+             //  console.log(datax);
+        })
+        .catch(function(err) {
+               
+      });
+
+     angular.forEach(items, function(value) {      
+
+        codigo_prop_proy=value['codigo_prop_proy'];
+        codigo_actividad=value['codigo_actividad'];
+        actividadid=value['actividadid'];
+        cronogramaid=value['cronogramaid'];
+        codigo_cronograma=value['codigo_cronograma'];
+        codigo_performance=value['codigo_performance'];
+        porcentaje_performance=value['porcentaje_performance'];
+        proyectoid=value['proyectoid'];
+        revision_cronograma=value['revision_cronograma'];
+        fecha_ingreso_performance=value['fecha_ingreso_performance'];
+        fecha_performance=value['fecha_performance'];
+
+     // console.log(proyectoid);
+
+
+        proyectoFactory.setActualizarDatosxPerfomance(codigo_prop_proy,codigo_actividad,actividadid,cronogramaid,
+        codigo_cronograma,codigo_performance,porcentaje_performance,proyectoid,revision_cronograma,
+        fecha_ingreso_performance,fecha_performance)
+        .then(function(data) {
+        })
+       .catch(function(err) {
+          //va.procronograma = {};
+        });
+
+      })
+ // });
+}
 
 
 //////////////////////////*******/////////////////////////////////////
@@ -1049,8 +1720,8 @@ if( cadena!=null)
   .then(function(data) {
 
         va.edt=data;
-        console.log(va.edt);
-        console.log('va.edt');
+        //console.log(va.edt);
+        //console.log('va.edt');
   })
   .catch(function(err) {
             //va.procronograma = {};
@@ -1171,10 +1842,12 @@ if( cadena!=null)
 
   }
 
-  va.oneAtATime = true;
+//  va.oneAtATime = true;
+
+//S I R V E  P A R A  C R O N G R A M A  R E V I S I O N  A C T U A L//
 
   va.toggleCategory = function(revision) {
-      //alert('mmmmmmmmmmm');
+      
       console.log(revision);
       console.log(revision['cronogramaid']);
       //revision.expanded = !revision.expanded;
@@ -1419,7 +2092,6 @@ va.imprimir=function(){
 
 app.run(function(editableOptions) {
   editableOptions.theme = 'bs3';
-});app.run(function(editableOptions) {
-  editableOptions.theme = 'bs3';
 });
+
 

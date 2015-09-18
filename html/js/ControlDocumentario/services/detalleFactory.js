@@ -16,6 +16,7 @@ app.factory('detalleFactory', ['httpFactory', function(httpFactory) {
       this.estado = item.estado_elaboracion;
       this.seleccionado = false;
       this.estilo = '';
+      this.cantidad = item.cantidad || 1;
 
       this.select = function() {
         if (this.seleccionado == false) {
@@ -69,6 +70,18 @@ app.factory('detalleFactory', ['httpFactory', function(httpFactory) {
         } else {
           alert('Aun no se a emitido el transmittal');
         }
+      }
+
+      this.cambiarContacto = function(contactoid) {
+        var trans = this.transmittal;
+        var corr = this.correlativo;
+        httpFactory.setContactoAsignado(trans, corr, contactoid)
+        .then(function(data) {
+
+        })
+        .catch(function(err) {
+
+        });
       }
     }
   }

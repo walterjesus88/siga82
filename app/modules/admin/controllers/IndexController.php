@@ -3,7 +3,7 @@ class Admin_IndexController extends Zend_Controller_Action {
 
     public function init() {
                  $options = array(
-            'layout' => 'index',
+            'layout' => 'inicio',
         );
         Zend_Layout::startMvc($options);
 
@@ -22,7 +22,16 @@ class Admin_IndexController extends Zend_Controller_Action {
         $this->view->lista_buscar = $buscar;
        
    	}
-   
+
+    public function aclAction() {
+      $this->_helper->layout()->disableLayout();
+             
+    }
+    
+    public function modalusuarioAction()
+    {
+  $this->_helper->layout()->disableLayout();
+    }
     
 }
 

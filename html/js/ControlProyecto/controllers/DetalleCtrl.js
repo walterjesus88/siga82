@@ -33,6 +33,7 @@ console.log($routeParams);
     //console.log("estoy en detalle de proyecto");
     //console.log(data);
     vt.proyecto = data;
+    console.log(vt.proyecto);
   })
   .catch(function(err) {
     vt.proyecto = {};

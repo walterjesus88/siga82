@@ -2,6 +2,7 @@
   <nav class="panel-heading tab-bg-dark-navy-blue">
     <ul class="nav nav-tabs">
       <li ng-class="va.edt_activo"><a href="" ng-click="va.cambiarPanel('edt')">EDT</a></li>
+      <li ng-class="va.le_activo"><a href="" ng-click="va.cambiarPanel('le')">LE</a></li>
       <li ng-class="va.tecnicos_activo"><a href="" ng-click="va.cambiarPanel('tecnicos')">Técnicos</a></li>
       <li ng-class="va.gestion_activo"><a href="" ng-click="va.cambiarPanel('gestion')">Gestión</a></li>
       <li ng-class="va.comunicacion_activo"><a href="" ng-click="va.cambiarPanel('comunicacion')">Comunicación</a></li>
@@ -38,6 +39,10 @@
         </div>
       </div>
 
+      <div ng-include="'/controldocumentario/index/listaentregables'" class="tab-pane" ng-class="va.le_activo">
+
+      </div>
+
       <div class="tab-pane" ng-class="va.tabla_visible">
         <header>
             <button type="button" class="btn btn-success btn-xs"
@@ -60,8 +65,10 @@
           class="tab-pane" ng-class="va.trans_activo">
 
           </div>
-          <div ng-include="" class="tab-pane" ng-class="va.plan_activo">
-            
+          <div ng-include="'/controldocumentario/index/reporte'" 
+          class="tab-pane" ng-class="va.plan_activo"
+          ng-controller="ReporteCtrl as reporte">
+
           </div>
         </div>
 

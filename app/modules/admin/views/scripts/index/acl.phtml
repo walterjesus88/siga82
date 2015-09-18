@@ -1,0 +1,65 @@
+<body ng-controller="AdminCtrl">
+    <div class="panel">
+        <section class="panel">
+            <header class="panel-heading">
+                Lista de Usuarios
+                <span class="pull-right">
+                    <button type="button" class="btn btn-success btn-xs" ng-click="va.cargarUsuarios('A')">Activos</button>
+                    <button type="button" class="btn btn-warning btn-xs" ng-click="va.cargarUsuarios('C')">Cesados</button>
+                    |
+                    <button type="button" class="btn btn-default btn-xs" ng-click="va.anadirUsuario()">Añadir</button>
+                </span>
+
+                    
+
+            </header>
+        </section>
+        
+
+        <div class="panel-body">
+            <table datatable="ng" class="table table-condensed table-hover p-table">
+                <thead>
+                    <th style="width: 20%;">Usuario</th>
+                    <th style="width: 40%;">Area</th>
+                    <th style="width: 10%;">Estado</th>
+                    <th style="width: 30%;">Acciones</th>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="usuario in va.usuarios track by $index">
+                        <td> {{usuario.nombre_completo}} </td>
+                        <td> {{usuario.nombre_area}} </td>
+                        <td>
+                            <select ng-model="usuario.estado" ng-options="usuario.value as usuario.text for usuario in va.estadousuario" ng-change="usuario.cambiarEstadoUsuario(usuario)">
+                               {{ va.showEstadoUsuario(usuario) }}
+                            </select>
+                        </td>
+                        <td>
+                            <ul>
+                                <li>
+                                    <button type="button" class="btn btn-success btn-xs" ng-click="va.verModulos()">
+                                    Modulos
+                                    </button>
+                                
+                                    <button type="button" class="btn btn-info btn-xs" ng-click="proyecto.verInformacion()">
+                                    Información
+                                    </button>
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <!--
+        <div class="panel">
+            <button type="button" class="btn btn-default">Editar</button>
+            <button type="button" class="btn btn-default">Exportar</button>
+            <button type="button" class="btn btn-default">Imprimir</button>
+        </div>
+        -->
+    </div>
+</body>
+
+
+    
+

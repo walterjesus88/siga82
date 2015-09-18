@@ -1,6 +1,5 @@
 <?php
-
-class Soporte_FuncionesController extends Zend_Controller_Action {
+class Admin_JsonController extends Zend_Controller_Action {
 
     public function init()
     {
@@ -16,63 +15,51 @@ class Soporte_FuncionesController extends Zend_Controller_Action {
         Zend_Layout::startMvc($options);
     }
 
-
-    public function llamarareasAction()
+    public function usuariosAction()
     {
-      $isproyecto = $this->_getParam('isproyecto');
-
-      $where = array('isproyecto' =>$isproyecto , );
-      $areas= new Admin_Model_DbTable_Area();
-      $a=$areas->_getFilter($where);
-
-      $this->_helper->json->sendJson($a);
-
+        $where = array('estado' =>'A' , );
+        $usuarios= new Admin_Model_DbTable_Usuario();
+        $array=$usuarios->_getFilter($where);
+        $this->_helper->json->sendJson($array);
     }
 
+    public function usuariosxestadoAction()
+    {
+        $estado_usuario = $this->_getParam('estado');    
+        $where = array('estado' =>$estado_usuario , );
+        $usuarios= new Admin_Model_DbTable_Usuario();
+        $array=$usuarios->UsuarioxEstado($estado_usuario);
+        $this->_helper->json->sendJson($array);
+    }
+
+    public function cambiarestadoxusuarioAction()
+    {
+        $usuarios= new Admin_Model_DbTable_Usuario();
+        $estado = $this->_getParam('estado');    
+        $uid = $this->_getParam('uid');    
+        $data["estado"]=$estado;
+        $str="uid='$uid'";
+        $array=$usuarios -> _update($data,$str); 
+        $this->_helper->json->sendJson($array);
+    }
 
     public function guardarareaAction()
     {
       $areaid = $this->_getParam('areaid');
       $nombre = $this->_getParam('nombre');
-
       $where = array('nombre' =>$nombre , );
       $pk = array('areaid' =>$areaid , );
       $guardararea= new Admin_Model_DbTable_Area();
       $garea=$guardararea->_update_pk($where,$pk);
-
-      // print_r($where);
-      // print_r($pk);
-      // print_r($garea);
-
-      // exit();
-
       $this->_helper->json->sendJson($garea);
-
     }
-
 
     public function eliminareaAction()
     {
       $areaid = $this->_getParam('areaid');
-
-      ///$where = array('nombre' =>$nombre , );
       $pk = array('areaid' =>$areaid , );
       $eliminararea= new Admin_Model_DbTable_Area();
       $earea=$eliminararea->_delete($pk);
-
-      // print_r($where);
-      // print_r($pk);
-      // print_r($garea);
-
-      // exit();
-
       $this->_helper->json->sendJson($earea);
-
     }
-
-
-
-
-
-
 }

@@ -4,52 +4,69 @@
     <div class="table-responsive">
       <table class="table table-bordered table-condensed">
         <thead>
-          <th>
-            N°
-          </th>
-          <th>
-            EDT
-          </th>
-          <th>
-            Tipo
-          </th>
-          <th>
-            Disciplina
-          </th>
-          <th>
-            Codigo Anddes
-          </th>
-          <th>
-            Codigo Cliente
-          </th>
-          <th>
-            descripción de Entregables
-          </th>
-          <th>
-            Fecha
-          </th>
-          <th>
-            Fecha
-          </th>
-          <th>
-            Fecha
-          </th>
-          <th>
-            Rev.
-          </th>
-          <th>
-            Estado
-          </th>
-          <th ng-repeat="dia in reporte.dias">
-            {{dia}}
-          </th>
+          <tr>
+            <th colspan="12">
+
+            </th>
+            <th colspan="7">
+              SEMANA PASADA
+            </th>
+            <th colspan="7">
+              SEMANA ACTUAL
+            </th>
+            <th colspan="7">
+              SEMANA FUTURA
+            </th>
+          </tr>
+          <tr>
+            <th>
+              N°
+            </th>
+            <th>
+              EDT
+            </th>
+            <th>
+              Tipo
+            </th>
+            <th>
+              Disciplina
+            </th>
+            <th>
+              Codigo Anddes
+            </th>
+            <th>
+              Codigo Cliente
+            </th>
+            <th>
+              descripción de Entregables
+            </th>
+            <th>
+              Fecha
+            </th>
+            <th>
+              Fecha
+            </th>
+            <th>
+              Fecha
+            </th>
+            <th>
+              Rev.
+            </th>
+            <th>
+              Estado
+            </th>
+            <th ng-repeat="dia in reporte.dias track by $index">
+              {{dia.texto}}
+            </th>
+          </tr>
         </thead>
         <tbody>
           <tr ng-repeat-start="grupo in reporte.grupos track by $index">
             <td colspan="12" class="post-highlight terques">
-              Fecha de inicio y fin del proyecto
+              {{grupo.proyecto.nombre}}
             </td>
-            <td ng-repeat="dia in reporte.dias">
+            <td ng-repeat="dia in grupo.dias track by $index"
+            ng-class="dia">
 
             </td>
           </tr>
@@ -90,7 +107,8 @@
             <td>
               {{entregable.estado}}
             </td>
-            <td ng-repeat="dia in reporte.dias">
+            <td ng-repeat="dia in entregable.dias track by $index"
+            ng-class="dia">
 
             </td>
           </tr>
@@ -102,24 +120,20 @@
     </div>
   </div>
 
-  <div gantt data="reporte.grupos">
-
-  </div>
-  <div class="panel-body">
-    <button type="button" class="btn btn-default">Almanaque</button>
-    <button type="button" class="btn btn-default">Filtrar x CD</button>
-    <button type="button" class="btn btn-default"> Filtrar x GP</button>
-  </div>
 </div>
 
 </div>
 <footer class="panel">
   <h1 class="panel-heading">Acciones:</h1>
   <div class="panel-body">
-    <button type="button" class="btn btn-default">Agregar</button>
-    <button type="button" class="btn btn-default">Editar</button>
-    <button type="button" class="btn btn-default">Guardar</button>
-    <button type="button" class="btn btn-default">Eliminar</button>
+    <div class="col-md-3">
+      <p class="input-group">
+        <input type="date" class="form-control" datepicker-popup ng-model="reporte.dia_sel"
+        is-open="status.opened" datepicker-options="dateOptions"
+        date-disabled="disabled(date, mode)" ng-change="reporte.actualizarDias()"
+        ng-required="true" close-text="Close" />
+      </p>
+    </div>
     <button type="button" class="btn btn-default">Imprimir</button>
   </div>
 </footer>

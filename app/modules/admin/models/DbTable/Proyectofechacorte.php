@@ -18,6 +18,22 @@ class Admin_Model_DbTable_Proyectofechacorte extends Zend_Db_Table_Abstract
             print $ex->getMessage();
         }
     }
+
+    public function _getProyectoxFechaxCortexActivaxProyecto($proyectoid){
+        try{
+            $sql=$this->_db->query("select *
+                from proyecto_fechacorte where state_performance='A'
+                and proyectoid='$proyectoid';");
+            $row=$sql->fetchAll();
+            return $row;
+            }
+
+           catch (Exception $ex){
+            print $ex->getMessage();
+        }
+    }
+
+
     public function _getProyectoxFechaxCortexAll(){
         try{
             $f = $this->fetchAll();
@@ -111,7 +127,7 @@ class Admin_Model_DbTable_Proyectofechacorte extends Zend_Db_Table_Abstract
                 return $row;
             
         }  catch (Exception $ex){
-            print "Error: Obteniendo datos de tabla 'Matricula Curso'".$ex->getMessage();
+            print "Error: Obteniendo datos de tabla 'Fecha de Corte'".$ex->getMessage();
         }
     }
 

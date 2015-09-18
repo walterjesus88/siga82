@@ -181,6 +181,7 @@ class ControlDocumentario_TransmittalController extends Zend_Controller_Action {
       $data['detalleid'] = $this->_getParam('detalleid');
       $data['emitido'] = $this->_getParam('emitido');
       $data['fecha'] = $this->_getParam('fecha');
+      $data['cantidad'] = $this->_getParam('cantidad');
       $detalle = new Admin_Model_DbTable_DetalleTransmittal();
       $respuesta = $detalle->_updateDetalle($data);
       $this->_helper->json->sendJson($respuesta);
@@ -214,6 +215,43 @@ class ControlDocumentario_TransmittalController extends Zend_Controller_Action {
       $detalleid = $this->_getParam('detalleid');
       $detalle = new Admin_Model_DbTable_DetalleTransmittal();
       $respuesta = $detalle->_getModoEnvio($detalleid);
+      $this->_helper->json->sendJson($respuesta);
+    }
+
+    public function obtenertransmittalAction()
+    {
+      $codificacion = $this->_getParam('codificacion');
+      $correlativo = $this->_getParam('correlativo');
+      $transmittal = new Admin_Model_DbTable_Transmittal();
+      $respuesta = $transmittal->_getTransmittal($codificacion, $correlativo);
+      $this->_helper->json->sendJson($respuesta);
+    }
+
+    public function cambiarcontactoAction()
+    {
+      $codificacion = $this->_getParam('codificacion');
+      $correlativo = $this->_getParam('correlativo');
+      $contactoid = $this->_getParam('contactoid');
+      $transmittal = new Admin_Model_DbTable_Transmittal();
+      $respuesta = $transmittal->_updateContacto($codificacion, $correlativo, $contactoid);
+      $this->_helper->json->sendJson($respuesta);
+    }
+
+    public function codigopreferencialAction()
+    {
+      $detalleid = $this->_getParam('detalleid');
+      $transmittal = new Admin_Model_DbTable_DetalleTransmittal();
+      $respuesta = $transmittal->_getCodigoPreferencial($detalleid);
+      $this->_helper->json->sendJson($respuesta);
+    }
+
+    public function cambiarcodigopreferencialAction()
+    {
+      $codificacion = $this->_getParam('codificacion');
+      $correlativo = $this->_getParam('correlativo');
+      $cod_pre = $this->_getParam('codpre');
+      $transmittal = new Admin_Model_DbTable_Transmittal();
+      $respuesta = $transmittal->_updateCodigoPreferencial($codificacion, $correlativo, $cod_pre);
       $this->_helper->json->sendJson($respuesta);
     }
 }
