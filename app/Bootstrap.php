@@ -15,6 +15,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
                     //->headLink()->prependStylesheet('/external_library/bootstrap/css/bootstrap.min.css'
                     ->headLink()->prependStylesheet('/css/bootstrap.min.css')
                      ->headLink()->prependStylesheet('/external_library/bootstrap/css/bootstrap-theme.min.css')
+                     ->headLink()->prependStylesheet('/external_library/headertable/lib/jquery.mousewheel.js')
                      ->headLink()->appendStylesheet('/js/api_datatable/multiple-select.css')
                      ->headLink()->appendStylesheet('/js/api_datatable/yadcf/jquery.dataTables.yadcf.css')
                      ->headLink()->appendStylesheet('/js/api_datatable/chosen/chosen.min.css')
