@@ -63,25 +63,11 @@ console.log($routeParams);
     }
   }
 
-  // vt.editarLogo = function() {
-  //   var modalInstance = $modal.open({
-  //     animation: true,
-  //     controller: 'ModalLogoCtrl',
-  //     controllerAs: 'ml',
-  //     templateUrl: '/controldocumentario/index/modallogo',
-  //     size: 'sm',
-  //     resolve: {
-  //       clienteid: function () {
-  //         return vt.proyecto.clienteid;
-  //       }
-  //     }
-  //   });
-
     /*modalInstance.result.then(function (selectedItem) {
       vt.selected = selectedItem;
     }, function () {
       alert('Modal dismissed at: ' + new Date());
     });*/
-  }
+ // }
 
 }]);

@@ -142,7 +142,16 @@ function(httpFactory, $scope,$filter,$q,proyectoFactory) {
 
   va.cerrarfechacorte=function(item){ 
    item.checked=true;    
-  console.log(item);
+   console.log(item);
+
+    proyectoFactory.getDatosxProyectoxFechaxCorte()
+    .then(function(data) {
+
+    }
+    .catch(function(err) {
+        alert('intentelo de nuevo');
+    });
+
   }
   
   va.doIt = function() { alert('did it!'); };
@@ -153,9 +162,6 @@ function(httpFactory, $scope,$filter,$q,proyectoFactory) {
     proyectoFactory.setDatosxGuardarxCronograma(va.codigocronograma,
       va.revision,va.estado,va.proyectop.codigo_prop_proy,va.proyectop.codigo)
     .then(function(data) {
-      
-      //console.log(data);
-
       va.inserted = {
         codigo_prop_proy:va.proyectop.codigo_prop_proy,
         proyectoid:va.proyectop.codigo,
@@ -187,10 +193,7 @@ function(httpFactory, $scope,$filter,$q,proyectoFactory) {
     codigo_cronograma=data.codigo_cronograma;
     revision_cronograma=data.revision_cronograma;
     //state=data.state;
-
-    console.log(data);
-    console.log(cronogramaid);
- 
+    //console.log(data);    //console.log(cronogramaid);
 
     proyectoFactory.setDatosxModificarxCronograma(codigo_cronograma,codigoproyecto,proyectoid,revision_cronograma,cronogramaid)
     .then(function(data) {
@@ -309,8 +312,7 @@ function(httpFactory, $scope,$filter,$q,proyectoFactory) {
   }
 
   va.saveColumn= function(column){
-    //console.log(column);
-    // var results = [];
+
     angular.forEach(va.dat, function(fecha) {  
       //a=results.push($http.post('/saveColumn', {column: column, value: fecha[column], id: fecha.id_tproyecto}));
     httpFactory.setCambiarfechaproyecto(fecha[column],column,fecha.codigo_curvas)
