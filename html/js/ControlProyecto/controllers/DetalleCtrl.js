@@ -3,8 +3,8 @@ httpFactory para cargar los datos del proyecto necesarios,
 configuracionTransmittal para acceder al objeto configuracionTransmittal,
 $routeParams para obtener el codigo del proyecto actual de la ruta*/
 
-app.controller('DetalleCtrl', ['httpFactory', 'proyectoFactory', '$modal',
-'$routeParams', function(httpFactory, proyectoFactory, $modal, $routeParams) {
+app.controller('DetalleCtrl', ['httpFactory', 'gastoFactory', '$modal',
+'$routeParams', function(httpFactory, gastoFactory, $modal, $routeParams) {
 
   /*referencia del scope en vt, obtencion del proyecto seleccionado y el objeto
   que contendra los datos del proyecto*/
@@ -70,19 +70,19 @@ console.log($routeParams);
     }
   }
 
-  vt.editarLogo = function() {
-    var modalInstance = $modal.open({
-      animation: true,
-      controller: 'ModalLogoCtrl',
-      controllerAs: 'ml',
-      templateUrl: '/controldocumentario/index/modallogo',
-      size: 'sm',
-      resolve: {
-        clienteid: function () {
-          return vt.proyecto.clienteid;
-        }
-      }
-    });
+  // vt.editarLogo = function() {
+  //   var modalInstance = $modal.open({
+  //     animation: true,
+  //     controller: 'ModalLogoCtrl',
+  //     controllerAs: 'ml',
+  //     templateUrl: '/controldocumentario/index/modallogo',
+  //     size: 'sm',
+  //     resolve: {
+  //       clienteid: function () {
+  //         return vt.proyecto.clienteid;
+  //       }
+  //     }
+  //   });
 
     /*modalInstance.result.then(function (selectedItem) {
       vt.selected = selectedItem;
