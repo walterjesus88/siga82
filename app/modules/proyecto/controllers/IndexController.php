@@ -1517,14 +1517,17 @@ public function modificarxproyectoxcronogramaAction()
   $data['codigo_prop_proy'] = $this->_getParam('codigo_prop_proy');   
   $data['proyectoid'] = $this->_getParam('proyectoid');  
   $data['cronogramaid'] = $this->_getParam('cronogramaid'); 
-  $data['state'] = $this->_getParam('state'); 
+  //$data['state'] = $this->_getParam('state'); 
 
   $where = array('codigo_prop_proy' =>  $data['codigo_prop_proy'],
-          'codigo_cronograma' => $data['codigo_cronograma'],
-          'revision_cronograma' => $data['revision_cronograma'],
+          //'codigo_cronograma' => $data['codigo_cronograma'],
+          //'revision_cronograma' => $data['revision_cronograma'],
           'cronogramaid' => $data['cronogramaid'],
           'proyectoid' =>  $data['proyectoid'] );
 
+  // print_r($where);
+  // print_r($data);
+  // exit();
 
   $modificarcronograma=new Admin_Model_DbTable_Proyectocronograma();
   $mcronograma=$modificarcronograma->_update($data,$where);
@@ -1731,8 +1734,8 @@ public function modificarperformancepadreAction() {
   'fecha_ingreso_performance' => date("Y-m-d")
    );
 
-  echo "fdf";
-  print_r($data);exit();
+ // echo "fdf";
+ // print_r($data);exit();
 
   $modificarperformance= new Admin_Model_DbTable_Performance();
   $mperformance=$modificarperformance->_update($data,$where);
@@ -2067,6 +2070,7 @@ public function guardarxfechaxcorteAction()
 
   $where = array('revision_cronograma' => $data['revision_cronograma'] ,
                'proyectoid' => $data['proyectoid'] ,'state_performance' =>'A');
+
   $vfechaxcorte=$guardarfechaxcorte->_getFilter($where);
 
   if($vfechaxcorte)

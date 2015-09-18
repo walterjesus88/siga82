@@ -186,10 +186,13 @@ function(httpFactory, $scope,$filter,$q,proyectoFactory) {
     proyectoid=va.proyectop.codigo;
     codigo_cronograma=data.codigo_cronograma;
     revision_cronograma=data.revision_cronograma;
-    state=data.state;
+    //state=data.state;
+
+    console.log(data);
+    console.log(cronogramaid);
  
 
-    proyectoFactory.setDatosxModificarxCronograma(codigo_cronograma,codigoproyecto,proyectoid,revision_cronograma,cronogramaid,state)
+    proyectoFactory.setDatosxModificarxCronograma(codigo_cronograma,codigoproyecto,proyectoid,revision_cronograma,cronogramaid)
     .then(function(data) {
           
     })

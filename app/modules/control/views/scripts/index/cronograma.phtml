@@ -12,13 +12,13 @@
 		<tr ng-repeat="cronograma in CP.procronograma" >
 
 			<td>			
-				<span editable-text="cronograma.codigo_cronograma" e-name="codigo_cronograma" e-form="rowform" onbeforesave="checkName($data, cronograma.cronogramaid)">
+				<span editable-text="cronograma.codigo_cronograma" e-name="codigo_cronograma" e-form="rowform" >
 				{{ cronograma.codigo_cronograma }}
 				</span>
 			</td>
 
 			<td>			
-				<span editable-text="cronograma.revision_cronograma" e-name="revision_cronograma" e-form="rowform" onbeforesave="checkName($data, cronograma.revision_cronograma)">
+				<span editable-text="cronograma.revision_cronograma" e-name="revision_cronograma" e-form="rowform" >
 				{{ cronograma.revision_cronograma }}
 				</span>
 			</td>
@@ -175,11 +175,7 @@
 			</div>
 
 		</form>
-          <!--<ul>
-          <li ng-repeat="item in category.items" class="animate-repeat-item">
-            {{item.fecha_performance}}
-            <span ng-class="{done:item.completed}" ltc-editable class-off="done" ng-model="item.fecha_performance"></span>         
-          </li></ul>-->
+    
           <div class="no-items"><small ng-show="category.expanded && category.items.length==0">NO ITEMS!</small></div>
         </div>
 

@@ -384,12 +384,13 @@ function(httpFactory, $location, $q) {
     },
 
 
-    setDatosxModificarxCronograma: function(codigo_cronograma,codigoproyecto,proyectoid,revision_cronograma,cronogramaid,state) {
+    setDatosxModificarxCronograma: function(codigo_cronograma,codigoproyecto,proyectoid,revision_cronograma,cronogramaid) {
       var defered = $q.defer();
       var promise = defered.promise;
-     
+       
+      //alert(state);     
 
-      httpFactory.setModificarxCronograma(codigo_cronograma,codigoproyecto,proyectoid,revision_cronograma,cronogramaid,state)
+      httpFactory.setModificarxCronograma(codigo_cronograma,codigoproyecto,proyectoid,revision_cronograma,cronogramaid)
       .then(function(data) {
         datos = data;
         defered.resolve(datos);
