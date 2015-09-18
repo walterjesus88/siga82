@@ -694,13 +694,13 @@ order by t.proyectoid,t.actividadid,t.tipo_actividad desc
                 $dates = split("-yadcf_delim-", $where["sSearch_0"]);
                 if (count(array_filter($dates)) > 0) {
                     if (count(array_filter($dates)) == 1 && $dates[0]) {
-                        $select->where("fecha_tarea >= ?", $this->set_format_date($dates[0]));
+                        $select->where("semanaid >= ?", $this->set_format_date($dates[0]));
                     }else{
                         if ($dates[0]){
-                            $select->where("fecha_tarea <= ?", $this->set_format_date($dates[1]));
+                            $select->where("semanaid <= ?", $this->set_format_date($dates[1]));
                         }else{
-                            $select->where("fecha_tarea >= ?", $this->set_format_date($dates[0]));
-                            $select->where("fecha_tarea <= ?", $this->set_format_date($dates[1]));
+                            $select->where("semanaid >= ?", $this->set_format_date($dates[0]));
+                            $select->where("semanaid <= ?", $this->set_format_date($dates[1]));
                         }
                     }
                 }

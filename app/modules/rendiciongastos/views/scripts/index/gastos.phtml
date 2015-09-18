@@ -1,0 +1,82 @@
+<body ng-controller="GastosCtrl">
+  <div class="panel">
+    <section class="panel">
+      <header class="panel-heading">
+        Lista de Gastos
+        <span class="pull-right">
+          <button type="button" class="btn btn-success btn-xs" ng-click="vg.cargarGastos('B')">Pendientes</button>
+          <button type="button" class="btn btn-primary btn-xs" ng-click="vg.cargarGastos('E')">Enviados</button>
+          <button type="button" class="btn btn-warning btn-xs" ng-click="vg.cargarGastos('A')">Aprobados</button>
+          <button type="button" class="btn btn-danger btn-xs" ng-click="vg.cargarGastos('R')">Rechazados</button>
+          |
+          <button type="button" class="btn btn-default btn-xs" ng-click="vg.AgregarGastoRendicion()">Rendir Gastos</button>
+        </span>
+
+
+
+      </header>
+    </section>
+<form method="POST" action="#" editable-form name="tableform" onaftersave="va.ModificarArea()" oncancel="cancel()" >
+
+    <div class="panel-body">
+      <table datatable="ng" class="table table-condensed table-hover p-table">
+        <thead>
+          <th style="width: 10%;">Numero</th>
+          <th style="width: 30%;">Nombre</th>
+          <th style="width: 15%;">Fecha</th>
+          <th style="width: 15%;">Monto Total</th>
+          <th style="width: 15%;">Estado</th>
+          <th style="width: 15%;">Acciones</th>
+        </thead>
+        <tbody>
+          <tr ng-repeat="gasto in vg.gastos track by $index">
+            <td> {{gasto.numero_completo}} </td>
+            <td> {{gasto.nombre}} </td>
+            <td> {{gasto.fecha}} </td>
+            <td> {{gasto.monto_total}} </td>
+            <td> <span class="label label-default label-min">{{gasto.estado}}</span>
+             <!-- <select ng-model="gasto.estado"
+             ng-options="gasto.value as gasto.text for gasto in vg.estadogasto" ng-change="vg.cambiarEstadoGasto($index,gasto.estado)" >
+             {{ vg.showEstadoGasto(gasto) }}
+           </select> -->
+         </td>
+         <td>
+          <ul>
+            <li>
+             <!--  <button type="button" class="btn btn-success btn-xs" ng-click="vg.verModulos()">
+                Rendir Gastos
+              </button>
+              <button type="button" class="btn btn-info btn-xs" ng-click="proyecto.verInformacion()">
+                Imprimir
+              </button> -->
+              <center>
+                <a href="#" class="btn btn-warning btn-xs showdetails" title="Detalles" ><i class="fa fa-folder"></i></a>
+                <a href="#" class="btn btn-info btn-xs editdetails" title="Editar"><i class="fa fa-edit"></i></a>
+                <a href="#" class="btn btn-default btn-xs" title="Imprimir"><i class="fa fa-print"></i></a>
+                <a class="btn btn-danger btn-xs" title="Eliminar"><i class="fa fa-archive"></i></a>
+
+
+              </center>
+            </li>
+          </ul>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+</form>
+        <!--
+        <div class="panel">
+            <button type="button" class="btn btn-default">Editar</button>
+            <button type="button" class="btn btn-default">Exportar</button>
+            <button type="button" class="btn btn-default">Imprimir</button>
+        </div>
+      -->
+    </div>
+  </body>
+
+
+
+
+

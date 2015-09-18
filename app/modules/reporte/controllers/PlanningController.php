@@ -32,6 +32,28 @@ class Reporte_PlanningController extends Zend_Controller_Action {
         $this->view->params = $params;
     }
 
+    public function downloadpdfAction(){
+        $params = $this->getRequest()->getParams();
+        $datatable_planning = new Reporte_DataTable_Planning();
+        $tb_planning = new Admin_Model_DbTable_Planificacion();
+        $tb_project = new Admin_Model_DbTable_Proyecto();
+        $data = $datatable_planning->plamings($params);
+        $content = '';
+        foreach ($data as $key => $plaming) {
+            $content = $content . 
+                '<tr>
+                    <td>'. $plaming["nombre"]. '</td>
+                    <td>'. $plaming["uid"]. '</td>
+                    <td>'. $plaming["semanaid"]. '</td>
+                    <td>'. $tb_project->_getNameManager($plaming["proyectoid"])["gerente_proyecto"]. '</td>
+                    <td>'. $tb_planning->_getStatusName($plaming["estado"]). '</td>
+                    <td>'. $plaming['billable']. '</td>
+                    <td>'. $plaming['nonbillable']. '</td>
+                </tr>';
+        }
+        $this->view->content_table = $content;
+    }
+
     public function jsondataAction()
     {
         $params = $this->getRequest()->getParams();

@@ -155,6 +155,27 @@ class Admin_Model_DbTable_Gastopersona extends Zend_Db_Table_Abstract
             $select = $this->_db
                             ->select()
                             ->from(new Zend_Db_Expr('(' . $this->_select_datatable() . ')'), "COUNT(*) AS total");
+            if ($where["sSearch_0"]) {
+                $select->where("pg.bill_cliente = ?", $where["[sSearch_0"]);
+            }
+            if ($where["sSearch_1"]) {
+                $select->where("pg.reembolsable = ?", $where["[sSearch_0"]);
+            }
+            if ($where["sSearch_2"] && split("-yadcf_delim-", $where["sSearch_2"])) {
+                $dates = split("-yadcf_delim-", $where["sSearch_2"]);
+                if (count(array_filter($dates) > 0 )) {                    
+                    if (count(array_filter($dates)) == 1 && $dates[0]) {
+                        $select->where("gp.gasto_rendicion >= ?", $this->set_format_date($dates[0]));
+                    }else{
+                        if (!$dates[0]){
+                            $select->where("gp.gasto_rendicion <= ?", $this->set_format_date($dates[1]));
+                        }else{
+                            $select->where("gp.gasto_rendicion >= ?", $this->set_format_date($dates[0]));
+                            $select->where("gp.gasto_rendicion <= ?", $this->set_format_date($dates[1]));
+                        }
+                    }
+                }
+            }
             $results = $select->query();
             $rows = $results->fetchAll();
             if ($rows) return $rows;
@@ -163,11 +184,37 @@ class Admin_Model_DbTable_Gastopersona extends Zend_Db_Table_Abstract
             print "Error: Read One Condition".$e->getMessage();
         }
     }
+    
     public function _dataTable($page, $per_page, $sort_column, $sort_direction, $where){
         try {
-            $select = $this->_select_datatable()
-                        ->order($sort_column)
-                        ->limit($per_page, $page);
+            $select = $this->_select_datatable();
+            $select->order($sort_column)->limit($per_page, $page);
+            // if (!array_key_exists("format", $where)) {
+            // }
+            if ($where["sSearch"]) {
+                $select->where("pg.nombre Ilike  ? ", "%" . $where['sSearch'] . "%");
+            }
+            if ($where["sSearch_0"]) {
+                $select->where("pg.bill_cliente = ?", $where["[sSearch_0"]);
+            }
+            if ($where["sSearch_1"]) {
+                $select->where("pg.reembolsable = ?", $where["[sSearch_0"]);
+            }
+            if ($where["sSearch_2"] && split("-yadcf_delim-", $where["sSearch_2"])) {
+                $dates = split("-yadcf_delim-", $where["sSearch_2"]);
+                if (count(array_filter($dates) > 0 )) {                    
+                    if (count(array_filter($dates)) == 1 && $dates[0]) {
+                        $select->where("gp.gasto_rendicion >= ?", $this->set_format_date($dates[0]));
+                    }else{
+                        if (!$dates[0]){
+                            $select->where("gp.gasto_rendicion <= ?", $this->set_format_date($dates[1]));
+                        }else{
+                            $select->where("gp.gasto_rendicion >= ?", $this->set_format_date($dates[0]));
+                            $select->where("gp.gasto_rendicion <= ?", $this->set_format_date($dates[1]));
+                        }
+                    }
+                }
+            }
             $results = $select->query();
             $rows = $results->fetchAll();
             if ($rows) return $rows;
@@ -176,13 +223,24 @@ class Admin_Model_DbTable_Gastopersona extends Zend_Db_Table_Abstract
             print "Error: Read fetch datatable ".$e->getMessage();
         }
     }
+
     public function _select_datatable(){
         return $this->_db
                     ->select()
-                    ->from(array("gp" => "gasto_persona"))
+                    ->from(array("gp" => "gasto_persona"),
+                            array("gp.fecha_gasto AS fecha_rendicion", "gp.*",
+                                    "gr.nombre AS nombre_rendicion", "gr.monto_total AS monto_total_rendicion", "gr.*",
+                                    "p.nombre_proyecto") )
+                    ->join(array("gr" => "gasto_rendicion"),
+                            "gp.numero_rendicion = gr.numero AND gp.uid = gr.uid AND gp.dni = gr.dni")
                     ->join(array('p' => 'proyecto'),
-                                'gp.proyectoid = p.proyectoid')
-                    ->join(array('u' => 'usuario'),
-                                'gp.uid = u.uid');
+                                'gp.proyectoid = p.proyectoid');
+                    // ->join(array('u' => 'usuario'),
+                    //             'gp.uid = u.uid');
+    }
+
+    private function set_format_date($date){
+        $date_t = new Zend_Date($date);
+        return $date_t->get("YYYY-MM-dd");
     }
 }

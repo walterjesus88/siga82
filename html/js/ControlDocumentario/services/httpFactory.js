@@ -705,6 +705,31 @@ app.factory('httpFactory', ['$http', '$q', function($http, $q) {
         defered.reject(err);
       });
       return promise;
+    },
+    updateCodigoPreferencial: function(codificacion, correlativo, cod_pre) {
+      var defered = $q.defer();
+      var promise = defered.promise;
+      $http.get(url_tran + 'cambiarcodigopreferencial/codificacion/' + codificacion +
+      '/correlativo/' + correlativo + '/codpre/' + cod_pre)
+      .success(function(data) {
+        defered.resolve(data);
+      })
+      .error(function(err) {
+        defered.reject(err);
+      });
+      return promise;
+    },
+    getCodigoPreferencialxDetalle:function(detalleid) {
+      var defered = $q.defer();
+      var promise = defered.promise;
+      $http.get(url_tran + 'codigopreferencial/detalleid/' + detalleid)
+      .success(function(data) {
+        defered.resolve(data);
+      })
+      .error(function(err) {
+        defered.reject(err);
+      });
+      return promise;
     }
   }
 

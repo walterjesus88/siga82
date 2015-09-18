@@ -1731,6 +1731,9 @@ public function modificarperformancepadreAction() {
   'fecha_ingreso_performance' => date("Y-m-d")
    );
 
+  echo "fdf";
+  print_r($data);exit();
+
   $modificarperformance= new Admin_Model_DbTable_Performance();
   $mperformance=$modificarperformance->_update($data,$where);
 
@@ -1772,8 +1775,15 @@ public function proyectoxperformanceAction() {
   $perf=$performance->_getBuscarActividadxPerformance($proyectoid,$revision);
 
   $state_fechacorte=new Admin_Model_DbTable_Proyectofechacorte();
-  $f_state_corte=$state_fechacorte->_getProyectoxFechaxCortexActivaxProyecto($proyectoid);
-  $fecha_corte_activa=$f_state_corte[0]['fecha'];
+  // $f_state_corte=$state_fechacorte->_getProyectoxFechaxCortexActivaxProyecto($proyectoid);
+  // $fecha_corte_activa=$f_state_corte[0]['fecha'];
+
+  $where = array('revision_cronograma' => $revision ,
+               'proyectoid' => $proyectoid ,'state_performance' =>'A');
+  
+  $fecha_corte=$state_fechacorte->_getFilter($where);
+  $fecha_corte_activa=$fecha_corte[0]['fecha'];
+  //print_r($fecha_corte[0]['fecha']); exit();
 
   if($perf)
   {
@@ -2054,9 +2064,26 @@ public function guardarxfechaxcorteAction()
   $data['state']= 'A';
 
   $guardarfechaxcorte=new Admin_Model_DbTable_Proyectofechacorte();
-  $gfechaxcorte=$guardarfechaxcorte->_save($data);;
 
-  $this->_helper->json->sendJson($gfechaxcorte);
+  $where = array('revision_cronograma' => $data['revision_cronograma'] ,
+               'proyectoid' => $data['proyectoid'] ,'state_performance' =>'A');
+  $vfechaxcorte=$guardarfechaxcorte->_getFilter($where);
+
+  if($vfechaxcorte)
+  {
+    $state_per='I';
+  }
+  else
+  {
+    $state_per='A';
+  }
+
+
+ $data['state_performance']= $state_per;
+
+ $gfechaxcorte=$guardarfechaxcorte->_save($data);;
+
+ $this->_helper->json->sendJson($gfechaxcorte);
 }
 
 public function cambiarxfechaxcorteAction()

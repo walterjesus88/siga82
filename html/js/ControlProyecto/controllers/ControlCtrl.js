@@ -10,6 +10,21 @@ app.directive('ngEnter', function () {
             }
         });
     };
+
+    return {
+            restrict: 'A',
+            scope: {
+                confirm: '@',
+                confirmAction: '&'
+            },
+            link: function (scope, element, attrs) {
+                element.bind('click', function (e) {
+                    if (confirm(scope.confirm)) {
+                        scope.confirmAction();
+                    }
+                });
+            }
+    };
 });
 
 app.controller('ControlCtrl', ['httpFactory', '$scope','$filter','$q',
@@ -124,6 +139,13 @@ function(httpFactory, $scope,$filter,$q,proyectoFactory) {
   va.ShowFormCronograma=function(){ 
    va.formVisibilityCronograma=true;    
   }
+
+  va.cerrarfechacorte=function(item){ 
+   item.checked=true;    
+  console.log(item);
+  }
+  
+  va.doIt = function() { alert('did it!'); };
 
   va.GuardarCronograma= function(){
     va.estado='A';
@@ -645,10 +667,7 @@ proyectoFactory.getVerCronogramaxActivo(proyecto['codigo'])
 });
 
 //calculara la fecha fin de la actividad //
-va.calculafechafin= function()
-{
-  console.log('ssss');
-}
+
 
 va.cambio= function(data, id)
 {
@@ -767,10 +786,11 @@ va.checkName=function(data, id)
  // console.log(horas_planificado);
   porcentaje_planificado=Math.round((calculo_c_planificadas/costo_propuesta)*100);
  
+ console.log(cadena);
 
- if( cadena!='null' )
+ if( cadena!='null')
   {
-   // console.log("duracion"+duracion);
+    console.log("duracion"+duracion);
     texto =  ['FC','CF','CC','FF'];
 
     for (var i = texto.length - 1; i >= 0; i--)
@@ -1539,7 +1559,8 @@ va.checkName=function(data, id)
 
   }
   else
-  {
+  { 
+
     
     if(f_comienzo=='null' && f_fin=='null')
     {
@@ -1623,10 +1644,13 @@ va.checkName=function(data, id)
 
     }
 
+    console.log(fecha_comienzo);
+
     /**ACA ESTABA EL VA.PERFORMANCE[ID]**/   
 
   }
 
+  //console.log(dsdad);
     va.performance[id] = 
     { 
                   actividadid:actividadid,

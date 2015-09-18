@@ -279,7 +279,11 @@ class Admin_Model_DbTable_Formato extends Zend_Db_Table_Abstract
     $page->setFont($this->font, 7);
     for ($i=0; $i < sizeof($this->data); $i++) {
       $page->drawText((string)$i + 1, 7, 650 - ($i * 20));
-      $page->drawText($this->data[$i]['codigo_anddes'], 30, 650 - ($i * 20));
+      if ($this->cabecera['codigo_preferencial'] == 'CODIGO ANDDES') {
+        $page->drawText($this->data[$i]['codigo_anddes'], 30, 650 - ($i * 20));
+      } elseif ($this->cabecera['codigo_preferencial'] == 'CODIGO CLIENTE') {
+        $page->drawText($this->data[$i]['codigo_cliente'], 30, 650 - ($i * 20));
+      }
       $page->drawText($this->data[$i]['revision'], 145, 650 - ($i * 20));
       $page->drawText($this->data[$i]['descripcion_entregable'], 170, 650 - ($i * 20), 'UTF-8');
       $page->drawText($this->data[$i]['emitido'], 520, 650 - ($i * 20));
