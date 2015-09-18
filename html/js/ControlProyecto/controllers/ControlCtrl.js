@@ -144,15 +144,15 @@ function(httpFactory, $scope,$filter,$q,proyectoFactory) {
    item.checked=true;    
    console.log(item);
 
-    proyectoFactory.getDatosxProyectoxFechaxCorte()
-    .then(function(data) {
+  //   proyectoFactory.getDatosxProyectoxFechaxCorte()
+  //   .then(function(data) {
 
-    }
-    .catch(function(err) {
-        alert('intentelo de nuevo');
-    });
+  //   }
+  //   .catch(function(err) {
+  //       alert('intentelo de nuevo');
+  //   });
 
-  }
+   }
   
   va.doIt = function() { alert('did it!'); };
 
