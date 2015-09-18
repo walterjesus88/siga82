@@ -15,8 +15,12 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
                     //->headLink()->prependStylesheet('/external_library/bootstrap/css/bootstrap.min.css'
                     ->headLink()->prependStylesheet('/css/bootstrap.min.css')
                      ->headLink()->prependStylesheet('/external_library/bootstrap/css/bootstrap-theme.min.css')
+<<<<<<< HEAD
                      ->headLink()->prependStylesheet('/external_library/headertable/lib/jquery.mousewheel.js')
 
+=======
+                     ->headLink()->appendStylesheet('/js/api_datatable/multiple-select.css')
+>>>>>>> 45d73f77a75dc592d83c7a9105724bb0e359b9df
                      ->headLink()->appendStylesheet('/js/api_datatable/yadcf/jquery.dataTables.yadcf.css')
                      ->headLink()->appendStylesheet('/js/api_datatable/chosen/chosen.min.css')
                      ->headLink()->appendStylesheet('/js/api_datatable/api.datatable.css')
@@ -40,9 +44,11 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 
             $view   ->headScript()->appendFile('/js/jquery.js')
                         ->headScript()->appendFile('/js/adt/vendor/datatables/media/js/jquery.dataTables.js')
+                        ->headScript()->appendFile('/js/adt/vendor/datatables-columnfilter/js/dataTables.columnFilter.js')
                         //->headScript()->appendFile('/external_library/bootstrap/js/dataTables.bootstrap.min.js')
                         ->headScript()->appendFile('/js/api_datatable/chosen/chosen.jquery.min.js')
                         ->headScript()->appendFile('/js/api_datatable/chosen/chosen.proto.min.js')
+                        ->headScript()->appendFile('/js/api_datatable/jquery.multiple.select.js')
                         ->headScript()->appendFile('/js/api_datatable/yadcf/jquery.dataTables.yadcf.js')
                         ->headScript()->appendFile('/js/api_datatable/api.datatable.js')
                         ->headScript()->appendFile('/js/metodosglobales.js')
@@ -61,7 +67,6 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
                         ->headScript()->appendFile('/js/adt/vendor/datatables-tabletools/js/dataTables.tableTools.js')
                         ->headScript()->appendFile('/js/adt/vendor/datatables-responsive/js/dataTables.responsive.js')
                         ->headScript()->appendFile('/js/adt/vendor/datatables-scroller/js/dataTables.scroller.js')
-                        ->headScript()->appendFile('/js/adt/vendor/datatables-columnfilter/js/dataTables.columnFilter.js')
                         ->headScript()->appendFile('/js/adt/vendor/datatables-fixedcolumns/js/dataTables.fixedColumns.js')
                         ->headScript()->appendFile('/js/adt/vendor/datatables-fixedheader/js/dataTables.fixedHeader.js')
                         ->headScript()->appendFile('/js/adt/vendor/angular-bootstrap/ui-bootstrap.min.js')

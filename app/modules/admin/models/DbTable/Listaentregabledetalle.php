@@ -82,7 +82,8 @@ class Admin_Model_DbTable_Listaentregabledetalle extends Zend_Db_Table_Abstract
         led.codigo_anddes, led.codigo_cliente, led.descripcion_entregable,
         led.estado as estado_revision, led.clase, led.fecha_a, led.fecha_b, led.fecha_0
         from lista_entregable_detalle as led
-        where led.proyectoid = '".$proyectoid."' and led.clase = 'Tecnico'";
+        where led.proyectoid = '".$proyectoid."' and led.clase = 'Tecnico'
+        and led.estado = 'Ultimo'";
         $sql = $this->_db->query($query1);
         $row = $sql->fetchAll();
         return $row;
@@ -282,11 +283,11 @@ class Admin_Model_DbTable_Listaentregabledetalle extends Zend_Db_Table_Abstract
         $data['control_proyecto'] = $item['control_proyecto'];
         $data['control_documentario'] = $item['control_documentario'];
         $data['estado'] = $item['estado'];
+
         $respuesta[$i]['proyecto'] = $data;
 
-        $sql = $this->_db->query("select * from lista_entregable_detalle
-        where proyectoid = '".$data['codigo']."'");
-        $rows = $sql->fetchAll();
+        $rows = $this->_getLEReporte($data['codigo']);
+
         $respuesta[$i]['entregables'] = $rows;
 
         $i++;
@@ -307,7 +308,42 @@ class Admin_Model_DbTable_Listaentregabledetalle extends Zend_Db_Table_Abstract
 
     public function _getReportexProyecto($proyectoid)
     {
-      print "asdgf";
+      $proyecto = new Admin_Model_DbTable_Proyecto();
+      $data['proyectoid'] = $proyectoid;
+      $pro = $proyecto->_getOnexProyectoidExtendido($data);
+      $lista[0] = $pro;
+
+      $respuesta = [];
+      $data = [];
+      $i = 0;
+      foreach ($lista as $item) {
+        $data['codigo'] = $item['proyectoid'];
+        $data['cliente'] = $item['nombre_comercial'];
+        $data['nombre'] = $item['nombre_proyecto'];
+        $data['gerente'] = $item['gerente_proyecto'];
+        $data['control_documentario'] = $item['control_documentario'];
+        $data['estado'] = $item['estado'];
+
+        $respuesta[$i]['proyecto'] = $data;
+
+        $rows = $this->_getLEReporte($data['codigo']);
+
+        $respuesta[$i]['entregables'] = $rows;
+
+        $i++;
+      }
+
+      $envio = [];
+      $j = 0;
+
+      for ($i=0; $i < sizeof($respuesta); $i++) {
+        if (sizeof($respuesta[$i]['entregables']) != 0) {
+          $envio[$j] = $respuesta[$i];
+          $j++;
+        }
+      }
+
+      return $envio;
     }
 
     public function _createRevision($data)
@@ -339,6 +375,24 @@ class Admin_Model_DbTable_Listaentregabledetalle extends Zend_Db_Table_Abstract
       } catch (Exception $e) {
         print $e->getMessage();
       }
+    }
+
+    public function _getLEReporte($proyectoid)
+    {
+      $sql = $this->_db->query("select * from lista_entregable_detalle
+      where proyectoid = '".$proyectoid."' and estado = 'Ultimo'");
+      $rows = $sql->fetchAll();
+
+      //////////////////////////////////////////////////////////////////////////
+      /*Calculo de fechas inicial de acuerdo a la fecha de la revision actual
+      Calculo de la fecha final de acuerdo a la fecha de la revision programada*/
+      //////////////////////////////////////////////////////////////////////////
+      for ($i=0; $i < sizeof($rows); $i++) {
+        $rows[$i]['fecha_inicial'] = '07-09-2015';
+        $rows[$i]['fecha_final'] = '14-09-2015';
+      }
+
+      return $rows;
     }
 
 }

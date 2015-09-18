@@ -137,22 +137,6 @@ class ControlDocumentario_EntregableController extends Zend_Controller_Action {
       } else {
         $lista = $entregable->_getReportexProyecto($proyectoid);
       }
-
-      /*rellenarDias = function() {
-        var estilo = 'post-highlight yellow';
-        for (var i = 0; i < reporte.grupos.length; i++) {
-          var lista_entregables = reporte.grupos[i].entregables;
-          for (var j = 0; j < lista_entregables.length; i++) {
-            var cuadros = [];
-            for(var k = 0; k < reporte.dias.length; k++) {
-              var dia = {clase: estilo};
-              cuadros.push(dia);
-            }
-            lista_entregables[j].dias = cuadros;
-          }
-          reporte.grupos[i].entregables = lista_entregables;
-        }
-      }*/
       $this->_helper->json->sendJson($lista);
     }
 

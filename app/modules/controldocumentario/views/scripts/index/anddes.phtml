@@ -65,7 +65,9 @@
           class="tab-pane" ng-class="va.trans_activo">
 
           </div>
-          <div ng-include="" class="tab-pane" ng-class="va.plan_activo">
+          <div ng-include="'/controldocumentario/index/reporte'" 
+          class="tab-pane" ng-class="va.plan_activo"
+          ng-controller="ReporteCtrl as reporte">
 
           </div>
         </div>

@@ -1,34 +1,34 @@
 app.factory('entregableFactory', ['httpFactory', 'transmittalFactory',
  function(httpFactory, transmittalFactory) {
   var publico = {
-    Entregable: function(codigo, edt, tipo, disciplina, codigo_anddes,
-    codigo_cliente, descripcion, revision, estado_revision, transmittal,
-    correlativo, emitido, fecha, respuesta_transmittal, respuesta_emitido,
-    respuesta_fecha, estado, comentario, clase) {
-      this.codigo = codigo;
-      this.proyectoid = '';
-      this.edt = edt;
-      this.tipo = tipo;
-      this.disciplina = disciplina;
-      this.codigo_anddes = codigo_anddes;
-      this.codigo_cliente = codigo_cliente;
-      this.descripcion = descripcion;
-      this.tipo_envio = '';
-      this.revision = revision;
-      this.estado_revision = estado_revision;
-      this.transmittal = transmittal;
-      this.correlativo = correlativo;
-      this.transmittal_completo = '';
-      this.emitido = emitido;
-      this.fecha = fecha;
-      this.respuesta_transmittal = respuesta_transmittal;
-      this.respuesta_emitido = respuesta_emitido;
-      this.respuesta_fecha = respuesta_fecha;
-      this.estado = estado;
-      this.comentario = comentario;
-      this.clase = clase;
-      this.seleccionado = '';
-      this.estilo = '';
+    Entregable: function(item) {
+      if (item) {
+        this.codigo = item.cod_le;
+        this.proyectoid = '';
+        this.edt = item.edt;
+        this.tipo = item.tipo_documento;
+        this.disciplina = item.disciplina;
+        this.codigo_anddes = item.codigo_anddes;
+        this.codigo_cliente = item.codigo_cliente;
+        this.descripcion = item.descripcion_entregable;
+        this.tipo_envio = '';
+        this.revision = item.revision_entregable;
+        this.estado_revision = item.estado_revision;
+        this.transmittal = item.transmittal;
+        this.correlativo = item.correlativo;
+        this.transmittal_completo = '';
+        this.emitido = item.emitido;
+        this.fecha = item.fecha;
+        this.respuesta_transmittal = item.respuesta_transmittal;
+        this.respuesta_emitido = item.respuesta_emitido;
+        this.respuesta_fecha = item.respuesta_fecha;
+        this.estado = item.estado;
+        this.comentario = item.comentario;
+        this.clase = item.clase;
+        this.seleccionado = '';
+        this.estilo = '';
+      }
+
 
       if (this.transmittal == '' || this.transmittal == null ||
       this.correlativo == '' || this.correlativo == null) {
