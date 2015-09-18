@@ -236,4 +236,22 @@ class ControlDocumentario_TransmittalController extends Zend_Controller_Action {
       $respuesta = $transmittal->_updateContacto($codificacion, $correlativo, $contactoid);
       $this->_helper->json->sendJson($respuesta);
     }
+
+    public function codigopreferencialAction()
+    {
+      $detalleid = $this->_getParam('detalleid');
+      $transmittal = new Admin_Model_DbTable_DetalleTransmittal();
+      $respuesta = $transmittal->_getCodigoPreferencial($detalleid);
+      $this->_helper->json->sendJson($respuesta);
+    }
+
+    public function cambiarcodigopreferencialAction()
+    {
+      $codificacion = $this->_getParam('codificacion');
+      $correlativo = $this->_getParam('correlativo');
+      $cod_pre = $this->_getParam('codpre');
+      $transmittal = new Admin_Model_DbTable_Transmittal();
+      $respuesta = $transmittal->_updateCodigoPreferencial($codificacion, $correlativo, $cod_pre);
+      $this->_helper->json->sendJson($respuesta);
+    }
 }

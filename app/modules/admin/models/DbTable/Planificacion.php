@@ -306,13 +306,13 @@ class Admin_Model_DbTable_Planificacion extends Zend_Db_Table_Abstract
                 $dates = split("-yadcf_delim-", $where["sSearch_0"]);
                 if (count(array_filter($dates) > 0 )) {
                     if (count(array_filter($dates)) == 1 && $dates[0]) {
-                        $select->where("pa.fecha_creacion >= ?", $this->set_format_date($dates[0]));
+                        $select->where("semanaid >= ?", $this->convert_date_to_week($dates[0]));
                     }else{
                         if (!$dates[0]){
-                            $select->where("pa.fecha_creacion <= ?", $this->set_format_date($dates[1]));
+                            $select->where("semanaid <= ?", $this->convert_date_to_week($dates[1]));
                         }else{
-                            $select->where("pa.fecha_creacion >= ?", $this->set_format_date($dates[0]));
-                            $select->where("pa.fecha_creacion <= ?", $this->set_format_date($dates[1]));
+                            $select->where("semanaid >= ?", $this->convert_date_to_week($dates[0]));
+                            $select->where("semanaid <= ?", $this->convert_date_to_week($dates[1]));
                         }
                     }
                 }
@@ -341,14 +341,15 @@ class Admin_Model_DbTable_Planificacion extends Zend_Db_Table_Abstract
 
             if ($where["sSearch_0"] && split("-yadcf_delim-", $where["sSearch_0"])) {
                 $dates = split("-yadcf_delim-", $where["sSearch_0"]);
-                if (count(array_filter($dates) > 0 )) {                    if (count(array_filter($dates)) == 1 && $dates[0]) {
-                        $select->where("pa.fecha_creacion >= ?", $this->set_format_date($dates[0]));
+                if (count(array_filter($dates) > 0 )) {                    
+                    if (count(array_filter($dates)) == 1 && $dates[0]) {
+                        $select->where("pa.semanaid >= ?", $this->convert_date_to_week($dates[0]));
                     }else{
                         if (!$dates[0]){
-                            $select->where("pa.fecha_creacion <= ?", $this->set_format_date($dates[1]));
+                            $select->where("pa.semanaid <= ?", $this->convert_date_to_week($dates[1]));
                         }else{
-                            $select->where("pa.fecha_creacion >= ?", $this->set_format_date($dates[0]));
-                            $select->where("pa.fecha_creacion <= ?", $this->set_format_date($dates[1]));
+                            $select->where("pa.semanaid >= ?", $this->convert_date_to_week($dates[0]));
+                            $select->where("pa.semanaid <= ?", $this->convert_date_to_week($dates[1]));
                         }
                     }
                 }
@@ -375,8 +376,14 @@ class Admin_Model_DbTable_Planificacion extends Zend_Db_Table_Abstract
                     ->join(array('ar' => 'area'),
                                 'ar.areaid = pa.areaid');
     }
+
     private function set_format_date($date){
         $date_t = new Zend_Date($date);
         return $date_t->get("YYYY-MM-dd");
+    }
+
+    private function convert_date_to_week($date){
+        $date_t = new Zend_Date($date);
+        return $date_t->get(Zend_Date::WEEK);
     }
 }

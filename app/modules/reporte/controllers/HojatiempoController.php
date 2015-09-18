@@ -41,6 +41,26 @@ class Reporte_HojatiempoController extends Zend_Controller_Action {
         $this->_helper->json->sendJson($data);
     }
 
+    public function downloadpdfAction(){
+        $sheet_times = new Reporte_DataTable_HojaTiempo();
+        $tb_area = new Admin_Model_DbTable_Area();
+        $tb_sheet_times = new Admin_Model_DbTable_Tareopersona();
+        $params = $this->getRequest()->getParams();
+        $data = $sheet_times->sheet_times($params);
+        $content = '';
+        foreach ($data as $key => $sheet_time) {
+            $name_area = $tb_area->_getName($sheet_time['areaid']);
+            $content = $content . 
+                '<tr>
+                    <td>'. $name_area["nombre"]. '</td>
+                    <td>'. $sheet_time["uid"]. '</td>
+                    <td>'. $sheet_time["semanaid"]. '</td>
+                    <td>'. $tb_sheet_times->_getNameStatus($sheet_time["estado"]). '</td>
+                </tr>';
+        }
+        $this->view->content_table = $content;
+    }
+
     public function filterAction()
     {   $data = array('areas','users');
         $params = $this->getRequest()->getParams();
