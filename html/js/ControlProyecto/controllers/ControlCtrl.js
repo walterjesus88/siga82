@@ -125,6 +125,12 @@ function(httpFactory, $scope,$filter,$q,proyectoFactory) {
    va.formVisibilityCronograma=true;    
   }
 
+  va.cerrarfechacorte=function(item){ 
+   item.cheked=true;    
+  console.log(item);
+  }
+
+
   va.GuardarCronograma= function(){
     va.estado='A';
 
