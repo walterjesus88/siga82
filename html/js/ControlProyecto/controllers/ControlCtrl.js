@@ -10,6 +10,21 @@ app.directive('ngEnter', function () {
             }
         });
     };
+
+    return {
+            restrict: 'A',
+            scope: {
+                confirm: '@',
+                confirmAction: '&'
+            },
+            link: function (scope, element, attrs) {
+                element.bind('click', function (e) {
+                    if (confirm(scope.confirm)) {
+                        scope.confirmAction();
+                    }
+                });
+            }
+    };
 });
 
 app.controller('ControlCtrl', ['httpFactory', '$scope','$filter','$q',
@@ -126,10 +141,11 @@ function(httpFactory, $scope,$filter,$q,proyectoFactory) {
   }
 
   va.cerrarfechacorte=function(item){ 
-   item.cheked=true;    
+   item.checked=true;    
   console.log(item);
   }
-
+  
+  va.doIt = function() { alert('did it!'); };
 
   va.GuardarCronograma= function(){
     va.estado='A';
@@ -651,10 +667,7 @@ proyectoFactory.getVerCronogramaxActivo(proyecto['codigo'])
 });
 
 //calculara la fecha fin de la actividad //
-va.calculafechafin= function()
-{
-  console.log('ssss');
-}
+
 
 va.cambio= function(data, id)
 {
@@ -775,7 +788,7 @@ va.checkName=function(data, id)
  
  console.log(cadena);
 
- if( cadena!=null )
+ if( cadena!='null')
   {
     console.log("duracion"+duracion);
     texto =  ['FC','CF','CC','FF'];
@@ -1546,7 +1559,7 @@ va.checkName=function(data, id)
 
   }
   else
-  { alert('kkkk');
+  { 
 
     
     if(f_comienzo=='null' && f_fin=='null')
@@ -1630,6 +1643,8 @@ va.checkName=function(data, id)
       }
 
     }
+
+    console.log(fecha_comienzo);
 
     /**ACA ESTABA EL VA.PERFORMANCE[ID]**/   
 

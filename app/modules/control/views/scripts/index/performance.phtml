@@ -104,10 +104,10 @@
 
 	        <td ng-repeat="item in CP.thi" ng-class="{'pending-delete': item.checked}">
 				{{ item.fecha }}
-				<input type="checkbox" ng-model="item.checked" ng-click="CP.cerrarfechacorte(item.checked)" ng-hide="item.checked"> <span ng-show="item.checked">(cerrado)</span>
+				<input type="checkbox" ng-model="item.checked" ng-click="CP.cerrarfechacorte(item.checked)" ng-hide="item.checked"  confirm="ESta seguro que desea cerrar la fecha de corte?" confirm-action="doIt()"> <span ng-show="item.checked">(cerrado)</span>
 				
 			</td>
-					
+						<!--     <button ng-hide="hideButton()" confirm="Are you sure?" confirm-action="doIt()">Do It</button> -->
 	    
 	    </tr>
 	</thead>
