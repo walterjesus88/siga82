@@ -17,6 +17,7 @@
 	</td>
 </tbody>
 </table> -->
+
 <div class="panel">
 	<label>
 	FECHA DE INICIO:
@@ -32,8 +33,8 @@
 	{{CP.proyectop.fecha_cierre }}
 
 	{{CP.fecha_corte_activa}}
+	{{CP.revi}} 
 	</span>
-
 </div>
 
 
@@ -68,6 +69,7 @@
 
 <table class=" table table-striped table-hover table-bordered ">
 	<thead>	
+
 		<tr class="menu">    
 	        <th colspan="3"><center>Informe de Trabajo</center></th>	 
 	        <th colspan="3"><center>Propuesta</center></th>
@@ -76,6 +78,8 @@
  	        <th colspan="5"><center>Fechas</center></th>
 	        <th colspan="5"><center>fechas corte (Performance y Curva s)</center></th>
 	    </tr>
+
+
 		<tr class="menu">    
 	        <th>Item</th>
 	        <th>Actividad Id</th>
@@ -96,10 +100,14 @@
 	        <th >Duracion</th>
 	        <th>Inicio Real</th>
 	        <th>Fin Real</th>
-	        <td ng-repeat="per in CP.thi" >
-			{{ per.fecha }}
+
+
+
+	        <td ng-repeat="item in CP.thi" ng-class="{'pending-delete': item.checked}">
+				{{ item.fecha }}
+				<input type="checkbox" ng-model="item.checked" ng-click="CP.cerrarfechacorte(item.checked)" ng-hide="item.checked"  confirm="ESta seguro que desea cerrar la fecha de corte?" confirm-action="doIt()"> <span ng-show="item.checked">(cerrado)</span>				
 			</td>
-					
+						<!--     <button ng-hide="hideButton()" confirm="Are you sure?" confirm-action="doIt()">Do It</button> -->
 	    
 	    </tr>
 	</thead>
@@ -208,15 +216,18 @@
 	          </span>
 	        </td>
 
-
-	   	<td ng-repeat="item in performance.items" >
-	       
+	   		<td ng-repeat="item in performance.items" ng-class="{'pending-delete': item.checked}" >	       
 	          <span editable-text="item.porcentaje_performance" e-form="tableform" onbeforesave="checkName($data, item.porcentaje_performance)">
+				
+
 	            {{ item.porcentaje_performance }}
 	          </span>
 	             
 	        </td>	         
         </tr>
+
+
+
 
    <tr ng-repeat-end>
  
@@ -229,3 +240,7 @@
 
 </form>
  
+
+ <style type="text/css">
+.pending-delete { background-color: pink }
+ </style>

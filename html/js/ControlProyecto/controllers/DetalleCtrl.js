@@ -13,19 +13,12 @@ console.log($routeParams);
   var vt = this;
 
   vt.proyecto = {
-    //codigo: $routeParams.proyecto,
     codigo: $routeParams.proyecto,
   };
 
   // vt.cliente = {
   //     cliente: $routeParams.proyecto,
   // };
-
-  //console.log("DetalleCtrl");
-  //console.log(vt);
-  //console.log("/DetalleCtrl");
-  //console.log(vt.proyecto.codigo_prop_proy);
-  //console.log("estoy en detalle");
 
   //carga de los datos del proyecto seleccionado
   proyectoFactory.getDatosProyecto(vt.proyecto.codigo)
@@ -70,25 +63,11 @@ console.log($routeParams);
     }
   }
 
-  vt.editarLogo = function() {
-    var modalInstance = $modal.open({
-      animation: true,
-      controller: 'ModalLogoCtrl',
-      controllerAs: 'ml',
-      templateUrl: '/controldocumentario/index/modallogo',
-      size: 'sm',
-      resolve: {
-        clienteid: function () {
-          return vt.proyecto.clienteid;
-        }
-      }
-    });
-
     /*modalInstance.result.then(function (selectedItem) {
       vt.selected = selectedItem;
     }, function () {
       alert('Modal dismissed at: ' + new Date());
     });*/
-  }
+ // }
 
 }]);

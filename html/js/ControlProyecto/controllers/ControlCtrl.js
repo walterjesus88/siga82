@@ -10,6 +10,21 @@ app.directive('ngEnter', function () {
             }
         });
     };
+
+    return {
+            restrict: 'A',
+            scope: {
+                confirm: '@',
+                confirmAction: '&'
+            },
+            link: function (scope, element, attrs) {
+                element.bind('click', function (e) {
+                    if (confirm(scope.confirm)) {
+                        scope.confirmAction();
+                    }
+                });
+            }
+    };
 });
 
 app.controller('ControlCtrl', ['httpFactory', '$scope','$filter','$q',
@@ -99,7 +114,8 @@ function(httpFactory, $scope,$filter,$q,proyectoFactory) {
 /*Trae datos de cronograma*/
   proyectoFactory.getDatosProyectoxCronograma(proyecto['codigo'])
   .then(function(data) {
-    //console.log(datax);
+    
+    //console.log(data);
     //alert('datax');
     va.procronograma=data;
 
@@ -125,15 +141,40 @@ function(httpFactory, $scope,$filter,$q,proyectoFactory) {
    va.formVisibilityCronograma=true;    
   }
 
+  va.cerrarfechacorte=function(item){ 
+   item.checked=true;    
+   console.log(item);
+
+      //console.log(va.revi['codigo_prop_proy']);
+      proyectoFactory.getDatosxProyectoxFechaxCorte(va.revi['proyectoid'],va.revi['revision_cronograma'],va.revi['codigo_prop_proy'])
+      .then(function(data) {
+        console.log(data);
+
+        angular.forEach(data, function(val,id)
+        {
+          //if state=A 
+              //procedimiento  update C 
+               //  id+1 // update A
+          // console.log(val['state_performance']);
+          // console.log(id);
+
+        })
+
+      })
+      .catch(function(err) {
+          alert('intentelo de nuevo');
+      });
+
+   }
+  
+  va.doIt = function() { alert('did it!'); };
+
   va.GuardarCronograma= function(){
     va.estado='A';
 
     proyectoFactory.setDatosxGuardarxCronograma(va.codigocronograma,
       va.revision,va.estado,va.proyectop.codigo_prop_proy,va.proyectop.codigo)
     .then(function(data) {
-      
-      //console.log(data);
-
       va.inserted = {
         codigo_prop_proy:va.proyectop.codigo_prop_proy,
         proyectoid:va.proyectop.codigo,
@@ -164,10 +205,10 @@ function(httpFactory, $scope,$filter,$q,proyectoFactory) {
     proyectoid=va.proyectop.codigo;
     codigo_cronograma=data.codigo_cronograma;
     revision_cronograma=data.revision_cronograma;
-    state=data.state;
- 
+    //state=data.state;
+    //console.log(data);    //console.log(cronogramaid);
 
-    proyectoFactory.setDatosxModificarxCronograma(codigo_cronograma,codigoproyecto,proyectoid,revision_cronograma,cronogramaid,state)
+    proyectoFactory.setDatosxModificarxCronograma(codigo_cronograma,codigoproyecto,proyectoid,revision_cronograma,cronogramaid)
     .then(function(data) {
           
     })
@@ -284,8 +325,7 @@ function(httpFactory, $scope,$filter,$q,proyectoFactory) {
   }
 
   va.saveColumn= function(column){
-    //console.log(column);
-    // var results = [];
+
     angular.forEach(va.dat, function(fecha) {  
       //a=results.push($http.post('/saveColumn', {column: column, value: fecha[column], id: fecha.id_tproyecto}));
     httpFactory.setCambiarfechaproyecto(fecha[column],column,fecha.codigo_curvas)
@@ -459,12 +499,15 @@ va.buscaperformance = function(revision) {
 
   revision_cronograma=revision.revision_cronograma;
   proyectoid=revision.proyectoid;
+  codigoproy=revision.codigo_prop_proy;
 
-  console.log(revision_cronograma);
-  console.log(proyectoid);
+  // console.log(revision_cronograma);
+  // console.log(proyectoid);
+  // console.log(revision);
 
-  proyectoFactory.getDatosxProyectoxFechaxCorte(proyectoid,revision_cronograma)
+  proyectoFactory.getDatosxProyectoxFechaxCorte(proyectoid,revision_cronograma,codigoproy)
   .then(function(data) {
+    console.log(data);
     va.thi=data; 
   })
   .catch(function(err) {
@@ -502,11 +545,12 @@ va.buscafecha = function(revision) {
  
 revision_cronograma=revision.revision_cronograma;
 proyectoid=revision.proyectoid;
+codigoproy=revision.codigo_prop_proy;
 
-console.log(proyectoid);
-console.log(revision);
+// console.log(proyectoid);
+// console.log(revision);
 
-  proyectoFactory.getDatosxProyectoxFechaxCorte(proyectoid,revision_cronograma)
+  proyectoFactory.getDatosxProyectoxFechaxCorte(proyectoid,revision_cronograma,codigoproy)
   .then(function(data) {
     va.thi=data;
     //console.log(va.thi);
@@ -605,19 +649,21 @@ proyectoFactory.getVerCronogramaxActivo(proyecto['codigo'])
   }
   else
   {
-
+    codigoproy=data[0]['codigo_prop_proy'];
     revision=data[0]['revision_cronograma'];
+    //console.log(codigoproy);
+
   //F E C H A S  D E  C O R T E///
-    proyectoFactory.getDatosxProyectoxFechaxCorte(proyecto['codigo'],revision)
+    proyectoFactory.getDatosxProyectoxFechaxCorte(proyecto['codigo'],revision,codigoproy)
     .then(function(data) {
-      va.thi=data;
-      ///lert(va.thi);
+      va.thi=data;      
+      
       angular.forEach(va.thi, function(val,id) {
         
         if(val['state_performance']=='A')
         {
           va.fecha_corte_activa=val['fecha'];
-          console.log(va.fecha_corte_activa);
+          //console.log(va.fecha_corte_activa);
         }
 
 
@@ -632,7 +678,7 @@ proyectoFactory.getVerCronogramaxActivo(proyecto['codigo'])
     .then(function(datax) {
         va.performance=datax;
 
-        console.log(va.performance);
+        //console.log(va.performance);
         ///console.log(va.performance);
        })
     .catch(function(err) {
@@ -645,10 +691,7 @@ proyectoFactory.getVerCronogramaxActivo(proyecto['codigo'])
 });
 
 //calculara la fecha fin de la actividad //
-va.calculafechafin= function()
-{
-  console.log('ssss');
-}
+
 
 va.cambio= function(data, id)
 {
@@ -769,7 +812,7 @@ va.checkName=function(data, id)
  
  console.log(cadena);
 
- if( cadena!=null )
+ if( cadena!='null')
   {
     console.log("duracion"+duracion);
     texto =  ['FC','CF','CC','FF'];
@@ -1540,7 +1583,7 @@ va.checkName=function(data, id)
 
   }
   else
-  { alert('kkkk');
+  { 
 
     
     if(f_comienzo=='null' && f_fin=='null')
@@ -1624,6 +1667,8 @@ va.checkName=function(data, id)
       }
 
     }
+
+    console.log(fecha_comienzo);
 
     /**ACA ESTABA EL VA.PERFORMANCE[ID]**/   
 
@@ -1854,11 +1899,12 @@ va.checkName=function(data, id)
 
       revision_cronograma=revision.revision_cronograma;
       proyectoid=revision.proyectoid;
+      codigoproy=revision.codigo_prop_proy;
 
       console.log(revision_cronograma);
       console.log(proyectoid);
 
-      proyectoFactory.getDatosxProyectoxFechaxCorte(proyectoid,revision_cronograma)
+      proyectoFactory.getDatosxProyectoxFechaxCorte(proyectoid,revision_cronograma,codigoproy)
       .then(function(data) {
         va.thi=data; 
       })

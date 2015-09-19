@@ -265,10 +265,10 @@ app.factory('httpFactory', ['$http','$q', function($http,$q) {
       return promise;
     },
 
-    setModificarxCronograma: function(codigocronograma,codigo_prop_proy,proyectoid,revision,cronogramaid,state) {
+    setModificarxCronograma: function(codigocronograma,codigo_prop_proy,proyectoid,revision,cronogramaid) {
       var defered = $q.defer();
       var promise = defered.promise;
-      $http.post(url + 'modificarxproyectoxcronograma/codigocronograma/' + codigocronograma+"/revision/"+revision+"/codigo_prop_proy/"+codigo_prop_proy+"/proyectoid/"+proyectoid+"/cronogramaid/"+cronogramaid+"/state/"+state)
+      $http.post(url + 'modificarxproyectoxcronograma/codigocronograma/' + codigocronograma+"/revision/"+revision+"/codigo_prop_proy/"+codigo_prop_proy+"/proyectoid/"+proyectoid+"/cronogramaid/"+cronogramaid)
       .success(function(data) {
         defered.resolve(data);
       })
@@ -373,10 +373,11 @@ app.factory('httpFactory', ['$http','$q', function($http,$q) {
 
 ////////////////////  F E C H A  D E  C O R T E /////////////////////////
 
-    getProyectoxFechaxCorte: function(proyectoid,revision) {
+    getProyectoxFechaxCorte: function(proyectoid,revision,codigoproy) {
       var defered = $q.defer();
       var promise = defered.promise;
-      $http.get(url + 'proyectoxfechaxcorte/proyectoid/' + proyectoid+"/revision/"+revision)
+      //alert(codigoproy);
+      $http.get(url + 'proyectoxfechaxcorte/proyectoid/' + proyectoid+"/revision/"+revision+"/codigoproy/"+codigoproy)
       .success(function(data) {
         defered.resolve(data);
         
