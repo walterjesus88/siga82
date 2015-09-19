@@ -114,7 +114,8 @@ function(httpFactory, $scope,$filter,$q,proyectoFactory) {
 /*Trae datos de cronograma*/
   proyectoFactory.getDatosProyectoxCronograma(proyecto['codigo'])
   .then(function(data) {
-    //console.log(datax);
+    
+    //console.log(data);
     //alert('datax');
     va.procronograma=data;
 
@@ -144,13 +145,25 @@ function(httpFactory, $scope,$filter,$q,proyectoFactory) {
    item.checked=true;    
    console.log(item);
 
-  //   proyectoFactory.getDatosxProyectoxFechaxCorte()
-  //   .then(function(data) {
+      //console.log(va.revi['codigo_prop_proy']);
+      proyectoFactory.getDatosxProyectoxFechaxCorte(va.revi['proyectoid'],va.revi['revision_cronograma'],va.revi['codigo_prop_proy'])
+      .then(function(data) {
+        console.log(data);
 
-  //   }
-  //   .catch(function(err) {
-  //       alert('intentelo de nuevo');
-  //   });
+        angular.forEach(data, function(val,id)
+        {
+          //if state=A 
+              //procedimiento  update C 
+               //  id+1 // update A
+          // console.log(val['state_performance']);
+          // console.log(id);
+
+        })
+
+      })
+      .catch(function(err) {
+          alert('intentelo de nuevo');
+      });
 
    }
   
@@ -486,12 +499,15 @@ va.buscaperformance = function(revision) {
 
   revision_cronograma=revision.revision_cronograma;
   proyectoid=revision.proyectoid;
+  codigoproy=revision.codigo_prop_proy;
 
-  console.log(revision_cronograma);
-  console.log(proyectoid);
+  // console.log(revision_cronograma);
+  // console.log(proyectoid);
+  // console.log(revision);
 
-  proyectoFactory.getDatosxProyectoxFechaxCorte(proyectoid,revision_cronograma)
+  proyectoFactory.getDatosxProyectoxFechaxCorte(proyectoid,revision_cronograma,codigoproy)
   .then(function(data) {
+    console.log(data);
     va.thi=data; 
   })
   .catch(function(err) {
@@ -529,11 +545,12 @@ va.buscafecha = function(revision) {
  
 revision_cronograma=revision.revision_cronograma;
 proyectoid=revision.proyectoid;
+codigoproy=revision.codigo_prop_proy;
 
-console.log(proyectoid);
-console.log(revision);
+// console.log(proyectoid);
+// console.log(revision);
 
-  proyectoFactory.getDatosxProyectoxFechaxCorte(proyectoid,revision_cronograma)
+  proyectoFactory.getDatosxProyectoxFechaxCorte(proyectoid,revision_cronograma,codigoproy)
   .then(function(data) {
     va.thi=data;
     //console.log(va.thi);
@@ -632,19 +649,21 @@ proyectoFactory.getVerCronogramaxActivo(proyecto['codigo'])
   }
   else
   {
-
+    codigoproy=data[0]['codigo_prop_proy'];
     revision=data[0]['revision_cronograma'];
+    //console.log(codigoproy);
+
   //F E C H A S  D E  C O R T E///
-    proyectoFactory.getDatosxProyectoxFechaxCorte(proyecto['codigo'],revision)
+    proyectoFactory.getDatosxProyectoxFechaxCorte(proyecto['codigo'],revision,codigoproy)
     .then(function(data) {
-      va.thi=data;
-      ///lert(va.thi);
+      va.thi=data;      
+      
       angular.forEach(va.thi, function(val,id) {
         
         if(val['state_performance']=='A')
         {
           va.fecha_corte_activa=val['fecha'];
-          console.log(va.fecha_corte_activa);
+          //console.log(va.fecha_corte_activa);
         }
 
 
@@ -659,7 +678,7 @@ proyectoFactory.getVerCronogramaxActivo(proyecto['codigo'])
     .then(function(datax) {
         va.performance=datax;
 
-        console.log(va.performance);
+        //console.log(va.performance);
         ///console.log(va.performance);
        })
     .catch(function(err) {
@@ -1880,11 +1899,12 @@ va.checkName=function(data, id)
 
       revision_cronograma=revision.revision_cronograma;
       proyectoid=revision.proyectoid;
+      codigoproy=revision.codigo_prop_proy;
 
       console.log(revision_cronograma);
       console.log(proyectoid);
 
-      proyectoFactory.getDatosxProyectoxFechaxCorte(proyectoid,revision_cronograma)
+      proyectoFactory.getDatosxProyectoxFechaxCorte(proyectoid,revision_cronograma,codigoproy)
       .then(function(data) {
         va.thi=data; 
       })

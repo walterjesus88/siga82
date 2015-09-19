@@ -297,12 +297,14 @@ function(httpFactory, $location, $q) {
       return promise;      
     },
 
-    getDatosxProyectoxFechaxCorte: function(proyectoid,revision) {
+    getDatosxProyectoxFechaxCorte: function(proyectoid,revision,codigoproy) {
       var defered = $q.defer();
       var promise = defered.promise;
      
-
-      httpFactory.getProyectoxFechaxCorte(proyectoid,revision)
+      // alert(proyectoid);
+      // alert(revision);
+      // alert(codigoproy);
+      httpFactory.getProyectoxFechaxCorte(proyectoid,revision,codigoproy)
       .then(function(data) {
         datos = data;
         defered.resolve(datos);

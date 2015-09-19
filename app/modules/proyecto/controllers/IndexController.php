@@ -2034,16 +2034,17 @@ public function setmodificaredtAction(){
 
 public function proyectoxfechaxcorteAction()
 {
+  $codigoproy= $this->_getParam("codigoproy");
   $proyectoid= $this->_getParam("proyectoid");
   $revision= $this->_getParam("revision");
-  $where = array('proyectoid' =>$proyectoid , 'revision_cronograma' =>$revision);  
+  $where = array('proyectoid' =>$proyectoid , 'revision_cronograma' =>$revision,'codigo_prop_proy' =>$codigoproy);  
   $attrib = null;
   $order = array('fecha ASC');
 
   $fechaxcorte=new Admin_Model_DbTable_Proyectofechacorte();
   $fcorte=$fechaxcorte->_getFilter($where,$attrib,$order);
 
- $this->_helper->json->sendJson($fcorte);
+  $this->_helper->json->sendJson($fcorte);
 
 }
 

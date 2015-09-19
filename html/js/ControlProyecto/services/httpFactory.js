@@ -373,10 +373,11 @@ app.factory('httpFactory', ['$http','$q', function($http,$q) {
 
 ////////////////////  F E C H A  D E  C O R T E /////////////////////////
 
-    getProyectoxFechaxCorte: function(proyectoid,revision) {
+    getProyectoxFechaxCorte: function(proyectoid,revision,codigoproy) {
       var defered = $q.defer();
       var promise = defered.promise;
-      $http.get(url + 'proyectoxfechaxcorte/proyectoid/' + proyectoid+"/revision/"+revision)
+      //alert(codigoproy);
+      $http.get(url + 'proyectoxfechaxcorte/proyectoid/' + proyectoid+"/revision/"+revision+"/codigoproy/"+codigoproy)
       .success(function(data) {
         defered.resolve(data);
         
