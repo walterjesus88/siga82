@@ -33,7 +33,7 @@ $(document).ready(function() {
       // sDom: '<"header-actions"ip>f<"table"t>l>',
       // sPaginationType: "full_numbers",
       sAjaxSource: $("#tb_sheet_time").data("source"),
-      aoColumns: [null, null, null, null],
+      aoColumns: [null, null, null, null, null],
       aaSorting: [[0,"asc"]],
       bServerSide: true,
       iDisplayLength: 10}

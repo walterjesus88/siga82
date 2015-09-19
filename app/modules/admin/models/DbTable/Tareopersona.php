@@ -647,20 +647,17 @@ order by t.proyectoid,t.actividadid,t.tipo_actividad desc
             if ($where["sSearch"]) {
                 $select_2->where("areaid Ilike ? ", $where['sSearch']);
             }
-            if ($where["sSearch_0"] && split("-yadcf_delim-", $where["sSearch_0"])) {
-                $dates = split("-yadcf_delim-", $where["sSearch_0"]);
-                if (count(array_filter($dates)) > 0) {
-                    if (count(array_filter($dates)) == 1 && $dates[0]) {
-                        $select_2->where("semanaid >= ?", $this->convert_date_to_week($dates[0]));
-                    }else{
-                        if ($dates[0]){
-                            $select_2->where("semanaid  <= ?", $this->convert_date_to_week($dates[1]));
-                        }else{
-                            $select_2->where("semanaid >= ?", $this->convert_date_to_week($dates[0]));
-                            $select_2->where("semanaid <= ?", $this->convert_date_to_week($dates[1]));
-                        }
-                    }
-                }
+            $dates = split("-yadcf_delim-", $where["sSearch_0"]);
+            if (count(array_filter($dates)) > 0) {
+                if ( count(array_filter($dates)) == 1 && empty($dates[1])) {
+                    $select_2->where("semanaid >= ?", $this->convert_date_to_week($dates[0]));
+                }elseif (count(array_filter($dates)) == 1 && empty($dates[0])) {
+                    $select_2->where("semanaid <= ?", $this->convert_date_to_week($dates[1]));
+                    
+                }else{
+                    $select_2->where("semanaid >= ?", $this->convert_date_to_week($dates[0]));
+                    $select_2->where("semanaid <= ?", $this->convert_date_to_week($dates[1]));
+                }            
             }
             if ($where["sSearch_1"]) {
                 $select_2->where("estado = ?", $where['sSearch_1']);
@@ -690,19 +687,17 @@ order by t.proyectoid,t.actividadid,t.tipo_actividad desc
             if ($where["sSearch"]) {
                 $select->where("areaid Ilike ? ", "%" . $where['sSearch'] . "%");
             }
-            if ($where["sSearch_0"] && split("-yadcf_delim-", $where["sSearch_0"])) {
+            if ($where["sSearch_0"]) {
                 $dates = split("-yadcf_delim-", $where["sSearch_0"]);
                 if (count(array_filter($dates)) > 0) {
-                    if (count(array_filter($dates)) == 1 && $dates[0]) {
-                        $select->where("semanaid >= ?", $this->set_format_date($dates[0]));
-                    }else{
-                        if ($dates[0]){
-                            $select->where("semanaid <= ?", $this->set_format_date($dates[1]));
-                        }else{
-                            $select->where("semanaid >= ?", $this->set_format_date($dates[0]));
-                            $select->where("semanaid <= ?", $this->set_format_date($dates[1]));
-                        }
-                    }
+                    if ( count(array_filter($dates)) == 1 && empty($dates[1])) {
+                        $select->where("CAST(semanaid as INT) >= ?", $this->convert_date_to_week($dates[0]));
+                    }elseif (count(array_filter($dates)) == 1 && empty($dates[0])) {
+                        $select->where("CAST(semanaid as INT) <= ?", $this->convert_date_to_week($dates[1]));
+                    }elseif(count(array_filter($dates)) == 2){
+                        $select->where("CAST(semanaid as INT) >= ?", $this->convert_date_to_week($dates[0]));
+                        $select->where("CAST(semanaid as INT) <= ?", $this->convert_date_to_week($dates[1]));
+                    }            
                 }
             }
             if ($where["sSearch_1"]) {
@@ -723,12 +718,22 @@ order by t.proyectoid,t.actividadid,t.tipo_actividad desc
         }
     }
 
+    public function convert_number_of_week_to_date($week){
+        $year = date("Y");
+        $date1 = date( "j M Y", strtotime($year."W".$week."1") ); // First day of week
+        $date2 = date( "j M Y", strtotime($year."W".$week."7") ); // Last day of week
+        return $date1 . " - " . $date2;
+    }
+
     private function set_format_date($date){
         $date_t = new Zend_Date($date);
         return $date_t->get("YYYY-MM-dd");
     }
+
     private function convert_date_to_week($date){
         $date_t = new Zend_Date($date);
         return $date_t->get(Zend_Date::WEEK);
     }
+
+
 }

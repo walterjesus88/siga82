@@ -26,7 +26,8 @@
           $data[$key][0] = $name_area['nombre'];
           $data[$key][1] = $sheet_time["uid"];
           $data[$key][2] = $sheet_time["semanaid"];
-          $data[$key][3] = $tb_sheet_time->_getNameStatus($sheet_time["estado"]);
+          $data[$key][3] = $tb_sheet_time->convert_number_of_week_to_date($sheet_time['semanaid']);
+          $data[$key][4] = $tb_sheet_time->_getNameStatus($sheet_time["estado"]);
         }
       }
       return $data;
@@ -47,7 +48,12 @@
 
     public function page($params)
     {
-      return $params["iDisplayStart"] / $this->per_page($params) + 1;
+      if ($params["iDisplayStart"] > 0) {
+        return $params["iDisplayStart"] / $this->per_page($params) + 1;
+      } else {
+        return 0;
+      }
+      
     }
 
     public function per_page($params)
@@ -57,7 +63,7 @@
 
     public function sort_column($params)
     {
-      $column = ["uid", "areaid", "semanaid", "estado"];
+      $column = ["uid", "areaid", "semanaid", "semanaid", "estado"];
       return $column[intval($params["iSortCol_0"])];
     }
 
