@@ -461,7 +461,7 @@ public function _getTareasxActividadPadrexCategoria($proyectoid,$codigo,$propues
         try{
             $sql=$this->_db->query("
                select * from actividad 
-               where proyectoid='$proyectoid' and codigo_prop_proy='$codigo' 
+               where proyectoid='$proyectoid' and codigo_prop_proy='$codigo' and estado_mostrar='A'
                   order by orden asc;
             ");
             $row=$sql->fetchAll();
@@ -494,6 +494,39 @@ public function _getTareasxActividadPadrexCategoria($proyectoid,$codigo,$propues
         }
     }
 
+     public function _getActividadesPadresxOrden($proyectoid,$codigo,$propuestaid,$revision)
+     {
+        try{
+            $sql=$this->_db->query("
+               select * from actividad 
+               where proyectoid='$proyectoid' and codigo_prop_proy='$codigo' 
+               and propuestaid='$propuestaid' and revision='$revision'  and actividad_padre='0' order by orden asc;
+            ");
+            $row=$sql->fetchAll();
+            return $row;           
+            }  
+            
+           catch (Exception $ex){
+            print $ex->getMessage();
+        }
+    }
+
+    public function _getActividadesHijasxOrden($proyectoid,$codigo,$propuestaid,$revision,$actividadid)
+     {
+        try{
+            $sql=$this->_db->query("
+               select * from actividad 
+               where proyectoid='$proyectoid' and codigo_prop_proy='$codigo' 
+               and propuestaid='$propuestaid' and revision='$revision'  and actividad_padre='$actividadid' order by orden asc;
+            ");
+            $row=$sql->fetchAll();
+            return $row;           
+            }  
+            
+           catch (Exception $ex){
+            print $ex->getMessage();
+        }
+    }
     
 }
 
