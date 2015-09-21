@@ -373,6 +373,22 @@ app.factory('httpFactory', ['$http','$q', function($http,$q) {
 
 ////////////////////  F E C H A  D E  C O R T E /////////////////////////
 
+    getCerrarxFechaxCorte: function(proyectoid,codigo_prop_proy,fecha_corte,fechacorte_cambiar) {
+      var defered = $q.defer();
+      var promise = defered.promise;
+      //alert(codigoproy);
+      $http.post(url + 'cerrarxfechaxcorte/proyectoid/' + proyectoid+"/codigo_prop_proy/"+codigo_prop_proy+"/fecha_corte/"+fecha_corte+"/fechacorte_cambiar/"+fechacorte_cambiar)
+      .success(function(data) {
+        defered.resolve(data);
+        
+      })
+      .error(function(err) {
+        defered.reject(err);
+      });
+      return promise;
+    },
+
+
     getProyectoxFechaxCorte: function(proyectoid,revision,codigoproy) {
       var defered = $q.defer();
       var promise = defered.promise;

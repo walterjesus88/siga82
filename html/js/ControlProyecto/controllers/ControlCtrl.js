@@ -27,6 +27,9 @@ app.directive('ngEnter', function () {
     };
 });
 
+
+
+
 app.controller('ControlCtrl', ['httpFactory', '$scope','$filter','$q',
 'proyectoFactory',
 function(httpFactory, $scope,$filter,$q,proyectoFactory) {
@@ -141,31 +144,7 @@ function(httpFactory, $scope,$filter,$q,proyectoFactory) {
    va.formVisibilityCronograma=true;    
   }
 
-  va.cerrarfechacorte=function(item){ 
-   item.checked=true;    
-   console.log(item);
-
-      //console.log(va.revi['codigo_prop_proy']);
-      proyectoFactory.getDatosxProyectoxFechaxCorte(va.revi['proyectoid'],va.revi['revision_cronograma'],va.revi['codigo_prop_proy'])
-      .then(function(data) {
-        console.log(data);
-
-        angular.forEach(data, function(val,id)
-        {
-          //if state=A 
-              //procedimiento  update C 
-               //  id+1 // update A
-          // console.log(val['state_performance']);
-          // console.log(id);
-
-        })
-
-      })
-      .catch(function(err) {
-          alert('intentelo de nuevo');
-      });
-
-   }
+ 
   
   va.doIt = function() { alert('did it!'); };
 
@@ -228,7 +207,7 @@ function(httpFactory, $scope,$filter,$q,proyectoFactory) {
 
     proyectoFactory.setDatosxEliminarxCronograma(cronogramaid,codigoproyecto,proyectoid)
     .then(function(data) {
-      console.log('lego');
+      //console.log('lego');
       va.procronograma.splice(index, 1);     
 
     })
@@ -507,7 +486,7 @@ va.buscaperformance = function(revision) {
 
   proyectoFactory.getDatosxProyectoxFechaxCorte(proyectoid,revision_cronograma,codigoproy)
   .then(function(data) {
-    console.log(data);
+    //onsole.log(data);
     va.thi=data; 
   })
   .catch(function(err) {
@@ -517,7 +496,7 @@ va.buscaperformance = function(revision) {
   proyectoFactory.getDatosProyectoxPerfomance(proyectoid,revision_cronograma)
   .then(function(datax) {
       va.performance=datax;
-
+      console.log(va.performance);
     })
   .catch(function(err) {
       va.performance = {};
@@ -543,12 +522,12 @@ va.generarrevision= function()
 
 va.buscafecha = function(revision) {
  
-revision_cronograma=revision.revision_cronograma;
-proyectoid=revision.proyectoid;
-codigoproy=revision.codigo_prop_proy;
+  revision_cronograma=revision.revision_cronograma;
+  proyectoid=revision.proyectoid;
+  codigoproy=revision.codigo_prop_proy;
 
-// console.log(proyectoid);
-// console.log(revision);
+  // console.log(proyectoid);
+  // console.log(revision);
 
   proyectoFactory.getDatosxProyectoxFechaxCorte(proyectoid,revision_cronograma,codigoproy)
   .then(function(data) {
@@ -654,7 +633,7 @@ proyectoFactory.getVerCronogramaxActivo(proyecto['codigo'])
     //console.log(codigoproy);
 
   //F E C H A S  D E  C O R T E///
-    proyectoFactory.getDatosxProyectoxFechaxCorte(proyecto['codigo'],revision,codigoproy)
+  proyectoFactory.getDatosxProyectoxFechaxCorte(proyecto['codigo'],revision,codigoproy)
     .then(function(data) {
       va.thi=data;      
       
@@ -665,6 +644,11 @@ proyectoFactory.getVerCronogramaxActivo(proyecto['codigo'])
           va.fecha_corte_activa=val['fecha'];
           //console.log(va.fecha_corte_activa);
         }
+        if(val['state_performance']=='C')
+        {
+          va.fecha_corte_cerrada=val['fecha'];
+          //alert(va.fecha_corte_cerrada);         
+        }
 
 
       });
@@ -673,13 +657,13 @@ proyectoFactory.getVerCronogramaxActivo(proyecto['codigo'])
       va.thi = {};
     });
 
+   // console.log(va.fecha_corte_activa);
 
     proyectoFactory.getDatosProyectoxPerfomance(proyecto['codigo'],revision)
     .then(function(datax) {
         va.performance=datax;
 
-        //console.log(va.performance);
-        ///console.log(va.performance);
+       
        })
     .catch(function(err) {
         va.performance = {};
@@ -693,26 +677,95 @@ proyectoFactory.getVerCronogramaxActivo(proyecto['codigo'])
 //calculara la fecha fin de la actividad //
 
 
-va.cambio= function(data, id)
-{
+
+va.cerrarfechacorte=function(item){ 
+   item.checked=true;  
 
 
+  revision_cronograma=va.revi['revision_cronograma'];
+  codigo_prop_proy=va.revi['codigo_prop_proy'];
+  proyectoid=va.revi['proyectoid'];
 
- // console.log(id);
- // console.log(data);
- // console.log(va.performance[3]);
+   //console.log(item);
+      //console.log(va.revi['codigo_prop_proy']);
+      proyectoFactory.getDatosxProyectoxFechaxCorte(va.revi['proyectoid'],va.revi['revision_cronograma'],va.revi['codigo_prop_proy'])
+      .then(function(data) {
+        //console.log(data);
+        //angular.forEach(data, function(val,id)
+        for (var i = 0; i < data.length; i++)        
+        {
+        
+          if(data[i]['state_performance']=='A')
+          {
+            proyectoid=data[i]['proyectoid'];
+            codigo_prop_proy=data[i]['codigo_prop_proy'];
+            fecha_corte=data[i]['fechacorteid'];
 
-  //vars={ fecha_comienzo: 'data' }
-  //va.performance[3].push(vars);
+            if(i==data.length-1)
+            { }
+            else
+            {             
+              id_cambiar=i+1;      
+              fechacorte_cambiar=data[i+1]['fechacorteid'];   
+            } 
+
+            var fechacorte_cambiar
+            proyectoFactory.getCerrarxProyectoxFechaxCorte(proyectoid,codigo_prop_proy,fecha_corte,fechacorte_cambiar)
+            .then(function(data) {
+            })
+            .catch(function(err) {       
+            });
+
+          } 
+        };
+      //  va.thi=data; 
+      })
+      .catch(function(err) {
+          alert('intentelo de nuevo');
+      });
+
+      
+      // proyectoFactory.getDatosProyectoxPerfomance(proyectoid,revision_cronograma)
+      // .then(function(datax) {
+      //     va.performance=datax;
+      //     console.log(va.performance);
+
+      //   })
+      // .catch(function(err) {
+      //     va.performance = {};
+      // })
+
 
 }
 
+va.subtotal_costopro=0;
+va.subtotal_horaspro=0;
+va.subtotal_porcplani=0;
+va.subtotal_porcreal=0;
+
+
+
 va.checkName=function(data, id)
 {
-  //alert('Cambia moddddlo');
-  //console.log(data);
-  //console.log(id);
-  console.log(va.performance);
+  //C A L C U L O  D E   S U B T O T A L E S//
+  va.porcen=[{ nam:'15'}];
+  va.porcenx='14';
+
+
+ actividad1digito= va.performance[id]['actividadid'].length;
+ if(actividad1digito==1)
+ {
+  //alert(va.performance[id]['actividadid']);
+  // alert(va.performance[id]['costo_propuesta']);
+  // alert(va.performance[id]['horas_propuesta']);
+  va.subtotal_costopro+=parseInt(va.performance[id]['costo_propuesta']);
+  va.subtotal_horaspro+=parseInt(va.performance[id]['horas_propuesta']);
+  va.subtotal_porcplani+=parseInt(va.performance[id]['porcentaje_planificado']);
+  va.subtotal_porcreal+=parseInt(va.performance[id]['porcentaje_real']);
+  
+
+ }
+
 
 //angular.forEach(va.performance, function(val,id) {
     
@@ -810,11 +863,103 @@ va.checkName=function(data, id)
  // console.log(horas_planificado);
   porcentaje_planificado=Math.round((calculo_c_planificadas/costo_propuesta)*100);
  
- console.log(cadena);
+ // console.log(cadena);
+ // alert(horas_planificado);
+ // alert(costo_planificado);
 
- if( cadena!='null')
-  {
+ //cadena=cadena.trim();
+
+if(cadena==null || cadena==''   )
+{
+    //alert(' es null ');
+    if(f_comienzo=='null' && f_fin=='null')
+    {
+      f_comienzo='';
+      f_fin='';
+    }
+    else
+    {
+      if(f_comienzo=='null')
+      {
+        
+        fec = f_fin.replace(/-/g, '/');
+        fec=fec.toString();
+        fecha = new Date(fec);
+            
+        ki=1; 
+        while (ki<=duracion-1) 
+        {
+          fecha.setTime(fecha.getTime()-24*60*60*1000); // añadimos 1 día
+          if (fecha.getDay() == 6  || fecha.getDay() == 0    )
+            {  }
+            else
+            {
+              ki++;
+            }
+        }
+
+        day=fecha.getDate();
+        month=fecha.getMonth()+1;
+        year=fecha.getFullYear();
+
+        if (month.toString().length < 2) 
+        {                     
+          month = '0' + month;
+        }
+        if (day.toString().length < 2) 
+        {                      
+          day = '0' + day;
+        }
+                      
+        fecha_comienzo=year+"-"+month+"-"+day;
+        fecha_fin=f_fin;
+
+      }
+      else
+      {
+        //alert(id+":::"+f_comienzo);
+        fec=f_comienzo.toString();
+        fecha = new Date(fec);
+
+        ki=0; 
+        while (ki<duracion) {
+                          
+          fecha.setTime(fecha.getTime()+24*60*60*1000); // añadimos 1 día
+          if (fecha.getDay() == 0 || fecha.getDay() == 6)
+          {     
+          }                  
+          else
+          {         
+            ki++;
+          }
+        }
+
+        day=fecha.getDate();
+        month=fecha.getMonth()+1;
+        year=fecha.getFullYear();
+
+        if (month.toString().length < 2) 
+        {
+          month = '0' + month;
+        }
+        if (day.toString().length < 2) 
+        {
+          day = '0' + day;
+        }
+                       
+        fecha_fin=year+"-"+month+"-"+day;
+        //alert(id+"fin"+fecha_fin);
+        fecha_comienzo=f_comienzo;
+      }
+
+    }
+}
+else
+{  
+
+    //alert('es diferente a  null');
     console.log("duracion"+duracion);
+    console.log(cadena);
     texto =  ['FC','CF','CC','FF'];
 
     for (var i = texto.length - 1; i >= 0; i--)
@@ -827,8 +972,8 @@ va.checkName=function(data, id)
         fecha_sincro_comienzo=va.performance[valoritem]['fecha_comienzo'];
         fecha_sincro_fin=va.performance[valoritem]['fecha_fin']; 
 
-        //console.log("fecha_sincro_comienzo"+fecha_sincro_comienzo);
-        //console.log("fecha_sincro_fin"+fecha_sincro_fin);
+        console.log("fecha_sincro_comienzo"+fecha_sincro_comienzo);
+        console.log("fecha_sincro_fin"+fecha_sincro_fin);
 
         switch(texto[i]) {
         case 'CC':
@@ -1575,104 +1720,14 @@ va.checkName=function(data, id)
           };
         break;
 
-        }
+         }
       }
     }
 
-    /**ACA ESTABA EL VA.PERFORMANCE[ID]**/  
+}
 
-  }
-  else
-  { 
 
-    
-    if(f_comienzo=='null' && f_fin=='null')
-    {
-      f_comienzo='';
-      f_fin='';
-    }
-    else
-    {
-      if(f_comienzo=='null')
-      {
-        
-        fec = f_fin.replace(/-/g, '/');
-        fec=fec.toString();
-        fecha = new Date(fec);
-            
-        ki=1; 
-        while (ki<=duracion-1) 
-        {
-          fecha.setTime(fecha.getTime()-24*60*60*1000); // añadimos 1 día
-          if (fecha.getDay() == 6  || fecha.getDay() == 0    )
-            {  }
-            else
-            {
-              ki++;
-            }
-        }
 
-        day=fecha.getDate();
-        month=fecha.getMonth()+1;
-        year=fecha.getFullYear();
-
-        if (month.toString().length < 2) 
-        {                     
-          month = '0' + month;
-        }
-        if (day.toString().length < 2) 
-        {                      
-          day = '0' + day;
-        }
-                      
-        fecha_comienzo=year+"-"+month+"-"+day;
-        fecha_fin=f_fin;
-
-      }
-      else
-      {
-        //alert(id+":::"+f_comienzo);
-        fec=f_comienzo.toString();
-        fecha = new Date(fec);
-
-        ki=0; 
-        while (ki<duracion) {
-                          
-          fecha.setTime(fecha.getTime()+24*60*60*1000); // añadimos 1 día
-          if (fecha.getDay() == 0 || fecha.getDay() == 6)
-          {     
-          }                  
-          else
-          {         
-            ki++;
-          }
-        }
-
-        day=fecha.getDate();
-        month=fecha.getMonth()+1;
-        year=fecha.getFullYear();
-
-        if (month.toString().length < 2) 
-        {
-          month = '0' + month;
-        }
-        if (day.toString().length < 2) 
-        {
-          day = '0' + day;
-        }
-                       
-        fecha_fin=year+"-"+month+"-"+day;
-        //alert(id+"fin"+fecha_fin);
-        fecha_comienzo=f_comienzo;
-      }
-
-    }
-
-    console.log(fecha_comienzo);
-
-    /**ACA ESTABA EL VA.PERFORMANCE[ID]**/   
-
-  }
 
   //console.log(dsdad);
     va.performance[id] = 
@@ -1742,7 +1797,9 @@ va.checkName=function(data, id)
         fecha_ingreso_performance=value['fecha_ingreso_performance'];
         fecha_performance=value['fecha_performance'];
 
-     // console.log(proyectoid);
+       //alert(fecha_performance);
+       //alert(porcentaje_performance);
+       // console.log(proyectoid);
 
 
         proyectoFactory.setActualizarDatosxPerfomance(codigo_prop_proy,codigo_actividad,actividadid,cronogramaid,
@@ -2121,10 +2178,10 @@ va.GuardarEntregable=function(){
 
 
 va.imprimir=function(){
-  console.log('dddddddadad');
+  //console.log('dddddddadad');
   httpFactory.createPdfEntregable('A')
   .then(function(data) {
-    console.log(data);
+    //console.log(data);
     //window.open(data.archivo, '_blank');
   })
   .catch(function(err) {
@@ -2133,6 +2190,18 @@ va.imprimir=function(){
 
 }
 
+
+va.clases=[
+{'title':'a','type':1},
+{'title':'b','type':2},
+{'title':'c','type':1},
+{'title':'d','type':3},
+
+]
+
+
+//va.item.checked = true;
+va.fechaww=true;
 ///////////F I N  L I S T A  D E  E N T R E G A B L E ////////////////////////////////
 }]);
 

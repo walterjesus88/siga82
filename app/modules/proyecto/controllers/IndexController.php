@@ -1473,9 +1473,6 @@ public function verAction() {
       {
         $respuesta = [];
       }
-
-   
-
       $this->_helper->json->sendJson($respuesta);
   }
 
@@ -1525,14 +1522,9 @@ public function modificarxproyectoxcronogramaAction()
           'cronogramaid' => $data['cronogramaid'],
           'proyectoid' =>  $data['proyectoid'] );
 
-  // print_r($where);
-  // print_r($data);
-  // exit();
 
   $modificarcronograma=new Admin_Model_DbTable_Proyectocronograma();
   $mcronograma=$modificarcronograma->_update($data,$where);
-
-
 
   $this->_helper->json->sendJson($mcronograma);
 
@@ -1634,8 +1626,6 @@ public function gettareoxactividadesxproyectoAction() {
     $i++;
   }
  
-  //print_r($ek);
-  //exit();
 
   $this->_helper->json->sendJson($ek);  
 
@@ -1659,8 +1649,7 @@ public function modificarperformanceAction() {
    $codigo_performance = $this->_getParam("codigo_performance");
    $porcentaje_performance = $this->_getParam("porcentaje_performance");
 
-   ///echo $porcentaje_performance;
-   //$fecha_calculo_performance = $this->_getParam("fecha_calculo_performance");
+
    $proyectoid = $this->_getParam("proyectoid");
    $revision_cronograma = $this->_getParam("revision_cronograma");
    $fecha_ingreso_performance = $this->_getParam("fecha_ingreso_performance"); 
@@ -1676,12 +1665,7 @@ public function modificarperformanceAction() {
    $modperformancedetalles=new Admin_Model_DbTable_Performancedetalle();
    $mpdetalle=$modperformancedetalles->_update($data,$where);
 
-   // print_r($data);
-   // print_r($where);
 
-   // echo('expression');
-   // print_r($mpdetalle);
-   // exit();
 
    $this->_helper->json->sendJson($mpdetalle);  
 }
@@ -1695,6 +1679,7 @@ public function modificarperformancepadreAction() {
    $codigo_performance = $this->_getParam("codigo_performance");   
    $proyectoid = $this->_getParam("proyectoid");
    $revision_cronograma = $this->_getParam("revision_cronograma");
+
    $costo_real = $this->_getParam("costo_real");  
    $horas_real = $this->_getParam("horas_real");  
    $costo_propuesta = $this->_getParam("costo_propuesta");  
@@ -1709,13 +1694,38 @@ public function modificarperformancepadreAction() {
    $fecha_fin = $this->_getParam("fecha_fin"); 
    $fecha_comienzo = $this->_getParam("fecha_comienzo");
    $nivel_esquema = $this->_getParam("nivel_esquema");
-   $predecesoras = $this->_getParam("predecesoras"); 
+   $predecesoras = $this->_getParam("predecesoras");
+
+   // echo $predecesoras;
+   // echo $costo_propuesta;
+   // echo "ras";
+   $sucesoras = $this->_getParam("sucesoras");    
+   $duracion = $this->_getParam("duracion"); 
+
+   if($costo_real=='null'){ echo $costo_real=''; }
+   if($horas_real=='null'){ echo $horas_real=''; }
+   if($costo_propuesta=='null'){ echo $costo_propuesta=''; }
+   if($horas_propuesta=='null'){ echo $horas_propuesta=''; }
+   if($horas_planificado=='null' or $horas_planificado=='NaN'){ echo $horas_planificado=''; }
+   if($costo_planificado=='null' or $costo_planificado=='NaN'){ echo $costo_planificado=''; }
+   if($porcentaje_planificado=='null' or $porcentaje_planificado=='NaN' ){ echo $porcentaje_planificado=''; }
+   if($porcentaje_real=='null'){ echo $porcentaje_real=''; }
+   if($fecha_comienzo_real=='null'){ echo $fecha_comienzo_real=''; }
+   if($fecha_fin_real=='null'){ echo $fecha_fin_real=''; }
+   if($fecha_fin=='null'){ echo $fecha_fin=''; }
+   if($fecha_comienzo=='null'){ echo $fecha_comienzo=''; }
+   if($nivel_esquema=='null'){ echo $nivel_esquema=''; }
+   if($predecesoras=='null'){ echo $predecesoras=''; }
+   if($sucesoras=='null'){ echo $sucesoras=''; }
+   if($duracion=='null' or $porcentaje_planificado=='NaN'){ echo $duracion=''; }
+
+
+   //exit();
 
 
    $predecesoras = str_replace(" ", "+", $predecesoras);
 
-   $sucesoras = $this->_getParam("sucesoras");    
-   $duracion = $this->_getParam("duracion");  
+ 
 
   $where = array('codigo_prop_proy' => $codigo_prop_proy,'codigo_actividad' => $codigo_actividad,'actividadid' => $actividadid,
    'cronogramaid' => $cronogramaid,'codigo_cronograma' => $codigo_cronograma,'codigo_performance' => $codigo_performance,
@@ -1733,9 +1743,6 @@ public function modificarperformancepadreAction() {
   'sucesoras' => $sucesoras,'duracion' => $duracion,
   'fecha_ingreso_performance' => date("Y-m-d")
    );
-
- // echo "fdf";
- // print_r($data);exit();
 
   $modificarperformance= new Admin_Model_DbTable_Performance();
   $mperformance=$modificarperformance->_update($data,$where);
@@ -1802,7 +1809,7 @@ public function proyectoxperformanceAction() {
       $wheredet['actividadid']=$keyper['actividadid'];
       $wheredet['codigo_performance']=$keyper['codigo_performance']; 
       $attrib = null;
-      $order = array('actividadid asc');
+      $order = array('fecha_performance asc');
 
       $performancedetalle=new Admin_Model_DbTable_Performancedetalle();
       $pdetalle=$performancedetalle->_getFilter($wheredet,$attrib,$order);
@@ -2089,6 +2096,38 @@ public function guardarxfechaxcorteAction()
  $gfechaxcorte=$guardarfechaxcorte->_save($data);;
 
  $this->_helper->json->sendJson($gfechaxcorte);
+}
+
+public function cerrarxfechaxcorteAction()
+{
+   $proyectoid= $this->_getParam("proyectoid");
+   $codigo_prop_proy= $this->_getParam("codigo_prop_proy");
+   $fecha_corte= $this->_getParam("fecha_corte");
+
+   $fechacorte_cambiar = $this->_getParam("fechacorte_cambiar");
+   //echo $fechacorte_cambiar=isset($fechacorte_cambiar); 
+  $fechacorte=new Admin_Model_DbTable_Proyectofechacorte();
+  $copy=$fechacorte->_postActualizarPerformanceDetalle($proyectoid,$codigo_prop_proy);
+
+
+  $data1['state_performance']='C';  
+  $where_anterior = array('proyectoid' => $proyectoid,'codigo_prop_proy' => $codigo_prop_proy,'fechacorteid' => $fecha_corte,);
+  $fcorte_anterior=$fechacorte->_update($data1,$where_anterior);
+
+
+  if($fechacorte_cambiar=='undefined')
+  {
+   //echo 'dd';
+  }else{
+   
+    $data2['state_performance']='A';
+
+    $where_posterior = array('proyectoid' => $proyectoid,'codigo_prop_proy' => $codigo_prop_proy,'fechacorteid' => $fechacorte_cambiar,);
+    $fcorte_posterior=$fechacorte->_update($data2,$where_posterior);
+  }
+
+  $this->_helper->json->sendJson($copy);
+
 }
 
 public function cambiarxfechaxcorteAction()
@@ -3335,11 +3374,63 @@ public function verproyectoAction() {
     $areacat=new Admin_Model_DbTable_Area();
     $arcat=$areacat->_getAreaxProyecto();
     $this->view->area = $arcat; 
+}    
 
+public function estadomostraractividadAction(){
+    try
+    {  
+      
+      $proyectoid= $this->_getParam("proyectoid");
+      $codigo_prop_proy= $this->_getParam("codigo_prop_proy");
+      $revision= $this->_getParam("revision");
+      $actividad_padre= $this->_getParam("actividad_padre");
+      $codigo_actividad= $this->_getParam("codigo_actividad");
+      $estado= $this->_getParam("estadomostrar");
 
+      $pk=array('revision'=>$revision,'codigo_prop_proy'=>$codigo_prop_proy,'codigo_actividad'=>$codigo_actividad,'proyectoid'=>$proyectoid,'actividad_padre'=>$actividad_padre);
+      $act= new Admin_Model_DbTable_Actividad();
+      
 
-  
-}     
+              $str_padre="codigo_prop_proy='$codigo_prop_proy' and proyectoid='$proyectoid' and revision='$revision' and codigo_actividad='$codigo_actividad' and actividadid='$actividad_padre'";      
+              $str_hijas="codigo_prop_proy='$codigo_prop_proy' and proyectoid='$proyectoid' and revision='$revision' and  actividad_padre='$actividad_padre'";      
+
+      //$data = array('estado_mostrar' =>$estado);
+       $data["estado_mostrar"]=$estado;
+       echo $str;
+
+       print_r($data);
+      $updateactpadre=$act->_update($data,$str_padre);
+      $updateacthijas=$act->_update($data,$str_hijas);
+
+          if($updateactpadre)
+          {
+            echo "existe";
+          }
+          else{
+            echo "no existe";
+          }
+
+             if($updateacthijas)
+          {
+            echo "existe";
+          }
+          else{
+            echo "no existe";
+          }
+      
+
+      
+      
+          //$upactiv= $act->_update($datact,$wheres);
+
+        
+
+     } 
+      catch (Exception $e) {
+      print "Error: ".$e->getMessage();
+    }
+
+  } 
 
 
 }

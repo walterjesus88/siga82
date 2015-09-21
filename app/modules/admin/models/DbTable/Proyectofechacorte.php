@@ -131,4 +131,21 @@ class Admin_Model_DbTable_Proyectofechacorte extends Zend_Db_Table_Abstract
         }
     }
 
+    public function _postActualizarPerformanceDetalle($proyectoid,$codigo_prop_proy)
+     {
+        try{
+            $sql=$this->_db->query("
+
+               select * from proyecto_performance_detalle('$proyectoid','$codigo_prop_proy')
+
+            ");
+            $row=$sql->fetchAll();
+            return $row;
+            }
+
+           catch (Exception $ex){
+           // print $ex->getMessage();
+        }
+    }
+
 }
