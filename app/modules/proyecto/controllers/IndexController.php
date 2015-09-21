@@ -1799,7 +1799,20 @@ public function proyectoxperformanceAction() {
   {
       $i=0;
       foreach ($perf as $keyper) {
+
+      if(strlen($keyper['codigo_actividad'])=='1')
+      {
+        $actividadpadre=true;
+      }
+      else
+      {
+        $actividadpadre=false;
+      }
      
+      // print_r($keyper['codigo_actividad']);
+      // echo "performance";
+      // exit();
+
       $wheredet['codigo_prop_proy']=$keyper['codigo_prop_proy'];
       $wheredet['codigo_actividad']=$keyper['codigo_actividad']; 
       $wheredet['proyectoid']=$keyper['proyectoid'];      
@@ -1835,6 +1848,7 @@ public function proyectoxperformanceAction() {
       $ek[] = array(
         'nombre' =>$keyper['nombre'],
         //'fecha_corte_activa'=> $fecha_corte_activa,
+        'actividadpadre'=>$actividadpadre,
         'codigo_prop_proy' =>$keyper['codigo_prop_proy'],
         'proyectoid' =>$keyper['proyectoid'],
         'codigo_actividad' =>$keyper['codigo_actividad'],

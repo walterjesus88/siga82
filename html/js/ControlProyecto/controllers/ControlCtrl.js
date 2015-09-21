@@ -663,7 +663,14 @@ proyectoFactory.getVerCronogramaxActivo(proyecto['codigo'])
     .then(function(datax) {
         va.performance=datax;
 
-       
+        console.log(va.performance);
+
+        // va.inserted = {
+        //   'clearance' : true,          
+        // }
+
+
+
        })
     .catch(function(err) {
         va.performance = {};
@@ -734,7 +741,6 @@ va.cerrarfechacorte=function(item){
       // .catch(function(err) {
       //     va.performance = {};
       // })
-
 
 }
 

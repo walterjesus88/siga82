@@ -84,7 +84,7 @@
 		        <th  >Inicio Real</th>
 		        <th  >Fin Real</th>
 
-		        <th ng-disabled="CP.fechaww" ng-repeat="item in CP.thi" ng-class="{'pending-delete': item.checked,'activo':item.state_performance==='A','cerrado':item.state_performance==='C',}">
+		        <th ng-repeat="item in CP.thi" ng-class="{'pending-delete': item.checked,'activo':item.state_performance==='A','cerrado':item.state_performance==='C',}">
 					{{ item.fecha }}
 					<input  type="checkbox" ng-model="item.checked" ng-click="CP.cerrarfechacorte(item.checked)" ng-hide="item.checked"  confirm="ESta seguro que desea cerrar la fecha de corte?" confirm-action="doIt()">
 					<span ng-show="item.checked">(cerrado)</span>				
@@ -96,99 +96,99 @@
 		<tbody class="scrollContentw">
 			
 	  		<tr ng-repeat="performance in CP.performance"   >
-	          	<td  >
+	          	<div >
+	          		
+	          	<td ng-class="{ 'actividadpadre':performance.actividadpadre }" >
 	            	{{ $index }}  
 	          	</td>
-	          	<td  >
+	          	<td ng-class="{ 'actividadpadre':performance.actividadpadre }"  >
 	            	{{ performance.actividadid }}  
 	          	</td>	       
 
-	          	<td  style="width: 10%; padding: 0">
+	          	<td ng-class="{ 'actividadpadre':performance.actividadpadre }">
 					{{ performance.nombre}}
 				</td>
-	 			<td  >
+
+	 			<td  ng-class="{ 'actividadpadre':performance.actividadpadre }">
 	 				<span editable-text="performance.predecesoras" e-form="tableform" onaftersave="CP.checkName($data,$index)" e-ng-change="CP.cambio($data,$index)" ng-model="performance.predecesoras">
 					{{ performance.predecesoras }}
 					</span>
 				</td>
 
-				<td  >			
+				<td ng-class="{ 'actividadpadre':performance.actividadpadre }" >			
 					<span editable-text="performance.costo_propuesta" e-form="tableform" onbeforesave="checkName($data, performance.codigo_performance)">
 					{{ performance.costo_propuesta }}
 					</span>
 				</td>
 
-
-	        	<td  >			
+	        	<td ng-class="{ 'actividadpadre':performance.actividadpadre }" >			
 					<span editable-text="performance.horas_propuesta" e-form="tableform" onbeforesave="checkName($data, performance.codigo_performance)">
 					{{ performance.horas_propuesta }}
 					</span>
 				</td>
-
 			
-				<td  >			
+				<td ng-class="{ 'actividadpadre':performance.actividadpadre }" >			
 					<span editable-text="performance.horas_planificado" e-form="tableform" onbeforesave="checkName($data, performance.codigo_performance)">
 					{{ performance.horas_planificado }}
 					</span>
 				</td>
 
-				<td  >			
+				<td ng-class="{ 'actividadpadre':performance.actividadpadre }" >			
 					<span editable-text="performance.costo_planificado" e-form="tableform" onbeforesave="checkName($data, performance.codigo_performance)">
 					{{ performance.costo_planificado }}
 					</span>
 				</td>
 
-				<td  >			
+				<td ng-class="{ 'actividadpadre':performance.actividadpadre }" >			
 					<span editable-text="performance.porcentaje_planificado" e-form="tableform" onbeforesave="checkName($data, performance.codigo_performance)">
 					{{ performance.porcentaje_planificado }}
 					</span>
 				</td>
 
-				<td  >			
+				<td ng-class="{ 'actividadpadre':performance.actividadpadre }" >			
 					<span editable-text="performance.horas_real" e-form="tableform" onbeforesave="checkName($data, performance.codigo_performance)">
 					{{ performance.horas_real }}
 					</span>
 				</td> 
 
-				<td  >
+				<td ng-class="{ 'actividadpadre':performance.actividadpadre }" >
 					<span editable-text="performance.costo_real" e-form="tableform" onbeforesave="checkName($data, performance.codigo_performance)">
 					{{ performance.costo_real }}
 					</span>
 				</td>
 		
-				<td  >
+				<td ng-class="{ 'actividadpadre':performance.actividadpadre }" >
 					<span editable-text="performance.porcentaje_real" e-form="tableform" onbeforesave="checkName($data, performance.porcentaje_real)">
 					{{ performance.porcentaje_real }}
 					</span>
 				</td>
 
-		
-				<td  >
+				<td ng-class="{ 'actividadpadre':performance.actividadpadre }" >
 					<span editable-text="performance.fecha_comienzo" e-form="tableform" onbeforesave="checkName($data, performance.codigo_performance)"
 					>
 					{{ (performance.fecha_comienzo | date:'medium')  || 'empty' }}
 					</span>				
 				</td>
 
-				<td  >
+				<td ng-class="{ 'actividadpadre':performance.actividadpadre }" >
 					<span editable-text="performance.fecha_fin" e-form="tableform" onbeforesave="checkName($data, performance.codigo_performance)">
 					{{ (performance.fecha_fin | date:'medium')  || 'empty' }}
 					</span>
 				</td>
 
-				<td  >			
+				<td ng-class="{ 'actividadpadre':performance.actividadpadre }" >			
 					<span editable-text="performance.duracion" e-form="tableform" onbeforesave="checkName($data, performance.codigo_performance)" ng-enter="CP.calculafechafin()">
 					{{ performance.duracion }}
 					</span>
 				</td>
 
-				<td  >
+				<td ng-class="{ 'actividadpadre':performance.actividadpadre }" >
 					<span editable-text="performance.fecha_comienzo_real" e-form="tableform" onbeforesave="checkName($data, performance.codigo_performance)">
 					{{ performance.fecha_comienzo_real }}
 					</span>
 				</td> 
 				
-				<td  >
+				<td ng-class="{ 'actividadpadre':performance.actividadpadre }" >
 		          <span editable-text="performance.fecha_fin_real" e-form="tableform" onbeforesave="checkName($data, performance.codigo_performance)">
 		            {{ performance.fecha_fin_real }}
 		          </span>
@@ -200,9 +200,11 @@
 
 		          <span ng-disabled="CP.fechaww" editable-text="item.porcentaje_performance" e-form="tableform" onbeforesave="checkName($data, item.porcentaje_performance)">
 		            {{ item.porcentaje_performance }}
-		          </span>
-		          
+		          </span>		          
 		        </td>	         
+
+	          	</div>
+
 	        </tr>
 
 <!-- 	 		<tr ng-repeat-end> 
@@ -252,11 +254,15 @@
 .ng-delete { background-color: pink }
 
 .activo { Background: #6dbb4a}
-.cerrado { Background: pink}
+.cerrado { Background: rgb(203,115,100);color:white;}
+.actividadpadre { 
+	background-color: #1ABC9C ;
+	/*background: rgba(117,168,17,0.9)*/
+	color:white;}
 
-input[type="checkbox"]:disabled {
-    background: #dddddd;
-}
+
+
+
 
 /*.span3 {  
     height: 500px !important;
