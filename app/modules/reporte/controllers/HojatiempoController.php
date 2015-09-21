@@ -28,6 +28,9 @@ class Reporte_HojatiempoController extends Zend_Controller_Action {
 
     public function indexAction()
     {
+        $year = "2015"; // Year 2010
+        $week = "23"; // Week 1
+
         $params = $this->getRequest()->getParams();
         $this->view->params = $params;
     }
@@ -76,7 +79,6 @@ class Reporte_HojatiempoController extends Zend_Controller_Action {
         $tb_person = new Admin_Model_DbTable_Persona();
         $users_t = $tb_user->_getUsuarioAll();
         foreach ($users_t as $key => $user) {
-            // $data_person = $tb_person->fetchRow($tb_person->select()->where('dni = ?', $user['dni']))->toArray();
             $users[$key]["label"] = $user['uid'];
             $users[$key]["value"] = $user['uid'];
         }

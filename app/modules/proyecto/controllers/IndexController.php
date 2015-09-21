@@ -3374,11 +3374,63 @@ public function verproyectoAction() {
     $areacat=new Admin_Model_DbTable_Area();
     $arcat=$areacat->_getAreaxProyecto();
     $this->view->area = $arcat; 
+}    
 
+public function estadomostraractividadAction(){
+    try
+    {  
+      
+      $proyectoid= $this->_getParam("proyectoid");
+      $codigo_prop_proy= $this->_getParam("codigo_prop_proy");
+      $revision= $this->_getParam("revision");
+      $actividad_padre= $this->_getParam("actividad_padre");
+      $codigo_actividad= $this->_getParam("codigo_actividad");
+      $estado= $this->_getParam("estadomostrar");
 
+      $pk=array('revision'=>$revision,'codigo_prop_proy'=>$codigo_prop_proy,'codigo_actividad'=>$codigo_actividad,'proyectoid'=>$proyectoid,'actividad_padre'=>$actividad_padre);
+      $act= new Admin_Model_DbTable_Actividad();
+      
 
-  
-}     
+              $str_padre="codigo_prop_proy='$codigo_prop_proy' and proyectoid='$proyectoid' and revision='$revision' and codigo_actividad='$codigo_actividad' and actividadid='$actividad_padre'";      
+              $str_hijas="codigo_prop_proy='$codigo_prop_proy' and proyectoid='$proyectoid' and revision='$revision' and  actividad_padre='$actividad_padre'";      
+
+      //$data = array('estado_mostrar' =>$estado);
+       $data["estado_mostrar"]=$estado;
+       echo $str;
+
+       print_r($data);
+      $updateactpadre=$act->_update($data,$str_padre);
+      $updateacthijas=$act->_update($data,$str_hijas);
+
+          if($updateactpadre)
+          {
+            echo "existe";
+          }
+          else{
+            echo "no existe";
+          }
+
+             if($updateacthijas)
+          {
+            echo "existe";
+          }
+          else{
+            echo "no existe";
+          }
+      
+
+      
+      
+          //$upactiv= $act->_update($datact,$wheres);
+
+        
+
+     } 
+      catch (Exception $e) {
+      print "Error: ".$e->getMessage();
+    }
+
+  } 
 
 
 }

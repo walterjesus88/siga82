@@ -253,9 +253,9 @@ if ($this->equipo) {
                                 url="/proyecto/index/agregaactividad/cargo/"+cargo+"/areaid/"+areaid+"/uid/"+uid+"/dni/"+dni+"/proyectoid/"+proyectoid+"/categoriaid/"+ categoriaid+"/actividadid/"+actividadid+"/revision/"+revision+"/actividad_padre/"+actividad_padre+"/codigo_actividad/"+codigo_actividad+"/codigo_prop_proy/"+codigo_prop_proy+"/estado/"+estado+"/hijo/"+hijo;
                                 //alert(url);
 
-                                //$("#cargact").load(url);
+                                $("#cargact").load(url);
 
-                                $.ajax({
+                               /* $.ajax({
                                     type: "POST",
                                     url: url,
                                     data: $(this).serialize(),
@@ -265,7 +265,7 @@ if ($this->equipo) {
                                     // },
                                     success: function(data){
                                     }
-                              });
+                              });*/
                            });
                           </script></center>
                         </td>
@@ -289,5 +289,5 @@ if ($this->equipo) {
           </tbody>
     </table>
   </div>
-  <div style="display:none" id="cargact"></div>
+  <div  id="cargact"></div>
 </form>
