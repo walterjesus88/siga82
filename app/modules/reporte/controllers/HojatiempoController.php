@@ -28,9 +28,6 @@ class Reporte_HojatiempoController extends Zend_Controller_Action {
 
     public function indexAction()
     {
-        $year = "2015"; // Year 2010
-        $week = "23"; // Week 1
-
         $params = $this->getRequest()->getParams();
         $this->view->params = $params;
     }
@@ -41,27 +38,51 @@ class Reporte_HojatiempoController extends Zend_Controller_Action {
         $this->_helper->layout()->disableLayout();
         $sheet_times = new Reporte_DataTable_HojaTiempo();
         $data = $sheet_times->as_json($params);
+
         $this->_helper->json->sendJson($data);
     }
 
     public function downloadpdfAction(){
-        $sheet_times = new Reporte_DataTable_HojaTiempo();
-        $tb_area = new Admin_Model_DbTable_Area();
-        $tb_sheet_times = new Admin_Model_DbTable_Tareopersona();
-        $params = $this->getRequest()->getParams();
-        $data = $sheet_times->sheet_times($params);
-        $content = '';
-        foreach ($data as $key => $sheet_time) {
-            $name_area = $tb_area->_getName($sheet_time['areaid']);
-            $content = $content . 
-                '<tr>
-                    <td>'. $name_area["nombre"]. '</td>
-                    <td>'. $sheet_time["uid"]. '</td>
-                    <td>'. $sheet_time["semanaid"]. '</td>
-                    <td>'. $tb_sheet_times->_getNameStatus($sheet_time["estado"]). '</td>
-                </tr>';
-        }
-        $this->view->content_table = $content;
+        // $pdf = Zend_Pdf::load('formatos/cliente.pdf');
+        $document = "formatos/cliente.pdf";
+        $this->_helper->viewRenderer->setNoRender();
+        $this->_helper->layout()->disableLayout();
+        $this->getResponse()
+            ->setHeader('Content-Disposition', 'inline; filename=foo.pdf')
+            ->setHeader('Content-type', 'application/pdf');
+        $pdf = Zend_Pdf::load($document);
+        echo $pdf->render();
+        // $this->_helper->layout->disableLayout();
+        // $this->_helper->viewRenderer->setNoRender();
+        // $page = $pdf->pages[0];
+        // $page->drawText(date("d-m-Y"), 500, 800);
+
+
+
+
+
+        // $this->getResponse()->setHeader('Content-type', 'application/x-pdf', true);
+        // $this->getResponse()->setHeader('Content-disposition', 'inline; filename=Reporte.pdf', true);
+        // $this->getResponse()->setBody($page->render());
+
+        // header("Content-Type: application/x-pdf");
+        // header("Cache-Control: no-cache, must-revalidate");
+        // $sheet_times = new Reporte_DataTable_HojaTiempo();
+        // $tb_area = new Admin_Model_DbTable_Area();
+        // $tb_sheet_times = new Admin_Model_DbTable_Tareopersona();
+        // $params = $this->getRequest()->getParams();
+        // $data = $sheet_times->sheet_times($params);
+
+        // $sheet_times = new Reporte_DataTable_HojaTiempo();
+        // $tb_area = new Admin_Model_DbTable_Area();
+        // $tb_sheet_times = new Admin_Model_DbTable_Tareopersona();
+        // $params = $this->getRequest()->getParams();
+        // $data = $sheet_times->sheet_times($params);
+        // $cabecera['nombre_proyecto'] = "HOLA";
+        // $cabecera['proyectoid'] = "GERSNO";
+        // $formato = new Admin_Model_DbTable_Formato('report_sheet_times', $cabecera, $data);
+        // $respuesta = $formato->fill_data_sheet_time();
+        // $respuesta->save("hoadas.pdf", true);
     }
 
     public function filterAction()
