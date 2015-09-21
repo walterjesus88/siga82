@@ -170,9 +170,7 @@ function(httpFactory, $location, $q) {
     {
       var defered = $q.defer();
       var promise = defered.promise;
-       //console.log("esoty en setActualizarDatosxPerfomance");
-       //console.log(uperformance);
-
+    
       httpFactory.setDatosxPerfomance(codigo_prop_proy,codigo_actividad,actividadid,cronogramaid,
         codigo_cronograma,codigo_performance,porcentaje_performance,proyectoid,revision_cronograma,
         fecha_ingreso_performance,fecha_performance)
@@ -196,9 +194,7 @@ function(httpFactory, $location, $q) {
       {
       var defered = $q.defer();
       var promise = defered.promise;
-      console.log(predecesoras);
-      console.log(costo_real);
-
+     
 
       httpFactory.setModificarxPerformance(
         codigo_prop_proy,codigo_actividad,actividadid,cronogramaid,codigo_cronograma,codigo_performance,
@@ -282,6 +278,22 @@ function(httpFactory, $location, $q) {
     },
 
     ////////////////////  F E C H A  D E  C O R T E /////////////////////////
+   getCerrarxProyectoxFechaxCorte: function(proyectoid,codigo_prop_proy,fecha_corte,fechacorte_cambiar) {
+      var defered = $q.defer();
+      var promise = defered.promise;    
+
+      httpFactory.getCerrarxFechaxCorte(proyectoid,codigo_prop_proy,fecha_corte,fechacorte_cambiar)
+      .then(function(data) {
+        datos = data;
+        defered.resolve(datos);
+      })
+      .catch(function(err) {
+        defered.reject(err);
+      });
+      return promise;      
+    },   
+
+
     getDatosxGenerarxRevision: function(codigoproyecto,proyectoid) {
       var defered = $q.defer();
       var promise = defered.promise;    
