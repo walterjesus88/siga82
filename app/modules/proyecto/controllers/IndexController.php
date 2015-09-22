@@ -2064,6 +2064,9 @@ public function proyectoxfechaxcorteAction()
 
   $fechaxcorte=new Admin_Model_DbTable_Proyectofechacorte();
   $fcorte=$fechaxcorte->_getFilter($where,$attrib,$order);
+  
+  // print_r($fcorte);
+  // exit();
 
   $this->_helper->json->sendJson($fcorte);
 

@@ -43,7 +43,7 @@ function(httpFactory, $scope,$filter,$q,proyectoFactory) {
   .then(function(data) {
   
     va.proyectop = data; 
-    console.log(va.proyectop);
+    //console.log(va.proyectop);
 
       proyectoFactory.getVerCronogramaxActivo(proyecto['codigo'])
       .then(function(data) {
@@ -59,6 +59,7 @@ function(httpFactory, $scope,$filter,$q,proyectoFactory) {
           .success(function(data) {         
 
             va.dat=data[0]['1'];
+            console.log(va.dat);
          
             var max = data[0]['1'].length;     
             var varx=[];
@@ -496,7 +497,8 @@ va.buscaperformance = function(revision) {
   proyectoFactory.getDatosProyectoxPerfomance(proyectoid,revision_cronograma)
   .then(function(datax) {
       va.performance=datax;
-      console.log(va.performance);
+
+
     })
   .catch(function(err) {
       va.performance = {};
@@ -665,10 +667,18 @@ proyectoFactory.getVerCronogramaxActivo(proyecto['codigo'])
 
         console.log(va.performance);
 
-        // va.inserted = {
-        //   'clearance' : true,          
-        // }
-
+        angular.forEach(va.performance, function(val) { 
+      
+          actividad1digito= val['actividadid'].length;
+          if(actividad1digito==1)
+          {
+            va.subtotal_costopro+=parseInt(val['costo_propuesta']);
+            va.subtotal_horaspro+=parseInt(val['horas_propuesta']);
+            va.subtotal_porcplani+=parseInt(val['porcentaje_planificado']);
+            va.subtotal_porcreal+=parseInt(val['porcentaje_real']);           
+          }
+        })
+        //va.subtotal_costopro='15000';     
 
 
        })
@@ -749,14 +759,13 @@ va.subtotal_horaspro=0;
 va.subtotal_porcplani=0;
 va.subtotal_porcreal=0;
 
-
+va.subtotal_fecha=0;
+//va.subtotal_fecha[2]=0;
+//va.subtotal_fecha[3]=0;
 
 va.checkName=function(data, id)
 {
   //C A L C U L O  D E   S U B T O T A L E S//
-  va.porcen=[{ nam:'15'}];
-  va.porcenx='14';
-
 
  actividad1digito= va.performance[id]['actividadid'].length;
  if(actividad1digito==1)
@@ -769,6 +778,28 @@ va.checkName=function(data, id)
   va.subtotal_porcplani+=parseInt(va.performance[id]['porcentaje_planificado']);
   va.subtotal_porcreal+=parseInt(va.performance[id]['porcentaje_real']);
   
+  angular.forEach(va.performance[id]['items'], function(val,id) {
+
+
+    for (var i = 0; i <= va.performance[id]['items'].length; i++) {
+
+      if(id==2)
+      {
+        console.log(i);
+        va.subtotal_fecha+=parseInt(val['porcentaje_performance']);
+        //va.subtotal_fecha=va.subtotal_fecha[i];
+        console.log(id +"-"+ va.subtotal_fecha);
+
+      } 
+    
+    };
+
+   
+    //console.log(id);
+  })
+
+  va.dat=[{ porcentaje_ejecutado:va.subtotal_fecha},
+          ]
 
  }
 
@@ -964,8 +995,8 @@ else
 {  
 
     //alert('es diferente a  null');
-    console.log("duracion"+duracion);
-    console.log(cadena);
+    //console.log("duracion"+duracion);
+    //console.log(cadena);
     texto =  ['FC','CF','CC','FF'];
 
     for (var i = texto.length - 1; i >= 0; i--)
@@ -978,8 +1009,8 @@ else
         fecha_sincro_comienzo=va.performance[valoritem]['fecha_comienzo'];
         fecha_sincro_fin=va.performance[valoritem]['fecha_fin']; 
 
-        console.log("fecha_sincro_comienzo"+fecha_sincro_comienzo);
-        console.log("fecha_sincro_fin"+fecha_sincro_fin);
+        //console.log("fecha_sincro_comienzo"+fecha_sincro_comienzo);
+        //console.log("fecha_sincro_fin"+fecha_sincro_fin);
 
         switch(texto[i]) {
         case 'CC':
@@ -1019,11 +1050,11 @@ else
                         fecha.setTime(fecha.getTime()-24*60*60*1000); // añadimos 1 día
                         if (fecha.getDay() == 6  || fecha.getDay() == 0    )
                         {
-                          console.log(fecha.getDay());                                        
+                         // console.log(fecha.getDay());                                        
                         }  
                         else
                         {
-                          console.log(fecha.getDay());
+                          //console.log(fecha.getDay());
                           ki++;
                         }
                     }
@@ -1149,12 +1180,12 @@ else
 
                     if (month.toString().length < 2) 
                     {
-                      console.log('si');
+                      //console.log('si');
                       month = '0' + month;
                     }
                     if (day.toString().length < 2) 
                     {
-                      console.log('si222');
+                      //console.log('si222');
                       day = '0' + day;
                     }
                      
@@ -2198,12 +2229,14 @@ va.imprimir=function(){
 
 
 va.clases=[
-{'title':'a','type':1},
-{'title':'b','type':2},
-{'title':'c','type':1},
-{'title':'d','type':3},
+{'title':'a','type':1,ff:false},
+{'title':'b','type':2,ff:true},
+{'title':'c','type':1,ff:false},
+{'title':'d','type':3,ff:true},
 
 ]
+
+
 
 
 //va.item.checked = true;
