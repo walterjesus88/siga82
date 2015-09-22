@@ -203,8 +203,10 @@
 		   		 			   'cerrado': item.state==='C', }" >		   		   
 
 		          
-		          <input editable-text="item.porcentaje_performance" onbeforesave="checkName($data, item.porcentaje_performance)"
+		          <input
 		           class="form-control" ng-model="item.porcentaje_performance"  ng-disabled="item.state==='C' || item.state==='I'" type="text"  >
+
+		           		<!--            editable-text="item.porcentaje_performance" onbeforesave="checkName($data, item.porcentaje_performance)" -->
 
 		<!--           <span  editable-text="item.porcentaje_performance" e-form="tableform" onbeforesave="checkName($data, item.porcentaje_performance)">
 		            {{ item.porcentaje_performance }} 
