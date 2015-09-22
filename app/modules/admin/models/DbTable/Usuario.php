@@ -106,6 +106,46 @@ class Admin_Model_DbTable_Usuario extends Zend_Db_Table_Abstract
         }
     }
 
+    public function UsuarioxEstadoxArea($estado,$areaid)
+    {
+        try{
+            $sql=$this->_db->query("
+                select u.uid,u.areaid
+                from usuario as u inner join area as a
+                on u.areaid = a.areaid where u.estado='$estado' and u.areaid='$areaid'
+
+            ");
+            $row=$sql->fetchAll();
+            return $row;           
+            }  
+            catch (Exception $ex){
+            print $ex->getMessage();
+        }
+    }
+
+
+    public function UsuarioxEstadoxAreaxFechaIngreso($uid,$areaid)
+    {
+        try{
+            $sql=$this->_db->query("
+                select uid, areaid, fecha_registro, 
+
+                extract(week from  fecha_registro) as semana 
+
+                from usuario 
+
+                where
+
+                 areaid='$areaid' and uid='$uid'
+
+            ");
+            $row=$sql->fetchAll();
+            return $row;           
+            }  
+            catch (Exception $ex){
+            print $ex->getMessage();
+        }
+    }
 
 }
 

@@ -59,5 +59,32 @@ class Rendiciongastos_GastosController extends Zend_Controller_Action {
 
   }
 
+      public function guardarrendicionAction()
+    {
+
+      // print_r($pk);
+      // print_r($garea);
+
+      // exit();
+        $formdata['uid']=$uid = $this->sesion->uid;
+        $formdata['dni']=$dni = $this->sesion->dni;
+        $formdata['numero_completo']=$numero_completo = $this->_getParam('numero_completo');
+        $formdata['nombre']=$nombre = $this->_getParam("nombre");
+        $formdata['fecha']=$fecha = $this->_getParam("fecha");
+        $formdata['estado']=$estado = $this->_getParam("estado");
+
+        print_r($nombre);
+        $guardarrendicion=new Admin_Model_DbTable_Gastorendicion();
+        $grendicion=$guardarrendicion->_save($formdata);
+
+        print_r($nombre);
+
+      exit();
+
+      $this->_helper->json->sendJson($grendicion);
+
+
+    }
+
 
 }
