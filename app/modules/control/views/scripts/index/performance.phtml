@@ -20,6 +20,10 @@
 	</span>
 </div> -->
 
+<!--  <div ng-repeat="item in CP.clases">
+ 	<input  ng-disabled="item.ff"  type="text"> <p> {{item.title}}</p>
+ </div> -->
+
 
 <div class="form-group" class="col-md-12"  >
   <div class="col-md-2" >
@@ -86,7 +90,7 @@
 
 		        <th ng-repeat="item in CP.thi" ng-class="{'pending-delete': item.checked,'activo':item.state_performance==='A','cerrado':item.state_performance==='C',}">
 					{{ item.fecha }}
-					<input  type="checkbox" ng-model="item.checked" ng-click="CP.cerrarfechacorte(item.checked)" ng-hide="item.checked"  confirm="ESta seguro que desea cerrar la fecha de corte?" confirm-action="doIt()">
+					<input  ng-disabled="item.state_performance==='C' || item.state_performance==='I' "  type="checkbox" ng-model="item.checked" ng-click="CP.cerrarfechacorte(item.checked)" ng-hide="item.checked"  >
 					<span ng-show="item.checked">(cerrado)</span>				
 				</th>		    
 		    </tr> 
@@ -198,9 +202,14 @@
 		   		 	ng-class="{'activo': item.state==='A',
 		   		 			   'cerrado': item.state==='C', }" >		   		   
 
-		          <span ng-disabled="CP.fechaww" editable-text="item.porcentaje_performance" e-form="tableform" onbeforesave="checkName($data, item.porcentaje_performance)">
-		            {{ item.porcentaje_performance }}
-		          </span>		          
+		          
+		          <input editable-text="item.porcentaje_performance" onbeforesave="checkName($data, item.porcentaje_performance)"
+		           class="form-control" ng-model="item.porcentaje_performance"  ng-disabled="item.state==='C' || item.state==='I'" type="text"  >
+
+		<!--           <span  editable-text="item.porcentaje_performance" e-form="tableform" onbeforesave="checkName($data, item.porcentaje_performance)">
+		            {{ item.porcentaje_performance }} 
+		          </span>	 -->
+
 		        </td>	         
 
 	          	</div>
@@ -215,7 +224,7 @@
     	<tfoot  class="fixedFooterw" >        
 	           
 	    <tr>
-	            <th > {{ item.nam }} </th>
+	            <th > </th>
 	            <th ></th>
 	            <th ></th>
 	            <th ></th>
