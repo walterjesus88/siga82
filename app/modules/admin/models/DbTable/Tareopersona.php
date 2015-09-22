@@ -736,4 +736,61 @@ order by t.proyectoid,t.actividadid,t.tipo_actividad desc
     }
 
 
+         public function _getSemanaTareoxEstadoEnvioxArea($semanaid,$areaid,$uid)
+         {
+            try{
+                $sql=$this->_db->query("
+                  select  distinct(uid,areaid,estado) from tareo_persona
+                  where semanaid='$semanaid' and areaid='$areaid' and uid='$uid'
+
+
+                ");
+                // print_r($sql);
+                $row=$sql->fetchAll();
+                return $row;
+            }
+
+           catch (Exception $ex){
+            print $ex->getMessage();
+        }
+    }
+
+    public function _getSemanaTareoxEstadoEnvio($semanaid,$uid)
+     {
+        try{
+            $sql=$this->_db->query("
+              select  distinct(uid,areaid,estado) from tareo_persona
+              where semanaid='$semanaid' and uid='$uid'
+
+
+            ");
+            // print_r($sql);
+            $row=$sql->fetchAll();
+            return $row;
+            }
+
+           catch (Exception $ex){
+            print $ex->getMessage();
+        }
+    }
+
+     public function _getSemanaTareo($uid)
+     {
+        try{
+            $sql=$this->_db->query("
+              select  distinct(uid,areaid,semanaid,estado) from tareo_persona
+              where  uid='$uid'
+
+
+            ");
+            // print_r($sql);
+            $row=$sql->fetchAll();
+            return $row;
+            }
+
+           catch (Exception $ex){
+            print $ex->getMessage();
+        }
+    }
+
 }
