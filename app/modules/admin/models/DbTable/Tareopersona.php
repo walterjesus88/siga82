@@ -634,30 +634,32 @@ order by t.proyectoid,t.actividadid,t.tipo_actividad desc
         }
     }
 
-    public function _count_all($where)
+    public function _count_all($sort_column, $where)
     {
         try {
             $select_1 = $this->_db
                             ->select()
                             ->distinct()
-                            ->from("tareo_persona", array('uid', 'areaid', 'semanaid', 'estado'));
+                            ->from("tareo_persona", array('uid', 'areaid', 'semanaid', 'estado'))
+                            ->order($sort_column);
             $select_2 = $this->_db
                             ->select()
                             ->from(new Zend_Db_Expr('(' . $select_1 . ')'), "COUNT(*) AS total");
             if ($where["sSearch"]) {
                 $select_2->where("areaid Ilike ? ", $where['sSearch']);
             }
-            $dates = split("-yadcf_delim-", $where["sSearch_0"]);
-            if (count(array_filter($dates)) > 0) {
-                if ( count(array_filter($dates)) == 1 && empty($dates[1])) {
-                    $select_2->where("semanaid >= ?", $this->convert_date_to_week($dates[0]));
-                }elseif (count(array_filter($dates)) == 1 && empty($dates[0])) {
-                    $select_2->where("semanaid <= ?", $this->convert_date_to_week($dates[1]));
-                    
-                }else{
-                    $select_2->where("semanaid >= ?", $this->convert_date_to_week($dates[0]));
-                    $select_2->where("semanaid <= ?", $this->convert_date_to_week($dates[1]));
-                }            
+            if ($where["sSearch_0"]) {
+                $dates = explode("-yadcf_delim-", $where["sSearch_0"]);
+                if (count(array_filter($dates)) > 0) {
+                    if ( count(array_filter($dates)) == 1 && empty($dates[1])) {
+                        $select_2->where("CAST(semanaid as INT) >= ?", $this->convert_date_to_week($dates[0]));
+                    }elseif (count(array_filter($dates)) == 1 && empty($dates[0])) {
+                        $select_2->where("CAST(semanaid as INT) <= ?", $this->convert_date_to_week($dates[1]));
+                    }elseif(count(array_filter($dates)) == 2){
+                        $select_2->where("CAST(semanaid as INT) >= ?", $this->convert_date_to_week($dates[0]));
+                        $select_2->where("CAST(semanaid as INT) <= ?", $this->convert_date_to_week($dates[1]));
+                    }            
+                }
             }
             if ($where["sSearch_1"]) {
                 $select_2->where("estado = ?", $where['sSearch_1']);
@@ -665,8 +667,12 @@ order by t.proyectoid,t.actividadid,t.tipo_actividad desc
             if ($where["sSearch_2"]) {
                 $select_2->where("areaid = ?", $where['sSearch_2']);
             }
+            if ($where["sSearch_3"]) {
+                $select_2->where("uid = ?", $where['sSearch_3']);
+            }
             $results = $select_2->query();
             $rows = $results->fetchAll();
+
             if ($rows) return $rows;
             return false;
         } catch (Exception $e) {
@@ -677,18 +683,20 @@ order by t.proyectoid,t.actividadid,t.tipo_actividad desc
     public function _dataTable($page, $per_page, $sort_column, $sort_direction, $where)
     {
         try {
+
             $select = $this->_db
                             ->select()
                             ->distinct()
-                            ->from("tareo_persona",array("uid", "areaid","semanaid","estado"));
+                            ->from("tareo_persona",array("uid", "areaid","semanaid","estado"))
+                            ->order($sort_column . " " . $sort_direction);
             if (!array_key_exists("format", $where)) {
-                $select->order($sort_column)->limit($per_page, $page);
+                $select->limit($per_page, $page);
             }
             if ($where["sSearch"]) {
                 $select->where("areaid Ilike ? ", "%" . $where['sSearch'] . "%");
             }
             if ($where["sSearch_0"]) {
-                $dates = split("-yadcf_delim-", $where["sSearch_0"]);
+                $dates = explode("-yadcf_delim-", $where["sSearch_0"]);
                 if (count(array_filter($dates)) > 0) {
                     if ( count(array_filter($dates)) == 1 && empty($dates[1])) {
                         $select->where("CAST(semanaid as INT) >= ?", $this->convert_date_to_week($dates[0]));

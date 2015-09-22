@@ -6,7 +6,7 @@
     public function as_json($params)
     {
       $tb_sheet_time =  new Admin_Model_DbTable_Tareopersona();
-      $count_all = $tb_sheet_time ->_count_all($params);
+      $count_all = $tb_sheet_time ->_count_all($this->sort_column($params), $params);
       return array(
         'sEcho' => intval($params["sEcho"]),
         'iTotalRecords' => $count_all[0]['total'],
@@ -63,13 +63,13 @@
 
     public function sort_column($params)
     {
-      $column = ["uid", "areaid", "semanaid", "semanaid", "estado"];
+      $column = ["areaid", "uid", "semanaid", "semanaid", "estado"];
       return $column[intval($params["iSortCol_0"])];
     }
 
     public function sort_direction($params)
     {
-      return $params["sSortDir_0"] = ($params["sSortDir_0"] == "desc" ? "desc" : "asc");
+      return $params["sSortDir_0"];
     }
 
  }

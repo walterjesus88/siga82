@@ -5,7 +5,7 @@ $(document).ready(function() {
     
     $('#myTable02').fixedHeaderTable({ footer: true, altClass: 'odd' });
     
-    $('#myTable05').fixedHeaderTable({ altClass: 'odd', footer: true, fixedColumns: 1 });
+    $('#myTable05').fixedHeaderTable({ altClass: 'odd', footer: false, fixedColumns: 1 });
     
     $('#myTable03').fixedHeaderTable({ altClass: 'odd', footer: true, fixedColumns: 1 });
     

@@ -1,4 +1,4 @@
-var app= angular.module('moduloCp', ['ngRoute','chart.js','ui.bootstrap','ui.bootstrap.tpls','ui.router','checklist-model','dialogs','xeditable','angularFileUpload', 'datatables'])
+var app= angular.module('moduloCp', ['scrollable-table','ngRoute','chart.js','ui.bootstrap','ui.bootstrap.tpls','ui.router','checklist-model','dialogs','xeditable','angularFileUpload', 'datatables'])
 .config(['$routeProvider', function($routeProvider) {
   $routeProvider
 
