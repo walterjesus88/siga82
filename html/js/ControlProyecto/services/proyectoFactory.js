@@ -494,7 +494,10 @@ function(httpFactory, $location, $q) {
 
     setDatosxGuardarxListaxEntregables: function(codigo_prop_proy,proyectoid,revision_entregable,edt,tipo_documento,disciplina,codigo_anddes,codigo_cliente,fecha_0,fecha_a,fecha_b,descripcion_entregable) {
       var defered = $q.defer();
-      var promise = defered.promise;     
+      var promise = defered.promise; 
+
+      console.log(edt);
+      console.log(tipo_documento);
 
       httpFactory.setGuardarxListaxEntregables(codigo_prop_proy,proyectoid,revision_entregable,edt,tipo_documento,disciplina,codigo_anddes,codigo_cliente,fecha_0,fecha_a,fecha_b,descripcion_entregable)
       .then(function(data) {
