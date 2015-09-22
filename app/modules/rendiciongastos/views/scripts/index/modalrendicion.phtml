@@ -1,0 +1,20 @@
+  <!--Modal para agregar rendicion a la vista -->
+
+  <header class="modal-header">
+    <button type="button" class="close" aria-hidden="true" ng-click="mr.cancelar()">x</button>
+    <h4 class="modal-title">Agregar Rendicion:</h1>
+    </header>
+    <div class="modal-body">
+      <span class="input-group-addon">Numero de Rendicion</span>
+      <input type="text" class="form-control input-sm" placeholder='numero_completo' name='numero_completo' data-ng-model="mr.numero_completo" />
+      <span class="input-group-addon">Titulo de Rendicion</span>
+      <input type="text" class="form-control input-sm" placeholder='nombre' name='nombre' data-ng-model="mr.nombre" />
+      <span class="input-group-addon">Fecha de Rendicion</span>
+      <input type=" text" class="form-control input-sm" placeholder='fecha' name='fecha' data-ng-model="mr.fecha" />
+      <span class="input-group-addon">Estado de Rendicion</span>
+      <input type="text" class="form-control input-sm" placeholder='estado' name='estado' data-ng-model="mr.estado" />
+    </div>
+    <footer class="modal-footer">
+      <button type="button" class="btn btn-success btn-xs" ng-click="mr.GuardarRendicion()">Agregar</button>
+      <button type="button" class="btn btn-danger btn-xs" ng-click="mr.cancelar()">Cancelar</button>
+    </footer>

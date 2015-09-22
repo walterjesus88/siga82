@@ -1,5 +1,5 @@
 app.controller('GastosCtrl', ['$scope','httpFactory', 'gastosFactory', '$modal',
-	function($scope,httpFactory, gastosFactory,$modal) {
+	function($scope,httpFactory, gastosFactory, $modal) {
 		var vg = this;
 		var estado_actual = 'B';
 
@@ -12,7 +12,7 @@ app.controller('GastosCtrl', ['$scope','httpFactory', 'gastosFactory', '$modal',
 					gasto = new gastosFactory.Gasto(item.numero_completo,item.nombre,item.fecha,item.monto_total,item.estado);
 					vg.gastos.push(gasto);
 				});
-			console.log(data);
+				console.log(data);
 			})
 
 			.catch(function(err) {
@@ -43,19 +43,15 @@ app.controller('GastosCtrl', ['$scope','httpFactory', 'gastosFactory', '$modal',
 
 
 		vg.AgregarGastoRendicion = function() {
-      vg.inserted = {
-      //codigo_prop_proy:vg.proyectop.codigo_prop_proy,
-      //proyectoid:vg.proyectop.codigo,   
-        id: vg.rendiciongastos.length+1,
-        numero_completo: null,
-        nombre: null,
-        fecha: null ,
-        monto_total: null ,
-        estado: 'E' ,
-      };
-    vg.rendiciongastos.push(vg.inserted);
-};
+			// console.log("error al llamar al modalrendicion");
+			var modalInstance = $modal.open({
+				animation: true,
+				controller: 'ModalRendicionCtrl',
+				controllerAs: 'mr',
+				templateUrl: '/rendiciongastos/index/modalrendicion',
+				size: 'md',
+			});
 
-
+		};
 
 	}]);

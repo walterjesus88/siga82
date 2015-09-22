@@ -19,5 +19,9 @@ class RendicionGastos_IndexController extends Zend_Controller_Action {
 
     }
 
+    public function modalrendicionAction()
+    {
+  $this->_helper->layout()->disableLayout();
+    }
 
 }
