@@ -689,7 +689,7 @@ order by t.proyectoid,t.actividadid,t.tipo_actividad desc
                             ->distinct()
                             ->from("tareo_persona",array("uid", "areaid","semanaid","estado"))
                             ->order($sort_column . " " . $sort_direction);
-            if (!array_key_exists("format", $where)) {
+            if (!array_key_exists("format", $where) || $where["format"] == "pdf") {
                 $select->limit($per_page, $page);
             }
             if ($where["sSearch"]) {
