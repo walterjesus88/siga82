@@ -66,22 +66,51 @@ class Rendiciongastos_GastosController extends Zend_Controller_Action {
       // print_r($garea);
 
       // exit();
-        $formdata['uid']=$uid = $this->sesion->uid;
-        $formdata['dni']=$dni = $this->sesion->dni;
-        $formdata['numero_completo']=$numero_completo = $this->_getParam('numero_completo');
-        $formdata['nombre']=$nombre = $this->_getParam("nombre");
-        $formdata['fecha']=$fecha = $this->_getParam("fecha");
-        $formdata['estado']=$estado = $this->_getParam("estado");
+      //   $ceros = '10 - ';
+      //       for ($h=0; $h < (8-strlen($result['numero'])); $h++) {
+      //           $ceros = $ceros.'0';
+      //       }
 
-        print_r($nombre);
-        $guardarrendicion=new Admin_Model_DbTable_Gastorendicion();
-        $grendicion=$guardarrendicion->_save($formdata);
+        // $formdata['uid']=$uid = $this->sesion->uid;
+        // $formdata['dni']=$dni = $this->sesion->dni;
+      //   // $formdata['numero_completo']= $this->_getParam('numero_completo');
+      //   $formdata['numero_completo'] = $ceros.$result['numero'];
+        // $formdata['nombre']=$nombre = $this->_getParam("nombre");
+        // $formdata['fecha']=$fecha = $this->_getParam("fecha");
+        // $formdata['estado']=$estado = $this->_getParam("estado");
 
-        print_r($nombre);
+      //   print_r($numero_completo);
+        // $guardarrendicion=new Admin_Model_DbTable_Gastorendicion();
+        // $grendicion=$guardarrendicion->_save($formdata);
 
-      exit();
+      //   print_r($numero_completo);
 
-      $this->_helper->json->sendJson($grendicion);
+      // exit();
+
+      // $this->_helper->json->sendJson($grendicion);
+
+
+            // $uid = $this->sesion->uid;
+            // $dni = $this->sesion->dni;
+
+            $where = array();
+            $where['fecha'] =$fecha = $this->_getParam("fecha");
+            $where['uid'] = $uid = $this->sesion->uid;
+            $where['dni'] = $dni = $this->sesion->dni;
+            $where['estado'] = $estado = $this->_getParam("estado");
+            $where['nombre'] = $nombre = $this->_getParam("nombre");
+            $rendicion = new Admin_Model_DbTable_Gastorendicion();
+            $result = $rendicion->_save($where);
+            $ceros = '10 - ';
+            for ($h=0; $h < (8-strlen($result['numero'])); $h++) { 
+                $ceros = $ceros.'0';
+            }
+            $data2['numero_completo'] = $ceros.$result['numero'];
+            $rendicion->_update($data2,$result);
+            // $this->view->numero = $result['numero'];
+
+            $this->_helper->json->sendJson($result['numero']);
+
 
 
     }
