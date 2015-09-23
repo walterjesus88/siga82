@@ -1868,15 +1868,39 @@ else
 
 
   va.showStatus = function(lista) {
-    console.log(lista.edt);
-    console.log(va.edt);
+    
+    //console.log(lista.edt);    
+    //console.log(va.edt);
 
     var selected = [];
     if(lista.edt) {
       selected = $filter('filter')(va.edt, {codigo: lista.edt});
     }
     return selected.length ? selected[0].nombre : 'Not set';
+
   };
+
+
+  // va.vero = function()
+  // {
+  //   console.log('lista');
+  // };
+
+  
+  va.operators = [
+    {value: 'eq', displayName: 'equals', state:'A'},
+    {value: 'eq1', displayName: 'equals1', state:'A'},
+    {value: 'neq', displayName: 'not equal', state:'I'}
+  ]
+    
+ // va.filterCondition={
+    //console.log('hyhyhy');
+    //operator: va.operators[2]
+ // }
+
+  // va.evaluar= function(displayName) {
+  //   console.log(displayName);
+  // }
 
   va.showTipodoc = function(lista) {
     var selected = [];
@@ -1899,17 +1923,6 @@ else
   // ]; 
 
   // console.log(va.statuses);
-
-  // va.showStatuss = function(user) {
-  //   var selected = ['hhh'];
-    // if(user.status) {
-    //   selected = $filter('filter')(va.statuses, {value: user.status});
-    // }
-    // console.log(selected[0].text);
-    //alert('selectttt');
-    //return 'selected';
-    //.length ? selected[0].text : 'Not set';
-  //};
 
 
   va.ShowFormEdt=function(){ 
@@ -2071,17 +2084,22 @@ console.log(revision);
 };
 
 
+
+
 va.agregarListaentregable = function() {
 
-    console.log(va.revisionE);
+    console.log(va.listaentregable);
+
+    //va.edt=[{ nombre:'xxxx',codigo_edt:'dada'}];
 
     if(va.listaentregable)
     {
       va.inserted = {
-        //codigo_prop_proy:va.proyectop.codigo_prop_proy,
-        //proyectoid:va.proyectop.codigo,  
+        codigo_prop_proy:va.proyectop.codigo_prop_proy,
+        proyectoid:va.proyectop.codigo,  
         revision_entregable: va.revisionE['revision_entregable'],
         id: va.listaentregable.length+1,
+
         edt: null,
         tipo_documento: null,
         disciplina: null ,
@@ -2098,11 +2116,11 @@ va.agregarListaentregable = function() {
     {
       va.listaentregable=[];
       va.inserted = {
-        //codigo_prop_proy:va.proyectop.codigo_prop_proy,
-        //proyectoid:va.proyectop.codigo, 
+        codigo_prop_proy:va.proyectop.codigo_prop_proy,
+        proyectoid:va.proyectop.codigo, 
         revision_entregable: va.revisionE['revision_entregable'],
-
         id: va.listaentregable.length+1,
+  
         edt: null,
         tipo_documento: null,
         disciplina: null ,
@@ -2116,13 +2134,13 @@ va.agregarListaentregable = function() {
       };
     }
     va.listaentregable.push(va.inserted);
+
 };
 
 
 va.saveTableentregable=function()
 {
-  
-  //console.log(va.listaentregable);
+  console.log(va.listaentregable);
 
   angular.forEach(va.listaentregable, function(val) {  
 
@@ -2135,15 +2153,15 @@ va.saveTableentregable=function()
     fecha_a=val['fecha_a'];
     fecha_b=val['fecha_b'];
     descripcion_entregable=val['descripcion_entregable'];   
-
-    //console.log(va.revisionE);
+    cod_le=val['cod_le'];
+ 
 
     codigo_prop_proy=va.revisionE['codigo_prop_proy'];
     proyectoid=va.revisionE['proyectoid'];
     revision_entregable=va.revisionE['revision_entregable'];
 
     proyectoFactory.setDatosxGuardarxListaxEntregables(
-      codigo_prop_proy,proyectoid,revision_entregable,edt,tipo_documento,disciplina,codigo_anddes,codigo_cliente,fecha_0,fecha_a,fecha_b,descripcion_entregable)
+      codigo_prop_proy,proyectoid,revision_entregable,edt,tipo_documento,disciplina,codigo_anddes,codigo_cliente,fecha_0,fecha_a,fecha_b,descripcion_entregable,cod_le)
     .then(function(data) {
      // va.listaentregable=data;
 

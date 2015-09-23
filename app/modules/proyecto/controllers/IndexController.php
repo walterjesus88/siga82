@@ -2250,6 +2250,11 @@ public function setguardarlistaentregablesAction()
   $whereone['revision_entregable']=$this->_getParam("revision_entregable");
   $whereone['edt']=$this->_getParam("edt");
 
+  //$whereone['cod_le']=$this->_getParam("cod_le");
+
+  // print_r($whereone);
+  // print_r($data);exit();
+
   $verentregable= new Admin_Model_DbTable_Listaentregabledetalle();
   $ventregable=$verentregable->_getOne($whereone);
 
@@ -2258,20 +2263,21 @@ public function setguardarlistaentregablesAction()
     $actualizarlistaentregable=new Admin_Model_DbTable_Listaentregabledetalle();
     $glentregable=$actualizarlistaentregable->_update($data,$whereone);
   }
-
   else
   {
     $guardarlistaentregable=new Admin_Model_DbTable_Listaentregabledetalle();
     $glentregable=$guardarlistaentregable->_save($data);
-
-    //print_r($data);exit();
   }
 
-  $updedt=new Admin_Model_DbTable_ProyectoEdt();
-  $whereedt = array('codigo_edt' => $data['edt'],'codigo_prop_proy' =>$data['codigo_prop_proy'],'proyectoid' =>$data['proyectoid'],);
-  //print_r($whereedt);
-  $dataedt['state']='I';
-  $updedt->_update($dataedt,$whereedt);
+
+
+  // $updedt=new Admin_Model_DbTable_ProyectoEdt();
+  // $whereedt = array('codigo_edt' => $data['edt'],'codigo_prop_proy' =>$data['codigo_prop_proy'],'proyectoid' =>$data['proyectoid'],);
+
+  // $dataedt['state']='I';
+  // $updedt->_update($dataedt,$whereedt);
+
+
 
   $this->_helper->json->sendJson($glentregable);
 }

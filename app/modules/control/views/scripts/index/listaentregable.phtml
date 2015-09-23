@@ -1,3 +1,9 @@
+<!-- 
+<div>Operator is: {{filterCondition.operator.value}}</div>
+<select ng-model="filterxxCondition.operator" ng-options="operator.displayName for operator in CP.operators" >
+</select>
+ -->
+
 <div class="form-group" class="col-md-12"  >
 	<div class="col-md-2" >
     <label>Escoja una revision: </label> 
@@ -63,22 +69,23 @@
 <body>
 	<tr ng-repeat="lista in CP.listaentregable track by $index">
 
-<!-- 
+		<!-- 
 		<td  >
 			<span editable-text="lista.edt" e-form="tableform" onbeforesave="checkName($data, lista.cod_le)">	
 				{{ lista.edt }}
 			</span>
-		</td> -->	
+		</td> -->
 
-    	<td >      
-	        <span editable-select="lista.edt" e-form="rowform" e-ng-options="s.codigo as s.nombre for s in CP.edt">
-	       	  {{ CP.showStatus(lista) }} 
+    	<td>      
+	        <span editable-select="lista.edt" e-form="rowform" e-ng-options="s.codigo as s.nombre for s in CP.edt" >
+	           <!-- {{ lista.edt }}  -->
+	       	   {{ CP.showStatus(lista) }}  
 	        </span>
      	</td>
-	          <!-- {{ lista.edt }} -->
+	          
  		
- 		<td >      
-	        <span editable-select="lista.tipo_documento" e-form="rowform" e-ng-options="s.value as s.text for s in CP.tipodocumentoE">
+ 		<td>      
+	        <span editable-select="lista.tipo_documento" e-form="rowform" e-ng-options="s.value as s.text for s in CP.tipodocumentoE" >
 	       	  {{ CP.showTipodoc(lista) }} 
 	        </span>
      	</td>
@@ -89,11 +96,13 @@
 			</span>
 		</td> -->
 
-		<td  >
+		<td>
 			<span editable-text="lista.disciplina" e-form="tableform" onbeforesave="checkName($data, lista.cod_le)">
 				{{ lista.disciplina }}
 			</span>
-		</td>
+		</td>	
+
+
 		<td  >
 			<span editable-text="lista.codigo_anddes" e-form="tableform" onbeforesave="checkName($data, lista.cod_le)">
 				{{ lista.codigo_anddes }}
@@ -129,6 +138,13 @@
 				{{ lista.fecha_0 }}
 			</span>
 
+		</td>
+
+
+		<td>
+			<span editable-text="lista.cod_le" e-form="tableform" onbeforesave="checkName($data, lista.cod_le)">
+				{{ lista.cod_le }}
+			</span>
 		</td>
 
 		<td><button type="button" ng-show="!tableform.$visible"   ng-click="CP.deleteEntregable($index,lista.edt)" class="btn btn-danger pull-right">Eliminar</button></td>
