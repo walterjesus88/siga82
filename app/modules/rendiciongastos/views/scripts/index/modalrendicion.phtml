@@ -5,16 +5,18 @@
     <h4 class="modal-title">Agregar Rendicion:</h1>
     </header>
     <div class="modal-body">
-      <span class="input-group-addon">Numero de Rendicion</span>
-      <input type="text" class="form-control input-sm" placeholder='numero_completo' name='numero_completo' data-ng-model="mr.numero_completo" />
-      <span class="input-group-addon">Titulo de Rendicion</span>
-      <input type="text" class="form-control input-sm" placeholder='nombre' name='nombre' data-ng-model="mr.nombre" />
+      <!-- <span class="input-group-addon">Numero de Rendicion</span>
+      <input type="text" class="form-control input-sm" placeholder='numero_completo' name='numero_completo' data-ng-model="mr.numero_completo" /> -->
+      <span class="input-group-addon"><b>Titulo de Rendicion</span></b>
+      <input type="text" class="form-control" placeholder='nombre' name='nombre' data-ng-model="mr.nombre" />
       <span class="input-group-addon">Fecha de Rendicion</span>
-      <input type=" text" class="form-control input-sm" placeholder='fecha' name='fecha' data-ng-model="mr.fecha" />
-      <span class="input-group-addon">Estado de Rendicion</span>
-      <input type="text" class="form-control input-sm" placeholder='estado' name='estado' data-ng-model="mr.estado" />
+      <!-- <input type="date" class="form-control input-sm" placeholder='fecha' name='fecha' data-ng-model="mr.fecha" value="mr.fecha" /> -->
+      <input type="date" class="form-control" datepicker-popup ng-model="mr.fecha" is-open="status.opened" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" close-text="Close" readonly />
+      <span class="input-group-addon">Estado de Rendicion </span>
+      <input type="text" class="form-control input-sm" placeholder='Pendiente' name='estado' data-ng-model="mr.estado" readonly />
     </div>
     <footer class="modal-footer">
       <button type="button" class="btn btn-success btn-xs" ng-click="mr.GuardarRendicion()">Agregar</button>
-      <button type="button" class="btn btn-danger btn-xs" ng-click="mr.cancelar()">Cancelar</button>
+      <!-- <button type="button" class="btn btn-danger btn-xs" ng-click="mr.cancelar()">Cancelar</button> -->
     </footer>
+      <alert ng-repeat="alert in mr.alerts" type="{{alert.type}}" close="mr.cancelar()">{{alert.msg}}</alert>

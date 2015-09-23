@@ -39,11 +39,11 @@ app.factory('gastosFactory', ['httpFactory', '$location', '$q',
           },
 
 
-          setGuardarRendicion: function(numero_completo,nombre,fecha,monto_total,estado) {
+          setGuardarRendicion: function(numero_completo,nombre,fecha,estado) {
             var defered = $q.defer();
             var promise = defered.promise;
 
-            httpFactory.setGuardarRendicion(numero_completo,nombre,fecha,monto_total,estado)
+            httpFactory.setGuardarRendicion(numero_completo,nombre,fecha,estado)
             .then(function(data) {
               datos = data;
               defered.resolve(datos);
