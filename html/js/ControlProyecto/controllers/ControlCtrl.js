@@ -1868,6 +1868,9 @@ else
 
 
   va.showStatus = function(lista) {
+    console.log(lista.edt);
+    console.log(va.edt);
+
     var selected = [];
     if(lista.edt) {
       selected = $filter('filter')(va.edt, {codigo: lista.edt});
@@ -2069,11 +2072,15 @@ console.log(revision);
 
 
 va.agregarListaentregable = function() {
+
+    console.log(va.revisionE);
+
     if(va.listaentregable)
     {
       va.inserted = {
-      //codigo_prop_proy:va.proyectop.codigo_prop_proy,
-      //proyectoid:va.proyectop.codigo,   
+        //codigo_prop_proy:va.proyectop.codigo_prop_proy,
+        //proyectoid:va.proyectop.codigo,  
+        revision_entregable: va.revisionE['revision_entregable'],
         id: va.listaentregable.length+1,
         edt: null,
         tipo_documento: null,
@@ -2083,15 +2090,18 @@ va.agregarListaentregable = function() {
         descripcion_entregable: null ,
         fecha_a: null ,
         fecha_b: null ,
-        fecha_0: null ,   
+        fecha_0: null ,  
+        clase:'',       
       };
     }
     else
     {
       va.listaentregable=[];
       va.inserted = {
-      //codigo_prop_proy:va.proyectop.codigo_prop_proy,
-      //proyectoid:va.proyectop.codigo,   
+        //codigo_prop_proy:va.proyectop.codigo_prop_proy,
+        //proyectoid:va.proyectop.codigo, 
+        revision_entregable: va.revisionE['revision_entregable'],
+
         id: va.listaentregable.length+1,
         edt: null,
         tipo_documento: null,
@@ -2101,7 +2111,8 @@ va.agregarListaentregable = function() {
         descripcion_entregable: null ,
         fecha_a: null ,
         fecha_b: null ,
-        fecha_0: null ,   
+        fecha_0: null , 
+        clase:'',        
       };
     }
     va.listaentregable.push(va.inserted);
@@ -2110,9 +2121,10 @@ va.agregarListaentregable = function() {
 
 va.saveTableentregable=function()
 {
-  console.log(va.listaentregable);
-  angular.forEach(va.listaentregable, function(val) {
-    
+  
+  //console.log(va.listaentregable);
+
+  angular.forEach(va.listaentregable, function(val) {  
 
     edt=val['edt'];
     tipo_documento=val['tipo_documento'];   
@@ -2123,6 +2135,8 @@ va.saveTableentregable=function()
     fecha_a=val['fecha_a'];
     fecha_b=val['fecha_b'];
     descripcion_entregable=val['descripcion_entregable'];   
+
+    //console.log(va.revisionE);
 
     codigo_prop_proy=va.revisionE['codigo_prop_proy'];
     proyectoid=va.revisionE['proyectoid'];
@@ -2148,9 +2162,9 @@ va.deleteEntregable=function(index,edt)
     proyectoid=va.proyectop.codigo;
     revision_entregable=va.revisionE['revision_entregable'];
 
-    console.log(index);
+    // console.log(index);
     //console.log(codigoentregable);
-    console.log(revision_entregable);
+    //console.log(revision_entregable);
     // console.log(va.listaentregable);
     //var filtered = $filter('filter')(va.listaentregable, {edt: edt,revision_entregable:revision_entregable });
 
