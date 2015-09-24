@@ -2060,8 +2060,7 @@ va.buscaentregables = function(revision) {
 revision_entregable=revision.revision_entregable;
 proyectoid=revision.proyectoid;
 console.log(revision);
-//console.log(proyectoid);
-//console.log(revision_entregable);
+
   proyectoFactory.getDatosListaxEntregables(proyecto['codigo'],revision_entregable)
   .then(function(datax) {
     va.listaentregable=datax;
@@ -2072,6 +2071,64 @@ console.log(revision);
   })
 
 };
+
+
+va.addListaEntregable= function() {
+
+    // va.inserted = {
+    //   id: $scope.users.length+1,
+    //   name: '',
+    //   status: null,
+    //   group: null 
+    // };
+    // va.users.push(va.inserted);
+
+    if(va.listaentregable)
+    {
+      va.inserted = {
+        codigo_prop_proy:va.proyectop.codigo_prop_proy,
+        proyectoid:va.proyectop.codigo,  
+        revision_entregable: va.revisionE['revision_entregable'],
+        id: va.listaentregable.length+1,
+        cod_listdet:va.listaentregable.length+1,
+        edt: null,
+        tipo_documento: null,
+        disciplina: null ,
+        codigo_anddes: null ,
+        codigo_cliente: null ,
+        descripcion_entregable: null ,
+        fecha_a: null ,
+        fecha_b: null ,
+        fecha_0: null ,  
+        clase:'',       
+      };
+    }
+    else
+    {
+      va.listaentregable=[];
+      va.inserted = {
+        codigo_prop_proy:va.proyectop.codigo_prop_proy,
+        proyectoid:va.proyectop.codigo, 
+        revision_entregable: va.revisionE['revision_entregable'],
+        id: va.listaentregable.length+1,
+        cod_listdet:va.listaentregable.length+1,
+        
+        edt: null,
+        tipo_documento: null,
+        disciplina: null ,
+        codigo_anddes: null ,
+        codigo_cliente: null ,
+        descripcion_entregable: null ,
+        fecha_a: null ,
+        fecha_b: null ,
+        fecha_0: null , 
+        clase:'',        
+      };
+    }
+    va.listaentregable.push(va.inserted);
+
+};
+
 
 va.agregarListaentregable = function() {
 
@@ -2131,35 +2188,35 @@ va.saveTableentregable=function()
 {
   console.log(va.listaentregable);
 
-  // angular.forEach(va.listaentregable, function(val) {  
+  angular.forEach(va.listaentregable, function(val) {  
 
-  //   edt=val['edt'];
-  //   tipo_documento=val['tipo_documento'];   
-  //   disciplina=val['disciplina'];
-  //   codigo_anddes=val['codigo_anddes'];
-  //   codigo_cliente=val['codigo_cliente'];
-  //   fecha_0=val['fecha_0'];
-  //   fecha_a=val['fecha_a'];
-  //   fecha_b=val['fecha_b'];
-  //   descripcion_entregable=val['descripcion_entregable'];   
-  //   cod_le=val['cod_listdet'];
+    edt=val['edt'];
+    tipo_documento=val['tipo_documento'];   
+    disciplina=val['disciplina'];
+    codigo_anddes=val['codigo_anddes'];
+    codigo_cliente=val['codigo_cliente'];
+    fecha_0=val['fecha_0'];
+    fecha_a=val['fecha_a'];
+    fecha_b=val['fecha_b'];
+    descripcion_entregable=val['descripcion_entregable'];   
+    cod_le=val['cod_listdet'];
  
 
-  //   codigo_prop_proy=va.revisionE['codigo_prop_proy'];
-  //   proyectoid=va.revisionE['proyectoid'];
-  //   revision_entregable=va.revisionE['revision_entregable'];
+    codigo_prop_proy=va.revisionE['codigo_prop_proy'];
+    proyectoid=va.revisionE['proyectoid'];
+    revision_entregable=va.revisionE['revision_entregable'];
 
-  //   proyectoFactory.setDatosxGuardarxListaxEntregables(
-  //     codigo_prop_proy,proyectoid,revision_entregable,edt,tipo_documento,disciplina,codigo_anddes,codigo_cliente,fecha_0,fecha_a,fecha_b,descripcion_entregable,cod_le)
-  //   .then(function(data) {
-  //    // va.listaentregable=data;
+    proyectoFactory.setDatosxGuardarxListaxEntregables(
+      codigo_prop_proy,proyectoid,revision_entregable,edt,tipo_documento,disciplina,codigo_anddes,codigo_cliente,fecha_0,fecha_a,fecha_b,descripcion_entregable,cod_le)
+    .then(function(data) {
+     // va.listaentregable=data;
 
-  //   })
-  //   .catch(function(err) {
-  //     //va.listaentregable = {};
-  //   })   
+    })
+    .catch(function(err) {
+      //va.listaentregable = {};
+    })   
 
-  // })
+  })
 
 }
 
@@ -2259,9 +2316,6 @@ va.clases=[
 
 
 
-
-//va.item.checked = true;
-va.fechaww=true;
 ///////////F I N  L I S T A  D E  E N T R E G A B L E ////////////////////////////////
 }]);
 

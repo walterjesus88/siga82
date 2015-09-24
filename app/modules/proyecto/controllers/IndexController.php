@@ -2253,7 +2253,7 @@ public function setguardarlistaentregablesAction()
   $whereone['cod_le']=$this->_getParam("cod_le");
 
   // print_r($whereone);
-  // print_r($data);exit();
+  //print_r($data);exit();
 
   // $verentregable= new Admin_Model_DbTable_Listaentregabledetalle();
   // $ventregable=$verentregable->_getOne($whereone);
