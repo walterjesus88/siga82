@@ -59,7 +59,7 @@ function(httpFactory, $scope,$filter,$q,proyectoFactory) {
           .success(function(data) {         
 
             va.dat=data[0]['1'];
-            console.log(va.dat);
+           // console.log(va.dat);
          
             var max = data[0]['1'].length;     
             var varx=[];
@@ -665,7 +665,7 @@ proyectoFactory.getVerCronogramaxActivo(proyecto['codigo'])
     .then(function(datax) {
         va.performance=datax;
 
-        console.log(va.performance);
+        //console.log(va.performance);
 
         angular.forEach(va.performance, function(val) { 
       
