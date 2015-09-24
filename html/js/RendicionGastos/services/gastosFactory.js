@@ -14,11 +14,11 @@ app.factory('gastosFactory', ['httpFactory', '$location', '$q',
     var publico = {
 
       Gasto: function(numero_completo,nombre,fecha,monto_total,estado) {
-      var estados = {
-        'B': 'Pendiente',
-        'E': 'Enviado',
-        'A': 'Aprobado',
-        'R': 'Rechazado'
+        var estados = {
+          'B': 'Pendiente',
+          'E': 'Enviado',
+          'A': 'Aprobado',
+          'R': 'Rechazado'
         }
         this.numero_completo = numero_completo;
         this.nombre = nombre;
@@ -37,6 +37,26 @@ app.factory('gastosFactory', ['httpFactory', '$location', '$q',
               })
             }
           },
+
+
+          setGuardarRendicion: function(numero_completo,nombre,fecha,estado) {
+            var defered = $q.defer();
+            var promise = defered.promise;
+
+            httpFactory.setGuardarRendicion(numero_completo,nombre,fecha,estado)
+            .then(function(data) {
+              datos = data;
+              defered.resolve(datos);
+        // console.log(data);
+        
+
+      })
+            .catch(function(err) {
+              defered.reject(err);
+            });
+            return promise;
+          },
         }
+
         return publico;
       }]);

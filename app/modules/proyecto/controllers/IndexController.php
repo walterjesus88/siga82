@@ -1987,8 +1987,7 @@ public function datosedtAction(){
 
   $edt= new Admin_Model_DbTable_ProyectoEdt();
   $veredt=$edt->_getEdtxProyectoid($proyecto);
-  //print_r('estoy n edt');
-  //print_r($veredt);exit();
+
   $this->_helper->json->sendJson($veredt);
 
 }
@@ -2245,13 +2244,16 @@ public function setguardarlistaentregablesAction()
   $data['clase']= 'Tecnico';
   $data['revision_documento']= 'A';
   $data['estado']= 'Ultimo';
-  // echo "hoohohohohohoh";
-  // print_r($data);
-  // exit();
+
   $whereone['proyectoid']=$this->_getParam("proyectoid");
   $whereone['codigo_prop_proy']=$this->_getParam("codigo_prop_proy");
   $whereone['revision_entregable']=$this->_getParam("revision_entregable");
   $whereone['edt']=$this->_getParam("edt");
+
+  //$whereone['cod_le']=$this->_getParam("cod_le");
+
+  // print_r($whereone);
+  // print_r($data);exit();
 
   $verentregable= new Admin_Model_DbTable_Listaentregabledetalle();
   $ventregable=$verentregable->_getOne($whereone);
@@ -2261,12 +2263,21 @@ public function setguardarlistaentregablesAction()
     $actualizarlistaentregable=new Admin_Model_DbTable_Listaentregabledetalle();
     $glentregable=$actualizarlistaentregable->_update($data,$whereone);
   }
-
   else
   {
     $guardarlistaentregable=new Admin_Model_DbTable_Listaentregabledetalle();
     $glentregable=$guardarlistaentregable->_save($data);
   }
+
+
+
+  // $updedt=new Admin_Model_DbTable_ProyectoEdt();
+  // $whereedt = array('codigo_edt' => $data['edt'],'codigo_prop_proy' =>$data['codigo_prop_proy'],'proyectoid' =>$data['proyectoid'],);
+
+  // $dataedt['state']='I';
+  // $updedt->_update($dataedt,$whereedt);
+
+
 
   $this->_helper->json->sendJson($glentregable);
 }

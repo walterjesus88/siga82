@@ -208,7 +208,7 @@ class Propuesta_IndexController extends Zend_Controller_Action {
 
 
     public function reporteexcelAction() {
-       $buscapropuesta = new Admin_Model_DbTable_Propuesta();
+        $buscapropuesta = new Admin_Model_DbTable_Propuesta();
         /** Include PHPExcel */
         $dir = APPLICATION_LIBRARY . "/PHPExcel1.8/Classes/PHPExcel.php";
         include ($dir);

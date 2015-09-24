@@ -18,7 +18,7 @@ $(document).ready(function() {
     t_b = $('#tb_sheet_time').dataTable();
     oSettings = t_b.dataTable().fnSettings();
     params = t_b.oApi._fnAjaxParameters(oSettings);
-    url = "/reporte/hojatiempo/downloadpdf?";
+    url = "/reporte/hojatiempo/downloadpdf/format/pdf?";
     url = url + $.param(params);
     $(this).attr("href", url);
   });

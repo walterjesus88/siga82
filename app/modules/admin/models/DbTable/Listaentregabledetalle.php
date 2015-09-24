@@ -47,9 +47,6 @@ class Admin_Model_DbTable_Listaentregabledetalle extends Zend_Db_Table_Abstract
         }
     }
 
-
-
-
          /* Lista toda las Personas */
     public function _getFilter($where=null,$attrib=null,$orders=null){
         try{

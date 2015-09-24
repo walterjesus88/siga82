@@ -548,7 +548,7 @@ app.factory('httpFactory', ['$http','$q', function($http,$q) {
       return promise;
     },
 
-   setGuardarxListaxEntregables: function(codigo_prop_proy,proyectoid,revision_entregable,edt,tipo_documento,disciplina,codigo_anddes,codigo_cliente,fecha_0,fecha_a,fecha_b,descripcion_entregable) {
+   setGuardarxListaxEntregables: function(codigo_prop_proy,proyectoid,revision_entregable,edt,tipo_documento,disciplina,codigo_anddes,codigo_cliente,fecha_0,fecha_a,fecha_b,descripcion_entregable,cod_le) {
       var defered = $q.defer();
       var promise = defered.promise; 
  
@@ -563,7 +563,8 @@ app.factory('httpFactory', ['$http','$q', function($http,$q) {
       "/fecha_0/"+fecha_0+
       "/fecha_a/"+fecha_a+
       "/fecha_b/"+fecha_b+
-      "/descripcion_entregable/"+descripcion_entregable
+      "/descripcion_entregable/"+descripcion_entregable+
+      "/cod_le/"+cod_le
       )
       .success(function(data) {
         defered.resolve(data);
