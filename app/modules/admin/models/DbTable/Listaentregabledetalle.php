@@ -17,9 +17,10 @@ class Admin_Model_DbTable_Listaentregabledetalle extends Zend_Db_Table_Abstract
 
     public function _getOne($where){
         try {
-            if ($where["codigo_prop_proy"]=='' || $where["proyectoid"]==''  ||  $where["revision_entregable"]==''  ||  $where["edt"]==''   ) return false;
+            //if ($where["codigo_prop_proy"]=='' || $where["proyectoid"]==''  ||  $where["revision_entregable"]==''  ||  $where["edt"]==''   ) return false;
 
-                $wherestr= "codigo_prop_proy = '".$where['codigo_prop_proy']."' and  proyectoid = '".$where['proyectoid']."' and  revision_entregable = '".$where['revision_entregable']."' and edt = '".$where['edt']."'";
+                //$wherestr= "codigo_prop_proy = '".$where['codigo_prop_proy']."' and  proyectoid = '".$where['proyectoid']."' and  revision_entregable = '".$where['revision_entregable']."' and edt = '".$where['edt']."'";
+                $wherestr= "cod_le = '".$where['cod_le']."' ";
 
                 $row = $this->fetchRow($wherestr);
                 if($row) return $row->toArray();
@@ -34,12 +35,11 @@ class Admin_Model_DbTable_Listaentregabledetalle extends Zend_Db_Table_Abstract
     {
         try{
             //if ($pk['id_tproyecto']=='' ||  $pk['proyectoid']=='' ) return false;
-            $where = "
-                codigo_prop_proy = '".$pk['codigo_prop_proy']."' and
-                revision_entregable = '".$pk['revision_entregable']."' and
-                edt = '".$pk['edt']."' and
-                proyectoid = '".$pk['proyectoid']."'
-            ";
+            // $where = "
+            //      codigo_prop_proy = '".$pk['codigo_prop_proy']."' and revision_entregable = '".$pk['revision_entregable']."' and edt = '".$pk['edt']."' and proyectoid = '".$pk['proyectoid']."'
+            // ";
+            $where = "cod_le = '".$pk['cod_le']."' ";
+
             return $this->update($data, $where);
             return false;
         }catch (Exception $e){

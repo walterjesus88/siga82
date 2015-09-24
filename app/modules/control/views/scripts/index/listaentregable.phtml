@@ -1,8 +1,3 @@
-<!-- 
-<div>Operator is: {{filterCondition.operator.value}}</div>
-<select ng-model="filterxxCondition.operator" ng-options="operator.displayName for operator in CP.operators" >
-</select>
- -->
 
 <div class="form-group" class="col-md-12"  >
 	<div class="col-md-2" >
@@ -77,17 +72,18 @@
 		</td> -->
 
     	<td>      
-	        <span editable-select="lista.edt" e-form="rowform" e-ng-options="s.codigo as s.nombre for s in CP.edt" >
-	           <!-- {{ lista.edt }}  -->
-	       	   {{ CP.showStatus(lista) }}  
-	        </span>
+	        <select editable-select="lista.edt" e-form="rowform" e-ng-options="s.codigo as s.nombre for s in CP.edt" >
+	           {{ lista.edt }} 
+	       	   <!-- {{ CP.showStatus(lista) }}   -->
+	        </select>
      	</td>
 	          
  		
  		<td>      
-	        <span editable-select="lista.tipo_documento" e-form="rowform" e-ng-options="s.value as s.text for s in CP.tipodocumentoE" >
-	       	  {{ CP.showTipodoc(lista) }} 
-	        </span>
+	        <select editable-select="lista.tipo_documento" e-form="rowform" e-ng-options="s.value as s.text for s in CP.tipodocumentoE" >
+	       	  <!-- {{ CP.showTipodoc(lista) }}  -->
+	       	  {{ lista.tipo_documento }} 
+	        </select>
      	</td>
 
 		<!--<td>
@@ -104,19 +100,19 @@
 
 
 		<td  >
-			<span editable-text="lista.codigo_anddes" e-form="tableform" onbeforesave="checkName($data, lista.cod_le)">
+			<span editable-text="lista.codigo_anddes" e-form="tableform" >
 				{{ lista.codigo_anddes }}
 			</span>
 
 		</td>
 		<td  >
-			<span editable-text="lista.codigo_cliente" e-form="tableform" onbeforesave="checkName($data, lista.cod_le)">
+			<span editable-text="lista.codigo_cliente" e-form="tableform" >
 				{{ lista.codigo_cliente }}
 			</span>
 
 		</td>
 		<td>
-			<span editable-text="lista.descripcion_entregable" e-form="tableform" onbeforesave="checkName($data, lista.cod_le)">	
+			<span editable-text="lista.descripcion_entregable" e-form="tableform" >	
 				{{ lista.descripcion_entregable }}
 			</span>
 
@@ -128,13 +124,13 @@
 
 		</td>
 		<td  >
-			<span editable-text="lista.fecha_b" e-form="tableform" onbeforesave="checkName($data, lista.cod_le)">
+			<span editable-text="lista.fecha_b" e-form="tableform" >
 				{{ lista.fecha_b }}
 			</span>
 
 		</td>
 		<td  >
-			<span editable-text="lista.fecha_0" e-form="tableform" onbeforesave="checkName($data, lista.cod_le)">
+			<span editable-text="lista.fecha_0" e-form="tableform" >
 				{{ lista.fecha_0 }}
 			</span>
 
@@ -142,7 +138,7 @@
 
 
 		<td>
-			<span editable-text="lista.cod_le" e-form="tableform" onbeforesave="checkName($data, lista.cod_le)">
+			<span editable-text="lista.cod_le" e-form="tableform" >
 				{{ lista.cod_le }}
 			</span>
 		</td>

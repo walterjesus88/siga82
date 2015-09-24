@@ -7,7 +7,7 @@ class Admin_Model_DbTable_ProyectoEdt extends Zend_Db_Table_Abstract
     public function _getEdtxProyectoid($proyectoid)
     {
       try {
-        $sql = $this->_db->query("select codigo_edt as codigo, nombre_edt as nombre,descripcion_edt as descripcion,state
+        $sql = $this->_db->query("select codigo_edt as codigo, nombre_edt as nombre,descripcion_edt as descripcion
         from proyecto_edt where proyectoid = '".$proyectoid."' ");
         $rows = $sql->fetchAll();
         return $rows;
