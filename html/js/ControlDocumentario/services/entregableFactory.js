@@ -12,7 +12,7 @@ app.factory('entregableFactory', ['httpFactory', 'transmittalFactory',
         this.codigo_cliente = item.codigo_cliente;
         this.descripcion = item.descripcion_entregable;
         this.tipo_envio = '';
-        this.revision = item.revision_entregable;
+        this.revision = item.revision_documento;
         this.estado_revision = item.estado_revision;
         this.transmittal = item.transmittal;
         this.correlativo = item.correlativo;
@@ -167,8 +167,8 @@ app.factory('entregableFactory', ['httpFactory', 'transmittalFactory',
         });
       }
 
-      this.generarRevision = function() {
-        httpFactory.createRevision(this.codigo)
+      this.generarRevision = function(tipo) {
+        httpFactory.createRevision(this.codigo, tipo)
         .then(function(data) {
 
         })

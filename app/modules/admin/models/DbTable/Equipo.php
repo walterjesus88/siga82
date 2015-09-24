@@ -1,10 +1,10 @@
-<?php 
+<?php
 class Admin_Model_DbTable_Equipo extends Zend_Db_Table_Abstract
 {
     protected $_name = 'equipo';
-    protected $_primary = array("codigo_prop_proy","proyectoid","categoriaid","uid","dni","areaid","cargo");   
+    protected $_primary = array("codigo_prop_proy","proyectoid","categoriaid","uid","dni","areaid","cargo");
 
-     /* Lista toda las Personas */    
+     /* Lista toda las Personas */
     public function _getEquipoAll(){
         try{
             $f = $this->fetchAll();
@@ -19,13 +19,13 @@ class Admin_Model_DbTable_Equipo extends Zend_Db_Table_Abstract
      {
         try{
             $sql=$this->_db->query("
-               select * from equipo e inner join proyecto p 
-               on e.codigo_prop_proy = p.codigo_prop_proy and e.proyectoid = p.proyectoid 
+               select * from equipo e inner join proyecto p
+               on e.codigo_prop_proy = p.codigo_prop_proy and e.proyectoid = p.proyectoid
                where e.uid = '$uid' and e.estado = '$estado'");
             $row=$sql->fetchAll();
-            return $row;           
-            }  
-            
+            return $row;
+            }
+
            catch (Exception $ex){
             print $ex->getMessage();
         }
@@ -35,29 +35,29 @@ class Admin_Model_DbTable_Equipo extends Zend_Db_Table_Abstract
      {
         try{
             $sql=$this->_db->query("
-               select * from equipo e inner join proyecto p 
-               on e.codigo_prop_proy = p.codigo_prop_proy and e.proyectoid = p.proyectoid 
-               where e.uid='$uid' and e.estado = '$estado' and e.categoriaid = '$categoriaid' 
+               select * from equipo e inner join proyecto p
+               on e.codigo_prop_proy = p.codigo_prop_proy and e.proyectoid = p.proyectoid
+               where e.uid='$uid' and e.estado = '$estado' and e.categoriaid = '$categoriaid'
                and nivel = '$nivel' order by e.proyectoid");
             $row=$sql->fetchAll();
-            return $row;           
-            }  
-            
+            return $row;
+            }
+
            catch (Exception $ex){
             print $ex->getMessage();
         }
     }
 
 /*
-select p.codigo_prop_proy, p.proyectoid, e.estado, e.categoriaid, e.cargo, e.areaid, pro.propuestaid, pro.revision, p.nombre_proyecto, 
-                p.tipo_proyecto, pro.moneda, pro.descripcion  
+select p.codigo_prop_proy, p.proyectoid, e.estado, e.categoriaid, e.cargo, e.areaid, pro.propuestaid, pro.revision, p.nombre_proyecto,
+                p.tipo_proyecto, pro.moneda, pro.descripcion
                 from equipo e inner join proyecto p
                 on e.codigo_prop_proy = p.codigo_prop_proy
                 inner join propuesta pro on
                 p.codigo_prop_proy=pro.codigo_prop_proy
                 where e.uid = '$uid' and e.estado = '$estado' and pro.clienteid='$clienteid' and pro.unidad_mineraid='$unidad_mineraid'
 */
- 
+
 
 
     public function _getProyectosXuidXEstadoXnivel($where=null){
@@ -66,7 +66,7 @@ select p.codigo_prop_proy, p.proyectoid, e.estado, e.categoriaid, e.cargo, e.are
             $wherestr="uid = '".$where['uid']."' and dni = '".$where['dni']."' and estado = '".$where['estado']."' and nivel = '".$where['nivel']."'";
             $row = $this->fetchRow($wherestr);
             if($row) return $row->toArray();
-            return false;         
+            return false;
             } catch (Exception $ex){
             print $ex->getMessage();
         }
@@ -78,10 +78,10 @@ public function _getProyectosxUidXEstadoxCliente($uid,$estado,$clienteid,$unidad
      {
         try{
             $sql=$this->_db->query("
-         
+
                 select e.codigo_prop_proy, e.proyectoid,e.estado,e.uid,e.dni,e.categoriaid,e.areaid,e.cargo,e.nivel,p.propuestaid, p.revision, p.nombre_proyecto, p.gerente_proyecto, p.control_documentario, p.control_proyecto,
                 p.tipo_proyecto,p.clienteid,p.unidad_mineraid
-               
+
                 from equipo e inner join proyecto p
                 on e.codigo_prop_proy = p.codigo_prop_proy and e.proyectoid=p.proyectoid
                 where e.uid = '$uid' and e.estado = '$estado' and
@@ -89,9 +89,9 @@ public function _getProyectosxUidXEstadoxCliente($uid,$estado,$clienteid,$unidad
                 p.unidad_mineraid='$unidad_mineraid'
                     ");
             $row=$sql->fetchAll();
-            return $row;           
-            }  
-            
+            return $row;
+            }
+
            catch (Exception $ex){
             print $ex->getMessage();
         }
@@ -101,7 +101,7 @@ public function _getProyectosxUidXEstadoxCliente($uid,$estado,$clienteid,$unidad
 
 select e.codigo_prop_proy, e.proyectoid,e.estado,e.uid,e.dni,e.categoriaid,e.areaid,e.cargo,e.nivel,p.propuestaid, p.revision, p.nombre_proyecto, p.gerente_proyecto, p.control_documentario, p.control_proyecto,
                 p.tipo_proyecto,p.clienteid,p.unidad_mineraid
-               
+
                 from equipo e inner join proyecto p
                 on e.codigo_prop_proy = p.codigo_prop_proy and e.proyectoid=p.proyectoid
                 where e.uid = '$uid' and e.dni='$dni' and e.estado = '$estado' and
@@ -112,23 +112,23 @@ select e.codigo_prop_proy, e.proyectoid,e.estado,e.uid,e.dni,e.categoriaid,e.are
      {
         try{
             $sql=$this->_db->query("
-         
-                
+
+
 
                 select  distinct e.codigo_prop_proy, e.proyectoid,e.estado,e.uid,e.dni,e.categoriaid,p.propuestaid, p.revision, p.nombre_proyecto, p.gerente_proyecto, p.control_documentario, p.control_proyecto,
                 p.tipo_proyecto,p.clienteid,p.unidad_mineraid
-               
+
                 from equipo e inner join proyecto p
                 on e.codigo_prop_proy = p.codigo_prop_proy and e.proyectoid=p.proyectoid
-                where e.uid = '$uid' and e.dni='$dni' and e.estado = '$estado' and p.estado='$estado' and 
+                where e.uid = '$uid' and e.dni='$dni' and e.estado = '$estado' and p.estado='$estado' and
                 p.clienteid='$clienteid' order by e.proyectoid
 
 
                     ");
             $row=$sql->fetchAll();
-            return $row;           
-            }  
-            
+            return $row;
+            }
+
            catch (Exception $ex){
             print $ex->getMessage();
         }
@@ -140,26 +140,26 @@ public function _getProyectosAnddes()
      {
         try{
             $sql=$this->_db->query("
-         
+
                 select *
-               
-                from  proyecto 
-                where clienteid='20451530535' and unidad_mineraid='10' 
+
+                from  proyecto
+                where clienteid='20451530535' and unidad_mineraid='10'
                     ");
             $row=$sql->fetchAll();
-            return $row;           
-            }  
-            
+            return $row;
+            }
+
            catch (Exception $ex){
             print $ex->getMessage();
         }
     }
 
 
-/*  consulta anterior de la muestra d eclientes 
-            select 
+/*  consulta anterior de la muestra d eclientes
+            select
                c.clienteid,c.nombre_comercial,c.nombre as nombre_cliente,u.unidad_mineraid,
-               u.nombre as nombre_unidad, p.nombre_propuesta, p.tipo_servicio   
+               u.nombre as nombre_unidad, p.nombre_propuesta, p.tipo_servicio
                from equipo e inner join propuesta p
                on e.codigo_prop_proy = p.codigo_prop_proy
                inner join unidad_minera u on
@@ -175,16 +175,16 @@ public function _getProyectosAnddes()
             $sql=$this->_db->query("
                 select distinct (p.clienteid), c.nombre_comercial, p.unidad_mineraid
                    from equipo e inner join proyecto p
-                ON e.codigo_prop_proy = p.codigo_prop_proy and e.proyectoid=p.proyectoid 
+                ON e.codigo_prop_proy = p.codigo_prop_proy and e.proyectoid=p.proyectoid
                 inner join cliente c on
                 p.clienteid=c.clienteid
                 where e.uid = '$uid' and e.estado = '$estado' and not unidad_mineraid='10'
                 order by c.nombre_comercial
                ");
             $row=$sql->fetchAll();
-            return $row;           
-            }  
-            
+            return $row;
+            }
+
            catch (Exception $ex){
             print $ex->getMessage();
         }
@@ -196,15 +196,15 @@ public function _getProyectosAnddes()
             $sql=$this->_db->query("
                 select distinct (p.clienteid), c.nombre_comercial
                    from equipo e inner join proyecto p
-                ON e.codigo_prop_proy = p.codigo_prop_proy and e.proyectoid=p.proyectoid 
+                ON e.codigo_prop_proy = p.codigo_prop_proy and e.proyectoid=p.proyectoid
                 inner join cliente c on
                 p.clienteid=c.clienteid
                 where e.uid = '$uid' and e.dni='$dni' and p.estado='$estado' and e.estado = '$estado' order by c.nombre_comercial
                ");
             $row=$sql->fetchAll();
-            return $row;           
-            }  
-            
+            return $row;
+            }
+
            catch (Exception $ex){
             print $ex->getMessage();
         }
@@ -245,9 +245,9 @@ public function _getProyectosAnddes()
                and estado='A'
             ");
             $row=$sql->fetchAll();
-            return $row;           
-            }  
-            
+            return $row;
+            }
+
            catch (Exception $ex){
             print $ex->getMessage();
         }
@@ -262,9 +262,9 @@ public function _getProyectosAnddes()
                and categoriaid='$categoriaid'
             ");
             $row=$sql->fetchAll();
-            return $row;           
-            }  
-            
+            return $row;
+            }
+
            catch (Exception $ex){
             print $ex->getMessage();
         }
@@ -286,17 +286,17 @@ public function _getDatosxProyectoxUidXEstadoxCliente($uid,$dni,$estado,$codigo_
      {
         try{
             $sql=$this->_db->query("
-         
+
                 select *
-                from equipo 
+                from equipo
                 where uid = '$uid' and estado = '$estado' and
                 codigo_prop_proy='$codigo_prop_proy' and
                 proyectoid='$proyectoid' and dni='$dni'
                     ");
             $row=$sql->fetchAll();
-            return $row;           
-            }  
-            
+            return $row;
+            }
+
            catch (Exception $ex){
             print $ex->getMessage();
         }
@@ -308,17 +308,17 @@ public function _getListarNivel4xNivel3($uid,$dni,$nivel_inferior,$nivel_superio
      {
         try{
             $sql=$this->_db->query("
-                
 
 
-                select distinct uid, dni from equipo where proyectoid in  (select proyectoid from equipo  
+
+                select distinct uid, dni from equipo where proyectoid in  (select proyectoid from equipo
                 where uid='$uid' and nivel='$nivel_superior' and areaid='$areaid') and nivel='$nivel_inferior' and areaid='$areaid'
 
                     ");
             $row=$sql->fetchAll();
-            return $row;           
-            }  
-            
+            return $row;
+            }
+
            catch (Exception $ex){
             print $ex->getMessage();
         }
@@ -326,18 +326,18 @@ public function _getListarNivel4xNivel3($uid,$dni,$nivel_inferior,$nivel_superio
 
 /*
 
-                select distinct uid,dni from equipo where proyectoid in  
+                select distinct uid,dni from equipo where proyectoid in
                 (select distinct proyectoid from
                  equipo  where uid='$uid' and dni='$dni' and nivel='0')
-                  and nivel in ('4','2','1','3') 
+                  and nivel in ('4','2','1','3')
 */
 public function _getListarEquipoxProyectoxGerente($uid,$dni)
      {
         try{
             $sql=$this->_db->query("
-                
 
-                  select distinct uid,dni from planificacion where proyectoid in  
+
+                  select distinct uid,dni from planificacion where proyectoid in
                 (select distinct proyectoid from
                  equipo   where uid='$uid' and dni='$dni'  and nivel='0') and h_totaldia is not null
 
@@ -345,9 +345,9 @@ public function _getListarEquipoxProyectoxGerente($uid,$dni)
 
                     ");
             $row=$sql->fetchAll();
-            return $row;           
-            }  
-            
+            return $row;
+            }
+
            catch (Exception $ex){
             print $ex->getMessage();
         }
@@ -360,12 +360,12 @@ public function _getListarEquipoxProyectoxGerente($uid,$dni)
             $sql=$this->_db->query("
                 select * from equipo
                where proyectoid='$proyectoid' and nivel='0' and cargo='GER-PROY'
-               
+
             ");
             $row=$sql->fetchAll();
-            return $row;           
-            }  
-            
+            return $row;
+            }
+
            catch (Exception $ex){
             print $ex->getMessage();
         }
@@ -375,15 +375,15 @@ public function _getListarEquipoxProyectoxGerente($uid,$dni)
      {
         try{
             $sql=$this->_db->query("
-               select  distinct uid, dni  
+               select  distinct uid, dni
                 from equipo where areaid='$areaid' and nivel='4'
                 and not dni='10664960'
 
             ");
             $row=$sql->fetchAll();
-            return $row;           
-            }  
-            
+            return $row;
+            }
+
            catch (Exception $ex){
             print $ex->getMessage();
         }
@@ -394,15 +394,15 @@ public function _getListarEquipoxProyectoxGerente($uid,$dni)
      {
         try{
             $sql=$this->_db->query("
-                
+
                 select * from usuario_categoria where cargo='JEFE' and areaid in('22','21')
 
 
                     ");
             $row=$sql->fetchAll();
-            return $row;           
-            }  
-            
+            return $row;
+            }
+
            catch (Exception $ex){
             print $ex->getMessage();
         }
@@ -413,14 +413,14 @@ public function _getListarEquipoxProyectoxGerente($uid,$dni)
      {
         try{
             $sql=$this->_db->query("
-                
+
                select * from usuario_categoria where cargo='JEFE' and areaid in('10','02','22')
 
                     ");
             $row=$sql->fetchAll();
-            return $row;           
-            }  
-            
+            return $row;
+            }
+
            catch (Exception $ex){
             print $ex->getMessage();
         }
@@ -430,14 +430,14 @@ public function _getListarEquipoxProyectoxGerente($uid,$dni)
      {
         try{
             $sql=$this->_db->query("
-                
+
                select * from usuario_categoria where cargo='GERENTE-AREA' and areaid in('10','02','20') or uid in ('romy.valdivia','jorge.alvarez','daniel.ttito')
 
                     ");
             $row=$sql->fetchAll();
-            return $row;           
-            }  
-            
+            return $row;
+            }
+
            catch (Exception $ex){
             print $ex->getMessage();
         }
@@ -448,11 +448,11 @@ public function _getListarEquipoxProyectoxGerente($uid,$dni)
     {
         try{
             $sql=$this->_db->query("
-                    select * from usuario_categoria where cargo='GERENTE' 
+                    select * from usuario_categoria where cargo='GERENTE'
                 ");
             $row=$sql->fetchAll();
-            return $row;           
-            }  
+            return $row;
+            }
             catch (Exception $ex){
             print $ex->getMessage();
         }
@@ -462,14 +462,14 @@ public function _getListarEquipoxProyectoxGerente($uid,$dni)
         try{
             if ($where['uid']=='' || $where['dni']=='' ) return false;
             $wherestr="
-                uid = '".$where['uid']."' and dni = '".$where['dni']."' 
-                and codigo_prop_proy = '".$where['codigo_prop_proy']."' 
-                and proyectoid = '".$where['proyectoid']."' 
+                uid = '".$where['uid']."' and dni = '".$where['dni']."'
+                and codigo_prop_proy = '".$where['codigo_prop_proy']."'
+                and proyectoid = '".$where['proyectoid']."'
                 and areaid = '".$where['areaid']."' and estado='A'
                 ";
             $row = $this->fetchRow($wherestr);
             if($row) return $row->toArray();
-            return false;         
+            return false;
             } catch (Exception $ex){
             print $ex->getMessage();
         }
@@ -480,8 +480,8 @@ public function _getListarEquipoxProyectoxGerente($uid,$dni)
         try{
             if ($pk['codigo_prop_proy']=='' ||  $pk['proyectoid']=='' ) return false;
             $where = "codigo_prop_proy = '".$pk['codigo_prop_proy']."' and proyectoid='".$pk['proyectoid']."'
-                and  uid = '".$pk['uid']."' and dni = '".$pk['dni']."' 
-                 and areaid = '".$pk['areaid']."' 
+                and  uid = '".$pk['uid']."' and dni = '".$pk['dni']."'
+                 and areaid = '".$pk['areaid']."'
              ";
             return $this->update($data, $where);
             return false;
@@ -492,9 +492,9 @@ public function _getListarEquipoxProyectoxGerente($uid,$dni)
 
     public function _getOne($where=array()){
         try {
-                //if ($where["dni"]=='') return false;                
-                $wherestr= "codigo_prop_proy = '".$where['codigo_prop_proy']."' 
-                            and proyectoid='".$where['proyectoid']."'  
+                //if ($where["dni"]=='') return false;
+                $wherestr= "codigo_prop_proy = '".$where['codigo_prop_proy']."'
+                            and proyectoid='".$where['proyectoid']."'
                             and uid='".$where['uid']."' and dni='".$where['dni']."'  and areaid='".$where['areaid']."'
                              ";
 
@@ -513,9 +513,9 @@ public function _getListarEquipoxProyectoxGerente($uid,$dni)
      {
         try{
             $sql=$this->_db->query("
-                
-                    select distinct uid,dni 
-                from planificacion where proyectoid in  
+
+                    select distinct uid,dni
+                from planificacion where proyectoid in
                 (select distinct proyectoid from
                 equipo   where uid='$uid' and dni='$dni'  and nivel='0')
                 union
@@ -524,9 +524,9 @@ public function _getListarEquipoxProyectoxGerente($uid,$dni)
 
                     ");
             $row=$sql->fetchAll();
-            return $row;           
-            }  
-            
+            return $row;
+            }
+
            catch (Exception $ex){
             print $ex->getMessage();
         }
@@ -542,8 +542,8 @@ public function _getListarEquipoxProyectoxGerente($uid,$dni)
         try{
             $sql=$this->_db->query("select uid, dni from equipo where codigo_prop_proy='".$proyecto."' and estado='".$estado."' and nivel='".$nivel."'");
             $row=$sql->fetchAll();
-            return $row;           
-            }            
+            return $row;
+            }
            catch (Exception $ex){
             print $ex->getMessage();
         }
@@ -555,20 +555,35 @@ public function _getDatosxEquipoxProyecto($uid,$dni,$codigo_prop_proy,$proyectoi
      {
         try{
             $sql=$this->_db->query("
-         
+
                 select *
-                from equipo 
+                from equipo
                 where uid = '$uid'  and
                 codigo_prop_proy='$codigo_prop_proy' and
                 proyectoid='$proyectoid' and dni='$dni'
                     ");
             $row=$sql->fetchAll();
-            return $row;           
-            }  
-            
+            return $row;
+            }
+
            catch (Exception $ex){
             print $ex->getMessage();
         }
+    }
+
+    public function _getDisciplinasxProyecto($proyectoid)
+    {
+      try {
+        $sql = $this->_db->query("select distinct e.areaid, a.nombre
+        from equipo as e inner join area as a
+        on e.areaid = a.areaid
+        where e.proyectoid='".$proyectoid."'");
+        $rows = $sql->fetchAll();
+        return $rows;
+      } catch (Exception $e) {
+        $e->getMessage();
+      }
+
     }
 
 

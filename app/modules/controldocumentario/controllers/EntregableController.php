@@ -143,6 +143,7 @@ class ControlDocumentario_EntregableController extends Zend_Controller_Action {
     public function guardarrevisionAction()
     {
       $data['entregableid'] = $this->_getParam('entregableid');
+      $data['tipo'] = $this->_getParam('tipo');
       $entregable = new Admin_Model_DbTable_Listaentregabledetalle();
       $respuesta = $entregable->_createRevision($data);
       $this->_helper->json->sendJson($respuesta);

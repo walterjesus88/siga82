@@ -26,6 +26,7 @@ function(httpFactory, $routeParams, respuestaFactory, transmittalFactory) {
         respuesta.emitido = resp.emitido;
         respuesta.revision = resp.revision;
         respuesta.fecha = resp.fecha;
+        respuesta.date = respuesta.fecha.toDate();
         cl.emitidos.push(respuesta);
       })
     })

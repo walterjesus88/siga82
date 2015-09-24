@@ -18,6 +18,8 @@ app.factory('detalleFactory', ['httpFactory', function(httpFactory) {
       this.estilo = '';
       this.cantidad = item.cantidad || 1;
 
+      this.date = this.fecha.toDate();
+
       this.select = function() {
         if (this.seleccionado == false) {
           this.seleccionado = true;
@@ -70,6 +72,10 @@ app.factory('detalleFactory', ['httpFactory', function(httpFactory) {
         } else {
           alert('Aun no se a emitido el transmittal');
         }
+      }
+
+      this.cambiarFecha = function() {
+        this.fecha = this.date.Ddmmyyyy();
       }
 
       this.cambiarContacto = function(contactoid) {
