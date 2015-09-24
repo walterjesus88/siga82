@@ -10,7 +10,25 @@ app.directive('ngEnter', function () {
             }
         });
     };
+
+    return {
+            restrict: 'A',
+            scope: {
+                confirm: '@',
+                confirmAction: '&'
+            },
+            link: function (scope, element, attrs) {
+                element.bind('click', function (e) {
+                    if (confirm(scope.confirm)) {
+                        scope.confirmAction();
+                    }
+                });
+            }
+    };
 });
+
+
+
 
 app.controller('ControlCtrl', ['httpFactory', '$scope','$filter','$q',
 'proyectoFactory',
@@ -25,7 +43,7 @@ function(httpFactory, $scope,$filter,$q,proyectoFactory) {
   .then(function(data) {
   
     va.proyectop = data; 
-    console.log(va.proyectop);
+    //console.log(va.proyectop);
 
       proyectoFactory.getVerCronogramaxActivo(proyecto['codigo'])
       .then(function(data) {
@@ -41,6 +59,7 @@ function(httpFactory, $scope,$filter,$q,proyectoFactory) {
           .success(function(data) {         
 
             va.dat=data[0]['1'];
+           // console.log(va.dat);
          
             var max = data[0]['1'].length;     
             var varx=[];
@@ -99,7 +118,8 @@ function(httpFactory, $scope,$filter,$q,proyectoFactory) {
 /*Trae datos de cronograma*/
   proyectoFactory.getDatosProyectoxCronograma(proyecto['codigo'])
   .then(function(data) {
-    //console.log(datax);
+    
+    //console.log(data);
     //alert('datax');
     va.procronograma=data;
 
@@ -125,15 +145,16 @@ function(httpFactory, $scope,$filter,$q,proyectoFactory) {
    va.formVisibilityCronograma=true;    
   }
 
+ 
+  
+  va.doIt = function() { alert('did it!'); };
+
   va.GuardarCronograma= function(){
     va.estado='A';
 
     proyectoFactory.setDatosxGuardarxCronograma(va.codigocronograma,
       va.revision,va.estado,va.proyectop.codigo_prop_proy,va.proyectop.codigo)
     .then(function(data) {
-      
-      //console.log(data);
-
       va.inserted = {
         codigo_prop_proy:va.proyectop.codigo_prop_proy,
         proyectoid:va.proyectop.codigo,
@@ -164,10 +185,10 @@ function(httpFactory, $scope,$filter,$q,proyectoFactory) {
     proyectoid=va.proyectop.codigo;
     codigo_cronograma=data.codigo_cronograma;
     revision_cronograma=data.revision_cronograma;
-    state=data.state;
- 
+    //state=data.state;
+    //console.log(data);    //console.log(cronogramaid);
 
-    proyectoFactory.setDatosxModificarxCronograma(codigo_cronograma,codigoproyecto,proyectoid,revision_cronograma,cronogramaid,state)
+    proyectoFactory.setDatosxModificarxCronograma(codigo_cronograma,codigoproyecto,proyectoid,revision_cronograma,cronogramaid)
     .then(function(data) {
           
     })
@@ -187,7 +208,7 @@ function(httpFactory, $scope,$filter,$q,proyectoFactory) {
 
     proyectoFactory.setDatosxEliminarxCronograma(cronogramaid,codigoproyecto,proyectoid)
     .then(function(data) {
-      console.log('lego');
+      //console.log('lego');
       va.procronograma.splice(index, 1);     
 
     })
@@ -284,8 +305,7 @@ function(httpFactory, $scope,$filter,$q,proyectoFactory) {
   }
 
   va.saveColumn= function(column){
-    //console.log(column);
-    // var results = [];
+
     angular.forEach(va.dat, function(fecha) {  
       //a=results.push($http.post('/saveColumn', {column: column, value: fecha[column], id: fecha.id_tproyecto}));
     httpFactory.setCambiarfechaproyecto(fecha[column],column,fecha.codigo_curvas)
@@ -459,12 +479,15 @@ va.buscaperformance = function(revision) {
 
   revision_cronograma=revision.revision_cronograma;
   proyectoid=revision.proyectoid;
+  codigoproy=revision.codigo_prop_proy;
 
-  console.log(revision_cronograma);
-  console.log(proyectoid);
+  // console.log(revision_cronograma);
+  // console.log(proyectoid);
+  // console.log(revision);
 
-  proyectoFactory.getDatosxProyectoxFechaxCorte(proyectoid,revision_cronograma)
+  proyectoFactory.getDatosxProyectoxFechaxCorte(proyectoid,revision_cronograma,codigoproy)
   .then(function(data) {
+    //onsole.log(data);
     va.thi=data; 
   })
   .catch(function(err) {
@@ -474,6 +497,7 @@ va.buscaperformance = function(revision) {
   proyectoFactory.getDatosProyectoxPerfomance(proyectoid,revision_cronograma)
   .then(function(datax) {
       va.performance=datax;
+
 
     })
   .catch(function(err) {
@@ -500,13 +524,14 @@ va.generarrevision= function()
 
 va.buscafecha = function(revision) {
  
-revision_cronograma=revision.revision_cronograma;
-proyectoid=revision.proyectoid;
+  revision_cronograma=revision.revision_cronograma;
+  proyectoid=revision.proyectoid;
+  codigoproy=revision.codigo_prop_proy;
 
-console.log(proyectoid);
-console.log(revision);
+  // console.log(proyectoid);
+  // console.log(revision);
 
-  proyectoFactory.getDatosxProyectoxFechaxCorte(proyectoid,revision_cronograma)
+  proyectoFactory.getDatosxProyectoxFechaxCorte(proyectoid,revision_cronograma,codigoproy)
   .then(function(data) {
     va.thi=data;
     //console.log(va.thi);
@@ -605,19 +630,26 @@ proyectoFactory.getVerCronogramaxActivo(proyecto['codigo'])
   }
   else
   {
-
+    codigoproy=data[0]['codigo_prop_proy'];
     revision=data[0]['revision_cronograma'];
+    //console.log(codigoproy);
+
   //F E C H A S  D E  C O R T E///
-    proyectoFactory.getDatosxProyectoxFechaxCorte(proyecto['codigo'],revision)
+  proyectoFactory.getDatosxProyectoxFechaxCorte(proyecto['codigo'],revision,codigoproy)
     .then(function(data) {
-      va.thi=data;
-      ///lert(va.thi);
+      va.thi=data;      
+      
       angular.forEach(va.thi, function(val,id) {
         
         if(val['state_performance']=='A')
         {
           va.fecha_corte_activa=val['fecha'];
-          console.log(va.fecha_corte_activa);
+          //console.log(va.fecha_corte_activa);
+        }
+        if(val['state_performance']=='C')
+        {
+          va.fecha_corte_cerrada=val['fecha'];
+          //alert(va.fecha_corte_cerrada);         
         }
 
 
@@ -627,13 +659,28 @@ proyectoFactory.getVerCronogramaxActivo(proyecto['codigo'])
       va.thi = {};
     });
 
+   // console.log(va.fecha_corte_activa);
 
     proyectoFactory.getDatosProyectoxPerfomance(proyecto['codigo'],revision)
     .then(function(datax) {
         va.performance=datax;
 
-        console.log(va.performance);
-        ///console.log(va.performance);
+        //console.log(va.performance);
+
+        angular.forEach(va.performance, function(val) { 
+      
+          actividad1digito= val['actividadid'].length;
+          if(actividad1digito==1)
+          {
+            va.subtotal_costopro+=parseInt(val['costo_propuesta']);
+            va.subtotal_horaspro+=parseInt(val['horas_propuesta']);
+            va.subtotal_porcplani+=parseInt(val['porcentaje_planificado']);
+            va.subtotal_porcreal+=parseInt(val['porcentaje_real']);           
+          }
+        })
+        //va.subtotal_costopro='15000';     
+
+
        })
     .catch(function(err) {
         va.performance = {};
@@ -645,31 +692,117 @@ proyectoFactory.getVerCronogramaxActivo(proyecto['codigo'])
 });
 
 //calculara la fecha fin de la actividad //
-va.calculafechafin= function()
-{
-  console.log('ssss');
+
+
+
+va.cerrarfechacorte=function(item){ 
+   item.checked=true;  
+
+
+  revision_cronograma=va.revi['revision_cronograma'];
+  codigo_prop_proy=va.revi['codigo_prop_proy'];
+  proyectoid=va.revi['proyectoid'];
+
+   //console.log(item);
+      //console.log(va.revi['codigo_prop_proy']);
+      proyectoFactory.getDatosxProyectoxFechaxCorte(va.revi['proyectoid'],va.revi['revision_cronograma'],va.revi['codigo_prop_proy'])
+      .then(function(data) {
+        //console.log(data);
+        //angular.forEach(data, function(val,id)
+        for (var i = 0; i < data.length; i++)        
+        {
+        
+          if(data[i]['state_performance']=='A')
+          {
+            proyectoid=data[i]['proyectoid'];
+            codigo_prop_proy=data[i]['codigo_prop_proy'];
+            fecha_corte=data[i]['fechacorteid'];
+
+            if(i==data.length-1)
+            { }
+            else
+            {             
+              id_cambiar=i+1;      
+              fechacorte_cambiar=data[i+1]['fechacorteid'];   
+            } 
+
+            var fechacorte_cambiar
+            proyectoFactory.getCerrarxProyectoxFechaxCorte(proyectoid,codigo_prop_proy,fecha_corte,fechacorte_cambiar)
+            .then(function(data) {
+            })
+            .catch(function(err) {       
+            });
+
+          } 
+        };
+      //  va.thi=data; 
+      })
+      .catch(function(err) {
+          alert('intentelo de nuevo');
+      });
+
+      
+      // proyectoFactory.getDatosProyectoxPerfomance(proyectoid,revision_cronograma)
+      // .then(function(datax) {
+      //     va.performance=datax;
+      //     console.log(va.performance);
+
+      //   })
+      // .catch(function(err) {
+      //     va.performance = {};
+      // })
+
 }
 
-va.cambio= function(data, id)
-{
+va.subtotal_costopro=0;
+va.subtotal_horaspro=0;
+va.subtotal_porcplani=0;
+va.subtotal_porcreal=0;
 
-
-
- // console.log(id);
- // console.log(data);
- // console.log(va.performance[3]);
-
-  //vars={ fecha_comienzo: 'data' }
-  //va.performance[3].push(vars);
-
-}
+va.subtotal_fecha=0;
+//va.subtotal_fecha[2]=0;
+//va.subtotal_fecha[3]=0;
 
 va.checkName=function(data, id)
 {
-  //alert('Cambia moddddlo');
-  //console.log(data);
-  //console.log(id);
-  console.log(va.performance);
+  //C A L C U L O  D E   S U B T O T A L E S//
+
+ actividad1digito= va.performance[id]['actividadid'].length;
+ if(actividad1digito==1)
+ {
+  //alert(va.performance[id]['actividadid']);
+  // alert(va.performance[id]['costo_propuesta']);
+  // alert(va.performance[id]['horas_propuesta']);
+  va.subtotal_costopro+=parseInt(va.performance[id]['costo_propuesta']);
+  va.subtotal_horaspro+=parseInt(va.performance[id]['horas_propuesta']);
+  va.subtotal_porcplani+=parseInt(va.performance[id]['porcentaje_planificado']);
+  va.subtotal_porcreal+=parseInt(va.performance[id]['porcentaje_real']);
+  
+  angular.forEach(va.performance[id]['items'], function(val,id) {
+
+
+    for (var i = 0; i <= va.performance[id]['items'].length; i++) {
+
+      if(id==2)
+      {
+        console.log(i);
+        va.subtotal_fecha+=parseInt(val['porcentaje_performance']);
+        //va.subtotal_fecha=va.subtotal_fecha[i];
+        console.log(id +"-"+ va.subtotal_fecha);
+
+      } 
+    
+    };
+
+   
+    //console.log(id);
+  })
+
+  va.dat=[{ porcentaje_ejecutado:va.subtotal_fecha},
+          ]
+
+ }
+
 
 //angular.forEach(va.performance, function(val,id) {
     
@@ -767,11 +900,103 @@ va.checkName=function(data, id)
  // console.log(horas_planificado);
   porcentaje_planificado=Math.round((calculo_c_planificadas/costo_propuesta)*100);
  
- console.log(cadena);
+ // console.log(cadena);
+ // alert(horas_planificado);
+ // alert(costo_planificado);
 
- if( cadena!=null )
-  {
-    console.log("duracion"+duracion);
+ //cadena=cadena.trim();
+
+if(cadena==null || cadena==''   )
+{
+    //alert(' es null ');
+    if(f_comienzo=='null' && f_fin=='null')
+    {
+      f_comienzo='';
+      f_fin='';
+    }
+    else
+    {
+      if(f_comienzo=='null')
+      {
+        
+        fec = f_fin.replace(/-/g, '/');
+        fec=fec.toString();
+        fecha = new Date(fec);
+            
+        ki=1; 
+        while (ki<=duracion-1) 
+        {
+          fecha.setTime(fecha.getTime()-24*60*60*1000); // añadimos 1 día
+          if (fecha.getDay() == 6  || fecha.getDay() == 0    )
+            {  }
+            else
+            {
+              ki++;
+            }
+        }
+
+        day=fecha.getDate();
+        month=fecha.getMonth()+1;
+        year=fecha.getFullYear();
+
+        if (month.toString().length < 2) 
+        {                     
+          month = '0' + month;
+        }
+        if (day.toString().length < 2) 
+        {                      
+          day = '0' + day;
+        }
+                      
+        fecha_comienzo=year+"-"+month+"-"+day;
+        fecha_fin=f_fin;
+
+      }
+      else
+      {
+        //alert(id+":::"+f_comienzo);
+        fec=f_comienzo.toString();
+        fecha = new Date(fec);
+
+        ki=0; 
+        while (ki<duracion) {
+                          
+          fecha.setTime(fecha.getTime()+24*60*60*1000); // añadimos 1 día
+          if (fecha.getDay() == 0 || fecha.getDay() == 6)
+          {     
+          }                  
+          else
+          {         
+            ki++;
+          }
+        }
+
+        day=fecha.getDate();
+        month=fecha.getMonth()+1;
+        year=fecha.getFullYear();
+
+        if (month.toString().length < 2) 
+        {
+          month = '0' + month;
+        }
+        if (day.toString().length < 2) 
+        {
+          day = '0' + day;
+        }
+                       
+        fecha_fin=year+"-"+month+"-"+day;
+        //alert(id+"fin"+fecha_fin);
+        fecha_comienzo=f_comienzo;
+      }
+
+    }
+}
+else
+{  
+
+    //alert('es diferente a  null');
+    //console.log("duracion"+duracion);
+    //console.log(cadena);
     texto =  ['FC','CF','CC','FF'];
 
     for (var i = texto.length - 1; i >= 0; i--)
@@ -825,11 +1050,11 @@ va.checkName=function(data, id)
                         fecha.setTime(fecha.getTime()-24*60*60*1000); // añadimos 1 día
                         if (fecha.getDay() == 6  || fecha.getDay() == 0    )
                         {
-                          console.log(fecha.getDay());                                        
+                         // console.log(fecha.getDay());                                        
                         }  
                         else
                         {
-                          console.log(fecha.getDay());
+                          //console.log(fecha.getDay());
                           ki++;
                         }
                     }
@@ -955,12 +1180,12 @@ va.checkName=function(data, id)
 
                     if (month.toString().length < 2) 
                     {
-                      console.log('si');
+                      //console.log('si');
                       month = '0' + month;
                     }
                     if (day.toString().length < 2) 
                     {
-                      console.log('si222');
+                      //console.log('si222');
                       day = '0' + day;
                     }
                      
@@ -1532,102 +1757,14 @@ va.checkName=function(data, id)
           };
         break;
 
-        }
+         }
       }
     }
 
-    /**ACA ESTABA EL VA.PERFORMANCE[ID]**/  
+}
 
-  }
-  else
-  { alert('kkkk');
 
-    
-    if(f_comienzo=='null' && f_fin=='null')
-    {
-      f_comienzo='';
-      f_fin='';
-    }
-    else
-    {
-      if(f_comienzo=='null')
-      {
-        
-        fec = f_fin.replace(/-/g, '/');
-        fec=fec.toString();
-        fecha = new Date(fec);
-            
-        ki=1; 
-        while (ki<=duracion-1) 
-        {
-          fecha.setTime(fecha.getTime()-24*60*60*1000); // añadimos 1 día
-          if (fecha.getDay() == 6  || fecha.getDay() == 0    )
-            {  }
-            else
-            {
-              ki++;
-            }
-        }
 
-        day=fecha.getDate();
-        month=fecha.getMonth()+1;
-        year=fecha.getFullYear();
-
-        if (month.toString().length < 2) 
-        {                     
-          month = '0' + month;
-        }
-        if (day.toString().length < 2) 
-        {                      
-          day = '0' + day;
-        }
-                      
-        fecha_comienzo=year+"-"+month+"-"+day;
-        fecha_fin=f_fin;
-
-      }
-      else
-      {
-        //alert(id+":::"+f_comienzo);
-        fec=f_comienzo.toString();
-        fecha = new Date(fec);
-
-        ki=0; 
-        while (ki<duracion) {
-                          
-          fecha.setTime(fecha.getTime()+24*60*60*1000); // añadimos 1 día
-          if (fecha.getDay() == 0 || fecha.getDay() == 6)
-          {     
-          }                  
-          else
-          {         
-            ki++;
-          }
-        }
-
-        day=fecha.getDate();
-        month=fecha.getMonth()+1;
-        year=fecha.getFullYear();
-
-        if (month.toString().length < 2) 
-        {
-          month = '0' + month;
-        }
-        if (day.toString().length < 2) 
-        {
-          day = '0' + day;
-        }
-                       
-        fecha_fin=year+"-"+month+"-"+day;
-        //alert(id+"fin"+fecha_fin);
-        fecha_comienzo=f_comienzo;
-      }
-
-    }
-
-    /**ACA ESTABA EL VA.PERFORMANCE[ID]**/   
-
-  }
 
   //console.log(dsdad);
     va.performance[id] = 
@@ -1697,7 +1834,9 @@ va.checkName=function(data, id)
         fecha_ingreso_performance=value['fecha_ingreso_performance'];
         fecha_performance=value['fecha_performance'];
 
-     // console.log(proyectoid);
+       //alert(fecha_performance);
+       //alert(porcentaje_performance);
+       // console.log(proyectoid);
 
 
         proyectoFactory.setActualizarDatosxPerfomance(codigo_prop_proy,codigo_actividad,actividadid,cronogramaid,
@@ -1720,34 +1859,52 @@ va.checkName=function(data, id)
   .then(function(data) {
 
         va.edt=data;
-        //console.log(va.edt);
-        //console.log('va.edt');
+        console.log(va.edt);
+        
   })
   .catch(function(err) {
+      console.log("error edt");
             //va.procronograma = {};
   });
 
 
-  va.showStatus = function(lista) {
-    var selected = [];
-    if(lista.edt) {
-      selected = $filter('filter')(va.edt, {codigo: lista.edt});
-    }
-    return selected.length ? selected[0].nombre : 'Not set';
-  };
+  // va.showStatus = function(lista) {
+    
+  //   //console.log(lista.edt);    
+  //   console.log(va.edt);
 
-  va.showTipodoc = function(lista) {
-    var selected = [];
-    if(lista.tipo_documento) {
-      selected = $filter('filter')(va.tipodocumentoE, {value: lista.tipo_documento});
-    }
-    return selected.length ? selected[0].text : 'Not set';
-  };
+  //   var selected = [];
+  //   if(lista.edt) {
+  //     selected = $filter('filter')(va.edt, {codigo: lista.edt});
+  //   }
+  //   return selected.length ? selected[0].nombre : 'Not set';
+
+  // };
+
+  
+  va.operators = [
+    {value: 'eq', displayName: 'equals', state:'A'},
+    {value: 'eq1', displayName: 'equals1', state:'A'},
+    {value: 'neq', displayName: 'not equal', state:'I'}
+  ]
+   
 
   va.tipodocumentoE = [
     {value: 'Plano', text: 'Plano'},
     {value: 'Informe', text: 'Informe'},   
   ]; 
+
+
+  // va.showTipodoc = function(lista) {
+
+
+  //   var selected = [];
+  //   if(lista.tipo_documento) {
+  //     selected = $filter('filter')(va.tipodocumentoE, {value: lista.tipo_documento});
+  //   }
+  //   return selected.length ? selected[0].text : 'Not set';
+  // };
+
 
   // va.statuses = [
   //   {value: 1, text: 'status1'},
@@ -1757,17 +1914,6 @@ va.checkName=function(data, id)
   // ]; 
 
   // console.log(va.statuses);
-
-  // va.showStatuss = function(user) {
-  //   var selected = ['hhh'];
-    // if(user.status) {
-    //   selected = $filter('filter')(va.statuses, {value: user.status});
-    // }
-    // console.log(selected[0].text);
-    //alert('selectttt');
-    //return 'selected';
-    //.length ? selected[0].text : 'Not set';
-  //};
 
 
   va.ShowFormEdt=function(){ 
@@ -1854,11 +2000,12 @@ va.checkName=function(data, id)
 
       revision_cronograma=revision.revision_cronograma;
       proyectoid=revision.proyectoid;
+      codigoproy=revision.codigo_prop_proy;
 
       console.log(revision_cronograma);
       console.log(proyectoid);
 
-      proyectoFactory.getDatosxProyectoxFechaxCorte(proyectoid,revision_cronograma)
+      proyectoFactory.getDatosxProyectoxFechaxCorte(proyectoid,revision_cronograma,codigoproy)
       .then(function(data) {
         va.thi=data; 
       })
@@ -1889,8 +2036,7 @@ proyectoFactory.getDatosxEntregable(proyecto['codigo'])
       {
         va.revisionE=va.entregable[i]
         console.log(va.revisionE);
-        console.log('va.revisionE');
-
+     
         proyectoFactory.getDatosListaxEntregables(proyecto['codigo'],va.revisionE['revision_entregable'])
         .then(function(datax) {
           va.listaentregable=datax;
@@ -1914,8 +2060,7 @@ va.buscaentregables = function(revision) {
 revision_entregable=revision.revision_entregable;
 proyectoid=revision.proyectoid;
 console.log(revision);
-//console.log(proyectoid);
-//console.log(revision_entregable);
+
   proyectoFactory.getDatosListaxEntregables(proyecto['codigo'],revision_entregable)
   .then(function(datax) {
     va.listaentregable=datax;
@@ -1928,13 +2073,24 @@ console.log(revision);
 };
 
 
-va.agregarListaentregable = function() {
+va.addListaEntregable= function() {
+
+    // va.inserted = {
+    //   id: $scope.users.length+1,
+    //   name: '',
+    //   status: null,
+    //   group: null 
+    // };
+    // va.users.push(va.inserted);
+
     if(va.listaentregable)
     {
       va.inserted = {
-      //codigo_prop_proy:va.proyectop.codigo_prop_proy,
-      //proyectoid:va.proyectop.codigo,   
+        codigo_prop_proy:va.proyectop.codigo_prop_proy,
+        proyectoid:va.proyectop.codigo,  
+        revision_entregable: va.revisionE['revision_entregable'],
         id: va.listaentregable.length+1,
+        cod_listdet:va.listaentregable.length+1,
         edt: null,
         tipo_documento: null,
         disciplina: null ,
@@ -1943,16 +2099,20 @@ va.agregarListaentregable = function() {
         descripcion_entregable: null ,
         fecha_a: null ,
         fecha_b: null ,
-        fecha_0: null ,   
+        fecha_0: null ,  
+        clase:'',       
       };
     }
     else
     {
       va.listaentregable=[];
       va.inserted = {
-      //codigo_prop_proy:va.proyectop.codigo_prop_proy,
-      //proyectoid:va.proyectop.codigo,   
+        codigo_prop_proy:va.proyectop.codigo_prop_proy,
+        proyectoid:va.proyectop.codigo, 
+        revision_entregable: va.revisionE['revision_entregable'],
         id: va.listaentregable.length+1,
+        cod_listdet:va.listaentregable.length+1,
+        
         edt: null,
         tipo_documento: null,
         disciplina: null ,
@@ -1961,18 +2121,74 @@ va.agregarListaentregable = function() {
         descripcion_entregable: null ,
         fecha_a: null ,
         fecha_b: null ,
-        fecha_0: null ,   
+        fecha_0: null , 
+        clase:'',        
       };
     }
     va.listaentregable.push(va.inserted);
+
+};
+
+
+va.agregarListaentregable = function() {
+
+    console.log(va.listaentregable);
+    console.log(va.edt);
+
+    //va.edt=[{ nombre:'xxxx',codigo_edt:'dada'}];
+
+    if(va.listaentregable)
+    {
+      va.inserted = {
+        codigo_prop_proy:va.proyectop.codigo_prop_proy,
+        proyectoid:va.proyectop.codigo,  
+        revision_entregable: va.revisionE['revision_entregable'],
+        id: va.listaentregable.length+1,
+        cod_listdet:va.listaentregable.length+1,
+        edt: null,
+        tipo_documento: null,
+        disciplina: null ,
+        codigo_anddes: null ,
+        codigo_cliente: null ,
+        descripcion_entregable: null ,
+        fecha_a: null ,
+        fecha_b: null ,
+        fecha_0: null ,  
+        clase:'',       
+      };
+    }
+    else
+    {
+      va.listaentregable=[];
+      va.inserted = {
+        codigo_prop_proy:va.proyectop.codigo_prop_proy,
+        proyectoid:va.proyectop.codigo, 
+        revision_entregable: va.revisionE['revision_entregable'],
+        id: va.listaentregable.length+1,
+        cod_listdet:va.listaentregable.length+1,
+        
+        edt: null,
+        tipo_documento: null,
+        disciplina: null ,
+        codigo_anddes: null ,
+        codigo_cliente: null ,
+        descripcion_entregable: null ,
+        fecha_a: null ,
+        fecha_b: null ,
+        fecha_0: null , 
+        clase:'',        
+      };
+    }
+    va.listaentregable.push(va.inserted);
+
 };
 
 
 va.saveTableentregable=function()
 {
   console.log(va.listaentregable);
-  angular.forEach(va.listaentregable, function(val) {
-    
+
+  angular.forEach(va.listaentregable, function(val) {  
 
     edt=val['edt'];
     tipo_documento=val['tipo_documento'];   
@@ -1983,13 +2199,15 @@ va.saveTableentregable=function()
     fecha_a=val['fecha_a'];
     fecha_b=val['fecha_b'];
     descripcion_entregable=val['descripcion_entregable'];   
+    cod_le=val['cod_listdet'];
+ 
 
     codigo_prop_proy=va.revisionE['codigo_prop_proy'];
     proyectoid=va.revisionE['proyectoid'];
     revision_entregable=va.revisionE['revision_entregable'];
 
     proyectoFactory.setDatosxGuardarxListaxEntregables(
-      codigo_prop_proy,proyectoid,revision_entregable,edt,tipo_documento,disciplina,codigo_anddes,codigo_cliente,fecha_0,fecha_a,fecha_b,descripcion_entregable)
+      codigo_prop_proy,proyectoid,revision_entregable,edt,tipo_documento,disciplina,codigo_anddes,codigo_cliente,fecha_0,fecha_a,fecha_b,descripcion_entregable,cod_le)
     .then(function(data) {
      // va.listaentregable=data;
 
@@ -2008,9 +2226,9 @@ va.deleteEntregable=function(index,edt)
     proyectoid=va.proyectop.codigo;
     revision_entregable=va.revisionE['revision_entregable'];
 
-    console.log(index);
+    // console.log(index);
     //console.log(codigoentregable);
-    console.log(revision_entregable);
+    //console.log(revision_entregable);
     // console.log(va.listaentregable);
     //var filtered = $filter('filter')(va.listaentregable, {edt: edt,revision_entregable:revision_entregable });
 
@@ -2075,10 +2293,10 @@ va.GuardarEntregable=function(){
 
 
 va.imprimir=function(){
-  console.log('dddddddadad');
+  //console.log('dddddddadad');
   httpFactory.createPdfEntregable('A')
   .then(function(data) {
-    console.log(data);
+    //console.log(data);
     //window.open(data.archivo, '_blank');
   })
   .catch(function(err) {
@@ -2086,6 +2304,17 @@ va.imprimir=function(){
   });
 
 }
+
+
+va.clases=[
+{'title':'a','type':1,ff:false},
+{'title':'b','type':2,ff:true},
+{'title':'c','type':1,ff:false},
+{'title':'d','type':3,ff:true},
+
+]
+
+
 
 ///////////F I N  L I S T A  D E  E N T R E G A B L E ////////////////////////////////
 }]);

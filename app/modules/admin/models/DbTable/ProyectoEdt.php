@@ -8,7 +8,7 @@ class Admin_Model_DbTable_ProyectoEdt extends Zend_Db_Table_Abstract
     {
       try {
         $sql = $this->_db->query("select codigo_edt as codigo, nombre_edt as nombre,descripcion_edt as descripcion
-        from proyecto_edt where proyectoid = '".$proyectoid."'");
+        from proyecto_edt where proyectoid = '".$proyectoid."' ");
         $rows = $sql->fetchAll();
         return $rows;
       } catch (Exception $e) {

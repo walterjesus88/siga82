@@ -265,10 +265,10 @@ app.factory('httpFactory', ['$http','$q', function($http,$q) {
       return promise;
     },
 
-    setModificarxCronograma: function(codigocronograma,codigo_prop_proy,proyectoid,revision,cronogramaid,state) {
+    setModificarxCronograma: function(codigocronograma,codigo_prop_proy,proyectoid,revision,cronogramaid) {
       var defered = $q.defer();
       var promise = defered.promise;
-      $http.post(url + 'modificarxproyectoxcronograma/codigocronograma/' + codigocronograma+"/revision/"+revision+"/codigo_prop_proy/"+codigo_prop_proy+"/proyectoid/"+proyectoid+"/cronogramaid/"+cronogramaid+"/state/"+state)
+      $http.post(url + 'modificarxproyectoxcronograma/codigocronograma/' + codigocronograma+"/revision/"+revision+"/codigo_prop_proy/"+codigo_prop_proy+"/proyectoid/"+proyectoid+"/cronogramaid/"+cronogramaid)
       .success(function(data) {
         defered.resolve(data);
       })
@@ -373,10 +373,27 @@ app.factory('httpFactory', ['$http','$q', function($http,$q) {
 
 ////////////////////  F E C H A  D E  C O R T E /////////////////////////
 
-    getProyectoxFechaxCorte: function(proyectoid,revision) {
+    getCerrarxFechaxCorte: function(proyectoid,codigo_prop_proy,fecha_corte,fechacorte_cambiar) {
       var defered = $q.defer();
       var promise = defered.promise;
-      $http.get(url + 'proyectoxfechaxcorte/proyectoid/' + proyectoid+"/revision/"+revision)
+      //alert(codigoproy);
+      $http.post(url + 'cerrarxfechaxcorte/proyectoid/' + proyectoid+"/codigo_prop_proy/"+codigo_prop_proy+"/fecha_corte/"+fecha_corte+"/fechacorte_cambiar/"+fechacorte_cambiar)
+      .success(function(data) {
+        defered.resolve(data);
+        
+      })
+      .error(function(err) {
+        defered.reject(err);
+      });
+      return promise;
+    },
+
+
+    getProyectoxFechaxCorte: function(proyectoid,revision,codigoproy) {
+      var defered = $q.defer();
+      var promise = defered.promise;
+      //alert(codigoproy);
+      $http.get(url + 'proyectoxfechaxcorte/proyectoid/' + proyectoid+"/revision/"+revision+"/codigoproy/"+codigoproy)
       .success(function(data) {
         defered.resolve(data);
         
@@ -531,7 +548,7 @@ app.factory('httpFactory', ['$http','$q', function($http,$q) {
       return promise;
     },
 
-   setGuardarxListaxEntregables: function(codigo_prop_proy,proyectoid,revision_entregable,edt,tipo_documento,disciplina,codigo_anddes,codigo_cliente,fecha_0,fecha_a,fecha_b,descripcion_entregable) {
+   setGuardarxListaxEntregables: function(codigo_prop_proy,proyectoid,revision_entregable,edt,tipo_documento,disciplina,codigo_anddes,codigo_cliente,fecha_0,fecha_a,fecha_b,descripcion_entregable,cod_le) {
       var defered = $q.defer();
       var promise = defered.promise; 
  
@@ -546,7 +563,8 @@ app.factory('httpFactory', ['$http','$q', function($http,$q) {
       "/fecha_0/"+fecha_0+
       "/fecha_a/"+fecha_a+
       "/fecha_b/"+fecha_b+
-      "/descripcion_entregable/"+descripcion_entregable
+      "/descripcion_entregable/"+descripcion_entregable+
+      "/cod_le/"+cod_le
       )
       .success(function(data) {
         defered.resolve(data);

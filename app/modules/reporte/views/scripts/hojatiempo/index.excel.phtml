@@ -11,8 +11,9 @@ $objPHPExcel->setActiveSheetIndex(0);
 $objPHPExcel->getActiveSheet()
             ->setCellValue('A1', 'Nombre Departamento')
             ->setCellValue('B1', 'Nombre Usuario')
-            ->setCellValue('C1', 'Periodo de Tiempo')
-            ->setCellValue('D1', 'Estado de Aprovación');
+            ->setCellValue('C1', 'Semana')
+            ->setCellValue('D1', 'Periodo de Tiempo')
+            ->setCellValue('E1', 'Estado de Aprovación');
 
 $sheet_times = new Reporte_DataTable_HojaTiempo();
 $tb_area = new Admin_Model_DbTable_Area();
@@ -27,7 +28,8 @@ for ($i = 0; $i < count($data); $i++) {
               ->setCellValue('A' . $row, $name_area["nombre"])
               ->setCellValue('B' . $row, $data[$i]['uid'])
               ->setCellValue('C' . $row, $data[$i]['semanaid'])
-              ->setCellValue('D' . $row, $tb_sheet_times->_getNameStatus($data[$i]['estado']));
+              ->setCellValue('D' . $row, $tb_sheet_times->convert_number_of_week_to_date($data[$i]['semanaid']))
+              ->setCellValue('E' . $row, $tb_sheet_times->_getNameStatus($data[$i]['estado']));
 }
 
 $objPHPExcel->setActiveSheetIndex(0);

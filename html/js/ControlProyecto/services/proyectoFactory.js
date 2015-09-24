@@ -170,9 +170,7 @@ function(httpFactory, $location, $q) {
     {
       var defered = $q.defer();
       var promise = defered.promise;
-       //console.log("esoty en setActualizarDatosxPerfomance");
-       //console.log(uperformance);
-
+    
       httpFactory.setDatosxPerfomance(codigo_prop_proy,codigo_actividad,actividadid,cronogramaid,
         codigo_cronograma,codigo_performance,porcentaje_performance,proyectoid,revision_cronograma,
         fecha_ingreso_performance,fecha_performance)
@@ -196,9 +194,7 @@ function(httpFactory, $location, $q) {
       {
       var defered = $q.defer();
       var promise = defered.promise;
-      console.log(predecesoras);
-      console.log(costo_real);
-
+     
 
       httpFactory.setModificarxPerformance(
         codigo_prop_proy,codigo_actividad,actividadid,cronogramaid,codigo_cronograma,codigo_performance,
@@ -282,6 +278,22 @@ function(httpFactory, $location, $q) {
     },
 
     ////////////////////  F E C H A  D E  C O R T E /////////////////////////
+   getCerrarxProyectoxFechaxCorte: function(proyectoid,codigo_prop_proy,fecha_corte,fechacorte_cambiar) {
+      var defered = $q.defer();
+      var promise = defered.promise;    
+
+      httpFactory.getCerrarxFechaxCorte(proyectoid,codigo_prop_proy,fecha_corte,fechacorte_cambiar)
+      .then(function(data) {
+        datos = data;
+        defered.resolve(datos);
+      })
+      .catch(function(err) {
+        defered.reject(err);
+      });
+      return promise;      
+    },   
+
+
     getDatosxGenerarxRevision: function(codigoproyecto,proyectoid) {
       var defered = $q.defer();
       var promise = defered.promise;    
@@ -297,12 +309,14 @@ function(httpFactory, $location, $q) {
       return promise;      
     },
 
-    getDatosxProyectoxFechaxCorte: function(proyectoid,revision) {
+    getDatosxProyectoxFechaxCorte: function(proyectoid,revision,codigoproy) {
       var defered = $q.defer();
       var promise = defered.promise;
      
-
-      httpFactory.getProyectoxFechaxCorte(proyectoid,revision)
+      // alert(proyectoid);
+      // alert(revision);
+      // alert(codigoproy);
+      httpFactory.getProyectoxFechaxCorte(proyectoid,revision,codigoproy)
       .then(function(data) {
         datos = data;
         defered.resolve(datos);
@@ -384,12 +398,13 @@ function(httpFactory, $location, $q) {
     },
 
 
-    setDatosxModificarxCronograma: function(codigo_cronograma,codigoproyecto,proyectoid,revision_cronograma,cronogramaid,state) {
+    setDatosxModificarxCronograma: function(codigo_cronograma,codigoproyecto,proyectoid,revision_cronograma,cronogramaid) {
       var defered = $q.defer();
       var promise = defered.promise;
-     
+       
+      //alert(state);     
 
-      httpFactory.setModificarxCronograma(codigo_cronograma,codigoproyecto,proyectoid,revision_cronograma,cronogramaid,state)
+      httpFactory.setModificarxCronograma(codigo_cronograma,codigoproyecto,proyectoid,revision_cronograma,cronogramaid)
       .then(function(data) {
         datos = data;
         defered.resolve(datos);
@@ -477,11 +492,13 @@ function(httpFactory, $location, $q) {
       return promise;      
     },
 
-    setDatosxGuardarxListaxEntregables: function(codigo_prop_proy,proyectoid,revision_entregable,edt,tipo_documento,disciplina,codigo_anddes,codigo_cliente,fecha_0,fecha_a,fecha_b,descripcion_entregable) {
+    setDatosxGuardarxListaxEntregables: function(codigo_prop_proy,proyectoid,revision_entregable,edt,tipo_documento,disciplina,codigo_anddes,codigo_cliente,fecha_0,fecha_a,fecha_b,descripcion_entregable,cod_le) {
       var defered = $q.defer();
-      var promise = defered.promise;     
+      var promise = defered.promise; 
 
-      httpFactory.setGuardarxListaxEntregables(codigo_prop_proy,proyectoid,revision_entregable,edt,tipo_documento,disciplina,codigo_anddes,codigo_cliente,fecha_0,fecha_a,fecha_b,descripcion_entregable)
+      //console.log(edt);
+
+      httpFactory.setGuardarxListaxEntregables(codigo_prop_proy,proyectoid,revision_entregable,edt,tipo_documento,disciplina,codigo_anddes,codigo_cliente,fecha_0,fecha_a,fecha_b,descripcion_entregable,cod_le)
       .then(function(data) {
         datos = data;
         defered.resolve(datos);

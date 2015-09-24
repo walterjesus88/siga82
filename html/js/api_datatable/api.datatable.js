@@ -14,6 +14,15 @@ $(document).ready(function() {
     $(this).attr("href", url);
   });
 
+  $("#export_pdf").click(function(){
+    t_b = $('#tb_sheet_time').dataTable();
+    oSettings = t_b.dataTable().fnSettings();
+    params = t_b.oApi._fnAjaxParameters(oSettings);
+    url = "/reporte/hojatiempo/downloadpdf/format/pdf?";
+    url = url + $.param(params);
+    $(this).attr("href", url);
+  });
+
   filter = $.parseJSON($.ajax({
       url: "/reporte/hojatiempo/filter",
       async: false,
@@ -24,7 +33,7 @@ $(document).ready(function() {
       // sDom: '<"header-actions"ip>f<"table"t>l>',
       // sPaginationType: "full_numbers",
       sAjaxSource: $("#tb_sheet_time").data("source"),
-      aoColumns: [null, null, null, null],
+      aoColumns: [null, null, null, null, null],
       aaSorting: [[0,"asc"]],
       bServerSide: true,
       iDisplayLength: 10}
@@ -71,6 +80,15 @@ $(document).ready(function() {
     $(this).attr("href", url);
   });
 
+  $("#planning_export_pdf").click(function(){
+    t_b = $('#datatable_planning').dataTable();
+    oSettings = t_b.dataTable().fnSettings();
+    params = t_b.oApi._fnAjaxParameters(oSettings);
+    url = "/reporte/planning/downloadpdf?";
+    url = url + $.param(params);
+    $(this).attr("href", url);
+  });
+
   tb_PersoCharges = $("#datatable_personcharges").dataTable({
       language: config_dataTable.oLanguage(),
       sAjaxSource: $("#datatable_personcharges").data("source"),
@@ -78,39 +96,66 @@ $(document).ready(function() {
       aaSorting: [[0,"asc"]],
       bServerSide: true,
       iDisplayLength: 10,
-      footerCallback: function (row, data, start, end, display){
-        var api = this.api(), data;
-        TotalNet = api
-                .column( 9, { page: 'current'} )
-                .data()
-                .reduce( function (a, b) {
-                    return intVal(a) + intVal(b);
-                }, 0 );
-        TotalOther = api
-                .column( 10, { page: 'current'} )
-                .data()
-                .reduce( function (a, b) {
-                    return intVal(a) + intVal(b);
-                }, 0 );
-        TotalIgv = api
-                .column( 11, { page: 'current'} )
-                .data()
-                .reduce( function (a, b) {
-                    return intVal(a) + intVal(b);
-                }, 0 );
-        Total = api
-                .column( 12, { page: 'current'} )
-                .data()
-                .reduce( function (a, b) {
-                    return intVal(a) + intVal(b);
-                }, 0 );
-        $( api.column( 9 ).footer() ).html( TotalNet );
-        $( api.column( 10 ).footer() ).html( TotalOther );
-        $( api.column( 11 ).footer() ).html( TotalIgv );
-        $( api.column( 12 ).footer() ).html( Total );
-      }
+      // footerCallback: function (row, data, start, end, display){
+      //   var api = this.api(), data;
+      //   TotalNet = api
+      //           .column( 9, { page: 'current'} )
+      //           .data()
+      //           .reduce( function (a, b) {
+      //               return intVal(a) + intVal(b);
+      //           }, 0 );
+      //   TotalOther = api
+      //           .column( 10, { page: 'current'} )
+      //           .data()
+      //           .reduce( function (a, b) {
+      //               return intVal(a) + intVal(b);
+      //           }, 0 );
+      //   TotalIgv = api
+      //           .column( 11, { page: 'current'} )
+      //           .data()
+      //           .reduce( function (a, b) {
+      //               return intVal(a) + intVal(b);
+      //           }, 0 );
+      //   Total = api
+      //           .column( 12, { page: 'current'} )
+      //           .data()
+      //           .reduce( function (a, b) {
+      //               return intVal(a) + intVal(b);
+      //           }, 0 );
+      //   $( api.column( 9 ).footer() ).html( TotalNet );
+      //   $( api.column( 10 ).footer() ).html( TotalOther );
+      //   $( api.column( 11 ).footer() ).html( TotalIgv );
+      //   $( api.column( 12 ).footer() ).html( Total );
+      // }
     });
+
+    tb_PersoCharges.yadcf([
+      {column_number: 0, select_type: 'chosen', filter_container_id: "tb_sheet_time_filter_refund", filter_default_label: "Todos los reembolsos", data: [{label: "Reembolsable", value: true}, {label: "No Reembolsable", value: false}] },
+      {column_number: 1, select_type: 'chosen', filter_container_id: "tb_sheet_time_filter_contract", filter_default_label: "Todos Cobrabilidad", data: [{label: "Facturable", value: true}, {label: "No Facturable", value: false}] },
+      {column_number: 2, filter_type: "range_date", filter_container_id: 'tb_sheet_time_filter_rendition', date_format: "dd/mm/yyyy", filter_default_label: ['Fecha de Inicio', 'Fecha Final']},
+      {column_number: 3, select_type: 'chosen', filter_container_id: "tb_sheet_time_filter_type_expence", filter_default_label: "Tipo de Gastos", data: [{label: "Reembolsable", value: true}, {label: "No Reembolsable", value: false}] },
+      // {column_number: 4, select_type: 'select', filter_container_id: "tb_sheet_time_filter_type_name", filter_default_label: "Formato de Nombres de proyecto", data: [{label: "Reembolsable", value: true}, {label: "No Reembolsable", value: false}] },
+      // {column_number: 5, select_type: 'chosen', filter_container_id: "tb_sheet_time_filter_type_name_users", filter_default_label: "Usuarios de Formato de Nombres de proyecto", data: [{label: "Reembolsable", value: true}, {label: "No Reembolsable", value: false}] },
+      // {column_number: 6, select_type: 'chosen', filter_container_id: "tb_sheet_time_filter_type_users", filter_default_label: "Usuarios", data: [{label: "Reembolsable", value: true}, {label: "No Reembolsable", value: false}] },
+      ]);
+  // tb_PersoCharges.columnFilter({
+  //   aoColumns: [
+  //     { sSelector: "#tb_sheet_time_filter_refund", type: "select", value: ["true", "false"] }
+  //   ]
+  // });
+    $("#export_excel_person_charge").click(function(){
+      t_b = $('#datatable_personcharges').dataTable();
+      oSettings = t_b.dataTable().fnSettings();
+      params = t_b.oApi._fnAjaxParameters(oSettings);
+      url = "/reporte/personcharges/index/format/excel?";
+      url = url + $.param(params);
+      $(this).attr("href", url);
+    });
+
 });
+
+
+//$(".table_multiple_select").multipleSelect();//
 
 config_dataTable = {
   oLanguage: function() {

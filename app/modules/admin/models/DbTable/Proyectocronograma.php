@@ -70,9 +70,7 @@ class Admin_Model_DbTable_Proyectocronograma extends Zend_Db_Table_Abstract
         try{            
             $where = "
                 codigo_prop_proy = '".$pk['codigo_prop_proy']."' and         
-                 
-                codigo_cronograma = '".$pk['codigo_cronograma']."' and 
-                revision_cronograma = '".$pk['revision_cronograma']."' and 
+                cronogramaid = '".$pk['cronogramaid']."' and
                 proyectoid = '".$pk['proyectoid']."'
             ";
             return $this->update($data, $where);

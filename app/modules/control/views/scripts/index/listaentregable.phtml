@@ -1,3 +1,4 @@
+
 <div class="form-group" class="col-md-12"  >
 	<div class="col-md-2" >
     <label>Escoja una revision: </label> 
@@ -40,7 +41,115 @@
 </div>
 
 
-<form method="POST" action="#" editable-form name="tableform" onaftersave="CP.saveTableentregable()" oncancel="cancel()" >
+<!-- ddddddddddddddddddddddwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww -->
+
+
+<table class="table table-bordered table-hover table-condensed">
+
+    <tr style="font-weight: bold"> 
+		<td style="width:10%">EDT</td>
+		<td>tipo_documento</td>
+		<td>disciplina</td>
+		<td>Codigo Anddes</td>
+		<td>Codigo Cliente</td>
+
+		<td>descripcion</td>
+		<td>fecha_a</td>
+		<td>fecha_b</td>
+		<td>fecha_0</td>
+		<td><span ng-show="tableform.$visible">Action</span></td>	
+    </tr>
+
+    <tr ng-repeat="lista in CP.listaentregable track by $index">
+    	
+    	<td>      
+	        <span editable-select="lista.edt" e-form="rowform" e-ng-options="s.codigo as s.nombre for s in CP.edt" >
+	           {{ lista.edt }} 
+	       	   <!-- {{ CP.showStatus(lista) }}   -->
+	        </span>
+     	</td> 
+ 		<td>      
+	        <span editable-select="lista.tipo_documento" e-form="rowform" e-ng-options="s.value as s.text for s in CP.tipodocumentoE" >
+	       	  <!-- {{ CP.showTipodoc(lista) }}  -->
+	       	  {{ lista.tipo_documento }} 
+	        </span>
+     	</td>
+		<td>
+			<span editable-text="lista.disciplina" e-form="tableform" onbeforesave="checkName($data, lista.cod_le)">
+				{{ lista.disciplina }}
+			</span>
+		</td>
+		<td>
+			<span editable-text="lista.codigo_anddes" e-form="tableform" >
+				{{ lista.codigo_anddes }}
+			</span>
+		</td>
+		<td  >
+			<span editable-text="lista.codigo_cliente" e-form="tableform" >
+				{{ lista.codigo_cliente }}
+			</span>
+		</td>
+		<td>
+			<span editable-text="lista.descripcion_entregable" e-form="tableform" >	
+				{{ lista.descripcion_entregable }}
+			</span>
+		</td>
+		<td  >
+			<span editable-text="lista.fecha_a" e-form="tableform" onbeforesave="checkName($data, lista.cod_le)">
+				{{ lista.fecha_a }}
+			</span>
+		</td>
+		<td  >
+			<span editable-text="lista.fecha_b" e-form="tableform" >
+				{{ lista.fecha_b }}
+			</span>
+		</td>
+		<td  >
+			<span editable-text="lista.fecha_0" e-form="tableform" >
+				{{ lista.fecha_0 }}
+			</span>
+
+		</td>
+		<td>
+			<span editable-text="lista.cod_le" e-form="tableform" >
+				{{ lista.cod_le }}
+			</span>
+		</td>
+
+        <td style="white-space: nowrap">	        
+	        <form editable-form name="rowform" onbeforesave="saveUser($data, user.id)" ng-show="rowform.$visible" class="form-buttons form-inline" shown="inserted == user">
+	          <button type="submit" ng-disabled="rowform.$waiting" class="btn btn-primary">
+	            save
+	          </button>
+	          <button type="button" ng-disabled="rowform.$waiting" ng-click="rowform.$cancel()" class="btn btn-default">
+	            cancel
+	          </button>
+	        </form>
+	        <div class="buttons" ng-show="!rowform.$visible">
+	          <button class="btn btn-primary" ng-click="rowform.$show()">editar</button>
+	          <button class="btn btn-danger" ng-click="removeUser($index)">eliminar</button>
+	        </div>  
+        </td>
+
+    </tr>
+</table>
+
+<button class="btn btn-default" ng-click="CP.addListaEntregable()">Add row</button>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- <form method="POST" action="#" editable-form name="tableform" onaftersave="CP.saveTableentregable()" oncancel="cancel()" >
 
 <table class=" table table-striped table-hover table-bordered ">
 <head>
@@ -63,51 +172,37 @@
 <body>
 	<tr ng-repeat="lista in CP.listaentregable track by $index">
 
-<!-- 
-		<td  >
-			<span editable-text="lista.edt" e-form="tableform" onbeforesave="checkName($data, lista.cod_le)">	
-				{{ lista.edt }}
-			</span>
-		</td> -->	
-
-    	<td >      
-	        <span editable-select="lista.edt" e-form="rowform" e-ng-options="s.codigo as s.nombre for s in CP.edt">
-	       	  {{ CP.showStatus(lista) }} 
+    	<td>      
+	        <span editable-select="lista.edt" e-form="rowform" e-ng-options="s.codigo as s.nombre for s in CP.edt" >
+	           {{ lista.edt }} 
+	       	   <!-- {{ CP.showStatus(lista) }}   -->
+	        </span>
+     	</td> 
+ 		<td>      
+	        <span editable-select="lista.tipo_documento" e-form="rowform" e-ng-options="s.value as s.text for s in CP.tipodocumentoE" >
+	       	  <!-- {{ CP.showTipodoc(lista) }}  -->
+	       	  {{ lista.tipo_documento }} 
 	        </span>
      	</td>
-	          <!-- {{ lista.edt }} -->
- 		
- 		<td >      
-	        <span editable-select="lista.tipo_documento" e-form="rowform" e-ng-options="s.value as s.text for s in CP.tipodocumentoE">
-	       	  {{ CP.showTipodoc(lista) }} 
-	        </span>
-     	</td>
-
-		<!--<td>
-			<span editable-text="lista.tipo_documento" e-form="tableform" onbeforesave="checkName($data, lista.cod_le)">
-				{{ lista.tipo_documento }}
-			</span>
-		</td> -->
-
-		<td  >
+		<td>
 			<span editable-text="lista.disciplina" e-form="tableform" onbeforesave="checkName($data, lista.cod_le)">
 				{{ lista.disciplina }}
 			</span>
 		</td>
-		<td  >
-			<span editable-text="lista.codigo_anddes" e-form="tableform" onbeforesave="checkName($data, lista.cod_le)">
+		<td>
+			<span editable-text="lista.codigo_anddes" e-form="tableform" >
 				{{ lista.codigo_anddes }}
 			</span>
 
 		</td>
 		<td  >
-			<span editable-text="lista.codigo_cliente" e-form="tableform" onbeforesave="checkName($data, lista.cod_le)">
+			<span editable-text="lista.codigo_cliente" e-form="tableform" >
 				{{ lista.codigo_cliente }}
 			</span>
 
 		</td>
 		<td>
-			<span editable-text="lista.descripcion_entregable" e-form="tableform" onbeforesave="checkName($data, lista.cod_le)">	
+			<span editable-text="lista.descripcion_entregable" e-form="tableform" >	
 				{{ lista.descripcion_entregable }}
 			</span>
 
@@ -119,25 +214,31 @@
 
 		</td>
 		<td  >
-			<span editable-text="lista.fecha_b" e-form="tableform" onbeforesave="checkName($data, lista.cod_le)">
+			<span editable-text="lista.fecha_b" e-form="tableform" >
 				{{ lista.fecha_b }}
 			</span>
 
 		</td>
 		<td  >
-			<span editable-text="lista.fecha_0" e-form="tableform" onbeforesave="checkName($data, lista.cod_le)">
+			<span editable-text="lista.fecha_0" e-form="tableform" >
 				{{ lista.fecha_0 }}
 			</span>
 
+		</td>
+
+
+		<td>
+			<span editable-text="lista.cod_le" e-form="tableform" >
+				{{ lista.cod_le }}
+			</span>
 		</td>
 
 		<td><button type="button" ng-show="!tableform.$visible"   ng-click="CP.deleteEntregable($index,lista.edt)" class="btn btn-danger pull-right">Eliminar</button></td>
 		
 		
 	</tr>
-</body>
+<!-- </body>
 </table>
-
 
 <div class="btn-edit">
     <button type="button" class="btn btn-default" ng-show="!tableform.$visible" ng-click="tableform.$show()">
@@ -149,12 +250,12 @@
     <button type="submit" ng-disabled="tableform.$waiting" class="btn btn-primary">guardar</button>
     <button type="button" ng-disabled="tableform.$waiting" ng-click="tableform.$cancel()" class="btn btn-default">cancelar</button>
 </div>
+
 </form>
 
 <div class="panel">
     <button type="button" class="btn btn-default" ng-click="CP.exportarToXml()">Exportar</button>
     <button type="button" class="btn btn-default" ng-click="CP.imprimir()">Imprimir</button>
 </div>
-
-
+ -->
 
