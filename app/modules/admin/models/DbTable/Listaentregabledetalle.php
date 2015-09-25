@@ -2,8 +2,8 @@
 class Admin_Model_DbTable_Listaentregabledetalle extends Zend_Db_Table_Abstract
 {
     protected $_name = 'lista_entregable_detalle';
-    protected $_primary = array("codigo_prop_proy","proyectoid","revision_entregable","edt");
-
+    protected $_primary = array("cod_le");
+    protected $_sequence ="s_lista_entregable_detalle";
 
     public function _save($data){
         try{

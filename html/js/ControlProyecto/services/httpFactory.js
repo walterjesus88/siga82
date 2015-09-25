@@ -576,11 +576,11 @@ app.factory('httpFactory', ['$http','$q', function($http,$q) {
       return promise;
     },
 
-   setEliminarxEntregable: function(edt,codigoproyecto,proyectoid,revision) {
+   setEliminarxEntregable: function(id,codigoproyecto,proyectoid,revision) {
       var defered = $q.defer();
       var promise = defered.promise; 
  
-      $http.post(url + 'seteliminarentregable/edt/'+ edt
+      $http.post(url + 'seteliminarentregable/id/'+ id
       +"/codigoproyecto/"+codigoproyecto+
       "/proyectoid/"+proyectoid+"/revision/"+revision
       )

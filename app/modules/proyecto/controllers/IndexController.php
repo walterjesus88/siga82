@@ -2228,6 +2228,7 @@ public function setguardarentregablesAction()
 
 public function setguardarlistaentregablesAction()
 {
+  //echo "idisioooo";
 
   $data['proyectoid']= $this->_getParam("proyectoid");
   $data['codigo_prop_proy']= $this->_getParam("codigo_prop_proy");
@@ -2252,22 +2253,27 @@ public function setguardarlistaentregablesAction()
 
   $whereone['cod_le']=$this->_getParam("cod_le");
 
-  // print_r($whereone);
+  //print_r($whereone);
+
+  // echo "tytytyytytytyytyytytyytyytytyytytyytytyytytytyytyty";
+  
   //print_r($data);exit();
 
   // $verentregable= new Admin_Model_DbTable_Listaentregabledetalle();
   // $ventregable=$verentregable->_getOne($whereone);
 
-  // if($ventregable)
-  // {
-    $actualizarlistaentregable=new Admin_Model_DbTable_Listaentregabledetalle();
+  $actualizarlistaentregable=new Admin_Model_DbTable_Listaentregabledetalle();
+
+  if($whereone['cod_le']=='undefined')
+  {
     $glentregable=$actualizarlistaentregable->_save($data);
-  //}
-  // else
-  // {
-  //   $guardarlistaentregable=new Admin_Model_DbTable_Listaentregabledetalle();
-  //   $glentregable=$guardarlistaentregable->_save($data);
-  // }
+    //echo "si es null";
+  }
+  else
+  {
+    //echo "no es null";
+    $glentregable=$actualizarlistaentregable->_update($data,$whereone);
+  }
 
 
 
@@ -2285,15 +2291,16 @@ public function setguardarlistaentregablesAction()
 
 public function seteliminarentregableAction()
 {
-  $edt= $this->_getParam("edt");
+  $cod_le= $this->_getParam("id");
   //echo $codigoentregable;exit();
-  $codigoproyecto= $this->_getParam("codigoproyecto");
-  $proyectoid= $this->_getParam("proyectoid");
-  $revision_entregable= $this->_getParam("revision");
+ // print_r($cod_le);exit();
+ // $codigoproyecto= $this->_getParam("codigoproyecto");
+//$proyectoid= $this->_getParam("proyectoid");
+ // $revision_entregable= $this->_getParam("revision");
 
-  $where = array('edt' => $edt , 'codigo_prop_proy' => $codigoproyecto , 'proyectoid' => $proyectoid , 'revision_entregable' => $revision_entregable);
+ // $where = array('edt' => $edt , 'codigo_prop_proy' => $codigoproyecto , 'proyectoid' => $proyectoid , 'revision_entregable' => $revision_entregable);
   $eliminarentregable=new Admin_Model_DbTable_Listaentregabledetalle();
-  $eentregable=$eliminarentregable->_delete($where);
+  $eentregable=$eliminarentregable->_deleteEntregable($cod_le);
   $this->_helper->json->sendJson($eentregable);
 }
 
