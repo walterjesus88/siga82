@@ -1877,7 +1877,7 @@ else
     if(lista.edt) {
       selected = $filter('filter')(va.edt, {codigo: lista.edt});
     }
-    return selected.length ? selected[0].nombre : 'Not set';
+    return selected.length ? selected[0].nombre : 'editar edt';
 
   };
 
@@ -1902,7 +1902,7 @@ else
     if(lista.tipo_documento) {
       selected = $filter('filter')(va.tipodocumentoE, {value: lista.tipo_documento});
     }
-    return selected.length ? selected[0].text : 'Not set';
+    return selected.length ? selected[0].text : 'eitar tipo_documento';
   };
 
 
@@ -2130,8 +2130,6 @@ va.addListaEntregable= function() {
 
 
 va.guardatListaentregable = function(data, id) {
-    //console.log(data);
-    //console.log(id);
 
     edt=data['edt'];
     tipo_documento=data['tipo_documento'];   
@@ -2148,10 +2146,6 @@ va.guardatListaentregable = function(data, id) {
     proyectoid=va.revisionE['proyectoid'];
     revision_entregable=va.revisionE['revision_entregable'];
 
-    // console.log(codigo_prop_proy);
-    // console.log(proyectoid);
-    // console.log(revision_entregable);
-
     proyectoFactory.setDatosxGuardarxListaxEntregables(
       codigo_prop_proy,proyectoid,revision_entregable,edt,tipo_documento,disciplina,codigo_anddes,codigo_cliente,fecha_0,fecha_a,fecha_b,descripcion_entregable,cod_le)
     .then(function(data) {
@@ -2166,8 +2160,7 @@ va.guardatListaentregable = function(data, id) {
                
                 if(va.entregable[i]['state']=='A')
                 {
-                  va.revisionE=va.entregable[i]
-                  console.log(va.revisionE);
+                  va.revisionE=va.entregable[i];                  
                
                   proyectoFactory.getDatosListaxEntregables(proyecto['codigo'],va.revisionE['revision_entregable'])
                   .then(function(datax) {
@@ -2188,12 +2181,10 @@ va.guardatListaentregable = function(data, id) {
 
     })
     .catch(function(err) {
-      //va.listaentregable = {};
+      
     })   
 
-    //$scope.user not updated yet
-    // angular.extend(data, {id: id});
-    // return $http.post('/saveUser', data);
+
   };
 
 // va.agregarListaentregable = function() {
@@ -2288,18 +2279,10 @@ va.guardatListaentregable = function(data, id) {
 
 va.deleteEntregable=function(index,id)
 {
-  //alert(index);
-  //alert(id);
     codigoproyecto=va.proyectop.codigo_prop_proy;
     proyectoid=va.proyectop.codigo;
     revision_entregable=va.revisionE['revision_entregable'];
-
-    // console.log(index);
-    //console.log(codigoentregable);
-    //console.log(revision_entregable);
-    // console.log(va.listaentregable);
-    //var filtered = $filter('filter')(va.listaentregable, {edt: edt,revision_entregable:revision_entregable });
-
+ 
     proyectoFactory.setDatosxEliminarxEntregable(id,codigoproyecto,proyectoid,revision_entregable)
     .then(function(data) {
        //va.listaentregable.splice(va.listaentregable.indexOf(filtered[0]), 1);
