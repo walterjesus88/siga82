@@ -93,7 +93,7 @@ class Admin_Model_DbTable_Usuario extends Zend_Db_Table_Abstract
         try{
             $sql=$this->_db->query("
                 select uid,split_part(u.uid, '.', 1) as nombre, split_part(u.uid, '.', 2) as apellido ,  initcap ( split_part(u.uid, '.', 1)  || ' '|| split_part(u.uid, '.', 2) ) as nombre_completo   
-                , a.nombre as nombre_area, u.estado,u.areaid
+                , a.nombre as nombre_area, u.estado,u.areaid,a.codigo_sig
                 from usuario as u inner join area as a
                 on u.areaid = a.areaid where u.estado='$estado'
 
