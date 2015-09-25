@@ -80,7 +80,7 @@ class ControlDocumentario_IndexController extends Zend_Controller_Action {
 
     public function listaentregablesAction()
     {
-      
+
     }
 
     public function editartransmittalAction()
@@ -106,6 +106,11 @@ class ControlDocumentario_IndexController extends Zend_Controller_Action {
     public function modalentregablesAction()
     {
 
+    }
+
+    public function modalrevisionAction()
+    {
+      
     }
 
 }

@@ -70,7 +70,10 @@
             </select>
           </td>
           <td>
-            <input type="text" ng-model="detalle.fecha">
+            <input type="date" class="form-control" datepicker-popup ng-model="detalle.date"
+            ng-change="detalle.cambiarFecha()"
+            is-open="status.opened" datepicker-options="dateOptions"
+            date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" />
           </td>
           <td>
             {{detalle.estado}}

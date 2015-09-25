@@ -59,7 +59,10 @@
             </select>
           </td>
           <td>
-            <input type="text" ng-model="entregable.fecha">
+            <input type="date" class="form-control" datepicker-popup ng-model="entregable.date"
+            is-open="status.opened" datepicker-options="dateOptions"
+            date-disabled="disabled(date, mode)" ng-change="entregable.cambiarFecha()"
+            ng-required="true" close-text="Close" />
           </td>
         </tr>
         <tr ng-repeat="entregable in cl.respuestas track by $index">
@@ -94,7 +97,10 @@
             </select>
           </td>
           <td>
-            <input type="text" ng-model="entregable.fecha">
+            <input type="date" class="form-control" datepicker-popup ng-model="entregable.date"
+            is-open="status.opened" datepicker-options="dateOptions"
+            date-disabled="disabled(date, mode)" ng-change="entregable.cambiarFecha()"
+            ng-required="true" close-text="Close" />
           </td>
         </tr>
       </tbody>
