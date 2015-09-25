@@ -14,27 +14,50 @@ class Rendiciongastos_GastosController extends Zend_Controller_Action {
       );
     Zend_Layout::startMvc($options);
   }
+//Devuelve la lista de proyectos por estado
+   public function gastosAction()
+    {
+      $estado = $this->_getParam('estado');
+      $proyecto = new Admin_Model_DbTable_Gastorendicion();
+      $proyectos = $proyecto->_getFilter($estado);
+      $respuesta = [];
+      $data = [];
+      $i = 0;
+      foreach ($proyectos as $item) {
+        $data['numero'] = $item['numero'];
+        $data['numero_completo'] = $item['numero_completo'];
+        $data['nombre'] = $item['nombre'];
+        $data['fechas'] = $item['fechas'];
+        $data['monto_total'] = $item['monto_total'];
+        // $data['control_documentario'] = $item['control_documentario'];
+        $data['estado'] = $item['estado'];
+        // $data['unidad_red'] = $item['unidad_red'];
+        $respuesta[$i] = $data;
+        $i++;
+      }
+      $this->_helper->json->sendJson($respuesta);
+    }
 
-  public function gastosAction()
-  {
+  // public function gastosAction()
+  // {
 
-    // $uid = $this->sesion->uid;
-    // $dni = $this->sesion->dni;
-    // $where = array();
-    // $where['uid'] = $uid;
-    // $where['dni'] = $dni;
-    // $where['estado'] = 'B';
-    // $rendicion = new Admin_Model_DbTable_Gastorendicion();
-    // $data_rendicion = $rendicion->_getAllXuidXestado($where);
+  //   // $uid = $this->sesion->uid;
+  //   // $dni = $this->sesion->dni;
+  //   // $where = array();
+  //   // $where['uid'] = $uid;
+  //   // $where['dni'] = $dni;
+  //   // $where['estado'] = 'B';
+  //   // $rendicion = new Admin_Model_DbTable_Gastorendicion();
+  //   // $data_rendicion = $rendicion->_getAllXuidXestado($where);
 
-    // $this->_helper->json->sendJson($data_rendicion);
+  //   // $this->_helper->json->sendJson($data_rendicion);
 
-    $where = array('estado' =>'B' , );
-    $gastos= new Admin_Model_DbTable_Gastorendicion();
-    $array=$gastos->_getFilter($where);
-    $this->_helper->json->sendJson($array);
+  //   $where = array('estado' =>'B' , );
+  //   $gastos= new Admin_Model_DbTable_Gastorendicion();
+  //   $array=$gastos->_getFilter($where);
+  //   $this->_helper->json->sendJson($array);
 
-  }
+  // }
 
   public function gastosxestadoAction()
   {
@@ -113,6 +136,28 @@ class Rendiciongastos_GastosController extends Zend_Controller_Action {
 
 
 
+    }
+
+
+    //Devuelve los datos de una rendicion en particular
+    public function rendicionAction()
+    {
+      $data['numero'] = $this->_getParam('numero');
+      $proyecto = new Admin_Model_DbTable_Gastorendicion();
+      $datos = $proyecto->_getOne($data);
+      $respuesta['numero_completo'] = $datos['numero_completo'];
+      $respuesta['fecha'] = $datos['fecha'];
+      $respuesta['nombre'] = $datos['nombre'];
+      $respuesta['estado'] = $datos['estado'];
+      $respuesta['monto_total'] = $datos['monto_total'];
+      /*$respuesta['unidad_minera'] = $datos['nombre'];
+      $respuesta['fecha_inicio'] = $datos['fecha_inicio'];
+      $respuesta['fecha_cierre'] = $datos['fecha_cierre'];
+      $respuesta['control_documentario'] = $datos['control_documentario'];
+      $respuesta['descripcion'] = $datos['descripcion'];
+      $respuesta['tipo_proyecto'] = $datos['tipo_proyecto'];
+      $respuesta['logo_cliente'] = '../img/cliente/'.$respuesta['clienteid'].'.jpg';*/
+      $this->_helper->json->sendJson($respuesta);
     }
 
 

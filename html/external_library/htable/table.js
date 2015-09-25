@@ -29,12 +29,12 @@
       themeClass:     'fht-default',
       borderCollapse:  true,
       fixedColumns:    0, // fixed first columns
-      fixedColumn:     false, // For backward-compatibility
-      sortable:        false,
+      fixedColumn:     true, // For backward-compatibility
+      sortable:        true,
       autoShow:        true, // hide table after its created
       footer:          false, // show footer
       cloneHeadToFoot: false, // clone head and use as footer
-      autoResize:      false, // resize table if its parent wrapper changes size
+      autoResize:      true, // resize table if its parent wrapper changes size
       create:          null // callback after plugin completes
     };
 

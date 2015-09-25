@@ -1,9 +1,9 @@
-app.controller('GastosCtrl', ['$scope','httpFactory', 'gastosFactory', '$modal',
-	function($scope,httpFactory, gastosFactory, $modal) {
+app.controller('GastosCtrl', ['$scope','httpFactory', 'gastosFactory', '$modal', '$location',
+	function($scope,httpFactory, gastosFactory, $modal, $location) {
 		var vg = this;
 		var estado_actual = 'B';
 		vg.alerts = [];
-    	vg.gasto=[];
+    	vg.gastos=[];
 
 		var listarGastos = function(estado) {
 			estado_actual = estado;
@@ -11,7 +11,7 @@ app.controller('GastosCtrl', ['$scope','httpFactory', 'gastosFactory', '$modal',
 			.then(function(data) {
 				vg.gastos = [];
 				data.forEach(function(item) {
-					gasto = new gastosFactory.Gasto(item.numero_completo,item.nombre,item.fecha,item.monto_total,item.estado);
+					gasto = new gastosFactory.Gasto(item);
 					vg.gastos.push(gasto);
 				});
 
@@ -40,5 +40,10 @@ app.controller('GastosCtrl', ['$scope','httpFactory', 'gastosFactory', '$modal',
 			});
 
 	};
+
+	  vg.verInformacion = function(index) {
+    $location.path("/rendirgastos/numero/" + vg.gastos[index].numero);
+    console.log("GastosCtrl")
+  }
 
 }]);

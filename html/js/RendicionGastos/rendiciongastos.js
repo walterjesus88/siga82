@@ -1,13 +1,7 @@
 var app= angular.module('moduloRg', ['ngRoute','chart.js','ui.bootstrap','ui.bootstrap.tpls','ui.router','checklist-model','dialogs','xeditable','angularFileUpload', 'datatables'])
+
 .config(['$routeProvider', function($routeProvider) {
   $routeProvider
-
-  /*.when("/panel", {
-    controller: "PanelCtrl",
-    controllerAs: "CD",
-    templateUrl: "/control/index/panel"
-  })*/
-
 
   .when("/", {
     controller: "GastosCtrl",
@@ -15,9 +9,13 @@ var app= angular.module('moduloRg', ['ngRoute','chart.js','ui.bootstrap','ui.boo
     templateUrl: "/rendiciongastos/index/gastos"
   })
 
+    .when("/rendirgastos/numero/:numero", {
+    controller: "RendirgastosCtrl",
+    controllerAs: "vr",
+    templateUrl: "/rendiciongastos/index/rendirgastos"
+  })
+
   .otherwise({
     redirectTo: '/'
   });
 }])
-
-
