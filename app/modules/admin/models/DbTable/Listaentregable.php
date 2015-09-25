@@ -13,19 +13,33 @@ class Admin_Model_DbTable_Listaentregable extends Zend_Db_Table_Abstract
             print "Error: Insertando un nuevo Entregable".$ex->getMessage();
         }
     }
-
     
-    public function _update_state($data,$pk)
-    {
-        try{           
+    // public function _update_state($data,$pk)
+    // {
+    //     try{           
             
-            return $this->update($data, $pk);
+    //         return $this->update($data, $pk);
+    //         return false;
+    //     }catch (Exception $e){
+    //         print "Error: Update curva".$e->getMessage();
+    //     }
+    // } 
+
+    public function _update($data,$pk)
+    {
+        try{            
+            $where = "
+                codigo_prop_proy = '".$pk['codigo_prop_proy']."' and         
+                revision_entregable = '".$pk['revision_entregable']."' and
+                proyectoid = '".$pk['proyectoid']."'
+            ";
+            return $this->update($data, $where);
             return false;
         }catch (Exception $e){
             print "Error: Update curva".$e->getMessage();
         }
     }
- 
+
 
          /* Lista toda las Personas */
     public function _getFilter($where=null,$attrib=null,$orders=null){

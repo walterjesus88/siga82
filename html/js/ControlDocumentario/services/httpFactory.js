@@ -33,6 +33,18 @@ app.factory('httpFactory', ['$http', '$q', function($http, $q) {
       });
       return promise;
     },
+    getDisciplinas: function(proyectoid) {
+      var defered = $q.defer();
+      var promise = defered.promise;
+      $http.get(url_json + 'disciplinas/proyectoid/' + proyectoid)
+      .success(function(data) {
+        defered.resolve(data);
+      })
+      .error(function(err) {
+        defered.reject(err);
+      });
+      return promise;
+    },
     getProyectos: function(estado) {
       var defered = $q.defer();
       var promise = defered.promise;
@@ -681,10 +693,10 @@ app.factory('httpFactory', ['$http', '$q', function($http, $q) {
       });
       return promise;
     },
-    createRevision: function(entregableid) {
+    createRevision: function(entregableid, tipo) {
       var defered = $q.defer();
       var promise = defered.promise;
-      $http.post(url_ent + 'guardarrevision/entregableid/' + entregableid)
+      $http.post(url_ent + 'guardarrevision/entregableid/' + entregableid + '/tipo/' + tipo)
       .success(function(data) {
         defered.resolve(data);
       })

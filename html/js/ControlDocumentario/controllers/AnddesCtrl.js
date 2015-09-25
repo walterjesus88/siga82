@@ -1,6 +1,7 @@
 app.controller('AnddesCtrl', ['httpFactory', 'entregableFactory', '$routeParams',
-'transmittalFactory', '$rootScope',
-function(httpFactory, entregableFactory, $routeParams, transmittalFactory, $rootScope) {
+'transmittalFactory', '$rootScope', '$modal',
+function(httpFactory, entregableFactory, $routeParams, transmittalFactory,
+  $rootScope, $modal) {
 
   va = this;
 
@@ -183,9 +184,24 @@ function(httpFactory, entregableFactory, $routeParams, transmittalFactory, $root
     });
 
     if (va.seleccionados.length != 0) {
-      va.seleccionados.forEach(function(entregable) {
-        entregable.generarRevision();
+
+      var modalInstance = $modal.open({
+        animation: true,
+        controller: 'ModalRevisionCtrl',
+        controllerAs: 'mr',
+        templateUrl: '/controldocumentario/index/modalrevision',
+        size: 'md'
+
       });
+
+      modalInstance.result.then(function (resp) {
+        va.seleccionados.forEach(function(entregable) {
+          entregable.generarRevision(resp);
+        });
+      }, function () {
+
+      });
+
       $rootScope.$broadcast('recarga_detalles');
     } else {
       alert('Seleccione un entregable para generar Revisiones');

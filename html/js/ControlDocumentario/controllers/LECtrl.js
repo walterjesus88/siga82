@@ -19,4 +19,12 @@ function(httpFactory, $routeParams, entregableFactory) {
   .catch(function(err) {
     le.entregables = [];
   })
+
+  httpFactory.getDisciplinas($routeParams.proyecto)
+  .then(function(data) {
+    le.disciplinas = data;
+  })
+  .catch(function(err) {
+    le.disciplinas = [];
+  });
 }]);

@@ -8,7 +8,7 @@ app.controller('DetalleCtrl', ['httpFactory', 'proyectoFactory', '$modal',
 
   /*referencia del scope en vt, obtencion del proyecto seleccionado y el objeto
   que contendra los datos del proyecto*/
-console.log($routeParams);
+//console.log($routeParams);
 
   var vt = this;
 
@@ -26,7 +26,7 @@ console.log($routeParams);
     //console.log("estoy en detalle de proyecto");
     //console.log(data);
     vt.proyecto = data;
-    console.log(vt.proyecto);
+    //console.log(vt.proyecto);
   })
   .catch(function(err) {
     vt.proyecto = {};
