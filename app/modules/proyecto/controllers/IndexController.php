@@ -2215,9 +2215,11 @@ public function setguardarentregablesAction()
   $data['state']= 'A';
 
   //print_r($data);exit();
-  $datastate['state']='I';$wherestate=null;
+  $datastate['state']='I';
+  //$wherestate=null;
+  $where = array('codigo_prop_proy' =>$data['proyectoid'],'revision_entregable' =>$data['revision_entregable'],'proyectoid' =>$data['proyectoid'],);
   $modficarentregable=new Admin_Model_DbTable_Listaentregable();
-  $mentregable=$modficarentregable->_update_state($datastate,$wherestate);
+  $mentregable=$modficarentregable->_update($datastate,$wherestate);
 
   $guardarentregable=new Admin_Model_DbTable_Listaentregable();
   $gentregable=$guardarentregable->_save($data);

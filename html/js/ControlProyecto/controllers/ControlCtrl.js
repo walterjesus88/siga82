@@ -2130,8 +2130,8 @@ va.addListaEntregable= function() {
 
 
 va.guardatListaentregable = function(data, id) {
-    console.log(data);
-    console.log(id);
+    //console.log(data);
+    //console.log(id);
 
     edt=data['edt'];
     tipo_documento=data['tipo_documento'];   
@@ -2288,8 +2288,8 @@ va.guardatListaentregable = function(data, id) {
 
 va.deleteEntregable=function(index,id)
 {
-  alert(index);
-  alert(id);
+  //alert(index);
+  //alert(id);
     codigoproyecto=va.proyectop.codigo_prop_proy;
     proyectoid=va.proyectop.codigo;
     revision_entregable=va.revisionE['revision_entregable'];
