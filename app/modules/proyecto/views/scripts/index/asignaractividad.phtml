@@ -1,35 +1,31 @@
-<script type="text/javascript" src="/js/jquery-ui-1.9.2.custom.min.js"></script>
-<script type="text/javascript" src="/js/bootstrap.min.js"></script>
+<!-- <script type="text/javascript" src="/js/jquery-ui-1.9.2.custom.min.js"></script> -->
+
+<!-- <script type="text/javascript" src="/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="/external_library/htable/table.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js"></script>
+-->
+
+
 
 <?php
 if ($this->equipo) {
 ?>
-<div class="contscroll">
-<form name="f2">
-    <div id="Proyecto_Activa">
+
+<!-- <form name="f2"> -->
+
+    <!-- <div id="Proyecto_Activa"> -->
+     <div class="myTableWrapper">   
     <a href="/proyecto/index/asignaractividad/proyectoid/<?php echo $this->proyectoid ?>/codigo_prop_proy/<?php echo $this->codigo_prop_proy ?>/areaid/<?php echo $this->areaid ?>"> </a>
-    <table class="table table-hover" style="padding: 1px;table-layout:auto;" >
+   
+    
+    
+    <table class="fancyTable" id="myTable05" cellpadding="0" cellspacing="0">
         <thead>
             <tr>
-                <th style="width: 250px;">
+                <th style="width: 100px;">
                     <center>Actividades</center>
                      <!-- <center>Seleccionar todas las actividades</center> -->
                 </th>
-
-
-<style type="text/css">
-    .contscroll{
-        height: 600px;
-        /*width: 895px;*/
-        /*height: auto;*/
-        width: auto;
-        padding: 5px;
-        overflow: auto;
-        /*background-color: #F5FFFA;*/
-        background-color: #F0FFFF;
-
-    }
-</style>
 
                 <?php
                 $c=0;
@@ -79,7 +75,7 @@ if ($this->equipo) {
 
                             <!---Seleccionar todo por usuarios -->
 
-                        <br>
+                        <!-- <br>
 
                         <input name="todoagrega" id="todoagrega_<?php echo $c ?>" value="A_<?php echo $c?>" type="checkbox" >
 
@@ -128,8 +124,8 @@ if ($this->equipo) {
                                     }
                                 });
                             });
-                        </script>
-                        <!--  -->
+                        </script>-->
+                        <!--  --> 
 
 
                         </center>
@@ -253,9 +249,9 @@ if ($this->equipo) {
                                 url="/proyecto/index/agregaactividad/cargo/"+cargo+"/areaid/"+areaid+"/uid/"+uid+"/dni/"+dni+"/proyectoid/"+proyectoid+"/categoriaid/"+ categoriaid+"/actividadid/"+actividadid+"/revision/"+revision+"/actividad_padre/"+actividad_padre+"/codigo_actividad/"+codigo_actividad+"/codigo_prop_proy/"+codigo_prop_proy+"/estado/"+estado+"/hijo/"+hijo;
                                 //alert(url);
 
-                                $("#cargact").load(url);
+                                //$("#cargact").load(url);
 
-                               /* $.ajax({
+                                $.ajax({
                                     type: "POST",
                                     url: url,
                                     data: $(this).serialize(),
@@ -265,7 +261,7 @@ if ($this->equipo) {
                                     // },
                                     success: function(data){
                                     }
-                              });*/
+                              });
                            });
                           </script></center>
                         </td>
@@ -289,5 +285,18 @@ if ($this->equipo) {
           </tbody>
     </table>
   </div>
-  <div  id="cargact"></div>
-</form>
+  <!-- </div> -->
+  
+<!-- </form> -->
+
+
+
+
+<script type="text/javascript">
+$(document).ready(function() {
+        $('#myTable05').fixedHeaderTable({ altClass: 'odd', footer: false, fixedColumns: 0 });
+        // $('#myTable01').fixedHeaderTable({ footer: true, cloneHeadToFoot: true, altClass: 'odd', autoShow: false });
+        // $('#myTable01').fixedHeaderTable('show', 1000);
+});
+
+</script>
