@@ -16,6 +16,10 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
                     ->headLink()->prependStylesheet('/css/bootstrap.min.css')
                      ->headLink()->prependStylesheet('/external_library/bootstrap/css/bootstrap-theme.min.css')
                      ->headLink()->appendStylesheet('/external_library/htable/table.css')
+<<<<<<< HEAD
+=======
+
+>>>>>>> b9bda438cf3c95b43230e52b6e5f80d2f85dd1fa
                      ->headLink()->appendStylesheet('/js/api_datatable/multiple-select.css')
                      ->headLink()->appendStylesheet('/js/api_datatable/yadcf/jquery.dataTables.yadcf.css')
                      ->headLink()->appendStylesheet('/js/api_datatable/chosen/chosen.min.css')
@@ -38,6 +42,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
                      ->headLink()->appendStylesheet('/css/scrollTable.css')
                      ->headLink()->appendStylesheet('/css/angular-chart.css');
 
+<<<<<<< HEAD
 
             $view   ->headScript()->appendFile('/js/jquery.js')
                      ->headScript()->appendFile('/external_library/htable/table.js')
@@ -46,6 +51,13 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 
 
 
+=======
+
+
+            $view   ->headScript()->appendFile('/js/jquery.js')
+
+                     ->headScript()->appendFile('/external_library/htable/table.js')
+>>>>>>> b9bda438cf3c95b43230e52b6e5f80d2f85dd1fa
                         ->headScript()->appendFile('/js/adt/vendor/datatables/media/js/jquery.dataTables.js')
                         ->headScript()->appendFile('/js/adt/vendor/datatables-columnfilter/js/dataTables.columnFilter.js')
                         //->headScript()->appendFile('/external_library/bootstrap/js/dataTables.bootstrap.min.js')

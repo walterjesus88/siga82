@@ -20,13 +20,15 @@
             <table datatable="ng" class="table table-condensed table-hover p-table">
                 <thead>
                     <th style="width: 20%;">Usuario</th>
-                    <th style="width: 40%;">Area</th>
+                    <th style="width: 10%;">Codigo SIG</th>
+                    <th style="width: 30%;">Area</th>
                     <th style="width: 10%;">Estado</th>
                     <th style="width: 30%;">Acciones</th>
                 </thead>
                 <tbody>
                     <tr ng-repeat="usuario in va.usuarios track by $index">
                         <td> {{usuario.nombre_completo}} </td>
+                        <td> {{usuario.codigo_sig}} </td>
                         <td> {{usuario.nombre_area}} </td>
                         <td>
                             <select ng-model="usuario.estado" ng-options="usuario.value as usuario.text for usuario in va.estadousuario" ng-change="usuario.cambiarEstadoUsuario(usuario)">
