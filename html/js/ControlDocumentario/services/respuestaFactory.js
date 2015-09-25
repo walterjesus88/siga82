@@ -25,6 +25,8 @@ function(httpFactory, $routeParams) {
       this.fecha = '';
       this.seleccionado = false;
 
+      this.date = this.fecha.toDate();
+
       this.cambiarCodigo = function(codigo) {
         var anddes = '';
         var cliente = '';
@@ -100,6 +102,10 @@ function(httpFactory, $routeParams) {
         .catch(function(err) {
 
         });
+      }
+
+      this.cambiarFecha = function() {
+        this.fecha = this.date.Ddmmyyyy();
       }
     }
   }

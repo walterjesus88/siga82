@@ -109,6 +109,14 @@ class ControlDocumentario_JsonController extends Zend_Controller_Action {
       $this->_helper->json->sendJson($respuesta);
     }
 
+    public function disciplinasAction()
+    {
+      $proyectoid = $this->_getParam('proyectoid');
+      $equipo = new Admin_Model_DbTable_Equipo();
+      $disciplinas = $equipo->_getDisciplinasxProyecto($proyectoid);
+      $this->_helper->json->sendJson($disciplinas);
+    }
+
     //Devuelve la lista de contactos por cliente
     public function contactosAction()
     {

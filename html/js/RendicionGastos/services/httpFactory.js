@@ -22,13 +22,13 @@ var publico = {
   },
 
 
-  setGuardarRendicion: function(numero_completo,nombre,fecha,monto_total,estado) {
+  setGuardarRendicion: function(numero_completo,nombre,fecha,estado) {
     var defered = $q.defer();
     var promise = defered.promise;
-    $http.get(url_gastos + 'guardarrendicion/numero_completo/'+numero_completo+"/nombre/"+nombre+"/fecha/"+fecha+"/monto_total/"+monto_total+"/estado/"+estado)
+    $http.get(url_gastos + 'guardarrendicion/numero_completo/'+numero_completo+"/nombre/"+nombre+"/fecha/"+fecha+"/estado/"+estado)
     .success(function(data) {
+      console.log(url_gastos + 'guardarrendicion/numero_completo/'+numero_completo+"/nombre/"+nombre+"/fecha/"+fecha+"/estado/"+estado);
       defered.resolve(data);
-
     })
     .error(function(err) {
       defered.reject(err);

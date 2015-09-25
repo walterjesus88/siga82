@@ -2,8 +2,8 @@
 class Admin_Model_DbTable_Listaentregabledetalle extends Zend_Db_Table_Abstract
 {
     protected $_name = 'lista_entregable_detalle';
-    protected $_primary = array("codigo_prop_proy","proyectoid","revision_entregable","edt");
-
+    protected $_primary = array("cod_le");
+    protected $_sequence ="s_lista_entregable_detalle";
 
     public function _save($data){
         try{
@@ -17,9 +17,10 @@ class Admin_Model_DbTable_Listaentregabledetalle extends Zend_Db_Table_Abstract
 
     public function _getOne($where){
         try {
-            if ($where["codigo_prop_proy"]=='' || $where["proyectoid"]==''  ||  $where["revision_entregable"]==''  ||  $where["edt"]==''   ) return false;
+            //if ($where["codigo_prop_proy"]=='' || $where["proyectoid"]==''  ||  $where["revision_entregable"]==''  ||  $where["edt"]==''   ) return false;
 
-                $wherestr= "codigo_prop_proy = '".$where['codigo_prop_proy']."' and  proyectoid = '".$where['proyectoid']."' and  revision_entregable = '".$where['revision_entregable']."' and edt = '".$where['edt']."'";
+                //$wherestr= "codigo_prop_proy = '".$where['codigo_prop_proy']."' and  proyectoid = '".$where['proyectoid']."' and  revision_entregable = '".$where['revision_entregable']."' and edt = '".$where['edt']."'";
+                $wherestr= "cod_le = '".$where['cod_le']."' ";
 
                 $row = $this->fetchRow($wherestr);
                 if($row) return $row->toArray();
@@ -34,21 +35,17 @@ class Admin_Model_DbTable_Listaentregabledetalle extends Zend_Db_Table_Abstract
     {
         try{
             //if ($pk['id_tproyecto']=='' ||  $pk['proyectoid']=='' ) return false;
-            $where = "
-                codigo_prop_proy = '".$pk['codigo_prop_proy']."' and
-                revision_entregable = '".$pk['revision_entregable']."' and
-                edt = '".$pk['edt']."' and
-                proyectoid = '".$pk['proyectoid']."'
-            ";
+            // $where = "
+            //      codigo_prop_proy = '".$pk['codigo_prop_proy']."' and revision_entregable = '".$pk['revision_entregable']."' and edt = '".$pk['edt']."' and proyectoid = '".$pk['proyectoid']."'
+            // ";
+            $where = "cod_le = '".$pk['cod_le']."' ";
+
             return $this->update($data, $where);
             return false;
         }catch (Exception $e){
             print "Error: Update curva".$e->getMessage();
         }
     }
-
-
-
 
          /* Lista toda las Personas */
     public function _getFilter($where=null,$attrib=null,$orders=null){
@@ -96,8 +93,7 @@ class Admin_Model_DbTable_Listaentregabledetalle extends Zend_Db_Table_Abstract
     public function _getEntregablexProyecto($proyectoid, $condicion, $clase)
     {
       try {
-        $query1 = "select led.cod_le, led.proyectoid, led.revision_documento as
-        revision_entregable,
+        $query1 = "select led.cod_le, led.proyectoid, led.revision_documento,
         led.edt, led.tipo_documento, led.disciplina, led.codigo_anddes, led.codigo_cliente,
         led.descripcion_entregable, led.estado as estado_revision,
         det.transmittal, det.correlativo,
@@ -349,29 +345,43 @@ class Admin_Model_DbTable_Listaentregabledetalle extends Zend_Db_Table_Abstract
     public function _createRevision($data)
     {
       try {
-        $id = (int)$data['entregableid'];
-
-        $ent = $this->fetchRow('cod_le ='.$id);
+        $ent = $this->fetchRow('cod_le = '.$data['entregableid']);
         $ent->estado = 'Old';
         $ent->save();
 
+        $tipo = 'numerico';
+        $rev = $ent->revision_documento;
+
+        if (ord($rev) >= 65 && ord($rev) <= 90) {
+          $tipo = 'alfabetico';
+        }
+
         $revision_documento = chr(ord($ent->revision_documento) + 1);
 
-        $sql = $this->_db->query("insert into lista_entregable_detalle
-        (codigo_prop_proy, proyectoid, revision_entregable, edt, tipo_documento,
-        disciplina, codigo_anddes, codigo_cliente, descripcion_entregable,
-        fecha_a, fecha_b, fecha_0, estado, clase, revision_documento,
-        estado_entregable) values ('".
-        $ent->codigo_prop_proy."', '".$ent->proyectoid."', '".$ent->revision_entregable.
-        "', '".$ent->edt."', '".$ent->tipo_documento."', '".$ent->disciplina."',
-        '".$ent->codigo_anddes."', '".$ent->codigo_cliente."', '".
-        $ent->descripcion_entregable."', '".$ent->fecha_a."', '".$ent->fecha_b.
-        "', '".$ent->fecha_0."', 'Ultimo', '".$ent->clase."', '".
-        $revision_documento."', '".$ent->estado_entregable."')");
+        if ($data['tipo'] == 'Numerico' && $tipo == 'alfabetico') {
+          $revision_documento = '0';
+        }
 
-        $res = $sql->fetch();
+        $nuevo = $this->createRow();
+        $nuevo->codigo_prop_proy = $ent->codigo_prop_proy;
+        $nuevo->proyectoid = $ent->proyectoid;
+        $nuevo->revision_entregable = $ent->revision_entregable;
+        $nuevo->edt = $ent->edt;
+        $nuevo->tipo_documento = $ent->tipo_documento;
+        $nuevo->disciplina = $ent->disciplina;
+        $nuevo->codigo_anddes = $ent->codigo_anddes;
+        $nuevo->codigo_cliente = $ent->codigo_cliente;
+        $nuevo->descripcion_entregable = $ent->descripcion_entregable;
+        $nuevo->fecha_a = $ent->fecha_a;
+        $nuevo->fecha_b = $ent->fecha_b;
+        $nuevo->fecha_0 = $ent->fecha_0;
+        $nuevo->estado = 'Ultimo';
+        $nuevo->clase = $ent->clase;
+        $nuevo->revision_documento = $revision_documento;
+        $nuevo->estado_entregable = $ent->estado_entregable;
+        $nuevo->save();
 
-        return $res;
+        return $ent->cod_le;
       } catch (Exception $e) {
         print $e->getMessage();
       }
