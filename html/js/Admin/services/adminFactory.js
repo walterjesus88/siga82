@@ -59,7 +59,7 @@ function(httpFactory, $location, $q) {
             this.estado = estado;
             this.areaid = areaid;
             this.codigo_sig = codigo_sig;
-            //console.log(this.estado);
+            console.log(this.uid);
             this.cambiarEstadoUsuario = function() {
                 httpFactory.setUsuario(this.uid,this.estado,this.areaid)
                     .then(function(data) {

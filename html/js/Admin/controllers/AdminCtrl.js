@@ -26,8 +26,9 @@ app.controller('AdminCtrl', ['$scope','httpFactory', 'adminFactory', '$modal',
                 .then(function(data) {
                     va.usuarios = [];
                     data.forEach(function(item) {
-                        usuario = new adminFactory.Usuario(item.uid,item.nombre_completo, item.nombre_area,
-                        item.areaid,item.estado,item.codigo_sig);
+                        //usuario = new adminFactory.Usuario(item.uid,item.nombre_completo, item.nombre_area,
+                        //item.areaid,item.estado,item.codigo_sig);
+                        usuario = new adminFactory.Usuario(item);
                         va.usuarios.push(usuario);
                     });
                 })
