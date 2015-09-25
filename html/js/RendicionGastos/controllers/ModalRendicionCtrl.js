@@ -4,24 +4,29 @@ app.controller('ModalRendicionCtrl', ['httpFactory', '$modalInstance', 'gastosFa
     mr = this;
     mr.alerts = [];
     mr.rendicion=[];
+    var estado_actual='B'
+    mr.fecha = new Date();
+    mr.text = mr.fecha.Ddmmyyyy();
 
+    // console.log(mr.fecha);
 
 mr.GuardarRendicion= function(){
 
-  gastosFactory.setGuardarRendicion(mr.numero_completo,mr.nombre,mr.fecha,mr.monto_total,mr.estado)
+  gastosFactory.setGuardarRendicion(mr.numero_completo,mr.nombre,mr.text,estado_actual)
   .then(function(data) {
     /*insertar una nueva fila*/
     mr.inserted = {
       numero_completo:mr.numero_completo,
       nombre:mr.nombre,
-      fecha:mr.fecha,
-      monto_total:mr.monto_total,
-      estado:mr.estado,
+      fecha:mr.text,
+      estado:estado_actual,
     }
     // console.log(mr.inserted);
     mr.rendicion.push(mr.inserted);
-    // console.log(mr.inserted);
     mr.alerts.push({type: 'success', msg: 'Rendicion guardada satisfactoriamente'});
+
+    //recargar la pagina cuando se guardo para visualizar los gastos
+    window.location.reload();
 
   })
   .catch(function(err) {
@@ -37,4 +42,6 @@ mr.cancelar = function() {
 mr.closeAlert = function(index) {
   mr.alerts.splice(index, 1);
 }
+
+
 }]);

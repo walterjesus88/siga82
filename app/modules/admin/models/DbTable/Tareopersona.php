@@ -689,7 +689,7 @@ order by t.proyectoid,t.actividadid,t.tipo_actividad desc
                             ->distinct()
                             ->from("tareo_persona",array("uid", "areaid","semanaid","estado"))
                             ->order($sort_column . " " . $sort_direction);
-            if (!array_key_exists("format", $where)) {
+            if (!array_key_exists("format", $where) || $where["format"] == "pdf") {
                 $select->limit($per_page, $page);
             }
             if ($where["sSearch"]) {
@@ -743,5 +743,62 @@ order by t.proyectoid,t.actividadid,t.tipo_actividad desc
         return $date_t->get(Zend_Date::WEEK);
     }
 
+
+         public function _getSemanaTareoxEstadoEnvioxArea($semanaid,$areaid,$uid)
+         {
+            try{
+                $sql=$this->_db->query("
+                  select  distinct(uid,areaid,estado) from tareo_persona
+                  where semanaid='$semanaid' and areaid='$areaid' and uid='$uid'
+
+
+                ");
+                // print_r($sql);
+                $row=$sql->fetchAll();
+                return $row;
+            }
+
+           catch (Exception $ex){
+            print $ex->getMessage();
+        }
+    }
+
+    public function _getSemanaTareoxEstadoEnvio($semanaid,$uid)
+     {
+        try{
+            $sql=$this->_db->query("
+              select  distinct(uid,areaid,estado) from tareo_persona
+              where semanaid='$semanaid' and uid='$uid'
+
+
+            ");
+            // print_r($sql);
+            $row=$sql->fetchAll();
+            return $row;
+            }
+
+           catch (Exception $ex){
+            print $ex->getMessage();
+        }
+    }
+
+     public function _getSemanaTareo($uid)
+     {
+        try{
+            $sql=$this->_db->query("
+              select  distinct(uid,areaid,semanaid,estado) from tareo_persona
+              where  uid='$uid'
+
+
+            ");
+            // print_r($sql);
+            $row=$sql->fetchAll();
+            return $row;
+            }
+
+           catch (Exception $ex){
+            print $ex->getMessage();
+        }
+    }
 
 }

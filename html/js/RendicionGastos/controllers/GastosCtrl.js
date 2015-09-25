@@ -1,7 +1,9 @@
-app.controller('GastosCtrl', ['$scope','httpFactory', 'gastosFactory', '$modal',
-	function($scope,httpFactory, gastosFactory, $modal) {
+app.controller('GastosCtrl', ['$scope','httpFactory', 'gastosFactory', '$modal', '$location',
+	function($scope,httpFactory, gastosFactory, $modal, $location) {
 		var vg = this;
 		var estado_actual = 'B';
+		vg.alerts = [];
+    	vg.gastos=[];
 
 		var listarGastos = function(estado) {
 			estado_actual = estado;
@@ -9,10 +11,10 @@ app.controller('GastosCtrl', ['$scope','httpFactory', 'gastosFactory', '$modal',
 			.then(function(data) {
 				vg.gastos = [];
 				data.forEach(function(item) {
-					gasto = new gastosFactory.Gasto(item.numero_completo,item.nombre,item.fecha,item.monto_total,item.estado);
+					gasto = new gastosFactory.Gasto(item);
 					vg.gastos.push(gasto);
 				});
-				console.log(data);
+
 			})
 
 			.catch(function(err) {
@@ -20,20 +22,6 @@ app.controller('GastosCtrl', ['$scope','httpFactory', 'gastosFactory', '$modal',
 			});
 		};
 
-		// vg.estadogasto = [
-		// {value: 'B', text: 'Pendiente'},
-		// {value: 'E', text: 'Enviado'},
-		// {value: 'A', text: 'Aprobado'},
-		// {value: 'R', text: 'Rechazado'},
-		// ];
-
-		// vg.showEstadoGasto = function(gasto) {
-		// 	var selected = [];
-		// 	if(gasto.estado) {
-		// 		selected = $filter('filter')(vg.estadogasto, {value: gasto.estado});
-		// 	}
-		// 	return selected.length ? selected[0].text : 'Not set';
-		// };
 
 		listarGastos(estado_actual);
 
@@ -41,17 +29,21 @@ app.controller('GastosCtrl', ['$scope','httpFactory', 'gastosFactory', '$modal',
 			listarGastos(estado);
 		};
 
-
 		vg.AgregarGastoRendicion = function() {
-			// console.log("error al llamar al modalrendicion");
+
 			var modalInstance = $modal.open({
-				animation: true,
+				animation: false,
 				controller: 'ModalRendicionCtrl',
 				controllerAs: 'mr',
 				templateUrl: '/rendiciongastos/index/modalrendicion',
 				size: 'md',
 			});
 
-		};
+	};
 
-	}]);
+	  vg.verInformacion = function(index) {
+    $location.path("/rendirgastos/numero/" + vg.gastos[index].numero);
+    console.log("GastosCtrl")
+  }
+
+}]);

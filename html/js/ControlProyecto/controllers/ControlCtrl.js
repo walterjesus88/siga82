@@ -59,7 +59,7 @@ function(httpFactory, $scope,$filter,$q,proyectoFactory) {
           .success(function(data) {         
 
             va.dat=data[0]['1'];
-            console.log(va.dat);
+           // console.log(va.dat);
          
             var max = data[0]['1'].length;     
             var varx=[];
@@ -665,7 +665,7 @@ proyectoFactory.getVerCronogramaxActivo(proyecto['codigo'])
     .then(function(datax) {
         va.performance=datax;
 
-        console.log(va.performance);
+        //console.log(va.performance);
 
         angular.forEach(va.performance, function(val) { 
       
@@ -1859,23 +1859,45 @@ else
   .then(function(data) {
 
         va.edt=data;
-        //console.log(va.edt);
-        //console.log('va.edt');
+        console.log(va.edt);
+        
   })
   .catch(function(err) {
+      console.log("error edt");
             //va.procronograma = {};
   });
 
 
   va.showStatus = function(lista) {
+    
+    //console.log(lista.edt);    
+    console.log(va.edt);
+
     var selected = [];
     if(lista.edt) {
       selected = $filter('filter')(va.edt, {codigo: lista.edt});
     }
     return selected.length ? selected[0].nombre : 'Not set';
+
   };
 
+  
+  va.operators = [
+    {value: 'eq', displayName: 'equals', state:'A'},
+    {value: 'eq1', displayName: 'equals1', state:'A'},
+    {value: 'neq', displayName: 'not equal', state:'I'}
+  ]
+   
+
+  va.tipodocumentoE = [
+    {value: 'Plano', text: 'Plano'},
+    {value: 'Informe', text: 'Informe'},   
+  ]; 
+
+
   va.showTipodoc = function(lista) {
+
+
     var selected = [];
     if(lista.tipo_documento) {
       selected = $filter('filter')(va.tipodocumentoE, {value: lista.tipo_documento});
@@ -1883,10 +1905,6 @@ else
     return selected.length ? selected[0].text : 'Not set';
   };
 
-  va.tipodocumentoE = [
-    {value: 'Plano', text: 'Plano'},
-    {value: 'Informe', text: 'Informe'},   
-  ]; 
 
   // va.statuses = [
   //   {value: 1, text: 'status1'},
@@ -1896,17 +1914,6 @@ else
   // ]; 
 
   // console.log(va.statuses);
-
-  // va.showStatuss = function(user) {
-  //   var selected = ['hhh'];
-    // if(user.status) {
-    //   selected = $filter('filter')(va.statuses, {value: user.status});
-    // }
-    // console.log(selected[0].text);
-    //alert('selectttt');
-    //return 'selected';
-    //.length ? selected[0].text : 'Not set';
-  //};
 
 
   va.ShowFormEdt=function(){ 
@@ -2029,12 +2036,11 @@ proyectoFactory.getDatosxEntregable(proyecto['codigo'])
       {
         va.revisionE=va.entregable[i]
         console.log(va.revisionE);
-        console.log('va.revisionE');
-
+     
         proyectoFactory.getDatosListaxEntregables(proyecto['codigo'],va.revisionE['revision_entregable'])
         .then(function(datax) {
           va.listaentregable=datax;
-          //console.log(va.listaentregable);
+          console.log(va.listaentregable);
         })
         .catch(function(err) {
           va.listaentregable = {};
@@ -2054,8 +2060,7 @@ va.buscaentregables = function(revision) {
 revision_entregable=revision.revision_entregable;
 proyectoid=revision.proyectoid;
 console.log(revision);
-//console.log(proyectoid);
-//console.log(revision_entregable);
+
   proyectoFactory.getDatosListaxEntregables(proyecto['codigo'],revision_entregable)
   .then(function(datax) {
     va.listaentregable=datax;
@@ -2068,13 +2073,24 @@ console.log(revision);
 };
 
 
-va.agregarListaentregable = function() {
+va.addListaEntregable= function() {
+
+    // va.inserted = {
+    //   id: $scope.users.length+1,
+    //   name: '',
+    //   status: null,
+    //   group: null 
+    // };
+    // va.users.push(va.inserted);
+
     if(va.listaentregable)
     {
       va.inserted = {
-      //codigo_prop_proy:va.proyectop.codigo_prop_proy,
-      //proyectoid:va.proyectop.codigo,   
+        codigo_prop_proy:va.proyectop.codigo_prop_proy,
+        proyectoid:va.proyectop.codigo,  
+        revision_entregable: va.revisionE['revision_entregable'],
         id: va.listaentregable.length+1,
+        cod_listdet:va.listaentregable.length+1,
         edt: null,
         tipo_documento: null,
         disciplina: null ,
@@ -2083,16 +2099,19 @@ va.agregarListaentregable = function() {
         descripcion_entregable: null ,
         fecha_a: null ,
         fecha_b: null ,
-        fecha_0: null ,   
+        fecha_0: null ,  
+        clase:'',       
       };
     }
     else
     {
       va.listaentregable=[];
       va.inserted = {
-      //codigo_prop_proy:va.proyectop.codigo_prop_proy,
-      //proyectoid:va.proyectop.codigo,   
+        codigo_prop_proy:va.proyectop.codigo_prop_proy,
+        proyectoid:va.proyectop.codigo, 
+        revision_entregable: va.revisionE['revision_entregable'],
         id: va.listaentregable.length+1,
+        cod_listdet:va.listaentregable.length+1,        
         edt: null,
         tipo_documento: null,
         disciplina: null ,
@@ -2101,60 +2120,187 @@ va.agregarListaentregable = function() {
         descripcion_entregable: null ,
         fecha_a: null ,
         fecha_b: null ,
-        fecha_0: null ,   
+        fecha_0: null , 
+        clase:'',        
       };
     }
     va.listaentregable.push(va.inserted);
+
 };
 
 
-va.saveTableentregable=function()
-{
-  console.log(va.listaentregable);
-  angular.forEach(va.listaentregable, function(val) {
-    
+va.guardatListaentregable = function(data, id) {
+    //console.log(data);
+    //console.log(id);
 
-    edt=val['edt'];
-    tipo_documento=val['tipo_documento'];   
-    disciplina=val['disciplina'];
-    codigo_anddes=val['codigo_anddes'];
-    codigo_cliente=val['codigo_cliente'];
-    fecha_0=val['fecha_0'];
-    fecha_a=val['fecha_a'];
-    fecha_b=val['fecha_b'];
-    descripcion_entregable=val['descripcion_entregable'];   
-
+    edt=data['edt'];
+    tipo_documento=data['tipo_documento'];   
+    disciplina=data['disciplina'];
+    codigo_anddes=data['codigo_anddes'];
+    codigo_cliente=data['codigo_cliente'];
+    fecha_0=data['fecha_0'];
+    fecha_a=data['fecha_a'];
+    fecha_b=data['fecha_b'];
+    descripcion_entregable=data['descripcion_entregable'];   
+    cod_le=id;
+ 
     codigo_prop_proy=va.revisionE['codigo_prop_proy'];
     proyectoid=va.revisionE['proyectoid'];
     revision_entregable=va.revisionE['revision_entregable'];
 
+    // console.log(codigo_prop_proy);
+    // console.log(proyectoid);
+    // console.log(revision_entregable);
+
     proyectoFactory.setDatosxGuardarxListaxEntregables(
-      codigo_prop_proy,proyectoid,revision_entregable,edt,tipo_documento,disciplina,codigo_anddes,codigo_cliente,fecha_0,fecha_a,fecha_b,descripcion_entregable)
+      codigo_prop_proy,proyectoid,revision_entregable,edt,tipo_documento,disciplina,codigo_anddes,codigo_cliente,fecha_0,fecha_a,fecha_b,descripcion_entregable,cod_le)
     .then(function(data) {
-     // va.listaentregable=data;
+
+        console.log(data);
+
+        proyectoFactory.getDatosxEntregable(proyecto['codigo'])
+          .then(function(data) {
+            va.entregable=data;
+
+              for (var i = va.entregable.length - 1; i >= 0; i--) {
+               
+                if(va.entregable[i]['state']=='A')
+                {
+                  va.revisionE=va.entregable[i]
+                  console.log(va.revisionE);
+               
+                  proyectoFactory.getDatosListaxEntregables(proyecto['codigo'],va.revisionE['revision_entregable'])
+                  .then(function(datax) {
+                    va.listaentregable=datax;
+                    console.log(va.listaentregable);
+                  })
+                  .catch(function(err) {
+                    va.listaentregable = {};
+                  })
+
+                }
+              };
+          
+          })
+          .catch(function(err) {
+            va.entregable = {};X
+          })
 
     })
     .catch(function(err) {
       //va.listaentregable = {};
     })   
 
-  })
+    //$scope.user not updated yet
+    // angular.extend(data, {id: id});
+    // return $http.post('/saveUser', data);
+  };
 
-}
+// va.agregarListaentregable = function() {
 
-va.deleteEntregable=function(index,edt)
+//     console.log(va.listaentregable);
+//     console.log(va.edt);
+
+//     //va.edt=[{ nombre:'xxxx',codigo_edt:'dada'}];
+
+//     if(va.listaentregable)
+//     {
+//       va.inserted = {
+//         codigo_prop_proy:va.proyectop.codigo_prop_proy,
+//         proyectoid:va.proyectop.codigo,  
+//         revision_entregable: va.revisionE['revision_entregable'],
+//         id: va.listaentregable.length+1,
+//         cod_listdet:va.listaentregable.length+1,
+//         edt: null,
+//         tipo_documento: null,
+//         disciplina: null ,
+//         codigo_anddes: null ,
+//         codigo_cliente: null ,
+//         descripcion_entregable: null ,
+//         fecha_a: null ,
+//         fecha_b: null ,
+//         fecha_0: null ,  
+//         clase:'',       
+//       };
+//     }
+//     else
+//     {
+//       va.listaentregable=[];
+//       va.inserted = {
+//         codigo_prop_proy:va.proyectop.codigo_prop_proy,
+//         proyectoid:va.proyectop.codigo, 
+//         revision_entregable: va.revisionE['revision_entregable'],
+//         id: va.listaentregable.length+1,
+//         cod_listdet:va.listaentregable.length+1,
+        
+//         edt: null,
+//         tipo_documento: null,
+//         disciplina: null ,
+//         codigo_anddes: null ,
+//         codigo_cliente: null ,
+//         descripcion_entregable: null ,
+//         fecha_a: null ,
+//         fecha_b: null ,
+//         fecha_0: null , 
+//         clase:'',        
+//       };
+//     }
+//     va.listaentregable.push(va.inserted);
+
+// };
+
+
+// va.saveTableentregable=function()
+// {
+//   console.log(va.listaentregable);
+
+//   angular.forEach(va.listaentregable, function(val) {  
+
+//     edt=val['edt'];
+//     tipo_documento=val['tipo_documento'];   
+//     disciplina=val['disciplina'];
+//     codigo_anddes=val['codigo_anddes'];
+//     codigo_cliente=val['codigo_cliente'];
+//     fecha_0=val['fecha_0'];
+//     fecha_a=val['fecha_a'];
+//     fecha_b=val['fecha_b'];
+//     descripcion_entregable=val['descripcion_entregable'];   
+//     cod_le=val['cod_listdet'];
+ 
+
+//     codigo_prop_proy=va.revisionE['codigo_prop_proy'];
+//     proyectoid=va.revisionE['proyectoid'];
+//     revision_entregable=va.revisionE['revision_entregable'];
+
+//     proyectoFactory.setDatosxGuardarxListaxEntregables(
+//       codigo_prop_proy,proyectoid,revision_entregable,edt,tipo_documento,disciplina,codigo_anddes,codigo_cliente,fecha_0,fecha_a,fecha_b,descripcion_entregable,cod_le)
+//     .then(function(data) {
+//      // va.listaentregable=data;
+
+//     })
+//     .catch(function(err) {
+//       //va.listaentregable = {};
+//     })   
+
+//   })
+
+// }
+
+va.deleteEntregable=function(index,id)
 {
+  //alert(index);
+  //alert(id);
     codigoproyecto=va.proyectop.codigo_prop_proy;
     proyectoid=va.proyectop.codigo;
     revision_entregable=va.revisionE['revision_entregable'];
 
-    console.log(index);
+    // console.log(index);
     //console.log(codigoentregable);
-    console.log(revision_entregable);
+    //console.log(revision_entregable);
     // console.log(va.listaentregable);
     //var filtered = $filter('filter')(va.listaentregable, {edt: edt,revision_entregable:revision_entregable });
 
-    proyectoFactory.setDatosxEliminarxEntregable(edt,codigoproyecto,proyectoid,revision_entregable)
+    proyectoFactory.setDatosxEliminarxEntregable(id,codigoproyecto,proyectoid,revision_entregable)
     .then(function(data) {
        //va.listaentregable.splice(va.listaentregable.indexOf(filtered[0]), 1);
        va.listaentregable.splice(index, 1);
@@ -2238,9 +2384,6 @@ va.clases=[
 
 
 
-
-//va.item.checked = true;
-va.fechaww=true;
 ///////////F I N  L I S T A  D E  E N T R E G A B L E ////////////////////////////////
 }]);
 

@@ -15,10 +15,13 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
                     //->headLink()->prependStylesheet('/external_library/bootstrap/css/bootstrap.min.css'
                     ->headLink()->prependStylesheet('/css/bootstrap.min.css')
                      ->headLink()->prependStylesheet('/external_library/bootstrap/css/bootstrap-theme.min.css')
+<<<<<<< HEAD
                      /*->headLink()->prependStylesheet('/external_library/headertable/css/defaultTheme.css')
                      ->headLink()->prependStylesheet('/external_library/headertable/css/960.css')
                      ->headLink()->prependStylesheet('/external_library/headertable/css/myTheme.css')*/
                      ->headLink()->appendStylesheet('/external_library/htable/table.css')
+=======
+>>>>>>> e14106576e8d3ac15bed98cb0926a4c31118deac
                      ->headLink()->appendStylesheet('/js/api_datatable/multiple-select.css')
                      ->headLink()->appendStylesheet('/js/api_datatable/yadcf/jquery.dataTables.yadcf.css')
                      ->headLink()->appendStylesheet('/js/api_datatable/chosen/chosen.min.css')
@@ -41,6 +44,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
                      ->headLink()->appendStylesheet('/css/scrollTable.css')
                      ->headLink()->appendStylesheet('/css/angular-chart.css');
 
+<<<<<<< HEAD
             $view   
             ->headScript()->appendFile('/js/jquery.js')
                      /*->headScript()->appendFile('/external_library/headertable/lib/jquery.mousewheel.js')
@@ -51,6 +55,9 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
                      /*->headScript()->appendFile('/external_library/htable/ta.js')*/
                      /*->headScript()->appendFile('https://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js')*/
 
+=======
+            $view   ->headScript()->appendFile('/js/jquery.js')
+>>>>>>> e14106576e8d3ac15bed98cb0926a4c31118deac
                         ->headScript()->appendFile('/js/adt/vendor/datatables/media/js/jquery.dataTables.js')
                         ->headScript()->appendFile('/js/adt/vendor/datatables-columnfilter/js/dataTables.columnFilter.js')
                         //->headScript()->appendFile('/external_library/bootstrap/js/dataTables.bootstrap.min.js')

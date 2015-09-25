@@ -492,11 +492,13 @@ function(httpFactory, $location, $q) {
       return promise;      
     },
 
-    setDatosxGuardarxListaxEntregables: function(codigo_prop_proy,proyectoid,revision_entregable,edt,tipo_documento,disciplina,codigo_anddes,codigo_cliente,fecha_0,fecha_a,fecha_b,descripcion_entregable) {
+    setDatosxGuardarxListaxEntregables: function(codigo_prop_proy,proyectoid,revision_entregable,edt,tipo_documento,disciplina,codigo_anddes,codigo_cliente,fecha_0,fecha_a,fecha_b,descripcion_entregable,cod_le) {
       var defered = $q.defer();
-      var promise = defered.promise;     
+      var promise = defered.promise; 
 
-      httpFactory.setGuardarxListaxEntregables(codigo_prop_proy,proyectoid,revision_entregable,edt,tipo_documento,disciplina,codigo_anddes,codigo_cliente,fecha_0,fecha_a,fecha_b,descripcion_entregable)
+      //alert(cod_le);
+
+      httpFactory.setGuardarxListaxEntregables(codigo_prop_proy,proyectoid,revision_entregable,edt,tipo_documento,disciplina,codigo_anddes,codigo_cliente,fecha_0,fecha_a,fecha_b,descripcion_entregable,cod_le)
       .then(function(data) {
         datos = data;
         defered.resolve(datos);
@@ -507,11 +509,11 @@ function(httpFactory, $location, $q) {
       return promise;      
     },
 
-    setDatosxEliminarxEntregable: function(edt,codigoproyecto,proyectoid,revision) {
+    setDatosxEliminarxEntregable: function(id,codigoproyecto,proyectoid,revision) {
       var defered = $q.defer();
       var promise = defered.promise;     
 
-      httpFactory.setEliminarxEntregable(edt,codigoproyecto,proyectoid,revision)
+      httpFactory.setEliminarxEntregable(id,codigoproyecto,proyectoid,revision)
       .then(function(data) {
         datos = data;
         defered.resolve(datos);

@@ -1,6 +1,6 @@
-app.controller('TablaEntregablesCtrl', ['$scope', 'entregableFactory',
+app.controller('TablaEntregablesCtrl', ['$scope', 'entregableFactory', 'httpFactory',
 '$routeParams',
-function($scope, entregableFactory, $routeParams) {
+function($scope, entregableFactory, httpFactory, $routeParams) {
 
   te = this;
   te.clase = 'Tecnico';
@@ -24,6 +24,14 @@ function($scope, entregableFactory, $routeParams) {
       te.colspan_1 = 8;
     }
 	})
+
+  httpFactory.getDisciplinas($routeParams.proyecto)
+  .then(function(data) {
+    te.disciplinas = data;
+  })
+  .catch(function(err) {
+    te.disciplinas = [];
+  });
 
   te.agregar = function() {
     var entregable = new entregableFactory.Entregable();

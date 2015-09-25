@@ -29,7 +29,7 @@
           <th style="width: 15%;">Acciones</th>
         </thead>
         <tbody>
-          <tr ng-repeat="gasto in vg.gastos track by $index">
+          <tr ng-repeat="gasto in vg.gastos track by $index">{{gasto.numero}}
             <td> {{gasto.numero_completo}} </td>
             <td> {{gasto.nombre}} </td>
             <td> {{gasto.fecha}} </td>
@@ -43,17 +43,17 @@
          <td>
           <ul>
             <li>
-             <!--  <button type="button" class="btn btn-success btn-xs" ng-click="vg.verModulos()">
+            <!--   <button type="button" class="btn btn-success btn-xs" ng-click="vg.verModulos()">
                 Rendir Gastos
-              </button>
-              <button type="button" class="btn btn-info btn-xs" ng-click="proyecto.verInformacion()">
-                Imprimir
               </button> -->
+              <button type="button" class="btn btn-info btn-xs" ng-click="vg.verInformacion($index)">
+                Rendir
+              </button>
               <center>
-                <a href="#" class="btn btn-warning btn-xs showdetails" title="Detalles" ><i class="fa fa-folder"></i></a>
-                <a href="#" class="btn btn-info btn-xs editdetails" title="Editar"><i class="fa fa-edit"></i></a>
-                <a href="#" class="btn btn-default btn-xs" title="Imprimir"><i class="fa fa-print"></i></a>
-                <a class="btn btn-danger btn-xs" title="Eliminar"><i class="fa fa-archive"></i></a>
+                <!-- <a href="#/detalles" class="btn btn-warning btn-xs showdetails" title="Detalles" ><i class="fa fa-folder"></i></a> -->
+                <!-- <a href="#/rendirgastos" class="btn btn-info btn-xs editdetails" title="Rendir Gastos"><i class="fa fa-edit" ng-click="gasto.verInformacion()"></i></a> -->
+                <!-- <a href="#" class="btn btn-default btn-xs" title="Imprimir"><i class="fa fa-print"></i></a> -->
+                <!-- <a class="btn btn-danger btn-xs" title="Eliminar"><i class="fa fa-archive"></i></a> -->
 
 
               </center>

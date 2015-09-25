@@ -86,8 +86,10 @@
               ng-disabled="te.desactivado">
             </td>
             <td>
-              <input type="text" ng-model="entregable.disciplina" ng-model-options="{updateOn: 'blur'}"
+              <select ng-model="entregable.disciplina"
+              ng-options="dis.areaid as dis.nombre for dis in te.disciplinas"
               ng-disabled="te.desactivado">
+              </select>
             </td>
             <td>
               <input type="text" ng-model="entregable.codigo_anddes" ng-model-options="{updateOn: 'blur'}"
