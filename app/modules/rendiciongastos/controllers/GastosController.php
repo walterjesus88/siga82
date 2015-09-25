@@ -145,6 +145,7 @@ class Rendiciongastos_GastosController extends Zend_Controller_Action {
       $data['numero'] = $this->_getParam('numero');
       $proyecto = new Admin_Model_DbTable_Gastorendicion();
       $datos = $proyecto->_getOne($data);
+      $respuesta['numero'] = $datos['numero'];
       $respuesta['numero_completo'] = $datos['numero_completo'];
       $respuesta['fecha'] = $datos['fecha'];
       $respuesta['nombre'] = $datos['nombre'];
