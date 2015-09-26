@@ -19,7 +19,7 @@ class RendicionGastos_IndexController extends Zend_Controller_Action {
 
   }
 
-    public function rendirgastosAction() {
+    public function rendirAction() {
 
       $this->_helper->layout()->disableLayout();
 

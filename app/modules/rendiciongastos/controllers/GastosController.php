@@ -14,6 +14,8 @@ class Rendiciongastos_GastosController extends Zend_Controller_Action {
       );
     Zend_Layout::startMvc($options);
   }
+
+
 //Devuelve la lista de proyectos por estado
    public function gastosAction()
     {
@@ -140,7 +142,7 @@ class Rendiciongastos_GastosController extends Zend_Controller_Action {
 
 
     //Devuelve los datos de una rendicion en particular
-    public function rendicionAction()
+    public function gastoAction()
     {
       $data['numero'] = $this->_getParam('numero');
       $proyecto = new Admin_Model_DbTable_Gastorendicion();
@@ -149,8 +151,8 @@ class Rendiciongastos_GastosController extends Zend_Controller_Action {
       $respuesta['numero_completo'] = $datos['numero_completo'];
       $respuesta['fecha'] = $datos['fecha'];
       $respuesta['nombre'] = $datos['nombre'];
-      $respuesta['estado'] = $datos['estado'];
       $respuesta['monto_total'] = $datos['monto_total'];
+      $respuesta['estado'] = $datos['estado'];
       /*$respuesta['unidad_minera'] = $datos['nombre'];
       $respuesta['fecha_inicio'] = $datos['fecha_inicio'];
       $respuesta['fecha_cierre'] = $datos['fecha_cierre'];

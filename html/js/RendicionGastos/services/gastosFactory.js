@@ -1,16 +1,16 @@
-app.factory('gastosFactory', ['httpFactory', '$q',
-  function(httpFactory, $q) {
+app.factory('gastosFactory', ['httpFactory', '$location', '$q',
+  function(httpFactory, $location, $q) {
 
-/*    var datos = {
-      uid: '',
-      dni: '',
-      numero_completo: '',
-      numero:'',
-      nombre: '',
-      fecha: '',
-      monto_total: '',
-      estado: '',
-    };*/
+    // var datos = {
+    //   uid: '',
+    //   dni: '',
+    //   numero_completo: '',
+    //   numero:'',
+    //   nombre: '',
+    //   fecha: '',
+    //   monto_total: '',
+    //   estado: '',
+    // };
 
     var publico = {
 
@@ -38,6 +38,15 @@ app.factory('gastosFactory', ['httpFactory', '$q',
                 alert('No se pudo cambiar el estado');
               })
             }
+
+            this.verInformacion = function() {
+        //configuracionTransmittal.setProyecto(proyectoid);
+        console.log("verInformacion");
+        console.log(this.numero);
+        //console.log(this.codx);
+        $location.path("/rendirgastos/rendicion/" +this.numero);
+        // +'/codigo/'+this.codigo_prop_proy
+      }
     },
 
 
@@ -49,7 +58,7 @@ app.factory('gastosFactory', ['httpFactory', '$q',
       .then(function(data) {
         datos = data;
         defered.resolve(datos);
-        // console.log(data);
+        console.log(data);
       })
       .catch(function(err) {
         defered.reject(err);
@@ -58,14 +67,14 @@ app.factory('gastosFactory', ['httpFactory', '$q',
     },
 
 
-    getDatosRendicion: function(numero) {
+    getDatosGastos: function(numero) {
+        console.log("gastosFactory "+numero);
       var defered = $q.defer();
       var promise = defered.promise;
       httpFactory.getGastosById(numero)
       .then(function(data) {
         datos = data;
         defered.resolve(datos);
-        console.log("gastosFactory");
       })
       .catch(function(err) {
         defered.reject(err);

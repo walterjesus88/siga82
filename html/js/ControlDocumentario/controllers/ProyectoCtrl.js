@@ -73,6 +73,7 @@ function(httpFactory, proyectoFactory, $location) {
 
   vp.verInformacion = function(index) {
     $location.path("/transmittal/proyecto/" + vp.proyectos[index].codigo + '/informacion');
+    console.log(vp.proyectos[index].codigo);
   }
 
   vp.accesoDirectoTR = function(index) {

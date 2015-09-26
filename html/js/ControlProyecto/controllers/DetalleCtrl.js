@@ -23,8 +23,8 @@ app.controller('DetalleCtrl', ['httpFactory', 'proyectoFactory', '$modal',
   //carga de los datos del proyecto seleccionado
   proyectoFactory.getDatosProyecto(vt.proyecto.codigo)
   .then(function(data) {
-    //console.log("estoy en detalle de proyecto");
-    //console.log(data);
+    console.log("estoy en detalle de proyecto");
+    console.log(data);
     vt.proyecto = data;
     //console.log(vt.proyecto);
   })
