@@ -552,6 +552,8 @@ app.factory('httpFactory', ['$http','$q', function($http,$q) {
       var defered = $q.defer();
       var promise = defered.promise; 
  
+     
+
       $http.post(url + 'setguardarlistaentregables/proyectoid/'+ proyectoid
       +"/codigo_prop_proy/"+codigo_prop_proy+
       "/revision_entregable/"+revision_entregable+
@@ -576,17 +578,78 @@ app.factory('httpFactory', ['$http','$q', function($http,$q) {
       return promise;
     },
 
-   setEliminarxEntregable: function(edt,codigoproyecto,proyectoid,revision) {
+  setEliminarxEntregable: function(id,codigoproyecto,proyectoid,revision) {
       var defered = $q.defer();
       var promise = defered.promise; 
  
-      $http.post(url + 'seteliminarentregable/edt/'+ edt
+      $http.post(url + 'seteliminarentregable/id/'+ id
       +"/codigoproyecto/"+codigoproyecto+
       "/proyectoid/"+proyectoid+"/revision/"+revision
       )
       .success(function(data) {
         defered.resolve(data);
         
+      })
+      .error(function(err) {
+        defered.reject(err);
+      });
+      return promise;
+    },
+
+  setEstadoListaEntregable: function(value,codigoproyecto,proyectoid,revision) {
+      var defered = $q.defer();
+      var promise = defered.promise; 
+ 
+      $http.post(url + 'setcambiarestadolentregable/value/'+ value
+      +"/codigoproyecto/"+codigoproyecto+
+      "/proyectoid/"+proyectoid+"/revision/"+revision
+      )
+      .success(function(data) {
+        defered.resolve(data);        
+      })
+      .error(function(err) {
+        defered.reject(err);
+      });
+      return promise;
+  },
+
+
+  getLeerSessionUsuario: function(proyectoid) {
+      var defered = $q.defer();
+      var promise = defered.promise; 
+ 
+      $http.post(url + 'getleersessionusuario/proyectoid/'+proyectoid
+      )
+      .success(function(data) {
+        defered.resolve(data);        
+      })
+      .error(function(err) {
+        defered.reject(err);
+      });
+      return promise;
+    },
+
+  getLeerEstadosListaEntregable: function(proyectoid) {
+      var defered = $q.defer();
+      var promise = defered.promise; 
+ 
+      $http.post(url + 'getleerestadoslistaentregable/proyectoid/'+proyectoid
+      )
+      .success(function(data) {
+        defered.resolve(data);        
+      })
+      .error(function(err) {
+        defered.reject(err);
+      });
+      return promise;
+    },
+
+  getDisciplinas: function(proyectoid) {
+      var defered = $q.defer();
+      var promise = defered.promise;
+      $http.get(url + 'disciplinas/proyectoid/' + proyectoid)
+      .success(function(data) {
+        defered.resolve(data);
       })
       .error(function(err) {
         defered.reject(err);

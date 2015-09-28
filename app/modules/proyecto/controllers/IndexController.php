@@ -15,6 +15,8 @@ class Proyecto_IndexController extends Zend_Controller_Action {
     }
 
     public function indexAction() {
+       $uid = $this->sesion->uid;
+
       $this->_helper->layout()->disableLayout();
     
     }
@@ -1696,9 +1698,6 @@ public function modificarperformancepadreAction() {
    $nivel_esquema = $this->_getParam("nivel_esquema");
    $predecesoras = $this->_getParam("predecesoras");
 
-   // echo $predecesoras;
-   // echo $costo_propuesta;
-   // echo "ras";
    $sucesoras = $this->_getParam("sucesoras");    
    $duracion = $this->_getParam("duracion"); 
 
@@ -1719,15 +1718,9 @@ public function modificarperformancepadreAction() {
    if($sucesoras=='null'){ echo $sucesoras=''; }
    if($duracion=='null' or $porcentaje_planificado=='NaN'){ echo $duracion=''; }
 
-
-   //exit();
-
-
    $predecesoras = str_replace(" ", "+", $predecesoras);
 
- 
-
-  $where = array('codigo_prop_proy' => $codigo_prop_proy,'codigo_actividad' => $codigo_actividad,'actividadid' => $actividadid,
+   $where = array('codigo_prop_proy' => $codigo_prop_proy,'codigo_actividad' => $codigo_actividad,'actividadid' => $actividadid,
    'cronogramaid' => $cronogramaid,'codigo_cronograma' => $codigo_cronograma,'codigo_performance' => $codigo_performance,
    'proyectoid' => $proyectoid,'revision_cronograma' => $revision_cronograma,);
 
@@ -1809,10 +1802,6 @@ public function proyectoxperformanceAction() {
         $actividadpadre=false;
       }
      
-      // print_r($keyper['codigo_actividad']);
-      // echo "performance";
-      // exit();
-
       $wheredet['codigo_prop_proy']=$keyper['codigo_prop_proy'];
       $wheredet['codigo_actividad']=$keyper['codigo_actividad']; 
       $wheredet['proyectoid']=$keyper['proyectoid'];      
@@ -1884,14 +1873,7 @@ public function proyectoxperformanceAction() {
         'horas_real' =>$horas_tareo,
 
         'items'=> $pdetalle);
-
-        // print_r($pdetalle);
-        // foreach ($pdetalle as $value) {
-        //   if($value['state']=='A')
-        //   {    
-        //     print_r($value['fecha_performance']);
-        //   }
-        // }
+    
       $i++;  
       } 
   }
@@ -2017,13 +1999,9 @@ public function seteliminaredtAction(){
   $codigoedt= $this->_getParam("codigoedt");
   $codigoproyecto= $this->_getParam("codigoproyecto");
   $proyectoid= $this->_getParam("proyectoid");
-
   $where = array('codigo_edt' => $codigoedt,'proyectoid' => $proyectoid,'codigo_prop_proy' =>$codigoproyecto );
   $eliminaredt=new Admin_Model_DbTable_ProyectoEdt();
   $eedt=$eliminaredt->_delete($where);
-  //echo "edt eliminar";
-  //print_r($eedt);exit();
-
   $this->_helper->json->sendJson($eedt);
 
 }
@@ -2063,9 +2041,6 @@ public function proyectoxfechaxcorteAction()
 
   $fechaxcorte=new Admin_Model_DbTable_Proyectofechacorte();
   $fcorte=$fechaxcorte->_getFilter($where,$attrib,$order);
-  
-  // print_r($fcorte);
-  // exit();
 
   $this->_helper->json->sendJson($fcorte);
 
@@ -2190,19 +2165,17 @@ $this->_helper->json->sendJson($lentregable);
 
 public function getlistaentregablesAction()
 {
-
   $proyectoid= $this->_getParam("proyectoid");
   $revision_entregable= $this->_getParam("revision");
+  //$where = array('proyectoid' =>$proyectoid ,'revision_entregable'=>$revision_entregable,'estado_entregable'==2);
+  //$attrib=null;
+  //$order = array('cod_le ASC');
 
+  $listaentregable=new Admin_Model_DbTable_Listaentregabledetalle();
+  //$lentregable=$listaentregable->_getFilter($where,$attrib,$order);
+  $lentregable=$listaentregable->_getFilteristaentregable($proyectoid, $revision_entregable);
 
-$where = array('proyectoid' =>$proyectoid ,'revision_entregable'=>$revision_entregable);
-//print_r($where);exit();
-$listaentregable=new Admin_Model_DbTable_Listaentregabledetalle();
-$lentregable=$listaentregable->_getFilter($where);
-  
-//print_r($lentregable);
-$this->_helper->json->sendJson($lentregable);
-
+  $this->_helper->json->sendJson($lentregable);
 }
 
 
@@ -2213,22 +2186,24 @@ public function setguardarentregablesAction()
   $data['codigo_prop_proy']= $this->_getParam("codigoproyecto");
   $data['revision_entregable']= $this->_getParam("revisionentregable");
   $data['state']= 'A';
+  $datastate['state']='I';
 
-  //print_r($data);exit();
-  $datastate['state']='I';$wherestate=null;
+  $where = array('codigo_prop_proy' =>$data['codigo_prop_proy'],'proyectoid' =>$data['proyectoid'],);
+ 
   $modficarentregable=new Admin_Model_DbTable_Listaentregable();
-  $mentregable=$modficarentregable->_update_state($datastate,$wherestate);
+  $mentregable=$modficarentregable->_update_state($datastate,$where);
 
   $guardarentregable=new Admin_Model_DbTable_Listaentregable();
   $gentregable=$guardarentregable->_save($data);
+
   $this->_helper->json->sendJson($gentregable);
 
+  
 }
 
 
 public function setguardarlistaentregablesAction()
 {
-
   $data['proyectoid']= $this->_getParam("proyectoid");
   $data['codigo_prop_proy']= $this->_getParam("codigo_prop_proy");
   $data['revision_entregable']= $this->_getParam("revision_entregable");
@@ -2245,6 +2220,15 @@ public function setguardarlistaentregablesAction()
   $data['revision_documento']= 'A';
   $data['estado']= 'Ultimo';
 
+  if($data['tipo_documento']=='null' or $data['tipo_documento']=='undefined' ){ echo $data['tipo_documento']=''; }
+  if($data['disciplina']=='null' or $data['disciplina']=='undefined' ){ echo $data['disciplina']=''; }
+  if($data['codigo_anddes']=='null' or $data['codigo_anddes']=='undefined' ){ echo $data['codigo_anddes']=''; }
+  if($data['codigo_cliente']=='null' or $data['codigo_cliente']=='undefined' ){ echo $data['codigo_cliente']=''; }
+  if($data['fecha_0']=='null' or $data['fecha_0']=='undefined' ){ echo $data['fecha_0']=''; }
+  if($data['fecha_a']=='null' or $data['fecha_a']=='undefined' ){ echo $data['fecha_a']=''; }
+  if($data['fecha_b']=='null' or $data['fecha_b']=='undefined' ){ echo $data['fecha_b']=''; }
+  if($data['descripcion_entregable']=='null' or $data['descripcion_entregable']=='undefined' ){ echo $data['descripcion_entregable']=''; }
+
   // $whereone['proyectoid']=$this->_getParam("proyectoid");
   // $whereone['codigo_prop_proy']=$this->_getParam("codigo_prop_proy");
   // $whereone['revision_entregable']=$this->_getParam("revision_entregable");
@@ -2252,32 +2236,16 @@ public function setguardarlistaentregablesAction()
 
   $whereone['cod_le']=$this->_getParam("cod_le");
 
-  // print_r($whereone);
-  //print_r($data);exit();
+  $actualizarlistaentregable=new Admin_Model_DbTable_Listaentregabledetalle();
 
-  // $verentregable= new Admin_Model_DbTable_Listaentregabledetalle();
-  // $ventregable=$verentregable->_getOne($whereone);
-
-  // if($ventregable)
-  // {
-    $actualizarlistaentregable=new Admin_Model_DbTable_Listaentregabledetalle();
+  if($whereone['cod_le']=='undefined')
+  {
     $glentregable=$actualizarlistaentregable->_save($data);
-  //}
-  // else
-  // {
-  //   $guardarlistaentregable=new Admin_Model_DbTable_Listaentregabledetalle();
-  //   $glentregable=$guardarlistaentregable->_save($data);
-  // }
-
-
-
-  // $updedt=new Admin_Model_DbTable_ProyectoEdt();
-  // $whereedt = array('codigo_edt' => $data['edt'],'codigo_prop_proy' =>$data['codigo_prop_proy'],'proyectoid' =>$data['proyectoid'],);
-
-  // $dataedt['state']='I';
-  // $updedt->_update($dataedt,$whereedt);
-
-
+  }
+  else
+  {    
+    $glentregable=$actualizarlistaentregable->_update($data,$whereone);
+  }
 
   $this->_helper->json->sendJson($glentregable);
 }
@@ -2285,18 +2253,157 @@ public function setguardarlistaentregablesAction()
 
 public function seteliminarentregableAction()
 {
-  $edt= $this->_getParam("edt");
-  //echo $codigoentregable;exit();
-  $codigoproyecto= $this->_getParam("codigoproyecto");
-  $proyectoid= $this->_getParam("proyectoid");
-  $revision_entregable= $this->_getParam("revision");
+  $cod_le= $this->_getParam("id");
 
-  $where = array('edt' => $edt , 'codigo_prop_proy' => $codigoproyecto , 'proyectoid' => $proyectoid , 'revision_entregable' => $revision_entregable);
   $eliminarentregable=new Admin_Model_DbTable_Listaentregabledetalle();
-  $eentregable=$eliminarentregable->_delete($where);
+
+  $whereone['cod_le']=$this->_getParam("id");
+  $data['estado_entregable']=10;
+
+  $eentregable=$eliminarentregable->_update($data,$whereone);
+
+  //$eentregable=$eliminarentregable->_deleteEntregable($cod_le);
+
   $this->_helper->json->sendJson($eentregable);
 }
 
+public function setcambiarestadolentregableAction()
+{
+  $state['estado_entregable']= $this->_getParam("value");
+  $codigo_prop_proy= $this->_getParam("codigoproyecto");
+  $proyectoid= $this->_getParam("proyectoid");
+  $revision_entregable= $this->_getParam("revision");
+
+  $pk = array('codigo_prop_proy' =>$codigo_prop_proy , 
+                'proyectoid' =>$proyectoid , 
+                'revision_entregable' =>$revision_entregable);  
+
+  $estadolentregable=new Admin_Model_DbTable_Listaentregabledetalle();
+  $elentregable=$estadolentregable->_update_state($state,$pk);
+  $this->_helper->json->sendJson($elentregable);
+
+
+}
+
+
+public function getleersessionusuarioAction()
+{
+  
+  $proyectoid= $this->_getParam("proyectoid");
+
+  $session['uid']=$this->sesion->uid;
+  //$session['is_gerente']=$this->sesion->is_gerente;
+  $session['is_jefe']=$this->sesion->is_gerente;
+
+  $equipo = new Admin_Model_DbTable_Equipo();
+  $where = array('proyectoid' =>$proyectoid,);
+  $equiporoles=$equipo->_getFilter($where);
+
+  $is_gerente = [];
+  $is_responsable = [];
+
+  foreach ($equiporoles as $value) {     
+    if($value['nivel']=='0' )
+    {
+      $is_gerente=$value;
+    }
+
+    if($value['nivel']=='3'  )
+    {
+       $is_responsable=$value;
+    }
+  }
+
+
+  if($session['uid']==$is_gerente['uid'])
+  {
+      $session['is_gerente']='S';
+  }
+  else
+  {
+      $session['is_gerente']='N';      
+  }
+
+  if($session['uid']==$is_responsable['uid'])
+  {
+    $session['is_responsableproyecto']='S';
+  }
+  else
+  {
+    $session['is_responsableproyecto']='N';  
+    
+  }
+
+  $this->_helper->json->sendJson($session);
+}
+
+
+public function getleerestadoslistaentregableAction()
+{
+  $proyectoid= $this->_getParam("proyectoid");
+
+  $entregableactivo= new Admin_Model_DbTable_Listaentregable();
+  $eactivo=$entregableactivo->_getentregablexActivo($proyectoid);
+  $revisionentregable=$eactivo[0]['revision_entregable'];
+  
+  $leerestadoLE=new Admin_Model_DbTable_Listaentregabledetalle();
+  $leerLE=$leerestadoLE->_getFilteristaentregable($proyectoid,$revisionentregable);
+  
+  $numberlista=count($leerLE);
+
+  $estados = array('1','2','3','4','5','6','7','8','9');
+
+  $concentrar=[];    
+
+    for ($i=0; $i <count($estados) ; $i++) { 
+      
+      $cont[$i]=0;   
+      
+      foreach ($leerLE as $value) 
+      {
+        if($value['estado_entregable']==$estados[$i])
+        { 
+          $cont[$i]=$cont[$i]+1;     
+        } 
+      }
+       
+    }      
+ 
+
+$indice=1;
+$data=[];
+
+foreach ($cont as $value) {
+
+  if($value==$numberlista)
+  {
+    $data['state']=true;
+    $data['indice']=$indice;
+  }
+
+  $indice++;
+}
+
+$this->_helper->json->sendJson($data);
+  
+}
+
+public function disciplinasAction() {
+  $proyectoid= $this->_getParam("proyectoid");
+  //$codigo_prop_proy= $this->_getParam("codigo_prop_proy");
+  // echo $proyectoid;
+  // echo $codigo_prop_proy;
+  // exit();
+  $equipoarea=new Admin_Model_DbTable_Equipoarea();
+  $earea=$equipoarea->_buscarAreasxProyectoid($proyectoid);
+
+  $this->_helper->json->sendJson($earea);
+}
+
+// select distinct(a.areaid),a.nombre from equipo_area as ea
+// inner join area as a
+// on a.areaid=ea.areaid
+// where proyectoid='1508.10.01'
 
 ////////////////// /F I N  D E  F U N C I O N E S  A N G U L A R //////
 

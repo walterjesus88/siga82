@@ -151,79 +151,49 @@ class Reporte_IndexController extends Zend_Controller_Action {
     }
 
     public function semanalAction(){
-        $tareopersona = new Admin_Model_DbTable_Tareopersona();
-        //$semana_tareo = $tareopersona->_getSemanaTareoxEstadoEnvio('38','26','bruno.rosas');  
-        //print_r($semana_tareo);
-        $usuarios = new Admin_Model_DbTable_Usuario();
-        
-        $semana_user = [];
- $fecha = date("Y-m-d");
-            $semanaid=date('W', strtotime($fecha)); 
-        //$usuario_area= $usuarios->UsuarioxEstadoxArea('A','26');
-        $usuario_area= $usuarios->UsuarioxEstado('A');
-        $i=0;
-        foreach ($usuario_area as $user ) {
-        //$semana_tareo = $tareopersona->_getSemanaTareoxEstadoEnvioxArea('38','26',$user['uid']);  
-          $semana_fecha=$usuarios->UsuarioxEstadoxAreaxFechaIngreso($user['uid'],$user['areaid']);
-          
-          //print_r($semana_fecha[0]['semana']);
-
-          for ($j=$semana_fecha[0]['semana'];$j<$semanaid;$j++)
+      $tareopersona = new Admin_Model_DbTable_Tareopersona();
+      $usuarios = new Admin_Model_DbTable_Usuario();
+      $semana_user = [];
+      $fecha = date("Y-m-d");
+      $semanaid=date('W', strtotime($fecha)); 
+      $usuario_area= $usuarios->UsuarioxEstado('A');
+      $i=0;
+      foreach ($usuario_area as $user ) {
+        $semana_fecha=$usuarios->UsuarioxEstadoxAreaxFechaIngreso($user['uid'],$user['areaid']);
+        for ($j=$semana_fecha[0]['semana'];$j<$semanaid;$j++)
+          {
+            $semana_tareo = $tareopersona->_getSemanaTareoxEstadoEnvio($j,$user['uid']);  
+            if ($semana_tareo)
             {
-          $semana_tareo = $tareopersona->_getSemanaTareoxEstadoEnvio($j,$user['uid']);  
+              $semana_user[$i]= $semana_tareo[0]['row']  ;
+              $remplazo= str_replace ( '('  , '' , $semana_tareo[0]['row']  );
+              $remplazo= str_replace ( ')'  , '' , $remplazo  );
+              $lista1 = explode(",",$remplazo); 
+              $semana_user[$i]=$lista1[0];
+              $semana_area[$i]=$lista1[1];
+              $semana_semana[$i]=$j;
+              $semana_estado[$i]=$lista1[2];
+            }
+            else
+            {
+              $semana_user[$i]=$user['uid'];
+              $semana_area[$i]=$user['areaid'];
+              $semana_semana[$i]=$j;
+              $semana_estado[$i]='V';
+            }
 
-          //$semana_tareo = $tareopersona->_getSemanaTareo($user['uid']);  
-
-
-
-
-       //print_r($semana_tareo);
-        if ($semana_tareo)
-        {
-          $semana_user[$i]= $semana_tareo[0]['row']  ;
-          
-          $remplazo= str_replace ( '('  , '' , $semana_tareo[0]['row']  );
-          $remplazo= str_replace ( ')'  , '' , $remplazo  );
-          
-          $lista1 = explode(",",$remplazo); 
-
-          $semana_user[$i]=$lista1[0];
-          $semana_area[$i]=$lista1[1];
-          $semana_semana[$i]=$j;
-          $semana_estado[$i]=$lista1[2];
-
-
-        }
-        else
-        {
-          $semana_user[$i]=$user['uid'];
-          $semana_area[$i]=$user['areaid'];
-          $semana_semana[$i]=$j;
-          $semana_estado[$i]='V';
-
-        }
-        print_r($semana_user[$i]);
-        echo "/";
-        print_r($semana_area[$i]);
-        echo "/";
-        print_r($semana_semana[$i]);
-        echo "/";
-        print_r($semana_estado[$i]);
-        echo "/";
-        echo "<br>";
-      }
+            print_r($semana_user[$i]);   echo ";";print_r($semana_area[$i]);  echo ";";  print_r($semana_semana[$i]);
+            echo ";";
+      print_r($semana_estado[$i]);
+      echo "<br>";
+          }
         $i++;
-          # code...
-        
 
-        
-       
-       
-
-       
-}
-
+      }
+    
 
     }
+
+
 
 }

@@ -99,6 +99,18 @@ class Admin_Model_DbTable_Gastorendicion extends Zend_Db_Table_Abstract
         }
     }
 
+        public function _getOnexNumeroCompleto($where=array()){
+        try{
+            if ($where['numero_completo']=='') return false;
+            $wherestr="numero_completo = '".$where['numero_completo']."'";
+            $row = $this->fetchRow($wherestr);
+            if($row) return $row->toArray();
+            return false;
+        }catch (Exception $e){
+            print "Error: Read One  ".$e->getMessage();
+        }
+    }
+
     public function _getAllXuidXestado($where=array()){
         try{
             if ($where['estado']=='' || $where['uid']=='' || $where['dni']=='') return false;

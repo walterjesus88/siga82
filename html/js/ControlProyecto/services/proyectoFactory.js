@@ -93,6 +93,28 @@ function(httpFactory, $location, $q) {
        return dias;
     },
 
+    formatoFechas : function(fecha)
+      {     
+        fecha = new Date(fecha);
+
+        day=fecha.getDate();
+        month=fecha.getMonth()+1;
+        year=fecha.getFullYear();
+
+        if (month.toString().length < 2) 
+        {
+          month = '0' + month;
+        }
+        if (day.toString().length < 2) 
+        {
+          day = '0' + day;
+        }
+                           
+        fecha=year+"-"+month+"-"+day;
+
+        return fecha;
+    },
+
 
     setDatosxCambiarxEstadoproyecto: function(codigo,estado,codigo_prop_proy) {
       var defered = $q.defer();
@@ -313,9 +335,7 @@ function(httpFactory, $location, $q) {
       var defered = $q.defer();
       var promise = defered.promise;
      
-      // alert(proyectoid);
-      // alert(revision);
-      // alert(codigoproy);
+
       httpFactory.getProyectoxFechaxCorte(proyectoid,revision,codigoproy)
       .then(function(data) {
         datos = data;
@@ -400,9 +420,8 @@ function(httpFactory, $location, $q) {
 
     setDatosxModificarxCronograma: function(codigo_cronograma,codigoproyecto,proyectoid,revision_cronograma,cronogramaid) {
       var defered = $q.defer();
-      var promise = defered.promise;
-       
-      //alert(state);     
+      var promise = defered.promise;     
+  
 
       httpFactory.setModificarxCronograma(codigo_cronograma,codigoproyecto,proyectoid,revision_cronograma,cronogramaid)
       .then(function(data) {
@@ -496,8 +515,6 @@ function(httpFactory, $location, $q) {
       var defered = $q.defer();
       var promise = defered.promise; 
 
-      //console.log(edt);
-
       httpFactory.setGuardarxListaxEntregables(codigo_prop_proy,proyectoid,revision_entregable,edt,tipo_documento,disciplina,codigo_anddes,codigo_cliente,fecha_0,fecha_a,fecha_b,descripcion_entregable,cod_le)
       .then(function(data) {
         datos = data;
@@ -509,11 +526,11 @@ function(httpFactory, $location, $q) {
       return promise;      
     },
 
-    setDatosxEliminarxEntregable: function(edt,codigoproyecto,proyectoid,revision) {
+    setDatosxEliminarxEntregable: function(id,codigoproyecto,proyectoid,revision) {
       var defered = $q.defer();
       var promise = defered.promise;     
 
-      httpFactory.setEliminarxEntregable(edt,codigoproyecto,proyectoid,revision)
+      httpFactory.setEliminarxEntregable(id,codigoproyecto,proyectoid,revision)
       .then(function(data) {
         datos = data;
         defered.resolve(datos);
@@ -524,6 +541,66 @@ function(httpFactory, $location, $q) {
       return promise;      
     },
 
+    setCambiarEstadoListaEntregable: function(value,codigoproyecto,proyectoid,revision) {
+      var defered = $q.defer();
+      var promise = defered.promise;     
+
+      httpFactory.setEstadoListaEntregable(value,codigoproyecto,proyectoid,revision)
+      .then(function(data) {
+        datos = data;
+        defered.resolve(datos);
+      })
+      .catch(function(err) {
+        defered.reject(err);
+      });
+      return promise;      
+    },
+
+    getLeerSessionUsuario: function(proyectoid) {
+      var defered = $q.defer();
+      var promise = defered.promise;     
+
+      httpFactory.getLeerSessionUsuario(proyectoid)
+      .then(function(data) {
+        datos = data;
+        defered.resolve(datos);
+      })
+      .catch(function(err) {
+        defered.reject(err);
+      });
+      return promise;      
+    },
+
+   getLeerEstadosListaE: function(proyectoid) {
+      var defered = $q.defer();
+      var promise = defered.promise;     
+
+      httpFactory.getLeerEstadosListaEntregable(proyectoid)
+      .then(function(data) {
+        datos = data;
+        defered.resolve(datos);
+      })
+      .catch(function(err) {
+        defered.reject(err);
+      });
+      return promise;      
+    },
+
+
+   getDisciplinaxProyecto: function(proyectoid) {
+      var defered = $q.defer();
+      var promise = defered.promise;     
+
+      httpFactory.getDisciplinas(proyectoid)
+      .then(function(data) {
+        datos = data;
+        defered.resolve(datos);
+      })
+      .catch(function(err) {
+        defered.reject(err);
+      });
+      return promise;      
+    },
 
 ///////////////////////F I N   L I S T A  D E  E N T R E G A B L E S /////////////////////////
 

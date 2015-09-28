@@ -53,7 +53,8 @@ class Admin_Form_Proyecto extends Zend_Form{
     
     $gerente_proyecto= new Zend_Form_Element_Select('gerente_proyecto');
     $gerente_proyecto->removeDecorator('Label')->removeDecorator("HtmlTag");
-    $gerente_proyecto->setAttrib('class', 'form-control');    
+    $gerente_proyecto->setAttrib('class', 'chosen-select');    
+    $gerente_proyecto->setAttrib('style', 'width:100%'); 
     $bdusuario = new Admin_Model_DbTable_Persona(); 
     $gerente_proyecto->addMultiOption('0',' -- Seleccione -- ');
     $listgerente=$bdusuario->_getPropuestaxResponsablePropuesta('GERENTE-PROY');
@@ -65,7 +66,8 @@ class Admin_Form_Proyecto extends Zend_Form{
 
     $control_proyecto= new Zend_Form_Element_Select('control_proyecto');
     $control_proyecto->removeDecorator('Label')->removeDecorator("HtmlTag");
-    $control_proyecto->setAttrib('class', 'form-control');    
+    $control_proyecto->setAttrib('class', 'chosen-select');  
+    $control_proyecto->setAttrib('style', 'width:100%'); 
     $bdusuario = new Admin_Model_DbTable_Persona(); 
     $control_proyecto->addMultiOption('0',' -- Seleccione -- ');
     $listcontrol=$bdusuario->_getPersonaxArea('26');
@@ -77,7 +79,8 @@ class Admin_Form_Proyecto extends Zend_Form{
 
     $control_documentario= new Zend_Form_Element_Select('control_documentario');
     $control_documentario->removeDecorator('Label')->removeDecorator("HtmlTag");
-    $control_documentario->setAttrib('class', 'form-control');    
+    $control_documentario->setAttrib('class', 'chosen-select');     
+    $control_documentario->setAttrib('style', 'width:100%'); 
     $bdusuario = new Admin_Model_DbTable_Persona(); 
     $control_documentario->addMultiOption('0',' -- Seleccione -- ');
     $listcontroldoc=$bdusuario->_getPersonaxArea('16');
@@ -131,7 +134,7 @@ class Admin_Form_Proyecto extends Zend_Form{
     $estado->addMultiOption('C',"Cerrado");
     $estado->addMultiOption('CA',"Cancelado");
     $estado->addMultiOption('PA',"Paralizado");
-    $estado->setAttrib('class', 'form-control');
+    
 
     $oid = new Zend_Form_Element_Select('oid');
     $oid->removeDecorator('HtmlTag')->setRequired(true)->addErrorMessage('Es necesario que ingrese el estado');

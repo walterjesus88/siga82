@@ -52,12 +52,13 @@ function(httpFactory, $location, $q) {
           return promise;      
         },
 
-        Usuario: function(uid,nombre_completo,nombre_area,areaid ,estado) {
+        Usuario: function(uid,nombre_completo,nombre_area,areaid ,estado,codigo_sig) {
             this.uid = uid;
             this.nombre_completo = nombre_completo;
             this.nombre_area = nombre_area;
             this.estado = estado;
             this.areaid = areaid;
+            this.codigo_sig = codigo_sig;
             //console.log(this.estado);
             this.cambiarEstadoUsuario = function() {
                 httpFactory.setUsuario(this.uid,this.estado,this.areaid)

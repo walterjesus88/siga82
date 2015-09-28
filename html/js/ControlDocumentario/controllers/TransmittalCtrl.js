@@ -18,6 +18,7 @@ app.controller('TransmittalCtrl', ['httpFactory', 'proyectoFactory', '$modal',
   proyectoFactory.getDatosProyecto(vt.proyecto.codigo)
   .then(function(data) {
     vt.proyecto = data;
+    console.log(vt.proyecto.codigo);
   })
   .catch(function(err) {
     vt.proyecto = {};
