@@ -693,10 +693,11 @@ app.factory('httpFactory', ['$http', '$q', function($http, $q) {
       });
       return promise;
     },
-    createRevision: function(entregableid, tipo) {
+    createRevision: function(entregableid, revision) {
       var defered = $q.defer();
       var promise = defered.promise;
-      $http.post(url_ent + 'guardarrevision/entregableid/' + entregableid + '/tipo/' + tipo)
+      $http.post(url_ent + 'guardarrevision/entregableid/' + entregableid +
+      '/revision/' + revision)
       .success(function(data) {
         defered.resolve(data);
       })

@@ -9,6 +9,7 @@ class Admin_Model_DbTable_Formato extends Zend_Db_Table_Abstract
   protected $pages = [];
   protected $columns = [];
   protected $width_columns = [];
+  protected $carpeta = 'reportes/';
 
   public function __construct($formato, $cabecera, $cuerpo) {
      parent::__construct();
@@ -163,7 +164,7 @@ class Admin_Model_DbTable_Formato extends Zend_Db_Table_Abstract
     $pdf = new Zend_Pdf();
     $pdf->pages[] = $page;
 
-    $this->fileName = $this->cabecera['proyectoid'].'-EDT.pdf';
+    $this->fileName = $this->carpeta.$this->cabecera['proyectoid'].'-EDT.pdf';
     return $pdf;
   }
 
@@ -242,7 +243,7 @@ class Admin_Model_DbTable_Formato extends Zend_Db_Table_Abstract
 
     }
 
-    $this->fileName = 'Lista de Proyectos.pdf';
+    $this->fileName = $this->carpeta.'Lista de Proyectos.pdf';
     return $pdf;
   }
 
@@ -292,7 +293,7 @@ class Admin_Model_DbTable_Formato extends Zend_Db_Table_Abstract
 
     $pdf = new Zend_Pdf();
     $pdf->pages[] = $page;
-    $this->fileName = $this->cabecera['codificacion'].'-'.$this->cabecera['correlativo'].'.pdf';
+    $this->fileName = $this->carpeta.$this->cabecera['codificacion'].'-'.$this->cabecera['correlativo'].'.pdf';
     return $pdf;
   }
 
@@ -319,7 +320,7 @@ class Admin_Model_DbTable_Formato extends Zend_Db_Table_Abstract
     $page->drawText($this->cabecera['C'], 560, 10);
     $pdf = new Zend_Pdf();
     $pdf->pages[] = $page;
-    $this->fileName = 'Lista de Carpetas.pdf';
+    $this->fileName = $this->carpeta.'Lista de Carpetas.pdf';
     return $pdf;
   }
 
@@ -354,7 +355,7 @@ class Admin_Model_DbTable_Formato extends Zend_Db_Table_Abstract
       $page->drawText($this->data[$i]['codigo_anddes'], 130, $a);
       $page->drawText($this->data[$i]['codigo_cliente'], 220, $a);
       $page->drawText($this->data[$i]['descripcion_entregable'], 315, $a, 'UTF-8');
-      $page->drawText($this->data[$i]['revision_entregable'], 515, $a);
+      $page->drawText($this->data[$i]['revision_documento'], 515, $a);
       $page->drawText($this->data[$i]['estado_revision'], 530, $a, 'UTF-8');
       $page->drawText($this->data[$i]['transmittal'], 555, $a);
 
@@ -429,7 +430,7 @@ class Admin_Model_DbTable_Formato extends Zend_Db_Table_Abstract
       }
     }
 
-    $this->fileName = 'Reporte Transmittal.pdf';
+    $this->fileName = $this->carpeta.'Reporte Transmittal.pdf';
     return $pdf;
   }
 
@@ -503,7 +504,7 @@ class Admin_Model_DbTable_Formato extends Zend_Db_Table_Abstract
 
     }
 
-    $this->fileName = 'Reporte Cliente.pdf';
+    $this->fileName = $this->carpeta.'Reporte Cliente.pdf';
     return $pdf;
   }
 }

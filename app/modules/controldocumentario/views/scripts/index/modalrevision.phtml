@@ -5,16 +5,12 @@
 </header>
 <div class="modal-body">
   <section class="form-group">
-    <label>
-      <input type="radio" ng-model="mr.opcion" ng-value="mr.alfabetico">
-      Revisión Alfabetica
-    </label>
-    </br>
-    <label>
-      <input type="radio" ng-model="mr.opcion" ng-value="mr.numerico">
-      Revisión Numerica
-    </label>
-
+    <div class="col-md-12" ng-repeat="revision in mr.revisiones">
+      <label>
+        <input type="radio" ng-model="mr.opcion" ng-value="revision">
+        Revisión {{revision}}
+      </label>
+    </div>
   </section>
 </div>
 <footer class="modal-footer">

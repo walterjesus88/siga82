@@ -2,10 +2,9 @@ app.controller('ModalRevisionCtrl', ['$modalInstance', function($modalInstance) 
 
   mr = this;
 
-  mr.opcion = 'Numerico';
-  mr.alfabetico = 'Alfabetico';
-  mr.numerico = 'Numerico';
-
+  mr.opcion = '0';
+  mr.revisiones = ['A', 'B', 'C', 'D', 'E', '0', '1', '2', '3', '4', '5'];
+  
   mr.cerrar = function() {
     $modalInstance.dismiss('cancel');
   }
