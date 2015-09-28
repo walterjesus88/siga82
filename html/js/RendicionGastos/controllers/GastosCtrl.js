@@ -1,10 +1,11 @@
 app.controller('GastosCtrl', ['$scope','httpFactory', 'gastosFactory', '$modal', '$location', '$routeParams',
 	function($scope,httpFactory, gastosFactory, $modal, $location, $routeParams) {
+
 		var vg = this;
 		var estado_actual = 'B';
 		vg.alerts = [];
 		vg.gastos=[];
-
+//funcion para obtener las rendiciones del servidor
 		var listarGastos = function(estado) {
 			estado_actual = estado;
 			httpFactory.getGastos(estado)
@@ -22,9 +23,11 @@ app.controller('GastosCtrl', ['$scope','httpFactory', 'gastosFactory', '$modal',
 			});
 		};
 
-
+		// console.log(this);
+	//carga inicial de las rendiciones con estado activo
 		listarGastos(estado_actual);
 
+	//metodo para cargar las rendiciones de los diferentes estados
 		vg.cargarGastos = function(estado) {
 			listarGastos(estado);
 		};

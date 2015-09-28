@@ -5,91 +5,91 @@
 
      <header class="bio-graph-heading project-heading">
       <strong>
-        <p>Nombre de Rendicion: {{vr.gasto.nombre}} {{vg.gastos.nombre}}</p>
+        <p>Nombre de Rendicion: {{vrg.rendir.nombre}}</p>
       </strong>
     </header>
     <div class="panel-body bio-graph-info">
       <div class="bio-row">
         <span class="bold">N° de Rendicion:</span>
-        {{vr.gasto.numero_completo}}
+        {{vrg.rendir.numero_completo}}
       </div>
       <div class="bio-row">
         <span class="bold">Monto Total:</span>
-        {{vr.gasto.monto_total}}
+        {{vrg.rendir.monto_total}}
       </div>
       <div class="bio-row">
         <span class="bold">Fecha de Rendicion:</span>
-        {{vr.gasto.fecha}}
+        {{vrg.rendir.fecha}}
       </div>
       <div class="bio-row">
         <span class="bold"> Estado:</span>
-        {{vr.gasto.estado}}
+        {{vrg.rendir.estado}}
       </div>
     </div>
 
 
   <div class="pane-heading">
     <div class=" panel btn-edit">
-      <button type="button" class="btn btn-default" ng-show="!tableform.$visible" ng-click="tableform.$show(); vc.CancelarCliente()">
+      <button type="button" class="btn btn-default" ng-show="!tableform.$visible" ng-click="tableform.$show(); vrg.CancelarRendir()">
         Editar Gastos
       </button>
-      <button class="btn btn-primary" ng-click="vc.ShowFormCliente()" ng-hide="vc.formVisibilityCliente; vc.tableVisibilityCliente" ng-show="!tableform.$visible">Agregar Gasto</button>
+      <button class="btn btn-primary" ng-click="vrg.ShowFormRendir()" ng-hide="vrg.ShowFormRendir; vrg.formVisibilityRendir" ng-show="!tableform.$visible">Agregar Gasto</button>
     </div>
   </div>
     <!-- inicio del formulario para ingresar datos -->
     <div class="form-group ">
-      <div ng-show="vc.formVisibilityCliente"  >
+      <div ng-show="vrg.formVisibilityRendir"  >
         <form name='validinput'>
           <div class="input-group">
             <div class="panel">
               <div class="panel-heading">
               <div class="col-xs-3" >
                   <span class="input-group-addon">Cliente</span>
-                  <input type="text" class="form-control input-sm" placeholder='clienteid' name='clienteid' data-ng-model="vc.clienteid"  required data-ng-class='{error: validinput.clienteid.$invalid && !validinput.$pristine}'>
+                  <input type="text" class="form-control input-sm" placeholder='clienteid' name='clienteid' data-ng-model="vrg.clienteid"  required data-ng-class='{error: validinput.clienteid.$invalid && !validinput.$pristine}'>
                 </div>
                 <div class="col-xs-3" >
                   <span class="input-group-addon">Proyecto</span>
-                  <input type="text" class="form-control input-sm" placeholder='clienteid' name='clienteid' data-ng-model="vc.clienteid"  required data-ng-class='{error: validinput.clienteid.$invalid && !validinput.$pristine}'>
+                  <input type="text" class="form-control input-sm" placeholder='proyectoid' name='proyectoid' data-ng-model="vrg.proyectoid"  required data-ng-class='{error: validinput.proyectoid.$invalid && !validinput.$pristine}'>
                 </div>
                 <div class="col-xs-3" >
                   <span class="input-group-addon">Descripcion</span>
-                  <input type="text" class="form-control input-sm" placeholder='clienteid' name='clienteid' data-ng-model="vc.clienteid"  required data-ng-class='{error: validinput.clienteid.$invalid && !validinput.$pristine}'>
+                  <input type="text" class="form-control input-sm" placeholder='descripcion' name='descripcion' data-ng-model="vrg.descripcion"  required data-ng-class='{error: validinput.descripcion.$invalid && !validinput.$pristine}'>
                 </div>
                 <div class="col-xs-3" >
                   <span class="input-group-addon">Gastos</span>
-                  <input type="text" class="form-control input-sm" placeholder='nombre_comercial' name='nombre_comercial' data-ng-model="vc.nombre_comercial"  required data-ng-class='{ error: validinput.nombre_comercial.$invalid && !validinput.$pristine }'>
+                  <input type="text" class="form-control input-sm" placeholder='nombre_comercial' name='nombre_comercial' data-ng-model="vrg.nombre_comercial"  required data-ng-class='{ error: validinput.nombre_comercial.$invalid && !validinput.$pristine }'>
                 </div>
                 <div class="col-xs-3" >
                   <span class="input-group-addon">Cliente</span>
-                  <input type="text" class="form-control input-sm" placeholder='nombre' name='nombre' data-ng-model="vc.nombre"  required data-ng-class='{ error: validinput.nombre.$invalid && !validinput.$pristine }'>
+                  <input type="text" class="form-control input-sm" placeholder='nombre' name='nombre' data-ng-model="vrg.nombre"  required data-ng-class='{ error: validinput.nombre.$invalid && !validinput.$pristine }'>
                 </div>
                 <div class="col-xs-3" >
                   <span class="input-group-addon">Reembolso</span>
-                  <input type="text" class="form-control input-sm" placeholder='codigoid' name='codigoid' data-ng-model="vc.codigoid"/>
+                  <input type="text" class="form-control input-sm" placeholder='reembolsable' name='reembolsable' data-ng-model="vrg.reembolsable"/>
                 </div>
                 <div class="col-xs-3" >
                   <span class="input-group-addon">Fecha de Factura</span>
-                  <input type="text" class="form-control input-sm" placeholder='yyyy-mm-dd' name='fecha_registro' data-ng-model="vc.fecha_registro"/>
+                  <input type="text" class="form-control input-sm" placeholder='yyyy-mm-dd' name='fecha_factura' data-ng-model="vrg.fecha_factura"/>
                 </div>
                 <div class="col-xs-3" >
                   <span class="input-group-addon">Moneda</span>
-                  <input type="text" class="form-control input-sm" placeholder='web' name='web' data-ng-model="vc.web"/>
+                  <input type="text" class="form-control input-sm" placeholder='web' name='web' data-ng-model="vrg.web"/>
                 </div>
                 <div class="col-xs-3" >
                   <span class="input-group-addon">N° Documento</span>
-                  <input type="text" class="form-control input-sm" placeholder='direccion' name='direccion' data-ng-model="vc.direccion"/>
+                  <input type="text" class="form-control input-sm" placeholder='num_factura' name='num_factura' data-ng-model="vrg.num_factura"/>
                 </div>
                 <div class="col-xs-3" >
                   <span class="input-group-addon">Proveedor</span>
-                  <input type="text" class="form-control input-sm" placeholder='paisid' name='paisid' data-ng-model="vc.paisid"/>
+                  <input type="text" class="form-control input-sm" placeholder='proveedor' name='proveedor' data-ng-model="vrg.proveedor"/>
                 </div>
                 <div class="col-xs-3" >
                   <span class="input-group-addon">Neto</span>
-                  <input type="text" class="form-control input-sm" placeholder='departamentoid' name='departamentoid' data-ng-model="vc.departamentoid"/>
+                  <input type="text" class="form-control input-sm" placeholder='monto_total' name='monto_total' data-ng-model="vrg.monto_total"/>
                 </div>
                 <div class="col-xs-3" >
                   <span class="input-group-addon">Otros Impuestos</span>
-                  <input type="text" class="form-control input-sm" placeholder='provinciaid' name='provinciaid' data-ng-model="vc.provinciaid"/>
+                  <input type="text" class="form-control input-sm" placeholder='otro_impuesto' name='otro_impuesto' data-ng-model="vrg.otro_impuesto"/>
                 </div>
               </div>
             </div>
@@ -98,8 +98,8 @@
 
           <div class="panel-heading col-md-6">
             <div class="btn-group">
-              <button class="btn btn-warning" ng-click="vc.GuardarCliente()" data-ng-disabled='!validinput.$valid'>Guardar</button>
-              <button class="btn btn-danger" ng-click="vc.CancelarCliente()">Cancelar</button>
+              <button class="btn btn-warning" ng-click="vrg.GuardarRendir()" data-ng-disabled='!validinput.$valid'>Guardar</button>
+              <button class="btn btn-danger" ng-click="vrg.CancelarRendir()">Cancelar</button>
             </div>
           </div>
 
@@ -114,7 +114,7 @@
 
   <!-- inicio del formulario para modificar datos -->
   <div class="panel-heading">
-    <form method="POST" action="#" editable-form name="tableform" onaftersave="vc.ModificarCliente()" oncancel="cancel()" >
+    <form method="POST" action="#" editable-form name="tableform" onaftersave="vrg.ModificarGastoPersona()" oncancel="cancel()" >
 
       <section class="panel-heading">
         <div class="btn-form" ng-show="tableform.$visible">
@@ -139,63 +139,74 @@
               <th style="width: 5%;">Cliente</th>
               <th style="width: 5%;">Reembolso</th>
               <th style="width: 5%;">Fecha Factura</th>
+              <th style="width: 5%;">N° Factura</th>
               <th style="width: 5%;">Moneda</th>
-              <th style="width: 5%;">N° Documento</th>
               <th style="width: 5%;">Proveedor</th>
               <th style="width: 5%;">Neto</th>
               <th style="width: 5%;">Otros Impuestos</th>
+              <th style="width: 5%;">IGV</th>
+              <th style="width: 5%;">Monto Total</th>
             </thead>
 
-
-            <tr ng-repeat="clientes in vc.cliente">
+            <tr ng-repeat="rendiciones in vrg.gastospersona">
               <td>
-                <span editable-text="clientes.clienteid" e-from="tableform" e-required>
-                 {{clientes.clienteid}}
+                <span editable-text="rendiciones.clienteid" e-from="tableform" e-required>
+                 {{rendiciones.clienteid}}
                </span>
              </td>
              <td>
-              <span editable-text="clientes.nombre_comercial" e-from="tableform" e-required >
-                {{clientes.nombre_comercial}}
+              <span editable-text="rendiciones.proyectoid" e-from="tableform" e-required >
+                {{rendiciones.proyectoid}}
               </span>
             </td>
             <td>
-              <span editable-text="clientes.nombre" e-from="tableform">
-                {{clientes.nombre}}
+              <span editable-text="rendiciones.descripcion" e-from="tableform">
+                {{rendiciones.descripcion}}
               </span>
             </td>
             <td>
-              <span editable-text="clientes.codigoid" e-from="tableform" >
-                {{clientes.codigoid}}
+              <span editable-text="rendiciones.gastoid" e-from="tableform" >
+                {{rendiciones.gastoid}}
               </span>
             </td>
             <td>
-              <span editable-text="clientes.fecha_registro" e-from="tableform">
-                {{clientes.fecha_registro}}
+              <span editable-text="rendiciones.fecha_registro" e-from="tableform">
+                {{rendiciones.fecha_registro}}
               </span>
             </td>
             <td>
-              <span editable-text="clientes.web" e-from="tableform">
-                {{clientes.web}}
+              <span editable-text="rendiciones.web" e-from="tableform">
+                {{rendiciones.web}}
               </span>
             </td>
             <td>
-              <span editable-text="clientes.direccion" e-from="tableform">
-                {{clientes.direccion}}
+              <span editable-text="rendiciones.direccion" e-from="tableform">
+                {{rendiciones.direccion}}
               </span>
             </td>
             <td>
-              <span editable-text="clientes.paisid" e-from="tableform">
-                {{clientes.paisid}}
+              <span editable-text="rendiciones.paisid" e-from="tableform">
+                {{rendiciones.paisid}}
               </span>
             </td>
             <td>
-              <span editable-text="clientes.departamentoid" e-from="tableform">
-                {{clientes.departamentoid}}
+              <span editable-text="rendiciones.departamentoid" e-from="tableform">
+                {{rendiciones.departamentoid}}
               </span>
             </td>
             <td>
-              <span editable-text="clientes.provinciaid" e-from="tableform">
-                {{clientes.provinciaid}}
+              <span editable-text="rendiciones.provinciaid" e-from="tableform">
+                {{rendiciones.provinciaid}}
+              </span>
+            </td>
+            <td>
+              <span editable-text="rendiciones.provinciaid" e-from="tableform">
+                {{rendiciones.provinciaid}}
+              </span>
+            </td>
+            <td>
+              <span editable-text="rendiciones.provinciaid" e-from="tableform">
+                {{rendiciones.provinciaid}}
               </span>
             </td>
           </tr>
@@ -205,7 +216,7 @@
 
       <section class="panel-heading">
 <!-- <div class="btn-form" ng-show="tableform.$visible">
-    <button type="button" ng-disabled="tableform.$waiting" ng-click="vc.agregarArea()" class="btn btn-primary ">Agregar Area</button>
+    <button type="button" ng-disabled="tableform.$waiting" ng-click="vrg.agregarArea()" class="btn btn-primary ">Agregar Area</button>
     <button type="submit" ng-disabled="tableform.$waiting" class="btn btn-success">guardar</button>
     <button type="button" ng-disabled="tableform.$waiting" ng-click="tableform.$cancel()" class="btn btn-danger">cancelar</button>
   </div> -->
