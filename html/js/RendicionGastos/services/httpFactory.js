@@ -1,6 +1,6 @@
 app.factory('httpFactory', ['$http','$q', function($http,$q) {
 
-var url="/rendiciongastos/index/";//ruta vista
+var url_rendir="/rendiciongastos/rendir/";//ruta vista
 var url_gastos='/rendiciongastos/gastos/';//ruta controlador gastos
 
 var publico = {
@@ -37,7 +37,7 @@ var publico = {
   },
 
   getGastosById: function(numero) {
-    console.log("httpFactory "+numero);
+    // console.log("httpFactory "+numero);
     var defered = $q.defer();
     var promise = defered.promise;
     $http.get(url_gastos + 'rendir/numero/' + numero)
@@ -53,7 +53,25 @@ var publico = {
 
   /*FIN GASTOS*/
 
+    /*INICIO GASTOS PERSONA*/
+    getRendirPersona: function(numero) {
+      var defered = $q.defer();
+      var promise = defered.promise;
+      $http.get(url_gastos + 'llamarrendirpersona/numero/' + numero)
+      .success(function(data) {
+        defered.resolve(data);
+
+      })
+      .error(function(err) {
+        defered.reject(err);
+      });
+      return promise;
+    },
+
+
+
 }
+
 
 return publico;
 }])

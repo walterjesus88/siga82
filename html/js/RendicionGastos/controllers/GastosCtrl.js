@@ -23,7 +23,7 @@ app.controller('GastosCtrl', ['$scope','httpFactory', 'gastosFactory', '$modal',
 			});
 		};
 
-		console.log(this);
+		// console.log(this);
 	//carga inicial de las rendiciones con estado activo
 		listarGastos(estado_actual);
 

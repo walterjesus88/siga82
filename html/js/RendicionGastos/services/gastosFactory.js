@@ -57,7 +57,7 @@ app.factory('gastosFactory', ['httpFactory', '$location', '$q',
 
 
     getDatosGastos: function(numero) {
-      console.log("gastosFactory "+numero);
+      // console.log("gastosFactory "+numero);
       var defered = $q.defer();
       var promise = defered.promise;
       httpFactory.getGastosById(numero)
