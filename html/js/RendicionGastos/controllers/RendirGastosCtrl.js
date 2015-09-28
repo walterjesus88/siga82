@@ -1,33 +1,28 @@
-app.controller('RendirGastosCtrl', ['httpFactory', 'gastosFactory', '$modal',
-'$routeParams', function(httpFactory, gastosFactory, $modal, $routeParams) {
+app.controller('RendirGastosCtrl', ['$scope','httpFactory', 'gastosFactory', '$modal', '$location', '$routeParams',
+  function($scope,httpFactory, gastosFactory, $modal, $location, $routeParams){
 
+  /*referencia del scope en vr, obtencion de la rendicion seleccionada y el objeto
+  que contendra los datos de la rendicion*/
 
-  /*referencia del scope en vr, obtencion del proyecto seleccionado y el objeto
-  que contendra los datos del proyecto*/
+  var vrg = this;
 
-console.log($routeParams);
+  vrg.rendir = {numero: $routeParams.rendir};
 
-  var vr = this;
+  console.log(this);
+  console.log($routeParams);
 
-  vr.gasto = {
-    codigo: $routeParams.gasto,
-  };
-
-  // vr.cliente = {
-  //     cliente: $routeParams.gasto,
-  // };
-
-  //carga de los datos del gasto seleccionado
-  gastosFactory.getDatosGastos(vr.gasto.codigo)
+  //carga de los datos de la rendicion seleccionada
+  gastosFactory.getDatosGastos(vrg.rendir.numero)
   .then(function(data) {
-    console.log("estoy en rendir de gasto");
+    console.log("estoy en rendir de gastos");
     console.log(data);
-    vr.gasto = data;
+    vrg.rendir = data;
     //console.log(vr.gasto);
   })
   .catch(function(err) {
-    vr.gasto = {};
+    vrg.rendir = [];
   });
 
+  console.log("llego "+vrg.rendir.numero);
 
 }]);

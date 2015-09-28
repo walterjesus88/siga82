@@ -9,9 +9,9 @@ var app= angular.module('moduloRg', ['ngRoute','chart.js','ui.bootstrap','ui.boo
     templateUrl: "/rendiciongastos/index/gastos"
   })
 
-  .when("/rendir/rendicion/:rendicion/", {
+  .when("/rendir/numero/:numero/", {
     controller: "RendirGastosCtrl",
-    controllerAs: "vr",
+    controllerAs: "vrg",
     templateUrl: "/rendiciongastos/index/rendir"
   })
 

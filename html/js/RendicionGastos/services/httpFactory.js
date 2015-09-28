@@ -36,20 +36,20 @@ var publico = {
     return promise;
   },
 
-      getGastosById: function(numero) {
-        console.log("httpFactory "+numero);
-      var defered = $q.defer();
-      var promise = defered.promise;
-      $http.get(url + 'rendir/numero/' + numero)
-      .success(function(data) {
+  getGastosById: function(numero) {
+    console.log("httpFactory "+numero);
+    var defered = $q.defer();
+    var promise = defered.promise;
+    $http.get(url_gastos + 'rendir/numero/' + numero)
+    .success(function(data) {
         // console.log(url_gastos + 'rendirgastos/rendicion/' + numero);
         defered.resolve(data);
       })
-      .error(function(err) {
-        defered.reject(err);
-      });
-      return promise;
-    },
+    .error(function(err) {
+      defered.reject(err);
+    });
+    return promise;
+  },
 
   /*FIN GASTOS*/
 

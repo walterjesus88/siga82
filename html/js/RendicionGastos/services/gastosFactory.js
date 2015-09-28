@@ -1,16 +1,16 @@
 app.factory('gastosFactory', ['httpFactory', '$location', '$q',
   function(httpFactory, $location, $q) {
 
-    // var datos = {
-    //   uid: '',
-    //   dni: '',
-    //   numero_completo: '',
-    //   numero:'',
-    //   nombre: '',
-    //   fecha: '',
-    //   monto_total: '',
-    //   estado: '',
-    // };
+    var datos = {
+      uid: '',
+      dni: '',
+      numero_completo: '',
+      numero:'',
+      nombre: '',
+      fecha: '',
+      monto_total: '',
+      estado: '',
+    };
 
     var publico = {
 
@@ -28,24 +28,13 @@ app.factory('gastosFactory', ['httpFactory', '$location', '$q',
         this.monto_total = item.monto_total;
         this.estado = estados[item.estado];
 
-            // console.log(this.estado);
-            this.cambiarEstadoGasto = function() {
-              httpFactory.setGasto(this.numero,this.numero_completo,this.nombre,this.fecha,this.monto_total,this.estado)
-              .then(function(data) {
-                alert('Estado del gastos cambiado');
-              })
-              .catch(function(err) {
-                alert('No se pudo cambiar el estado');
-              })
-            }
+    this.verInformacion = function() {
 
-            this.verInformacion = function() {
-        //configuracionTransmittal.setProyecto(proyectoid);
         console.log("verInformacion");
+        console.log(item);
         console.log(this.numero);
-        //console.log(this.codx);
-        $location.path("/rendirgastos/rendicion/" +this.numero);
-        // +'/codigo/'+this.codigo_prop_proy
+        $location.path("/rendir/numero/" + item.numero);
+
       }
     },
 
@@ -68,7 +57,7 @@ app.factory('gastosFactory', ['httpFactory', '$location', '$q',
 
 
     getDatosGastos: function(numero) {
-        console.log("gastosFactory "+numero);
+      console.log("gastosFactory "+numero);
       var defered = $q.defer();
       var promise = defered.promise;
       httpFactory.getGastosById(numero)
@@ -81,10 +70,6 @@ app.factory('gastosFactory', ['httpFactory', '$location', '$q',
       });
       return promise;
     },
-
-
-
-
 
 
   }
