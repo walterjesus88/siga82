@@ -1,31 +1,31 @@
-app.directive('ngEnter', function () {
-    return function (scope, element, attrs) {
-        element.bind("keydown keypress", function (event) {
-            if(event.which === 13) {
-                scope.$apply(function (){
-                    scope.$eval(attrs.ngEnter);
-                });
+// app.directive('ngEnter', function () {
+//     return function (scope, element, attrs) {
+//         element.bind("keydown keypress", function (event) {
+//             if(event.which === 13) {
+//                 scope.$apply(function (){
+//                     scope.$eval(attrs.ngEnter);
+//                 });
 
-                event.preventDefault();
-            }
-        });
-    };
+//                 event.preventDefault();
+//             }
+//         });
+//     };
 
-    return {
-            restrict: 'A',
-            scope: {
-                confirm: '@',
-                confirmAction: '&'
-            },
-            link: function (scope, element, attrs) {
-                element.bind('click', function (e) {
-                    if (confirm(scope.confirm)) {
-                        scope.confirmAction();
-                    }
-                });
-            }
-    };
-});
+//     return {
+//             restrict: 'A',
+//             scope: {
+//                 confirm: '@',
+//                 confirmAction: '&'
+//             },
+//             link: function (scope, element, attrs) {
+//                 element.bind('click', function (e) {
+//                     if (confirm(scope.confirm)) {
+//                         scope.confirmAction();
+//                     }
+//                 });
+//             }
+//     };
+// });
 
 
 
@@ -842,7 +842,6 @@ va.checkName=function(data, id)
   // nombre =val['nombre'];
   // items=val['items'];
 
- // console.log(va.performance);
   cadena=data; ///predecesoras//
  
   predecesoras=cadena;
@@ -1011,7 +1010,6 @@ else
 
         //console.log("fecha_sincro_comienzo"+fecha_sincro_comienzo);
         //console.log("fecha_sincro_fin"+fecha_sincro_fin);
-
         switch(texto[i]) {
         case 'CC':
          if(cadena.indexOf('+')!=-1 || cadena.indexOf('-')!=-1)
@@ -1871,7 +1869,7 @@ else
   va.showStatus = function(lista) {
     
     //console.log(lista.edt);    
-    console.log(va.edt);
+    //console.log(va.edt);
 
     var selected = [];
     if(lista.edt) {
@@ -1880,14 +1878,6 @@ else
     return selected.length ? selected[0].nombre : 'editar edt';
 
   };
-
-  
-  va.operators = [
-    {value: 'eq', displayName: 'equals', state:'A'},
-    {value: 'eq1', displayName: 'equals1', state:'A'},
-    {value: 'neq', displayName: 'not equal', state:'I'}
-  ]
-   
 
   va.tipodocumentoE = [
     {value: 'Plano', text: 'Plano'},
@@ -1903,6 +1893,24 @@ else
       selected = $filter('filter')(va.tipodocumentoE, {value: lista.tipo_documento});
     }
     return selected.length ? selected[0].text : 'eitar tipo_documento';
+  };
+
+
+  proyectoFactory.getDisciplinaxProyecto(proyecto['codigo'])
+    .then(function(data) {
+        va.disciplina=data;
+        console.log(va.disciplina);
+    })
+    .catch(function(err) {
+           
+    });
+
+  va.showDisciplina = function(lista) {
+    var selected = [];
+    if(lista.disciplina) {
+      selected = $filter('filter')(va.disciplina, {areaid: lista.disciplina});
+    }
+    return selected.length ? selected[0].nombre : 'editar disciplina';
   };
 
 
@@ -1988,7 +1996,7 @@ else
 
   }
 
-//  va.oneAtATime = true;
+
 
 //S I R V E  P A R A  C R O N G R A M A  R E V I S I O N  A C T U A L//
 
@@ -2031,7 +2039,7 @@ proyectoFactory.getDatosxEntregable(proyecto['codigo'])
   va.entregable=data;
 
     for (var i = va.entregable.length - 1; i >= 0; i--) {
-      //console.log(va.procronograma[i]['state']);
+   
       if(va.entregable[i]['state']=='A')
       {
         va.revisionE=va.entregable[i]
@@ -2049,7 +2057,7 @@ proyectoFactory.getDatosxEntregable(proyecto['codigo'])
       }
     };
 
-  //console.log(va.entregable);
+
 })
 .catch(function(err) {
   va.entregable = {};X
@@ -2064,7 +2072,7 @@ console.log(revision);
   proyectoFactory.getDatosListaxEntregables(proyecto['codigo'],revision_entregable)
   .then(function(datax) {
     va.listaentregable=datax;
-    //console.log(va.listaentregable);
+    
   })
   .catch(function(err) {
     va.listaentregable = {};
@@ -2075,13 +2083,6 @@ console.log(revision);
 
 va.addListaEntregable= function() {
 
-    // va.inserted = {
-    //   id: $scope.users.length+1,
-    //   name: '',
-    //   status: null,
-    //   group: null 
-    // };
-    // va.users.push(va.inserted);
 
     if(va.listaentregable)
     {
@@ -2136,12 +2137,46 @@ va.guardatListaentregable = function(data, id) {
     disciplina=data['disciplina'];
     codigo_anddes=data['codigo_anddes'];
     codigo_cliente=data['codigo_cliente'];
-    fecha_0=data['fecha_0'];
     fecha_a=data['fecha_a'];
     fecha_b=data['fecha_b'];
+    fecha_0=data['fecha_0'];
     descripcion_entregable=data['descripcion_entregable'];   
     cod_le=id;
+
+    //alert(disciplina);
+
+    // fecha_a=(fecha_a=='' || fecha_a==null || fecha_a!='null' || fecha_a!='undefined') ? "" : proyectoFactory.formatoFechas(fecha_a); 
+    // fecha_b=(fecha_b=='' || fecha_a==null || fecha_a!='null' || fecha_b!='undefined') ? "" : proyectoFactory.formatoFechas(fecha_b); 
+    // fecha_0=(fecha_0=='' || fecha_0==null || fecha_0!='null' || fecha_0!='undefined') ? "" : proyectoFactory.formatoFechas(fecha_0); 
+
+    //le da el formato yy-mm-dd a una fecha //
+
+     if(fecha_a==null || fecha_a=='' || fecha_a=='null' || fecha_a=='undefined') 
+     { 
+     }
+     else
+     { 
+      fecha_a=proyectoFactory.formatoFechas(fecha_a);
+     }
+
+     if(fecha_b==null || fecha_b=='' || fecha_b=='null' || fecha_b=='undefined') 
+     { 
+     }
+     else
+     { 
+      fecha_b=proyectoFactory.formatoFechas(fecha_b);
+     }
+
+     if(fecha_0==null || fecha_0=='' || fecha_0=='null' || fecha_0=='undefined') 
+     { 
+     }
+     else
+     { 
+      fecha_0=proyectoFactory.formatoFechas(fecha_0);
+     }
  
+  
+
     codigo_prop_proy=va.revisionE['codigo_prop_proy'];
     proyectoid=va.revisionE['proyectoid'];
     revision_entregable=va.revisionE['revision_entregable'];
@@ -2187,95 +2222,6 @@ va.guardatListaentregable = function(data, id) {
 
   };
 
-// va.agregarListaentregable = function() {
-
-//     console.log(va.listaentregable);
-//     console.log(va.edt);
-
-//     //va.edt=[{ nombre:'xxxx',codigo_edt:'dada'}];
-
-//     if(va.listaentregable)
-//     {
-//       va.inserted = {
-//         codigo_prop_proy:va.proyectop.codigo_prop_proy,
-//         proyectoid:va.proyectop.codigo,  
-//         revision_entregable: va.revisionE['revision_entregable'],
-//         id: va.listaentregable.length+1,
-//         cod_listdet:va.listaentregable.length+1,
-//         edt: null,
-//         tipo_documento: null,
-//         disciplina: null ,
-//         codigo_anddes: null ,
-//         codigo_cliente: null ,
-//         descripcion_entregable: null ,
-//         fecha_a: null ,
-//         fecha_b: null ,
-//         fecha_0: null ,  
-//         clase:'',       
-//       };
-//     }
-//     else
-//     {
-//       va.listaentregable=[];
-//       va.inserted = {
-//         codigo_prop_proy:va.proyectop.codigo_prop_proy,
-//         proyectoid:va.proyectop.codigo, 
-//         revision_entregable: va.revisionE['revision_entregable'],
-//         id: va.listaentregable.length+1,
-//         cod_listdet:va.listaentregable.length+1,
-        
-//         edt: null,
-//         tipo_documento: null,
-//         disciplina: null ,
-//         codigo_anddes: null ,
-//         codigo_cliente: null ,
-//         descripcion_entregable: null ,
-//         fecha_a: null ,
-//         fecha_b: null ,
-//         fecha_0: null , 
-//         clase:'',        
-//       };
-//     }
-//     va.listaentregable.push(va.inserted);
-
-// };
-
-
-// va.saveTableentregable=function()
-// {
-//   console.log(va.listaentregable);
-
-//   angular.forEach(va.listaentregable, function(val) {  
-
-//     edt=val['edt'];
-//     tipo_documento=val['tipo_documento'];   
-//     disciplina=val['disciplina'];
-//     codigo_anddes=val['codigo_anddes'];
-//     codigo_cliente=val['codigo_cliente'];
-//     fecha_0=val['fecha_0'];
-//     fecha_a=val['fecha_a'];
-//     fecha_b=val['fecha_b'];
-//     descripcion_entregable=val['descripcion_entregable'];   
-//     cod_le=val['cod_listdet'];
- 
-
-//     codigo_prop_proy=va.revisionE['codigo_prop_proy'];
-//     proyectoid=va.revisionE['proyectoid'];
-//     revision_entregable=va.revisionE['revision_entregable'];
-
-//     proyectoFactory.setDatosxGuardarxListaxEntregables(
-//       codigo_prop_proy,proyectoid,revision_entregable,edt,tipo_documento,disciplina,codigo_anddes,codigo_cliente,fecha_0,fecha_a,fecha_b,descripcion_entregable,cod_le)
-//     .then(function(data) {
-//      // va.listaentregable=data;
-
-//     })
-//     .catch(function(err) {
-//       //va.listaentregable = {};
-//     })   
-
-//   })
-
-// }
 
 va.deleteEntregable=function(index,id)
 {
@@ -2285,7 +2231,6 @@ va.deleteEntregable=function(index,id)
  
     proyectoFactory.setDatosxEliminarxEntregable(id,codigoproyecto,proyectoid,revision_entregable)
     .then(function(data) {
-       //va.listaentregable.splice(va.listaentregable.indexOf(filtered[0]), 1);
        va.listaentregable.splice(index, 1);
     })
     .catch(function(err) {
@@ -2344,26 +2289,75 @@ va.GuardarEntregable=function(){
 
 
 va.imprimir=function(){
-  //console.log('dddddddadad');
   httpFactory.createPdfEntregable('A')
   .then(function(data) {
     //console.log(data);
     //window.open(data.archivo, '_blank');
   })
   .catch(function(err) {
-
   });
 
 }
 
+//va.statelista=1;
 
-va.clases=[
-{'title':'a','type':1,ff:false},
-{'title':'b','type':2,ff:true},
-{'title':'c','type':1,ff:false},
-{'title':'d','type':3,ff:true},
+proyectoFactory.getLeerEstadosListaE(proyecto['codigo'])
+.then(function(data) {
+  
+    va.statelista=data;
+    console.log(data);
 
-]
+})
+.catch(function(err) {
+    console.log("error al eliminar entregable");
+}); 
+
+
+
+proyectoFactory.getLeerSessionUsuario(proyecto['codigo'])
+.then(function(data) {
+  
+    console.log(data);
+    va.gerente=data['is_gerente'];
+    va.jefearea=data['is_jefe'];
+    va.responsable=data['is_responsableproyecto'];
+
+})
+.catch(function(err) {
+    console.log("error al eliminar entregable");
+}); 
+
+va.desabilitar=1;
+
+va.CambiarEstadoListaEntregable = function(value)
+{
+  //console.log(va.revisionE);
+  codigoproyecto=va.revisionE['codigo_prop_proy'];
+  proyectoid=va.revisionE['proyectoid'];
+  revision_entregable=va.revisionE['revision_entregable'];
+  
+
+  proyectoFactory.setCambiarEstadoListaEntregable(value,codigoproyecto,proyectoid,revision_entregable)
+  .then(function(data) {
+    //console.log(data);
+
+    proyectoFactory.getLeerEstadosListaE(proyecto['codigo'])
+    .then(function(data) {
+      
+        va.statelista=data;
+        console.log(data);
+    })
+    .catch(function(err) {
+        console.log("error al eliminar entregable");
+    }); 
+
+
+  })
+  .catch(function(err) {
+    console.log("error al eliminar entregable");
+  });  
+
+};
 
 
 

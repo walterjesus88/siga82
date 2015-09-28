@@ -1,48 +1,74 @@
 
-<div class="form-group" class="col-md-12"  >
-	<div class="col-md-2" >
-    <label>Escoja una revision: </label> 
-  	</div>
-  	<div class="col-md-2" >
-    <select class="form-control" ng-model="CP.revisionE"         
-      ng-options="c.revision_entregable for c in CP.entregable ">
-    </select> 
-  	</div>
-  	<div class="col-md-2" >
-    <button class="btn btn-success" ng-click="CP.buscaentregables(CP.revisionE)" class="btn btn-primary btn-xs">Busca</button>
-  	</div>
+	<div class="form-group " class="col-md-12"  >
+		<div class="col-md-2" >
+	    <label>Escoja una revision: </label> 
+	  	</div>
+	  	<div class="col-md-2" >
+	    <select class="form-control" ng-model="CP.revisionE"         
+	      ng-options="c.revision_entregable for c in CP.entregable ">
+	    </select> 
+	  	</div>
+	  	<div class="col-md-2" >
+	    <button class="btn btn-shadow btn-success" ng-click="CP.buscaentregables(CP.revisionE)" class="btn btn-primary btn-xs">Busca</button>
+	  	</div>
 
-	<div class="form-group col-md-6">
-	           
-		<div ng-show="CP.formVisibilityEntregable" class="col-md-12" >	                
-			<div class="col-md-12">
-				<div class="col-md-3" >
-		            <label> Revision</label>
-		        </div>        
-		        <div class="col-md-3" >
-		                    <input class="form-control" type="text" ng-model="CP.revisionEntregable"></input>
-		        </div>
-		       
-				<div class="col-md-3" >      
-					<button class="btn btn-warning" ng-click="CP.GuardarEntregable()">Guardar</button>
-				</div>            
-				<div class="col-md-3" >      
-					<button class="btn btn-danger" ng-click="CP.CancelarEntregable()">Cancelar</button>
+		<div class="form-group col-md-6">
+		           
+			<div ng-show="CP.formVisibilityEntregable" class="col-md-12" >	                
+				<div class="col-md-12">
+					<div class="col-md-3" >
+			            <label> Revision</label>
+			        </div>        
+			        <div class="col-md-3" >
+			                    <input class="form-control" type="text" ng-model="CP.revisionEntregable"></input>
+			        </div>
+			       
+					<div class="col-md-3" >      
+						<button class="btn btn-shadow btn-warning" ng-click="CP.GuardarEntregable()">Guardar</button>
+					</div>            
+					<div class="col-md-3" >      
+						<button class="btn btn-shadow btn-danger" ng-click="CP.CancelarEntregable()">Cancelar</button>
+					</div>
 				</div>
+			             
 			</div>
-		             
+			<button class="btn btn-shadow btn-primary" ng-click="CP.ShowFormEntregable()" ng-hide="CP.formVisibilityEntregable">
+			    Anadir Entregable
+			</button>
+		        
 		</div>
-		<button class="btn btn-primary" ng-click="CP.ShowFormEntregable()" ng-hide="CP.formVisibilityEntregable">
-		    Anadir Entregable
-		</button>
-	        
+
 	</div>
 
-</div>
 
 
-<!-- ddddddddddddddddddddddwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww -->
 
+
+	<div class="panel">
+		<li ng-if="CP.responsable=='S' && (CP.statelista.indice==1 || CP.statelista.indice==3) ">
+	    	<button type="button" class="btn btn-primary" ng-click="CP.CambiarEstadoListaEntregable(2)">Completo</button>
+		</li>
+
+		<li ng-if="CP.jefearea=='S' && (CP.statelista.indice==2 || CP.statelista.indice==5)">
+		    <button type="button" class="btn btn-shadow btn-success " ng-click="CP.CambiarEstadoListaEntregable(4)"><i class='fa fa-check'></i></button>
+		    <button type="button" class="btn btn-shadow btn-danger" ng-click="CP.CambiarEstadoListaEntregable(3)"><i class='fa fa-times'></i></button>
+		</li > 
+
+		<li ng-if="CP.gerente=='S'  && CP.statelista.indice==4">	
+		    <button type="button" class="btn btn-shadow btn-success" ng-click="CP.CambiarEstadoListaEntregable(6)"><i class='fa fa-check'></i></button>
+		    <button type="button" class="btn btn-shadow btn-danger" ng-click="CP.CambiarEstadoListaEntregable(5)"><i class='fa fa-times'></i></button>
+		</li >
+
+		<li ng-if="CP.gerente=='S' && CP.statelista.indice==7">
+		    <button type="button" class="btn btn-shadow btn-success" ng-click="CP.CambiarEstadoListaEntregable(9)"><i class='fa fa-check'></i></button>
+		    <button type="button" class="btn btn-shadow btn-danger" ng-click="CP.CambiarEstadoListaEntregable(8)"><i class='fa fa-times'></i></button>
+		</li>
+	  
+	</div>
+
+
+
+<div class="main-wrapper">
 
 <table class="table table-bordered table-hover table-condensed">
 
@@ -77,39 +103,55 @@
 
      	 <td>
         	<!-- editable username (text with validation) -->
-	        <span editable-text="lista.disciplina" e-name="disciplina" e-form="rowform" onbeforesave="checkEntregable($dataentregable, lista.cod_le)" >
-	          {{ lista.disciplina  }}
+	        <span editable-select="lista.disciplina" e-name="disciplina" e-form="rowform"   e-ng-options="s.areaid as s.nombre for s in CP.disciplina">
+	          <!-- {{ lista.disciplina  }} -->
+	       	  {{ CP.showDisciplina(lista) }} 	          
 	        </span>
       	</td>
 
-
-		<td>
-			<span editable-text="lista.codigo_anddes" e-name="codigo_anddes" e-form="rowform" onbeforesave="checkEntregable($dataentregable, lista.cod_le)"  >
+		<!-- <td >
+			<span editable-text="lista.codigo_anddes" ng-disabled="CP.desabilitar==1" e-name="codigo_anddes" e-form="rowform" onbeforesave="checkEntregable($dataentregable, lista.cod_le)"  >
 				{{ lista.codigo_anddes }}
 			</span>
+		</td>-->
+
+		<td>
+		  <input class="form-control" ng-model="lista.codigo_anddes" ng-disabled="CP.desabilitar==1" type="text"  >
 		</td>
-		<td  >
+
+		<!-- <td  >
 			<span editable-text="lista.codigo_cliente" e-name="codigo_cliente" e-form="rowform" onbeforesave="checkEntregable($dataentregable, lista.cod_le)" >
 				{{ lista.codigo_cliente }}
 			</span>
-		</td>
+		</td> -->
+
 		<td>
-			<span editable-text="lista.descripcion_entregable" e-name="descripcion_entregable" e-form="rowform" onbeforesave="checkEntregable($dataentregable, lista.cod_le)" >	
+		  <input class="form-control" ng-model="lista.codigo_cliente" ng-disabled="CP.desabilitar==1" type="text"  >
+		</td>
+
+
+		<td>
+			<span editable-text="lista.descripcion_entregable" e-name="descripcion_entregable" e-form="rowform" >	
 				{{ lista.descripcion_entregable }}
 			</span>
 		</td>
-		<td  >
-			<span editable-text="lista.fecha_a" e-name="fecha_a" e-form="rowform" onbeforesave="checkEntregable($dataentregable, lista.cod_le)" >
-				{{ lista.fecha_a }}
+
+	 	<td>
+			<span editable-text="lista.fecha_a " e-name="fecha_a" e-form="rowform" e-datepicker-popup="yyyy-MM-dd">
+				{{ (lista.fecha_a )}}
 			</span>
-		</td>
-		<td  >
-			<span editable-text="lista.fecha_b" e-name="fecha_b" e-form="rowform" onbeforesave="checkEntregable($dataentregable, lista.cod_le)"  >
+		</td> 
+		
+		<!-- <td>
+		  <input type="date" ng-model="lista.fecha_a" e-form="rowform"  class="form-control " datepicker-popup ng-model="lista.fecha_a" datepicker-options="dateOptions"   /> 
+	  	</td> -->
+		<td>
+			<span editable-text="lista.fecha_b" e-name="fecha_b" e-form="rowform" e-datepicker-popup="yyyy-MM-dd" >
 				{{ lista.fecha_b }}
 			</span>
 		</td>
 		<td  >
-			<span editable-text="lista.fecha_0" e-name="fecha_0" e-form="rowform" onbeforesave="checkEntregable($dataentregable, lista.cod_le)" >
+			<span editable-text="lista.fecha_0" e-name="fecha_0" e-form="rowform" e-datepicker-popup="yyyy-MM-dd" >
 				{{ lista.fecha_0 }}
 			</span>
 
@@ -129,32 +171,55 @@
 	          </button>
 	        </form>
 	        <div class="buttons" ng-show="!rowform.$visible">
-	          <button class="btn btn-primary" ng-click="rowform.$show()">editar</button>
-	          <button class="btn btn-danger" ng-click="CP.deleteEntregable($index,lista.cod_le)">eliminar</button>
+	          <button class="btn btn-shadow btn-primary" ng-click="rowform.$show()">editar</button>
+	          <button class="btn btn-shadow btn-danger" ng-click="CP.deleteEntregable($index,lista.cod_le)">eliminar</button>
 	        </div>  
         </td>
 
     </tr>
 </table>
 
-<button class="btn btn-default" ng-click="CP.addListaEntregable()">Agregar Entregable</button>
 
 <div class="panel">
-    <button type="button" class="btn btn-default" ng-click="CP.exportarToXml()">Exportar</button>
-    <button type="button" class="btn btn-default" ng-click="CP.imprimir()">Imprimir</button>
+	<button class="btn btn-info" ng-click="CP.addListaEntregable()">Agregar Entregable</button>
+  <!--   <button type="button" class="btn btn-default" ng-click="CP.exportarToXml()">Exportar</button>
+    <button type="button" class="btn btn-link" ng-click="CP.imprimir()">Imprimir</button> -->
 </div>
 
-<div class="panel">
-    <button type="button" class="btn btn-default" ng-click="CP.exportarToXml()">Completo</button>
-    <button type="button" class="btn btn-default" ng-click="CP.exportarToXml()">Completo</button>
-    <button type="button" class="btn btn-default" ng-click="CP.exportarToXml()">Completo</button>
-    <button type="button" class="btn btn-default" ng-click="CP.exportarToXml()">Completo</button>
-  
 </div>
 
 
 
 
+<style type="text/css">
+
+@import url(http://fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300italic,400italic,500,500italic,700,700italic,900,900italic);
+* {
+		font-family: "Roboto", Arial, sans-serif;
+}
+
+/*body {
+		font-size: 1rem;
+		background-color: #ebebeb;
+		padding: 20px;
+		text-align: center;
+}
+*/
+h1 {
+		font-weight: 100;
+		color: #777;
+}
+
+.main-wrapper {
+		border-radius: 4px;
+		background-color: white;
+		padding: 20px;
+		box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+		position: relative;
+}
+
+
+</style>
 
 
 
