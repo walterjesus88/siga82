@@ -6,13 +6,15 @@ app.controller('RendirGastosCtrl', ['$scope','httpFactory', 'gastosFactory', '$m
 
   var vrg = this;
 
-  vrg.rendir = {numero: $routeParams.rendir};
+  //vrg.rendir = {numero: $routeParams['numero']};
 
-  console.log(this);
-  console.log($routeParams);
+  //console.log(this);
+  console.log($routeParams['numero']);
+
+ // console.log(vrg.rendir[0]['numero']);
 
   //carga de los datos de la rendicion seleccionada
-  gastosFactory.getDatosGastos(vrg.rendir.numero)
+  gastosFactory.getDatosGastos($routeParams['numero'])
   .then(function(data) {
     console.log("estoy en rendir de gastos");
     console.log(data);
@@ -23,6 +25,6 @@ app.controller('RendirGastosCtrl', ['$scope','httpFactory', 'gastosFactory', '$m
     vrg.rendir = [];
   });
 
-  console.log("llego "+vrg.rendir.numero);
+  //console.log("llego "+vrg.rendir.numero);
 
 }]);
