@@ -86,9 +86,14 @@ class Rendiciongastos_GastosController extends Zend_Controller_Action {
     //Devuelve los datos de una rendicion en particular
     public function rendirAction()
     {
+       try{
+
       $data['numero'] = $this->_getParam('numero');
-      $proyecto = new Admin_Model_DbTable_Gastorendicion();
-      $datos = $proyecto->_getOne($data);
+      
+
+      $rendir = new Admin_Model_DbTable_Gastorendicion();
+      // $datos = $rendir->_getOne($where);
+      $datos = $rendir->_getOne($data);
       $respuesta['numero'] = $datos['numero'];
       $respuesta['numero_completo'] = $datos['numero_completo'];
       $respuesta['fecha'] = $datos['fecha'];
@@ -96,33 +101,62 @@ class Rendiciongastos_GastosController extends Zend_Controller_Action {
       $respuesta['monto_total'] = $datos['monto_total'];
       $respuesta['estado'] = $datos['estado'];
 
-      $this->_helper->json->sendJson($respuesta);
+
+      $gp = new Admin_Model_DbTable_Gastopersona();
+      $datos = $gp->_getOneXnumero($data);
+
+      $gastos2=$gp->_getlistagastosxNumero($data['numero']);
+
+      /*$respuesta['descripcion'] = $datos['descripcion'];
+      $respuesta['gastoid'] = $datos['gastoid'];
+      $respuesta['bill_cliente'] = $datos['bill_cliente'];
+      $respuesta['reembolsable'] = $datos['reembolsable'];
+      $respuesta['fecha_factura'] = $datos['fecha_factura'];
+      $respuesta['num_factura'] = $datos['num_factura'];
+      $respuesta['proveedor'] = $datos['proveedor'];
+      $respuesta['monto_igv'] = $datos['monto_igv'];
+      $respuesta['otro_impuesto'] = $datos['otro_impuesto'];*/
+
+
+      // $numero = $this->_getParam('numero');
+      // $where = array('numero' =>$numero);
+      // $gp = new Admin_Model_DbTable_Gastopersona();
+      // $r = $gp->_getOneXnumero($where);
+
+
+      $this->_helper->json->sendJson($gastos2);
+      $this->_helper2->json->sendJson($respuesta);
     }
 
 
 
       /*GASTO PERSONA*/
-    public function llamarrendirpersonaAction()
-    {
+    // public function llamarrendirpersonaAction()
+    // {
 
-    $numero_gasto = $this->_getParam('numero');
-    $uid = $this->sesion->uid;
-    $dni = $this->sesion->dni;
-    $where = array();
-    $where['uid'] = $uid;
-    $where['dni'] = $dni;
-    $where['numero'] = $numero_gasto;
-    $gatos = new Admin_Model_DbTable_Gastopersona();
-    //print_r($where);
-    echo "______________";
-    // $gp = $gatos->_getgastoXRendicion($numero_gasto, $uid, $dni);
-    $gp = $gatos->_getOneXnumero($where);
-    echo "______________";
+    // $numero_gasto = $this->_getParam('numero');
+    // $uid = $this->sesion->uid;
+    // $dni = $this->sesion->dni;
+    // $where = array();
+    // $where['uid'] = $uid;
+    // $where['dni'] = $dni;
+    // $where['numero'] = $numero_gasto;
+    // $gatos = new Admin_Model_DbTable_Gastopersona();
+    // //print_r($where);
+    // echo "______________";
+    // // $gp = $gatos->_getgastoXRendicion($numero_gasto, $uid, $dni);
+    // $gp = $gatos->_getOneXnumero($where);
+    // echo "______________";
 
-    $this->_helper->json->sendJson($gp);
+    // $this->_helper->json->sendJson($gp);
 
 
-    }
+    // }
+ 
+            catch (Exception $ex){
+            print $ex->getMessage();
+        }
 
+}
 
 }

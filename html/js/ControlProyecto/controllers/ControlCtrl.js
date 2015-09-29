@@ -59,7 +59,7 @@ function(httpFactory, $scope,$filter,$q,proyectoFactory) {
           .success(function(data) {         
 
             va.dat=data[0]['1'];
-           // console.log(va.dat);
+            console.log(va.dat);
          
             var max = data[0]['1'].length;     
             var varx=[];
@@ -758,14 +758,19 @@ va.subtotal_costopro=0;
 va.subtotal_horaspro=0;
 va.subtotal_porcplani=0;
 va.subtotal_porcreal=0;
+va.subtotal_fecha = [];
 
-va.subtotal_fecha=0;
-//va.subtotal_fecha[2]=0;
-//va.subtotal_fecha[3]=0;
+va.subtotal_fecha[0]=0;
+va.subtotal_fecha[1]=0;
+va.subtotal_fecha[2]=0;
+
+
 
 va.checkName=function(data, id)
 {
   //C A L C U L O  D E   S U B T O T A L E S//
+
+
 
  actividad1digito= va.performance[id]['actividadid'].length;
  if(actividad1digito==1)
@@ -778,28 +783,47 @@ va.checkName=function(data, id)
   va.subtotal_porcplani+=parseInt(va.performance[id]['porcentaje_planificado']);
   va.subtotal_porcreal+=parseInt(va.performance[id]['porcentaje_real']);
   
-  angular.forEach(va.performance[id]['items'], function(val,id) {
+  container=[];
 
-
-    for (var i = 0; i <= va.performance[id]['items'].length; i++) {
-
-      if(id==2)
-      {
-        console.log(i);
-        va.subtotal_fecha+=parseInt(val['porcentaje_performance']);
-        //va.subtotal_fecha=va.subtotal_fecha[i];
-        console.log(id +"-"+ va.subtotal_fecha);
-
-      } 
     
-    };
+    //va.subtotal_fecha[ids]=0;       
+  
+    for (var i = va.thi.length - 1; i >= 0; i--) 
+    {     
+      //va.subtotal_fecha[i]=0;
+
+      angular.forEach(va.performance[id]['items'], function(val,ids) {
 
    
-    //console.log(id);
-  })
+        if(va.thi[i]['fecha']==val['fecha_performance'])
+        {        
 
-  va.dat=[{ porcentaje_ejecutado:va.subtotal_fecha},
-          ]
+          va.subtotal_fecha[i]+=parseFloat(val['porcentaje_performance']);
+
+          container.push(va.subtotal_fecha[i]);
+          console.log(container);
+        }
+
+      })
+    };
+
+      va.dat=[];
+      for (var i = container.length - 1; i >= 0; i--) {    
+
+        porcentaje={ porcentaje_ejecutado:container[i]},     
+        va.dat.push(porcentaje);
+    
+      };
+
+
+
+
+          //console.log(i+"-"+va.subtotal_fecha);
+        //console.log(gg);
+
+
+    //alert(va.subtotal_fecha);
+
 
  }
 
@@ -1832,9 +1856,7 @@ else
         fecha_ingreso_performance=value['fecha_ingreso_performance'];
         fecha_performance=value['fecha_performance'];
 
-       //alert(fecha_performance);
-       //alert(porcentaje_performance);
-       // console.log(proyectoid);
+    
 
 
         proyectoFactory.setActualizarDatosxPerfomance(codigo_prop_proy,codigo_actividad,actividadid,cronogramaid,
@@ -1862,14 +1884,12 @@ else
   })
   .catch(function(err) {
       console.log("error edt");
-            //va.procronograma = {};
+        
   });
 
 
   va.showStatus = function(lista) {
     
-    //console.log(lista.edt);    
-    //console.log(va.edt);
 
     var selected = [];
     if(lista.edt) {
@@ -1912,7 +1932,6 @@ else
     }
     return selected.length ? selected[0].nombre : 'editar disciplina';
   };
-
 
   // va.statuses = [
   //   {value: 1, text: 'status1'},
@@ -1980,11 +1999,7 @@ else
   va.EliminarEdt=function(index,codigoedt){
 
     codigoproyecto=va.proyectop.codigo_prop_proy;
-    proyectoid=va.proyectop.codigo;
-
-    console.log(index);
-    console.log(codigoedt);
-    console.log(va.edt);
+    proyectoid=va.proyectop.codigo;   
 
     proyectoFactory.setEliminarxEDT(codigoedt,codigoproyecto,proyectoid)
     .then(function(data) {
@@ -2048,7 +2063,7 @@ proyectoFactory.getDatosxEntregable(proyecto['codigo'])
         proyectoFactory.getDatosListaxEntregables(proyecto['codigo'],va.revisionE['revision_entregable'])
         .then(function(datax) {
           va.listaentregable=datax;
-          console.log(va.listaentregable);
+          //console.log(va.listaentregable);
         })
         .catch(function(err) {
           va.listaentregable = {};
@@ -2185,7 +2200,7 @@ va.guardatListaentregable = function(data, id) {
       codigo_prop_proy,proyectoid,revision_entregable,edt,tipo_documento,disciplina,codigo_anddes,codigo_cliente,fecha_0,fecha_a,fecha_b,descripcion_entregable,cod_le)
     .then(function(data) {
 
-        console.log(data);
+        //console.log(data);
 
         proyectoFactory.getDatosxEntregable(proyecto['codigo'])
           .then(function(data) {
@@ -2200,7 +2215,7 @@ va.guardatListaentregable = function(data, id) {
                   proyectoFactory.getDatosListaxEntregables(proyecto['codigo'],va.revisionE['revision_entregable'])
                   .then(function(datax) {
                     va.listaentregable=datax;
-                    console.log(va.listaentregable);
+                    //console.log(va.listaentregable);
                   })
                   .catch(function(err) {
                     va.listaentregable = {};
@@ -2278,7 +2293,7 @@ va.GuardarEntregable=function(){
       }
       //alert(data);
       //va.revisionE=va.inserted ;
-      console.log(va.entregable);
+      //console.log(va.entregable);
 
   })
   .catch(function(err) {
@@ -2305,7 +2320,7 @@ proyectoFactory.getLeerEstadosListaE(proyecto['codigo'])
 .then(function(data) {
   
     va.statelista=data;
-    console.log(data);
+    //console.log(data);
 
 })
 .catch(function(err) {
@@ -2317,7 +2332,7 @@ proyectoFactory.getLeerEstadosListaE(proyecto['codigo'])
 proyectoFactory.getLeerSessionUsuario(proyecto['codigo'])
 .then(function(data) {
   
-    console.log(data);
+    //console.log(data);
     va.gerente=data['is_gerente'];
     va.jefearea=data['is_jefe'];
     va.responsable=data['is_responsableproyecto'];
@@ -2345,16 +2360,16 @@ va.CambiarEstadoListaEntregable = function(value)
     .then(function(data) {
       
         va.statelista=data;
-        console.log(data);
+        //console.log(data);
     })
     .catch(function(err) {
-        console.log("error al eliminar entregable");
+        //console.log("error al eliminar entregable");
     }); 
 
 
   })
   .catch(function(err) {
-    console.log("error al eliminar entregable");
+    //console.log("error al eliminar entregable");
   });  
 
 };
