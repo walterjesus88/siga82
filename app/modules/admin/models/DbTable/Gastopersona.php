@@ -256,4 +256,24 @@ class Admin_Model_DbTable_Gastopersona extends Zend_Db_Table_Abstract
         $date_t = new Zend_Date($date);
         return $date_t->get("YYYY-MM-dd");
     }
+
+
+    public function _getlistagastosxNumero($numero){
+        try{
+            $sql=$this->_db->query("
+               select * from
+                gasto_persona where 
+                    numero_rendicion = '$numero'
+            ");
+            $row=$sql->fetchAll();
+            return $row;           
+            }  
+            catch (Exception $ex){
+            print $ex->getMessage();
+        }
+    }
+
+
 }
+
+//$gastos_rendicion = $gp -> _getlistagastosxNumero($numero_rendicion);

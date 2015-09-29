@@ -86,7 +86,11 @@ class Rendiciongastos_GastosController extends Zend_Controller_Action {
     //Devuelve los datos de una rendicion en particular
     public function rendirAction()
     {
+       try{
+
       $data['numero'] = $this->_getParam('numero');
+      
+
       $rendir = new Admin_Model_DbTable_Gastorendicion();
       // $datos = $rendir->_getOne($where);
       $datos = $rendir->_getOne($data);
@@ -100,9 +104,10 @@ class Rendiciongastos_GastosController extends Zend_Controller_Action {
 
       $gp = new Admin_Model_DbTable_Gastopersona();
       $datos = $gp->_getOneXnumero($data);
-      // $respuesta['clienteid'] = $datos['clienteid'];
-      // $respuesta['proyectoid'] = $datos['proyectoid'];
-      $respuesta['descripcion'] = $datos['descripcion'];
+
+      $gastos2=$gp->_getlistagastosxNumero($data['numero']);
+
+      /*$respuesta['descripcion'] = $datos['descripcion'];
       $respuesta['gastoid'] = $datos['gastoid'];
       $respuesta['bill_cliente'] = $datos['bill_cliente'];
       $respuesta['reembolsable'] = $datos['reembolsable'];
@@ -110,7 +115,7 @@ class Rendiciongastos_GastosController extends Zend_Controller_Action {
       $respuesta['num_factura'] = $datos['num_factura'];
       $respuesta['proveedor'] = $datos['proveedor'];
       $respuesta['monto_igv'] = $datos['monto_igv'];
-      $respuesta['otro_impuesto'] = $datos['otro_impuesto'];
+      $respuesta['otro_impuesto'] = $datos['otro_impuesto'];*/
 
 
       // $numero = $this->_getParam('numero');
@@ -119,7 +124,8 @@ class Rendiciongastos_GastosController extends Zend_Controller_Action {
       // $r = $gp->_getOneXnumero($where);
 
 
-      $this->_helper->json->sendJson($respuesta);
+      $this->_helper->json->sendJson($gastos2);
+      $this->_helper2->json->sendJson($respuesta);
     }
 
 
@@ -146,6 +152,11 @@ class Rendiciongastos_GastosController extends Zend_Controller_Action {
 
 
     // }
+ 
+            catch (Exception $ex){
+            print $ex->getMessage();
+        }
 
+}
 
 }

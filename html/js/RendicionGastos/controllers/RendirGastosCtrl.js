@@ -21,7 +21,7 @@ app.controller('RendirGastosCtrl', ['$scope','httpFactory', 'gastosFactory', 're
     // console.log("estoy en rendir de gastos");
     // console.log(data);
     vrg.rendir = data;
-    //console.log(vr.gasto);
+    console.log(vrg.rendir);
   })
   .catch(function(err) {
     vrg.rendir = [];
