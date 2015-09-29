@@ -381,39 +381,44 @@ class Admin_Model_DbTable_Listaentregabledetalle extends Zend_Db_Table_Abstract
         $ent->estado = 'Old';
         $ent->save();
 
-        $tipo = 'numerico';
-        $rev = $ent->revision_documento;
+        $revs = ['A', 'B', 'C', 'D', 'E', '0', '1', '2', '3', '4', '5'];
 
-        if (ord($rev) >= 65 && ord($rev) <= 90) {
-          $tipo = 'alfabetico';
+        for ($i=0; $i < sizeof($revs); $i++) {
+          if ($revs[$i] == $ent->revision_documento) {
+            $a = $i;
+          }
+          if ($revs[$i] == $data['revision']) {
+            $b = $i;
+          }
         }
 
-        $revision_documento = chr(ord($ent->revision_documento) + 1);
-
-        if ($data['tipo'] == 'Numerico' && $tipo == 'alfabetico') {
-          $revision_documento = '0';
+        if ($a <= $b) {
+          $nuevo = $this->createRow();
+          $nuevo->codigo_prop_proy = $ent->codigo_prop_proy;
+          $nuevo->proyectoid = $ent->proyectoid;
+          $nuevo->revision_entregable = $ent->revision_entregable;
+          $nuevo->edt = $ent->edt;
+          $nuevo->tipo_documento = $ent->tipo_documento;
+          $nuevo->disciplina = $ent->disciplina;
+          $nuevo->codigo_anddes = $ent->codigo_anddes;
+          $nuevo->codigo_cliente = $ent->codigo_cliente;
+          $nuevo->descripcion_entregable = $ent->descripcion_entregable;
+          $nuevo->fecha_a = $ent->fecha_a;
+          $nuevo->fecha_b = $ent->fecha_b;
+          $nuevo->fecha_0 = $ent->fecha_0;
+          $nuevo->estado = 'Ultimo';
+          $nuevo->clase = $ent->clase;
+          $nuevo->revision_documento = $data['revision'];
+          $nuevo->estado_entregable = $ent->estado_entregable;
+          $nuevo->save();
+          return $ent->cod_le;
+        } else {
+          throw new Exception('No se puede crear una revision menor');
         }
 
-        $nuevo = $this->createRow();
-        $nuevo->codigo_prop_proy = $ent->codigo_prop_proy;
-        $nuevo->proyectoid = $ent->proyectoid;
-        $nuevo->revision_entregable = $ent->revision_entregable;
-        $nuevo->edt = $ent->edt;
-        $nuevo->tipo_documento = $ent->tipo_documento;
-        $nuevo->disciplina = $ent->disciplina;
-        $nuevo->codigo_anddes = $ent->codigo_anddes;
-        $nuevo->codigo_cliente = $ent->codigo_cliente;
-        $nuevo->descripcion_entregable = $ent->descripcion_entregable;
-        $nuevo->fecha_a = $ent->fecha_a;
-        $nuevo->fecha_b = $ent->fecha_b;
-        $nuevo->fecha_0 = $ent->fecha_0;
-        $nuevo->estado = 'Ultimo';
-        $nuevo->clase = $ent->clase;
-        $nuevo->revision_documento = $revision_documento;
-        $nuevo->estado_entregable = $ent->estado_entregable;
-        $nuevo->save();
 
-        return $ent->cod_le;
+
+
       } catch (Exception $e) {
         print $e->getMessage();
       }
@@ -421,6 +426,8 @@ class Admin_Model_DbTable_Listaentregabledetalle extends Zend_Db_Table_Abstract
 
     public function _getLEReporte($proyectoid)
     {
+      $revs = ['A', 'B', 'C', 'D', 'E', '0', '1', '2', '3', '4', '5'];
+
       $sql = $this->_db->query("select * from lista_entregable_detalle
       where proyectoid = '".$proyectoid."' and estado = 'Ultimo'");
       $rows = $sql->fetchAll();
@@ -430,8 +437,29 @@ class Admin_Model_DbTable_Listaentregabledetalle extends Zend_Db_Table_Abstract
       Calculo de la fecha final de acuerdo a la fecha de la revision programada*/
       //////////////////////////////////////////////////////////////////////////
       for ($i=0; $i < sizeof($rows); $i++) {
-        $rows[$i]['fecha_inicial'] = '07-09-2015';
-        $rows[$i]['fecha_final'] = '14-09-2015';
+        $clave1 = 'fecha_'.strtolower($rows[$i]['revision_documento']);
+
+        for ($j=0; $j < sizeof($revs); $j++) {
+          if ($revs[$j] == $rows[$i]['revision_documento']) {
+            if ($j == 10) {
+              $sig = $revs[j];
+            } else {
+              $sig = $revs[$j + 1];
+            }
+          }
+        }
+
+        $clave2 = 'fecha_'.strtolower($sig);
+        $rows[$i]['fecha_inicial'] = $rows[$i][$clave1];
+        $rows[$i]['fecha_final'] = $rows[$i][$clave2];
+
+        if ($rows[$i]['fecha_inicial'] == '' || $rows[$i]['fecha_inicial'] == null) {
+          $rows[$i]['fecha_inicial'] = 'sf';
+        }
+
+        if ($rows[$i]['fecha_final'] == '' || $rows[$i]['fecha_final'] == null) {
+          $rows[$i]['fecha_final'] = 'sf';
+        }
       }
 
       return $rows;

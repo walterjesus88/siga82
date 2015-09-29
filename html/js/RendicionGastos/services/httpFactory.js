@@ -1,6 +1,6 @@
 app.factory('httpFactory', ['$http','$q', function($http,$q) {
 
-var url="/rendiciongastos/index/";//ruta vista
+var url_rendir="/rendiciongastos/rendir/";//ruta vista
 var url_gastos='/rendiciongastos/gastos/';//ruta controlador gastos
 
 var publico = {
@@ -36,14 +36,31 @@ var publico = {
     return promise;
   },
 
-      getGastosById: function(numero) {
-        console.log("httpFactory "+numero);
-      var defered = $q.defer();
-      var promise = defered.promise;
-      $http.get(url + 'rendir/numero/' + numero)
-      .success(function(data) {
+  getGastosById: function(numero) {
+    // console.log("httpFactory "+numero);
+    var defered = $q.defer();
+    var promise = defered.promise;
+    $http.get(url_gastos + 'rendir/numero/' + numero)
+    .success(function(data) {
         // console.log(url_gastos + 'rendirgastos/rendicion/' + numero);
         defered.resolve(data);
+      })
+    .error(function(err) {
+      defered.reject(err);
+    });
+    return promise;
+  },
+
+  /*FIN GASTOS*/
+
+    /*INICIO GASTOS PERSONA*/
+    getRendirPersona: function(numero) {
+      var defered = $q.defer();
+      var promise = defered.promise;
+      $http.get(url_gastos + 'llamarrendirpersona/numero/' + numero)
+      .success(function(data) {
+        defered.resolve(data);
+
       })
       .error(function(err) {
         defered.reject(err);
@@ -51,9 +68,10 @@ var publico = {
       return promise;
     },
 
-  /*FIN GASTOS*/
+
 
 }
+
 
 return publico;
 }])

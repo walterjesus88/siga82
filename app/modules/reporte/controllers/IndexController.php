@@ -181,9 +181,19 @@ class Reporte_IndexController extends Zend_Controller_Action {
               $semana_semana[$i]=$j;
               $semana_estado[$i]='V';
             }
+
+            print_r($semana_user[$i]);   echo ";";print_r($semana_area[$i]);  echo ";";  print_r($semana_semana[$i]);
+            echo ";";
+      print_r($semana_estado[$i]);
+      echo "<br>";
           }
         $i++;
+
       }
+    
+
     }
+
+
 
 }

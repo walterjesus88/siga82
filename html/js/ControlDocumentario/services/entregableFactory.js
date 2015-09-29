@@ -167,8 +167,8 @@ app.factory('entregableFactory', ['httpFactory', 'transmittalFactory',
         });
       }
 
-      this.generarRevision = function(tipo) {
-        httpFactory.createRevision(this.codigo, tipo)
+      this.generarRevision = function(revision) {
+        httpFactory.createRevision(this.codigo, revision)
         .then(function(data) {
 
         })

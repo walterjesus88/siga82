@@ -15,7 +15,9 @@ app.controller('DetalleCtrl', ['httpFactory', 'proyectoFactory', '$modal',
   vt.proyecto = {
     codigo: $routeParams.proyecto,
   };
+    console.log(this);
 
+    console.log(vt.proyecto);
   // vt.cliente = {
   //     cliente: $routeParams.proyecto,
   // };
@@ -26,7 +28,6 @@ app.controller('DetalleCtrl', ['httpFactory', 'proyectoFactory', '$modal',
     console.log("estoy en detalle de proyecto");
     console.log(data);
     vt.proyecto = data;
-    //console.log(vt.proyecto);
   })
   .catch(function(err) {
     vt.proyecto = {};

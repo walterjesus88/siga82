@@ -15,6 +15,7 @@ class Rendiciongastos_GastosController extends Zend_Controller_Action {
     Zend_Layout::startMvc($options);
   }
 
+    /*GASTO RENDICION*/
 
 //Devuelve la lista de proyectos por estado
    public function gastosAction()
@@ -40,35 +41,9 @@ class Rendiciongastos_GastosController extends Zend_Controller_Action {
       $this->_helper->json->sendJson($respuesta);
     }
 
-  // public function gastosAction()
-  // {
-
-  //   // $uid = $this->sesion->uid;
-  //   // $dni = $this->sesion->dni;
-  //   // $where = array();
-  //   // $where['uid'] = $uid;
-  //   // $where['dni'] = $dni;
-  //   // $where['estado'] = 'B';
-  //   // $rendicion = new Admin_Model_DbTable_Gastorendicion();
-  //   // $data_rendicion = $rendicion->_getAllXuidXestado($where);
-
-  //   // $this->_helper->json->sendJson($data_rendicion);
-
-  //   $where = array('estado' =>'B' , );
-  //   $gastos= new Admin_Model_DbTable_Gastorendicion();
-  //   $array=$gastos->_getFilter($where);
-  //   $this->_helper->json->sendJson($array);
-
-  // }
 
   public function gastosxestadoAction()
   {
-
-    // $estado_gasto = $this->_getParam('estado');
-    // $where = array('estado' =>$estado_gasto , );
-    // $gastos= new Admin_Model_DbTable_Gastorendicion();
-    // $array=$gastos->GastoxEstado($estado_gasto);
-    // $this->_helper->json->sendJson($array);
 
 
     $uid = $this->sesion->uid;
@@ -86,37 +61,6 @@ class Rendiciongastos_GastosController extends Zend_Controller_Action {
 
       public function guardarrendicionAction()
     {
-
-      // print_r($pk);
-      // print_r($garea);
-
-      // exit();
-      //   $ceros = '10 - ';
-      //       for ($h=0; $h < (8-strlen($result['numero'])); $h++) {
-      //           $ceros = $ceros.'0';
-      //       }
-
-        // $formdata['uid']=$uid = $this->sesion->uid;
-        // $formdata['dni']=$dni = $this->sesion->dni;
-      //   // $formdata['numero_completo']= $this->_getParam('numero_completo');
-      //   $formdata['numero_completo'] = $ceros.$result['numero'];
-        // $formdata['nombre']=$nombre = $this->_getParam("nombre");
-        // $formdata['fecha']=$fecha = $this->_getParam("fecha");
-        // $formdata['estado']=$estado = $this->_getParam("estado");
-
-      //   print_r($numero_completo);
-        // $guardarrendicion=new Admin_Model_DbTable_Gastorendicion();
-        // $grendicion=$guardarrendicion->_save($formdata);
-
-      //   print_r($numero_completo);
-
-      // exit();
-
-      // $this->_helper->json->sendJson($grendicion);
-
-
-            // $uid = $this->sesion->uid;
-            // $dni = $this->sesion->dni;
 
             $where = array();
             $where['fecha'] =$fecha = $this->_getParam("fecha");
@@ -136,13 +80,11 @@ class Rendiciongastos_GastosController extends Zend_Controller_Action {
 
             $this->_helper->json->sendJson($result['numero']);
 
-
-
     }
 
 
     //Devuelve los datos de una rendicion en particular
-    public function gastoAction()
+    public function rendirAction()
     {
       $data['numero'] = $this->_getParam('numero');
       $proyecto = new Admin_Model_DbTable_Gastorendicion();
@@ -153,14 +95,33 @@ class Rendiciongastos_GastosController extends Zend_Controller_Action {
       $respuesta['nombre'] = $datos['nombre'];
       $respuesta['monto_total'] = $datos['monto_total'];
       $respuesta['estado'] = $datos['estado'];
-      /*$respuesta['unidad_minera'] = $datos['nombre'];
-      $respuesta['fecha_inicio'] = $datos['fecha_inicio'];
-      $respuesta['fecha_cierre'] = $datos['fecha_cierre'];
-      $respuesta['control_documentario'] = $datos['control_documentario'];
-      $respuesta['descripcion'] = $datos['descripcion'];
-      $respuesta['tipo_proyecto'] = $datos['tipo_proyecto'];
-      $respuesta['logo_cliente'] = '../img/cliente/'.$respuesta['clienteid'].'.jpg';*/
+
       $this->_helper->json->sendJson($respuesta);
+    }
+
+
+
+      /*GASTO PERSONA*/
+    public function llamarrendirpersonaAction()
+    {
+
+    $numero_gasto = $this->_getParam('numero');
+    $uid = $this->sesion->uid;
+    $dni = $this->sesion->dni;
+    $where = array();
+    $where['uid'] = $uid;
+    $where['dni'] = $dni;
+    $where['numero'] = $numero_gasto;
+    $gatos = new Admin_Model_DbTable_Gastopersona();
+    //print_r($where);
+    echo "______________";
+    // $gp = $gatos->_getgastoXRendicion($numero_gasto, $uid, $dni);
+    $gp = $gatos->_getOneXnumero($where);
+    echo "______________";
+
+    $this->_helper->json->sendJson($gp);
+
+
     }
 
 
