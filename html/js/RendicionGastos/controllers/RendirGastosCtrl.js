@@ -1,5 +1,5 @@
-app.controller('RendirGastosCtrl', ['$scope','httpFactory', 'gastosFactory', 'rendirgastosFactory', '$modal', '$location', '$routeParams',
-  function($scope,httpFactory, gastosFactory, rendirgastosFactory, $modal, $location, $routeParams){
+app.controller('RendirGastosCtrl', ['$scope','httpFactory', 'gastosFactory', '$modal', '$location', '$routeParams',
+  function($scope,httpFactory, gastosFactory, $modal, $location, $routeParams){
 
   /*referencia del scope en vr, obtencion de la rendicion seleccionada y el objeto
   que contendra los datos de la rendicion*/
@@ -28,26 +28,53 @@ app.controller('RendirGastosCtrl', ['$scope','httpFactory', 'gastosFactory', 're
   });
 
 
-       console.log("numero de rendicion " + numero);
-  // funcion para obtener los gastos del servidor
-  // httpFactory.getRendirPersona($routeParams['numero'])
-  //   .then(function(data) {
-  //     vrg.gastospersona=data;
-  //     //console.log(vrg.gastospersona); 
-  //     })
-  //   .catch(function(err) {
-  //     vrg.gastospersona = [];
-  //   });
+  console.log("numero de rendicion " + numero);
 
-
-    vrg.ShowFormRendir=function(){
+  vrg.ShowFormRendir=function(){
    vrg.formVisibilityRendir=true;
+ }
 
+
+vrg.GuardarGastos= function(){
+
+    gastosFactory.setGuardarGastos(vrg.descripcion,vrg.gastoid,vrg.bill_cliente,vrg.reembolsable,vrg.fecha_factura,vrg.num_factura,vrg.moneda,vrg.proveedor,vrg.monto_igv,vrg.otro_impuesto)
+    .then(function(data) {
+/*insertar una nueva fila*/
+      vrg.inserted = {
+        descripcion:vrg.descripcion,
+        gastoid:vrg.gastoid,
+        bill_cliente:vrg.bill_cliente,
+        reembolsable:vrg.reembolsable,
+        fecha_factura:vrg.fecha_factura,
+        num_factura:vrg.num_factura,
+        moneda:vrg.moneda,
+        proveedor:vrg.proveedor,
+        monto_igv:vrg.monto_igv,
+        otro_impuesto:vrg.otro_impuesto,
+
+      }
+
+      vrg.rendir.push(vrg.inserted); 
+      // console.log('guardar rendir');  
+      // console.log(vrg.rendir);  
+      // vrg.formVisibilityrendir=false;
+
+    })
+    .catch(function(err) {
+              vrg.rendir = {};
+    });
   }
 
-    vrg.CancelarRendir=function(){
-    vrg.formVisibilityRendir=false;
-  }
+
+
+ vrg.CancelarRendir=function(){
+  vrg.formVisibilityRendir=false;
+}
+
+
+
+
+
 
 }]);
 
