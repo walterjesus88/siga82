@@ -50,7 +50,7 @@ class Admin_Model_DbTable_Listaentregabledetalle extends Zend_Db_Table_Abstract
     public function _update_state($data,$pk)
     {
         try{
-      
+
             $where = "codigo_prop_proy = '".$pk['codigo_prop_proy']."' and proyectoid = '".$pk['proyectoid']."' and revision_entregable = '".$pk['revision_entregable']."' ";
 
             return $this->update($data, $where);
@@ -106,8 +106,8 @@ class Admin_Model_DbTable_Listaentregabledetalle extends Zend_Db_Table_Abstract
     public function _getListaEntregables($proyectoid)
     {
       try {
-        $query1 = "select led.cod_le, led.proyectoid, led.revision_documento as
-        revision_entregable, led.edt, led.tipo_documento, led.disciplina,
+        $query1 = "select led.cod_le, led.proyectoid, led.revision_documento,
+        led.edt, led.tipo_documento, led.disciplina,
         led.codigo_anddes, led.codigo_cliente, led.descripcion_entregable,
         led.estado as estado_revision, led.clase, led.fecha_a, led.fecha_b, led.fecha_0,led.estado_entregable
         from lista_entregable_detalle as led
