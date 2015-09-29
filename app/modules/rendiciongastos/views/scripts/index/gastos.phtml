@@ -32,7 +32,7 @@
           <tr ng-repeat="gasto in vg.gastos track by $index">{{gasto.numero}}
             <td> {{gasto.numero_completo}} </td>
             <td> {{gasto.nombre}} </td>
-            <td> {{gasto.fecha}} </td>
+            <td> {{gasto.fecha | date: 'dd-MM-yyyy'}} </td>
             <td> {{gasto.monto_total}} </td>
             <td> <span class="label label-default label-min">{{gasto.estado}}</span>
              <!-- <select ng-model="gasto.estado"

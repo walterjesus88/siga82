@@ -120,15 +120,16 @@ class Admin_Model_DbTable_Gastopersona extends Zend_Db_Table_Abstract
         }
     }
 
-    public function _getgastoXRendicion($numero, $uid, $dni){
-        try{
-            if ($numero=='' || $uid=='' || $dni=='') return false;
-            $sql=$this->_db->query("
-               select * from gasto_persona
+    public function _getgastoProyectosXnumero($numero, $uid, $dni){
+         try{
+             if ($numero=='' || $uid=='' || $dni=='') return false;
+             $sql=$this->_db->query("
+               select proyectoid from gasto_persona
                where numero_rendicion='$numero' and uid='$uid' and dni='$dni'
-            ");
-            $row=$sql->fetchAll();
-            return $row;
+               group by proyectoid order by proyectoid;
+             ");
+             $row=$sql->fetchAll();
+             return $row;
             return false;
         }catch (Exception $e){
             print "Error: Read One Add ".$e->getMessage();
@@ -137,8 +138,8 @@ class Admin_Model_DbTable_Gastopersona extends Zend_Db_Table_Abstract
 
         public function _getOneXnumero($where=array()){
         try{
-            if ($where['numero']=='' || $where['uid']=='' || $where['dni']=='') return false;
-            $wherestr="numero_rendicion = '".$where['numero']."' and uid='".$where['uid']."' and dni='".$where['dni']."'";
+            if ($where['numero']=='') return false;
+            $wherestr="numero_rendicion = '".$where['numero']."'";
             $row = $this->fetchRow($wherestr);
             if($row) return $row->toArray();
             return false;
