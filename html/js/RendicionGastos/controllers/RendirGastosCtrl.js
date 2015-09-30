@@ -80,17 +80,17 @@ vrg.GuardarGastos= function(){
 
 
     //carga inicial de proyectos
-  httpFactory.getLitaGastos()
-  .then(function(data) {
-    vrg.listagastos = [];
-    data.forEach(function(lista) {
-      lista.nombre_gasto = lista.uid.changeFormat();
-      vrg.listagastos.push(lista);
-    })
-  })
-  .catch(function(err) {
-    vrg.listagastos = [];
-  });;
+  // httpFactory.getLitaGastos()
+  // .then(function(data) {
+  //   vrg.listagastos = [];
+  //   data.forEach(function(lista) {
+  //     lista.nombre_gasto = lista.uid.changeFormat();
+  //     vrg.listagastos.push(lista);
+  //   })
+  // })
+  // .catch(function(err) {
+  //   vrg.listagastos = [];
+  // });;
 
   //funcion para obtener los proyectos del servidor
   var listarProyectos = function(estado) {
