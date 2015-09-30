@@ -801,7 +801,7 @@ va.checkName=function(data, id)
           va.subtotal_fecha[i]+=parseFloat(val['porcentaje_performance']);
 
           container.push(va.subtotal_fecha[i]);
-          console.log(container);
+         // console.log(container);
         }
 
       })
@@ -811,20 +811,11 @@ va.checkName=function(data, id)
       for (var i = container.length - 1; i >= 0; i--) {    
 
         porcentaje={ porcentaje_ejecutado:container[i]},     
-        va.dat.push(porcentaje);
     
+        va.dat.push(porcentaje);
       };
 
-
-
-
-          //console.log(i+"-"+va.subtotal_fecha);
-        //console.log(gg);
-
-
-    //alert(va.subtotal_fecha);
-
-
+      console.log(va.dat);
  }
 
 
@@ -2320,7 +2311,7 @@ proyectoFactory.getLeerEstadosListaE(proyecto['codigo'])
 .then(function(data) {
   
     va.statelista=data;
-    //console.log(data);
+    console.log(data);
 
 })
 .catch(function(err) {
@@ -2332,7 +2323,7 @@ proyectoFactory.getLeerEstadosListaE(proyecto['codigo'])
 proyectoFactory.getLeerSessionUsuario(proyecto['codigo'])
 .then(function(data) {
   
-    //console.log(data);
+    console.log(data);
     va.gerente=data['is_gerente'];
     va.jefearea=data['is_jefe'];
     va.responsable=data['is_responsableproyecto'];

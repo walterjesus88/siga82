@@ -2295,6 +2295,8 @@ public function getleersessionusuarioAction()
   //$session['is_gerente']=$this->sesion->is_gerente;
   $session['is_jefe']=$this->sesion->is_gerente;
 
+  print_r($this->sesion->personal);exit();
+
   $equipo = new Admin_Model_DbTable_Equipo();
   $where = array('proyectoid' =>$proyectoid,);
   $equiporoles=$equipo->_getFilter($where);
