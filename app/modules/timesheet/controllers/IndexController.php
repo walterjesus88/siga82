@@ -585,7 +585,7 @@ class Timesheet_IndexController extends Zend_Controller_Action {
                 and actividad_padre='$actividad_padre' and cargo='$cargo'
                 and semanaid='$semanaid' and areaid='$areaid' and fecha_tarea='$fecha_tarea' 
                 and etapa='$etapa_actualizar' and tipo_actividad='$tipo_actividad_actualizar' 
-                and  estado='A' 
+                and  estado='A' and dni='$dni' and uid='$uid' 
                 ";
             $update=$tareopersona -> _update($datos_actualizar,$str_actualizar);
 
