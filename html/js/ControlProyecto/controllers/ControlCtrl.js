@@ -2327,6 +2327,8 @@ proyectoFactory.getLeerSessionUsuario(proyecto['codigo'])
     va.gerente=data['is_gerente'];
     va.jefearea=data['is_jefe'];
     va.responsable=data['is_responsableproyecto'];
+    va.areaid=data['areaid'];
+    va.cargo=data['cargo'];
 
 })
 .catch(function(err) {
