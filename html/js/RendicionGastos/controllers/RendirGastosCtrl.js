@@ -6,12 +6,13 @@ app.controller('RendirGastosCtrl', ['$scope','httpFactory', 'gastosFactory', '$m
 
   var vrg = this;
   // var estado_actual = ;
-  vrg.gastospersona = [];
+  // vrg.gastospersona = [];
 
   var numero= $routeParams['numero'];
+  var fecha= $routeParams['fecha'];
 
   //console.log(this);
-  // console.log(numero);
+  console.log("fecha "+fecha);
 
  // console.log(vrg.rendir[0]['numero']);
 
@@ -28,7 +29,6 @@ app.controller('RendirGastosCtrl', ['$scope','httpFactory', 'gastosFactory', '$m
   });
 
 
-  console.log("numero de rendicion " + numero);
 
   vrg.ShowFormRendir=function(){
    vrg.formVisibilityRendir=true;
@@ -37,7 +37,7 @@ app.controller('RendirGastosCtrl', ['$scope','httpFactory', 'gastosFactory', '$m
 
 vrg.GuardarGastos= function(){
 
-    gastosFactory.setGuardarGastos(vrg.descripcion,vrg.gastoid,vrg.bill_cliente,vrg.reembolsable,vrg.fecha_factura,vrg.num_factura,vrg.moneda,vrg.proveedor,vrg.monto_igv,vrg.otro_impuesto)
+    gastosFactory.setGuardarGastos(vrg.descripcion,vrg.gastoid,vrg.bill_cliente,vrg.reembolsable,vrg.fecha_factura,vrg.num_factura,vrg.moneda,vrg.proveedor,vrg.monto_igv,vrg.otro_impuesto,numero,fecha)
     .then(function(data) {
 /*insertar una nueva fila*/
       vrg.inserted = {
@@ -51,12 +51,15 @@ vrg.GuardarGastos= function(){
         proveedor:vrg.proveedor,
         monto_igv:vrg.monto_igv,
         otro_impuesto:vrg.otro_impuesto,
+        numero_rendicion:numero,
+        fecha_gasto:fecha,
 
       }
 
+  console.log("numero de rendicion " + numero);
       vrg.rendir.push(vrg.inserted); 
       // console.log('guardar rendir');  
-      // console.log(vrg.rendir);  
+      console.log("fecha de rendicion " + fecha);  
       // vrg.formVisibilityrendir=false;
 
     })

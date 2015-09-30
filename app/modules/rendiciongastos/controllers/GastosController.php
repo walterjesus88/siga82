@@ -140,6 +140,15 @@ class Rendiciongastos_GastosController extends Zend_Controller_Action {
       // print_r($ggastos);
 
       // exit();
+
+      // $data['numero'] = $this->_getParam('numero');
+      // $rendir = new Admin_Model_DbTable_Gastorendicion();
+      // $datos = $rendir->_getOne($data);
+
+      echo "_____xxx_____";
+      print_r($this->_getParam('fecha'));
+      echo "_____xxx_____";
+
       $formdata['uid'] = $uid = $this->sesion->uid;
       $formdata['dni'] = $dni = $this->sesion->dni;
       $formdata['codigo_prop_proy']="15.10.128-1204.10.08-A";
@@ -149,12 +158,13 @@ class Rendiciongastos_GastosController extends Zend_Controller_Action {
       $formdata['cargo']="EQUIPO";
       $formdata['areaid']="26";
       $formdata['estado_rendicion']="B";
-      $formdata['fecha_gasto']="2015-09-29";
-      $formdata['numero_rendicion']="1599";
+      $formdata['fecha_gasto']=$this->_getParam('fecha');
+      $formdata['numero_rendicion']= $this->_getParam('numero');
       $formdata['asignado']=$uid = $this->sesion->uid;
       $formdata['uid_ingreso']=$uid = $this->sesion->uid;
       $formdata['descripcion']=$descripcion = $this->_getParam('descripcion');
       $formdata['gastoid']=$gastoid = $this->_getParam("gastoid");
+      $formdata['gasto_padre']=$gastoid = $this->_getParam("gastoid");
       $formdata['bill_cliente']=$bill_cliente = $this->_getParam("bill_cliente");
       $formdata['reembolsable']=$reembolsable = $this->_getParam("reembolsable");
       $formdata['fecha_factura']=$fecha_factura = $this->_getParam("fecha_factura");
@@ -163,7 +173,6 @@ class Rendiciongastos_GastosController extends Zend_Controller_Action {
       $formdata['proveedor']=$proveedor = $this->_getParam("proveedor");
       $formdata['monto_igv']=$monto_igv = $this->_getParam("monto_igv");
       $formdata['otro_impuesto']=$otro_impuesto = $this->_getParam("otro_impuesto");
-      print_r($gastoid);
       $guardargastos=new Admin_Model_DbTable_Gastopersona();
       $ggastos=$guardargastos->_save2($formdata);
 

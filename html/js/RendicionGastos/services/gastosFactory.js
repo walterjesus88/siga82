@@ -33,7 +33,10 @@ app.factory('gastosFactory', ['httpFactory', '$location', '$q',
         console.log("verInformacion");
         console.log(item);
         console.log(this.numero);
-        $location.path("/rendir/numero/" + item.numero);
+        console.log(this.fecha);
+        console.log(this.estado);
+        // $location.path("/rendir/numero/" + item.numero);
+        $location.path("/rendir/fecha/" + item.fecha +"/numero/"+item.numero);
 
       }
     },
@@ -72,15 +75,15 @@ app.factory('gastosFactory', ['httpFactory', '$location', '$q',
     },
 
 
-    setGuardarGastos: function(descripcion,gastoid,bill_cliente,reembolsable,fecha_factura,num_factura,moneda,proveedor,monto_igv,otro_impuesto) {
+    setGuardarGastos: function(descripcion,gastoid,bill_cliente,reembolsable,fecha_factura,num_factura,moneda,proveedor,monto_igv,otro_impuesto,numero,fecha) {
       var defered = $q.defer();
       var promise = defered.promise;
 
-      httpFactory.setGuardarGastos(descripcion,gastoid,bill_cliente,reembolsable,fecha_factura,num_factura,moneda,proveedor,monto_igv,otro_impuesto)
+      httpFactory.setGuardarGastos(descripcion,gastoid,bill_cliente,reembolsable,fecha_factura,num_factura,moneda,proveedor,monto_igv,otro_impuesto,numero,fecha)
       .then(function(data) {
         datos = data;
         defered.resolve(datos);
-        console.log(data);
+        console.log("guardado " + numero);
       })
       .catch(function(err) {
         defered.reject(err);
