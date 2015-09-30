@@ -27,14 +27,14 @@ function(httpFactory, $q) {
         'C': 'Cerrado',
         'CA': 'Cancelado'
       }
-      this.codigo = item.codigo;
-      this.cliente = item.cliente;
-      this.nombre = item.nombre;
-      this.gerente = item.gerente.changeFormat();
-      this.control_proyecto = item.control_proyecto.changeFormat();
-      this.control_documentario = item.control_documentario;
-      this.estado = estados[item.estado];
-      this.carpeta = item.unidad_red;
+      // this.codigo = item.codigo;
+      // this.cliente = item.cliente;
+      // this.nombre = item.nombre;
+      // this.gerente = item.gerente.changeFormat();
+      // this.control_proyecto = item.control_proyecto.changeFormat();
+      // this.control_documentario = item.control_documentario;
+      // this.estado = estados[item.estado];
+      // this.carpeta = item.unidad_red;
 
       this.cambiarCarpeta = function() {
         httpFactory.setCarpeta(this.codigo, this.carpeta)
@@ -57,19 +57,19 @@ function(httpFactory, $q) {
       }
     },
 
-    getDatosProyecto: function(proyectoid) {
-      var defered = $q.defer();
-      var promise = defered.promise;
-      httpFactory.getProyectoById(proyectoid)
-      .then(function(data) {
-        datos = data;
-        defered.resolve(datos);
-      })
-      .catch(function(err) {
-        defered.reject(err);
-      });
-      return promise;
-    }
+    // getDatosProyecto: function(proyectoid) {
+    //   var defered = $q.defer();
+    //   var promise = defered.promise;
+    //   httpFactory.getProyectoById(proyectoid)
+    //   .then(function(data) {
+    //     datos = data;
+    //     defered.resolve(datos);
+    //   })
+    //   .catch(function(err) {
+    //     defered.reject(err);
+    //   });
+    //   return promise;
+    // }
   }
   return publico;
 }]);

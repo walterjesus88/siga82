@@ -5,11 +5,15 @@ app.controller('RendirGastosCtrl', ['$scope','httpFactory', 'gastosFactory', '$m
   que contendra los datos de la rendicion*/
 
   var vrg = this;
-  // var estado_actual = ;
-  // vrg.gastospersona = [];
-
   var numero= $routeParams['numero'];
   var fecha= $routeParams['fecha'];
+  var estado_actual = 'A';
+  vrg.listagastos = [];
+  // var estado_actual = ;
+  // vrg.gastospersona = [];
+  // vrg.fecha_factura = new Date();
+  // vrg.text = vrg.fecha_factura;
+
 
   //console.log(this);
   console.log("fecha "+fecha);
@@ -57,9 +61,9 @@ vrg.GuardarGastos= function(){
       }
 
   console.log("numero de rendicion " + numero);
-      vrg.rendir.push(vrg.inserted); 
-      // console.log('guardar rendir');  
-      console.log("fecha de rendicion " + fecha);  
+      vrg.rendir.push(vrg.inserted);
+      // console.log('guardar rendir');
+      console.log("fecha de rendicion " + fecha);
       // vrg.formVisibilityrendir=false;
 
     })
@@ -75,8 +79,34 @@ vrg.GuardarGastos= function(){
 }
 
 
+    //carga inicial de proyectos
+  httpFactory.getLitaGastos()
+  .then(function(data) {
+    vrg.listagastos = [];
+    data.forEach(function(lista) {
+      lista.nombre_gasto = lista.uid.changeFormat();
+      vrg.listagastos.push(lista);
+    })
+  })
+  .catch(function(err) {
+    vrg.listagastos = [];
+  });;
 
-
+  //funcion para obtener los proyectos del servidor
+  var listarProyectos = function(estado) {
+    estado_actual = estado;
+    httpFactory.getProyectos(estado)
+    .then(function(data) {
+      vrg.proyectos = [];
+      data.forEach(function(item) {
+        proyecto = new gastosFactory.Proyecto(item);
+        vrg.proyectos.push(proyecto);
+      });
+    })
+    .catch(function(err) {
+      vrg.proyectos = [];
+    });
+  }
 
 
 }]);
