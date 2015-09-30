@@ -5,24 +5,24 @@
 
      <header class="bio-graph-heading project-heading">
       <strong>
-        <p>Nombre de Rendicion: {{vrg.rendir.nombre}}</p>
+        <p>Nombre de Rendicion : {{vrg.rendir.nombre}}</p>
       </strong>
     </header>
     <div class="panel-body bio-graph-info">
       <div class="bio-row">
-        <span class="bold">N° de Rendicion:</span>
+        <span class="bold">N° de Rendicion :</span>
         {{vrg.rendir.numero_completo}}
       </div>
       <div class="bio-row">
-        <span class="bold">Monto Total:</span>
+        <span class="bold">Monto Total :</span>
         {{vrg.rendir.monto_total}}
       </div>
       <div class="bio-row">
-        <span class="bold">Fecha de Rendicion:</span>
+        <span class="bold">Fecha de Rendicion :</span>
         {{vrg.rendir.fecha}}
       </div>
       <div class="bio-row">
-        <span class="bold"> Estado:</span>
+        <span class="bold"> Estado :</span>
         {{vrg.rendir.estado}}
       </div>
     </div>
@@ -43,25 +43,25 @@
           <div class="input-group">
             <div class="panel">
               <div class="panel-heading">
-              <div class="col-xs-3" >
+              <!-- <div class="col-xs-3" >
                   <span class="input-group-addon">Cliente</span>
                   <input type="text" class="form-control input-sm" placeholder='clienteid' name='clienteid' data-ng-model="vrg.clienteid"  required data-ng-class='{error: validinput.clienteid.$invalid && !validinput.$pristine}'>
                 </div>
                 <div class="col-xs-3" >
                   <span class="input-group-addon">Proyecto</span>
                   <input type="text" class="form-control input-sm" placeholder='proyectoid' name='proyectoid' data-ng-model="vrg.proyectoid"  required data-ng-class='{error: validinput.proyectoid.$invalid && !validinput.$pristine}'>
-                </div>
+                </div> -->
                 <div class="col-xs-3" >
                   <span class="input-group-addon">Descripcion</span>
-                  <input type="text" class="form-control input-sm" placeholder='descripcion' name='descripcion' data-ng-model="vrg.descripcion"  required data-ng-class='{error: validinput.descripcion.$invalid && !validinput.$pristine}'>
+                  <input type="text" class="form-control input-sm" placeholder='descripcion' name='descripcion' data-ng-model="vrg.descripcion" >
                 </div>
                 <div class="col-xs-3" >
                   <span class="input-group-addon">Gastos</span>
-                  <input type="text" class="form-control input-sm" placeholder='nombre_comercial' name='nombre_comercial' data-ng-model="vrg.nombre_comercial"  required data-ng-class='{ error: validinput.nombre_comercial.$invalid && !validinput.$pristine }'>
+                  <input type="text" class="form-control input-sm" placeholder='gastoid' name='gastoid' data-ng-model="vrg.gastoid" >
                 </div>
                 <div class="col-xs-3" >
                   <span class="input-group-addon">Cliente</span>
-                  <input type="text" class="form-control input-sm" placeholder='nombre' name='nombre' data-ng-model="vrg.nombre"  required data-ng-class='{ error: validinput.nombre.$invalid && !validinput.$pristine }'>
+                  <input type="text" class="form-control input-sm" placeholder='bill_cliente' name='bill_cliente' data-ng-model="vrg.bill_cliente" >
                 </div>
                 <div class="col-xs-3" >
                   <span class="input-group-addon">Reembolso</span>
@@ -73,7 +73,7 @@
                 </div>
                 <div class="col-xs-3" >
                   <span class="input-group-addon">Moneda</span>
-                  <input type="text" class="form-control input-sm" placeholder='web' name='web' data-ng-model="vrg.web"/>
+                  <input type="text" class="form-control input-sm" placeholder='moneda' name='moneda' data-ng-model="vrg.moneda"/>
                 </div>
                 <div class="col-xs-3" >
                   <span class="input-group-addon">N° Documento</span>
@@ -85,7 +85,7 @@
                 </div>
                 <div class="col-xs-3" >
                   <span class="input-group-addon">Neto</span>
-                  <input type="text" class="form-control input-sm" placeholder='monto_total' name='monto_total' data-ng-model="vrg.monto_total"/>
+                  <input type="text" class="form-control input-sm" placeholder='monto_igv' name='monto_igv' data-ng-model="vrg.monto_igv"/>
                 </div>
                 <div class="col-xs-3" >
                   <span class="input-group-addon">Otros Impuestos</span>
@@ -98,7 +98,7 @@
 
           <div class="panel-heading col-md-6">
             <div class="btn-group">
-              <button class="btn btn-warning" ng-click="vrg.GuardarRendir()" data-ng-disabled='!validinput.$valid'>Guardar</button>
+              <button class="btn btn-warning" ng-click="vrg.GuardarGastos()" data-ng-disabled='!validinput.$valid'>Guardar</button>
               <button class="btn btn-danger" ng-click="vrg.CancelarRendir()">Cancelar</button>
             </div>
           </div>
@@ -132,8 +132,8 @@
         <table datatable="ng" class="table table-condensed table-hover p-table dataTables_wrappe table-striped">
           <div>
             <thead>
-              <th style="width: 10%;">Cliente</th>
-              <th style="width: 10%;">Proyecto</th>
+              <!-- <th style="width: 10%;">Cliente</th>
+              <th style="width: 10%;">Proyecto</th> -->
               <th style="width: 10%;">Descripcion</th>
               <th style="width: 5%;">Gastos</th>
               <th style="width: 5%;">Cliente</th>
@@ -148,8 +148,8 @@
               <th style="width: 5%;">Monto Total</th>
             </thead>
 
-            <tr ng-repeat="rendiciones in vrg.gastospersona">
-              <td>
+            <tr ng-repeat="rendiciones in vrg.rendir track by $index">
+              <!-- <td>
                 <span editable-text="rendiciones.clienteid" e-from="tableform" e-required>
                  {{rendiciones.clienteid}}
                </span>
@@ -158,7 +158,7 @@
               <span editable-text="rendiciones.proyectoid" e-from="tableform" e-required >
                 {{rendiciones.proyectoid}}
               </span>
-            </td>
+            </td> -->
             <td>
               <span editable-text="rendiciones.descripcion" e-from="tableform">
                 {{rendiciones.descripcion}}
@@ -170,43 +170,53 @@
               </span>
             </td>
             <td>
-              <span editable-text="rendiciones.fecha_registro" e-from="tableform">
-                {{rendiciones.fecha_registro}}
+              <span editable-text="rendiciones.bill_cliente" e-from="tableform">
+                {{rendiciones.bill_cliente}}
               </span>
             </td>
             <td>
-              <span editable-text="rendiciones.web" e-from="tableform">
-                {{rendiciones.web}}
+              <span editable-text="rendiciones.reembolsable" e-from="tableform">
+                {{rendiciones.reembolsable}}
               </span>
             </td>
             <td>
-              <span editable-text="rendiciones.direccion" e-from="tableform">
-                {{rendiciones.direccion}}
+              <span editable-text="rendiciones.fecha_factura" e-from="tableform">
+                {{rendiciones.fecha_factura}}
               </span>
             </td>
             <td>
-              <span editable-text="rendiciones.paisid" e-from="tableform">
-                {{rendiciones.paisid}}
+              <span editable-text="rendiciones.num_factura" e-from="tableform">
+                {{rendiciones.num_factura}}
               </span>
             </td>
             <td>
-              <span editable-text="rendiciones.departamentoid" e-from="tableform">
-                {{rendiciones.departamentoid}}
+              <span editable-text="rendiciones.moneda" e-from="tableform">
+                {{rendiciones.moneda}}
               </span>
             </td>
             <td>
-              <span editable-text="rendiciones.provinciaid" e-from="tableform">
-                {{rendiciones.provinciaid}}
+              <span editable-text="rendiciones.proveedor" e-from="tableform">
+                {{rendiciones.proveedor}}
               </span>
             </td>
             <td>
-              <span editable-text="rendiciones.provinciaid" e-from="tableform">
-                {{rendiciones.provinciaid}}
+              <span editable-text="rendiciones.monto_igv" e-from="tableform">
+                {{rendiciones.monto_igv}}
               </span>
             </td>
             <td>
-              <span editable-text="rendiciones.provinciaid" e-from="tableform">
-                {{rendiciones.provinciaid}}
+              <span editable-text="rendiciones.otro_impuesto" e-from="tableform">
+                {{rendiciones.otro_impuesto}}
+              </span>
+            </td>
+            <td>
+              <span editable-text="rendiciones.igv" e-from="tableform">
+                {{rendiciones.igv}}
+              </span>
+            </td>
+            <td>
+              <span text="rendiciones.monto_total" e-from="tableform">
+                {{rendiciones.monto_total}}
               </span>
             </td>
           </tr>

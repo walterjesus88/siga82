@@ -68,7 +68,19 @@ var publico = {
       return promise;
     },
 
+    setGuardarGastos: function(descripcion,gastoid,bill_cliente,reembolsable,fecha_factura,num_factura,proveedor,monto_igv,otro_impuesto) {
+      var defered = $q.defer();
+      var promise = defered.promise;
+      $http.get(url_gastos + 'guardargastos/descripcion/'+descripcion+"/gastoid/"+gastoid+"/bill_cliente/"+bill_cliente+"/reembolsable/"+reembolsable+"/fecha_factura/"+fecha_factura+"/num_factura/"+num_factura+"/proveedor/"+proveedor+"/monto_igv/"+monto_igv+"/otro_impuesto/"+otro_impuesto)
+      .success(function(data) {
+        defered.resolve(data);
 
+      })
+      .error(function(err) {
+        defered.reject(err);
+      });
+      return promise;
+    },
 
 }
 

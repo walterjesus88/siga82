@@ -1,50 +1,80 @@
 app.controller('RendirGastosCtrl', ['$scope','httpFactory', 'gastosFactory', '$modal', '$location', '$routeParams',
-  function($scope,httpFactory, gastosFactory,  $modal, $location, $routeParams){
+  function($scope,httpFactory, gastosFactory, $modal, $location, $routeParams){
 
   /*referencia del scope en vr, obtencion de la rendicion seleccionada y el objeto
   que contendra los datos de la rendicion*/
 
   var vrg = this;
+  // var estado_actual = ;
+  vrg.gastospersona = [];
 
-  //vrg.rendir = {numero: $routeParams['numero']};
+  var numero= $routeParams['numero'];
 
   //console.log(this);
-  console.log($routeParams['numero']);
+  // console.log(numero);
 
  // console.log(vrg.rendir[0]['numero']);
 
   //carga de los datos de la rendicion seleccionada
-  gastosFactory.getDatosGastos($routeParams['numero'])
+  gastosFactory.getDatosGastos(numero)
   .then(function(data) {
     // console.log("estoy en rendir de gastos");
     // console.log(data);
     vrg.rendir = data;
-    //console.log(vr.gasto);
+    console.log(vrg.rendir);
   })
   .catch(function(err) {
     vrg.rendir = [];
   });
 
-  //console.log("llego "+vrg.rendir.numero);
 
-  //funcion para obtener los gastos del servidor
-  httpFactory.getRendirPersona($routeParams['numero'])
-    .then(function(data) {
-      vrg.gastospersona=data;
-      // console.log(vrg.gastospersona);
-      })
-    .catch(function(err) {
-      vrg.gastospersona = [];
-    });
+  console.log("numero de rendicion " + numero);
 
-    vrg.ShowFormRendir=function(){
+  vrg.ShowFormRendir=function(){
    vrg.formVisibilityRendir=true;
+ }
 
+
+vrg.GuardarGastos= function(){
+
+    gastosFactory.setGuardarGastos(vrg.descripcion,vrg.gastoid,vrg.bill_cliente,vrg.reembolsable,vrg.fecha_factura,vrg.num_factura,vrg.moneda,vrg.proveedor,vrg.monto_igv,vrg.otro_impuesto)
+    .then(function(data) {
+/*insertar una nueva fila*/
+      vrg.inserted = {
+        descripcion:vrg.descripcion,
+        gastoid:vrg.gastoid,
+        bill_cliente:vrg.bill_cliente,
+        reembolsable:vrg.reembolsable,
+        fecha_factura:vrg.fecha_factura,
+        num_factura:vrg.num_factura,
+        moneda:vrg.moneda,
+        proveedor:vrg.proveedor,
+        monto_igv:vrg.monto_igv,
+        otro_impuesto:vrg.otro_impuesto,
+
+      }
+
+      vrg.rendir.push(vrg.inserted); 
+      // console.log('guardar rendir');  
+      // console.log(vrg.rendir);  
+      // vrg.formVisibilityrendir=false;
+
+    })
+    .catch(function(err) {
+              vrg.rendir = {};
+    });
   }
 
-    vrg.CancelarRendir=function(){
-    vrg.formVisibilityRendir=false;
-  }
+
+
+ vrg.CancelarRendir=function(){
+  vrg.formVisibilityRendir=false;
+}
+
+
+
+
+
 
 }]);
 
