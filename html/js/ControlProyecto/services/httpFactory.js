@@ -500,11 +500,11 @@ app.factory('httpFactory', ['$http','$q', function($http,$q) {
 
 
 
-   getListaxEntregables: function(proyectoid,revision) {
+   getListaxEntregables: function(proyectoid,revision,areaid) {
       var defered = $q.defer();
       var promise = defered.promise;     
 
-      $http.get(url + 'getlistaentregables/proyectoid/'+ proyectoid+"/revision/"+revision)
+      $http.get(url + 'getlistaentregables/proyectoid/'+ proyectoid+"/revision/"+revision+"/area/"+areaid)
       .success(function(data) {
         defered.resolve(data);
         
@@ -596,13 +596,21 @@ app.factory('httpFactory', ['$http','$q', function($http,$q) {
       return promise;
     },
 
-  setEstadoListaEntregable: function(value,codigoproyecto,proyectoid,revision) {
+  setEstadoListaEntregable: function(value,areaid,codigoproyecto,proyectoid,revision) {
       var defered = $q.defer();
       var promise = defered.promise; 
+
+      alert(value);
+      console.log(areaid);
+      alert(codigoproyecto);
+      alert(proyectoid);
+      alert(revision);
  
-      $http.post(url + 'setcambiarestadolentregable/value/'+ value
-      +"/codigoproyecto/"+codigoproyecto+
-      "/proyectoid/"+proyectoid+"/revision/"+revision
+      $http.post(url + 'setcambiarestadolentregable/valor/'+ value
+      +"/codigoproyecto/"+codigoproyecto
+      +"/proyectoid/"+proyectoid
+      +"/revision/"+revision
+      +"/area/"+areaid
       )
       .success(function(data) {
         defered.resolve(data);        
@@ -629,11 +637,14 @@ app.factory('httpFactory', ['$http','$q', function($http,$q) {
       return promise;
     },
 
-  getLeerEstadosListaEntregable: function(proyectoid) {
+  getLeerEstadosListaEntregable: function(proyectoid,areaid) {
       var defered = $q.defer();
       var promise = defered.promise; 
+
+      alert(proyectoid);
+      alert(areaid);
  
-      $http.post(url + 'getleerestadoslistaentregable/proyectoid/'+proyectoid
+      $http.post(url + 'getleerestadoslistaentregable/proyectoid/'+proyectoid+'/areaid/'+areaid
       )
       .success(function(data) {
         defered.resolve(data);        

@@ -51,7 +51,7 @@ class Admin_Model_DbTable_Listaentregabledetalle extends Zend_Db_Table_Abstract
     {
         try{
 
-            $where = "codigo_prop_proy = '".$pk['codigo_prop_proy']."' and proyectoid = '".$pk['proyectoid']."' and revision_entregable = '".$pk['revision_entregable']."' ";
+            $where = "codigo_prop_proy = '".$pk['codigo_prop_proy']."' and proyectoid = '".$pk['proyectoid']."' and revision_entregable = '".$pk['revision_entregable']."' and disciplina = '".$pk['disciplina']."' ";
 
             return $this->update($data, $where);
             return false;
@@ -69,7 +69,8 @@ class Admin_Model_DbTable_Listaentregabledetalle extends Zend_Db_Table_Abstract
         led.codigo_anddes, led.codigo_cliente, led.descripcion_entregable,
         led.estado as estado_revision, led.clase, led.fecha_a, led.fecha_b, led.fecha_0,led.estado_entregable
         from lista_entregable_detalle as led
-        where led.proyectoid = '".$proyectoid."' and led.clase = 'Tecnico'
+        where led.proyectoid = '".$proyectoid."' and led.revision_entregable = '".$revision."'
+        and led.clase = 'Tecnico'
         and led.estado = 'Ultimo'  and  led.estado_entregable not in (10,11)" ;
         $sql = $this->_db->query($query1);
         $row = $sql->fetchAll();
@@ -78,6 +79,26 @@ class Admin_Model_DbTable_Listaentregabledetalle extends Zend_Db_Table_Abstract
         print $e->getMessage();
       }
     }
+
+    public function _getFilteristaentregablexArea($proyectoid,$revision,$areaid)
+    {
+      try {
+        $query1 = "select led.estado_entregable,led.codigo_prop_proy,led.cod_le, led.proyectoid, led.revision_documento as
+        revision_entregable, led.edt, led.tipo_documento, led.disciplina,
+        led.codigo_anddes, led.codigo_cliente, led.descripcion_entregable,
+        led.estado as estado_revision, led.clase, led.fecha_a, led.fecha_b, led.fecha_0,led.estado_entregable
+        from lista_entregable_detalle as led
+        where led.proyectoid = '".$proyectoid."' and led.revision_entregable = '".$revision."'
+        and led.disciplina= '".$areaid."'  and led.clase = 'Tecnico'
+        and led.estado = 'Ultimo'  and  led.estado_entregable not in (10,11)" ;
+        $sql = $this->_db->query($query1);
+        $row = $sql->fetchAll();
+        return $row;
+      } catch (Exception $e) {
+        print $e->getMessage();
+      }
+    }
+
 
          /* Lista toda las Personas */
     public function _getFilter($where=null,$attrib=null,$orders=null){
@@ -112,7 +133,7 @@ class Admin_Model_DbTable_Listaentregabledetalle extends Zend_Db_Table_Abstract
         led.estado as estado_revision, led.clase, led.fecha_a, led.fecha_b, led.fecha_0,led.estado_entregable
         from lista_entregable_detalle as led
         where led.proyectoid = '".$proyectoid."' and led.clase = 'Tecnico'
-        and led.estado = 'Ultimo'";
+        and led.estado = 'Ultimo' and (led.estado_entregable = 6 or led.estado_entregable = 8)";
         $sql = $this->_db->query($query1);
         $row = $sql->fetchAll();
         return $row;
@@ -136,7 +157,8 @@ class Admin_Model_DbTable_Listaentregabledetalle extends Zend_Db_Table_Abstract
         on (led.cod_le = det.entregableid) left join tipo_envio as tip
         on (det.emitido = tip.codigo and det.tipo_envio = tip.tipo) left join
         tipo_envio as ti on (det.respuesta_emitido = ti.codigo and det.tipo_envio = ti.tipo)
-        where led.proyectoid = '".$proyectoid."' and led.clase = '".$clase."'";
+        where led.proyectoid = '".$proyectoid."' and led.clase = '".$clase."' and
+        led.estado_entregable = 9";
         if ($condicion == 'Ultimo') {
           $query1 = $query1." and led.estado = 'Ultimo'";
         }
@@ -158,6 +180,12 @@ class Admin_Model_DbTable_Listaentregabledetalle extends Zend_Db_Table_Abstract
       }
       $row->codigo_anddes = $codigo_anddes;
       $row->save();
+      if ($row->codigo_anddes != null && $row->codigo_anddes != '' &&
+      $row->codigo_cliente != null && $row->codigo_cliente != '' &&
+      $row->estado_entregable != 7) {
+        $row->estado_entregable = 7;
+      }
+      $row->save();
     }
 
     //guardar el codigo anddes
@@ -169,6 +197,12 @@ class Admin_Model_DbTable_Listaentregabledetalle extends Zend_Db_Table_Abstract
            throw new Exception("No hay resultados para ese transmittal");
       }
       $row->codigo_cliente = $codigo_cliente;
+      $row->save();
+      if ($row->codigo_anddes != null && $row->codigo_anddes != '' &&
+      $row->codigo_cliente != null && $row->codigo_cliente != '' &&
+      $row->estado_entregable != 7) {
+        $row->estado_entregable = 7;
+      }
       $row->save();
     }
 
@@ -229,26 +263,31 @@ class Admin_Model_DbTable_Listaentregabledetalle extends Zend_Db_Table_Abstract
           $sql = $this->_db->query("select codigo_prop_proy from proyecto where
           proyectoid = '".$data['proyectoid']."'");
           $codigo = $sql->fetch();
-
-          $sql = $this->_db->query("insert into lista_entregable_detalle
-          (codigo_prop_proy, proyectoid, revision_entregable, edt, tipo_documento,
-          disciplina, codigo_anddes, codigo_cliente, descripcion_entregable, estado,
-          clase, revision_documento, estado_entregable)
-          values ('".$codigo['codigo_prop_proy']."', '".$data['proyectoid']."', 'A',
-          '000', '".$data['tipo_documento']."', '".$data['disciplina']."',
-          '".$data['codigo_anddes']."', '".$data['codigo_cliente']."',
-          '".$data['descripcion']."', 'Ultimo', '".$data['clase']."', '".$data['revision']."', 1)");
-          $row = $sql->fetch();
+          $ent = $this->createRow();
+          $ent->codigo_prop_proy = $codigo['codigo_prop_proy'];
+          $ent->proyectoid = $data['proyectoid'];
+          $ent->revision_entregable = 'A';
+          $ent->edt = '000';
+          $ent->tipo_documento = $data['tipo_documento'];
+          $ent->disciplina = $data['disciplina'];
+          $ent->codigo_anddes = $data['codigo_anddes'];
+          $ent->codigo_cliente = $data['codigo_cliente'];
+          $ent->descripcion_entregable = $data['descripcion'];
+          $ent->estado = 'Ultimo';
+          $ent->clase = $data['clase'];
+          $ent->revision_documento = $data['revision'];
+          $ent->estado_entregable = 9;
+          $ent->save();
           $resp['resultado'] = 'guardado';
           return $resp;
         } else {
-          $sql = $this->_db->query("update lista_entregable_detalle set
-          tipo_documento= '".$data['tipo_documento']."', disciplina = '".
-          $data['disciplina']."', codigo_anddes = '".$data['codigo_anddes'].
-          "', codigo_cliente = '".$data['codigo_cliente'].
-          "', descripcion_entregable = '".$data['descripcion']."' where cod_le = ".
-          $id);
-          $row = $sql->fetchAll();
+          $ent = $this->fetchRow('cod_le = '.$id);
+          $ent->tipo_documento = $data['tipo_documento'];
+          $ent->disciplina = $data['disciplina'];
+          $ent->codigo_anddes = $data['codigo_anddes'];
+          $ent->codigo_cliente = $data['codigo_cliente'];
+          $ent->descripcion_entregable = $data['descripcion'];
+          $ent->save();
           $resp['resultado'] = 'guardado';
           return $resp;
         }
@@ -262,9 +301,9 @@ class Admin_Model_DbTable_Listaentregabledetalle extends Zend_Db_Table_Abstract
     public function _deleteEntregable($entregableid)
     {
       try {
-        $sql = $this->_db->query("delete from lista_entregable_detalle where
-        cod_le = '".$entregableid."'");
-        $row = $sql->fetchAll();
+        $ent = $this->fetchRow('cod_le = '.$entregableid);
+        $ent->estado_entregable = 10;
+        $ent->save();
         $resp['resultado'] = 'eliminado';
         return $resp;
       } catch (Exception $e) {

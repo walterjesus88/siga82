@@ -2167,13 +2167,17 @@ public function getlistaentregablesAction()
 {
   $proyectoid= $this->_getParam("proyectoid");
   $revision_entregable= $this->_getParam("revision");
-  //$where = array('proyectoid' =>$proyectoid ,'revision_entregable'=>$revision_entregable,'estado_entregable'==2);
+  //$area= $this->_getParam("area");
+
+  //$where = array('proyectoid' =>$proyectoid ,'revision_entregable'=>$revision_entregable);
   //$attrib=null;
-  //$order = array('cod_le ASC');
+  //$order = array('disciplina ASC');
 
   $listaentregable=new Admin_Model_DbTable_Listaentregabledetalle();
   //$lentregable=$listaentregable->_getFilter($where,$attrib,$order);
   $lentregable=$listaentregable->_getFilteristaentregable($proyectoid, $revision_entregable);
+
+  //print_r($lentregable);exit();
 
   $this->_helper->json->sendJson($lentregable);
 }
@@ -2269,17 +2273,24 @@ public function seteliminarentregableAction()
 
 public function setcambiarestadolentregableAction()
 {
-  $state['estado_entregable']= $this->_getParam("value");
+  $data['estado_entregable']= $this->_getParam("valor");
+  $disciplina= $this->_getParam("area");
   $codigo_prop_proy= $this->_getParam("codigoproyecto");
   $proyectoid= $this->_getParam("proyectoid");
   $revision_entregable= $this->_getParam("revision");
 
   $pk = array('codigo_prop_proy' =>$codigo_prop_proy , 
                 'proyectoid' =>$proyectoid , 
-                'revision_entregable' =>$revision_entregable);  
+                'revision_entregable' =>$revision_entregable,
+                'disciplina' =>$disciplina
+              );  
+
+  //print_r($pk);
+  //print_r($data);
 
   $estadolentregable=new Admin_Model_DbTable_Listaentregabledetalle();
-  $elentregable=$estadolentregable->_update_state($state,$pk);
+  $elentregable=$estadolentregable->_update_state($data,$pk);
+  //exit();
   $this->_helper->json->sendJson($elentregable);
 
 
@@ -2293,10 +2304,10 @@ public function getleersessionusuarioAction()
 
   $session['uid']=$this->sesion->uid;
   //$session['is_gerente']=$this->sesion->is_gerente;
-  $session['is_jefe']=$this->sesion->is_gerente;
+  //$session['is_jefe']=$this->sesion->is_gerente;
 
-  $session['areaid']=$this->sesion->personal->ucatareaid;
-  $session['cargo']=$this->sesion->personal->ucatcargo;
+  //$session['areaid']=$this->sesion->personal->ucatareaid;
+ // $session['cargo']=$this->sesion->personal->ucatcargo;
 
   //print_r($this->sesion);exit();
 
@@ -2317,12 +2328,19 @@ public function getleersessionusuarioAction()
     {
        $is_responsable=$value;
     }
+
+    if($value['cargo']=='JEFE'  )
+    {
+       $is_jefearea=$value;
+    }
+
   }
 
 
   if($session['uid']==$is_gerente['uid'])
   {
       $session['is_gerente']='S';
+      $session['areaid']=$is_gerente['areaid'];
   }
   else
   {
@@ -2332,11 +2350,22 @@ public function getleersessionusuarioAction()
   if($session['uid']==$is_responsable['uid'])
   {
     $session['is_responsableproyecto']='S';
+    $session['areaid']=$is_responsable['areaid'];
   }
   else
   {
     $session['is_responsableproyecto']='N';  
     
+  }
+
+  if($session['uid']==$is_jefearea['uid'])
+  {
+    $session['is_jefe']='S';
+    $session['areaid']=$is_jefearea['areaid'];    
+  }
+  else
+  {
+    $session['is_jefe']='N';
   }
 
   //print_r($session);exit();
@@ -2348,14 +2377,26 @@ public function getleersessionusuarioAction()
 public function getleerestadoslistaentregableAction()
 {
   $proyectoid= $this->_getParam("proyectoid");
+  $areaid= $this->_getParam("areaid");
+
+  // echo "fsfsf";
+  // print_r($areaid);
+  // print_r($proyectoid);exit();
 
   $entregableactivo= new Admin_Model_DbTable_Listaentregable();
   $eactivo=$entregableactivo->_getentregablexActivo($proyectoid);
   $revisionentregable=$eactivo[0]['revision_entregable'];
   
   $leerestadoLE=new Admin_Model_DbTable_Listaentregabledetalle();
-  $leerLE=$leerestadoLE->_getFilteristaentregable($proyectoid,$revisionentregable);
-  
+  //$leerLE=$leerestadoLE->_getFilteristaentregable($proyectoid,$revisionentregable);
+  $leerLE=$leerestadoLE->_getFilteristaentregablexArea($proyectoid,$revisionentregable,$areaid);
+ 
+  // $where = array('areaid' =>$areaid ,'proyectoid' =>$proyectoid ,
+  //               'revision_entregable' =>$revisionentregable );
+  // print_r($where);exit();
+  // $attrib=null;
+  // $order=array('disciplina ASC');
+  // $leerLE=$leerestadoLE->_getFilter($where,$attrib,$order);
   $numberlista=count($leerLE);
 
   $estados = array('1','2','3','4','5','6','7','8','9');
@@ -2372,10 +2413,8 @@ public function getleerestadoslistaentregableAction()
         { 
           $cont[$i]=$cont[$i]+1;     
         } 
-      }
-       
-    }      
- 
+      }       
+    }       
 
 $indice=1;
 $data=[];

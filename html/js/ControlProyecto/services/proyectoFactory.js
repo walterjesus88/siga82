@@ -541,11 +541,11 @@ function(httpFactory, $location, $q) {
       return promise;      
     },
 
-    setCambiarEstadoListaEntregable: function(value,codigoproyecto,proyectoid,revision) {
+    setCambiarEstadoListaEntregable: function(value,areaid,codigoproyecto,proyectoid,revision) {
       var defered = $q.defer();
       var promise = defered.promise;     
 
-      httpFactory.setEstadoListaEntregable(value,codigoproyecto,proyectoid,revision)
+      httpFactory.setEstadoListaEntregable(value,areaid,codigoproyecto,proyectoid,revision)
       .then(function(data) {
         datos = data;
         defered.resolve(datos);
@@ -571,11 +571,11 @@ function(httpFactory, $location, $q) {
       return promise;      
     },
 
-   getLeerEstadosListaE: function(proyectoid) {
+   getLeerEstadosListaE: function(proyectoid,areaid) {
       var defered = $q.defer();
       var promise = defered.promise;     
 
-      httpFactory.getLeerEstadosListaEntregable(proyectoid)
+      httpFactory.getLeerEstadosListaEntregable(proyectoid,areaid)
       .then(function(data) {
         datos = data;
         defered.resolve(datos);
