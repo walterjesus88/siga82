@@ -38,6 +38,37 @@ function(httpFactory, $scope,$filter,$q,proyectoFactory) {
   //obteniendo el codigo del proyecto del scope padre
   var proyecto = $scope.$parent.vt.proyecto;
 
+
+proyectoFactory.getLeerSessionUsuario(proyecto['codigo'])
+  .then(function(data) {
+    
+      console.log(data);
+      va.gerente=data['is_gerente'];
+      va.jefearea=data['is_jefe'];
+      va.responsable=data['is_responsableproyecto'];
+      va.areaid=data['areaid'];
+      va.cargo=data['cargo'];
+
+
+      proyectoFactory.getLeerEstadosListaE(proyecto['codigo'],va.areaid)
+      .then(function(data) {
+        
+          va.statelista=data;
+          console.log(data);
+
+      })
+      .catch(function(err) {
+          console.log("error al eliminar entregable");
+      }); 
+
+
+
+  })
+  .catch(function(err) {
+      console.log("error al eliminar entregable");
+  }); 
+
+
   //carga de los datos del proyecto seleccionado
   proyectoFactory.getDatosProyecto(proyecto['codigo'])
   .then(function(data) {
@@ -2054,7 +2085,7 @@ proyectoFactory.getDatosxEntregable(proyecto['codigo'])
         proyectoFactory.getDatosListaxEntregables(proyecto['codigo'],va.revisionE['revision_entregable'])
         .then(function(datax) {
           va.listaentregable=datax;
-          //console.log(va.listaentregable);
+          console.log(va.listaentregable);
         })
         .catch(function(err) {
           va.listaentregable = {};
@@ -2307,33 +2338,8 @@ va.imprimir=function(){
 
 //va.statelista=1;
 
-proyectoFactory.getLeerEstadosListaE(proyecto['codigo'])
-.then(function(data) {
-  
-    va.statelista=data;
-    console.log(data);
-
-})
-.catch(function(err) {
-    console.log("error al eliminar entregable");
-}); 
 
 
-
-proyectoFactory.getLeerSessionUsuario(proyecto['codigo'])
-.then(function(data) {
-  
-    console.log(data);
-    va.gerente=data['is_gerente'];
-    va.jefearea=data['is_jefe'];
-    va.responsable=data['is_responsableproyecto'];
-    va.areaid=data['areaid'];
-    va.cargo=data['cargo'];
-
-})
-.catch(function(err) {
-    console.log("error al eliminar entregable");
-}); 
 
 va.desabilitar=1;
 
@@ -2344,12 +2350,13 @@ va.CambiarEstadoListaEntregable = function(value)
   proyectoid=va.revisionE['proyectoid'];
   revision_entregable=va.revisionE['revision_entregable'];
   
+  //alert(va.areaid);
 
-  proyectoFactory.setCambiarEstadoListaEntregable(value,codigoproyecto,proyectoid,revision_entregable)
+  proyectoFactory.setCambiarEstadoListaEntregable(value,va.areaid,codigoproyecto,proyectoid,revision_entregable)
   .then(function(data) {
     //console.log(data);
 
-    proyectoFactory.getLeerEstadosListaE(proyecto['codigo'])
+    proyectoFactory.getLeerEstadosListaE(proyecto['codigo'],va.areaid)
     .then(function(data) {
       
         va.statelista=data;
