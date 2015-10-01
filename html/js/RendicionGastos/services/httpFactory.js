@@ -82,6 +82,19 @@ var publico = {
       return promise;
     },
 
+    getTiposGasto: function() {
+      var defered = $q.defer();
+      var promise = defered.promise;
+      $http.get(url_gastos + 'tipogasto')
+      .success(function(data) {
+        defered.resolve(data);
+      })
+      .error(function(err) {
+        defered.reject(err);
+      });
+      return promise;
+    },
+
 }
 
 

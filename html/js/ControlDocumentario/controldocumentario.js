@@ -40,7 +40,7 @@ app.config(['$routeProvider', function($routeProvider) {
   });
 }]);
 
-app.directive('fallbackSrc', function () {
+/*app.directive('fallbackSrc', function () {
   var fallbackSrc = {
     link: function postLink(scope, iElement, iAttrs) {
       iElement.bind('error', function() {
@@ -50,3 +50,4 @@ app.directive('fallbackSrc', function () {
    }
    return fallbackSrc;
 });
+*/

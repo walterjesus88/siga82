@@ -70,6 +70,7 @@ function($routeParams, httpFactory, transmittalFactory, proyectoFactory, $modal)
   httpFactory.getTiposProyecto()
   .then(function(data) {
     vc.tipos_proyecto = data;
+    console.log("tipo de gasto " + vc.tipos_proyecto)
   })
   .catch(function(err) {
     vc.tipos_proyecto = [];

@@ -57,7 +57,8 @@
                 </div>
                 <div class="col-xs-3" >
                   <span class="input-group-addon">Gastos</span>
-                  <input type="text" class="form-control input-sm" placeholder='gastoid' name='gastoid' data-ng-model="vrg.gastoid" >
+                  <!-- <input type="text" class="form-control input-sm" placeholder='gastoid' name='gastoid' data-ng-model="vrg.gastoid" > -->
+                  <select class="form-control input-sm" ng-model="vrg.gastoid" ng-options="tipo.listagastos as tipo.listagastos for tipo in vrg.listagastos"></select>
                 </div>
                 <div class="col-xs-3" >
                   <span class="input-group-addon">Cliente</span>

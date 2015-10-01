@@ -33,48 +33,59 @@ app.controller('RendirGastosCtrl', ['$scope','httpFactory', 'gastosFactory', '$m
   });
 
 
+  //obtencion de los datos de tipo de proyectos y tipos de envio
+
+  httpFactory.getTiposGasto()
+  .then(function(data) {
+    vrg.listagastos = data;
+    console.log("tipo de gasto " + vrg.listagastos)
+  })
+  .catch(function(err) {
+    vrg.listagastos = [];
+  });
+
 
   vrg.ShowFormRendir=function(){
    vrg.formVisibilityRendir=true;
  }
 
 
-vrg.GuardarGastos= function(){
+ vrg.GuardarGastos= function(){
 
-    gastosFactory.setGuardarGastos(vrg.descripcion,vrg.gastoid,vrg.bill_cliente,vrg.reembolsable,vrg.fecha_factura,vrg.num_factura,vrg.moneda,vrg.proveedor,vrg.monto_igv,vrg.otro_impuesto,numero,fecha)
-    .then(function(data) {
-/*insertar una nueva fila*/
-      vrg.inserted = {
-        descripcion:vrg.descripcion,
-        gastoid:vrg.gastoid,
-        bill_cliente:vrg.bill_cliente,
-        reembolsable:vrg.reembolsable,
-        fecha_factura:vrg.fecha_factura,
-        num_factura:vrg.num_factura,
-        moneda:vrg.moneda,
-        proveedor:vrg.proveedor,
-        monto_igv:vrg.monto_igv,
-        otro_impuesto:vrg.otro_impuesto,
-        numero_rendicion:numero,
-        fecha_gasto:fecha,
+  gastosFactory.setGuardarGastos(vrg.descripcion,vrg.gastoid,vrg.bill_cliente,vrg.reembolsable,vrg.fecha_factura,vrg.num_factura,vrg.moneda,vrg.proveedor,vrg.monto_igv,vrg.otro_impuesto,numero,fecha)
+  .then(function(data) {
+    /*insertar una nueva fila*/
+    vrg.inserted = {
+      descripcion:vrg.descripcion,
+      gastoid:vrg.gastoid,
+      bill_cliente:vrg.bill_cliente,
+      reembolsable:vrg.reembolsable,
+      fecha_factura:vrg.fecha_factura,
+      num_factura:vrg.num_factura,
+      moneda:vrg.moneda,
+      proveedor:vrg.proveedor,
+      monto_igv:vrg.monto_igv,
+      otro_impuesto:vrg.otro_impuesto,
+      numero_rendicion:numero,
+      fecha_gasto:fecha,
 
-      }
+    }
 
-  console.log("numero de rendicion " + numero);
-      vrg.rendir.push(vrg.inserted);
+    console.log("numero de rendicion " + numero);
+    vrg.rendir.push(vrg.inserted);
       // console.log('guardar rendir');
       console.log("fecha de rendicion " + fecha);
       // vrg.formVisibilityrendir=false;
 
     })
-    .catch(function(err) {
-              vrg.rendir = {};
-    });
-  }
+  .catch(function(err) {
+    vrg.rendir = {};
+  });
+}
 
 
 
- vrg.CancelarRendir=function(){
+vrg.CancelarRendir=function(){
   vrg.formVisibilityRendir=false;
 }
 
@@ -93,20 +104,16 @@ vrg.GuardarGastos= function(){
   // });;
 
   //funcion para obtener los proyectos del servidor
-  var listarProyectos = function(estado) {
-    estado_actual = estado;
-    httpFactory.getProyectos(estado)
-    .then(function(data) {
-      vrg.proyectos = [];
-      data.forEach(function(item) {
-        proyecto = new gastosFactory.Proyecto(item);
-        vrg.proyectos.push(proyecto);
-      });
-    })
-    .catch(function(err) {
-      vrg.proyectos = [];
-    });
-  }
+
+    // httpFactory.getProyectos(estado_actual)
+    // .then(function(data) {
+    //     vrg.proyectos=data;
+    //   });
+    // })
+    // .catch(function(err) {
+    //   vrg.proyectos = [];
+    // });
+
 
 
 }]);

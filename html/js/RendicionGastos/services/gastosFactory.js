@@ -10,6 +10,7 @@ app.factory('gastosFactory', ['httpFactory', '$location', '$q',
       fecha: '',
       monto_total: '',
       estado: '',
+      gastoid:'',
     };
 
     var publico = {
@@ -89,6 +90,12 @@ app.factory('gastosFactory', ['httpFactory', '$location', '$q',
         defered.reject(err);
       });
       return promise;
+    },
+
+
+    setTipoGasto: function(gastoid) {
+      datos.listagastos = gastoid;
+      console.log("algo " + gastoid)
     },
 
   }
