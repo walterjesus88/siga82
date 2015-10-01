@@ -19,7 +19,7 @@
       </div>
       <div class="bio-row">
         <span class="bold">Fecha de Rendicion :</span>
-        {{vrg.rendir.fecha}}
+        {{vrg.rendir.fecha | date: 'dd-MM-yyyy'}}
       </div>
       <div class="bio-row">
         <span class="bold"> Estado :</span>
@@ -57,19 +57,21 @@
                 </div>
                 <div class="col-xs-3" >
                   <span class="input-group-addon">Gastos</span>
-                  <input type="text" class="form-control input-sm" placeholder='gastoid' name='gastoid' data-ng-model="vrg.gastoid" >
+                  <!-- <input type="text" class="form-control input-sm" placeholder='gastoid' name='gastoid' data-ng-model="vrg.gastoid" > -->
+                  <select class="form-control input-sm" ng-model="vrg.gastoid" ng-options="tipo.listagastos as tipo.listagastos for tipo in vrg.listagastos"></select>
                 </div>
                 <div class="col-xs-3" >
                   <span class="input-group-addon">Cliente</span>
-                  <input type="text" class="form-control input-sm" placeholder='bill_cliente' name='bill_cliente' data-ng-model="vrg.bill_cliente" >
+                  <input type="checkbox" class="form-control input-sm" placeholder='bill_cliente' name='bill_cliente' data-ng-model="vrg.bill_cliente" >
                 </div>
                 <div class="col-xs-3" >
                   <span class="input-group-addon">Reembolso</span>
-                  <input type="text" class="form-control input-sm" placeholder='reembolsable' name='reembolsable' data-ng-model="vrg.reembolsable"/>
+                  <input type="checkbox" class="form-control input-sm" placeholder='reembolsable' name='reembolsable' data-ng-model="vrg.reembolsable"/>
                 </div>
                 <div class="col-xs-3" >
                   <span class="input-group-addon">Fecha de Factura</span>
                   <input type="text" class="form-control input-sm" placeholder='yyyy-mm-dd' name='fecha_factura' data-ng-model="vrg.fecha_factura"/>
+                  <!-- <input type="date" class="form-control input-sm" datepicker-popup ng-model="vrg.fecha_factura" is-open="status.opened" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" close-text="Close" /> -->
                 </div>
                 <div class="col-xs-3" >
                   <span class="input-group-addon">Moneda</span>
@@ -181,7 +183,7 @@
             </td>
             <td>
               <span editable-text="rendiciones.fecha_factura" e-from="tableform">
-                {{rendiciones.fecha_factura}}
+                {{rendiciones.fecha_factura | date: 'dd-MM-yyyy'}}
               </span>
             </td>
             <td>

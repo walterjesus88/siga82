@@ -43,4 +43,13 @@ app.controller('GastosCtrl', ['$scope','httpFactory', 'gastosFactory', '$modal',
 			});
 
 		};
+
+
+	// vrg.showEstadoproyecto = function(proyecto) {
+ //    var selected = [];
+ //    if(proyecto.estado) {
+ //      selected = $filter('filter')(vrg.estadoproyecto, {value: proyecto.estado});
+ //    }
+ //    return selected.length ? selected[0].text : 'Not set';
+ //  };
 	}]);
