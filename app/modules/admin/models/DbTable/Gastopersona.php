@@ -26,6 +26,17 @@ class Admin_Model_DbTable_Gastopersona extends Zend_Db_Table_Abstract
         }
     }
 
+        public function _save2($data)
+    {
+        try{
+            if ($data['uid']=='' ||  $data['dni']=='') return false;
+            return $this->insert($data);
+            return false;
+        }catch (Exception $e){
+                print "Error: Registration ".$e->getMessage();
+        }
+    }
+
     public function _update($data,$str){
         try{
             if ($str['codigo_prop_proy']=='' ||  $str['proyectoid']=='' || $str['gasto_persona_id']=='') return false;

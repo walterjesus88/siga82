@@ -2295,6 +2295,11 @@ public function getleersessionusuarioAction()
   //$session['is_gerente']=$this->sesion->is_gerente;
   $session['is_jefe']=$this->sesion->is_gerente;
 
+  $session['areaid']=$this->sesion->personal->ucatareaid;
+  $session['cargo']=$this->sesion->personal->ucatcargo;
+
+  //print_r($this->sesion);exit();
+
   $equipo = new Admin_Model_DbTable_Equipo();
   $where = array('proyectoid' =>$proyectoid,);
   $equiporoles=$equipo->_getFilter($where);
@@ -2333,6 +2338,8 @@ public function getleersessionusuarioAction()
     $session['is_responsableproyecto']='N';  
     
   }
+
+  //print_r($session);exit();
 
   $this->_helper->json->sendJson($session);
 }
