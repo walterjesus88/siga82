@@ -68,7 +68,7 @@
     .fht-table-wrapper .fht-fixed-body .fht-tbody,
     .fht-table-wrapper .fht-tbody {
         /* appearance */
-        overflow: auto;
+        overflow: scroll;
 
         }
 
@@ -100,6 +100,7 @@
     .fht-fixed-column .fht-tbody {
         background-color: #337ab7;
         color:white;
+        width: auto;
         
         
     }
@@ -107,21 +108,22 @@
     .fht-fixed-column .fht-thead {
         background-color: #337ab7;
         color:black;
-        
+        width: auto;
         
     }
 
     .fht-fixed-column .fht-tfoot {
         background-color: #337ab7;
         color:black;
-        
+        width: auto;
         
     }
 
     .fht-fixed-body .fht-thead .fht-table {
         
         background-color: #337ab7;
-        color:black;
+        color:red;
+        width: auto;
     }
 
 

@@ -26,7 +26,7 @@
     var defaults = {
       width:          '100%',
       height:         '600px',
-      themeClass:     'fancytable',
+      themeClass:     'table-responsive',
       borderCollapse:  true,
       fixedColumns:    true, // fixed first columns
       fixedColumn:     false, // For backward-compatibility
