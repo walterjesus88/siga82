@@ -48,13 +48,17 @@ proyectoFactory.getLeerSessionUsuario(proyecto['codigo'])
       va.responsable=data['is_responsableproyecto'];
       va.areaid=data['areaid'];
       va.cargo=data['cargo'];
+      
+      alert(va.responsable);
 
 
-      proyectoFactory.getLeerEstadosListaE(proyecto['codigo'],va.areaid)
+      proyectoFactory.getLeerEstadosListaE(proyecto['codigo'],va.areaid,va.gerente,va.jefearea,va.responsable)
       .then(function(data) {
         
           va.statelista=data;
+
           console.log(data);
+          //console.log(data.length);
 
       })
       .catch(function(err) {
@@ -2356,7 +2360,7 @@ va.CambiarEstadoListaEntregable = function(value)
   .then(function(data) {
     //console.log(data);
 
-    proyectoFactory.getLeerEstadosListaE(proyecto['codigo'],va.areaid)
+    proyectoFactory.getLeerEstadosListaE(proyecto['codigo'],va.areaid,va.gerente,va.jefearea)
     .then(function(data) {
       
         va.statelista=data;

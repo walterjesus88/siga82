@@ -637,15 +637,12 @@ app.factory('httpFactory', ['$http','$q', function($http,$q) {
       return promise;
     },
 
-  getLeerEstadosListaEntregable: function(proyectoid,areaid) {
+  getLeerEstadosListaEntregable: function(proyectoid,areaid,gerente,jefearea,responsable) {
       var defered = $q.defer();
-      var promise = defered.promise; 
-
-      alert(proyectoid);
-      alert(areaid);
+      var promise = defered.promise;   
  
-      $http.post(url + 'getleerestadoslistaentregable/proyectoid/'+proyectoid+'/areaid/'+areaid
-      )
+      $http.post(url + 'getleerestadoslistaentregable/proyectoid/'+proyectoid+'/areaid/'+areaid+'/jefearea/'+jefearea+
+                      '/gerente/'+gerente+'/responsable/'+responsable)
       .success(function(data) {
         defered.resolve(data);        
       })
