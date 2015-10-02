@@ -50,8 +50,7 @@ proyectoFactory.getLeerSessionUsuario(proyecto['codigo'])
       va.cargo=data['cargo'];
       
       alert(va.responsable);
-
-
+      
       proyectoFactory.getLeerEstadosListaE(proyecto['codigo'],va.areaid,va.gerente,va.jefearea,va.responsable)
       .then(function(data) {
         
