@@ -57,6 +57,9 @@ proyectoFactory.getLeerSessionUsuario(proyecto['codigo'])
           va.statelista=data;
 
           console.log(data);
+
+          
+
           //console.log(data.length);
 
       })
