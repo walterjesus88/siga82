@@ -48,15 +48,12 @@ function(httpFactory, $location, $q) {
       // this.cambiarControlDocumentario = function() {
       //   httpFactory.setControlDocumentario(this.codigo, this.control_documentario)
       //   .then(function(data) {
-
-
       //     alert('Control Documentario cambiado');
       //   })
       //   .catch(function(err) {
       //     alert('No se pudo cambiar el Control Documentario');
       //   })
       // }
-
 
       // this.cambiarEstadoProyecto = function(index) {
       //   httpFactory.setCambioEstadoProyecto(this.codigo, this.estado,this.codigo_prop_proy)
@@ -571,11 +568,13 @@ function(httpFactory, $location, $q) {
       return promise;      
     },
 
-   getLeerEstadosListaE: function(proyectoid,areaid) {
+   getLeerEstadosListaE: function(proyectoid,areaid,gerente,jefearea,responsable) {
       var defered = $q.defer();
       var promise = defered.promise;     
 
-      httpFactory.getLeerEstadosListaEntregable(proyectoid,areaid)
+      alert(responsable);
+
+      httpFactory.getLeerEstadosListaEntregable(proyectoid,areaid,gerente,jefearea,responsable)
       .then(function(data) {
         datos = data;
         defered.resolve(datos);

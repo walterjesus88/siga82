@@ -42,12 +42,12 @@
 	    	<button type="button" class="btn btn-primary" ng-click="CP.CambiarEstadoListaEntregable(2)">Completo</button>
 		</li>
 
-		<li ng-if="CP.jefearea=='S' && (CP.statelista.indice==2 || CP.statelista.indice==5)">
+		<li ng-if="CP.jefearea=='S' && (CP.statelista.indice==2 || CP.statelista.indice==5) ">
 		    <button type="button" class="btn btn-shadow btn-success " ng-click="CP.CambiarEstadoListaEntregable(4)"><i class='fa fa-check'></i></button>
 		    <button type="button" class="btn btn-shadow btn-danger" ng-click="CP.CambiarEstadoListaEntregable(3)"><i class='fa fa-times'></i></button>
 		</li > 
 
-		<li ng-if="CP.gerente=='S'  && CP.statelista.indice==4">	
+		<li ng-if="CP.gerente=='S'  && CP.statelista.indice==4 && CP.statelista.status=='gr'">	
 		    <button type="button" class="btn btn-shadow btn-success" ng-click="CP.CambiarEstadoListaEntregable(6)"><i class='fa fa-check'></i></button>
 		    <button type="button" class="btn btn-shadow btn-danger" ng-click="CP.CambiarEstadoListaEntregable(5)"><i class='fa fa-times'></i></button>
 		</li >

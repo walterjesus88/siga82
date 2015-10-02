@@ -61,8 +61,6 @@ class Control_IndexController extends Zend_Controller_Action {
         
     }
 
-
-
     public function cronogramaAction() {
       
       $this->_helper->layout()->disableLayout();

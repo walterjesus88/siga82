@@ -2378,35 +2378,50 @@ public function getleerestadoslistaentregableAction()
 {
   $proyectoid= $this->_getParam("proyectoid");
   $areaid= $this->_getParam("areaid");
-
-  // echo "fsfsf";
-  // print_r($areaid);
-  // print_r($proyectoid);exit();
+  $gerente= $this->_getParam("gerente");
+  $jefearea= $this->_getParam("jefearea");
+  $responsable= $this->_getParam("responsable");
 
   $entregableactivo= new Admin_Model_DbTable_Listaentregable();
   $eactivo=$entregableactivo->_getentregablexActivo($proyectoid);
   $revisionentregable=$eactivo[0]['revision_entregable'];
   
   $leerestadoLE=new Admin_Model_DbTable_Listaentregabledetalle();
-  //$leerLE=$leerestadoLE->_getFilteristaentregable($proyectoid,$revisionentregable);
-  $leerLE=$leerestadoLE->_getFilteristaentregablexArea($proyectoid,$revisionentregable,$areaid);
- 
-  // $where = array('areaid' =>$areaid ,'proyectoid' =>$proyectoid ,
-  //               'revision_entregable' =>$revisionentregable );
-  // print_r($where);exit();
-  // $attrib=null;
-  // $order=array('disciplina ASC');
-  // $leerLE=$leerestadoLE->_getFilter($where,$attrib,$order);
-  $numberlista=count($leerLE);
 
-  $estados = array('1','2','3','4','5','6','7','8','9');
+  // if($gerente=='S' and $jefearea=='N')
+  // {
+  //   $leerLE=$leerestadoLE->_getFilteristaentregable($proyectoid,$revisionentregable);    
+  // }
 
-  $concentrar=[];    
+  // if($gerente=='N' and $jefearea=='S')
+  // {
+  //   $leerLE=$leerestadoLE->_getFilteristaentregablexArea($proyectoid,$revisionentregable,$areaid);
+  // }
 
-    for ($i=0; $i <count($estados) ; $i++) { 
-      
+  // if($responsable=='S' and $jefearea=='N')
+  // {
+  //   $leerLE=$leerestadoLE->_getFilteristaentregablexArea($proyectoid,$revisionentregable,$areaid);
+  // }
+
+  // if($responsable=='N' and $jefearea=='S')
+  // {
+  //   $leerLE=$leerestadoLE->_getFilteristaentregablexArea($proyectoid,$revisionentregable,$areaid);
+  // }
+
+  $estados = array('1','2','3','4','5','6','7','8','9');     
+  if($gerente=='S' and $jefearea=='S')
+  {
+  //  echo "estoy aqui";
+    $leerLE=$leerestadoLE->_getFilteristaentregable($proyectoid,$revisionentregable);    
+    $numberlista=count($leerLE);
+
+    $leerLE1=$leerestadoLE->_getFilteristaentregablexArea($proyectoid,$revisionentregable,$areaid);  
+    $numberlista1=count($leerLE1);
+    /*  GERENTE GENERAL*/
+    //$concentrar=[]; 
+    for ($i=0; $i <count($estados) ; $i++) {        
       $cont[$i]=0;   
-      
+        
       foreach ($leerLE as $value) 
       {
         if($value['estado_entregable']==$estados[$i])
@@ -2415,20 +2430,99 @@ public function getleerestadoslistaentregableAction()
         } 
       }       
     }       
+    //print_r($cont);
+    $indice=1;
+    $data1=[];
 
-$indice=1;
-$data=[];
+    foreach ($cont as $value) {
+      if($value==$numberlista)
+      {
+        $data1['state']=true;
+        $data1['indice']=$indice;
+        $data1['status']='gr';
+      }
+      $indice++;
+    }
+  // echo "janaannnnnnnnnnnnnnnnn";
+  // print_r($data);
 
-foreach ($cont as $value) {
+    /*  AREAID*/
+  /************************/
+      for ($j=0; $j <count($estados) ; $j++) { 
+        
+        $cont1[$j]=0;   
+        
+        foreach ($leerLE1 as $value) 
+        {
+          if($value['estado_entregable']==$estados[$j])
+          { 
+            $cont1[$j]=$cont1[$j]+1;     
+          } 
+        }       
+      }       
+    //print_r($cont1);
+    $indice1=1;
+    $data2=[];
 
-  if($value==$numberlista)
-  {
-    $data['state']=true;
-    $data['indice']=$indice;
+    foreach ($cont1 as $value) {
+      if($value==$numberlista1)
+      {
+        $data2['state']=true;
+        $data2['indice']=$indice1;
+        $data2['status']='jf';
+      }
+      $indice1++;
+    }
+
+    if($data1)
+    {
+      echo "hasta aqui llegastes";
+    }
+
+    $data = array('data1' =>$data1,'data2' =>$data2);
+    echo "janaannnnnnnnnnnnnnnnn";
+
+    print_r($data);
+
   }
 
-  $indice++;
-}
+  else
+  {
+
+    $leerLE=$leerestadoLE->_getFilteristaentregablexArea($proyectoid,$revisionentregable,$areaid);
+    $numberlista=count($leerLE);
+
+
+    for ($i=0; $i <count($estados) ; $i++) {        
+      $cont[$i]=0;
+      foreach ($leerLE as $value) 
+      {
+        if($value['estado_entregable']==$estados[$i])
+        { 
+          $cont[$i]=$cont[$i]+1;     
+        } 
+      }       
+    }   
+
+    //print_r($cont);
+    $indice=1;
+    $data=[];
+    foreach ($cont as $value) 
+    {
+      if($value==$numberlista)
+      {
+        //print $numberlista;
+        $data['state']=true;
+        $data['indice']=$indice;     
+      }
+
+      $indice++;
+    }
+
+    //print_r($data);
+    //exit();
+  }
+
 
 $this->_helper->json->sendJson($data);
   
