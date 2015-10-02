@@ -2408,26 +2408,19 @@ public function getleerestadoslistaentregableAction()
   //   $leerLE=$leerestadoLE->_getFilteristaentregablexArea($proyectoid,$revisionentregable,$areaid);
   // }
 
-    $estados = array('1','2','3','4','5','6','7','8','9');
-     
+  $estados = array('1','2','3','4','5','6','7','8','9');     
   if($gerente=='S' and $jefearea=='S')
   {
   //  echo "estoy aqui";
-
     $leerLE=$leerestadoLE->_getFilteristaentregable($proyectoid,$revisionentregable);    
-     $numberlista=count($leerLE);
+    $numberlista=count($leerLE);
 
-    $leerLE1=$leerestadoLE->_getFilteristaentregablexArea($proyectoid,$revisionentregable,$areaid);
-  
+    $leerLE1=$leerestadoLE->_getFilteristaentregablexArea($proyectoid,$revisionentregable,$areaid);  
     $numberlista1=count($leerLE1);
     /*  GERENTE GENERAL*/
-
-
-    //$concentrar=[];    
-
-    for ($i=0; $i <count($estados) ; $i++) { 
-        
-        $cont[$i]=0;   
+    //$concentrar=[]; 
+    for ($i=0; $i <count($estados) ; $i++) {        
+      $cont[$i]=0;   
         
       foreach ($leerLE as $value) 
       {
@@ -2438,7 +2431,6 @@ public function getleerestadoslistaentregableAction()
       }       
     }       
     //print_r($cont);
-
     $indice=1;
     $data1=[];
 
@@ -2481,8 +2473,17 @@ public function getleerestadoslistaentregableAction()
       }
       $indice1++;
     }
+
+    if($data1)
+    {
+      echo "hasta aqui llegastes";
+    }
+
     $data = array('data1' =>$data1,'data2' =>$data2);
-  // echo "janaannnnnnnnnnnnnnnnn";
+    echo "janaannnnnnnnnnnnnnnnn";
+
+    print_r($data);
+
   }
 
   else
@@ -2501,24 +2502,27 @@ public function getleerestadoslistaentregableAction()
           $cont[$i]=$cont[$i]+1;     
         } 
       }       
-    }       
+    }   
+
     //print_r($cont);
     $indice=1;
     $data=[];
-    foreach ($cont as $value) {
+    foreach ($cont as $value) 
+    {
       if($value==$numberlista)
       {
+        //print $numberlista;
         $data['state']=true;
-        $data['indice']=$indice;
-     
+        $data['indice']=$indice;     
       }
+
       $indice++;
     }
 
+    //print_r($data);
+    //exit();
   }
 
-  //print_r($data);
-  //exit();
 
 $this->_helper->json->sendJson($data);
   
