@@ -25,10 +25,10 @@
     // plugin's default options
     var defaults = {
       width:          '100%',
-      height:         '100%',
-      themeClass:     'fht-default',
+      height:         '600px',
+      themeClass:     'table-responsive',
       borderCollapse:  true,
-      fixedColumns:    0, // fixed first columns
+      fixedColumns:    true, // fixed first columns
       fixedColumn:     false, // For backward-compatibility
       sortable:        false,
       autoShow:        true, // hide table after its created

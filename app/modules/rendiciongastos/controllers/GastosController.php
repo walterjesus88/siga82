@@ -192,7 +192,7 @@ class Rendiciongastos_GastosController extends Zend_Controller_Action {
       $gasto = new Admin_Model_DbTable_Listagasto();
       $tipos = $gasto->_getGastosAll();
       $this->_helper->json->sendJson($tipos);
-      print_r("llego algo " + $tipos);
+      print_r("GastosController " + $tipos);
     }
 
 }

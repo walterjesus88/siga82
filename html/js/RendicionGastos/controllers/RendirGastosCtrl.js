@@ -37,11 +37,11 @@ app.controller('RendirGastosCtrl', ['$scope','httpFactory', 'gastosFactory', '$m
 
   httpFactory.getTiposGasto()
   .then(function(data) {
-    vrg.listagastos = data;
-    console.log("tipo de gasto " + vrg.listagastos)
+    vrg.gastoid = data;
+    console.log("RendirGastosCtrl " + vrg.gastoid)
   })
   .catch(function(err) {
-    vrg.listagastos = [];
+    vrg.gastoid = [];
   });
 
 

@@ -95,7 +95,7 @@ app.factory('gastosFactory', ['httpFactory', '$location', '$q',
 
     setTipoGasto: function(gastoid) {
       datos.listagastos = gastoid;
-      console.log("algo " + gastoid)
+      console.log("gastosFactory " + gastoid)
     },
 
   }

@@ -88,6 +88,7 @@ var publico = {
       $http.get(url_gastos + 'tipogasto')
       .success(function(data) {
         defered.resolve(data);
+        console.log("httpFactory " + data);
       })
       .error(function(err) {
         defered.reject(err);
