@@ -596,21 +596,23 @@ app.factory('httpFactory', ['$http','$q', function($http,$q) {
       return promise;
     },
 
-  setEstadoListaEntregable: function(value,areaid,codigoproyecto,proyectoid,revision) {
+  setEstadoListaEntregable: function(value,areaid,codigoproyecto,proyectoid,revision,gerente,status) {
       var defered = $q.defer();
       var promise = defered.promise; 
 
-      alert(value);
-      console.log(areaid);
-      alert(codigoproyecto);
-      alert(proyectoid);
-      alert(revision);
+      //alert(value);
+      //console.log(areaid);
+      // alert(codigoproyecto);
+      // alert(proyectoid);
+      // alert(revision);
  
       $http.post(url + 'setcambiarestadolentregable/valor/'+ value
       +"/codigoproyecto/"+codigoproyecto
       +"/proyectoid/"+proyectoid
       +"/revision/"+revision
       +"/area/"+areaid
+      +"/gerente/"+gerente      
+      +"/status/"+status      
       )
       .success(function(data) {
         defered.resolve(data);        

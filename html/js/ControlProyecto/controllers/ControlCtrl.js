@@ -48,18 +48,112 @@ proyectoFactory.getLeerSessionUsuario(proyecto['codigo'])
       va.responsable=data['is_responsableproyecto'];
       va.areaid=data['areaid'];
       va.cargo=data['cargo'];
+
+      // alert(va.gerente);
+      // alert(va.jefearea);
+      // alert(va.responsable);
+      // alert(va.areaid);
+      // alert(va.cargo);
       
-      alert(va.responsable);
+      //alert(va.responsable);
       
       proyectoFactory.getLeerEstadosListaE(proyecto['codigo'],va.areaid,va.gerente,va.jefearea,va.responsable)
       .then(function(data) {
         
           va.statelista=data;
+          console.log(data);        
+          status=data['status'];
 
-          console.log(data);
+ 
+        switch(data['indice']) 
+        {
+          case 1:
+            if(data['indice']==1 && (va.responsable=='S' || va.gerente=='S'))
+            {
+              va.activareditar=true;
+              //alert('editar 1');
+            }
+            else
+            {
+              va.activareditar=false;              
+            }
+          break;
+          case 2:
+            if(data['indice']==2 && (va.jefearea=='S' ))
+            {
+              va.activareditar=true;
+              //alert('editar 2');
+            } 
+            else
+            {
+              va.activareditar=false;
+            }   
+          break;
+          case 3:
+            if(va.responsable=='S'  || va.gerente=='S')
+            {
+              va.activareditar=true;
+              //alert('editar 3');
+            } 
+            else
+            {
+              va.activareditar=false;
+            }   
+          break;
+          case 4:
+            if(data['indice']==4 && va.gerente=='S' )
+            {
+              if(status=='gr')
+              {
+                va.activareditar=true;
+                //alert('editar 4 gerente');
+              } 
+              else
+              {
+                //alert('editar 4 jefe');
+                va.activareditar=false;
+              }
+            } 
+            else
+            {
+              va.activareditar=false;              
+            }           
+          break;
+          case 5:
+              if(va.jefearea=='S')
+              {
+                //alert('editar 5 jefe');                
+                va.activareditar=true;                
+              }
+              else
+              {
+                va.activareditar=false; 
+              }
+          break;
+          case 6:
+              va.activareditar=false;              
 
-          
-
+          break;
+          case 7:
+              if(va.gerente=='S' )
+              {
+                va.activareditar=true;
+              }
+              else
+              {                
+                va.activareditar=false;            
+              }
+          break;
+          case 8:                         
+                va.activareditar=false;
+          break;
+          case 9:                         
+              va.activareditar=false;
+          break;
+          default:
+              va.activareditar=false;
+        }      
+ 
           //console.log(data.length);
 
       })
@@ -2103,7 +2197,7 @@ proyectoFactory.getDatosxEntregable(proyecto['codigo'])
 
 })
 .catch(function(err) {
-  va.entregable = {};X
+  va.entregable = {};
 })
 
 va.buscaentregables = function(revision) {
@@ -2358,15 +2452,108 @@ va.CambiarEstadoListaEntregable = function(value)
   
   //alert(va.areaid);
 
-  proyectoFactory.setCambiarEstadoListaEntregable(value,va.areaid,codigoproyecto,proyectoid,revision_entregable)
+  proyectoFactory.setCambiarEstadoListaEntregable(value,va.areaid,codigoproyecto,proyectoid,revision_entregable,va.gerente,status)
   .then(function(data) {
     //console.log(data);
 
-    proyectoFactory.getLeerEstadosListaE(proyecto['codigo'],va.areaid,va.gerente,va.jefearea)
+    proyectoFactory.getLeerEstadosListaE(proyecto['codigo'],va.areaid,va.gerente,va.jefearea,va.responsable)
     .then(function(data) {
       
         va.statelista=data;
-        //console.log(data);
+        status=data['status'];  
+        console.log(data);
+    
+
+        switch(data['indice']) 
+        {
+          case 1:
+            if(data['indice']==1 && (va.responsable=='S' || va.gerente=='S'))
+            {
+              va.activareditar=true;
+              //alert('editar 1');
+            }
+            else
+            {
+              va.activareditar=false;              
+            }
+          break;
+          case 2:
+            if(data['indice']==2 && (va.jefearea=='S' ))
+            {
+              va.activareditar=true;
+              //alert('editar 2');
+            } 
+            else
+            {
+              va.activareditar=false;
+            }   
+          break;
+          case 3:
+            if(va.responsable=='S'  || va.gerente=='S')
+            {
+              va.activareditar=true;
+              //alert('editar 3');
+            } 
+            else
+            {
+              va.activareditar=false;
+            }   
+          break;
+          case 4:
+            if(data['indice']==4 && va.gerente=='S' )
+            {
+              if(status=='gr')
+              {
+                va.activareditar=true;
+                //alert('editar 4 gerente');
+              } 
+              else
+              {
+                //alert('editar 4 jefe');
+                va.activareditar=false;
+              }
+            } 
+            else
+            {
+              va.activareditar=false;              
+            }
+          break;
+          case 5:
+              if(va.jefearea=='S')
+              {
+                //alert('editar 5 jefe');                
+                va.activareditar=true;                
+              }
+              else
+              {
+                va.activareditar=false; 
+              }
+          break;
+          case 6:
+              va.activareditar=false;
+          break;
+          case 7:
+              if(va.gerente=='S' )
+              {
+                va.activareditar=true;
+              }
+              else
+              {                
+                va.activareditar=false;            
+              }
+
+          break;
+          case 8:                         
+                va.activareditar=false;
+          break;
+          case 9:                         
+                va.activareditar=false;
+          break;
+          default:
+              va.activareditar=false;
+        }    
+       
+
     })
     .catch(function(err) {
         //console.log("error al eliminar entregable");

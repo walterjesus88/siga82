@@ -51,7 +51,15 @@ class Admin_Model_DbTable_Listaentregabledetalle extends Zend_Db_Table_Abstract
     {
         try{
 
+           if($pk['disciplina']==null)
+           {
+            $where = "codigo_prop_proy = '".$pk['codigo_prop_proy']."' and proyectoid = '".$pk['proyectoid']."' and revision_entregable = '".$pk['revision_entregable']."' ";
+         
+           }
+           else
+           {
             $where = "codigo_prop_proy = '".$pk['codigo_prop_proy']."' and proyectoid = '".$pk['proyectoid']."' and revision_entregable = '".$pk['revision_entregable']."' and disciplina = '".$pk['disciplina']."' ";
+           }
 
             return $this->update($data, $where);
             return false;
@@ -59,6 +67,8 @@ class Admin_Model_DbTable_Listaentregabledetalle extends Zend_Db_Table_Abstract
             print "Error: Update curva".$e->getMessage();
         }
     }
+
+
 
 
     public function _getFilteristaentregable($proyectoid,$revision)

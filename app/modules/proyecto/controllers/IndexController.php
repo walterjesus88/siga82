@@ -2278,15 +2278,26 @@ public function setcambiarestadolentregableAction()
   $codigo_prop_proy= $this->_getParam("codigoproyecto");
   $proyectoid= $this->_getParam("proyectoid");
   $revision_entregable= $this->_getParam("revision");
+  $gerente= $this->_getParam("gerente");
+  $status= $this->_getParam("status");
+ 
+  if($gerente=='S' and $status=='gr')
+  {
 
-  $pk = array('codigo_prop_proy' =>$codigo_prop_proy , 
+    $pk = array('codigo_prop_proy' =>$codigo_prop_proy , 
+                'proyectoid' =>$proyectoid , 
+                'revision_entregable' =>$revision_entregable,
+                'disciplina' =>null
+              );  
+  }
+  else
+  {
+    $pk = array('codigo_prop_proy' =>$codigo_prop_proy , 
                 'proyectoid' =>$proyectoid , 
                 'revision_entregable' =>$revision_entregable,
                 'disciplina' =>$disciplina
-              );  
-
-  //print_r($pk);
-  //print_r($data);
+              );    
+  }
 
   $estadolentregable=new Admin_Model_DbTable_Listaentregabledetalle();
   $elentregable=$estadolentregable->_update_state($data,$pk);
@@ -2303,70 +2314,79 @@ public function getleersessionusuarioAction()
   $proyectoid= $this->_getParam("proyectoid");
 
   $session['uid']=$this->sesion->uid;
-  //$session['is_gerente']=$this->sesion->is_gerente;
-  //$session['is_jefe']=$this->sesion->is_gerente;
 
-  //$session['areaid']=$this->sesion->personal->ucatareaid;
- // $session['cargo']=$this->sesion->personal->ucatcargo;
-
-  //print_r($this->sesion);exit();
 
   $equipo = new Admin_Model_DbTable_Equipo();
-  $where = array('proyectoid' =>$proyectoid,);
+  $where = array('proyectoid' =>$proyectoid,'uid'=>$session['uid']);
   $equiporoles=$equipo->_getFilter($where);
 
-  $is_gerente = [];
-  $is_responsable = [];
+  $session['areaid']=$equiporoles[0]['areaid'];
+  $session['cargo']=$equiporoles[0]['cargo'];
+
 
   foreach ($equiporoles as $value) {     
     if($value['nivel']=='0' )
     {
-      $is_gerente=$value;
+      $is_gerente='S';
+    }
+    else
+    {
+      $is_gerente='N';     
     }
 
     if($value['nivel']=='3'  )
     {
-       $is_responsable=$value;
+       $is_responsable='S';
+    }
+    else
+    {
+       $is_responsable='N';      
     }
 
     if($value['cargo']=='JEFE'  )
     {
-       $is_jefearea=$value;
+       $is_jefearea='S';
     }
-
+    else
+    {
+       $is_jefearea='N';      
+    }
   }
 
+  $session['is_jefe']=$is_jefearea;
+  $session['is_responsableproyecto']=$is_responsable;
+  $session['is_gerente']=$is_gerente;
 
-  if($session['uid']==$is_gerente['uid'])
-  {
-      $session['is_gerente']='S';
-      $session['areaid']=$is_gerente['areaid'];
-  }
-  else
-  {
-      $session['is_gerente']='N';      
-  }
+  // if($session['uid']==$is_gerente['uid'])
+  // {
+  //     $session['is_gerente']='S';
+  //     $session['areaid']=$is_gerente['areaid'];
+  // }
+  // else
+  // {
+  //     $session['is_gerente']='N';      
+  // }
 
-  if($session['uid']==$is_responsable['uid'])
-  {
-    $session['is_responsableproyecto']='S';
-    $session['areaid']=$is_responsable['areaid'];
-  }
-  else
-  {
-    $session['is_responsableproyecto']='N';  
+  // if($session['uid']==$is_responsable['uid'])
+  // {
+  //   $session['is_responsableproyecto']='S';
+  //   $session['areaid']=$is_responsable['areaid'];
+  // }
+  // else
+  // {
+  //   $session['is_responsableproyecto']='N';  
     
-  }
+  // }
 
-  if($session['uid']==$is_jefearea['uid'])
-  {
-    $session['is_jefe']='S';
-    $session['areaid']=$is_jefearea['areaid'];    
-  }
-  else
-  {
-    $session['is_jefe']='N';
-  }
+  // if($session['uid']==$is_jefearea['uid'])
+  // {
+  //   $session['is_jefe']='S';
+  //   $session['areaid']=$is_jefearea['areaid'];    
+  // }
+  // else
+  // {
+  //   $session['is_jefe']='N';
+  // }
 
   //print_r($session);exit();
 
@@ -2388,25 +2408,6 @@ public function getleerestadoslistaentregableAction()
   
   $leerestadoLE=new Admin_Model_DbTable_Listaentregabledetalle();
 
-  // if($gerente=='S' and $jefearea=='N')
-  // {
-  //   $leerLE=$leerestadoLE->_getFilteristaentregable($proyectoid,$revisionentregable);    
-  // }
-
-  // if($gerente=='N' and $jefearea=='S')
-  // {
-  //   $leerLE=$leerestadoLE->_getFilteristaentregablexArea($proyectoid,$revisionentregable,$areaid);
-  // }
-
-  // if($responsable=='S' and $jefearea=='N')
-  // {
-  //   $leerLE=$leerestadoLE->_getFilteristaentregablexArea($proyectoid,$revisionentregable,$areaid);
-  // }
-
-  // if($responsable=='N' and $jefearea=='S')
-  // {
-  //   $leerLE=$leerestadoLE->_getFilteristaentregablexArea($proyectoid,$revisionentregable,$areaid);
-  // }
 
   $estados = array('1','2','3','4','5','6','7','8','9');     
   if($gerente=='S' and $jefearea=='S')
@@ -2476,22 +2477,32 @@ public function getleerestadoslistaentregableAction()
 
     if($data1)
     {
-      echo "hasta aqui llegastes";
+      $data=$data1;
+    
     }
-
-    $data = array('data1' =>$data1,'data2' =>$data2);
-    echo "janaannnnnnnnnnnnnnnnn";
-
-    print_r($data);
+    else
+    {
+      $data=$data2;
+    }
 
   }
 
   else
   {
 
-    $leerLE=$leerestadoLE->_getFilteristaentregablexArea($proyectoid,$revisionentregable,$areaid);
-    $numberlista=count($leerLE);
+    if($gerente=='S' and $jefearea=='N')
+    {
+        $data=[];
+        $leerLE=$leerestadoLE->_getFilteristaentregable($proyectoid,$revisionentregable);    
+        $data['status']='gr';
+    }
+    else
+    {
+        $data=[];      
+        $leerLE=$leerestadoLE->_getFilteristaentregablexArea($proyectoid,$revisionentregable,$areaid);      
+    }
 
+    $numberlista=count($leerLE);
 
     for ($i=0; $i <count($estados) ; $i++) {        
       $cont[$i]=0;
@@ -2502,26 +2513,25 @@ public function getleerestadoslistaentregableAction()
           $cont[$i]=$cont[$i]+1;     
         } 
       }       
-    }   
-
-    //print_r($cont);
+    }  
+ 
     $indice=1;
-    $data=[];
     foreach ($cont as $value) 
     {
       if($value==$numberlista)
-      {
-        //print $numberlista;
+      {    
         $data['state']=true;
         $data['indice']=$indice;     
       }
 
       $indice++;
     }
-
-    //print_r($data);
-    //exit();
+  
+    //  print_r($data);
+    //  exit();
   }
+
+
 
 
 $this->_helper->json->sendJson($data);

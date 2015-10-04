@@ -200,8 +200,7 @@
 
 		   		<td ng-repeat="item in performance.items"
 		   		 	ng-class="{'activo': item.state==='A',
-		   		 			   'cerrado': item.state==='C', }" >		   		   
-
+		   		 			   'cerrado': item.state==='C', }" >		   
 		          
 		          <input
 		           class="form-control" ng-model="item.porcentaje_performance"  ng-disabled="item.state==='C' || item.state==='I'" type="text"  >

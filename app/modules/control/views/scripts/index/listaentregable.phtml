@@ -43,18 +43,18 @@
 		</li>
 
 		<li ng-if="CP.jefearea=='S' && (CP.statelista.indice==2 || CP.statelista.indice==5) ">
-		    <button type="button" class="btn btn-shadow btn-success " ng-click="CP.CambiarEstadoListaEntregable(4)"><i class='fa fa-check'></i></button>
-		    <button type="button" class="btn btn-shadow btn-danger" ng-click="CP.CambiarEstadoListaEntregable(3)"><i class='fa fa-times'></i></button>
+		    <button type="button" class="btn btn-shadow btn-success " ng-click="CP.CambiarEstadoListaEntregable(4)"><i class='fa fa-check'></i>jefe</button>
+		    <button type="button" class="btn btn-shadow btn-danger" ng-click="CP.CambiarEstadoListaEntregable(3)"><i class='fa fa-times'></i>jefe</button>
 		</li > 
 
 		<li ng-if="CP.gerente=='S'  && CP.statelista.indice==4 && CP.statelista.status=='gr'">	
-		    <button type="button" class="btn btn-shadow btn-success" ng-click="CP.CambiarEstadoListaEntregable(6)"><i class='fa fa-check'></i></button>
-		    <button type="button" class="btn btn-shadow btn-danger" ng-click="CP.CambiarEstadoListaEntregable(5)"><i class='fa fa-times'></i></button>
+		    <button type="button" class="btn btn-shadow btn-success" ng-click="CP.CambiarEstadoListaEntregable(6)"><i class='fa fa-check'></i>gerente</button>
+		    <button type="button" class="btn btn-shadow btn-danger" ng-click="CP.CambiarEstadoListaEntregable(5)"><i class='fa fa-times'></i>gerente</button>
 		</li >
 
 		<li ng-if="CP.gerente=='S' && CP.statelista.indice==7">
-		    <button type="button" class="btn btn-shadow btn-success" ng-click="CP.CambiarEstadoListaEntregable(9)"><i class='fa fa-check'></i></button>
-		    <button type="button" class="btn btn-shadow btn-danger" ng-click="CP.CambiarEstadoListaEntregable(8)"><i class='fa fa-times'></i></button>
+		    <button type="button" class="btn btn-shadow btn-success" ng-click="CP.CambiarEstadoListaEntregable(9)"><i class='fa fa-check'></i>g code</button>
+		    <button type="button" class="btn btn-shadow btn-danger" ng-click="CP.CambiarEstadoListaEntregable(8)"><i class='fa fa-times'></i>g code</button>
 		</li>	  
 	</div>
 
@@ -77,9 +77,9 @@
 			<td><span ng-show="tableform.$visible">Action</span></td>	
 	    </tr>
 
-	    <tr ng-repeat="lista in CP.listaentregable track by $index">
+	    <tr ng-repeat="lista in CP.listaentregable track by $index" ng-class="{'cerrado':lista.disciplina===CP.areaid}">
 	    	
-	    	<td>      
+	    	<td >      
 		        <span editable-select="lista.edt" e-name="edt" e-form="rowform" e-ng-options="s.codigo as s.nombre for s in CP.edt"  >
 		           <!-- {{ lista.edt }}  -->
 		       	   {{ CP.showStatus(lista) }}  
@@ -121,7 +121,7 @@
 			</td>
 
 
-			<td>
+			<td >
 				<span editable-text="lista.descripcion_entregable" e-name="descripcion_entregable" e-form="rowform" >	
 					{{ lista.descripcion_entregable }}
 				</span>
@@ -158,13 +158,13 @@
 		          <button type="submit" ng-disabled="rowform.$waiting" class="btn btn-primary">
 		            guardar
 		          </button>
-		          <button type="button" ng-disabled="rowform.$waiting" ng-click="rowform.$cancel()" class="btn btn-default">
+		          <button type="button" ng-disabled="rowform.$waiting" ng-click="rowform.$cancel()"  class="btn btn-default">
 		            cancelar
 		          </button>
 		        </form>
 		        <div class="buttons" ng-show="!rowform.$visible">
-		          <button class="btn btn-shadow btn-primary" ng-click="rowform.$show()">editar</button>
-		          <button class="btn btn-shadow btn-danger" ng-click="CP.deleteEntregable($index,lista.cod_le)">eliminar</button>
+		          <button class="btn btn-shadow btn-primary" ng-click="rowform.$show()" ng-disabled="CP.activareditar===false">editar</button>
+		          <button class="btn btn-shadow btn-danger" ng-click="CP.deleteEntregable($index,lista.cod_le)" ng-disabled="CP.activareditar===false">eliminar</button>
 		        </div>  
 	        </td>
 
@@ -183,16 +183,58 @@
 
 <div id='wrapper'>
 	<fieldset>
+		<table class="table table-bordered table-hover table-condensed">
+			<tr>
+				<head>
+					<th><h5><center>Creado</center></h5></th>
+					<th><h5><center>Responsable Proyecto</center></h5></th>
+					<th><h5><center>Jefe Area</center><h5></th>
+					<th><h5><center>Gerente Proyecto</center><h5></th>
+					<th><h5><center>Control Documentario</center><h5></th>
+					<th><h5><center>Codificacion</center><h5></th>
+				</head>				
+			</tr>
+			<tr>
+				<td><center>
+					<a ng-class="{'glowBtn active':CP.statelista.indice===1}" class='glowBtn hover'>Creado</a>
+					</center>
+				</td>
+				<td><center>
+					<a ng-class="{'glowBtn active':CP.statelista.indice===2}" class='glowBtn hover'>Llenado</a>
+					</center>
+				</td>
+				<td><center>
+					<a ng-class="{'glowBtn active':CP.statelista.indice===3}" class='glowBtn hover'>No aprobado</a> 
+					<a ng-class="{'glowBtn active':CP.statelista.indice===4}" class='glowBtn hover'>Aprobado</a>
+					</center>					
+				</td>
+				<td><center>
+					<a ng-class="{'glowBtn active':CP.statelista.indice===5}" class='glowBtn hover'>No Aprobado</a> 
+					<a ng-class="{'glowBtn active':CP.statelista.indice===6}" class='glowBtn hover'>Aprobado</a>
+					</center>					
+				</td>
+				<td><center>
+					<a ng-class="{'glowBtn active':CP.statelista.indice===7}" class='glowBtn hover'>Control</a>
+					</center>					
+				</td>
+				<td><center>
+					<a ng-class="{'glowBtn active':CP.statelista.indice===8}" class='glowBtn hover'>No Aprobado </a> 
+					<a ng-class="{'glowBtn active':CP.statelista.indice===9}" class='glowBtn hover'>Aprobado</a>
+					</center>					
+				</td>
+			</tr>
+		</table >
+
 		<h5>Flujo de Entregables</h5>		
-		<a class='glowBtn hover'>Creado</a>
-		<a class='glowBtn hover'>Llenado</a>
-		<!--<a class='glowBtn hover'>No aprobado jefe</a> -->
-		<a class='glowBtn hover'>Jefe Area</a>
-		<!-- <a class='glowBtn hover'>No aprobado gerente</a> -->
-		<a class='glowBtn active'>Gerente</a>
-		<a class='glowBtn active'>Codificado</a>
-		<!-- <a class='glowBtn active'>No aprobado codificacion</a> -->
-		<a class='glowBtn active'>Codificacion</a>
+<!-- 		<a ng-class="{'glowBtn active':CP.statelista.indice===1}" class='glowBtn hover'>Creado</a>
+		<a ng-class="{'glowBtn active':CP.statelista.indice===2}" class='glowBtn hover'>Llenado</a>
+		<a ng-class="{'glowBtn active':CP.statelista.indice===3}" class='glowBtn hover'>No aprobado jefe</a> 
+		<a ng-class="{'glowBtn active':CP.statelista.indice===4}" class='glowBtn hover'>Jefe Area</a>
+		<a ng-class="{'glowBtn active':CP.statelista.indice===5}" class='glowBtn hover'>No aprobado gerente</a> 
+		<a ng-class="{'glowBtn active':CP.statelista.indice===6}" class='glowBtn hover'>Gerente</a>
+		<a ng-class="{'glowBtn active':CP.statelista.indice===7}" class='glowBtn hover'>control</a>
+		<a ng-class="{'glowBtn active':CP.statelista.indice===8}" class='glowBtn hover'>No aprobado codificacion</a> 
+		<a ng-class="{'glowBtn active':CP.statelista.indice===9}" class='glowBtn hover'>Codificacion</a> -->
 
 	</fieldset>
 </div>
@@ -219,6 +261,9 @@
 
 
 <style type="text/css">
+
+.cerrado { Background: rgb(203,115,100);color:white;}
+
 
 @import url(http://fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300italic,400italic,500,500italic,700,700italic,900,900italic);
 * {
@@ -291,7 +336,7 @@ body {
   margin: 0;
   padding: 0;
   background: url("http://www.bradysammons.com/codepen/darkui/noise.png") repeat;
-  padding: 30px;
+  padding: 20px;
 }
 
 a, input[type='radio'] + label {

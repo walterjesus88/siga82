@@ -538,11 +538,13 @@ function(httpFactory, $location, $q) {
       return promise;      
     },
 
-    setCambiarEstadoListaEntregable: function(value,areaid,codigoproyecto,proyectoid,revision) {
+    setCambiarEstadoListaEntregable: function(value,areaid,codigoproyecto,proyectoid,revision,gerente,status) {
       var defered = $q.defer();
       var promise = defered.promise;     
 
-      httpFactory.setEstadoListaEntregable(value,areaid,codigoproyecto,proyectoid,revision)
+      alert(revision);
+
+      httpFactory.setEstadoListaEntregable(value,areaid,codigoproyecto,proyectoid,revision,gerente,status)
       .then(function(data) {
         datos = data;
         defered.resolve(datos);
@@ -572,7 +574,7 @@ function(httpFactory, $location, $q) {
       var defered = $q.defer();
       var promise = defered.promise;     
 
-      alert(responsable);
+      //alert(responsable);
 
       httpFactory.getLeerEstadosListaEntregable(proyectoid,areaid,gerente,jefearea,responsable)
       .then(function(data) {
