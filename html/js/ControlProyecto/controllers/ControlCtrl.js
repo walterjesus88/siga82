@@ -2429,7 +2429,7 @@ va.imprimir=function(){
   httpFactory.createPdfEntregable('A')
   .then(function(data) {
     //console.log(data);
-    //window.open(data.archivo, '_blank');
+    window.open(data.archivo, '_blank');
   })
   .catch(function(err) {
   });
