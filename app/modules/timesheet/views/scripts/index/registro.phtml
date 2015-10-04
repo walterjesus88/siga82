@@ -1437,7 +1437,7 @@
                             $semanaid=$this->semana;
                             if($aprobaciones=$tabla_aprobaciones-> _getBuscarEmpleadoxSemana($semanaid,$uid,$dni))
                             {?>
-                            <table class="display table table-bordered table-striped datatable-order-search" id="dynamic-table">
+                            <table class="display table table-bordered table-striped" id="dynamic-table">
                                 <tr>
                                     <th style="width: 20%;">Rol</th>
                                     <th style="width: 20%;">Usuario</th>
@@ -1500,7 +1500,7 @@
                     </div>
                     <div class="panel-collapse collapse" id="accordion1_2" aria-expanded="false" style="height: 0px;">
                         <div class="panel-body">
-                            <table class="display table table-bordered table-striped datatable-order-search" id="dynamic-table">
+                            <table class="display table table-bordered table-striped" id="dynamic-table">
                                 <thead>
                                   <tr>
                                     <th style="width: 10%;">Fecha  </th>
@@ -1844,23 +1844,4 @@ $("input.focusable").keydown(function(tecla){
         });
     });
 
-</script>
-
-<script type="text/javascript">
-  $(document).ready(function() {
-    $(function(){
-      $('select').customSelect();
-      });
-  });
-</script>
-
-<script>
-  $(document).ready(function() {
-    $('.datatable-order-search').dataTable( {
-        "paging":   false,
-        "ordering": true,
-        "info":     false
-    } );
-
-  } );
 </script>
