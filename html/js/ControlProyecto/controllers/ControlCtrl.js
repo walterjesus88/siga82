@@ -828,11 +828,9 @@ va.checkName=function(data, id)
 
   //alert(cadena);
   if(cadena==null || cadena=='')
-  {
-       // alert(' es null ');
-       // alert(f_comienzo);
-       // alert(f_fin);
-
+  {   // alert(' es null ');
+      // alert(f_comienzo);
+      // alert(f_fin);
       if(f_comienzo==null && f_fin==null)
       {
         f_comienzo='';
@@ -2097,15 +2095,17 @@ va.GuardarEntregable=function(){
       console.log("error al cargar entregable");
   }); 
 }
-// va.imprimir=function(){
-//   httpFactory.createPdfEntregable('A')
-//   .then(function(data) {
-//     //console.log(data);
-//     window.open(data.archivo, '_blank');
-//   })
-//   .catch(function(err) {
-//   });
-// }
+
+va.imprimir=function(){
+  httpFactory.createPdfEntregable('A')
+  .then(function(data) {
+    //console.log(data);
+    window.open(data.archivo, '_blank');
+  })
+  .catch(function(err) {
+  });
+}
+
 va.desabilitar=1;
 
 va.CambiarEstadoListaEntregable = function(value)

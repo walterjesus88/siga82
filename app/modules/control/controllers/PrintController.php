@@ -32,15 +32,18 @@ class Control_PrintController extends Zend_Controller_Action {
      //  $formato->_setData($data);
      //  $respuesta = $formato->_print();
      //  $this->_helper->json->sendJson($respuesta);
-      //echo "llegoooooooo";
+      echo "llegoooooooo";
 
       $estado = 'A';
       //$this->_getParam('revision');
       $proyecto = new Admin_Model_DbTable_Proyecto();
       $data = $proyecto->_getAllExtendido($estado);
+
+
       $cabecera['estado'] = $estado;
       $formato = new Admin_Model_DbTable_Formato('proyectos', $cabecera, $data);
       $respuesta = $formato->_print();
+      print_r($respuesta);exit();
       $this->_helper->json->sendJson($respuesta);
 
 
