@@ -41,8 +41,7 @@ app.factory('httpFactory', ['$http','$q', function($http,$q) {
       var defered = $q.defer();
       var promise = defered.promise;
 
-      //alert(isproyecto);
-      
+            
       $http.get(url_control + 'eliminarea/areaid/'+areaid)
       .success(function(data) {
         defered.resolve(data);
@@ -181,6 +180,19 @@ app.factory('httpFactory', ['$http','$q', function($http,$q) {
       return promise;
     },
 
+    setGuardarxPorcentajexCurvas: function(proyectoid,revision,fecha,porcentaje) {
+      var defered = $q.defer();
+      var promise = defered.promise;
+      $http.get(url + 'setguardarxporcentajexcurvas/proyectoid/' + proyectoid+'/revision/'+revision+'/fecha/'+fecha+'/porcentaje/'+porcentaje)
+      .success(function(data) {
+        defered.resolve(data);
+      })
+      .error(function(err) {
+        defered.reject(err);
+      });
+      return promise;
+    },
+
 
     getProyectos: function(estado) {
       var defered = $q.defer();
@@ -199,9 +211,9 @@ app.factory('httpFactory', ['$http','$q', function($http,$q) {
       var defered = $q.defer();
       var promise = defered.promise;
       
-      alert(codigo);
-      alert(estado);
-      alert(codigoproyecto);
+      // alert(codigo);
+      // alert(estado);
+      // alert(codigoproyecto);
       
       $http.get(url + 'setcambioestadoproyecto/estado/' + estado+"/codigo/"+codigo+"/codigoproyecto/"+codigoproyecto)
       .success(function(data) {
@@ -295,11 +307,6 @@ app.factory('httpFactory', ['$http','$q', function($http,$q) {
 
   
 /////////////////////////**********fin de cronograma****************//////////////////
-
-
-
-
-
     getCronogramaxActivo: function(proyectoid) {
       var defered = $q.defer();
       var promise = defered.promise;

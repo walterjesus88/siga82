@@ -1608,7 +1608,6 @@ public function verjsonAction() {
 
 
 public function gettareoxactividadesxproyectoAction() {
-
   $proyectoid = $this->_getParam("proyectoid");
   $fecha_inicio = $this->_getParam("fecha_inicio");
   $fecha_corte = $this->_getParam("fecha_corte");
@@ -1619,19 +1618,12 @@ public function gettareoxactividadesxproyectoAction() {
   
   $i=0;
   $ek=[];
-  foreach ($tpersona as $value) {
-   
+  foreach ($tpersona as $value) {   
       $ek['actividadid']=$actividadid;
-      $ek['suma']=$value['suma'];
-      
-  
+      $ek['suma']=$value['suma']; 
     $i++;
   }
- 
-
   $this->_helper->json->sendJson($ek);  
-
-
 }
 
 public function usuariosjsonAction() {
@@ -1711,12 +1703,13 @@ public function modificarperformancepadreAction() {
    if($porcentaje_real=='null'){ echo $porcentaje_real=''; }
    if($fecha_comienzo_real=='null'){ echo $fecha_comienzo_real=''; }
    if($fecha_fin_real=='null'){ echo $fecha_fin_real=''; }
-   if($fecha_fin=='null'){ echo $fecha_fin=''; }
-   if($fecha_comienzo=='null'){ echo $fecha_comienzo=''; }
+
    if($nivel_esquema=='null'){ echo $nivel_esquema=''; }
    if($predecesoras=='null'){ echo $predecesoras=''; }
    if($sucesoras=='null'){ echo $sucesoras=''; }
    if($duracion=='null' or $porcentaje_planificado=='NaN'){ echo $duracion=''; }
+   if($fecha_comienzo=='null' or $fecha_comienzo=='NaN-NaN-NaN' or $fecha_comienzo=='NaN' or $fecha_comienzo==null ){ echo $fecha_comienzo=null; }
+   if($fecha_fin=='null' or $fecha_fin=='NaN-NaN-NaN' or $fecha_fin=='NaN' or $fecha_fin==null){ echo $fecha_fin=null; }   
 
    $predecesoras = str_replace(" ", "+", $predecesoras);
 
@@ -2541,19 +2534,27 @@ $this->_helper->json->sendJson($data);
 public function disciplinasAction() {
   $proyectoid= $this->_getParam("proyectoid");
   //$codigo_prop_proy= $this->_getParam("codigo_prop_proy");
-  // echo $proyectoid;
-  // echo $codigo_prop_proy;
-  // exit();
+
   $equipoarea=new Admin_Model_DbTable_Equipoarea();
   $earea=$equipoarea->_buscarAreasxProyectoid($proyectoid);
 
   $this->_helper->json->sendJson($earea);
 }
 
-// select distinct(a.areaid),a.nombre from equipo_area as ea
-// inner join area as a
-// on a.areaid=ea.areaid
-// where proyectoid='1508.10.01'
+public function setguardarxporcentajexcurvasAction() {
+  $proyectoid= $this->_getParam("proyectoid");
+  $revision= $this->_getParam("revision");
+  $fecha= $this->_getParam("fecha");
+  $data['porcentaje_ejecutado']= $this->_getParam("porcentaje");
+  $where = array('proyectoid' =>$proyectoid,'revision_cronograma' =>$revision,'fecha_curvas' =>$fecha);
+  // print_r($where);
+  // print_r($data);
+  // exit();
+  $uporcentajecurvas=new Admin_Model_DbTable_Tiempoproyecto(); 
+  $uporc=$uporcentajecurvas->_update_revision($data,$where);
+  $this->_helper->json->sendJson($uporc);
+
+}
 
 ////////////////// /F I N  D E  F U N C I O N E S  A N G U L A R //////
 

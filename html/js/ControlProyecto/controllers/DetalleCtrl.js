@@ -9,19 +9,15 @@ app.controller('DetalleCtrl', ['httpFactory', 'proyectoFactory', '$modal',
   /*referencia del scope en vt, obtencion del proyecto seleccionado y el objeto
   que contendra los datos del proyecto*/
 //console.log($routeParams);
-
   var vt = this;
-
   vt.proyecto = {
     codigo: $routeParams.proyecto,
   };
     console.log(this);
-
     console.log(vt.proyecto);
   // vt.cliente = {
   //     cliente: $routeParams.proyecto,
   // };
-
   //carga de los datos del proyecto seleccionado
   proyectoFactory.getDatosProyecto(vt.proyecto.codigo)
   .then(function(data) {
@@ -63,7 +59,6 @@ app.controller('DetalleCtrl', ['httpFactory', 'proyectoFactory', '$modal',
       vt.contratistaActivo = 'active';
     }
   }
-
     /*modalInstance.result.then(function (selectedItem) {
       vt.selected = selectedItem;
     }, function () {

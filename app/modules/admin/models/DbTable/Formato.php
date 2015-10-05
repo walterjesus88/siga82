@@ -9,7 +9,7 @@ class Admin_Model_DbTable_Formato extends Zend_Db_Table_Abstract
   protected $pages = [];
   protected $columns = [];
   protected $width_columns = [];
-  protected $carpeta = 'reportes/';
+  protected $carpeta = 'formatos/';
 
   public function __construct($formato, $cabecera, $cuerpo) {
      parent::__construct();
