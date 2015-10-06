@@ -1791,13 +1791,13 @@ proyectoFactory.getDisciplinaxProyecto(proyecto['codigo'])
        
 });
 
-/*va.showDisciplina = function(lista) {
+va.showDisciplina = function(lista) {
   var selected = [];
   if(lista.disciplina) {
     selected = $filter('filter')(va.disciplina, {areaid: lista.disciplina});
   }
   return selected.length ? selected[0].nombre : 'editar disciplina';
-};*/
+};
 
 va.ShowFormEdt=function(){ 
   va.formVisibilityEdt=true;    
