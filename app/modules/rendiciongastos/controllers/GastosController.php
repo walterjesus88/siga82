@@ -187,7 +187,25 @@ class Rendiciongastos_GastosController extends Zend_Controller_Action {
   }
 
       //Devuelve la lista de tipos de gastos de la tabla listagasto
-    public function tipogastoAction()
+    public function clienteAction()
+    {
+      $cliente = new Admin_Model_DbTable_Cliente();
+      $tiposcli = $cliente->_getClienteAll();
+      $this->_helper->json->sendJson($tiposcli);
+      print_r("GastosController cliente --->" + $tiposcli);
+    }
+
+      //Devuelve la lista de tipos de gastos de la tabla listagasto
+    public function proyectoAction()
+    {
+      $proyecto = new Admin_Model_DbTable_Proyecto();
+      $tipospro = $proyecto->_getProyectoAll();
+      $this->_helper->json->sendJson($tipospro);
+      print_r("GastosController proyecto --->" + $tipospro);
+    }
+
+      //Devuelve la lista de tipos de gastos de la tabla listagasto
+    public function tipogastosAction()
     {
       $gasto = new Admin_Model_DbTable_Listagasto();
       $tipos = $gasto->_getGastosAll();

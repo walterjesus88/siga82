@@ -8,7 +8,7 @@ app.controller('RendirGastosCtrl', ['$scope','httpFactory', 'gastosFactory', '$m
   var numero= $routeParams['numero'];
   var fecha= $routeParams['fecha'];
   var estado_actual = 'A';
-  vrg.listagastos = [];
+  // vrg.listagastos = [];
   // var estado_actual = ;
   // vrg.gastospersona = [];
   // vrg.fecha_factura = new Date();
@@ -33,17 +33,39 @@ app.controller('RendirGastosCtrl', ['$scope','httpFactory', 'gastosFactory', '$m
   });
 
 
-  //obtencion de los datos de tipo de proyectos y tipos de envio
-
-  httpFactory.getTiposGasto()
+  //obtencion de los datos
+/*--------------cliente--------------------------*/
+  httpFactory.getClientes()
   .then(function(data) {
-    vrg.gastoid = data;
-    console.log("RendirGastosCtrl " + vrg.gastoid)
+    vrg.listaclientes = data;
+    // console.log("RendirGastosCtrl " + vrg.listagastos)
+    // console.log("HOLA " + data)
   })
   .catch(function(err) {
-    vrg.gastoid = [];
+    vrg.listaclientes = [];
   });
 
+/*--------------proyecto--------------------------*/
+httpFactory.getProyectos()
+  .then(function(data) {
+    vrg.listaproyectos = data;
+    // console.log("RendirGastosCtrl " + vrg.listagastos)
+    // console.log("HOLA " + data)
+  })
+  .catch(function(err) {
+    vrg.listaproyectos = [];
+  });
+
+/*--------------gasto--------------------------*/
+httpFactory.getTiposGasto()
+  .then(function(data) {
+    vrg.listagastos = data;
+    // console.log("RendirGastosCtrl " + vrg.listagastos)
+    // console.log("HOLA " + data)
+  })
+  .catch(function(err) {
+    vrg.listagastos = [];
+  });
 
   vrg.ShowFormRendir=function(){
    vrg.formVisibilityRendir=true;
@@ -88,31 +110,6 @@ app.controller('RendirGastosCtrl', ['$scope','httpFactory', 'gastosFactory', '$m
 vrg.CancelarRendir=function(){
   vrg.formVisibilityRendir=false;
 }
-
-
-    //carga inicial de proyectos
-  // httpFactory.getLitaGastos()
-  // .then(function(data) {
-  //   vrg.listagastos = [];
-  //   data.forEach(function(lista) {
-  //     lista.nombre_gasto = lista.uid.changeFormat();
-  //     vrg.listagastos.push(lista);
-  //   })
-  // })
-  // .catch(function(err) {
-  //   vrg.listagastos = [];
-  // });;
-
-  //funcion para obtener los proyectos del servidor
-
-    // httpFactory.getProyectos(estado_actual)
-    // .then(function(data) {
-    //     vrg.proyectos=data;
-    //   });
-    // })
-    // .catch(function(err) {
-    //   vrg.proyectos = [];
-    // });
 
 
 

@@ -89,6 +89,7 @@ app.factory('transmittalFactory', ['httpFactory', '$q', function(httpFactory, $q
     },
     setTipoProyecto: function(tipo_proyecto) {
       datos.tipo_proyecto = tipo_proyecto;
+      console.log("tipo de proyecto" + tipo_proyecto)
     },
     setCorreo: function(correo) {
       datos.correo = correo;
