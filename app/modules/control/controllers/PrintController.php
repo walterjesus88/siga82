@@ -19,8 +19,6 @@ class Control_PrintController extends Zend_Controller_Action {
     public function imprimirentregablesAction()
     {
      //  $revision = $this->_getParam('revision');
-     //  $entregable = new Admin_Model_DbTable_Listaentregabledetalle();
-     //  $where = array('revision_entregable' =>$revision, );
      //  $data = $entregable->_getFilter($where);
      //  $cabecera['revision_entregable'] = $revision;
 
@@ -32,18 +30,23 @@ class Control_PrintController extends Zend_Controller_Action {
      //  $formato->_setData($data);
      //  $respuesta = $formato->_print();
      //  $this->_helper->json->sendJson($respuesta);
-      echo "llegoooooooo";
+     // echo "llegoooooooo";
 
       $estado = 'A';
+      $revision_entregable='A';
       //$this->_getParam('revision');
-      $proyecto = new Admin_Model_DbTable_Proyecto();
-      $data = $proyecto->_getAllExtendido($estado);
+      //$proyecto = new Admin_Model_DbTable_Proyecto();
+      //$data = $proyecto->_getAllExtendido($estado);
 
+      $entregable = new Admin_Model_DbTable_Listaentregabledetalle();   
+      $data=$entregable->_getFilteristaentregable('1508.10.01',$revision_entregable);
+
+      //print_r($data);exit();
 
       $cabecera['estado'] = $estado;
-      $formato = new Admin_Model_DbTable_Formato('proyectos', $cabecera, $data);
+      $formato = new Admin_Model_DbTable_Formatocp('lista_entregable', $cabecera, $data);
       $respuesta = $formato->_print();
-      print_r($respuesta);exit();
+     // print_r($respuesta);exit();
       $this->_helper->json->sendJson($respuesta);
 
 
