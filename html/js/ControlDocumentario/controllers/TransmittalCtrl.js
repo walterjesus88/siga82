@@ -9,6 +9,7 @@ app.controller('TransmittalCtrl', ['httpFactory', 'proyectoFactory', '$modal',
   /*referencia del scope en vt, obtencion del proyecto seleccionado y el objeto
   que contendra los datos del proyecto*/
   var vt = this;
+  
   vt.proyecto = {
     codigo: $routeParams.proyecto
   };
@@ -17,6 +18,7 @@ app.controller('TransmittalCtrl', ['httpFactory', 'proyectoFactory', '$modal',
   proyectoFactory.getDatosProyecto(vt.proyecto.codigo)
   .then(function(data) {
     vt.proyecto = data;
+    console.log(vt.proyecto.codigo);
   })
   .catch(function(err) {
     vt.proyecto = {};
@@ -53,6 +55,7 @@ app.controller('TransmittalCtrl', ['httpFactory', 'proyectoFactory', '$modal',
     }
   }
 
+  //cambiar el logo de la empresa
   vt.editarLogo = function() {
     var modalInstance = $modal.open({
       animation: true,
@@ -66,7 +69,7 @@ app.controller('TransmittalCtrl', ['httpFactory', 'proyectoFactory', '$modal',
         }
       }
     });
-
+    //recargar la pagina cuando se realizo el cambio para visualizar nuevo logo
     modalInstance.result.then(function () {
       window.location.reload();
     });

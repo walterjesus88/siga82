@@ -38,5 +38,79 @@ class Admin_Model_DbTable_Proyectocronograma extends Zend_Db_Table_Abstract
         }
     }
 
+    public function _getCronogramaxActivo($proyectoid){
+        try{
+            $sql=$this->_db->query("select *
+                from proyecto_cronograma where proyectoid='".$proyectoid."' and state='A'");
+            $row=$sql->fetchAll();
+            return $row;
+            }
+
+           catch (Exception $ex){
+            print $ex->getMessage();
+        }
+    }
+
+
+    public function _save($data)
+    {
+        try{
+  
+            if ($data['revision_cronograma']=='' ||  $data['codigo_prop_proy']=='' ||  $data['proyectoid']==''  ||  $data['codigo_cronograma']==''  ) return false;
+            return $this->insert($data);
+            return false;
+        }catch (Exception $e){
+                print "Error: EDT ".$e->getMessage();
+        }
+    }
+
+
+    public function _update($data,$pk)
+    {
+        try{            
+            $where = "
+                codigo_prop_proy = '".$pk['codigo_prop_proy']."' and         
+                cronogramaid = '".$pk['cronogramaid']."' and
+                proyectoid = '".$pk['proyectoid']."'
+            ";
+            return $this->update($data, $where);
+            return false;
+        }catch (Exception $e){
+            print "Error: Update curva".$e->getMessage();
+        }
+    }
+
+    public function _update_state($data,$pk)
+    {
+        try{
+
+            $where = "
+                codigo_prop_proy = '".$pk['codigo_prop_proy']."' and 
+                proyectoid = '".$pk['proyectoid']."'
+            ";          
+            
+            return $this->update($data, $where);
+            return false;
+        }catch (Exception $e){
+            print "Error: Update curva".$e->getMessage();
+        }
+    }
  
+    public function _delete($pk=null)
+    {
+        try{
+            if ($pk['cronogramaid']=='' ||  $pk['codigo_prop_proy']=='' ||  $pk['proyectoid']=='' ) return false;
+           
+            $where = "cronogramaid = '".$pk['cronogramaid']."'
+                    and codigo_prop_proy = '".$pk['codigo_prop_proy']."'
+                    and proyectoid = '".$pk['proyectoid']."' ";
+
+            return $this->delete( $where);
+            return false;
+        }catch (Exception $e){
+            print "Error: Eliminar EDT".$e->getMessage();
+        }
+    }
+
+
 }

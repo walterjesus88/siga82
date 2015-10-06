@@ -1,101 +1,127 @@
-<div class="panel-body">
-  <table class="table table-bordered">
-    <thead>
-      <th>
-        ITEM
-      </th>
-      <th>
-        TR
-      </th>
-      <th>
-        CODIGO ANDDES
-      </th>
-      <th>
-        CODIGO CLIENTE
-      </th>
-      <th>
-        DESCRIPCION
-      </th>
-      <th>
-        REVISION
-      </th>
-      <th>
-        ESTADO REVISION
-      </th>
-      <th>
-        EMITIDO
-      </th>
-      <th>
-        FECHA
-      </th>
-      <th>
-        ESTADO TR
-      </th>
-    </thead>
-    <tbody>
-      <tr ng-repeat="entregable in va.seleccionados">
-        <td>
-          {{$index + 1}}
-        </td>
-        <td>
-          {{entregable.transmittal_completo}}
-        </td>
-        <td>
-          {{entregable.codigo_anddes}}
-        </td>
-        <td>
-          {{entregable.codigo_cliente}}
-        </td>
-        <td>
-          {{entregable.descripcion}}
-        </td>
-        <td>
-          <select class="form-control" ng-model="entregable.revision"
-          ng-options="revision as revision for revision in va.revisiones">
-          </select>
-        </td>
-        <td>
-          {{entregable.estado_revision}}
-        </td>
-        <td>
-          <select class="form-control" ng-model="entregable.emitido"
-          ng-options="emitido.codigo as emitido.emitido_para for emitido in va.emisiones">
-          </select>
-        </td>
-        <td>
-          {{entregable.fecha}}
-        </td>
-        <td>
-          {{entregable.estado}}
-        </td>
-      </tr>
-    </tbody>
-  </table>
+<div ng-controller="TablaDetalleCtrl as td">
+<div class="panel-body" >
+  <div class="table-responsive">
+    <table class="table table-bordered">
+      <thead>
+        <th>
+          ITEM
+        </th>
+        <th>
+          TR
+        </th>
+        <th>
+          CODIGO ANDDES
+        </th>
+        <th>
+          CODIGO CLIENTE
+        </th>
+        <th>
+          DESCRIPCION
+        </th>
+        <th>
+          REVISION
+        </th>
+        <th>
+          ESTADO REVISION
+        </th>
+        <th>
+          EMITIDO
+        </th>
+        <th>
+          FECHA
+        </th>
+        <th>
+          ESTADO TR
+        </th>
+        <th>
+          CANTIDAD
+        </th>
+      </thead>
+      <tbody>
+        <tr ng-repeat="detalle in td.detalles" ng-click="td.seleccionar($index)"
+        ng-class="detalle.estilo">
+          <td>
+            {{$index + 1}}
+          </td>
+          <td>
+            {{detalle.transmittal_completo}}
+          </td>
+          <td>
+            {{detalle.codigo_anddes}}
+          </td>
+          <td>
+            {{detalle.codigo_cliente}}
+          </td>
+          <td>
+            {{detalle.descripcion}}
+          </td>
+          <td>
+            <!--select class="form-control" ng-model="detalle.revision"
+            ng-options="revision as revision for revision in td.revisiones">
+            </select-->
+            {{detalle.revision}}
+          </td>
+          <td>
+            {{detalle.estado_revision}}
+          </td>
+          <td>
+            <select class="form-control" ng-model="detalle.emitido"
+            ng-options="emitido.codigo as emitido.emitido_para for emitido in td.emisiones">
+            </select>
+          </td>
+          <td>
+            <input type="date" class="form-control" datepicker-popup ng-model="detalle.date"
+            ng-change="detalle.cambiarFecha()"
+            is-open="status.opened" datepicker-options="dateOptions"
+            date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" />
+          </td>
+          <td>
+            {{detalle.estado}}
+          </td>
+          <td>
+            <input type="number" ng-model="detalle.cantidad">
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 
   <section class="col-md-3 col-sm-6 form-group panel-body">
     <label for="">Tipo de Envío:</label>
-    <select class="form-control" ng-model="va.modo_envio_seleccionado"
-    ng-options="modo as modo for modo in va.modo">
+    <select class="form-control" ng-model="td.modo_seleccionado"
+    ng-options="modo.codigo as modo.nombre for modo in td.modos"
+    ng-change="td.cambiarModoEnvio()">
     </select>
   </section>
 
   <section class="col-md-3 col-sm-6 form-group panel-body">
     <label for="">Enviar a:</label>
-    <label for="">{{va.atencion.nombre}}</label>
-    <label for="">{{va.atencion.area}}</label>
-    <label for="">{{va.atencion.correo}}</label>
+    <select class="form-control" ng-model="td.atencion.codigo"
+    ng-change="td.cambiarContacto()"
+    ng-options="contactos.contactoid as contactos.nombre for contactos in td.contactos">
+    </select>
+    <label for="">{{td.atencion.area}}</label>
+    <label for="">{{td.atencion.correo}}</label>
+    </select>
+  </section>
+
+  <section class="col-md-3 col-sm-6 form-group panel-body">
+    <label for="">Imprimir con código:</label>
+    <select class="form-control" ng-model="td.codigo_seleccionado"
+    ng-options="codigo as codigo for codigo in td.codigos"
+    ng-change="td.cambiarCodigoPreferencial()">
     </select>
   </section>
 
 </div>
 
 <footer class="col-md-12 panel">
-  <button type="button" class="btn btn-default">Imprimir</button>
-  <button type="button" class="btn btn-default">Editar</button>
-  <button type="button" class="btn btn-default">Agregar</button>
-  <button type="button" class="btn btn-default" ng-click="va.guardarDetalleTr()">Guardar</button>
+  <button type="button" class="btn btn-info" ng-click="td.imprimirTransmittal()">Imprimir</button>
+  <button type="button" class="btn btn-warning" ng-click="td.agregar()">Agregar</button>
+  <button type="button" class="btn btn-success" ng-click="td.guardar()">Guardar</button>
   <button type="button" class="btn btn-default">Cancelar</button>
-  <button type="button" class="btn btn-default">Eliminar</button>
-  <button type="button" class="btn btn-default">Reenviar</button>
-  <button type="button" class="btn btn-default">Emitir</button>
+  <button type="button" class="btn btn-danger" ng-click="td.eliminar()">Eliminar</button>
+  <button type="button" class="btn btn-warning">Reenviar</button>
+  <button type="button" class="btn btn-primary" ng-click="td.emitir()">Emitir</button>
 </footer>
+</div>

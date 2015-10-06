@@ -130,6 +130,18 @@ class Admin_Model_DbTable_Gastorendicion extends Zend_Db_Table_Abstract
         }
     }
 
+        public function _getOnexNumeroCompleto($where=array()){
+        try{
+            if ($where['numero_completo']=='') return false;
+            $wherestr="numero_completo = '".$where['numero_completo']."'";
+            $row = $this->fetchRow($wherestr);
+            if($row) return $row->toArray();
+            return false;
+        }catch (Exception $e){
+            print "Error: Read One  ".$e->getMessage();
+        }
+    }
+
     public function _getAllXuidXestado($where=array()){
         try{
             if ($where['estado']=='' || $where['uid']=='' || $where['dni']=='') return false;
@@ -139,6 +151,47 @@ class Admin_Model_DbTable_Gastorendicion extends Zend_Db_Table_Abstract
             return false;
         }catch (Exception $e){
             print "Error: Read One ".$e->getMessage();
+        }
+    }
+
+
+        public function _getFilter($where=null,$attrib=null,$orders=null){
+        try{
+            //if($where['eid']=='' || $where['oid']=='') return false;
+                $select = $this->_db->select();
+                if ($attrib=='') $select->from("gasto_rendicion");
+                else $select->from("gasto_rendicion",$attrib);
+                foreach ($where as $atri=>$value){
+                    $select->where("$atri = ?", $value);
+                }
+                if ($orders<>null || $orders<>"") {
+                    if (is_array($orders))
+                        $select->order($orders);
+                }
+                $results = $select->query();
+                $rows = $results->fetchAll();
+                //print_r($results);
+                if ($rows) return $rows;
+                return false;
+        }catch (Exception $e){
+            print "Error: Read Filter Gastos ".$e->getMessage();
+        }
+    }
+
+
+        public function GastoxEstado($estado)
+    {
+        try{
+            $sql=$this->_db->query("
+                select numero_completo, nombre, fecha, estado
+                from gasto_rendicion
+                where estado='$estado'
+            ");
+            $row=$sql->fetchAll();
+            return $row;
+            }
+            catch (Exception $ex){
+            print $ex->getMessage();
         }
     }
 }

@@ -4,6 +4,12 @@ class Admin_Model_DbTable_Proyecto extends Zend_Db_Table_Abstract
     protected $_name = 'proyecto';
     protected $_primary = array("codigo_prop_proy", "proyectoid");
 
+    public function _getNameManager($id){
+        return $this->fetchRow($this->select()
+                    ->where('proyectoid = ?', $id))
+                    ->toArray();
+    }
+
      /* Lista toda las Personas */
     public function _getProyectoAll(){
         try{
@@ -14,8 +20,6 @@ class Admin_Model_DbTable_Proyecto extends Zend_Db_Table_Abstract
             print "Error: Al momento de leer todas las personas".$e->getMessage();
         }
     }
-
-
 
     //Funcion para obtener un proyecto en particular para el modulo de reportes
     public function _show($id)
@@ -274,9 +278,9 @@ class Admin_Model_DbTable_Proyecto extends Zend_Db_Table_Abstract
     public function _getAllExtendido($estado)
     {
       try {
-        $sql = $this->_db->query("select pro.codigo_prop_proy,pro.proyectoid, cli.nombre_comercial,
+        $sql = $this->_db->query("select pro.codigo_prop_proy, pro.proyectoid, cli.nombre_comercial,
         pro.nombre_proyecto, pro.gerente_proyecto, pro.control_proyecto,
-        pro.control_documentario, pro.estado
+        pro.control_documentario, pro.estado, pro.unidad_red
         from proyecto as pro inner join cliente as cli
         on pro.clienteid = cli.clienteid where pro.estado='".$estado."'");
         $row = $sql->fetchAll();
@@ -289,9 +293,9 @@ class Admin_Model_DbTable_Proyecto extends Zend_Db_Table_Abstract
     public function _getOnexProyectoidExtendido($data=null)
     {
       try {
-        $sql = $this->_db->query("select pro.codigo_prop_proy,pro.proyectoid, cli.clienteid,
+        $sql = $this->_db->query("select pro.codigo_prop_proy, pro.proyectoid, cli.clienteid,
         cli.nombre_comercial, pro.nombre_proyecto, pro.estado, uni.nombre,
-        pro.fecha_inicio, pro.fecha_cierre, pro.control_documentario,
+        pro.fecha_inicio, pro.fecha_cierre, pro.control_documentario, pro.gerente_proyecto,
         pro.tipo_proyecto, pro.descripcion
         from proyecto as pro inner join cliente as cli
         on pro.clienteid = cli.clienteid
@@ -316,5 +320,31 @@ class Admin_Model_DbTable_Proyecto extends Zend_Db_Table_Abstract
       } catch (Exception $e) {
         print $e->getMessage();
       }
+    }
+
+    public function _updateUnidadRed($proyectoid, $unidad_red)
+    {
+      try {
+        $proyecto = $this->fetchRow("proyectoid = '".$proyectoid."'");
+        $proyecto->unidad_red = $unidad_red;
+        $proyecto->save();
+        return $proyecto;
+      } catch (Exception $e) {
+        print $e->getMessage();
+      }
+
+    }
+
+    public function _getUbicacionesxCarpeta($carpetaid)
+    {
+      try {
+        $sql = $this->_db->query("select estado, count(estado) from proyecto
+        where unidad_red = ".$carpetaid." group by estado");
+        $rows = $sql->fetchAll();
+        return $rows;
+      } catch (Exception $e) {
+        print $e->getMessage();
+      }
+
     }
 }

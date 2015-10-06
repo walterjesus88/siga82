@@ -10,12 +10,24 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
             $view->headMeta()->appendHttpEquiv('Content-Type', 'text/html;charset=utf-8');
             //$view->headMeta()->appendHttpEquiv('Cache-Control', 'no-cache');
 
-            $view->headLink()->prependStylesheet('/css/bootstrap.min.css')
+            $view
+
+                    //->headLink()->prependStylesheet('/external_library/bootstrap/css/bootstrap.min.css'
+                    ->headLink()->prependStylesheet('/css/bootstrap.min.css')
+                     ->headLink()->prependStylesheet('/external_library/bootstrap/css/bootstrap-theme.min.css')
+                     ->headLink()->appendStylesheet('/external_library/htable/table.css')
+                     ->headLink()->appendStylesheet('/js/api_datatable/multiple-select.css')
+                     ->headLink()->appendStylesheet('/js/api_datatable/yadcf/jquery.dataTables.yadcf.css')
+                     ->headLink()->appendStylesheet('/js/api_datatable/chosen/chosen.min.css')
+                     ->headLink()->appendStylesheet('/js/api_datatable/api.datatable.css')
+                     ->headLink()->appendStylesheet('/js/api_datatable/dataTables.bootstrap.min.css')
+                     ->headLink()->appendStylesheet('/js/api_datatable/buttons.bootstrap.min.css')
+                     ->headLink()->appendStylesheet('/js/api_datatable/select.bootstrap.min.css')
                      ->headLink()->appendStylesheet('/css/bootstrap-reset.css')
                      ->headLink()->appendStylesheet('/assets/font-awesome/css/font-awesome.css')
                      ->headLink()->appendStylesheet('/assets/data-tables/DT_bootstrap.css')
                      ->headLink()->appendStylesheet('/assets/fullcalendar/fullcalendar/bootstrap-fullcalendar.css')
-                     ->headLink()->appendStylesheet('/assets/jquery-easy-pie-chart/jquery.easy-pie-chart.css')
+                     //->headLink()->appendStylesheet('/assets/jquery-easy-pie-chart/jquery.easy-pie-chart.css')
                      ->headLink()->appendStylesheet('/css/owl.carousel.css')
                      ->headLink()->appendStylesheet('/css/slidebars.css')
                      ->headLink()->appendStylesheet('/css/soon.css')
@@ -27,6 +39,18 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
                      ->headLink()->appendStylesheet('/css/angular-chart.css');
 
             $view   ->headScript()->appendFile('/js/jquery.js')
+                     ->headScript()->appendFile('/external_library/htable/table.js')
+                     /*->headScript()->appendFile('/external_library/htable/ta.js')*/
+                     /*->headScript()->appendFile('https://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js')*/
+
+                        ->headScript()->appendFile('/js/adt/vendor/datatables/media/js/jquery.dataTables.js')
+                        ->headScript()->appendFile('/js/adt/vendor/datatables-columnfilter/js/dataTables.columnFilter.js')
+                        //->headScript()->appendFile('/external_library/bootstrap/js/dataTables.bootstrap.min.js')
+                        ->headScript()->appendFile('/js/api_datatable/chosen/chosen.jquery.min.js')
+                        ->headScript()->appendFile('/js/api_datatable/chosen/chosen.proto.min.js')
+                        ->headScript()->appendFile('/js/api_datatable/jquery.multiple.select.js')
+                        ->headScript()->appendFile('/js/api_datatable/yadcf/jquery.dataTables.yadcf.js')
+                        ->headScript()->appendFile('/js/api_datatable/api.datatable.js')
                         ->headScript()->appendFile('/js/metodosglobales.js')
                         ->headScript()->appendFile('/js/jquery-ui-1.9.2.custom.min.js')
                         ->headScript()->appendFile('/js/jquery-migrate-1.2.1.min.js')
@@ -38,13 +62,11 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
                         ->headScript()->appendFile('/js/adt/vendor/angular-highlightjs/angular-highlightjs.min.js')
                         ->headScript()->appendFile('/js/adt/vendor/angular-resource/angular-resource.min.js')
                         ->headScript()->appendFile('/js/adt/vendor/angular-ui-router/release/angular-ui-router.min.js')
-                        ->headScript()->appendFile('/js/adt/vendor/datatables/media/js/jquery.dataTables.js')
                         ->headScript()->appendFile('/js/adt/vendor/datatables-colreorder/js/dataTables.colReorder.js')
                         ->headScript()->appendFile('/js/adt/vendor/datatables-colvis/js/dataTables.colVis.js')
                         ->headScript()->appendFile('/js/adt/vendor/datatables-tabletools/js/dataTables.tableTools.js')
                         ->headScript()->appendFile('/js/adt/vendor/datatables-responsive/js/dataTables.responsive.js')
                         ->headScript()->appendFile('/js/adt/vendor/datatables-scroller/js/dataTables.scroller.js')
-                        ->headScript()->appendFile('/js/adt/vendor/datatables-columnfilter/js/dataTables.columnFilter.js')
                         ->headScript()->appendFile('/js/adt/vendor/datatables-fixedcolumns/js/dataTables.fixedColumns.js')
                         ->headScript()->appendFile('/js/adt/vendor/datatables-fixedheader/js/dataTables.fixedHeader.js')
                         ->headScript()->appendFile('/js/adt/vendor/angular-bootstrap/ui-bootstrap.min.js')
@@ -56,8 +78,8 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
                         ->headScript()->appendFile('/js/adt/src/angular-datatables.instances.js')
                         ->headScript()->appendFile('/js/adt/src/angular-datatables.factory.js')
                         ->headScript()->appendFile('/js/adt/src/angular-datatables.renderer.js')
-                        ->headScript()->appendFile('/js/adt/src/plugins/bootstrap/angular-datatables.bootstrap.options.js')
                         ->headScript()->appendFile('/js/adt/src/plugins/bootstrap/angular-datatables.bootstrap.colvis.js')
+                        ->headScript()->appendFile('/js/adt/src/plugins/bootstrap/angular-datatables.bootstrap.options.js')
                         ->headScript()->appendFile('/js/adt/src/plugins/bootstrap/angular-datatables.bootstrap.tabletools.js')
                         ->headScript()->appendFile('/js/adt/src/plugins/bootstrap/angular-datatables.bootstrap.js')
                         ->headScript()->appendFile('/js/adt/src/angular-datatables.directive.js')
@@ -78,19 +100,18 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
                         ->headScript()->appendFile('/js/jquery.nicescroll.js')
                         ->headScript()->appendFile('/js/jquery.sparkline.js')
                         ->headScript()->appendFile('/assets/jquery-easy-pie-chart/jquery.easy-pie-chart.js')
-                        ->headScript()->appendFile('/assets/bootstrap-datepicker/js/bootstrap-datepicker.js')
-                        ->headScript()->appendFile('/assets/bootstrap-datetimepicker/js/bootstrap-datetimepicker.js')
-                        ->headScript()->appendFile('/assets/bootstrap-daterangepicker/moment.min.js')
-                        ->headScript()->appendFile('/assets/bootstrap-daterangepicker/daterangepicker.js')
-                        ->headScript()->appendFile('/assets/data-tables/jquery.dataTables.js')
-                        ->headScript()->appendFile('/assets/data-tables/DT_bootstrap.js')
+                        // ->headScript()->appendFile('/assets/bootstrap-datepicker/js/bootstrap-datepicker.js')
+                        // ->headScript()->appendFile('/assets/bootstrap-datetimepicker/js/bootstrap-datetimepicker.js')
+                        // ->headScript()->appendFile('/assets/bootstrap-daterangepicker/moment.min.js')
+                        // ->headScript()->appendFile('/assets/bootstrap-daterangepicker/daterangepicker.js')
+                        // ->headScript()->appendFile('/assets/data-tables/DT_bootstrap.js')
                         ->headScript()->appendFile('/js/owl.carousel.js')
                         ->headScript()->appendFile('/js/jquery.customSelect.min.js')
                         ->headScript()->appendFile('/js/respond.min.js')
                         ->headScript()->appendFile('/js/slidebars.min.js')
                         ->headScript()->appendFile('/js/sparkline-chart.js')
                         ->headScript()->appendFile('/js/easy-pie-chart.js')
-                        ->headScript()->appendFile('/js/advanced-form-components.js')
+                        //->headScript()->appendFile('/js/advanced-form-components.js')
                         ->headScript()->appendFile('/js/jquery-ui.js')
                         ->headScript()->appendFile('/js/datepicker-es.js')
                         ->headScript()->appendFile('/js/count.js')
@@ -106,11 +127,13 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 
             $view->headTitle()->setSeparator(' - ');
             $view->headTitle('Sistema de Planificación y Control | Anddes');
+            // $view->setHelperPath(APPLICATION_PATH . "/helpers","Timesheet_View_Helper");
             Zend_Session::start();
             Zend_Layout::startMvc(APPLICATION_PATH . '/layouts/scripts');
             $view = Zend_Layout::getMvcInstance()->getView();
             $viewRenderer = Zend_controller_Action_HelperBroker::getStaticHelper('ViewRenderer');
             $viewRenderer->setView($view);
+            Zend_Controller_Action_HelperBroker::addPath(APPLICATION_PATH .'/helpers',"Timesheet_View_Helper");
             $moneda = new Zend_Locale('es_PE');
             Zend_Registry::set('Zend_Locale', $moneda);
             return;

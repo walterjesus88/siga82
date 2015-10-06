@@ -39,11 +39,10 @@ class Admin_Model_DbTable_Tiempoproyecto extends Zend_Db_Table_Abstract
     }
 
 
-    public function _update($data,$pk)
+    public function _update_revision($data,$pk)
     {
         try{
-            //if ($pk['id_tproyecto']=='' ||  $pk['proyectoid']=='' ) return false;
-            $where = "codigo_curvas = '".$pk['codigo_curvas']."' ";
+            $where = "proyectoid = '".$pk['proyectoid']."' and revision_cronograma = '".$pk['revision_cronograma']."' and fecha_curvas = '".$pk['fecha_curvas']."' ";
             return $this->update($data, $where);
             return false;
         }catch (Exception $e){
@@ -51,6 +50,16 @@ class Admin_Model_DbTable_Tiempoproyecto extends Zend_Db_Table_Abstract
         }
     }
 
+    public function _update($data,$pk)
+    {
+        try{
+            $where = "codigo_curvas = '".$pk['codigo_curvas']."' ";
+            return $this->update($data, $where);
+            return false;
+        }catch (Exception $e){
+            print "Error: Update curva".$e->getMessage();
+        }
+    }
 
     public function _delete($pk=null)
     {

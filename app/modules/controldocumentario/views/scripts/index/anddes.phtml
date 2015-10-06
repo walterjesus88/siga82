@@ -2,6 +2,7 @@
   <nav class="panel-heading tab-bg-dark-navy-blue">
     <ul class="nav nav-tabs">
       <li ng-class="va.edt_activo"><a href="" ng-click="va.cambiarPanel('edt')">EDT</a></li>
+      <li ng-class="va.le_activo"><a href="" ng-click="va.cambiarPanel('le')">LE</a></li>
       <li ng-class="va.tecnicos_activo"><a href="" ng-click="va.cambiarPanel('tecnicos')">Técnicos</a></li>
       <li ng-class="va.gestion_activo"><a href="" ng-click="va.cambiarPanel('gestion')">Gestión</a></li>
       <li ng-class="va.comunicacion_activo"><a href="" ng-click="va.cambiarPanel('comunicacion')">Comunicación</a></li>
@@ -10,7 +11,7 @@
   <div class="panel-body">
     <div class="tab-content">
 
-      <div class="tab-pane" ng-class="va.edt_activo">
+      <div class="tab-pane" ng-class="va.edt_activo" ng-controller="EdtCtrl as vedt">
         <div class="col-md-6">
           <table class="table table-bordered">
             <thead>
@@ -22,7 +23,7 @@
               </th>
             </thead>
             <tbody>
-              <tr ng-repeat="edt in va.edt track by $index">
+              <tr ng-repeat="edt in vedt.edt track by $index">
                 <td>
                   {{edt.codigo}}
                 </td>
@@ -34,8 +35,12 @@
           </table>
         </div>
         <div class="col-md-6">
-          <button type="button" class="btn btn-default" ng-click="va.imprimirEdt()">Imprimir</button>
+          <button type="button" class="btn btn-default" ng-click="vedt.imprimirEdt()">Imprimir</button>
         </div>
+      </div>
+
+      <div ng-include="'/controldocumentario/index/listaentregables'" class="tab-pane" ng-class="va.le_activo">
+
       </div>
 
       <div class="tab-pane" ng-class="va.tabla_visible">
@@ -46,7 +51,8 @@
             ng-click="va.cargarRevisiones('all')">Historial Revisiones</button>
             <button type="button" class="btn btn-warning btn-xs"
             ng-click="va.editarTransmittal()">Transmittals</button>
-            <button type="button" class="btn btn-danger btn-xs">Planificación</button>
+            <button type="button" class="btn btn-danger btn-xs"
+            ng-click="va.verPlanificacion()">Planificación</button>
         </header>
 
         <div class="tab-content">
@@ -57,6 +63,11 @@
           </div>
           <div ng-include="'/controldocumentario/index/editartransmittal'"
           class="tab-pane" ng-class="va.trans_activo">
+
+          </div>
+          <div ng-include="'/controldocumentario/index/reporte'" 
+          class="tab-pane" ng-class="va.plan_activo"
+          ng-controller="ReporteCtrl as reporte">
 
           </div>
         </div>

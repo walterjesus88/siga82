@@ -1,132 +1,157 @@
 <div ng-controller="TablaEntregablesCtrl as te">
   <div class="panel-body">
-    <table class="table table-bordered">
-      <thead>
-        <th>
-          ITEM
-        </th>
-        <th>
-          EDT
-        </th>
-        <th>
-          TIPO
-        </th>
-        <th>
-          DISCIPLINA
-        </th>
-        <th>
-          CODIGO ANDDES
-        </th>
-        <th>
-          CODIGO CLIENTE
-        </th>
-        <th>
-          DESCRIPCION DE ENTREGABLES
-        </th>
-        <th>
-          REVISION
-        </th>
-        <th>
-          ESTADO REVISION
-        </th>
-        <th>
-          TRANSMITTAL
-        </th>
-        <th>
-          EMITIDO
-        </th>
-        <th>
-          FECHA
-        </th>
-        <th>
-          TRANSMITTAL CLI
-        </th>
-        <th>
-          EMITIDO CLI
-        </th>
-        <th>
-          FECHA CLI
-        </th>
-        <th>
-          ESTADO
-        </th>
-        <th>
-          COMENTARIO
-        </th>
-      </thead>
-      <tbody>
-        <tr ng-repeat="entregable in te.entregables" ng-class="entregable.estilo"
-        ng-click="entregable.seleccionarEntregable()">
-          <td>
-            {{$index + 1}}
-          </td>
-          <td>
-            {{entregable.edt}}
-          </td>
-          <td>
-            {{entregable.tipo}}
-          </td>
-          <td>
-            {{entregable.disciplina}}
-          </td>
-          <td>
-            <input type="text" ng-model="entregable.codigo_anddes" ng-model-options="{ updateOn: 'blur' }"
-               ng-change="entregable.actualizarCodigoAnddes()">
-          </td>
-          <td>
-            <input type="text" ng-model="entregable.codigo_cliente" ng-model-options="{ updateOn: 'blur' }"
-               ng-change="entregable.actualizarCodigoCliente()">
-          </td>
-          <td>
-            {{entregable.descripcion}}
-          </td>
-          <td>
-            {{entregable.revision}}
-          </td>
-          <td>
-            {{entregable.estado_revision}}
-          </td>
-          <td>
-            {{entregable.transmittal_completo}}
-          </td>
-          <td>
-            {{entregable.emitido}}
-          </td>
-          <td>
-            {{entregable.fecha}}
-          </td>
-          <td>
-            {{entregable.respuesta_transmittal}}
-          </td>
-          <td>
-            {{entregable.respuesta_emitido}}
-          </td>
-          <td>
-            {{entregable.respuesta_fecha}}
-          </td>
-          <td>
-            {{entregable.estado}}
-          </td>
-          <td>
-            {{entregable.comentario}}
-          </td>
-        </tr>
-      </tbody>
-    </table>
+    <div class="table-responsive">
+      <table class="table table-bordered table-condensed">
+        <thead>
+          <tr class="post-highlight terques">
+            <th colspan="{{te.colspan_1}}">
+
+            </th>
+            <th colspan="3" class="text-center">
+              AND - CLI
+            </th>
+            <th colspan="3" class="text-center">
+              CLI - AND
+            </th>
+            <th colspan="2">
+
+            </th>
+          </tr>
+          <tr>
+            <th>
+              ITEM
+            </th>
+            <th ng-if="te.clase == 'Tecnico'">
+              EDT
+            </th>
+            <th>
+              TIPO
+            </th>
+            <th>
+              DISCIPLINA
+            </th>
+            <th>
+              CODIGO ANDDES
+            </th>
+            <th>
+              CODIGO CLIENTE
+            </th>
+            <th>
+              DESCRIPCION DE ENTREGABLES
+            </th>
+            <th>
+              REVISION
+            </th>
+            <th>
+              ESTADO REVISION
+            </th>
+            <th>
+              TRANSMITTAL
+            </th>
+            <th>
+              EMITIDO
+            </th>
+            <th>
+              FECHA
+            </th>
+            <th>
+              TRANSMITTAL CLI
+            </th>
+            <th>
+              EMITIDO CLI
+            </th>
+            <th>
+              FECHA CLI
+            </th>
+            <th>
+              ESTADO
+            </th>
+            <th>
+              COMENTARIO
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="entregable in te.entregables" ng-class="entregable.estilo"
+          ng-click="entregable.seleccionarEntregable()">
+            <td>
+              {{$index + 1}}
+            </td>
+            <td ng-if="te.clase == 'Tecnico'">
+              <input type="text" ng-model="entregable.edt" ng-model-options="{updateOn: 'blur'}"
+              ng-disabled="te.desactivado">
+            </td>
+            <td>
+              <input type="text" ng-model="entregable.tipo" ng-model-options="{updateOn: 'blur'}"
+              ng-disabled="te.desactivado">
+            </td>
+            <td>
+              <select ng-model="entregable.disciplina"
+              ng-options="dis.areaid as dis.nombre for dis in te.disciplinas"
+              ng-disabled="te.desactivado">
+              </select>
+            </td>
+            <td>
+              <input type="text" ng-model="entregable.codigo_anddes" ng-model-options="{updateOn: 'blur'}"
+                 ng-change="entregable.actualizarCodigoAnddes()">
+            </td>
+            <td>
+              <input type="text" ng-model="entregable.codigo_cliente" ng-model-options="{updateOn: 'blur'}"
+                 ng-change="entregable.actualizarCodigoCliente()">
+            </td>
+            <td>
+              <input type="text" ng-model="entregable.descripcion" ng-model-options="{updateOn: 'blur'}"
+              ng-disabled="te.desactivado">
+            </td>
+            <td>
+              <input type="text" ng-model="entregable.revision" ng-model-options="{updateOn: 'blur'}"
+              ng-disabled="te.desactivado">
+            </td>
+            <td>
+              {{entregable.estado_revision}}
+            </td>
+            <td>
+              {{entregable.transmittal_completo}}
+            </td>
+            <td>
+              {{entregable.emitido}}
+            </td>
+            <td>
+              {{entregable.fecha}}
+            </td>
+            <td>
+              {{entregable.respuesta_transmittal}}
+            </td>
+            <td>
+              {{entregable.respuesta_emitido}}
+            </td>
+            <td>
+              {{entregable.respuesta_fecha}}
+            </td>
+            <td>
+              {{entregable.estado}}
+            </td>
+            <td>
+              {{entregable.comentario}}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 
   <footer class="col-md-12 panel">
     <button type="button" class="btn btn-default" ng-click="va.imprimirReporteTr()">Imprimir</button>
-    <button type="button" class="btn btn-default" ng-click="va.agregarEntregable()"
+    <button type="button" class="btn btn-default" ng-click="te.agregar()"
     ng-disabled="te.desactivado">Agregar</button>
-    <button type="button" class="btn btn-default" ng-click="va.editarEntregable()"
-    ng-disabled="te.desactivado">Editar</button>
-    <button type="button" class="btn btn-default" ng-click="va.eliminarEntregable()"
+    <button type="button" class="btn btn-default" ng-click="te.eliminar()"
     ng-disabled="te.desactivado">Eliminar</button>
-    <button type="button" class="btn btn-default" ng-click="va.cancelarCambios()"
+    <button type="button" class="btn btn-default" ng-click="te.cancelar()"
     ng-disabled="te.desactivado">Cancelar</button>
-    <button type="button" class="btn btn-default" ng-click="va.guardarCambios()"
+    <button type="button" class="btn btn-default" ng-click="te.guardar()"
     ng-disabled="te.desactivado">Guardar</button>
+    <button type="button" class="btn btn-default" ng-click="va.generarRev()">Generar Revisiones</button>
     <button type="button" class="btn btn-default" ng-click="va.generarTr()">Generar Transmittal</button>
   </footer>
+
 </div>

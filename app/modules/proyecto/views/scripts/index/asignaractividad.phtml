@@ -1,326 +1,202 @@
-<script type="text/javascript" src="/js/jquery-ui-1.9.2.custom.min.js"></script>
-<script type="text/javascript" src="/js/bootstrap.min.js"></script>
-                            
-                            
-<div class="conscroll">
-<form name="f2">
-    <div id="Proyecto_Activa">
-    <a href="/proyecto/index/asignaractividad/proyectoid/<?php echo $this->proyectoid ?>/codigo_prop_proy/<?php echo $this->codigo_prop_proy ?>/areaid/<?php echo $this->areaid ?>"> </a>
-    <table class="table p-table" style="padding: 1px;">
-        <thead>
-            <tr>  
-                <th style="width: 250px;">
-                    Actividades
-                </th>
-                    
+<?php
+if ($this->equipo) {
+    ?>
 
-<style type="text/css">
-    .conscroll{
-        height: 1000px;
-        width: auto;
-        padding: 5px;
-        overflow: scroll;
-        background-color: #cdd;
-    }
-</style>
-                
-                            
-                <?php
-                $c=0;
-                $a=0;
-                $b=0;
-                $cont=count($this->actividades);
-                foreach ($this->equipo as $listaequipo) 
+    <!-- <form  name="f2">-->
 
-
-
-                    {?>
-                        
-                            
     
-                    <th style="width: 50px;padding-top: 1px;padding-right: 1px;padding-bottom: 1px;padding-left: 1px;" style="width: 150px; font-size: 10px;" class="p-name" id="nomact_<?php echo $c?>"><center>
-                        <a href="#" ><?php 
-                            if ($listaequipo['uid']=='administracion1' or $listaequipo['uid']=='administracion2'  or $listaequipo['uid']=='administracion3'  or $listaequipo['uid']=='administracion4' )
-                            {
-                                echo $listaequipo['uid'];
-                            }
-                            else
-                            {
-                            $porciones = explode(".", $listaequipo['uid']);
-                            echo (ucwords($porciones[0])); echo "<br>"; echo " ";
-                            echo (ucwords($porciones[1]));
-                            }
+    <div style="overflow:scroll; height:500px">
 
-                        ?></a>
-                        <?php
-                            $codigo_prop_proy=$listaequipo['codigo_prop_proy'];
-                            $proyectoid=$listaequipo['proyectoid'];
-                            $uid=$listaequipo['uid'];
-                            $dni=$listaequipo['dni'];
-                            $estado='A';
-                            $areaid=$listaequipo['areaid'];
-                            $categoriaid=$listaequipo['categoriaid'];
-                            $acti= new Admin_Model_DbTable_Activaractividad();
-                            $activr= $acti-> _getConteoactivar($codigo_prop_proy,$proyectoid,$uid,$dni,$estado,$areaid,$categoriaid);
-                        ?>
-                        
-                             <script type="text/javascript">
-                            //     function marcar(source)
-                            //     {
-                            //         checkboxes=document.getElementsByTagName('input');
-                            //         for (a = 0; a < checkboxes.length; a++) 
-                            //         {   for (b = 0; b < checkboxes.length; b++){
-                            //             if (checkboxes[a][b].type == "checkbox" & checkboxes[a][b].name=[c][i]) 
-                            //             {
-                            //                 checkboxes[a][b].checked=source.checked;
-                            //             }
-                            //             } 
-                            //         }
-                            //     }
-                            // </script>
-
-                        <!-- Marcar todos por persona -->
-                        <!-- <input id="marcar_<?php echo $a?><?php echo $b?>" name="agreg[<?php echo $a?>][<?php echo $b?>]" type="checkbox" onclick="marcar(this);"/> -->
-                        <input name="todoagrega" id="todoagrega_<?php echo $c ?>" value="A_<?php echo $c?>" type="checkbox" checked>
-
-                        <!-- ------------------------------------------------------------------------ -->
+        <div>   
+            <a href="/proyecto/index/asignaractividad/proyectoid/<?php echo $this->proyectoid ?>/codigo_prop_proy/<?php echo $this->codigo_prop_proy ?>/areaid/<?php echo $this->areaid ?>"> </a>
 
 
-                        <tr>  
-                
-                <?php
-                $c=0;
-                
-                $cont=count($this->actividades);
-                $f=0;
-                $cont=0;
-                foreach ($this->actividades as $listaactividad)
-                {
-                   echo $listaactividad['hijo'];
-                   if($listaactividad['hijo']=='N')
-                   {
-                     $cont=$cont+1;
-                   }
-                   $f++;
-                }
-                print_r($cont);
 
-                // foreach ($this->equipo as $listaequipo) 
-                    {?>
-                    <!-- <th style="width: 50px;padding-top: 1px;padding-right: 1px;padding-bottom: 1px;padding-left: 1px;" style="width: 150px; font-size: 10px;" class="p-name" id="nomact_<?php echo $c?>">
-                        <a href="#"><?php //echo $listaequipo['uid'];
+            <table id="" border="1px" class="fancyTable">
+                <thead>
+                    <tr >
+                        <th >
+                            <center>Actividades</center>
+                            <!-- <center>Seleccionar todas las actividades</center> -->
+                        </th>
 
-                          $porciones = explode(".", $listaequipo['uid']);
-                          echo (ucwords($porciones[0])); echo " ";echo (ucwords($porciones[1]));
-
-                        ?></a>
 
                         <?php
-                            $codigo_prop_proy=$listaequipo['codigo_prop_proy'];
-                            $proyectoid=$listaequipo['proyectoid'];
-                            $uid=$listaequipo['uid'];
-                            $dni=$listaequipo['dni'];
-                            $estado='A';
-                            $areaid=$listaequipo['areaid'];
-                            $categoriaid=$listaequipo['categoriaid'];
-                            $acti= new Admin_Model_DbTable_Activaractividad();
-                            $activr= $acti-> _getConteoactivar($codigo_prop_proy,$proyectoid,$uid,$dni,$estado,$areaid,$categoriaid);
-                            //print_r($activr);
-                        ?>    -->
-                        <?php
+                        $c=0;
+                        $a=0;
+                        $b=0;
+                        $cont=count($this->actividades);
+
+                        /*if ($this->equipo) {*/
+                        $contador_tabla = 0; 
+
+                        foreach ($this->equipo as $listaequipo) {
                             
-                            if($cont==$activr[0]['count'])
-                                { ?>
-                                    <input name="todoagrega" id="todoagrega_<?php echo $c ?>" value="A_<?php echo $c?>" type="checkbox" checked>
-                         <?php }
-                            else
-                                { ?>
-                                    <input name="todoagrega" id="todoagrega_<?php echo $c ?>" value="A_<?php echo $c?>" type="checkbox" >
-                        <?php  }
-                        ?>  
+                           if ($contador_tabla == 0) 
+                           { ?>
 
-                        <script type="text/javascript"> 
-                            $("#todoagrega_<?php echo $c ?>").click(function(){
-                                //alert('url1');
-                                var j="<?php echo $c ?>";
-                                var toten="<?php echo $cont ?>";
-                                if($("#todoagrega_<?php echo $c?>").is(':checked')) 
-                                {  
-                                    for (i = 0; i < toten; i++){          
-                                        document.getElementById("agrega_"+i+j).checked=1;
-                                    }
-                                    estado='A';
-                                    console.log('act');                   
-                                } else {    
-                                    for (i = 0; i < toten; i++){      
-                                        document.getElementById("agrega_"+i+j).checked=0;
-                                    }
-                                    estado='I';
-                                    console.log('desact'); 
-                                }
-                                var codigo_prop_proy="<?php echo $listaequipo['codigo_prop_proy'] ?>";
-                                var cargo="<?php echo $listaequipo['cargo'] ?>";
-                                var areaid="<?php echo $listaequipo['areaid'] ?>";
-                                var uid="<?php echo $listaequipo['uid'] ?>";
-                                var dni="<?php echo $listaequipo['dni'] ?>";
-                                var proyectoid="<?php echo $listaequipo['proyectoid'] ?>";
-                                var categoriaid="<?php echo $listaequipo['categoriaid'] ?>";
-                                var areaid="<?php echo $listaequipo['areaid'] ?>";
-                                var cargo="<?php echo $listaequipo['cargo'] ?>";   
-                                url="/proyecto/index/agregartodoactividad/cargo/"+cargo+"/areaid/"+areaid+"/uid/"+uid+"/dni/"+dni+"/proyectoid/"+proyectoid+"/categoriaid/"+ categoriaid+"/codigo_prop_proy/"+codigo_prop_proy+"/estado/"+estado;
+                                <th border="1px" id="nomact_<?php echo $c?>">
 
-                                //alert(url),
+                                    <center>
 
-                                $.ajax({
-                                    type: "POST",
-                                    url: url,
-                                    data: $(this).serialize(),
-                                    dataType: "html",
-                                    success: function(data)
-                                    {                                     
-                                      
-                                    }
-                                });
-                            });
-                        </script>
-                    </th>                                            
-                <?php $c++; } ?>
+                                        <a href="#" ><?php 
+                                            if ($listaequipo['uid']=='administracion1' or $listaequipo['uid']=='administracion2'  or $listaequipo['uid']=='administracion3'  or $listaequipo['uid']=='administracion4' )
+                                            {
+                                                echo $listaequipo['uid'];
+                                            }
+                                            else
+                                            {
+                                                $porciones = explode(".", $listaequipo['uid']);
+                                                echo (ucwords($porciones[0])); echo "<br>"; echo " ";
+                                                echo (ucwords($porciones[1]));
+                                            }
 
 
+                                            ?></a>
+                                            <?php
+                                            $codigo_prop_proy=$listaequipo['codigo_prop_proy'];
+                                            $proyectoid=$listaequipo['proyectoid'];
+                                            $uid=$listaequipo['uid'];
+                                            $dni=$listaequipo['dni'];
+                                            $estado='A';
+                                            $areaid=$listaequipo['areaid'];
+                                            $categoriaid=$listaequipo['categoriaid'];
+                                            $acti= new Admin_Model_DbTable_Activaractividad();
+                                            $activr= $acti-> _getConteoactivar($codigo_prop_proy,$proyectoid,$uid,$dni,$estado,$areaid,$categoriaid);
+                                            ?>
 
-                        <!-- -------------------------------------------------------------------------- -->
-                        <script type="text/javascript"> 
-                        $("#marcar_<?php echo $a ?><?php echo $b ?>").click(function(){ alert("hola");
+                                    </center>
+
+                                </th>
+
+                           <?php } else 
+                           { ?>
+
+                                <th id="nomact_<?php echo $c?>">
+
+                                    <center>
+
+                                        <a href="#" ><?php 
+                                            if ($listaequipo['uid']=='administracion1' or $listaequipo['uid']=='administracion2'  or $listaequipo['uid']=='administracion3'  or $listaequipo['uid']=='administracion4' )
+                                            {
+                                                echo $listaequipo['uid'];
+                                            }
+                                            else
+                                            {
+                                                $porciones = explode(".", $listaequipo['uid']);
+                                                echo (ucwords($porciones[0])); echo "<br>"; echo " ";
+                                                echo (ucwords($porciones[1]));
+                                            }
 
 
+                                            ?></a>
+                                            <?php
+                                            $codigo_prop_proy=$listaequipo['codigo_prop_proy'];
+                                            $proyectoid=$listaequipo['proyectoid'];
+                                            $uid=$listaequipo['uid'];
+                                            $dni=$listaequipo['dni'];
+                                            $estado='A';
+                                            $areaid=$listaequipo['areaid'];
+                                            $categoriaid=$listaequipo['categoriaid'];
+                                            $acti= new Admin_Model_DbTable_Activaractividad();
+                                            $activr= $acti-> _getConteoactivar($codigo_prop_proy,$proyectoid,$uid,$dni,$estado,$areaid,$categoriaid);
+                                            ?>
 
-                            });
+                                    </center>
 
-                            $("#todoagrega_<?php echo $c ?>").click(function(){
-                                //alert('url1');
-                                var j="<?php echo $c ?>";
-                                var toten="<?php echo $cont ?>";
-                                if($("#todoagrega_<?php echo $c?>").is(':checked')) 
-                                {  
-                                    for (i = 0; i < toten; i++){          
-                                        document.getElementById("agrega_"+i+j).checked=1;
-                                    }
-                                    estado='A';
-                                    console.log('act');                   
-                                } else {    
-                                    for (i = 0; i < toten; i++){      
-                                        document.getElementById("agrega_"+i+j).checked=0;
-                                    }
-                                    estado='I';
-                                    console.log('desact'); 
-                                }
-                                var codigo_prop_proy="<?php echo $listaequipo['codigo_prop_proy'] ?>";
-                                var cargo="<?php echo $listaequipo['cargo'] ?>";
-                                var areaid="<?php echo $listaequipo['areaid'] ?>";
-                                var uid="<?php echo $listaequipo['uid'] ?>";
-                                var dni="<?php echo $listaequipo['dni'] ?>";
-                                var proyectoid="<?php echo $listaequipo['proyectoid'] ?>";
-                                var categoriaid="<?php echo $listaequipo['categoriaid'] ?>";
-                                var areaid="<?php echo $listaequipo['areaid'] ?>";
-                                var cargo="<?php echo $listaequipo['cargo'] ?>";   
-                                url="/proyecto/index/agregartodoactividad/cargo/"+cargo+"/areaid/"+areaid+"/uid/"+uid+"/dni/"+dni+"/proyectoid/"+proyectoid+"/categoriaid/"+ categoriaid+"/codigo_prop_proy/"+codigo_prop_proy+"/estado/"+estado;
-                                $.ajax({
-                                    type: "POST",
-                                    url: url,
-                                    data: $(this).serialize(),
-                                    dataType: "html",
-                                    success: function(data)
-                                    {                                     
-                                      
-                                    }
-                                });
-                            });
-                        </script></center>
-                    </th>                                            
-                <?php 
-                $c++; 
+                                </th>
+
+                            <?php }
+
+                            ?>
+
+                            
+                <?php
+                $c++;
                 $a++;
-            } 
+                $contador_tabla++;
+            }
 
-                ?>
-            </tr>
-        </thead>
-        <tbody style="font-size: 10px;">
 
-        <!-- <input id="agrega_" type="checkbox" onclick="marcar(this);"/> Marcar/Desmarcar Todos -->
+            ?>
+        </tr>
+    </thead>
+    <tbody >
+
+
 
         <?php
-            $c=0;
-            $a=0;
-            foreach ($this->actividades as $listaactividad)
-                {         
-                ?>
-                <tr>
-                    <td style="width: 50px;padding-top: 1px;padding-right: 1px;padding-bottom: 1px;padding-left: 1px;" style="width: 150px; font-size: 10px;" id="nomact_<?php echo $c?>">                    
+        $c=0;
+        $a=0;
+        foreach ($this->actividades as $listaactividad)
+        {
+            ?>
+            <tr>
+                <td id="nomact_<?php echo $c?>">
 
-                        <?php 
-                        if ($listaactividad['hijo']=='S')
-                        {
-                            echo "<center>";
-                            echo "<strong>"; echo $listaactividad['actividadid']; echo "</strong>"; echo " -  "; echo $listaactividad['nombre'];    
-                            echo "</center>";
-                        }
-                        if ($listaactividad['hijo']=='N')
-                        {
-                            echo "<strong>"; echo $listaactividad['actividadid']; echo "</strong>"; echo " -  "; echo $listaactividad['nombre']; 
-                        }
-                        ?>
-                        <?php //echo strlen($listaactividad['actividadid']) ?>
-                    </td>  
-                            
-                     <?php
-                       $i=0;
-                       $b=0;              
+                    <?php
+                    if ($listaactividad['hijo']=='S')
+                    {
+                        echo "<center>";
+                        echo "<strong>"; echo $listaactividad['actividadid']; echo "</strong>"; echo " -  "; echo $listaactividad['nombre'];
+                        echo "</center>";
+                    }
+                    if ($listaactividad['hijo']=='N')
+                    {
+                        echo "<strong>"; echo $listaactividad['actividadid']; echo "</strong>"; echo " -  "; echo $listaactividad['nombre'];
+                    }
+                    ?>
+                    <?php //echo strlen($listaactividad['actividadid']) ?>
+                </td>
+
+                <?php
+                $i=0;
+                $b=0;
                       //foreach ($this->actividades as $listaactividad)
-                       foreach ($this->equipo as $listaequipo) 
+                foreach ($this->equipo as $listaequipo)
+                {
+                    $wheres=array('codigo_prop_proy'=>$listaactividad['codigo_prop_proy'],'codigo_actividad'=>$listaactividad['codigo_actividad'],'proyectoid'=>$listaequipo['proyectoid'],'actividadid'=>$listaactividad['actividadid'],'uid'=>$listaequipo['uid'],'dni'=>$listaequipo['dni'],'cargo'=>$listaequipo['cargo'],'areaid'=>$listaequipo['areaid'],'categoriaid'=>$listaequipo['categoriaid']);
+
+                    $act= new Admin_Model_DbTable_Activaractividad();
+                    $activar= $act->_getOne($wheres);
+                          // print_r($activar);
+                    ?>
+                    <td> <center>
+
+                      <?php
+                      if($listaactividad['hijo']=='N')
                       {
-                        $wheres=array('codigo_prop_proy'=>$listaactividad['codigo_prop_proy'],'codigo_actividad'=>$listaactividad['codigo_actividad'],'proyectoid'=>$listaequipo['proyectoid'],'actividadid'=>$listaactividad['actividadid'],'uid'=>$listaequipo['uid'],'dni'=>$listaequipo['dni'],'cargo'=>$listaequipo['cargo'],'areaid'=>$listaequipo['areaid'],'categoriaid'=>$listaequipo['categoriaid']);
 
-                        $act= new Admin_Model_DbTable_Activaractividad();
-                        $activar= $act->_getOne($wheres);
-                         // print_r($activar);
-                      ?>
-                        <td style="width: 150px;padding-top: 1px;padding-right: 1px;padding-bottom: 1px;padding-left: 1px;" > <center>
-                        
-                          <?php
-                            if($listaactividad['hijo']=='N') 
-                            { 
-
-                              if($activar['estado']=='A' )
-                              {  
+                          if($activar['estado']=='A' )
+                          {
                                  // print_r(strlen($activar['actividadid']));
-                                 ?>
-                                  <input id="agrega_<?php echo $c?><?php echo $i?>" type="checkbox"  checked="checked" name="agreg[<?php echo $c?>][<?php echo $i?>]" value="<?php echo $i ?><?php echo $c ?>">
-                             
-                                <?php 
-                              }
-                              else
-                              { ?>
-                               
-                                <input id="agrega_<?php echo $c?><?php echo $i?>" type="checkbox" name="agreg[<?php echo $c?>][<?php echo $i?>]" value="<?php echo $i ?><?php echo $c ?>" >
-                                <?php 
-                              }
+                           ?>
+                           <input id="agrega_<?php echo $c?><?php echo $i?>" type="checkbox"  checked="checked" name="agreg[<?php echo $c?>][<?php echo $i?>]" value="<?php echo $i ?><?php echo $c ?>">
 
-                            }
-                            else
-                            { ?>
-                                <input disabled style="display:none" id="agrega_<?php echo $c?><?php echo $i?>" type="checkbox" name="agreg[<?php echo $c?>][<?php echo $i?>]" value="<?php echo $i ?><?php echo $c ?>" >
-                            <?php 
-                            }
-                            ?>  
+                           <?php 
+                       }
+                       else
+                          { ?>
 
-                            
+                      <input id="agrega_<?php echo $c?><?php echo $i?>" type="checkbox" name="agreg[<?php echo $c?>][<?php echo $i?>]" value="<?php echo $i ?><?php echo $c ?>" >
+                      <?php
+                  }
 
-                            <script type="text/javascript">
-                                var checkboxValues = "";
-                                $('input[name="agreg[]"]:checked').each(function() {
-                                    checkboxValues += $(this).val() + ",";
-                                });
+              }
+              else
+                { ?>
+            <input disabled style="display:none" id="agrega_<?php echo $c?><?php echo $i?>" type="checkbox" name="agreg[<?php echo $c?>][<?php echo $i?>]" value="<?php echo $i ?><?php echo $c ?>" >
+            <?php
+        }
+        ?>
+
+
+
+        <script type="text/javascript">
+            var checkboxValues = "";
+            $('input[name="agreg[]"]:checked').each(function() {
+                checkboxValues += $(this).val() + ",";
+            });
                                 //eliminamos la última coma.
                                 checkboxValues = checkboxValues.substring(0, checkboxValues.length-1);
                                 //si todos los checkbox están seleccionados devuelve 1,2,3,4,5
@@ -328,15 +204,15 @@
 
                             </script>
 
-                            <script type="text/javascript">                         
-                                $("#agrega_<?php echo $c?><?php echo $i?>").click(function(){ 
+                            <script type="text/javascript">
+                                $("#agrega_<?php echo $c?><?php echo $i?>").click(function(){
                                 //alert("<?php echo $c?><?php echo $i ?>");
-                                if($("#agrega_<?php echo $c?><?php echo $i?>").is(':checked')) {  
+                                if($("#agrega_<?php echo $c?><?php echo $i?>").is(':checked')) {
                                     estado='A';
-                                    console.log('act'); 
-                                } else {    
+                                    console.log('act');
+                                } else {
                                     estado='I';
-                                    console.log('desact'); 
+                                    console.log('desact');
                                 }
                                 var cargo="<?php echo $listaequipo['cargo'] ?>";
                                 var areaid="<?php echo $listaequipo['areaid'] ?>";
@@ -361,26 +237,47 @@
                                     type: "POST",
                                     url: url,
                                     data: $(this).serialize(),
-                                    dataType: "html",                                                 
+                                    dataType: "html",
                                     // error: function(){
                                     //   alert("error petición ajax load");
                                     // },
                                     success: function(data){
                                     }
-                              });
-                           });                   
-                          </script></center>
-                        </td>
-                     <?php
-                      $i++;
-                      }                                 
-                     ?>
-                </tr>
-                <?php $c++;
-            }            
-          ?>
-          </tbody>
-    </table>
-  </div>
-  <div style="display:none" id="cargact"></div>
-</form>
+                                });
+                            });
+                        </script></center>
+                    </td>
+                    <?php
+                    $i++;
+                }
+                ?>
+            </tr>
+            <?php $c++;
+        }        }  else {?>
+
+        <!-- echo "No existe persona habilitada"; -->
+
+
+        <center><b><h4>No existe persona habilitada por favor habilitar persona (+)</h4></b></center>
+
+
+        <?php
+    }
+    ?>
+</tbody>
+</table>
+</div>
+</div>
+
+<!-- </form> -->
+
+
+
+
+<script type="text/javascript">
+     $(document).ready(function() {
+         $('#myTable05').fixedHeaderTable({ altClass: 'odd', footer: false, fixedColumns: -1 });
+       
+     });
+
+</script>

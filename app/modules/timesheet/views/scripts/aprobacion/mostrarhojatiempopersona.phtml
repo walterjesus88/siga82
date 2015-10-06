@@ -122,9 +122,9 @@
                 <?php if ($data_tareo['tipo_actividad']=='G') {
                   $dbactividadgeneral= new Admin_Model_DbTable_Actividadgeneral();
                   $datosactgeneral = $dbactividadgeneral->_getActividadgeneralxId($data_tareo['actividad_generalid']);
-                 // print_r($datosactgeneral[0]['nombre']) 
+                 // print_r($datosactgeneral[0]['nombre']);
                   if ($data_tareo['actividad_generalid']) { ?>
-                           <select disabled id="select_generalg_<?php echo $j?>" class="form-control input-sm m-bot15 col-lg-10">                        
+                           <select disabled id="select_generalg_<?php echo $j?>" class="">                        
                             <option value="<?php echo $data_tareo['actividad_generalid']?>"><?php print_r($datosactgeneral[0]['nombre']) ?></option>
                                 <?php 
                                     $areaid='90';
@@ -137,7 +137,7 @@
                   <?php
                   } else{
                   ?>
-                         <select disabled id="select_generalg_<?php echo $j?>" class="form-control input-sm m-bot15 col-lg-10">
+                         <select disabled id="select_generalg_<?php echo $j?>" class="">
                         
                             <option value="">Tarea No Facturable</option>
                                 <?php 
@@ -153,11 +153,11 @@
                   <?php }
                   if ($data_tareo['tipo_actividad']=='P') {  ?>
                   <div id="tarea_proyecto_<?php echo $j?>" >
-                   <?php echo "< none >" ?>
+                   <!-- <?php echo "< none >" ?> -->
                    </div>
                   <div id="tarea_general_<?php echo $j?>" style="display:none">
 
-                  <select disabled id="select_generalp_<?php echo $j?>" class="form-control input-sm m-bot15 col-lg-10">
+                  <select disabled id="select_generalp_<?php echo $j?>" class="">
                         
                             <option value="">Seleccione Tarea</option>
                                 <?php 

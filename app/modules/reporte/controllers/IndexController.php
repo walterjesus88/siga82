@@ -8,14 +8,14 @@ class Reporte_IndexController extends Zend_Controller_Action {
             $this->_helper->redirector('index',"index",'default');
         }
         $login = $sesion->getStorage()->read();
-        $this->sesion = $login; 
+        $this->sesion = $login;
         $options = array(
             'layout' => 'inicio',
         );
         Zend_Layout::startMvc($options);
     }
 
-    //Funcion que devuelve los datos de tareopersona segun proyecto, implementado por repeticion en 
+    //Funcion que devuelve los datos de tareopersona segun proyecto, implementado por repeticion en
     //diferentes actions
     protected function obtenerTareopersona($codigo_prop_proy){
         $tareopersona = new Admin_Model_DbTable_Tareopersona();
@@ -24,7 +24,7 @@ class Reporte_IndexController extends Zend_Controller_Action {
 
         $respuesta = [];
         $i = 0;
-              
+
         foreach ($todos_tareopersona as $fila) {
            if ($fila['tipo_actividad']=='P') {
                $fila['tipo_actividad'] = 'Facturable';
@@ -59,15 +59,17 @@ class Reporte_IndexController extends Zend_Controller_Action {
         }
 
         return $respuesta;
-        
+
     }
-    
+
 
     /*Accion que devuelve la vista principal contenida el el archivo
     ../views/scripts/index/index.phtml*/
     public function indexAction() {
-        
+
     }
+
+
 
     /*Action que devuelde los registros con los campos necesarios para visualizacion
     de la vista de reporte tarea persona. Para lo cual han sido parseados como json
@@ -77,7 +79,7 @@ class Reporte_IndexController extends Zend_Controller_Action {
         $this->_helper->layout()->disableLayout();
         $codigo_prop_proy = $this->_getParam('codigo_prop_proy');
         $respuesta = $this->obtenerTareopersona($codigo_prop_proy);
-        $this->_helper->json->sendJson($respuesta);      
+        $this->_helper->json->sendJson($respuesta);
     }
 
     //Action que devuelve los datos de tareopersona en un archivo html
@@ -106,7 +108,7 @@ class Reporte_IndexController extends Zend_Controller_Action {
             $filares['id'] = $fila['clienteid'];
             $filares['nombre'] = $fila['nombre_comercial'];
             $respuesta[$i] = $filares;
-            $i++; 
+            $i++;
         }
         $this->_helper->json->sendJson($respuesta);
     }
@@ -143,9 +145,55 @@ class Reporte_IndexController extends Zend_Controller_Action {
             $filares['id'] = $fila['unidad_mineraid'];
             $filares['nombre'] = $fila['nombre'];
             $respuesta[$i] = $filares;
-            $i++; 
+            $i++;
         }
         $this->_helper->json->sendJson($respuesta);
     }
+
+    public function semanalAction(){
+      $tareopersona = new Admin_Model_DbTable_Tareopersona();
+      $usuarios = new Admin_Model_DbTable_Usuario();
+      $semana_user = [];
+      $fecha = date("Y-m-d");
+      $semanaid=date('W', strtotime($fecha)); 
+      $usuario_area= $usuarios->UsuarioxEstado('A');
+      $i=0;
+      foreach ($usuario_area as $user ) {
+        $semana_fecha=$usuarios->UsuarioxEstadoxAreaxFechaIngreso($user['uid'],$user['areaid']);
+        for ($j=$semana_fecha[0]['semana'];$j<$semanaid;$j++)
+          {
+            $semana_tareo = $tareopersona->_getSemanaTareoxEstadoEnvio($j,$user['uid']);  
+            if ($semana_tareo)
+            {
+              $semana_user[$i]= $semana_tareo[0]['row']  ;
+              $remplazo= str_replace ( '('  , '' , $semana_tareo[0]['row']  );
+              $remplazo= str_replace ( ')'  , '' , $remplazo  );
+              $lista1 = explode(",",$remplazo); 
+              $semana_user[$i]=$lista1[0];
+              $semana_area[$i]=$lista1[1];
+              $semana_semana[$i]=$j;
+              $semana_estado[$i]=$lista1[2];
+            }
+            else
+            {
+              $semana_user[$i]=$user['uid'];
+              $semana_area[$i]=$user['areaid'];
+              $semana_semana[$i]=$j;
+              $semana_estado[$i]='V';
+            }
+
+            print_r($semana_user[$i]);   echo ";";print_r($semana_area[$i]);  echo ";";  print_r($semana_semana[$i]);
+            echo ";";
+      print_r($semana_estado[$i]);
+      echo "<br>";
+          }
+        $i++;
+
+      }
+    
+
+    }
+
+
 
 }
