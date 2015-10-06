@@ -27,7 +27,7 @@ var publico = {
     var promise = defered.promise;
     $http.get(url_gastos + 'guardarrendicion/numero_completo/'+numero_completo+"/nombre/"+nombre+"/fecha/"+fecha+"/estado/"+estado)
     .success(function(data) {
-      console.log(url_gastos + 'guardarrendicion/numero_completo/'+numero_completo+"/nombre/"+nombre+"/fecha/"+fecha+"/estado/"+estado);
+      // console.log(url_gastos + 'guardarrendicion/numero_completo/'+numero_completo+"/nombre/"+nombre+"/fecha/"+fecha+"/estado/"+estado);
       defered.resolve(data);
     })
     .error(function(err) {
@@ -68,6 +68,48 @@ var publico = {
       return promise;
     },
 
+    getClientes: function() {
+      var defered = $q.defer();
+      var promise = defered.promise;
+      $http.get(url_gastos + 'cliente')
+      .success(function(data) {
+        defered.resolve(data);
+        // console.log("httpFactory " + data);
+      })
+      .error(function(err) {
+        defered.reject(err);
+      });
+      return promise;
+    },
+
+    getProyectos: function() {
+      var defered = $q.defer();
+      var promise = defered.promise;
+      $http.get(url_gastos + 'proyecto')
+      .success(function(data) {
+        defered.resolve(data);
+        // console.log("httpFactory " + data);
+      })
+      .error(function(err) {
+        defered.reject(err);
+      });
+      return promise;
+    },
+
+    getTiposGasto: function() {
+      var defered = $q.defer();
+      var promise = defered.promise;
+      $http.get(url_gastos + 'tipogastos')
+      .success(function(data) {
+        defered.resolve(data);
+        // console.log("httpFactory " + data);
+      })
+      .error(function(err) {
+        defered.reject(err);
+      });
+      return promise;
+    },
+
     setGuardarGastos: function(descripcion,gastoid,bill_cliente,reembolsable,fecha_factura,num_factura,moneda,proveedor,monto_igv,otro_impuesto,numero,fecha) {
       var defered = $q.defer();
       var promise = defered.promise;
@@ -82,19 +124,6 @@ var publico = {
       return promise;
     },
 
-    getTiposGasto: function() {
-      var defered = $q.defer();
-      var promise = defered.promise;
-      $http.get(url_gastos + 'tipogasto')
-      .success(function(data) {
-        defered.resolve(data);
-        console.log("httpFactory " + data);
-      })
-      .error(function(err) {
-        defered.reject(err);
-      });
-      return promise;
-    },
 
 }
 

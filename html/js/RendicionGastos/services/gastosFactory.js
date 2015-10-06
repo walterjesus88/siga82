@@ -93,9 +93,19 @@ app.factory('gastosFactory', ['httpFactory', '$location', '$q',
     },
 
 
-    setTipoGasto: function(gastoid) {
-      datos.listagastos = gastoid;
-      console.log("gastosFactory " + gastoid)
+    setCliente: function(listaclientes) {
+      datos.listaclientes = listaclientes;
+      // console.log("gastosFactory " + listagastos)
+    },
+
+    setProyecto: function(listaproyectos) {
+      datos.listaproyectos = listaproyectos;
+      // console.log("gastosFactory " + listagastos)
+    },
+
+    setTipoGasto: function(listagastos) {
+      datos.listagastos = listagastos;
+      // console.log("gastosFactory " + listagastos)
     },
 
   }
