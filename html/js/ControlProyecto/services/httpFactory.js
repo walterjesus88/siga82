@@ -492,10 +492,10 @@ app.factory('httpFactory', ['$http','$q', function($http,$q) {
 
   /////////////////////// F I N  F E C H A  C O R T E /////////////////////////
  ///////////////////// L I S T A  D E  E N T R E G A B L E S /////////////////////////
-    createPdfEntregable: function(revision) {
+    createPdfEntregable: function(proyectoid,revision) {
       var defered = $q.defer();
       var promise = defered.promise;
-      $http.get(url_print + 'imprimirentregables/revision/' + revision)
+      $http.get(url_print + 'imprimirentregables/revision/' + revision+'/proyectoid/'+proyectoid)
       .success(function(data) {
         defered.resolve(data);
       })

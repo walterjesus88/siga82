@@ -2097,7 +2097,11 @@ va.GuardarEntregable=function(){
 }
 
 va.imprimir=function(){
-  httpFactory.createPdfEntregable('A')
+  console.log(va.revisionE);
+  proyectoid=va.revisionE['proyectoid'];
+  revision=va.revisionE['revision_entregable'];
+
+  httpFactory.createPdfEntregable(proyectoid,revision)
   .then(function(data) {
     //console.log(data);
     window.open(data.archivo, '_blank');
