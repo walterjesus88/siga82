@@ -5,15 +5,15 @@ if ($this->equipo) {
     <!-- <form  name="f2">-->
 
     
-    <div style="overflow:scroll; height:500px">
+    <div >
 
         <div>   
             <a href="/proyecto/index/asignaractividad/proyectoid/<?php echo $this->proyectoid ?>/codigo_prop_proy/<?php echo $this->codigo_prop_proy ?>/areaid/<?php echo $this->areaid ?>"> </a>
 
 
 
-            <table id="" border="1px" class="fancyTable">
-                <thead>
+            <table id="" border="1px" style="font-size:12px; padding:0px" class="fht-table">
+                <thead style="height:10px">
                     <tr >
                         <th >
                             <center>Actividades</center>
@@ -35,7 +35,7 @@ if ($this->equipo) {
                            if ($contador_tabla == 0) 
                            { ?>
 
-                                <th border="1px" id="nomact_<?php echo $c?>">
+                                <th border="1px" id="nomact_<?php echo $c?>" style="font-size:12px; padding:0px">
 
                                     <center>
 
@@ -72,7 +72,7 @@ if ($this->equipo) {
                            <?php } else 
                            { ?>
 
-                                <th id="nomact_<?php echo $c?>">
+                                <th id="nomact_<?php echo $c?>" style="font-size:12px; padding:0px">
 
                                     <center>
 
@@ -131,8 +131,8 @@ if ($this->equipo) {
         foreach ($this->actividades as $listaactividad)
         {
             ?>
-            <tr>
-                <td id="nomact_<?php echo $c?>">
+            <tr style="font-size:12px; padding:0px">
+                <td id="nomact_<?php echo $c?>" style="font-size:12px; padding:0px">
 
                     <?php
                     if ($listaactividad['hijo']=='S')
@@ -161,7 +161,7 @@ if ($this->equipo) {
                     $activar= $act->_getOne($wheres);
                           // print_r($activar);
                     ?>
-                    <td> <center>
+                    <td style="font-size:12px; padding:0px"> <center>
 
                       <?php
                       if($listaactividad['hijo']=='N')
@@ -251,6 +251,7 @@ if ($this->equipo) {
                     $i++;
                 }
                 ?>
+            
             </tr>
             <?php $c++;
         }        }  else {?>
