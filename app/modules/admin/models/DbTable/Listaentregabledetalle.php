@@ -77,8 +77,12 @@ class Admin_Model_DbTable_Listaentregabledetalle extends Zend_Db_Table_Abstract
         $query1 = "select led.estado_entregable,led.codigo_prop_proy,led.cod_le, led.proyectoid, led.revision_documento as
         revision_entregable, led.edt, led.tipo_documento, led.disciplina,
         led.codigo_anddes, led.codigo_cliente, led.descripcion_entregable,
-        led.estado as estado_revision, led.clase, led.fecha_a, led.fecha_b, led.fecha_0,led.estado_entregable
+        led.estado as estado_revision, led.clase, led.fecha_a, led.fecha_b, led.fecha_0,led.estado_entregable,a.nombre,ed.nombre_edt
         from lista_entregable_detalle as led
+        inner join area as a
+        on led.disciplina=a.areaid
+        inner join proyecto_edt as ed
+        on led.edt=ed.codigo_edt and led.proyectoid=ed.proyectoid
         where led.proyectoid = '".$proyectoid."' and led.revision_entregable = '".$revision."'
         and led.clase = 'Tecnico'
         and led.estado = 'Ultimo'  and  led.estado_entregable not in (10,11)" ;

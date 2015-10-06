@@ -86,10 +86,10 @@ function noMonth(){
           <div class="input-group">
             <div class="panel">
               <div class="panel-heading">
-              <div class="col-xs-2" >
+                <div class="col-xs-2" >
                   <span class="input-group-addon">Cliente</span>
                   <!-- <input type="text" class="form-control input-sm" placeholder='clienteid' name='clienteid' data-ng-model="vrg.clienteid"  required data-ng-class='{error: validinput.clienteid.$invalid && !validinput.$pristine}'> -->
-                  <select class="form-control input-sm chosen-select" chosen option="clientes" ng-model="vrg.cliente" ng-options="tipo.clientes as tipo.nombre_comercial for tipo in vrg.clientes"></select>
+                  <select class="form-control input-sm chosen-select" chosen option="clientes" ng-model="vrg.cliente" ng-options="tipo.clientes as tipo.clientes for tipo in vrg.clientes"></select>
                 </div>
                 <div class="col-xs-2" >
                   <span class="input-group-addon">Proyecto</span>
@@ -193,7 +193,7 @@ function noMonth(){
           <div>
             <thead>
               <th style="width: 1%;">Id</th>
-              <th style="width: 10%;">Cliente</th>
+              <!-- <th style="width: 10%;">Cliente</th> -->
               <th style="width: 10%;">Proyecto</th>
               <th style="width: 10%;">Descripcion</th>
               <th style="width: 5%;">Gastos</th>
@@ -215,11 +215,11 @@ function noMonth(){
                  {{$index + 1}}
                </span>
              </td>
-             <td>
-                <span editable-text="rendiciones.clienteid" e-from="tableform" e-required>
+           <!--   <td>
+                <span editable-select="rendiciones.clienteid" e-from="tableform" >
                  {{rendiciones.clienteid}}
                </span>
-             </td>
+             </td> -->
              <td>
               <span editable-select="rendiciones.proyectoid" e-from="tableform" e-ng-options="tipo.proyectos as tipo.proyectoid for tipo in vrg.proyectos" >
                 {{rendiciones.proyectoid}}
@@ -231,7 +231,7 @@ function noMonth(){
               </span>
             </td>
             <td>
-              <span editable-text="rendiciones.gastoid" e-from="tableform" >
+              <span editable-select="rendiciones.gastoid" e-from="tableform" e-ng-options="tipo.listagastos as tipo.nombre_gasto for tipo in vrg.listagastos">
                 {{rendiciones.gastoid}}
               </span>
             </td>
@@ -282,8 +282,8 @@ function noMonth(){
             </td>
             <td>
               <span text="rendiciones.monto_total" e-from="tableform">
-                <!-- {{rendiciones.monto_total}} -->
-                {{rendiciones.monto_igv+rendiciones.otro_impuesto}}
+                {{rendiciones.monto_total}}
+                <!-- {{rendiciones.monto_igv+rendiciones.otro_impuesto}} -->
               </span>
             </td>
           </tr>
