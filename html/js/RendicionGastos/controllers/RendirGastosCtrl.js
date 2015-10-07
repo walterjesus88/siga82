@@ -107,6 +107,7 @@ httpFactory.getTiposGasto()
 
 
 
+
 vrg.CancelarRendir=function(){
   vrg.formVisibilityRendir=false;
 }
