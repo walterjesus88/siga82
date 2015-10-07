@@ -828,11 +828,9 @@ va.checkName=function(data, id)
 
   //alert(cadena);
   if(cadena==null || cadena=='')
-  {
-       // alert(' es null ');
-       // alert(f_comienzo);
-       // alert(f_fin);
-
+  {   // alert(' es null ');
+      // alert(f_comienzo);
+      // alert(f_fin);
       if(f_comienzo==null && f_fin==null)
       {
         f_comienzo='';
@@ -1791,13 +1789,13 @@ proyectoFactory.getDisciplinaxProyecto(proyecto['codigo'])
        
 });
 
-/*va.showDisciplina = function(lista) {
+va.showDisciplina = function(lista) {
   var selected = [];
   if(lista.disciplina) {
     selected = $filter('filter')(va.disciplina, {areaid: lista.disciplina});
   }
   return selected.length ? selected[0].nombre : 'editar disciplina';
-};*/
+};
 
 va.ShowFormEdt=function(){ 
   va.formVisibilityEdt=true;    
@@ -2097,15 +2095,21 @@ va.GuardarEntregable=function(){
       console.log("error al cargar entregable");
   }); 
 }
-// va.imprimir=function(){
-//   httpFactory.createPdfEntregable('A')
-//   .then(function(data) {
-//     //console.log(data);
-//     window.open(data.archivo, '_blank');
-//   })
-//   .catch(function(err) {
-//   });
-// }
+
+va.imprimir=function(){
+  console.log(va.revisionE);
+  proyectoid=va.revisionE['proyectoid'];
+  revision=va.revisionE['revision_entregable'];
+
+  httpFactory.createPdfEntregable(proyectoid,revision)
+  .then(function(data) {
+    //console.log(data);
+    window.open(data.archivo, '_blank');
+  })
+  .catch(function(err) {
+  });
+}
+
 va.desabilitar=1;
 
 va.CambiarEstadoListaEntregable = function(value)
