@@ -1,0 +1,74 @@
+<?php
+error_reporting(E_ALL);
+ini_set('display_errors', TRUE);
+ini_set('display_startup_errors', TRUE);
+/** Include PHPExcel */
+$PHPexcel = APPLICATION_LIBRARY . "/PHPExcel1.8/Classes/PHPExcel.php";
+include ($PHPexcel);
+$objPHPExcel = new PHPExcel();
+
+$objPHPExcel->setActiveSheetIndex(0);
+$objPHPExcel->getActiveSheet()
+            ->setCellValue('A1', 'Proyecto Id')
+            ->setCellValue('B1', 'Gastos')
+            ->setCellValue('C1', 'Usuario Id')
+            ->setCellValue('D1', 'Usuario')
+            ->setCellValue('F1', 'N° Rendición')
+            ->setCellValue('G1', 'Descripción')
+            ->setCellValue('H1', 'N° Documento')
+            ->setCellValue('I1', 'Can.')
+            ->setCellValue('J1', 'Proveedor')
+            ->setCellValue('K1', 'Neto')
+            ->setCellValue('L1', 'Otro imp.')
+            ->setCellValue('M1', 'IGV (18%)')
+            ->setCellValue('N1', 'Total')
+            ->setCellValue('O1', 'Fecha Incurrida')
+            ->setCellValue('P1', 'Titulo Incurrida')
+            ->setCellValue('Q1', 'Fecha Rendición')
+            ->setCellValue('R1', 'Unidad Minera')
+            ->setCellValue('S1', 'Proyecto');
+
+$person_charges = new Reporte_DataTable_Personcharge();
+$data = $person_charges->person_charges($this->params);
+$objPHPExcel->getActiveSheet()->setTitle('Reporte HT');
+$row = 1;
+for ($i = 0; $i < count($data); $i++) {
+  $row += 1;
+  $objPHPExcel->getActiveSheet()
+              ->setCellValue( 'A' . $row, $data[$i]['proyectoid'])
+              ->setCellValue( 'B' . $row, $data[$i]["gastoid"])
+              ->setCellValue( 'C' . $row, $data[$i]["uid"])
+              ->setCellValue( 'D' . $row, $data[$i]["uid"])
+              ->setCellValue( 'F' . $row, $data[$i]["numero_rendicion"])
+              ->setCellValue( 'G' . $row, $data[$i]["descripcion"])
+              ->setCellValue( 'H' . $row, $data[$i]["num_factura"])
+              ->setCellValue( 'I' . $row, $data[$i]["num_factura"])
+              ->setCellValue( 'J' . $row, $data[$i]["proveedor"])
+              ->setCellValue( 'K' . $row, $data[$i]["monto_total"])
+              ->setCellValue( 'L' . $row, $data[$i]["otro_impuesto"])
+              ->setCellValue( 'M' . $row, $data[$i]["monto_igv"])
+              ->setCellValue( 'N' . $row, $data[$i]["monto_total"])
+              ->setCellValue( 'O' . $row, $data[$i]["fecha_gasto"])
+              ->setCellValue( 'P' . $row, $data[$i]["estado_rendicion"])
+              ->setCellValue( 'Q' . $row, $data[$i]["estado_rendicion"])
+              ->setCellValue( 'R' . $row, $data[$i]["fecha_rendicion"])
+              ->setCellValue( 'S' . $row, $data[$i]["nombre_proyecto"]);
+}
+
+$objPHPExcel->setActiveSheetIndex(0);
+header('Content-Type: application/vnd.ms-excel');
+header('Content-Disposition: attachment;filename="Reporte HT Rev B.xls"');
+header('Cache-Control: max-age=0');
+// If you're serving to IE 9, then the following may be needed
+header('Cache-Control: max-age=1');
+
+// If you're serving to IE over SSL, then the following may be needed
+header ('Expires: Mon, 26 Jul 1997 05:00:00 GMT'); // Date in the past
+header ('Last-Modified: '.gmdate('D, d M Y H:i:s').' GMT'); // always modified
+header ('Cache-Control: cache, must-revalidate'); // HTTP/1.1
+header ('Pragma: public'); // HTTP/1.0
+
+$objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
+$objWriter->save('php://output');
+exit;
+

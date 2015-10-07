@@ -2,14 +2,28 @@
 obtener la lista de proyectos, proyectoFactory para crear objetos de la clase
 Proyecto*/
 
-app.controller('ProyectoCtrl', ['httpFactory', 'proyectoFactory',
-function(httpFactory, proyectoFactory) {
+app.controller('ProyectoCtrl', ['httpFactory', 'proyectoFactory','$filter',
+function(httpFactory, proyectoFactory,$filter) {
 
   /*referencia del scope y  los arrays que contendra a los proyectos y a los
   integrantes de control documentario*/
   var vp = this;
   vp.proyectos = [];
   vp.control_documentario = [];
+
+
+  var isproyecto='S';
+
+  httpFactory.getAreas(isproyecto)
+    .then(function(data) {
+      vp.area=data;
+      //console.log(vp.area); 
+      })
+    .catch(function(err) {
+      vp.area = [];
+    });
+
+
 
   //funcion para obtener los proyectos del servidor
   var listarProyectos = function(estado) {
@@ -22,12 +36,50 @@ function(httpFactory, proyectoFactory) {
           item.nombre, item.gerente, item.control_proyecto,
           item.control_documentario, item.estado);
         vp.proyectos.push(proyecto);
+       // console.log(data);
+
       });
     })
     .catch(function(err) {
       vp.proyectos = [];
     });
   }
+
+
+  vp.estadoproyecto = [
+    {value: 'A', text: 'Activo'},
+    {value: 'C', text: 'Cerrado'},   
+    {value: 'CA', text: 'Cancelado'},   
+    {value: 'P', text: 'Paralizado'},   
+  ]; 
+
+  vp.cambiarEstadoProyecto= function(index,estado)  
+  {
+
+    // console.log(proyecto['codigo']);
+    // console.log(proyecto['estado']);
+     //console.log(vp.estado);
+
+    // proyectoFactory.setDatosxCambiarxEstadoproyecto(proyecto['codigo'],proyecto['estado'],proyecto['codigo_prop_proy'])
+    // .then(function(data) {
+    //     alert('Estado del Proyecto cambiado');
+          
+    //     //vp.proyectos.splice(index, 1); 
+    // })
+    // .catch(function(err) {
+                
+    // });
+
+  }
+
+  vp.showEstadoproyecto = function(proyecto) {
+    var selected = [];
+    if(proyecto.estado) {
+      selected = $filter('filter')(vp.estadoproyecto, {value: proyecto.estado});
+    }
+    return selected.length ? selected[0].text : 'Not set';
+  };
+
 
   //carga inicial de integrantes de control documentario
   // httpFactory.getIntegrantes()

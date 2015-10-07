@@ -1,0 +1,195 @@
+ <!-- INICIO DE LA TABLA DE PRUEBA UNIDAD MINERA EN ANGULAR-->
+ <div class="panel">
+ <section class="panel">
+ <header class="panel-heading">
+ <h2>Lista de Unidad Minera</h2>
+
+
+
+ <div class="btn-edit">
+  <button type="button" class="btn btn-default" ng-show="!tableform.$visible" ng-click="tableform.$show(); vum.CancelarUnidadMinera()">
+    editar
+  </button>
+  <button class="btn btn-primary" ng-click="vum.ShowFormUnidadMinera()" ng-hide="vum.formVisibilityUnidadMinera; vum.tableVisibilityUnidadMinera" ng-show="!tableform.$visible">Agregar Unidad Minera</button>
+</div>
+<!-- inicio del formulario para ingresar datos -->
+  <div class="form-group ">
+    <div ng-show="vum.formVisibilityUnidadMinera"  >
+      <form name='validinput'>
+        <div class="input-group">
+          <div class="panel">
+          <div class="panel-heading">
+            <div class="col-xs-3" >
+              <span class="input-group-addon">ID</span>
+              <input type="text" class="form-control input-sm" placeholder='unidad_mineraid' name='unidad_mineraid' data-ng-model="vum.unidad_mineraid"  required data-ng-class='{error: validinput.unidad_mineraid.$invalid && !validinput.$pristine}'>
+            </div>
+            <div class="col-xs-3" >
+              <span class="input-group-addon">Ruc</span>
+              <input type="text" class="form-control input-sm" placeholder='clienteid' name='clienteid' data-ng-model="vum.clienteid"  required data-ng-class='{ error: validinput.clienteid.$invalid && !validinput.$pristine }'>
+
+             <!--  <select id="vc.ruc" class="form-control input-sm" placeholder='ruc' name='ruc' data-ng-model="vc.ruc" data-ng-options="c.nombre_comercial for c in vc.cliente">
+              <option value="vc.ruc">Seleccione...</option>
+              </select>
+
+              <select class="form-control" ng-model="areapadre.nombre"
+            ng-options="areapadre.areaid as areapadre.nombre for areapadre in va.area">
+            </select> -->
+
+            </div>
+            <div class="col-xs-3" >
+              <span class="input-group-addon">Nombre</span>
+              <input type="text" class="form-control input-sm" placeholder='nombre' name='nombre' data-ng-model="vum.nombre"  required data-ng-class='{ error: validinput.nombre.$invalid && !validinput.$pristine }'>
+            </div>
+            <div class="col-xs-3" >
+              <span class="input-group-addon">Estado</span>
+              <input type="text" class="form-control input-sm" placeholder='estado' name='estado' data-ng-model="vum.estado"  required data-ng-class='{ error: validinput.estado.$invalid && !validinput.$pristine }'>
+            </div>
+            <div class="col-xs-3" >
+              <span class="input-group-addon">Dirección</span>
+              <input type="text" class="form-control input-sm" placeholder='direccion' name='direccion' data-ng-model="vum.direccion"/>
+            </div>
+            <div class="col-xs-3" >
+              <span class="input-group-addon">Pais</span>
+              <input type="text" class="form-control input-sm" placeholder='paisid' name='paisid' data-ng-model="vum.paisid"/>
+            </div>
+            <div class="col-xs-3" >
+              <span class="input-group-addon">Departamento</span>
+              <input type="text" class="form-control input-sm" placeholder='departamentoid' name='departamentoid' data-ng-model="vum.departamentoid"/>
+            </div>
+            <div class="col-xs-3" >
+              <span class="input-group-addon">Distrito</span>
+              <input type="text" class="form-control input-sm" placeholder='distritoid' name='distritoid' data-ng-model="vum.distritoid"/>
+            </div>
+            <div class="col-xs-3" >
+              <span class="input-group-addon">Tag</span>
+              <input type="text" class="form-control input-sm" placeholder='tag' name='tag' data-ng-model="vum.tag"/>
+            </div>
+            <div class="col-xs-3" >
+              <span class="input-group-addon">Unidad Minera</span>
+              <input type="text" class="form-control input-sm" placeholder='isunidadminera' name='isunidadminera' data-ng-model="vum.isunidadminera"/>
+            </div>
+
+          </div>
+          </div>
+        </div>
+
+
+      <div class="panel-heading col-md-6">
+        <div class="btn-group">
+          <button class="btn btn-warning" ng-click="vum.GuardarUnidadMinera()" data-ng-disabled='!validinput.$valid'>Guardar</button>
+          <button class="btn btn-danger" ng-click="vum.CancelarUnidadMinera()">Cancelar</button>
+        </div>
+      </div>
+
+    </form>
+    </div>
+  </div>
+<!-- fin del formulario para ingresar datos -->
+
+
+</section>
+
+
+<!-- inicio del formulario para modificar datos -->
+<div class="panel-heading">
+<form method="POST" action="#" editable-form name="tableform" onaftersave="vum.ModificarUnidadMinera()" oncancel="cancel()" >
+
+<section class="panel-heading">
+<div class="btn-form" ng-show="tableform.$visible">
+  <div class="btn-group">
+    <button type="submit" ng-disabled="tableform.$waiting" class="btn btn-success">guardar</button>
+    <button type="button" ng-disabled="tableform.$waiting" ng-click="tableform.$cancel()" class="btn btn-danger">cancelar</button>
+    </div>
+</div>
+
+
+
+</section>
+
+<font size=1>
+<table datatable="ng" class="table table-condensed table-hover p-table dataTables_wrappe table-striped">
+<div>
+  <thead>
+    <th style="width: 5%;">ID</th>
+    <th style="width: 5%;">RUC</th>
+    <th style="width: 5%;">NOMBRE</th>
+    <th style="width: 5%;">ESTADO</th>
+    <th style="width: 5%;">DIRECCION</th>
+    <th style="width: 5%;">PAIS</th>
+    <th style="width: 5%;">DEPARTAMENTO</th>
+    <th style="width: 5%;">DISTRITO</th>
+    <th style="width: 5%;">TAG</th>
+    <th style="width: 5%;">UNIDAD MINERA</th>
+  </thead>
+
+
+  <tr ng-repeat="unidadmineras in vum.unidadminera track by $index">
+    <td>
+      <span editable-text="unidadmineras.unidad_mineraid" e-from="tableform" e-required >
+        {{unidadmineras.unidad_mineraid}}
+      </span>
+    </td>
+    <td>
+      <span editable-text="unidadmineras.clienteid" e-from="tableform" e-required>
+         {{unidadmineras.clienteid}}
+      </span>
+    </td>
+    <td>
+      <span editable-text="unidadmineras.nombre" e-from="tableform" e-required>
+        {{unidadmineras.nombre}}
+      </span>
+    </td>
+    <td>
+      <span editable-text="unidadmineras.estado" e-from="tableform" e-required>
+        {{unidadmineras.estado}}
+      </span>
+    </td>
+    <td>
+      <span editable-text="unidadmineras.direccion" e-from="tableform">
+        {{unidadmineras.direccion}}
+      </span>
+    </td>
+    <td>
+      <span editable-text="unidadmineras.paisid" e-from="tableform">
+        {{unidadmineras.paisid}}
+      </span>
+    </td>
+    <td>
+      <span editable-text="unidadmineras.departamentoid" e-from="tableform">
+        {{unidadmineras.departamentoid}}
+      </span>
+    </td>
+    <td>
+      <span editable-text="unidadmineras.distritoid" e-from="tableform">
+        {{unidadmineras.distritoid}}
+      </span>
+    </td>
+    <td>
+      <span editable-text="unidadmineras.tag" e-from="tableform">
+        {{unidadmineras.tag}}
+      </span>
+    </td>
+    <td>
+      <span editable-text="unidadmineras.isunidadminera" e-from="tableform">
+        {{unidadmineras.isunidadminera}}
+      </span>
+    </td>
+  </tr>
+
+</table>
+</font>
+
+<section class="panel-heading">
+
+</section>
+
+</form>
+</div>
+
+<section class="panel-heading">
+<div class="btn-edit">
+
+</div>
+</section>
+<!-- fin del formulario para modificar datos -->
+</div>

@@ -11,11 +11,11 @@
     <span class="pull-right">
     </span>
     <span class="pull-right">
-    <a href="/proyecto/control/index" class=" btn btn-primary btn-sm" > Volver</a> 
-   
+    <a href="/proyecto/index/listar" class=" btn btn-primary btn-sm" > Volver</a> 
+
   </span>
   </header>
-   
+
 
 </section>
 <div class="row">
@@ -73,11 +73,11 @@
 
 
 <section>
-    <div ng-app="moduloCp">
+    <!-- <div ng-app="moduloCp">
               <div ng-view>
 
               </div>
-            </div>
+            </div> -->
 
             <script type="text/javascript" src="/js/angular-route.js"></script>
             <script type="text/javascript" src="/js/Chart.js"></script>
@@ -219,7 +219,7 @@
                 $actividadpadre= new Admin_Model_DbTable_Actividad();
                 $list=$actividadpadre->_getActividadesPadresxReplicon($this->proyecto['proyectoid'],$this->proyecto['codigo_prop_proy'],$this->proyecto['propuestaid'],$this->proyecto['revision']);
               ?>
-              <table class="table table-hover p-table">
+       <!--        <table class="table table-hover p-table">
                 <thead>
                   <tr>
                     <th style="width: 10%;">Id</th>
@@ -254,14 +254,136 @@
             <!--llamar al modulo control de proyecto angular -->
     
              <!-- --> 
-          </div>
+        <!--  </div>
         </div>
       </div>
     </section>
+  </div> -->
+
+                        <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="false">
+
+                        <?php 
+                        $actividadpadre= new Admin_Model_DbTable_Actividad();
+                        $listactpadre=$actividadpadre->_getActividadesPadresxOrden($this->proyecto['proyectoid'],$this->proyecto['codigo_prop_proy'],$this->proyecto['propuestaid'],$this->proyecto['revision']);
+
+                        foreach ($listactpadre as $actividad_padre ) {
+                          
+                        ?>
+  <div class="panel panel-primary" >
+    <div class="panel-heading" role="tab" id="<?php print_r($actividad_padre['actividadid']); ?>" >
+      <h4 class="panel-title" style="color: #fff;">
+        <a role="button" data-toggle="collapse" data-parent="#accordion" href="#<?php echo"hijos_";print_r($actividad_padre['actividadid']); ?>" aria-expanded="false" aria-controls="<?php echo"hijos_";print_r($actividad_padre['actividadid']); ?>">
+          <?php 
+                print_r($actividad_padre['nombre']); 
+          ?>
+        </a>
+        <span class="pull-right">
+          <?php
+            if($actividad_padre['estado_mostrar']=='A' )
+                              {
+                                 // print_r(strlen($activar['actividadid']));
+                                 ?>
+                                  <input id="agrega_<?php print_r($actividad_padre['actividadid'])?><?php ?>" type="checkbox"  checked="checked" name="agrega[<?php print_r($actividad_padre['actividadid'])?>]" value="<?php print_r($actividad_padre['actividadid']) ?>">
+
+                                <?php 
+                              }
+                              else
+                              { ?>
+
+                                <input id="agrega_<?php print_r($actividad_padre['actividadid'])?><?php ?>" type="checkbox"  name="agrega[<?php print_r($actividad_padre['actividadid'])?>]" value="<?php print_r($actividad_padre['actividadid']) ?>">
+
+                                <?php
+                              }
+?>
+        
+        </span>
+
+      </h4>
+
+    </div>
+
+       <script type="text/javascript">
+                                $("#agrega_<?php print_r($actividad_padre['actividadid'])?>").click(function(){
+                                
+                                if($("#agrega_<?php print_r($actividad_padre['actividadid'])?>").is(':checked')) {
+                                    estado='A';
+                                    console.log('act');
+                                } else {
+                                    estado='I';
+                                    console.log('desact');
+                                }
+                                
+                        
+                                var proyectoid="<?php print_r($this->proyecto['proyectoid']) ?>";
+                                var codigo_prop_proy="<?php print_r($this->proyecto['codigo_prop_proy']) ?>";
+                                var revision="<?php print_r($this->proyecto['revision']) ?>";
+                                var actividad_padre="<?php print_r($actividad_padre['actividadid']) ?>";
+                                var codigo_actividad="<?php print_r($actividad_padre['codigo_actividad']) ?>";
+                                
+                                url="/proyecto/index/estadomostraractividad/proyectoid/"+proyectoid+"/codigo_prop_proy/"+ codigo_prop_proy+"/revision/"+revision+"/actividad_padre/"+actividad_padre+"/codigo_actividad/"+codigo_actividad+"/estadomostrar/"+estado;
+                                
+
+
+                                //$("#cargact").load(url);
+
+                                $.ajax({
+                                    type: "POST",
+                                    url: url,
+                                    data: $(this).serialize(),
+                                    dataType: "html",
+                                    // error: function(){
+                                    //   alert("error petición ajax load");
+                                    // },
+                                    success: function(data){
+                                    }
+                               });
+                           });
+                          </script>
+
+
+    <div id="<?php echo"hijos_";print_r($actividad_padre['actividadid']); ?>" class="panel-collapse collapse" role="tabpanel" aria-labelledby="<?php print_r($actividad_padre['actividadid']); ?>">
+      <div class="panel-body">
+          <ul class="list-group">
+        <?php 
+        $listacthijas=$actividadpadre->_getActividadesHijasxOrden($this->proyecto['proyectoid'],$this->proyecto['codigo_prop_proy'],$this->proyecto['propuestaid'],$this->proyecto['revision'],$actividad_padre['actividadid']);
+
+                        foreach ($listacthijas as $actividad_hijas ) {?>
+                          
+
+  <li class="list-group-item"><?php 
+
+  print_r($actividad_hijas['nombre']); ?></li>
+
+
+
+
+                          <?php
+                        }
+        ?>
+        </ul>
+      </div>
+    </div>
   </div>
-
-
-
+<?php }?>
+</div>
+                    </div>
+                </div>
+            <div id="gastos" class="tab-pane">
+                <div class="panel-body">
+                </div>
+            </div>
+            <div id="laboratorio" class="tab-pane">
+                <div class="panel-body">
+                    laboratorio
+                </div>
+            </div>
+            <div id="rates" class="tab-pane">
+                <!--llamar al modulo control de proyecto angular -->    <!-- --> 
+            </div>
+                    </div>
+      </div>
+    </section>
+  </div>
 
 
 
@@ -299,9 +421,9 @@
                     <option value="<?php echo $data_area['areaid'].";-;".$data_area['nombre']?>"><?php  echo $data_area['nombre']?></option>
                       <?php }?>
                     </select>
-                    <select id="function" class="form-control input-sm m-bot15 col-lg-10">
-                        <option value="SOPORTE">Soporte</option>
+                    <select id="function" class="form-control input-sm m-bot15 col-lg-10" disabled>
                         <option value="PROYECTO">Proyecto</option>
+                        <option value="SOPORTE">Soporte</option>
               </select>
 
                     <input value="Guardar" type="submit" />
@@ -335,7 +457,7 @@
                       </a>
                       <span class="pull-right">
                         <a class="btn btn-info btn-xs" id="anadir_<?php echo $i?>" href="#" proyectoid="<?php echo $this->proyecto['proyectoid']?>"  codigo-prop-proy="<?php echo $this->proyecto['codigo_prop_proy'] ?>" areaid="<?php print_r($lista['areaid'])?>">+ </a>
-                        <a class="btn btn-danger btn-xs" id="asigna_<?php echo $i?>" href="#" proyectoid="<?php echo $this->proyecto['proyectoid']?>"  codigo-prop-proy="<?php echo $this->proyecto['codigo_prop_proy'] ?>" areaid="<?php print_r($lista['areaid'])?>">H </a>
+                        <a class="btn btn-danger btn-xs" id="asigna_<?php echo $i?>" href="#" proyectoid="<?php echo $this->proyecto['proyectoid']?>"  codigo-prop-proy="<?php echo $this->proyecto['codigo_prop_proy'] ?>" areaid="<?php print_r($lista['areaid'])?>" >H </a>
                       </span>
                     </h4>
                   </div>
@@ -742,7 +864,7 @@
             '<td><input style="display:none" type="text" name="areaidx" id="areaidx" value="areacat.trim()" size="5"</td>';
 
                               //nodoTr.innerHTML = nuevoCodigoHtml;
-            $('#accordion').prepend($(nuevoCodigoHtml).fadeIn());
+            //$('#accordion').prepend($(nuevoCodigoHtml).fadeIn());
         }
 
     </script>
@@ -854,12 +976,13 @@
 
 <div class="modal fade" id="modalperson" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg">
+  <div class="">
     <div class="modal-content" style="width: 100%; top: 100%;  ">
       <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true" scrollbars=1>&times;</button>
           <h4 class="modal-title">Asignar Personas a una Actividad</h4>
       </div>
-      <div class="modal-body" style="padding-bottom: 1px;padding-top: 1px;padding-left: 1px;padding-right: 1px;">
+      <div class="modal-body" >
         <div id="modaltimes"></div>
       </div>
       <div class="modal-footer">
@@ -867,8 +990,10 @@
 
       </div>
     </div>
+    </div>
   </div>
 </div>
+
 
 <script type="text/javascript">
 

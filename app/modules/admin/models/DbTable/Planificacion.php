@@ -1,8 +1,24 @@
-<?php 
+<?php
 class Admin_Model_DbTable_Planificacion extends Zend_Db_Table_Abstract
 {
+    const ENVOY = 'E';
+    const APROVED_J_I = 'A';
+    const APROVED_G_P = 'AGP';
+    const AFFCAST_R_P = 'RGP';
+    const AFFCAST = 'R';
+    const STATUS_D = "D";
+    public $status = array(self::ENVOY => "Enviado para aprobacion jefe inmediato",
+                            self::APROVED_J_I => "Aprobado Jefe Inmediato",
+                            self::APROVED_G_P => "Aprobado Gerente Proyecto",
+                            self::AFFCAST_R_P => "Rechazado Gerente Proyecto",
+                            self::AFFCAST     => "Rechazado por Jefe inmediato",
+                            self::STATUS_D     => "No llena hoja de tiempo");
+
+    public function _getStatusName($status){
+        return (is_null($status))? $this->status["D"] : $this->status[$status];
+    }
     protected $_name = 'planificacion';
-    protected $_primary = array("codigo_prop_proy","proyectoid","semanaid","uid","dni","categoriaid","areaid","cargo");   
+    protected $_primary = array("codigo_prop_proy","proyectoid","semanaid","uid","dni","categoriaid","areaid","cargo");
      /* Lista toda las Personas */
     public function _getFilter($where=null,$attrib=null,$orders=null){
         try{
@@ -12,7 +28,7 @@ class Admin_Model_DbTable_Planificacion extends Zend_Db_Table_Abstract
                 else $select->from("planificacion",$attrib);
                 //print_r($where);
                 foreach ($where as $atri=>$value){
-                    $select->where("$atri = ?", $value);                    
+                    $select->where("$atri = ?", $value);
                 }
                 if ($orders<>null || $orders<>"") {
                     if (is_array($orders))
@@ -27,7 +43,7 @@ class Admin_Model_DbTable_Planificacion extends Zend_Db_Table_Abstract
             print "Error: Read Filter competencia ".$e->getMessage();
         }
     }
- 
+
     public function _save($data)
     {
         try{
@@ -42,7 +58,7 @@ class Admin_Model_DbTable_Planificacion extends Zend_Db_Table_Abstract
     public function _getOne($where=array()){
         try {
             //if ($where["dni"]=='') return false;
-            $wherestr="semanaid = '".$where['semanaid']."' and uid = '".$where['uid']."' and dni = '".$where['dni']."' and cargo = '".$where['cargo']."' 
+            $wherestr="semanaid = '".$where['semanaid']."' and uid = '".$where['uid']."' and dni = '".$where['dni']."' and cargo = '".$where['cargo']."'
                  and categoriaid = '".$where['categoriaid']."' and areaid = '".$where['areaid']."' and codigo_prop_proy = '".$where['codigo_prop_proy']."'
                  and proyectoid = '".$where['proyectoid']."' ";
 
@@ -60,10 +76,10 @@ class Admin_Model_DbTable_Planificacion extends Zend_Db_Table_Abstract
             $sql=$this->_db->query("
                select * from planificacion
                where semanaid='$semanaid'  and uid='$uid' and dni='$dni' and areaid='$areaid'
-               
+
             ");
             $row=$sql->fetchAll();
-            return $row;     
+            return $row;
 
         } catch (Exception $e) {
             print "Error: Read One Condition".$e->getMessage();
@@ -74,15 +90,15 @@ class Admin_Model_DbTable_Planificacion extends Zend_Db_Table_Abstract
     public function _getOnexSemanaxGerenteProyecto($semanaid,$uid,$dni,$areaid){
         try {
             $sql=$this->_db->query("
-                select distinct e.uid,e.dni from planificacion as p inner join equipo as e  
-                on e.codigo_prop_proy=p.codigo_prop_proy and e.proyectoid=p.proyectoid and e.nivel='0' 
-                where p.semanaid='$semanaid'  and p.uid='$uid' and p.dni='$dni' and p.proyectoid!='1'and p.areaid='$areaid' 
+                select distinct e.uid,e.dni from planificacion as p inner join equipo as e
+                on e.codigo_prop_proy=p.codigo_prop_proy and e.proyectoid=p.proyectoid and e.nivel='0'
+                where p.semanaid='$semanaid'  and p.uid='$uid' and p.dni='$dni' and p.proyectoid!='1'and p.areaid='$areaid'
                 and p.h_totaldia is not null
 
-             
+
             ");
             $row=$sql->fetchAll();
-            return $row;     
+            return $row;
 
         } catch (Exception $e) {
             print "Error: Read One Condition".$e->getMessage();
@@ -108,15 +124,15 @@ class Admin_Model_DbTable_Planificacion extends Zend_Db_Table_Abstract
         try {
             $sql=$this->_db->query("
 
-                   select distinct e.uid,e.dni,p.proyectoid from planificacion as p inner join equipo as e  
+                   select distinct e.uid,e.dni,p.proyectoid from planificacion as p inner join equipo as e
                 on e.codigo_prop_proy=p.codigo_prop_proy and e.proyectoid=p.proyectoid and e.nivel='0' and e.cargo='GER-PROY'
                 where p.semanaid='$semanaid'  and p.uid='$uid' and p.dni='$dni' and p.proyectoid!='1'
 
 
-             
+
             ");
             $row=$sql->fetchAll();
-            return $row;     
+            return $row;
 
         } catch (Exception $e) {
             print "Error: Read One Condition".$e->getMessage();
@@ -134,7 +150,7 @@ class Admin_Model_DbTable_Planificacion extends Zend_Db_Table_Abstract
 
             ");
             $row=$sql->fetchAll();
-            return $row;     
+            return $row;
 
         } catch (Exception $e) {
             print "Error: Read One Condition".$e->getMessage();
@@ -154,7 +170,7 @@ class Admin_Model_DbTable_Planificacion extends Zend_Db_Table_Abstract
                 GROUP BY p.uid,p.dni,p.semanaid
             ");
             $row=$sql->fetchAll();
-            return $row;     
+            return $row;
 
         } catch (Exception $e) {
             print "Error: Read One Condition".$e->getMessage();
@@ -167,36 +183,36 @@ class Admin_Model_DbTable_Planificacion extends Zend_Db_Table_Abstract
                 select *,t.estado as estado_tareopersona
                 from planificacion as p
                 inner join tareo_persona as t
-                    on 
-                        p.semanaid=t.semanaid and p.uid=t.uid and p.dni=t.dni and p.areaid=t.areaid and 
+                    on
+                        p.semanaid=t.semanaid and p.uid=t.uid and p.dni=t.dni and p.areaid=t.areaid and
                         p.codigo_prop_proy=t.codigo_prop_proy and p.proyectoid=t.proyectoid
                 inner join actividad as act
-                    on 
-                        t.actividadid=act.actividadid and t.codigo_actividad=act.codigo_actividad 
+                    on
+                        t.actividadid=act.actividadid and t.codigo_actividad=act.codigo_actividad
                         and t.codigo_prop_proy=act.codigo_prop_proy
                         and t.revision=act.revision
-                inner join proyecto as pro 
-                    on 
+                inner join proyecto as pro
+                    on
                         p.codigo_prop_proy=pro.codigo_prop_proy
-                        and p.proyectoid=pro.proyectoid 
+                        and p.proyectoid=pro.proyectoid
 
-                where 
-                    p.proyectoid in (select distinct 
-                        e.proyectoid from equipo as e 
-                        where e.uid='$uid_gerente' and e.dni='$dni_gerente' and e.nivel='0') 
+                where
+                    p.proyectoid in (select distinct
+                        e.proyectoid from equipo as e
+                        where e.uid='$uid_gerente' and e.dni='$dni_gerente' and e.nivel='0')
                     and p.h_totaldia is not null
                     and p.uid='$uid_equipo' and p.dni='$dni_equipo'and p.semanaid='$semanaid'
                     and t.etapa like 'INICIO%'
-                order by act.propuestaid desc,t.proyectoid,t.actividadid,t.tipo_actividad desc 
+                order by act.propuestaid desc,t.proyectoid,t.actividadid,t.tipo_actividad desc
             ");
             $row=$sql->fetchAll();
-            return $row;     
+            return $row;
         } catch (Exception $e) {
             print "Error: Read One Condition".$e->getMessage();
         }
     }
 
- 
+
 
     public function _update($data,$str=''){
         try{
@@ -212,10 +228,10 @@ class Admin_Model_DbTable_Planificacion extends Zend_Db_Table_Abstract
             $sql=$this->_db->query("
                select * from planificacion
                where semanaid='$semanaid'  and uid='$uid' and dni='$dni' and h_totaldia is not null
-               
+
             ");
             $row=$sql->fetchAll();
-            return $row;     
+            return $row;
 
         } catch (Exception $e) {
             print "Error: Read One Condition".$e->getMessage();
@@ -227,16 +243,16 @@ class Admin_Model_DbTable_Planificacion extends Zend_Db_Table_Abstract
             $sql=$this->_db->query("
                 select distinct p.uid,p.dni,p.semanaid,sum(p.h_totaldia) as total,sum(p.billable) as facturable,sum(p.nonbillable) as nofacturable,sum(p.adm) as administrativa
                 from planificacion as p
-                where 
-                    p.proyectoid in (select distinct 
-                        e.proyectoid from equipo as e 
-                        where e.uid='$uid'and e.dni='$dni'  and e.nivel='0') 
+                where
+                    p.proyectoid in (select distinct
+                        e.proyectoid from equipo as e
+                        where e.uid='$uid'and e.dni='$dni'  and e.nivel='0')
                     and p.h_totaldia is not null and p.estado='A'
                     GROUP BY p.uid,p.dni,p.semanaid
 
             ");
             $row=$sql->fetchAll();
-            return $row;     
+            return $row;
 
         } catch (Exception $e) {
             print "Error: Read One Condition".$e->getMessage();
@@ -249,15 +265,15 @@ class Admin_Model_DbTable_Planificacion extends Zend_Db_Table_Abstract
             $sql=$this->_db->query("
                 select *
                 from planificacion as p
-                where 
-                    p.proyectoid in (select distinct 
-                        e.proyectoid from equipo as e 
-                        where e.uid='$uid_gerente' and e.dni='$dni_gerente' and e.nivel='0') 
+                where
+                    p.proyectoid in (select distinct
+                        e.proyectoid from equipo as e
+                        where e.uid='$uid_gerente' and e.dni='$dni_gerente' and e.nivel='0')
                     and p.h_totaldia is not null
                     and p.uid='$uid_equipo' and p.dni='$dni_equipo' and p.semanaid='$semanaid'
             ");
             $row=$sql->fetchAll();
-            return $row;     
+            return $row;
         } catch (Exception $e) {
             print "Error: Read One Condition".$e->getMessage();
         }
@@ -269,15 +285,105 @@ class Admin_Model_DbTable_Planificacion extends Zend_Db_Table_Abstract
                select * from planificacion
                where semanaid='$semanaid'  and uid='$uid' and dni='$dni' and h_totaldia is not null
                and not codigo_prop_proy in ('2015')
-               
+
             ");
             $row=$sql->fetchAll();
-            return $row;     
+            return $row;
 
         } catch (Exception $e) {
             print "Error: Read One Condition".$e->getMessage();
         }
     }
+    public function _count_datatable($where){
+        try {
+            $select = $this->_db
+                            ->select()
+                            ->from(new Zend_Db_Expr('(' . $this->_select_datatable() . ')'), "COUNT(*) AS total");
+            if ($where["sSearch"]) {
+                $select->where("nombre Ilike  ? ", "%" . $where['sSearch'] . "%");
+            }
+            if ($where["sSearch_0"] && split("-yadcf_delim-", $where["sSearch_0"])) {
+                $dates = split("-yadcf_delim-", $where["sSearch_0"]);
+                if (count(array_filter($dates) > 0 )) {
+                    if (count(array_filter($dates)) == 1 && $dates[0]) {
+                        $select->where("semanaid >= ?", $this->convert_date_to_week($dates[0]));
+                    }else{
+                        if (!$dates[0]){
+                            $select->where("semanaid <= ?", $this->convert_date_to_week($dates[1]));
+                        }else{
+                            $select->where("semanaid >= ?", $this->convert_date_to_week($dates[0]));
+                            $select->where("semanaid <= ?", $this->convert_date_to_week($dates[1]));
+                        }
+                    }
+                }
+            }
+            if ($where["sSearch_1"]) {
+                $select->where("estado = ?", $where['sSearch_1']);
+            }
+            $results = $select->query();
+            $rows = $results->fetchAll();
+            if ($rows) return $rows;
+            return false;
+        } catch (Exception $e) {
+            print "Error: Read One Condition".$e->getMessage();
+        }
+    }
+    public function _dataTable($page, $per_page, $sort_column, $sort_direction, $where){
+        try {
+            $select = $this->_select_datatable();
+            if (!array_key_exists("format", $where)) {
+                $select->order($sort_column)->limit($per_page, $page);
+            }
 
+            if ($where["sSearch"]) {
+                $select->where("ar.nombre Ilike  ? ", "%" . $where['sSearch'] . "%");
+            }
 
+            if ($where["sSearch_0"] && split("-yadcf_delim-", $where["sSearch_0"])) {
+                $dates = split("-yadcf_delim-", $where["sSearch_0"]);
+                if (count(array_filter($dates) > 0 )) {                    
+                    if (count(array_filter($dates)) == 1 && $dates[0]) {
+                        $select->where("pa.semanaid >= ?", $this->convert_date_to_week($dates[0]));
+                    }else{
+                        if (!$dates[0]){
+                            $select->where("pa.semanaid <= ?", $this->convert_date_to_week($dates[1]));
+                        }else{
+                            $select->where("pa.semanaid >= ?", $this->convert_date_to_week($dates[0]));
+                            $select->where("pa.semanaid <= ?", $this->convert_date_to_week($dates[1]));
+                        }
+                    }
+                }
+            }
+
+            if ($where["sSearch_1"]) {
+                $select->where("pa.estado = ?", $where['sSearch_1']);
+            }
+
+            $results = $select->query();
+            $rows = $results->fetchAll();
+            if ($rows) return $rows;
+            return false;
+        } catch (Exception $e) {
+            print "Error: Read fetch datatable ".$e->getMessage();
+        }
+    }
+
+    public function _select_datatable(){
+        return $this->_db
+                    ->select()
+                    ->from(array("pa" => "planificacion"),
+                            array('funcion', 'fecha_creacion', 'uid', 'areaid', 'semanaid', 'proyectoid', 'estado', 'h_totaldia', 'billable', 'nonbillable', 'adm'))
+                    ->join(array('ar' => 'area'),
+                                'ar.areaid = pa.areaid');
+    }
+
+    private function set_format_date($date){
+        $date_t = new Zend_Date($date);
+        return $date_t->get("YYYY-MM-dd");
+    }
+
+    private function convert_date_to_week($date){
+        $date_t = new Zend_Date($date);
+        return $date_t->get(Zend_Date::WEEK);
+    }
 }

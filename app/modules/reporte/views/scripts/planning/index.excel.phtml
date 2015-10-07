@@ -1,0 +1,56 @@
+<?php
+error_reporting(E_ALL);
+ini_set('display_errors', TRUE);
+ini_set('display_startup_errors', TRUE);
+/** Include PHPExcel */
+$PHPexcel = APPLICATION_LIBRARY . "/PHPExcel1.8/Classes/PHPExcel.php";
+include ($PHPexcel);
+$objPHPExcel = new PHPExcel();
+
+$objPHPExcel->setActiveSheetIndex(0);
+$objPHPExcel->getActiveSheet()
+            ->setCellValue('A1', 'Area')
+            ->setCellValue('B1', 'Usuario')
+            ->setCellValue('C1', 'Periodo de Hoja de Tiempo')
+            ->setCellValue('D1', 'Supervisor')
+            ->setCellValue('E1', 'Estado')
+            ->setCellValue('F1', 'Horas viables')
+            ->setCellValue('G1', 'Horas - No - viables');
+
+$datatable_planning = new Reporte_DataTable_Planning();
+$tb_planning = new Admin_Model_DbTable_Planificacion();
+$tb_project = new Admin_Model_DbTable_Proyecto();
+$data = $datatable_planning->plamings($this->params);
+$objPHPExcel->getActiveSheet()->setTitle('Reporte HT');
+$row = 1;
+// print_r($data);
+// exit();
+for ($i = 0; $i < count($data); $i++) {
+  $row += 1;
+  $objPHPExcel->getActiveSheet()
+              ->setCellValue('A' . $row, $data[$i]["nombre"])
+              ->setCellValue('B' . $row, $data[$i]['uid'])
+              ->setCellValue('C' . $row, $data[$i]['semanaid'])
+              ->setCellValue('D' . $row, $tb_project->_getNameManager($data[$i]["proyectoid"])["gerente_proyecto"])
+              ->setCellValue('E' . $row, $tb_planning->_getStatusName($data[$i]["estado"]))
+              ->setCellValue('F' . $row, $data[$i]['billable'])
+              ->setCellValue('G' . $row, $data[$i]['nonbillable']);
+}
+
+$objPHPExcel->setActiveSheetIndex(0);
+header('Content-Type: application/vnd.ms-excel');
+header('Content-Disposition: attachment;filename="Reporte HT Rev B.xls"');
+header('Cache-Control: max-age=0');
+// If you're serving to IE 9, then the following may be needed
+header('Cache-Control: max-age=1');
+
+// If you're serving to IE over SSL, then the following may be needed
+header ('Expires: Mon, 26 Jul 1997 05:00:00 GMT'); // Date in the past
+header ('Last-Modified: '.gmdate('D, d M Y H:i:s').' GMT'); // always modified
+header ('Cache-Control: cache, must-revalidate'); // HTTP/1.1
+header ('Pragma: public'); // HTTP/1.0
+
+$objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
+$objWriter->save('php://output');
+exit;
+

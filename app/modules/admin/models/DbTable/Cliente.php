@@ -4,6 +4,7 @@ class Admin_Model_DbTable_Cliente extends Zend_Db_Table_Abstract
     protected $_name = 'cliente';
     protected $_primary = array("clienteid");
 
+
      /* Lista toda las Personas */    
     public function _getClienteAll(){
         try{
@@ -127,6 +128,9 @@ class Admin_Model_DbTable_Cliente extends Zend_Db_Table_Abstract
         }
     }
 
+
+
+
      public function _buscarCliente($cliente){
         try{
             $sql=$this->_db->query("
@@ -154,7 +158,45 @@ class Admin_Model_DbTable_Cliente extends Zend_Db_Table_Abstract
         }
     }
 
- 
 
 
+ public function _updatecliente($data,$pk)
+    {
+        try{
+            if ($pk=='' ) return false;
+            $where = "clienteid = '".$pk."' ";
+            return $this->update($data, $where);
+            // print_r($this->update($data, $where);
+            return false;
+        }catch (Exception $e){
+            print "Error: Update cliente".$e->getMessage();
+        }
+    }
+
+        public function _save($data)
+
+    {
+        try{
+            if ($data['clienteid']=='' ) return false;
+            return $this->insert($data);
+            return false;
+        }catch (Exception $e){
+
+                print "Error: Registration ".$e->getMessage();
+
+        }
+    }
+
+    public function _deletecliente($pk=null)
+    {
+        try{
+            if ($pk['clienteid']=='') return false;
+
+            $where = "clienteid = '".$pk['clienteid']."'";
+            return $this->delete( $where);
+            return false;
+        }catch (Exception $e){
+            print "Error: Delete Cliente".$e->getMessage();
+        }
+    }
 }

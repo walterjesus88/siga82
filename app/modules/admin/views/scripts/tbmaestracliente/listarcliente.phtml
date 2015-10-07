@@ -1,0 +1,136 @@
+<section class="panel">
+    <header class="panel-heading">
+        Lista de Cliente
+        <span class="pull-right">
+        <a title="Crear nuevo cliente" href="/admin/tbmaestracliente/nuevocliente" class=" btn btn-primary btn-xs" >Nuevo Cliente</a>
+        </span>
+    </header>
+</section>
+
+<section class="panel">
+    
+<div id ="Lista_Cliente">
+<font size=1>
+	<table class="table table-hover p-table datatable-order-search">
+		<thead>
+			<tr>  
+                <th style="width: 5%;">RUC ID</th>
+                <th style="width: 5%;">NOMBRE COMERCIAL</th>
+                <th style="width: 5%;">NOMBRE</th>
+                <th style="width: 5%;">CODIGO ANDDES</th>
+                <th style="width: 5%;">FECHA DE REGISTRO</th>
+                <th style="width: 5%;">WEB</th>
+                <th style="width: 5%;">DIRECCION</th>
+                <th style="width: 5%;">PAIS</th>
+                <th style="width: 5%;">DEPARTAMENTO</th>
+                <th style="width: 5%;">PROVINCIA</th>
+                <th style="width: 5%;">DISTRITO</th>
+                <th style="width: 5%;">ESTADO</th>
+                <th style="width: 5%;">TAG</th>
+                <th style="width: 5%;">PROVEEDOR</th>
+                <th style="width: 5%;">CLEINTE</th>
+                <th style="width: 5%;">ABREVIATURA</th>
+                <th style="width: 5%;">TIPO DE CLIENTE</th>
+                <th style="width: 5%;">RUC</th>
+                <th style="width: 5%;">SOCIO</th>
+                <th style="width: 5%;">ACCIONES</th>
+            </tr>
+		</thead>
+		<tbody>
+		<?php
+			foreach ($this->lista_de_cliente as $lista_cliente)
+		{ ?>
+			<tr>
+				<td class="p-name" >
+					<a href="#"> <?php print_r($lista_cliente['clienteid']); ?> </a>
+				</td>
+				<td class="p-name">
+					<a href="#"> <?php print_r($lista_cliente['nombre_comercial']); ?> </a>
+				</td>
+				<td class="p-name">
+                    <a href="#"> <?php print_r($lista_cliente['nombre']); ?> </a>
+                </td>
+                <td class="p-name">
+                    <a href="#"> <?php print_r($lista_cliente['codigoid']); ?> </a>
+                </td>
+                <td class="p-name">
+                    <a href="#"> <?php print_r($lista_cliente['fecha_registro']); ?> </a>
+                </td>
+                <td class="p-name">
+                    <a href="#"> <?php print_r($lista_cliente['web']); ?> </a>
+                </td>
+                <td class="p-name">
+                    <a href="#"> <?php print_r($lista_cliente['direccion']); ?> </a>
+                </td>
+                <td class="p-name">
+                    <a href="#"> <?php print_r($lista_cliente['paisid']); ?> </a>
+                </td>
+                <td class="p-name" >
+                    <a href="#"> <?php print_r($lista_cliente['departamentoid']); ?> </a>
+                </td>
+                <td class="p-name">
+                    <a href="#"> <?php print_r($lista_cliente['provinciaid']); ?> </a>
+                </td>
+                <td class="p-name">
+                    <a href="#"> <?php print_r($lista_cliente['distritoid']); ?> </a>
+                </td>
+                <td class="p-name">
+                    <a href="#"> <?php print_r($lista_cliente['estado']); ?> </a>
+                </td>
+                <td class="p-name">
+                    <a href="#"> <?php print_r($lista_cliente['tag']); ?> </a>
+                </td>
+                <td class="p-name">
+                    <a href="#"> <?php print_r($lista_cliente['isproveedor']); ?> </a>
+                </td>
+                <td class="p-name">
+                    <a href="#"> <?php print_r($lista_cliente['iscliente']); ?> </a>
+                </td>
+                <td class="p-name">
+                    <a href="#"> <?php print_r($lista_cliente['abreviatura']); ?> </a>
+                </td>
+                <td class="p-name">
+                    <a href="#"> <?php print_r($lista_cliente['tipo_cliente']); ?> </a>
+                </td>
+                <td class="p-name">
+                    <a href="#"> <?php print_r($lista_cliente['ruc']); ?> </a>
+                </td>
+                <td class="p-name">
+                    <a href="#"> <?php print_r($lista_cliente['issocio']); ?> </a>
+                </td>
+
+
+                <td>
+                	<a title="Editar" href="/admin/tbmaestracliente/mostrarcliente/clienteid/<?php echo $lista_cliente['clienteid']?>" class="btn btn-info btn-xs">
+                	<i class="fa fa-pencil" ></i></a>
+                	<a title="Eliminar" onclick="return confirm('Esta Seguro que desea eliminar el registro?');" href="/admin/tbmaestracliente/deletecliente/clienteid/<?php echo $lista_cliente['clienteid']?>" class="btn btn-danger btn-xs">
+                    <i class="fa fa-trash-o"></i></a>
+                </td>
+			</tr>
+		<?php
+			}
+			?>
+		</tbody>
+	</table>
+    </font>
+</div>
+</section>
+
+<script type="text/javascript">
+  $(document).ready(function() {
+    $(function(){
+      $('select').customSelect();
+      });
+  });
+</script>
+
+<script>
+  $(document).ready(function() {
+    $('.datatable-order-search').dataTable( {
+        "paging":   true,
+        "ordering": true,
+        "info":     true
+    } );
+
+  } );
+</script>

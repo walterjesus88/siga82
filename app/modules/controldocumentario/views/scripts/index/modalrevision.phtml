@@ -1,0 +1,19 @@
+<!--Modal para la edicion de los datos de los contactos -->
+<header class="modal-header">
+  <button type="button" class="close" aria-hidden="true" ng-click="mr.cerrar()">x</button>
+  <h4 class="modal-title">Elige la Revisión:</h1>
+</header>
+<div class="modal-body">
+  <section class="form-group">
+    <div class="col-md-12" ng-repeat="revision in mr.revisiones">
+      <label>
+        <input type="radio" ng-model="mr.opcion" ng-value="revision">
+        Revisión {{revision}}
+      </label>
+    </div>
+  </section>
+</div>
+<footer class="modal-footer">
+  <button type="button" class="btn btn-success btn-xs" ng-click="mr.aceptar()">Aceptar</button>
+  <button type="button" class="btn btn-danger btn-xs" ng-click="mr.cancelar()">Cancelar</button>
+</footer>
