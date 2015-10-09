@@ -2437,7 +2437,7 @@ public function getleerestadoslistaentregableAction()
       }
       $indice++;
     }
-  // echo "janaannnnnnnnnnnnnnnnn";
+
   // print_r($data);
 
     /*  AREAID*/
@@ -2492,40 +2492,47 @@ public function getleerestadoslistaentregableAction()
     else
     {
         $data=[];      
-        $leerLE=$leerestadoLE->_getFilteristaentregablexArea($proyectoid,$revisionentregable,$areaid);      
+        $leerLE=$leerestadoLE->_getFilteristaentregablexArea($proyectoid,$revisionentregable,$areaid);
+        //echo "llego akakak";
+        //print_r($leerLE);
     }
 
     $numberlista=count($leerLE);
-
-    for ($i=0; $i <count($estados) ; $i++) {        
-      $cont[$i]=0;
-      foreach ($leerLE as $value) 
-      {
-        if($value['estado_entregable']==$estados[$i])
-        { 
-          $cont[$i]=$cont[$i]+1;     
-        } 
-      }       
-    }  
- 
-    $indice=1;
-    foreach ($cont as $value) 
+    //echo $numberlista;
+    if($numberlista==0)
     {
-      if($value==$numberlista)
-      {    
-        $data['state']=true;
-        $data['indice']=$indice;     
-      }
-
-      $indice++;
+      $data=[];
     }
-  
-    //  print_r($data);
-    //  exit();
+    else
+    {
+       for ($i=0; $i <count($estados) ; $i++) {        
+        $cont[$i]=0;
+        foreach ($leerLE as $value) 
+        {
+          if($value['estado_entregable']==$estados[$i])
+          { 
+            $cont[$i]=$cont[$i]+1;     
+          } 
+        }       
+      } 
+      //print_r($cont);   
+      $indice=0;
+      foreach ($cont as $value) 
+      {
+        if($value==$numberlista)
+        {    
+          $data['state']=true;
+          $data['indice']=$indice+1; 
+          //echo $value;    
+        }
+        $indice++;
+      }    
+      //  print_r($data);
+      //  exit();     
+    }
+
+
   }
-
-
-
 
 $this->_helper->json->sendJson($data);
   
