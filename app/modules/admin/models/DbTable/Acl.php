@@ -4,6 +4,7 @@ class Admin_Model_DbTable_Acl extends Zend_Db_Table_Abstract
     protected $_name = 'acl';
     protected $_primary = array("moduloid","controlador","vista","uid","dni","areaid");
 
+
     public function _getAcl(){
         try{
             $f=$this->fetchAll();
@@ -13,6 +14,7 @@ class Admin_Model_DbTable_Acl extends Zend_Db_Table_Abstract
             print "Error: Listando Acl".$ex->getMessage();
         }
      }
+
 
     public function _save($data){
         try{

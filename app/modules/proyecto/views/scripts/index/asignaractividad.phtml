@@ -1,12 +1,3 @@
-<!-- <script type="text/javascript" src="/js/jquery-ui-1.9.2.custom.min.js"></script> -->
-
-<!-- <script type="text/javascript" src="/js/bootstrap.min.js"></script>
-<script type="text/javascript" src="/external_library/htable/table.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js"></script>
--->
-
-
-
 <?php
 if ($this->equipo) {
     ?>
@@ -21,13 +12,14 @@ if ($this->equipo) {
 
 
 
-            <table id="myTable05" border="1px">
-                <thead>
+            <table id="" border="1px" style="font-size:12px; padding:0px" class="fht-table">
+                <thead style="height:10px">
                     <tr >
                         <th >
                             <center>Actividades</center>
                             <!-- <center>Seleccionar todas las actividades</center> -->
                         </th>
+
 
                         <?php
                         $c=0;
@@ -43,7 +35,7 @@ if ($this->equipo) {
                            if ($contador_tabla == 0) 
                            { ?>
 
-                                <th border="1px" id="nomact_<?php echo $c?>">
+                                <th border="1px" id="nomact_<?php echo $c?>" style="font-size:12px; padding:0px">
 
                                     <center>
 
@@ -80,7 +72,7 @@ if ($this->equipo) {
                            <?php } else 
                            { ?>
 
-                                <th id="nomact_<?php echo $c?>">
+                                <th id="nomact_<?php echo $c?>" style="font-size:12px; padding:0px">
 
                                     <center>
 
@@ -139,8 +131,8 @@ if ($this->equipo) {
         foreach ($this->actividades as $listaactividad)
         {
             ?>
-            <tr>
-                <td id="nomact_<?php echo $c?>">
+            <tr style="font-size:12px; padding:0px">
+                <td id="nomact_<?php echo $c?>" style="font-size:12px; padding:0px">
 
                     <?php
                     if ($listaactividad['hijo']=='S')
@@ -169,7 +161,7 @@ if ($this->equipo) {
                     $activar= $act->_getOne($wheres);
                           // print_r($activar);
                     ?>
-                    <td> <center>
+                    <td style="font-size:12px; padding:0px"> <center>
 
                       <?php
                       if($listaactividad['hijo']=='N')
@@ -259,6 +251,7 @@ if ($this->equipo) {
                     $i++;
                 }
                 ?>
+            
             </tr>
             <?php $c++;
         }        }  else {?>
@@ -283,9 +276,9 @@ if ($this->equipo) {
 
 
 <script type="text/javascript">
-    $(document).ready(function() {
-        $('#myTable05').fixedHeaderTable({ altClass: 'odd', footer: true, fixedColumns: 1 });
+     $(document).ready(function() {
+         $('#myTable05').fixedHeaderTable({ altClass: 'odd', footer: false, fixedColumns: -1 });
        
-    });
+     });
 
 </script>

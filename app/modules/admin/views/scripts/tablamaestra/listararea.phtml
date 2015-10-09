@@ -1,0 +1,92 @@
+
+<section class="panel">
+    <header class="panel-heading">
+        Lista de Areas
+    </header>
+</section>
+
+<section class="panel">
+<div class="panel-body" style="padding-bottom: 2px; padding-top: 5px;">
+        <div class="row">
+            <div class="col-md-12">   
+                <a href="/admin/tablamaestra/nuevaarea" class=" btn btn-primary btn-sm" >Nuevo</a>
+            </div>
+        </div>       
+    </div>
+<div id="Lista_Area">
+	<table class="table table-hover p-table datatable-order-search">
+		<thead>
+			<tr>  
+                <th style="width: 5%;">ID</th>
+                <th style="width: 10%;">NOMBRE</th>
+                <th style="width: 5%;">AREA PADRE</th>
+                <th style="width: 5%;">PROYECTO</th>
+                <th style="width: 5%;">PROPUESTA</th>
+                <th style="width: 5%;">CONTACTO</th>
+                <th style="width: 5%;">COMERCIAL</th>
+                <th style="width: 5%;">ORDEN</th>
+                <th style="width: 5%;">ACCIONES</th>
+            </tr>
+		</thead>
+		<tbody>
+		<?php
+			foreach ($this->lista_de_areas as $lista_area)
+		{ ?>
+			<tr>
+				<td class="p-name" >
+					<a href="#"> <?php print_r($lista_area['areaid']); ?> </a>
+				</td>
+				<td class="p-name">
+					<a href="#"> <?php print_r($lista_area['nombre']); ?> </a>
+				</td>
+				<td class="p-name">
+                    <a href="#"> <?php print_r($lista_area['area_padre']); ?> </a>
+                </td>
+                <td class="p-name">
+                    <a href="#"> <?php print_r($lista_area['isproyecto']); ?> </a>
+                </td>
+                <td class="p-name">
+                    <a href="#"> <?php print_r($lista_area['ispropuesta']); ?> </a>
+                </td>
+                <td class="p-name">
+                    <a href="#"> <?php print_r($lista_area['iscontacto']); ?> </a>
+                </td>
+                <td class="p-name">
+                    <a href="#"> <?php print_r($lista_area['iscomercial']); ?> </a>
+                </td>
+                <td class="p-name">
+                    <a href="#"> <?php print_r($lista_area['orden']); ?> </a>
+                </td>
+                <td>
+                	<a href="/admin/tablamaestra/actualizararea/areaid/<?php echo $lista_area['areaid']?>" class="btn btn-info btn-xs">
+                	<i class="fa fa-pencil" ></i></a>
+                	<a title="Eliminar" onclick="return confirm('Esta Seguro que desea eliminar el registro?');" href="/admin/tablamaestra/deletearea/areaid/<?php echo $lista_area['areaid']?>" class="btn btn-danger btn-xs">
+                    <i class="fa fa-trash-o"></i></a>
+                </td>
+			</tr>
+		<?php
+			}
+			?>
+		</tbody>
+	</table>
+</div>
+</section>
+
+<script type="text/javascript">
+  $(document).ready(function() {
+    $(function(){
+      $('select').customSelect();
+      });
+  });
+</script>
+
+<script>
+  $(document).ready(function() {
+    $('.datatable-order-search').dataTable( {
+        "paging":   true,
+        "ordering": true,
+        "info":     true
+    } );
+
+  } );
+</script>

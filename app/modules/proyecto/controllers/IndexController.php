@@ -48,7 +48,7 @@ class Proyecto_IndexController extends Zend_Controller_Action {
         } 
         else
         {
-          if($is_area=='26')
+          if($is_area=='26' || $is_area=='40')
           {
             $listaproyecto = new Admin_Model_DbTable_Proyecto();
               //$lista=$listaproyecto->_getProyectoAll();
@@ -1254,8 +1254,9 @@ public function subiractividadesAction(){
                       'proyectoid'    => $proyectoid,
                       );
     $edit = $editproyect->_getOne($where);
-    
+ 
     $proyectoid = $edit['proyectoid'];
+
     $codigo = $edit['codigo_prop_proy'];
     $propuestaid = $edit['propuestaid'];
     $revision = $edit['revision'];
@@ -1265,10 +1266,10 @@ public function subiractividadesAction(){
     $data = new Spreadsheet_Excel_Reader();
     $data->setOutputEncoding('CP1251');
     $data->read('./upload/proyecto/'.$proyectoid.'-HH.xls');
-    //$data->read('1proyecto.xls');
     $k=1;
     $columnas=$data->sheets[0]['numCols'];
     $filas=$data->sheets[0]['numRows'];
+    print_r($columnas);
     //migrar actividades
     for ($i = 2; $i <= $data->sheets[0]['numRows']; $i++) {
       //$colsuma=$columnas-1;
@@ -1302,7 +1303,7 @@ public function subiractividadesAction(){
         $datosactividadpadre["hijo"]='S';
         $datosactividadpadre["moneda"]=$moneda;
         $bdactividad = new Admin_Model_DbTable_Actividad();
-        //print_r($datosactividadpadre);
+        print_r($datosactividadpadre);
         if($bdactividad->_save($datosactividadpadre))
          {echo $actividadint;
           echo ": guardo bien actividad padre";  echo "<br>"; }
