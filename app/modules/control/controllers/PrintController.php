@@ -28,4 +28,26 @@ class Control_PrintController extends Zend_Controller_Action {
 
       $this->_helper->json->sendJson($respuesta);
     }
+
+    public function imprimirperformanceAction()
+    {
+      $revision_cronograma = $this->_getParam('revision');
+      $proyectoid = $this->_getParam('proyectoid');
+      $performance = new Admin_Model_DbTable_Performancedetalle(); 
+      //$where = array('revision_cronograma' =>$revision_cronograma ,'proyectoid'=>$proyectoid );
+      $data=$performance->_getFilterPerformance($proyectoid,$revision_cronograma);
+      //print_r($perf);exit();
+
+      //$data['actividadid']//   
+      //$entregable = new Admin_Model_DbTable_Listaentregabledetalle();   
+      //$data=$entregable->_getFilteristaentregable($proyectoid,$revision_cronograma);
+
+      $cabecera['estado'] = $revision_cronograma;
+      $formato = new Admin_Model_DbTable_Formatocp('performance', $cabecera, $data);
+      $respuesta = $formato->_print();
+
+      $this->_helper->json->sendJson($respuesta);
+    }
+
+    
 }

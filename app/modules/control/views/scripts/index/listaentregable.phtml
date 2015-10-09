@@ -1,5 +1,7 @@
 
-	<div class="form-group " class="col-md-12"  >
+<div class="panel" style="overflow:scroll">
+
+	<div class="panel-body col-md-12"  >
 		<div class="col-md-2" >
 	    <label>Escoja una revision: </label> 
 	  	</div>
@@ -12,54 +14,58 @@
 	    <button class="btn btn-shadow btn-success" ng-click="CP.buscaentregables(CP.revisionE)" class="btn btn-primary btn-xs">Busca</button>
 	  	</div>
 
-		<div class="form-group col-md-6">		           
-			<div ng-show="CP.formVisibilityEntregable" class="col-md-12" >	                
-				<div class="col-md-12">
-					<div class="col-md-3" >
-			            <label> Revision</label>
-			        </div>        
-			        <div class="col-md-3" >
-			                    <input class="form-control" type="text" ng-model="CP.revisionEntregable"></input>
-			        </div>
-			       
-					<div class="col-md-3" >      
-						<button class="btn btn-shadow btn-warning" ng-click="CP.GuardarEntregable()">Guardar</button>
-					</div>            
-					<div class="col-md-3" >      
-						<button class="btn btn-shadow btn-danger" ng-click="CP.CancelarEntregable()">Cancelar</button>
+		<div class="col-md-6">	
+			<section class="panel">				
+				<div ng-show="CP.formVisibilityEntregable" class="col-md-12" >	                
+					<div class="col-md-12">
+						<div class="col-md-3" >
+				            <label> Revision</label>
+				        </div>        
+				        <div class="col-md-3" >
+				            <input class="form-control" type="text" ng-model="CP.revisionEntregable"></input>
+				        </div>
+				       
+						<div class="col-md-3" >      
+							<button class="btn btn-shadow btn-warning" ng-click="CP.GuardarEntregable()">Guardar</button>
+						</div>            
+						<div class="col-md-3" >      
+							<button class="btn btn-shadow btn-danger" ng-click="CP.CancelarEntregable()">Cancelar</button>
+						</div>
 					</div>
+				             
 				</div>
-			             
-			</div>
-			<button class="btn btn-shadow btn-primary" ng-click="CP.ShowFormEntregable()" ng-hide="CP.formVisibilityEntregable">
-			    Anadir Entregable
-			</button>		        
+				<button class="btn btn-shadow btn-primary"  ng-click="CP.ShowFormEntregable()" ng-hide="CP.formVisibilityEntregable">
+				    Añadir Revision
+			</button>
+			</section>	           
+
 		</div>
 	</div>
+	<div class="row">
+		<div class="panel col-sm-2 col-md-2" style="border:1px solid #000000, margin:5px, padding: 5px;" >
+			<li ng-if="CP.responsable=='S' && (CP.statelista.indice==1 || CP.statelista.indice==3) ">
+		    	<button type="button" class="btn btn-primary" ng-click="CP.CambiarEstadoListaEntregable(2)">Completo</button>
+			</li>
 
-	<div class="panel">
-		<li ng-if="CP.responsable=='S' && (CP.statelista.indice==1 || CP.statelista.indice==3) ">
-	    	<button type="button" class="btn btn-primary" ng-click="CP.CambiarEstadoListaEntregable(2)">Completo</button>
-		</li>
+			<li ng-if="CP.jefearea=='S' && (CP.statelista.indice==2 || CP.statelista.indice==5) ">
+			    <button type="button" class="btn btn-shadow btn-success " ng-click="CP.CambiarEstadoListaEntregable(4)"><i class='fa fa-check'></i>jefe</button>
+			    <button type="button" class="btn btn-shadow btn-danger" ng-click="CP.CambiarEstadoListaEntregable(3)"><i class='fa fa-times'></i>jefe</button>
+			</li > 
 
-		<li ng-if="CP.jefearea=='S' && (CP.statelista.indice==2 || CP.statelista.indice==5) ">
-		    <button type="button" class="btn btn-shadow btn-success " ng-click="CP.CambiarEstadoListaEntregable(4)"><i class='fa fa-check'></i>jefe</button>
-		    <button type="button" class="btn btn-shadow btn-danger" ng-click="CP.CambiarEstadoListaEntregable(3)"><i class='fa fa-times'></i>jefe</button>
-		</li > 
+			<li ng-if="CP.gerente=='S'  && CP.statelista.indice==4 && CP.statelista.status=='gr'">	
+			    <button type="button" class="btn btn-shadow btn-success" ng-click="CP.CambiarEstadoListaEntregable(6)"><i class='fa fa-check'></i>gerente</button>
+			    <button type="button" class="btn btn-shadow btn-danger" ng-click="CP.CambiarEstadoListaEntregable(5)"><i class='fa fa-times'></i>gerente</button>
+			</li >
 
-		<li ng-if="CP.gerente=='S'  && CP.statelista.indice==4 && CP.statelista.status=='gr'">	
-		    <button type="button" class="btn btn-shadow btn-success" ng-click="CP.CambiarEstadoListaEntregable(6)"><i class='fa fa-check'></i>gerente</button>
-		    <button type="button" class="btn btn-shadow btn-danger" ng-click="CP.CambiarEstadoListaEntregable(5)"><i class='fa fa-times'></i>gerente</button>
-		</li >
+			<li ng-if="CP.gerente=='S' && CP.statelista.indice==7">
+			    <button type="button" class="btn btn-shadow btn-success" ng-click="CP.CambiarEstadoListaEntregable(9)"><i class='fa fa-check'></i>gr cod</button>
+			    <button type="button" class="btn btn-shadow btn-danger" ng-click="CP.CambiarEstadoListaEntregable(8)"><i class='fa fa-times'></i>gr cod</button>
+			</li>	  
+		</div>
+<!-- 		<fieldset> -->
 
-		<li ng-if="CP.gerente=='S' && CP.statelista.indice==7">
-		    <button type="button" class="btn btn-shadow btn-success" ng-click="CP.CambiarEstadoListaEntregable(9)"><i class='fa fa-check'></i>g code</button>
-		    <button type="button" class="btn btn-shadow btn-danger" ng-click="CP.CambiarEstadoListaEntregable(8)"><i class='fa fa-times'></i>g code</button>
-		</li>	  
+		<!-- </fieldset> -->
 	</div>
-
-
-<div class="mmain-wrapper">
 
 	<table class="table table-bordered table-hover table-condensed">
 
@@ -77,66 +83,70 @@
 			<td><span ng-show="tableform.$visible">Action</span></td>	
 	    </tr>
 
-	    <tr ng-repeat="lista in CP.listaentregable track by $index" ng-class="{'cerrado':lista.disciplina===CP.areaid}">
-	    	
+	    <tr ng-repeat="lista in CP.listaentregable track by $index" ng-class="{'cerrado':lista.disciplina===CP.areaid}">	    	
 	    	<td >      
-		        <span editable-select="lista.edt" e-name="edt" e-form="rowform" e-ng-options="s.codigo as s.nombre for s in CP.edt"  >
-		           <!-- {{ lista.edt }}  -->
+		        <span editable-select="lista.edt" e-name="edt" e-form="rowform" e-ng-options="s.codigo as s.nombre for s in CP.edt"  >		         
 		       	   {{ CP.showStatus(lista) }}  
 		        </span>
 	     	</td> 
 	 		<td>      
 		        <span editable-select="lista.tipo_documento" e-name="tipo_documento" e-form="rowform" e-ng-options="s.value as s.text for s in CP.tipodocumentoE" >
-		       	  {{ CP.showTipodoc(lista) }} 
-		       	  <!-- {{ lista.tipo_documento }}  -->
+		       	  {{ CP.showTipodoc(lista) }} 		       	
 		        </span>
 	     	</td>
-
-	     	 <td>
-	        	<!-- editable username (text with validation) -->
-		        <span editable-select="lista.disciplina" e-name="disciplina" e-form="rowform"   e-ng-options="s.areaid as s.nombre for s in CP.disciplina">
-		          <!-- {{ lista.disciplina  }} -->
+	     	<td>	        	
+		        <span editable-select="lista.disciplina" e-name="disciplina" e-form="rowform"   e-ng-options="s.areaid as s.nombre for s in CP.disciplina ">		         
 		       	  {{ CP.showDisciplina(lista) }} 	          
 		        </span>
 	      	</td>
-
 			<!-- <td >
 				<span editable-text="lista.codigo_anddes" ng-disabled="CP.desabilitar==1" e-name="codigo_anddes" e-form="rowform" onbeforesave="checkEntregable($dataentregable, lista.cod_le)"  >
 					{{ lista.codigo_anddes }}
 				</span>
 			</td>-->
-
 			<td>
 			  <input class="form-control" ng-model="lista.codigo_anddes" ng-disabled="CP.desabilitar==1" type="text"  >
 			</td>
-
 			<!-- <td  >
 				<span editable-text="lista.codigo_cliente" e-name="codigo_cliente" e-form="rowform" onbeforesave="checkEntregable($dataentregable, lista.cod_le)" >
 					{{ lista.codigo_cliente }}
 				</span>
 			</td> -->
-
 			<td>
 			  <input class="form-control" ng-model="lista.codigo_cliente" ng-disabled="CP.desabilitar==1" type="text"  >
 			</td>
-
-
 			<td >
-				<span editable-text="lista.descripcion_entregable" e-name="descripcion_entregable" e-form="rowform" >	
+				<span editable-textarea ="lista.descripcion_entregable" e-rows="7" e-cols="20" e-name="descripcion_entregable" e-form="rowform" >	
 					{{ lista.descripcion_entregable }}
 				</span>
 			</td>
 
-		 	<td>
-				<span editable-text="lista.fecha_a " e-name="fecha_a" e-form="rowform" e-datepicker-popup="yyyy-MM-dd">
-					{{ (lista.fecha_a )}}
-				</span>
-			</td> 
-			
-			<!-- <td>
-			  <input type="date" ng-model="lista.fecha_a" e-form="rowform"  class="form-control " datepicker-popup ng-model="lista.fecha_a" datepicker-options="dateOptions"   /> 
-		  	</td> -->
 			<td>
+				<input class="form-control" ng-show="rowform.$visible"  type="text" e-form="rowform" ui-date="{ dateFormat: 'yy-mm-dd' }" ename="fecha_a" ng-model='CP.fecha_a'/>		
+				<span ng-show="!rowform.$visible" ename="fecha_a" >
+				{{ lista.fecha_a | date:"yyyy-MM-dd" }}					
+				</span>
+			
+			</td>
+
+			<td>
+				<input class="form-control" ng-show="rowform.$visible"  type="text" e-form="rowform" ui-date="{ dateFormat: 'yy-mm-dd' }" ename="fecha_b" ng-model='CP.fecha_b'/>		
+				<span ng-show="!rowform.$visible" ename="fecha_b" >
+				{{ lista.fecha_b | date:"yyyy-MM-dd" }}					
+				</span>
+			
+			</td>
+
+			<td>
+				<input class="form-control" ng-show="rowform.$visible" type="text" e-form="rowform" ui-date="{ dateFormat: 'yy-mm-dd' }" ename="fecha_0" ng-model='CP.fecha_0'/>		
+				<span ng-show="!rowform.$visible" ename="fecha_0" >
+				{{ lista.fecha_0 | date:"yyyy-MM-dd" }}					
+				</span>
+			
+			</td>
+
+
+			<!-- <td>
 				<span editable-text="lista.fecha_b" e-name="fecha_b" e-form="rowform" e-datepicker-popup="yyyy-MM-dd" >
 					{{ lista.fecha_b }}
 				</span>
@@ -145,10 +155,8 @@
 				<span editable-text="lista.fecha_0" e-name="fecha_0" e-form="rowform" e-datepicker-popup="yyyy-MM-dd" >
 					{{ lista.fecha_0 }}
 				</span>
+			</td> -->
 
-			</td>
-
-		
 
 	        <td style="white-space: nowrap">	        
 		        <form editable-form name="rowform" onbeforesave="CP.guardatListaentregable($data, lista.cod_le)" 
@@ -171,98 +179,98 @@
 	    </tr>
 	</table>
 
+	<div class="panel" >
+		<button ng-disabled="!(CP.gerente==='S' && CP.statelista.indice===1)" class="btn btn-shadow btn-success" ng-click="CP.addListaEntregable()" >Agregar </button>
+		<!-- ng-disabled="CP.activareditar===false" -->
 
-	<div class="panel">
-		<a class="glowBtn hover " ng-click="CP.addListaEntregable()">Agregar </a>
 	  <!--   <button type="button" class="btn btn-default" ng-click="CP.exportarToXml()">Exportar</button> -->
-	    <button type="button" class="btn btn-link" ng-click="CP.imprimir()">Imprimir</button>
+	    <button type="button" class="btn btn-shadow btn-success" ng-click="CP.imprimir()">Imprimir</button>	  
 	</div>
-
 </div>
 
-
-<div id='wrapper'>
-	<fieldset>
-		<table class="table table-bordered table-hover table-condensed">
-			<tr>
-				<head>
-					<th><h5><center>Creado</center></h5></th>
-					<th><h5><center>Responsable Proyecto</center></h5></th>
-					<th><h5><center>Jefe Area</center><h5></th>
-					<th><h5><center>Gerente Proyecto</center><h5></th>
-					<th><h5><center>Control Documentario</center><h5></th>
-					<th><h5><center>Codificacion</center><h5></th>
-				</head>				
-			</tr>
-			<tr>
-				<td><center>
-					<a ng-class="{'glowBtn active':CP.statelista.indice===1}" class='glowBtn hover'>Creado</a>
-					</center>
-				</td>
-				<td><center>
-					<a ng-class="{'glowBtn active':CP.statelista.indice===2}" class='glowBtn hover'>Llenado</a>
-					</center>
-				</td>
-				<td><center>
-					<a ng-class="{'glowBtn active':CP.statelista.indice===3}" class='glowBtn hover'>No aprobado</a> 
-					<a ng-class="{'glowBtn active':CP.statelista.indice===4}" class='glowBtn hover'>Aprobado</a>
-					</center>					
-				</td>
-				<td><center>
-					<a ng-class="{'glowBtn active':CP.statelista.indice===5}" class='glowBtn hover'>No Aprobado</a> 
-					<a ng-class="{'glowBtn active':CP.statelista.indice===6}" class='glowBtn hover'>Aprobado</a>
-					</center>					
-				</td>
-				<td><center>
-					<a ng-class="{'glowBtn active':CP.statelista.indice===7}" class='glowBtn hover'>Control</a>
-					</center>					
-				</td>
-				<td><center>
-					<a ng-class="{'glowBtn active':CP.statelista.indice===8}" class='glowBtn hover'>No Aprobado </a> 
-					<a ng-class="{'glowBtn active':CP.statelista.indice===9}" class='glowBtn hover'>Aprobado</a>
-					</center>					
-				</td>
-			</tr>
-		</table >
-
+<div >
+	<header class="panel-heading">
 		<h5>Flujo de Entregables</h5>		
-<!-- 		<a ng-class="{'glowBtn active':CP.statelista.indice===1}" class='glowBtn hover'>Creado</a>
-		<a ng-class="{'glowBtn active':CP.statelista.indice===2}" class='glowBtn hover'>Llenado</a>
-		<a ng-class="{'glowBtn active':CP.statelista.indice===3}" class='glowBtn hover'>No aprobado jefe</a> 
-		<a ng-class="{'glowBtn active':CP.statelista.indice===4}" class='glowBtn hover'>Jefe Area</a>
-		<a ng-class="{'glowBtn active':CP.statelista.indice===5}" class='glowBtn hover'>No aprobado gerente</a> 
-		<a ng-class="{'glowBtn active':CP.statelista.indice===6}" class='glowBtn hover'>Gerente</a>
-		<a ng-class="{'glowBtn active':CP.statelista.indice===7}" class='glowBtn hover'>control</a>
-		<a ng-class="{'glowBtn active':CP.statelista.indice===8}" class='glowBtn hover'>No aprobado codificacion</a> 
-		<a ng-class="{'glowBtn active':CP.statelista.indice===9}" class='glowBtn hover'>Codificacion</a> -->
+	</header>
+	<!-- <section class="panel"> -->
+		<div class="panel-body" >			
+				<button ng-class="{'btn btn-shadow btn-danger':CP.statelista.indice===1}" class='btn btn-shadow btn-warning'>Creado</button>
 
-	</fieldset>
+		
+				<button ng-class="{'btn btn-shadow btn-danger':CP.statelista.indice===2}" class='btn btn-shadow btn-warning'>Completo</button>
+
+				<button ng-class="{'btn btn-shadow btn-danger':CP.statelista.indice===3}" class='btn btn-shadow btn-warning'>Jefe Aprob.</button>
+		
+				<button ng-class="{'btn btn-shadow btn-danger':CP.statelista.indice===4}" class='btn btn-shadow btn-warning'>Jefe Des.</button>
+			
+				<button ng-class="{'btn btn-shadow btn-danger':CP.statelista.indice===5}" class='btn btn-shadow btn-warning'>Gerente Aprob.</button>
+			
+				<button ng-class="{'btn btn-shadow btn-danger':CP.statelista.indice===6}" class='btn btn-shadow btn-warning'>Gerente Des.</button>
+		
+				<button ng-class="{'btn btn-shadow btn-danger':CP.statelista.indice===7}" class='btn btn-shadow btn-warning'>Control Doc.</button>
+		
+				<button ng-class="{'btn btn-shadow btn-danger':CP.statelista.indice===8}" class='btn btn-shadow btn-warning'>Codif Aprob.</button>
+
+				<button ng-class="{'btn btn-shadow btn-danger':CP.statelista.indice===9}" class='btn btn-shadow btn-warning'>Codif Des.</button>
+			
+				
+	
+	
+			
+
+	<!-- 		<fieldset>
+				<table class="table table-bordered table-hover table-condensed">
+					<tr>
+						<head>
+							<th><h5><center>Creado</center></h5></th>
+							<th><h5><center>Responsable Proyecto</center></h5></th>
+							<th><h5><center>Jefe Area</center><h5></th>
+							<th><h5><center>Gerente Proyecto</center><h5></th>
+							<th><h5><center>Control Documentario</center><h5></th>
+							<th><h5><center>Codificacion</center><h5></th>
+						</head>				
+					</tr>
+					<tr>
+						<td><center>
+							<button ng-class="{'btn btn-shadow btn-danger':CP.statelista.indice===1}" class='btn btn-shadow btn-warning'>Creado</button>
+							</center>
+						</td>
+						<td><center>
+							<button ng-class="{'btn btn-shadow btn-danger':CP.statelista.indice===2}" class='btn btn-shadow btn-warning'>Llenado</button>
+							</center>
+						</td>
+						<td><center>
+							<button ng-class="{'btn btn-shadow btn-danger':CP.statelista.indice===3}" class='btn btn-shadow btn-warning'>No aprobado</button></br>
+							<button ng-class="{'btn btn-shadow btn-danger':CP.statelista.indice===4}" class='btn btn-shadow btn-warning'>Aprobado</button>
+							</center>					
+						</td>
+						<td><center>
+							<button ng-class="{'btn btn-shadow btn-danger':CP.statelista.indice===5}" class='btn btn-shadow btn-warning'>No Aprobado</button></br>
+							<button ng-class="{'btn btn-shadow btn-danger':CP.statelista.indice===6}" class='btn btn-shadow btn-warning'>Aprobado</button>
+							</center>					
+						</td>
+						<td><center>
+							<button ng-class="{'btn btn-shadow btn-danger':CP.statelista.indice===7}" class='btn btn-shadow btn-warning'>Control</button>
+							</center>					
+						</td>
+						<td><center>
+							<button ng-class="{'btn btn-shadow btn-danger':CP.statelista.indice===8}" class='btn btn-shadow btn-warning'>No Aprobado </button></br>
+							<button ng-class="{'btn btn-shadow btn-danger':CP.statelista.indice===9}" class='btn btn-shadow btn-warning'>Aprobado</button>
+							</center>					
+						</td>
+					</tr>
+				</table >
+
+			</fieldset> -->
+		</div>
+	<!-- </section> -->
 </div>
-
-
-
-<!-- 	<fieldset>
-	<h2>Flujo de Estados!</h2>
-	
-		<input type='radio' id='radio1-1' checked='checked' name='radio'>
-		<label for='radio1-1'>8</label>
-
-		<input type='radio' id='radio1-2' name='radio'>
-		<label for='radio1-2'>7</label>
-	
-		<input type='radio' id='radio1-3' name='radio'>
-		<label for='radio1-3'>6</label>
-		<div class="arrowRight">Completo</div>
-		<div class="arrowRight">Jefe Area</div>
-		<div class="arrowRight">Gerente de Proyecto</div>
-		<div class="arrowRight">Codificacion</div>
-		 	<button type="button" class="btn btn-primary" ng-click="CP.CambiarEstadoListaEntregable(2)">Completo</button>
-	</fieldset> -->
 
 
 <style type="text/css">
 
-.cerrado { Background: rgb(203,115,100);color:white;}
+.cerrado { Background: rgb(203,115,100);color:#2F2D2D;}
+
 
 
 @import url(http://fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300italic,400italic,500,500italic,700,700italic,900,900italic);
@@ -284,44 +292,6 @@ h1 {
 }
 </style>
 
-
-
-<style>
-/* RIGHT ARROW */
-.arrowRight{
- position:relative;
- margin: 20px;
- width:19px;
- height: 18px;
- background: #d1d1d1;
- border:solid 1px #999;
- float: left;
-}
-
- .arrowRight:before, .arrowRight:after {
- border-bottom: 9px solid transparent;
- border-top: 9px solid transparent;
- top:-1px;
- content: " ";
- position: absolute;
- display: block;
- width: 0;
- height: 0;   
- }
- .arrowRight:after {
- border-left:16px solid #d1d1d1;
- right: -15px;
- z-index: 2;
- }
- 
-.arrowRight:before {
- border-left: 16px solid #999;
- right: -16px;
- z-index: 1;
- } 
-</style>
-
-
 <style type="text/css">
 @import url("http://fonts.googleapis.com/css?family=Lobster");
 @import url(http://fonts.googleapis.com/css?family=Lobster);
@@ -332,14 +302,14 @@ h1 {
   font-weight: normal;
   font-style: normal;
 }
-body {
+/*body {
   margin: 0;
   padding: 0;
   background: url("http://www.bradysammons.com/codepen/darkui/noise.png") repeat;
   padding: 20px;
-}
+}*/
 
-a, input[type='radio'] + label {
+a,button, input[type='radio'] + label {
   text-align: center;
   display: inline-block;
   text-decoration: none;
@@ -351,14 +321,14 @@ fieldset {
   border: 1px solid #222;
   -moz-border-radius: 8px;
   -webkit-border-radius: 8px;
+  float: left;
   border-radius: 8px;
-  margin: 20px 0 0 0;
+  position: relative;
+/*  margin: 20px 0 0 0;
   min-height: 90px;
   line-height: 90px;
-  position: relative;
-  float: left;
   margin-right: 20px;
-  padding: 20px;
+  padding: 20px;*/
 }
 fieldset h2 {
   font-family: 'Lobster';
@@ -380,7 +350,7 @@ input[type='radio'] {
 /* -------------------
 	Default State
 -------------------- */
-a.glowBtn, input[type='radio'] + label {
+a.glowBtn, button.glowBtn, input[type='radio'] + label {
   z-index: 10;
   margin: 0 10px 10px 0;
   width: 115.5px;
@@ -394,10 +364,10 @@ a.glowBtn, input[type='radio'] + label {
   font-weight: bold;
   background-image: url('data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4gPHN2ZyB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJncmFkIiBncmFkaWVudFVuaXRzPSJvYmplY3RCb3VuZGluZ0JveCIgeDE9IjAuNSIgeTE9IjAuMCIgeDI9IjAuNSIgeTI9IjEuMCI+PHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzExMTExMSIvPjxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iIzAwMDAwMCIvPjwvbGluZWFyR3JhZGllbnQ+PC9kZWZzPjxyZWN0IHg9IjAiIHk9IjAiIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjZ3JhZCkiIC8+PC9zdmc+IA==');
   background-size: 100%;
-  background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #111111), color-stop(100%, #000000));
-  background-image: -moz-linear-gradient(#111111, #000000);
-  background-image: -webkit-linear-gradient(#111111, #000000);
-  background-image: linear-gradient(#111111, #000000);
+  background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #E4BA00), color-stop(100%, #E4BA00));
+  background-image: -moz-linear-gradient(#E4BA00, #E4BA00);
+  background-image: -webkit-linear-gradient(#E4BA00, #E4BA00);
+  background-image: linear-gradient(#E4BA00, #E4BA00);
   -moz-border-radius: 3px;
   -webkit-border-radius: 3px;
   border-radius: 3px;
@@ -406,7 +376,7 @@ a.glowBtn, input[type='radio'] + label {
   box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.2), 0 0 0 1px rgba(0, 0, 0, 0.3), 0 1px 0 rgba(255, 255, 255, 0.05), 0 0 3px rgba(255, 255, 255, 0.2);
 }
 
-a.glowBtn:after, input[type='radio'] + label:after {
+a.glowBtn:after,button.glowBtn:after input[type='radio'] + label:after {
   z-index: -1;
   content: '';
   cursor: pointer;
@@ -417,8 +387,8 @@ a.glowBtn:after, input[type='radio'] + label:after {
   height: 33px;
   display: block;
   position: absolute;
-  background-image: url('data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4gPHN2ZyB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJncmFkIiBncmFkaWVudFVuaXRzPSJvYmplY3RCb3VuZGluZ0JveCIgeDE9IjAuNSIgeTE9IjAuMCIgeDI9IjAuNSIgeTI9IjEuMCI+PHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzQ0NDQ0NCIvPjxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iIzM3MzczOCIvPjwvbGluZWFyR3JhZGllbnQ+PC9kZWZzPjxyZWN0IHg9IjAiIHk9IjAiIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjZ3JhZCkiIC8+PC9zdmc+IA==');
-  background-size: 100%;
+ /* background-image: url('data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4gPHN2ZyB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJncmFkIiBncmFkaWVudFVuaXRzPSJvYmplY3RCb3VuZGluZ0JveCIgeDE9IjAuNSIgeTE9IjAuMCIgeDI9IjAuNSIgeTI9IjEuMCI+PHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzQ0NDQ0NCIvPjxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iIzM3MzczOCIvPjwvbGluZWFyR3JhZGllbnQ+PC9kZWZzPjxyZWN0IHg9IjAiIHk9IjAiIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjZ3JhZCkiIC8+PC9zdmc+IA==');
+*/  background-size: 100%;
   background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #444444), color-stop(100%, #373738));
   background-image: -moz-linear-gradient(#444444, #373738);
   background-image: -webkit-linear-gradient(#444444, #373738);
@@ -434,14 +404,14 @@ a.glowBtn:after, input[type='radio'] + label:after {
 /* -------------------
 	Hover States
 -------------------- */
-a.glowBtn:hover, a.hover, input[type='radio'] + label:hover {
-  color: #AEAEAE;
-  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.4);
+a.glowBtn:hover, a.hover,button.glowBtn:hover, button.hover, input[type='radio'] + label:hover {
+  color: #FFFFFF;
+  /*text-shadow: 0px -1px 0px rgba(35, 18, 18, 0);*/
 }
 
-a.glowBtn:hover:after, a.hover:after, input[type='radio'] + label:hover:after {
-  background-image: url('data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4gPHN2ZyB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJncmFkIiBncmFkaWVudFVuaXRzPSJvYmplY3RCb3VuZGluZ0JveCIgeDE9IjAuNSIgeTE9IjAuMCIgeDI9IjAuNSIgeTI9IjEuMCI+PHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzU0NTQ1NCIvPjxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iIzM3MzczOCIvPjwvbGluZWFyR3JhZGllbnQ+PC9kZWZzPjxyZWN0IHg9IjAiIHk9IjAiIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjZ3JhZCkiIC8+PC9zdmc+IA==');
-  background-size: 100%;
+a.glowBtn:hover:after, a.hover:after,button.glowBtn:hover:after, button.hover:after, input[type='radio'] + label:hover:after {
+  /*background-image: url('data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4gPHN2ZyB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJncmFkIiBncmFkaWVudFVuaXRzPSJvYmplY3RCb3VuZGluZ0JveCIgeDE9IjAuNSIgeTE9IjAuMCIgeDI9IjAuNSIgeTI9IjEuMCI+PHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzU0NTQ1NCIvPjxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iIzM3MzczOCIvPjwvbGluZWFyR3JhZGllbnQ+PC9kZWZzPjxyZWN0IHg9IjAiIHk9IjAiIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjZ3JhZCkiIC8+PC9zdmc+IA==');
+ */ background-size: 100%;
   background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #545454), color-stop(100%, #373738));
   background-image: -moz-linear-gradient(#545454, #373738);
   background-image: -webkit-linear-gradient(#545454, #373738);
@@ -451,19 +421,29 @@ a.glowBtn:hover:after, a.hover:after, input[type='radio'] + label:hover:after {
 /* -------------------
 	Active States
 -------------------- */
-a.glowBtn:active, a.active, a.active:hover, input[type='radio']:checked + label {
-  color: #00ccff;
-  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.3), 0 0px 30px rgba(0, 255, 255, 0.7);
+a.glowBtn:active, a.active, a.active:hover,button.glowBtn:active, button.active, button.active:hover, input[type='radio']:checked + label {
+ /* color: #06980D;*/
+/*  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.3), 0 0px 30px rgba(0, 255, 255, 0.7);
   -moz-box-shadow: 0 -1px 0 rgba(0, 193, 255, 0.2), 0 0 0 1px rgba(0, 0, 0, 0.4), 0 1px 0 rgba(255, 255, 255, 0.05), 0 0 20px rgba(0, 193, 255, 0.1), 0 0 30px rgba(0, 193, 255, 0.1);
   -webkit-box-shadow: 0 -1px 0 rgba(0, 193, 255, 0.2), 0 0 0 1px rgba(0, 0, 0, 0.4), 0 1px 0 rgba(255, 255, 255, 0.05), 0 0 20px rgba(0, 193, 255, 0.1), 0 0 30px rgba(0, 193, 255, 0.1);
-  box-shadow: 0 -1px 0 rgba(0, 193, 255, 0.2), 0 0 0 1px rgba(0, 0, 0, 0.4), 0 1px 0 rgba(255, 255, 255, 0.05), 0 0 20px rgba(0, 193, 255, 0.1), 0 0 30px rgba(0, 193, 255, 0.1);
+  box-shadow: 0 -1px 0 rgba(0, 193, 255, 0.2), 0 0 0 1px rgba(0, 0, 0, 0.4), 0 1px 0 rgba(255, 255, 255, 0.05), 0 0 20px rgba(0, 193, 255, 0.1), 0 0 30px rgba(0, 193, 255, 0.1);*/
+  background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #EC6459), color-stop(100%, #EC6459));
+  background-image: -moz-linear-gradient(#EC6459, #EC6459);
+  background-image: -webkit-linear-gradient(#EC6459, #EC6459);
+  background-image: linear-gradient(#EC6459, #EC6459);
+
+
 }
 
-a.glowBtn:active, a.active, a.active:hover {
-  text-shadow: 0 -1px 0 black, 0 0px 30px cyan, 0 0px 50px cyan;
+a.glowBtn:active, a.active, a.active:hover,
+button.glowBtn:active, button.active, button.active:hover
+{
+  /*text-shadow: 0 -1px 0 black, 0 0px 30px #06BF15, 0 0px 50px #06BF15;*/
 }
 
-a.glowBtn:active:after, a.active:after, a.active:hover:after, input[type='radio']:checked + label:after {
+a.glowBtn:active:after, a.active:after, a.active:hover:after,
+button.glowBtn:active:after, button.active:after, button.active:hover:after,
+ input[type='radio']:checked + label:after {
   background-image: url('data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4gPHN2ZyB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJncmFkIiBncmFkaWVudFVuaXRzPSJvYmplY3RCb3VuZGluZ0JveCIgeDE9IjAuNSIgeTE9IjAuMCIgeDI9IjAuNSIgeTI9IjEuMCI+PHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzI2MjYyNyIvPjxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iIzJkMmQyZSIvPjwvbGluZWFyR3JhZGllbnQ+PC9kZWZzPjxyZWN0IHg9IjAiIHk9IjAiIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjZ3JhZCkiIC8+PC9zdmc+IA==');
   background-size: 100%;
   background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #262627), color-stop(100%, #2d2d2e));

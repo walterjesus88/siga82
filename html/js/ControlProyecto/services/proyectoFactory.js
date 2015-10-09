@@ -673,7 +673,7 @@ function(httpFactory, $location, $q) {
       var defered = $q.defer();
       var promise = defered.promise;     
 
-      alert(revision);
+      //alert(revision);
 
       httpFactory.setEstadoListaEntregable(value,areaid,codigoproyecto,proyectoid,revision,gerente,status)
       .then(function(data) {
@@ -712,11 +712,14 @@ function(httpFactory, $location, $q) {
       });
       return promise;      
     },
-    getDisciplinaxProyecto: function(proyectoid) {
+    getDisciplinaxProyecto: function(proyectoid,gerente,areaid) {
       var defered = $q.defer();
-      var promise = defered.promise;     
+      var promise = defered.promise;   
 
-      httpFactory.getDisciplinas(proyectoid)
+      //alert(proyectoid);  
+      //alert(gerente);  
+
+      httpFactory.getDisciplinas(proyectoid,gerente,areaid)
       .then(function(data) {
         datos = data;
         defered.resolve(datos);

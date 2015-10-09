@@ -26,6 +26,10 @@
 		    <button type="submit" ng-disabled="tableform.$waiting" class="btn btn-shadow btn-primary">guardar</button>
 		    <button type="button" ng-disabled="tableform.$waiting" ng-click="tableform.$cancel()" class="btn btn-shadow btn-default">cancelar</button>
 		</div>
+		<div class="panel" >	
+		  <!--   <button type="button" class="btn btn-default" ng-click="CP.exportarToXml()">Exportar</button> -->
+		    <button type="button" class="btn btn-link" ng-click="CP.imprimirperformance()">Imprimir</button>	
+		</div>
 
 		<table class=" table table-striped table-hover table-bordered scrollTable">
 			<thead class="fixedHeaderw">
@@ -81,7 +85,7 @@
 						</span>
 					</td>
 
-					<td ng-class="{ 'actividadpadre':performance.actividadpadre }" >			
+					<td ng-class="{ 'actividadpadre':performance.actividadpadre }" >	
 						<span editable-text="performance.costo_propuesta" e-form="tableform" onbeforesave="checkName($data, performance.codigo_performance)">
 						{{ performance.costo_propuesta }}
 						</span>

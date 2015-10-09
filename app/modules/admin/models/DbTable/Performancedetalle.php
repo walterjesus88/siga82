@@ -65,4 +65,25 @@ class Admin_Model_DbTable_Performancedetalle extends Zend_Db_Table_Abstract
         }
     }
 
+    public function _getFilterPerformance($proyectoid,$revision)
+    {
+      try {
+        $query1 = "select a.nombre,
+        p.codigo_prop_proy,p.codigo_actividad,p.actividadid,p.cronogramaid,p.codigo_cronograma,
+        p.revision_cronograma,p.proyectoid,p.codigo_performance,p.fecha_performance,p.porcentaje_performance,
+        p.fecha_ingreso_performance,p.costo_real,p.horas_real,p.predecesoras,p.sucesoras,p.nivel_esquema,
+        p.costo_propuesta,p.duracion,p.porcentaje_planificado,p.porcentaje_real,p.horas_propuesta,p.state,
+        p.costo_planificado,p.horas_planificado,p.fecha_comienzo,p.fecha_fin,p.fecha_fin_real,p.fecha_comienzo_real
+        from proyecto_performance_detalle as p
+        inner join actividad as a
+        on p.proyectoid=a.proyectoid and  p.actividadid=a.actividadid
+        where p.proyectoid = '".$proyectoid."' and p.revision_cronograma = '".$revision."' " ;
+        $sql = $this->_db->query($query1);
+        $row = $sql->fetchAll();
+        return $row;
+      } catch (Exception $e) {
+        print $e->getMessage();
+      }
+    }
+
 }

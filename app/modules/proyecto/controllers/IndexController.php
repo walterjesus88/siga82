@@ -2533,10 +2533,18 @@ $this->_helper->json->sendJson($data);
 
 public function disciplinasAction() {
   $proyectoid= $this->_getParam("proyectoid");
-  //$codigo_prop_proy= $this->_getParam("codigo_prop_proy");
+  $gerente= $this->_getParam("gerente");
+  $areaid= $this->_getParam("areaid");
 
   $equipoarea=new Admin_Model_DbTable_Equipoarea();
-  $earea=$equipoarea->_buscarAreasxProyectoid($proyectoid);
+  //if($gerente=='S')
+  //{
+  $earea=$equipoarea->_buscarAreasxProyectoid($proyectoid);    
+  //}
+  //else
+  //{
+  //  $earea=$equipoarea->_buscarAreasxProyectoidxArea($proyectoid,$areaid);    
+  //}
 
   $this->_helper->json->sendJson($earea);
 }

@@ -24,6 +24,7 @@ public function __construct($formato, $cabecera, $cuerpo) {
     $this->formatos['reporte_cliente'] = 'formatos/cliente.pdf';
     $this->formatos['reporte_cliente'] = 'formatos/cliente.pdf';
     $this->formatos['lista_entregable'] = 'formatos/lista_entregable.pdf';
+    $this->formatos['performance'] = 'formatos/performance.pdf';
     $this->modelo = $this->formatos[$formato];
     $this->cabecera = $cabecera;
     $this->data = $cuerpo;
@@ -52,6 +53,12 @@ protected function _setConfiguration()
         $this->max_high = 600;
         $this->max_width = 850;
         $this->position = 470;
+        break;
+
+      case  $this->modelo == $this->formatos['performance']:
+        $this->max_high = 600;
+        $this->max_width = 850;
+        $this->position = 445;
         break;
 
     default:
@@ -115,6 +122,10 @@ protected function _rellenarFormato()
         $pdf = $this->_rellenarFormatoListaEntregable();
         break;
 
+      case $this->modelo == $this->formatos['performance']:
+        $pdf = $this->_rellenarFormatoPerformance();
+        break;
+
       default:
         # code...
         break;
@@ -123,14 +134,85 @@ protected function _rellenarFormato()
   return $pdf;
 }
 
-protected function _rellenarFormatoListaEntregable()
+
+protected function _rellenarFormatoPerformance()
 {
 
-  //echo "dccccttttttt";
-  $estados = [];
-
   $pdf = new Zend_Pdf();
+  $first = true;
+  $a = $this->position;
+  $j = 0;
 
+  //print_r($a);
+  //print_r($this->data);exit();
+
+  for ($i=0; $i < sizeof($this->data); $i++) 
+  {
+    if ($first == true) {
+      $page = clone $this->template->pages[0];
+      $page->setFont($this->font, $this->font_size);
+      $pdf->pages[] = $page;
+        //datos cabecera
+      $page->drawText($this->data[$i]['proyectoid'], 755, 568);
+      $page->drawText($this->data[$i]['revision_cronograma'], 755, 545);
+    }   
+      $linea = $a;
+      $max = $linea;
+      $page->drawText((string)$i + 1, 7, $a);      
+      $page->drawText($this->data[$i]['actividadid'], 30, $a);
+
+      do {
+        $texto = substr($this->data[$i]['nombre'], 0, 30);
+
+       // $texto = iconv( "ISO-8859-1//TRANSLIT","Windows-1250", $texto); 
+
+        //print_r($texto);
+
+        $page->drawText($texto, 60, $linea,'UTF-8//IGNORE','ISO-8859-1//TRANSLIT','Windows-1250','UTF-16');
+
+        $this->data[$i]['nombre'] = substr($this->data[$i]['nombre'],
+        30, strlen($this->data[$i]['nombre']));
+        $linea = $linea - 10;
+      } while (strlen($this->data[$i]['nombre']) > 0);
+
+      //$page->drawText($this->data[$i]['nombre'], 80, $a);
+      $page->drawText($this->data[$i]['costo_propuesta'], 180, $a);
+      $page->drawText($this->data[$i]['horas_propuesta'], 230, $a);
+      $page->drawText($this->data[$i]['horas_planificado'], 280, $a);
+      $page->drawText($this->data[$i]['costo_planificado'], 325, $a);
+      $page->drawText($this->data[$i]['porcentaje_planificado'], 368, $a);
+      $page->drawText($this->data[$i]['horas_real'], 410, $a);
+      $page->drawText($this->data[$i]['costo_real'], 450, $a);
+      $page->drawText($this->data[$i]['porcentaje_real'], 500, $a);
+      $page->drawText($this->data[$i]['fecha_comienzo'], 521, $a);
+      $page->drawText($this->data[$i]['fecha_fin'], 569, $a);
+      $page->drawText($this->data[$i]['duracion'], 630, $a);
+      $page->drawText($this->data[$i]['fecha_comienzo_real'], 657, $a);
+      $page->drawText($this->data[$i]['fecha_fin_real'], 705, $a);
+      $page->drawText($this->data[$i]['fecha_performance'], 754, $a);
+      $page->drawText($this->data[$i]['porcentaje_performance'], 808, $a);
+     
+      //$page->drawText($this->data[$i]['fecha_performance'], 850, $a);
+  
+    
+      $first = false;
+      $a = $max - 40;
+      $j++;
+      if ($a < 10) {
+        $a = $this->position;
+        $first = true;
+        $j = 0;
+      }
+  }
+
+  $this->fileName = $this->carpeta.'Lista de performance.pdf';
+  return $pdf;
+
+}
+
+protected function _rellenarFormatoListaEntregable()
+{
+  $pdf = new Zend_Pdf();
   $first = true;
   $a = $this->position;
   $j = 0;
@@ -142,17 +224,12 @@ protected function _rellenarFormatoListaEntregable()
       $page->setFont($this->font, $this->font_size);
       $pdf->pages[] = $page;
         //datos cabecera
-      //$page->drawText(date("d-m-Y"), 750, 572);
       $page->drawText($this->data[$i]['proyectoid'], 755, 568);
       $page->drawText($this->data[$i]['revision_entregable'], 755, 545);
-      //$page->drawText(sizeof($this->data), 750, 543);
-    }
-      //print_r($this->data[$i]);
+    }   
       $page->drawText((string)$i + 1, 7, $a);      
       $page->drawText($this->data[$i]['nombre_edt'], 50, $a);
       $page->drawText($this->data[$i]['tipo_documento'], 110, $a);
- 
-
       $linea = $a;
       $max = $linea;
       do {
@@ -162,8 +239,6 @@ protected function _rellenarFormatoListaEntregable()
         15, strlen($this->data[$i]['nombre']));
         $linea = $linea - 10;
       } while (strlen($this->data[$i]['nombre']) > 0);
-
-
       $linea = $a;
       $max = $linea;
       do {
@@ -173,8 +248,6 @@ protected function _rellenarFormatoListaEntregable()
         17, strlen($this->data[$i]['codigo_cliente']));
         $linea = $linea - 10;
       } while (strlen($this->data[$i]['codigo_cliente']) > 0);
-
-
       $linea = $a;
       $max = $linea;
       do {
@@ -184,7 +257,6 @@ protected function _rellenarFormatoListaEntregable()
         17, strlen($this->data[$i]['codigo_anddes']));
         $linea = $linea - 10;
       } while (strlen($this->data[$i]['codigo_anddes']) > 0);
-
       $linea = $a;
       $max = $linea;
       do {
@@ -198,11 +270,9 @@ protected function _rellenarFormatoListaEntregable()
       $page->drawText($this->data[$i]['fecha_a'], 640, $a);
       $page->drawText($this->data[$i]['fecha_b'], 710, $a);
       $page->drawText($this->data[$i]['fecha_0'], 780, $a);
-      //$page->drawText($estados[$this->data[$i]['revision_entregable']], 780, $a);
       $first = false;
       $a = $max - 50;
       $j++;
-
       if ($a < 10) {
         $a = $this->position;
         $first = true;
