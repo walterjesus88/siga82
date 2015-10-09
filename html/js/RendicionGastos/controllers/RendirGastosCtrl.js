@@ -74,10 +74,11 @@ httpFactory.getTiposGasto()
 
  vrg.GuardarGastos= function(){
 
-  gastosFactory.setGuardarGastos(vrg.descripcion,vrg.gastoid,vrg.bill_cliente,vrg.reembolsable,vrg.fecha_factura,vrg.num_factura,vrg.moneda,vrg.proveedor,vrg.monto_igv,vrg.otro_impuesto,numero,fecha)
+  gastosFactory.setGuardarGastos(vrg.proyectoid, vrg.descripcion,vrg.gastoid,vrg.bill_cliente,vrg.reembolsable,vrg.fecha_factura,vrg.num_factura,vrg.moneda,vrg.proveedor,vrg.monto_igv,vrg.otro_impuesto,numero,fecha)
   .then(function(data) {
     /*insertar una nueva fila*/
     vrg.inserted = {
+      proyectoid:vrg.proyectoid,
       descripcion:vrg.descripcion,
       gastoid:vrg.gastoid,
       bill_cliente:vrg.bill_cliente,
