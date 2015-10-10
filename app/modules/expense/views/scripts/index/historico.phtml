@@ -19,7 +19,7 @@
           </span>
         </header>
         <div id="rendicion_pendientes">
-        <table class="table table-hover p-table">
+        <table class="table table-hover p-table datatable-order-search">
             <thead>
                 <tr>
                     <th style="width: 10%;">Num</th>
@@ -340,3 +340,14 @@
             $("#rendicion_aprobados").hide();
         });
     </script>
+
+        <script>
+          $(document).ready(function() {
+            $('.datatable-order-search').dataTable( {
+                "paging":   false,
+                "ordering": true,
+                "info":     false
+            } );
+
+        } );
+        </script>

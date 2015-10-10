@@ -37,8 +37,7 @@ function(httpFactory, $location, $q) {
 
 
 
-      Rendicion: function(descripcion,gastoid, bill_cliente, reembolsable, bill_cliente, num_factura,
-      moneda, proveedor) {
+      Rendicion: function(descripcion,gastoid, bill_cliente, reembolsable, bill_cliente, num_factura, moneda, proveedor) {
 
 
       //this.gastoid=descripcion;  

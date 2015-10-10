@@ -1,0 +1,151 @@
+<section class="panel">
+    <header class="panel-heading">
+        Nueva Area
+    </header>
+</section>
+
+<div class="row">
+<div class="col-md-12">
+<section class="panel">
+    <div class="panel-body bio-graph-info">
+        <div class="row p-details">
+            
+              <div class="bio-row form-group has-success">
+                <div class="form-group">
+                    <label >Codigo del Area</label>
+                    <input id="areaid" type="text" class="input-sm form-control" maxlength="3" value="<?php print_r($this->datosarea[0]['areaid'])?>" disabled />
+                </div>
+            </div>
+            <div class="bio-row form-group has-success">
+                <div class="form-group">
+                    <label >Npmbre deL Area (*)</label>
+                    <input id="nombre" type="text" class="input-sm form-control" value="<?php print_r($this->datosarea[0]['nombre'])?>" />
+                </div>
+            </div>
+            <div class="bio-row form-group has-success">
+                <div class="form-group">
+                    <label >Area Padre</label>
+                    <select id='area_padre' class="input-sm form-control">
+                        <?php if (($this->datosarea[0]['area_padre']) == '') { ?>
+                        <option value=""></option>
+                        <?php } else { ?>
+                        <option value="<?php print_r($this->datosarea[0]['area_padre'])?>"> <?php print_r($this->datos_area_padre[0]['nombre']) ?> </option>
+                        <?php } ?>
+                        <?php foreach ($this->lista_de_areas as $area_padre) { ?>
+                        <option value="<?php print_r($area_padre['areaid'])?>"> <?php print_r($area_padre['nombre']) ?> </option>
+                        <?php } ?>
+                    </select>
+                </div>
+            </div>
+            <div class="bio-row form-group has-success">
+                <div class="form-group">
+                    <label >Proyecto</label>
+                    <select id='isproyecto' class="input-sm form-control" >
+                        <?php if (($this->datosarea[0]['isproyecto']) == 'S'){ ?>
+                        <option value="S">Si</option>
+                        <option value="N">No</option>
+                        <?php } elseif (($this->datosarea[0]['isproyecto']) == 'N') { ?>
+                        <option value="N">No</option>
+                        <option value="S">Si</option>
+                        <?php } ?>
+                    </select>
+                </div>
+            </div>
+            <div class="bio-row form-group has-success">
+                <div class="form-group">
+                    <label >Propuesta</label>
+                    <select id='ispropuesta' class="input-sm form-control" >
+                        <?php if (($this->datosarea[0]['ispropuesta']) == 'S'){ ?>
+                        <option value="S">Si</option>
+                        <option value="N">No</option>
+                        <?php } elseif (($this->datosarea[0]['ispropuesta']) == 'N') { ?>
+                        <option value="N">No</option>
+                        <option value="S">Si</option>
+                        <?php } ?>
+                    </select>
+                </div>
+            </div>
+            <div class="bio-row form-group has-success">
+                <div class="form-group">
+                    <label >Contacto</label>
+                    <select id='iscontacto' class="input-sm form-control" >
+                        <?php if (($this->datosarea[0]['iscontacto']) == 'S'){ ?>
+                        <option value="S">Si</option>
+                        <option value="N">No</option>
+                        <?php } elseif (($this->datosarea[0]['iscontacto']) == 'N') { ?>
+                        <option value="N">No</option>
+                        <option value="S">Si</option>
+                        <?php } ?>
+                    </select>
+                </div>
+            </div>
+            <div class="bio-row form-group has-success">
+                <div class="form-group">
+                    <label >Comercial</label>
+                    <select id='iscomercial' class="input-sm form-control" >
+                        <?php if (($this->datosarea[0]['iscomercial']) == 'S'){ ?>
+                        <option value="S">Si</option>
+                        <option value="N">No</option>
+                        <?php } elseif (($this->datosarea[0]['iscomercial']) == 'N') { ?>
+                        <option value="N">No</option>
+                        <option value="S">Si</option>
+                        <?php } ?>
+                    </select>
+                </div>
+            </div>
+            <div class="bio-row form-group has-success">
+                <div class="form-group">
+                    <label >Orden</label>
+                    <select id='orden' class="input-sm form-control">
+                    <option value="<?php print_r($this->datosarea[0]['orden'])?>"><?php print_r($this->datosarea[0]['orden'])?></option>
+                    <?php for ($i=1; $i < 11; $i++) { ?>
+                    <option value="<?php echo $i ?>"><?php echo $i ?></option>
+                    <?php }?>
+                    </select>
+                </div>
+            </div>
+            <div class="bio-row form-group has-success">
+                <div class="panel-body">
+                    <a class="btn btn-success btn-sm" id="actualizar_area">Actualizar</a>                                      
+                    <a class="btn btn-info btn-sm" href="/admin/tablamaestra/listararea">Cancelar</a> 
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+</div>
+</div>
+
+
+<div id="cargar_datos"></div>
+
+<script type='text/javascript'>
+    $("#actualizar_area").click(function(){
+       
+       var areaid = $("#areaid").val();
+       //var nombre = $("#nombre").val();
+       var captura_nombre = $("#nombre").val();
+       var nombre= captura_nombre.replace(/\s/g,"_");
+       var area_padre = $("#area_padre").val();
+       var isproyecto = $("#isproyecto").val();
+       var ispropuesta = $("#ispropuesta").val();
+       var iscontacto = $("#iscontacto").val();
+       var iscomercial = $("#iscomercial").val();
+       var orden = $("#orden").val();
+       
+       
+       if (nombre=='')
+       {
+        $("#nombre").focus();
+        alert("ingrese los datos requeridos (*)");
+       }
+       else
+       {
+        url="/admin/tablamaestra/updatearea/areaid/"+areaid+"/nombre/"+nombre+"/area_padre/"+area_padre+"/isproyecto/"+isproyecto+"/ispropuesta/"+ispropuesta+"/iscontacto/"+iscontacto+"/iscomercial/"+iscomercial+"/orden/"+orden;
+        //alert(url);
+        $("#cargar_datos").load(url);
+        document.location.href="/admin/tablamaestra/listararea";
+       }
+    });
+
+</script>

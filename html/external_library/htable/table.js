@@ -25,8 +25,8 @@
     // plugin's default options
     var defaults = {
       width:          '100%',
-      height:         '600px',
-      themeClass:     'table-responsive',
+      height:         '500px',
+      themeClass:     'fht-table-init',
       borderCollapse:  true,
       fixedColumns:    true, // fixed first columns
       fixedColumn:     false, // For backward-compatibility

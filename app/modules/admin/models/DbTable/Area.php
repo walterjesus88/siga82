@@ -42,6 +42,26 @@ class Admin_Model_DbTable_Area extends Zend_Db_Table_Abstract
         }
     }
 
+    /*listar todas las areas con su gerencia central*/
+    public function _getAreaGerenteCentral()
+     {
+        try{
+            $sql=$this->_db->query("
+                SELECT area.areaid, area.nombre, area.area_padre, area.isproyecto, area.ispropuesta, area.iscontacto, area.iscomercial, area.orden
+                FROM area  
+                LEFT JOIN persona  
+                ON (area.gerente_central = persona.dni);
+
+            ");
+            $row=$sql->fetchAll();
+            return $row;           
+            }  
+            
+           catch (Exception $ex){
+            print $ex->getMessage();
+        }
+    }
+
     public function _getAreaxIndice($areaid)
      {
         try{
@@ -171,18 +191,22 @@ class Admin_Model_DbTable_Area extends Zend_Db_Table_Abstract
         }
     }
 
+
     public function _updatearea($data,$pk)
     {
         try{
             if ($pk=='' ) return false;
             $where = "areaid = '".$pk."' ";
             return $this->update($data, $where);
+
             // print_r($this->update($data, $where);
+
             return false;
         }catch (Exception $e){
             print "Error: Update area".$e->getMessage();
         }
     }
+
 
         public function _save($data)
     {
@@ -191,7 +215,21 @@ class Admin_Model_DbTable_Area extends Zend_Db_Table_Abstract
             return $this->insert($data);
             return false;
         }catch (Exception $e){
-                print "Error: Registration ".$e->getMessage();
+              //  print "Error: Registration ".$e->getMessage();
+        }
+    }
+
+
+    public function _deletearea($pk=null)
+    {
+        try{
+            if ($pk['areaid']=='') return false;
+
+            $where = "areaid = '".$pk['areaid']."'";
+            return $this->delete( $where);
+            return false;
+        }catch (Exception $e){
+            print "Error: Update Distribution".$e->getMessage();
         }
     }
 
@@ -210,6 +248,7 @@ class Admin_Model_DbTable_Area extends Zend_Db_Table_Abstract
                 print "Error: Eliminar EDT".$e->getMessage();
             }
         }
+
 
 
 }

@@ -35,18 +35,32 @@ list($año, $mes, $dia) = split('[-]', $data_rendicion['fecha']);
             <th><?php echo $dia.'-'.$mes.'-'.$año;?></th>
         </tr>
         <tr>
-            <th style="width: 100px">Usuario Rendición</th>
+            <th style="width: 100px">Registrado Por</th>
             <th style="width: 120px"><?php if($data_rendicion['uid']=='administracion1')
                 { echo "Patricia Velasquez";}
                 if($data_rendicion['uid']=='administracion2')
                 { echo "Silvia Vasquez";}
                 if($data_rendicion['uid']=='administracion3')
-                { echo "Karla Briceño";}
+                { echo "Sara Calderon";}
                 if($data_rendicion['uid']=='administracion4')
                 { echo "Jhon gutierrez";}
                 if($data_rendicion['uid']!='administracion4' and $data_rendicion['uid']!='administracion3' and $data_rendicion['uid']!='administracion2' and $data_rendicion['uid']!='administracion1' )
                 { $porciones = explode(".", $data_rendicion['uid']);
                   echo (ucwords($porciones[0])); echo " ";echo (ucwords($porciones[1]));}
+            ?></th>
+
+            <th style="width: 100px">DNI Usuario</th>
+            <th style="width: 120px"><?php if($data_rendicion['uid']=='administracion1')
+                { echo "Administracion";}
+                if($data_rendicion['uid']=='administracion2')
+                { echo "Administracion";}
+                if($data_rendicion['uid']=='administracion3')
+                { echo "Administracion";}
+                if($data_rendicion['uid']=='administracion4')
+                { echo "Administracion";}
+                if($data_rendicion['uid']!='administracion4' and $data_rendicion['uid']!='administracion3' and $data_rendicion['uid']!='administracion2' and $data_rendicion['uid']!='administracion1' )
+                { 
+                  echo ($data_rendicion['dni']); }
             ?></th>
 
             
@@ -137,10 +151,10 @@ list($año, $mes, $dia) = split('[-]', $data_rendicion['fecha']);
                                         <span><?php 
                                                 switch ($data_actividades['moneda']) {
                                                     case 'Soles':
-                                                        echo "PEN";
+                                                        echo "S/. ";
                                                         break;
                                                     case 'Dolar Americano':
-                                                        echo "US";
+                                                        echo "$. ";
                                                         break;
                                                  } ?></span>
                                     </td>
@@ -180,23 +194,27 @@ list($año, $mes, $dia) = split('[-]', $data_rendicion['fecha']);
 </div>
 <table>
     <tr>
-        <th style="width: 250px">Total Monto</th>
-        <th style="width: 250px"><?php echo 'S/. '.$data_rendicion['monto_total'];?></th>
-        <th style="width: 250px">Segundo Monto</th>
+        <th style="width: 250px">Total Importe</th>
         <th style="width: 250px"><?php echo '$. '.$data_rendicion['dolar_monto_total'];?></th>
+
+        
+        <th style="width: 250px">Total Importe</th>
+        <th style="width: 250px"><?php echo 'S/. '.$data_rendicion['monto_total'];?></th>
     </tr>
-    <tr>
-        <th>Total Reembolso</th>
-        <th><?php echo 'S/. '.$data_rendicion['monto_reembolso'];?></th>
-        <th>Segundo Reembolso</th>
-        <th><?php echo '$. '.$data_rendicion['dolar_monto_reembolso'];?></th>
-    </tr>
+    
+    <!--
     <tr>
         <th>Total Cliente</th>
         <th><?php echo 'S/. '.$data_rendicion['monto_cliente'];?></th>
         <th>Segundo Cliente</th>
         <th><?php echo '$. '.$data_rendicion['dolar_monto_cliente'];?></th>
     </tr>
+    <tr>
+        <th>Total Reembolso</th>
+        <th><?php echo 'S/. '.$data_rendicion['monto_reembolso'];?></th>
+        <th>Segundo Reembolso</th>
+        <th><?php echo '$. '.$data_rendicion['dolar_monto_reembolso'];?></th>
+    </tr>-->
 </table>
 <?php 
 } ?> 

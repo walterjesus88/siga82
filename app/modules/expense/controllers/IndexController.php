@@ -433,7 +433,7 @@ class Expense_IndexController extends Zend_Controller_Action {
                 }
                 else
                 {
-                    $dolar_tipo_cambio='3.15';
+                    $dolar_tipo_cambio['compra']='3.15';
                 }
                 $where_cambio['tipo_moneda'] = 'Dolar Canadiense';
                 $dolar_canadiense_tipo_cambio = $tipo_cambio->_getOne($where_cambio);

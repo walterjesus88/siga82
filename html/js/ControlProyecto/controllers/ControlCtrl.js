@@ -221,13 +221,14 @@ proyectoFactory.getLeerSessionUsuario(proyecto['codigo'])
           va.statelista=data;
           console.log(data);        
           status=data['status']; 
+
+        //Esto era para activar el agregar segun 
         switch(data['indice']) 
         {
           case 1:
             if(data['indice']==1 && (va.responsable=='S' || va.gerente=='S'))
             {
-              va.activareditar=true;
-              //alert('editar 1');
+              va.activareditar=true;              
             }
             else
             {
@@ -237,8 +238,7 @@ proyectoFactory.getLeerSessionUsuario(proyecto['codigo'])
           case 2:
             if(data['indice']==2 && (va.jefearea=='S' ))
             {
-              va.activareditar=true;
-              //alert('editar 2');
+              va.activareditar=true;         
             } 
             else
             {
@@ -248,8 +248,7 @@ proyectoFactory.getLeerSessionUsuario(proyecto['codigo'])
           case 3:
             if(va.responsable=='S'  || va.gerente=='S')
             {
-              va.activareditar=true;
-              //alert('editar 3');
+              va.activareditar=true;    
             } 
             else
             {
@@ -2176,9 +2175,10 @@ va.guardatListaentregable = function(data, id) {
   codigo_cliente=data['codigo_cliente'];
   //fecha_a=data['fecha_a'];
   fecha_a=va.fecha_a;
-
-  fecha_b=data['fecha_b'];
-  fecha_0=data['fecha_0'];
+  fecha_b=va.fecha_b;
+  fecha_0=va.fecha_0;
+  // fecha_b=data['fecha_b'];
+  // fecha_0=data['fecha_0'];
   descripcion_entregable=data['descripcion_entregable'];   
   cod_le=id;
     // fecha_a=(fecha_a=='' || fecha_a==null || fecha_a!='null' || fecha_a!='undefined') ? "" : proyectoFactory.formatoFechas(fecha_a); 
