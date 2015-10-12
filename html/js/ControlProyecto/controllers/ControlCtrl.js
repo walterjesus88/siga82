@@ -220,90 +220,111 @@ proyectoFactory.getLeerSessionUsuario(proyecto['codigo'])
       .then(function(data) {        
           va.statelista=data;
           console.log(data);        
-          status=data['status']; 
+          status=data['status'];
+          if(data=='' )
+          {
+            if(va.responsable=='S' ||  va.gerente=='S'){
+              va.statelista.indice=1;              
+            }
 
+            if(va.gerente=='S'){
+              //console.log('gggg');
+              va.activareditar=true; 
+            }
+          }
+          else
+          { 
         //Esto era para activar el agregar segun 
-        switch(data['indice']) 
-        {
-          case 1:
-            if(data['indice']==1 && (va.responsable=='S' || va.gerente=='S'))
+            switch(data['indice']) 
             {
-              va.activareditar=true;              
+              case 1:
+                if(data['indice']==1 && (va.responsable=='S' ))
+                {
+                  va.activareditar=true;              
+                }
+                else
+                {
+                  va.activareditar=false;              
+                }
+              break;
+              case 2:
+                //if(data['indice']==2 && (va.jefearea=='S' ))
+                //{
+                  //va.activareditar=true;         
+                //} 
+                //else
+                //{
+                  va.activareditar=false;
+                //}   
+              break;
+              case 3:
+                //if(va.responsable=='S' || va.gerente=='S')
+                //{
+                //  va.activareditar=true;    
+                //} 
+                //else
+                //{
+                  va.activareditar=false;
+                //}   
+              break;
+              case 4:
+                //if(data['indice']==4 && va.gerente=='S' )
+                //{
+                //  if(status=='gr')
+                //  {
+                //    va.activareditar=true;                
+                //  } 
+                //  else
+                //  {             
+                //    va.activareditar=false;
+                //  }
+                //} 
+                //else
+                //{
+                  va.activareditar=false;              
+                //}           
+              break;
+              case 5:
+                  //if(va.jefearea=='S')
+                  //{               
+                  //  va.activareditar=true;                
+                  // }
+                  //else
+                  //{
+                    va.activareditar=false; 
+                  //}
+              break;
+              case 6:
+                  va.activareditar=false; 
+              break;
+              case 7:
+                  //if(va.gerente=='S' )
+                  //{
+                  //  va.activareditar=true;
+                  //}
+                  //else
+                  //{                
+                    va.activareditar=false;            
+                  //}
+              break;
+              case 8:                         
+                    va.activareditar=false;
+              break;
+              case 9:                         
+                  va.activareditar=false;
+              break;
+              default:
+                  // if(va.gerente=='S' )
+                  // {
+                  //   va.activareditar=true;                
+                  // }
+                  // else
+                  // {
+                    va.activareditar=false;                
+                  //}
             }
-            else
-            {
-              va.activareditar=false;              
-            }
-          break;
-          case 2:
-            if(data['indice']==2 && (va.jefearea=='S' ))
-            {
-              va.activareditar=true;         
-            } 
-            else
-            {
-              va.activareditar=false;
-            }   
-          break;
-          case 3:
-            if(va.responsable=='S'  || va.gerente=='S')
-            {
-              va.activareditar=true;    
-            } 
-            else
-            {
-              va.activareditar=false;
-            }   
-          break;
-          case 4:
-            if(data['indice']==4 && va.gerente=='S' )
-            {
-              if(status=='gr')
-              {
-                va.activareditar=true;                
-              } 
-              else
-              {             
-                va.activareditar=false;
-              }
-            } 
-            else
-            {
-              va.activareditar=false;              
-            }           
-          break;
-          case 5:
-              if(va.jefearea=='S')
-              {               
-                va.activareditar=true;                
-              }
-              else
-              {
-                va.activareditar=false; 
-              }
-          break;
-          case 6:
-              va.activareditar=false; 
-          break;
-          case 7:
-              if(va.gerente=='S' )
-              {
-                va.activareditar=true;
-              }
-              else
-              {                
-                va.activareditar=false;            
-              }
-          break;
-          case 8:                         
-                va.activareditar=false;
-          break;
-          case 9:                         
-              va.activareditar=false;
-          break;
-          default:
-              va.activareditar=false;
-        }
+          }
+
       })
       .catch(function(err) {
           console.log("error al eliminar entregable");

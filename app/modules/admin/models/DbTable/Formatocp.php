@@ -217,6 +217,19 @@ protected function _rellenarFormatoListaEntregable()
   $a = $this->position;
   $j = 0;
 
+  // include "libchart/classes/libchart.php";
+  // header("Content-type: image/png");
+  // $chart = new PieChart(500, 260);
+
+  // $dataSet = new XYDataSet();
+  // $dataSet->addPoint(new Point("Mozilla Firefox (80)", 80));
+  // $dataSet->addPoint(new Point("Konqueror (75)", 75));
+  // $dataSet->addPoint(new Point("Other (50)", 50));
+  // $chart->setDataSet($dataSet);
+
+  // $chart->setTitle("User agents for www.example.com");
+  // $chart->render();
+
   for ($i=0; $i < sizeof($this->data); $i++) 
   {
     if ($first == true) {
@@ -227,7 +240,7 @@ protected function _rellenarFormatoListaEntregable()
       $page->drawText($this->data[$i]['proyectoid'], 755, 568);
       $page->drawText($this->data[$i]['revision_entregable'], 755, 545);
     }   
-      $page->drawText((string)$i + 1, 7, $a);      
+      $page->drawText((string)$i + 1, 7, $a); 
       $page->drawText($this->data[$i]['nombre_edt'], 50, $a);
       $page->drawText($this->data[$i]['tipo_documento'], 110, $a);
       $linea = $a;
@@ -279,8 +292,6 @@ protected function _rellenarFormatoListaEntregable()
         $j = 0;
       }
   }
-
-  //exit(); 
 
   $this->fileName = $this->carpeta.'Lista de Entregable.pdf';
   return $pdf;
