@@ -158,6 +158,8 @@ class Admin_Model_DbTable_Cliente extends Zend_Db_Table_Abstract
         }
     }
 
+
+
  public function _updatecliente($data,$pk)
     {
         try{
@@ -172,15 +174,29 @@ class Admin_Model_DbTable_Cliente extends Zend_Db_Table_Abstract
     }
 
         public function _save($data)
+
     {
         try{
             if ($data['clienteid']=='' ) return false;
             return $this->insert($data);
             return false;
         }catch (Exception $e){
+
                 print "Error: Registration ".$e->getMessage();
+
         }
     }
 
+    public function _deletecliente($pk=null)
+    {
+        try{
+            if ($pk['clienteid']=='') return false;
 
+            $where = "clienteid = '".$pk['clienteid']."'";
+            return $this->delete( $where);
+            return false;
+        }catch (Exception $e){
+            print "Error: Delete Cliente".$e->getMessage();
+        }
+    }
 }

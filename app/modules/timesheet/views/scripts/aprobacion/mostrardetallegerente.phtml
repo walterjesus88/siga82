@@ -56,6 +56,9 @@
               <textarea style="width:320px" title="Ingrese un comentario aqui..." placeholder="Añade un comentario..." name="comentario" id="comentario"></textarea>
             </div>
             <?php
+
+            /*Mostar botone aprobacion de hoja tiempo*/
+            
             if($existe_historial)
             {              
                ?>
@@ -85,11 +88,11 @@
             foreach ($actividades as $data_tareo) 
             { ?>
             <tr class="gradeX" id ="tr_tareo_<?php echo $j?>">
-              <td> 
+              <td style="width: 2%;padding: 10px;"> 
                   <?php echo $j?>
               </td>
              
-              <td style="width: 60%;">
+              <td style="width: 60%;padding: 10px;"> 
                 <?php  
                   $buscaunidad = new Admin_Model_DbTable_Unidadminera();
                   $buscanombre_unidad=$buscaunidad->_getUnidadmineraxid($data_tareo['clienteid'],$data_tareo['unidad_mineraid']);
@@ -101,7 +104,7 @@
                 echo "<strong>"; echo $data_tareo['proyectoid']; echo "</strong>"; echo " "; echo "<strong>"; echo $unidad_minera; echo "</strong>"; echo " "; echo $data_tareo['nombre_proyecto'];  echo " "; echo $data_tareo['actividadid']; echo " ";echo $data_tareo['nombre'] ?>
               </td>              
 
-           <td>
+           <td style="width: 60%;padding: 10px;"> 
                 <?php if ($data_tareo['tipo_actividad']=='G') {?>
                   
 
@@ -123,13 +126,13 @@
 
               </td>           
 
-              <td> 
+            <td style="width: 60%;padding: 10px;"> 
                 <?php if ($data_tareo['tipo_actividad']=='G') {
                   $dbactividadgeneral= new Admin_Model_DbTable_Actividadgeneral();
                   $datosactgeneral = $dbactividadgeneral->_getActividadgeneralxId($data_tareo['actividad_generalid']);
                  // print_r($datosactgeneral[0]['nombre']) 
                   if ($data_tareo['actividad_generalid']) { ?>
-                           <select disabled id="select_generalg_<?php echo $j?>" class="form-control input-sm m-bot15 col-lg-10">                        
+                           <select disabled id="select_generalg_<?php echo $j?>" class="">                        
                             <option value="<?php echo $data_tareo['actividad_generalid']?>"><?php print_r($datosactgeneral[0]['nombre']) ?></option>
                                 <?php 
                                     $areaid='90';
@@ -158,7 +161,7 @@
                   <?php }
                   if ($data_tareo['tipo_actividad']=='P') {  ?>
                   <div id="tarea_proyecto_<?php echo $j?>" >
-                   <?php echo "< none >" ?>
+                   <!--<?php echo "< none >" ?>-->
                    </div>
                   <div id="tarea_general_<?php echo $j?>" style="display:none">
 

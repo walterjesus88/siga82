@@ -196,7 +196,7 @@ class Admin_Model_DbTable_Proyecto extends Zend_Db_Table_Abstract
                 select *,p.estado as estado_proyecto from proyecto as p
                 inner join cliente as c on
                 p.clienteid=c.clienteid
-                where not p.proyectoid in ('1','2','3','4','5','1590.10.01','1590.10.02','1590.10.03') order by p.proyectoid desc;
+                where not p.proyectoid in ('1590.10.01','1590.10.02','1590.10.03') order by p.proyectoid desc;
 
                 ");
             $row=$sql->fetchAll();
