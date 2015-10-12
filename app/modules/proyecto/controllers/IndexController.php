@@ -48,7 +48,7 @@ class Proyecto_IndexController extends Zend_Controller_Action {
         } 
         else
         {
-          if($is_area=='26')
+          if($is_area=='26' || $is_area=='40')
           {
             $listaproyecto = new Admin_Model_DbTable_Proyecto();
               //$lista=$listaproyecto->_getProyectoAll();
@@ -1254,8 +1254,9 @@ public function subiractividadesAction(){
                       'proyectoid'    => $proyectoid,
                       );
     $edit = $editproyect->_getOne($where);
-    
+ 
     $proyectoid = $edit['proyectoid'];
+
     $codigo = $edit['codigo_prop_proy'];
     $propuestaid = $edit['propuestaid'];
     $revision = $edit['revision'];
@@ -1265,10 +1266,10 @@ public function subiractividadesAction(){
     $data = new Spreadsheet_Excel_Reader();
     $data->setOutputEncoding('CP1251');
     $data->read('./upload/proyecto/'.$proyectoid.'-HH.xls');
-    //$data->read('1proyecto.xls');
     $k=1;
     $columnas=$data->sheets[0]['numCols'];
     $filas=$data->sheets[0]['numRows'];
+    print_r($columnas);
     //migrar actividades
     for ($i = 2; $i <= $data->sheets[0]['numRows']; $i++) {
       //$colsuma=$columnas-1;
@@ -1302,7 +1303,7 @@ public function subiractividadesAction(){
         $datosactividadpadre["hijo"]='S';
         $datosactividadpadre["moneda"]=$moneda;
         $bdactividad = new Admin_Model_DbTable_Actividad();
-        //print_r($datosactividadpadre);
+        print_r($datosactividadpadre);
         if($bdactividad->_save($datosactividadpadre))
          {echo $actividadint;
           echo ": guardo bien actividad padre";  echo "<br>"; }
@@ -2437,7 +2438,7 @@ public function getleerestadoslistaentregableAction()
       }
       $indice++;
     }
-  // echo "janaannnnnnnnnnnnnnnnn";
+
   // print_r($data);
 
     /*  AREAID*/
@@ -2492,40 +2493,47 @@ public function getleerestadoslistaentregableAction()
     else
     {
         $data=[];      
-        $leerLE=$leerestadoLE->_getFilteristaentregablexArea($proyectoid,$revisionentregable,$areaid);      
+        $leerLE=$leerestadoLE->_getFilteristaentregablexArea($proyectoid,$revisionentregable,$areaid);
+        //echo "llego akakak";
+        //print_r($leerLE);
     }
 
     $numberlista=count($leerLE);
-
-    for ($i=0; $i <count($estados) ; $i++) {        
-      $cont[$i]=0;
-      foreach ($leerLE as $value) 
-      {
-        if($value['estado_entregable']==$estados[$i])
-        { 
-          $cont[$i]=$cont[$i]+1;     
-        } 
-      }       
-    }  
- 
-    $indice=1;
-    foreach ($cont as $value) 
+    //echo $numberlista;
+    if($numberlista==0)
     {
-      if($value==$numberlista)
-      {    
-        $data['state']=true;
-        $data['indice']=$indice;     
-      }
-
-      $indice++;
+      $data=[];
     }
-  
-    //  print_r($data);
-    //  exit();
+    else
+    {
+       for ($i=0; $i <count($estados) ; $i++) {        
+        $cont[$i]=0;
+        foreach ($leerLE as $value) 
+        {
+          if($value['estado_entregable']==$estados[$i])
+          { 
+            $cont[$i]=$cont[$i]+1;     
+          } 
+        }       
+      } 
+      //print_r($cont);   
+      $indice=0;
+      foreach ($cont as $value) 
+      {
+        if($value==$numberlista)
+        {    
+          $data['state']=true;
+          $data['indice']=$indice+1; 
+          //echo $value;    
+        }
+        $indice++;
+      }    
+      //  print_r($data);
+      //  exit();     
+    }
+
+
   }
-
-
-
 
 $this->_helper->json->sendJson($data);
   
@@ -2533,10 +2541,18 @@ $this->_helper->json->sendJson($data);
 
 public function disciplinasAction() {
   $proyectoid= $this->_getParam("proyectoid");
-  //$codigo_prop_proy= $this->_getParam("codigo_prop_proy");
+  $gerente= $this->_getParam("gerente");
+  $areaid= $this->_getParam("areaid");
 
   $equipoarea=new Admin_Model_DbTable_Equipoarea();
-  $earea=$equipoarea->_buscarAreasxProyectoid($proyectoid);
+  //if($gerente=='S')
+  //{
+  $earea=$equipoarea->_buscarAreasxProyectoid($proyectoid);    
+  //}
+  //else
+  //{
+  //  $earea=$equipoarea->_buscarAreasxProyectoidxArea($proyectoid,$areaid);    
+  //}
 
   $this->_helper->json->sendJson($earea);
 }

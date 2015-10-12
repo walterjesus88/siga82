@@ -1,0 +1,92 @@
+
+<section class="panel">
+    <header class="panel-heading">
+        Lista de Usuarios
+    </header>
+</section>
+
+<section class="panel">
+<div id="Lista_Area">
+	<table class="table table-hover p-table datatable-order-search">
+		<thead>
+			<tr>  
+                <th style="width: 20%;">USUARIOS</th>
+                <th style="width: 20%;">CATEGORIA</th>
+                <th style="width: 20%;">AREA</th>
+                <th style="width: 20%;">CARGO</th>
+                <th style="width: 20%;">MODULO</th>
+                <th style="width: 5%;">ACCIONES</th>
+            </tr>
+		</thead>
+		<tbody>
+		<?php
+			foreach ($this->lista_permisos as $lista_de_permisos)
+		{ ?>
+			<tr>
+				<td class="p-name" >
+					<a href="#"> <?php print_r($lista_de_permisos['uid']); ?> </a>
+				</td>
+				<td class="p-name">
+					<a href="#"> <?php print_r($lista_de_permisos['categoriaid']); ?> </a>
+				</td>
+				<td class="p-name">
+                    <a href="#"> <?php print_r($lista_de_permisos['areaid']); ?> </a>
+                </td>
+                <td class="p-name">
+                    <a href="#"> <?php print_r($lista_de_permisos['cargo']); ?> </a>
+                </td>
+                <td class="p-name">
+                    <a href="#"> <?php print_r($lista_de_permisos['moduloid']); ?> </a>
+                </td>
+                
+                <td>
+                	<a id="asignar"  title="Asignar Permisos" class="btn btn-info btn-xs">
+                	<i class="glyphicon glyphicon-pencil" ></i></a>
+                    <a title="Asignar Permisos" class="btn btn-danger btn-xs glyphicon glyphicon-list-alt" id="asigna_<?php echo $i?>" href="#" uid="<?php echo $this->proyecto['uid']?>"  dni="<?php echo $this->proyecto['dni'] ?>" areaid="<?php print_r($lista['areaid'])?>"></a>
+                	
+                </td>
+			</tr>
+		<?php
+			}
+			?>
+		</tbody>
+	</table>
+</div>
+</section>
+
+<script type="text/javascript">
+  $(document).ready(function() {
+    $(function(){
+      $('select').customSelect();
+      });
+  });
+</script>
+
+<script>
+  $(document).ready(function() {
+    $('.datatable-order-search').dataTable( {
+        "paging":   true,
+        "ordering": true,
+        "info":     true
+    } );
+
+  } );
+</script>
+
+
+<script type="text/javascript">
+  $(document).ready(function(){
+    $("#asignar<?php echo $i?>").click(function(){
+      var uid = $(this).attr('uid');
+      var dni = $(this).attr('codigo-prop-proy');
+      var areaid = $(this).attr('areaid');
+
+      $("#modalperson").modal('show')
+
+      var url = "/proyecto/index/asignaractividad/uid/"+ uid+"/dni/"+dni+"/areaid/"+areaid;
+                    //alert(url);
+                    $("#modaltimes").load(url);
+
+                });
+});
+</script>

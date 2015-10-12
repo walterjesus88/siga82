@@ -107,6 +107,22 @@ class Admin_Model_DbTable_Equipoarea extends Zend_Db_Table_Abstract
         }
     }
 
+    public function _buscarAreasxProyectoidxArea($proyectoid,$area)
+     {
+        try{
+            $sql=$this->_db->query("        
+            select distinct eq.areaid,a.orden,a.nombre from equipo_area as eq inner join area as a on eq.areaid=a.areaid
+            where eq.proyectoid='$proyectoid' and eq.areaid='$area'
+            order by a.orden 
+            ");
+            $row=$sql->fetchAll();
+            return $row;           
+            }  
+            
+           catch (Exception $ex){
+            print $ex->getMessage();
+        }
+    }
 
     public function _buscarAreasxProyectoxPersonas($codigo,$proyectoid)
      {

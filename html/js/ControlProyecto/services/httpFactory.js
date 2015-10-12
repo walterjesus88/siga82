@@ -250,6 +250,20 @@ app.factory('httpFactory', ['$http','$q', function($http,$q) {
       });
       return promise;
     },
+
+
+    createPdfPerformance: function(proyectoid,revision) {
+      var defered = $q.defer();
+      var promise = defered.promise;
+      $http.get(url_print + 'imprimirperformance/revision/' + revision+'/proyectoid/'+proyectoid)
+      .success(function(data) {
+        defered.resolve(data);
+      })
+      .error(function(err) {
+        defered.reject(err);
+      });
+      return promise;
+    },
 ////////////////////************cronograma ***********////////////////////////////
     getProyectoxCronograma: function(proyectoid,revision) {
       var defered = $q.defer();
@@ -661,10 +675,10 @@ app.factory('httpFactory', ['$http','$q', function($http,$q) {
       return promise;
     },
 
-  getDisciplinas: function(proyectoid) {
+  getDisciplinas: function(proyectoid,gerente,areaid) {
       var defered = $q.defer();
       var promise = defered.promise;
-      $http.get(url + 'disciplinas/proyectoid/' + proyectoid)
+      $http.get(url + 'disciplinas/proyectoid/' + proyectoid+'/gerente/'+gerente+'/areaid/'+areaid)
       .success(function(data) {
         defered.resolve(data);
       })

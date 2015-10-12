@@ -98,22 +98,22 @@
         }
 
     .fht-fixed-column .fht-tbody {
-        background-color: #337ab7;
-        color:white;
+        background-color: #fff;
+        color:black;
         width: auto;
         
         
     }
 
     .fht-fixed-column .fht-thead {
-        background-color: #337ab7;
+        background-color: #fff;
         color:black;
         width: auto;
         
     }
 
     .fht-fixed-column .fht-tfoot {
-        background-color: #337ab7;
+        background-color: #fff;
         color:black;
         width: auto;
         
@@ -121,8 +121,8 @@
 
     .fht-fixed-body .fht-thead .fht-table {
         
-        background-color: #337ab7;
-        color:red;
+        background-color: #fff;
+        color:black;
         width: auto;
     }
 

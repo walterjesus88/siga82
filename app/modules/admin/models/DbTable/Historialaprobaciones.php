@@ -258,7 +258,7 @@ class Admin_Model_DbTable_Historialaprobaciones extends Zend_Db_Table_Abstract
                     on historial.semanaid=controlsemana.semanaid and historial.uid_empleado=controlsemana.uid 
                     and historial.dni_empleado=controlsemana.dni 
                 where historial.uid_validador='$uid' and historial.dni_validador='$dni'
-                 order by historial.semanaid asc
+                 order by historial.estado_historial desc
             ");
             $row=$sql->fetchAll();
             return $row;           

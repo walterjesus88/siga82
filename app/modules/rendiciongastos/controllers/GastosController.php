@@ -152,11 +152,11 @@ class Rendiciongastos_GastosController extends Zend_Controller_Action {
       $formdata['uid'] = $uid = $this->sesion->uid;
       $formdata['dni'] = $dni = $this->sesion->dni;
       $formdata['codigo_prop_proy']="15.10.128-1204.10.08-A";
-      $formdata['proyectoid']="1204.10.08";
+      $formdata['proyectoid']=$proyectoid = $this->_getParam("proyectoid");
       $formdata['revision']="A";
-      $formdata['categoriaid']="ING-D";
-      $formdata['cargo']="EQUIPO";
-      $formdata['areaid']="26";
+      $formdata['categoriaid']=$categoriaid = $this->sesion->categoriaid;
+      $formdata['cargo']=$ucatcargo = $this->sesion->personal->ucatcargo;
+      $formdata['areaid']=$ucatareaid = $this->sesion->personal->ucatareaid;
       $formdata['estado_rendicion']="B";
       $formdata['fecha_gasto']=$this->_getParam('fecha');
       $formdata['numero_rendicion']= $this->_getParam('numero');
@@ -176,8 +176,10 @@ class Rendiciongastos_GastosController extends Zend_Controller_Action {
       $guardargastos=new Admin_Model_DbTable_Gastopersona();
       $ggastos=$guardargastos->_save2($formdata);
 
+      echo "_____xxx_____";
       print_r($gastoid);
-      
+      echo "_____xxx_____";
+
       exit();
 
       $this->_helper->json->sendJson($ggastos);
