@@ -27,6 +27,39 @@
 //     };
 // });
 
+// app.directive('canvas', function(){
+//     return {
+//         restrict: 'E',
+//         scope: {},
+//         template: '<highchart config="chartConfig"></highchart>',
+//         //template: "<canvas id='pgcanvas' width='400' height='30'  background-color: #F00'/>",
+//         // link: function(scope, element, attrs) {    
+//         //    console.log(element);
+//         //    scope.canvas = element.find('canvas')[0];
+//         //    scope.context = scope.canvas.getContext('2d');
+ 
+//         //    scope.$watch('progress', function(newValue) {
+//         //      barWidth = Math.ceil(newValue / 100 * scope.canvas.width);
+//         //      scope.context.fillStyle = "#DDD";
+//         //      scope.context.fillRect(0, 0, scope.canvas.width, scope.canvas.height);
+//         //      scope.context.fillStyle = "#F00";
+//         //      scope.context.fillRect(0, 0, barWidth, scope.canvas.height);
+//         //    });
+//         // }
+      
+//         link: function(scope, element, attrs) {
+//             scope.chartConfig = {
+//                 options: {
+//                     exporting: {
+//                         enabled: true
+//                     }
+//                 }
+//             };
+//         }
+//     };
+// });
+
+
 app.directive('uiDate', ['uiDateConfig', 'uiDateConverter', function (uiDateConfig, uiDateConverter) {
   'use strict';
   var options;
@@ -204,6 +237,23 @@ app.controller('ControlCtrl', ['httpFactory', '$scope','$filter','$q',
 function(httpFactory, $scope,$filter,$q,proyectoFactory) {
 
   va = this;
+
+  va.chart = {
+    options: {
+        chart: {
+            type: 'bar'
+        }
+    },
+        series: [{
+        data: [10, 15, 12, 8, 7]
+    }],
+    title: {
+        text: 'Hello'
+    },
+    loading: false
+  } 
+  console.log(va.chart);
+
   //obteniendo el codigo del proyecto del scope padre
   var proyecto = $scope.$parent.vt.proyecto;
 
@@ -322,8 +372,7 @@ proyectoFactory.getDatosProyecto(proyecto['codigo'])
     .then(function(data)
     {
       if(data=='')
-      {
-        
+      {        
       }
       else
       {     
@@ -362,6 +411,11 @@ proyectoFactory.getDatosProyecto(proyecto['codigo'])
               return [varx,vary];
             });
             va.data = array;
+            va.options= {
+                    exporting: {
+                        enabled: true
+                    }
+            };
 
         })      
         .error(function(data) {

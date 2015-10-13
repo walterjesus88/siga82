@@ -1,6 +1,22 @@
-var app = angular.module('pruebaApp', [])
+var app = angular.module('pruebaApp', ['highcharts-ng'])
 .controller('pruebaAppCtrl', controladorPrincipal);
 
+app.directive('myChart', function(){
+    return {
+        restrict: 'E',
+        scope: {},
+        template: '<highchart config="chartConfig"></highchart>',
+        link: function(scope, element, attrs) {
+            scope.chartConfig = {
+                options: {
+                    exporting: {
+                        enabled: true
+                    }
+                }
+            };
+        }
+    };
+});
 
 
 app.directive('ngEnter', function () {
