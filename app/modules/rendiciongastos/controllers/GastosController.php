@@ -173,11 +173,14 @@ class Rendiciongastos_GastosController extends Zend_Controller_Action {
       $formdata['proveedor']=$proveedor = $this->_getParam("proveedor");
       $formdata['monto_igv']=$monto_igv = $this->_getParam("monto_igv");
       $formdata['otro_impuesto']=$otro_impuesto = $this->_getParam("otro_impuesto");
+      // $formdata['monto_total']=$monto_total = $this->_getParam("monto_total");
       $guardargastos=new Admin_Model_DbTable_Gastopersona();
       $ggastos=$guardargastos->_save2($formdata);
 
       echo "_____xxx_____";
       print_r($gastoid);
+      echo "_____xyx_____";
+      print_r($fecha_factura);
       echo "_____xxx_____";
 
       exit();
