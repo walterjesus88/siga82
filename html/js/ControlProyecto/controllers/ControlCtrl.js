@@ -28,7 +28,6 @@
 // });
 
 
-//var chartDirective = function () {
 app.directive('chart', function(){
     return {
         restrict: 'E',
@@ -65,77 +64,6 @@ app.directive('chart', function(){
     };
 });
 
-// app.directive('myChart', function(){
-//     return {
-//         restrict: 'E',
-//         scope: {},
-//         template: '<highchart config="chartConfig"></highchart>',
-//         controller: function($scope, $element){
-//           console.log($scope);
-//           $scope.namex = $scope.namex;
-//           $scope.datos = $scope.datos;
-//         },
-//         link: function(scope, element, attrs) {
-//             // scope=this;
-//             // scope.namex=scope.namex,
-//             console.log(scope);
-//             scope.chartConfig = {
-//                 options: {
-//                     exporting: {
-//                         enabled: true
-//                     }
-//                 },
-//                 //series: [{'sxxa':'sxxxxas'}],
-
-//               xAxis: {
-//                   categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 
-//                                'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
-//               },
-//               title: {
-//                   text: 'scope.name'
-//               },          
-
-//              subtitle: {
-//                 text: document.ontouchstart === undefined ?
-//                     'Click and drag in the plot area to zoom in' :
-//                     'Pinch the chart to zoom in'
-//             },
-//             yAxis: { title: { text: 'Temperature (Celsius)' } },
-//             tooltip: { valueSuffix: ' celsius' },
-//             legend: { align: 'center', verticalAlign: 'bottom', borderWidth: 0 },
-//                plotOptions: {
-//                 area: {
-//                     fillColor: {
-//                         linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1},
-//                         stops: [
-//                             [0, Highcharts.getOptions().colors[0]],
-//                             [1, Highcharts.Color(Highcharts.getOptions().colors[0]).setOpacity(0).get('rgba')]
-//                         ]
-//                     },
-//                     marker: {
-//                         radius: 2
-//                     },
-//                     lineWidth: 1,
-//                     states: {
-//                         hover: {
-//                             lineWidth: 1
-//                         }
-//                     },
-//                     threshold: null
-//                 }
-//             },
-//             series: [{
-//               type:'area',               
-//               data:  [7.0, 6.9, 9.5, 14.5, 18.2, 21.5, 25.2, 26.5, 23.3, 18.3, 13.9, 9.6]
-//                 //scope.datos
-//             }]
-   
-
-              
-//             };
-//         }
-//     };
-// });
 
 app.directive('uiDate', ['uiDateConfig', 'uiDateConverter', function (uiDateConfig, uiDateConverter) {
   'use strict';
@@ -507,7 +435,8 @@ proyectoFactory.getDatosProyecto(proyecto['codigo'])
                 color: 'rgba(68, 170, 213, .2)'
             }],
             
-            title: {
+            title: 
+            {
                 text: 'PROYECTO'+' '+ proyecto['codigo'] + "-"+' '+'REVISION'+' '+ revision
             },           
 
@@ -824,12 +753,13 @@ va.busca = function(revision,codigo,proyectoid) {
     var label= $.map(data[0], function(value, index) {   
       for (var i =0; i < max; i++) {
         a=[];
-        a=value[i]['fecha_ingreso_curvas'];        
+        a=value[i]['fecha_curvas'];        
         labelx.push(a);
       };
       return [labelx];
     });    
     va.labels=label[0]; 
+    console.log(va.labels);
       var array = $.map(data[0], function(value, index) {   
       for (var i =0; i < max; i++) {
         a=[];
