@@ -1,17 +1,17 @@
 <head>
-      <meta charset="utf-8">
-      <link rel="stylesheet" href="/external_library/chosen/docsupport/style.css">
-      <link rel="stylesheet" href="/external_library/chosen/docsupport/prism.css">
-      <link rel="stylesheet" href="/external_library/chosen/chosen.css">
-      <style type="text/css" media="all">
-      /* fix rtl for demo */
-            .chosen-rtl .chosen-drop { left: -9000px; }
-      </style>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="/external_library/chosen/docsupport/style.css">
+  <link rel="stylesheet" href="/external_library/chosen/docsupport/prism.css">
+  <link rel="stylesheet" href="/external_library/chosen/chosen.css">
+  <style type="text/css" media="all">
+    /* fix rtl for demo */
+    .chosen-rtl .chosen-drop { left: -9000px; }
+  </style>
 
-<script>
-$("#datepicker1").datepicker
+  <script>
+    $("#datepicker1").datepicker
     ({
-        showWeek: true,
+      showWeek: true,
         //firstDay: 1,
         maxDate:0, dateFormat:'dd/mm/yy', yearRange: '-100:+0',firstDay: 1,
         //minDate: new Date(2015, 4, noSunday()),
@@ -19,7 +19,7 @@ $("#datepicker1").datepicker
         
         //, "-99:+0"
         //changeMonth:true, changeYear: true,    
-    });
+      });
 // function noMonth(){
 //     var f = new Date();
 //     //var day = f.getDay();  
@@ -30,34 +30,34 @@ $("#datepicker1").datepicker
 
 </head>
 
- <!-- INICIO DE LA TABLA DE PRUEBA CLIENTE EN ANGULAR-->
- <div class="panel">
+<!-- INICIO DE LA TABLA DE PRUEBA CLIENTE EN ANGULAR-->
+<div class="panel">
  <!-- <div class="panel"> -->
-   <section class="panel">
+ <section class="panel">
 
-     <header class="bio-graph-heading project-heading">
-      <strong>
-        <p>Nombre de Rendicion : {{vrg.rendir.nombre}}</p>
-      </strong>
-    </header>
-    <div class="panel-body bio-graph-info">
-      <div class="bio-row">
-        <span class="bold">N° de Rendicion :</span>
-        {{vrg.rendir.numero_completo}}
-      </div>
-      <div class="bio-row">
-        <span class="bold">Monto Total :</span>
-        {{vrg.rendir.monto_total}}
-      </div>
-      <div class="bio-row">
-        <span class="bold">Fecha de Rendicion :</span>
-        {{vrg.rendir.fecha | date: 'dd-MM-yyyy'}}
-      </div>
-      <div class="bio-row">
-        <span class="bold"> Estado :</span>
-        {{vrg.rendir.estado}}
-      </div>
+   <header class="bio-graph-heading project-heading">
+    <strong>
+      <p>Nombre de Rendicion : {{vrg.rendir.nombre}}</p>
+    </strong>
+  </header>
+  <div class="panel-body bio-graph-info">
+    <div class="bio-row">
+      <span class="bold">N° de Rendicion :</span>
+      {{vrg.rendir.numero_completo}}
     </div>
+    <div class="bio-row">
+      <span class="bold">Monto Total :</span>
+      {{vrg.rendir.monto_total}}
+    </div>
+    <div class="bio-row">
+      <span class="bold">Fecha de Rendicion :</span>
+      {{vrg.rendir.fecha | date: 'dd-MM-yyyy'}}
+    </div>
+    <div class="bio-row">
+      <span class="bold"> Estado :</span>
+      {{vrg.rendir.estado}}
+    </div>
+  </div>
 
   <div class="pane-heading">
     <div class=" panel btn-edit">
@@ -67,149 +67,148 @@ $("#datepicker1").datepicker
       <button class="btn btn-primary" ng-click="vrg.ShowFormRendir()" ng-hide="vrg.ShowFormRendir; vrg.formVisibilityRendir" ng-show="!tableform.$visible">Agregar Gasto</button>
     </div>
   </div>
-    <span class="pull-right">
+  <span class="pull-right">
     <a href="/rendiciongastos#/" class=" btn btn-primary btn-sm" > Volver </a>
-    </span>
-    <!-- inicio del formulario para ingresar datos -->
-    <div class="from group" >
-      <div ng-show="vrg.formVisibilityRendir"  >
-        <form name='validinput'>
-          <div class="input-group">
-            <div class="panel">
-              <div class="panel-heading">
-                <div class="col-xs-2" >
-                  <span class="input-group-addon">Cliente</span>
-                  <!-- <input type="text" class="form-control input-sm" placeholder='clienteid' name='clienteid' data-ng-model="vrg.clienteid"  required data-ng-class='{error: validinput.clienteid.$invalid && !validinput.$pristine}'> -->
-                  <select class="form-control input-sm" option="clientes" ng-model="vrg.cliente" ng-options="tipo.listaclientes as tipo.nombre_comercial for tipo in vrg.listaclientes"></select>
-                </div>
-                <div class="col-xs-2" >
-                  <span class="input-group-addon">Proyecto</span>
-                  <!-- <input type="text" class="form-control input-sm" placeholder='proyectoid' name='proyectoid' data-ng-model="vrg.proyectoid"  required data-ng-class='{error: validinput.proyectoid.$invalid && !validinput.$pristine}'> -->
-                  <select class="form-control input-sm" option="proyectos" ng-model="vrg.proyectoid" ng-options="tipo.listaproyectos as tipo.nombre_proyecto for tipo in vrg.listaproyectos" tabindex="2"></select>
-                </div>
-                <div class="col-xs-2" >
-                  <span class="input-group-addon">Descripcion</span>
-                  <input type="text" class="form-control input-sm" placeholder='descripcion' name='descripcion' data-ng-model="vrg.descripcion" >
-                </div>
-                <div class="col-xs-2" >
-                  <span class="input-group-addon">Gastos</span>
-                  <!-- <input type="text" class="form-control input-sm" placeholder='gastoid' name='gastoid' data-ng-model="vrg.gastoid" > -->
-                  <select class="form-control input-sm" option="gastos" data-ng-model="vrg.gastoid" ng-options="tipo.listagastos as tipo.nombre_gasto for tipo in vrg.listagastos"><option  value="">Seleccione..</option></select>
-                </div>
-                <div class="col-xs-1" >
-                  <span class="input-group-addon">Cliente</span>
-                  <input type="checkbox" class="form-control input-sm" placeholder='bill_cliente' name='bill_cliente' data-ng-model="vrg.bill_cliente" >
-                </div>
-                <div class="col-sm-1" >
-                  <span class="input-group-addon">Reembolso</span>
-                  <input type="checkbox" class="form-control input-sm" placeholder='reembolsable' name='reembolsable' data-ng-model="vrg.reembolsable" />
-                </div>
-                <div class="col-xs-2" >
-                  <span class="input-group-addon">Fecha de Factura</span>
-                  <!-- <input type="datepicker" id="datepicker" class="form-control input-sm datefactura hasDatepicker" placeholder='dd-mm-aaaa' name='fecha_factura' data-ng-model="vrg.fecha_factura"/> -->
-                  <!-- <input type="text" class="form-control input-sm datefactura hasDatepicker" datepicker-popup ng-model="vrg.fecha_factura" is-open="status.opened" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" close-text="Close" /> -->
-                  <!-- <input class="form-control ng-valid hasDatepicker ng-touched ng-dirty ng-valid-parse" type="text" ui-date="{ dateFormat: 'yy-mm-dd' }" ename="fecha_factura" ng-model="vrg.fecha_factura" > -->
-                  <input class="form-control" id="datepicker1" type="text" e-form="tableform" ui-date="{ dateFormat: 'yy-mm-dd' }" ename="fecha_factura" ng-model='vrg.fecha_factura'/>
+  </span>
+  <!-- inicio del formulario para ingresar datos -->
+  <div class="from group" >
+    <div ng-show="vrg.formVisibilityRendir"  >
+      <form name='validinput'>
+        <div class="input-group">
+          <div class="panel">
+            <div class="panel-heading">
+              <div class="col-xs-2" >
+                <span class="input-group-addon">Cliente</span>
+                <!-- <input type="text" class="form-control input-sm" placeholder='clienteid' name='clienteid' data-ng-model="vrg.clienteid"  required data-ng-class='{error: validinput.clienteid.$invalid && !validinput.$pristine}'> -->
+                <select class="form-control input-sm" option="clientes" ng-model="vrg.cliente" ng-options="tipo.listaclientes as tipo.nombre_comercial for tipo in vrg.listaclientes"></select>
+              </div>
+              <div class="col-xs-2" >
+                <span class="input-group-addon">Proyecto</span>
+                <!-- <input type="text" class="form-control input-sm" placeholder='proyectoid' name='proyectoid' data-ng-model="vrg.proyectoid"  required data-ng-class='{error: validinput.proyectoid.$invalid && !validinput.$pristine}'> -->
+                <select class="form-control input-sm" option="proyectos" ng-model="vrg.proyectoid" ng-options="tipo.listaproyectos as tipo.nombre_proyecto for tipo in vrg.listaproyectos" tabindex="2"></select>
+              </div>
+              <div class="col-xs-2" >
+                <span class="input-group-addon">Descripcion</span>
+                <input type="text" class="form-control input-sm" placeholder='descripcion' name='descripcion' data-ng-model="vrg.descripcion" >
+              </div>
+              <div class="col-xs-2" >
+                <span class="input-group-addon">Gastos</span>
+                <!-- <input type="text" class="form-control input-sm" placeholder='gastoid' name='gastoid' data-ng-model="vrg.gastoid" > -->
+                <select class="form-control input-sm" option="gastos" data-ng-model="vrg.gastoid" ng-options="tipo.listagastos as tipo.nombre_gasto for tipo in vrg.listagastos"><option  value="">Seleccione..</option></select>
+              </div>
+              <div class="col-xs-1" >
+                <span class="input-group-addon">Cliente</span>
+                <input type="checkbox" class="form-control input-sm" placeholder='bill_cliente' name='bill_cliente' data-ng-model="vrg.bill_cliente" >
+              </div>
+              <div class="col-sm-1" >
+                <span class="input-group-addon">Reembolso</span>
+                <input type="checkbox" class="form-control input-sm" placeholder='reembolsable' name='reembolsable' data-ng-model="vrg.reembolsable" />
+              </div>
+              <div class="col-xs-2" >
+                <span class="input-group-addon">Fecha de Factura</span>
+                <!-- <input type="datepicker" id="datepicker" class="form-control input-sm datefactura hasDatepicker" placeholder='dd-mm-aaaa' name='fecha_factura' data-ng-model="vrg.fecha_factura"/> -->
+                <!-- <input type="text" class="form-control input-sm datefactura hasDatepicker" datepicker-popup ng-model="vrg.fecha_factura" is-open="status.opened" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" close-text="Close" /> -->
+                <!-- <input class="form-control ng-valid hasDatepicker ng-touched ng-dirty ng-valid-parse" type="text" ui-date="{ dateFormat: 'yy-mm-dd' }" ename="fecha_factura" ng-model="vrg.fecha_factura" > -->
+                <input class="form-control input-sm" id="datepicker1" type="datepicker" e-form="tableform" ui-date="{ dateFormat: 'dd-mm-yy' }" ename="fecha_factura" ng-model='vrg.fecha_factura'/>
 
-                </div>
-                <div class="col-xs-2" >
-                  <span class="input-group-addon">Moneda</span>
-                  <input type="text" class="form-control input-sm" placeholder='moneda' name='moneda' data-ng-model="vrg.moneda"/>
-                </div>
-                <div class="col-xs-2" >
-                  <span class="input-group-addon">N° Documento</span>
-                  <input type="text" class="form-control input-sm" placeholder='num_factura' name='num_factura' data-ng-model="vrg.num_factura"/>
-                </div>
-                <div class="col-xs-2" >
-                  <span class="input-group-addon">Proveedor</span>
-                  <input type="text" class="form-control input-sm" placeholder='proveedor' name='proveedor' data-ng-model="vrg.proveedor"/>
-                </div>
-                <div class="col-xs-2" >
-                  <span class="input-group-addon">Neto</span>
-                  <div class="input-group-addon">$</div>
-                  <input type="text" class="form-control input-sm" placeholder='monto_igv' name='monto_igv' data-ng-model="vrg.monto_igv"/>
-                </div>
-                <div class="col-xs-2" >
-                  <div class="input-group-addon">$</div>
-                  <span class="input-group-addon">Otros Impuestos</span>
-                  <input type="text" class="form-control input-sm" placeholder='otro_impuesto' name='otro_impuesto' data-ng-model="vrg.otro_impuesto"/>
-                </div>
-                <div class="col-xs-2" >
-                  <div class="input-group-addon">$</div>
-                  <span class="input-group-addon">IGV</span>
-                  <input type="text" class="form-control input-sm" placeholder='igv' name='igv' data-ng-model="vrg.igv"/>
-                </div>
-                <div class="col-xs-2" >
-                  <div class="input-group-addon">$</div>
-                  <span class="input-group-addon">Total</span>
-                  {{[vrg.monto_igv] - [vrg.otro_impuesto] - [vrg.igv]}}
-                  <!-- <input type="text" class="form-control input-sm" placeholder='vrg.monto_igv + vrg.otro_impuesto' name='monto_total' data-ng-model="vrg.monto_total" disabled="hola" /> -->
-                </div>
+              </div>
+              <div class="col-xs-2" >
+                <span class="input-group-addon">N° Documento</span>
+                <input type="text" class="form-control input-sm" placeholder='num_factura' name='num_factura' data-ng-model="vrg.num_factura"/>
+              </div>
+              <div class="col-xs-2" >
+                <span class="input-group-addon">Proveedor</span>
+                <input type="text" class="form-control input-sm" placeholder='proveedor' name='proveedor' data-ng-model="vrg.proveedor"/>
+              </div>
+              <div class="col-xs-2" >
+                <span class="input-group-addon">Moneda</span>
+                <input type="text" class="form-control input-sm" placeholder='moneda' name='moneda' data-ng-model="vrg.moneda" n/>
+              </div>
+              <div class="col-xs-2" >
+                <div class="input-group-addon">$</div>
+                <span class="input-group-addon">Neto</span>
+                <input type="text" class="form-control input-sm" placeholder='monto_igv' name='monto_igv' data-ng-model="vrg.monto_igv"/>
+              </div>
+              <div class="col-xs-2" >
+                <div class="input-group-addon">$</div>
+                <span class="input-group-addon">Otros Impuestos</span>
+                <input type="text" class="form-control input-sm" placeholder='otro_impuesto' name='otro_impuesto' data-ng-model="vrg.otro_impuesto"/>
+              </div>
+              <div class="col-xs-2" >
+                <div class="input-group-addon">$</div>
+                <span class="input-group-addon">IGV</span>
+                <input type="text" class="form-control input-sm" placeholder='igv' name='igv' data-ng-model="vrg.igv"/>
+              </div>
+              <div class="col-xs-2" >
+                <div class="input-group-addon">$</div>
+                <span class="input-group-addon">Total</span>
+                <input ng-if='vrg.moneda'== "Soles" type="text" class="form-control input-sm" placeholder="vrg.monto_total" name='monto_total' data-ng-model="vrg.monto_total" disabled value="{{vrg.monto_igv  * 1 ++ vrg.otro_impuesto*1 ++ vrg.igv*1  }}" />
               </div>
             </div>
-          </div>
-
-
-          <div class="panel-heading col-md-6">
-            <div class="btn-group">
-              <button class="btn btn-warning" ng-click="vrg.GuardarGastos()" data-ng-disabled='!validinput.$valid'>Guardar</button>
-              <button class="btn btn-danger" ng-click="vrg.CancelarRendir()">Cancelar</button>
-            </div>
-          </div>
-
-        </form>
-      </div>
-    </div>
-    <!-- fin del formulario para ingresar datos -->
-
-
-  </section>
-
-
-  <!-- inicio del formulario para modificar datos -->
-  <div class="panel-heading">
-    <form method="POST" action="#" editable-form name="tableform" onaftersave="vrg.ModificarGastoPersona()" oncancel="cancel()" >
-
-      <section class="panel-heading">
-        <div class="btn-form" ng-show="tableform.$visible">
-          <div class="btn-group">
-            <button type="submit" ng-disabled="tableform.$waiting" class="btn btn-success">guardar</button>
-            <button type="button" ng-disabled="tableform.$waiting" ng-click="tableform.$cancel()" class="btn btn-danger">cancelar</button>
           </div>
         </div>
 
 
+        <div class="panel-heading col-md-6">
+          <div class="btn-group">
+            <button class="btn btn-warning" ng-click="vrg.GuardarGastos()" data-ng-disabled='!validinput.$valid'>Guardar</button>
+            <button class="btn btn-danger" ng-click="vrg.CancelarRendir()">Cancelar</button>
+          </div>
+        </div>
 
-      </section>
+      </form>
+    </div>
+  </div>
+  <!-- fin del formulario para ingresar datos -->
 
-      <font size=1>
-        <table datatable="ng" class="table table-condensed table-hover p-table dataTables_wrappe table-striped">
-          <div>
-            <thead>
-              <th style="width: 1%;">Id</th>
-              <!-- <th style="width: 10%;">Cliente</th> -->
-              <th style="width: 15%;">Proyecto</th>
-              <th style="width: 15%;">Descripcion</th>
-              <th style="width: 15%;">Gastos</th>
-              <th style="width: 5%;">Cliente</th>
-              <th style="width: 5%;">Reembolso</th>
-              <th style="width: 10%;">Fecha Factura</th>
-              <th style="width: 5%;">N° Factura</th>
-              <th style="width: 8%;">Moneda</th>
-              <th style="width: 15%;">Proveedor</th>
-              <th style="width: 5%;">Neto</th>
-              <th style="width: 5%;">Otros Impuestos</th>
-              <th style="width: 5%;">IGV</th>
-              <th style="width: 5%;">Monto Total</th>
-              <td style="width: 1%"><span ng-show="tableform.$visible">Accion</span></td>
-            </thead>
 
-            <tr ng-repeat="rendiciones in vrg.rendir track by $index">
-              <td>
-                <span text="rendiciones.clienteid" e-from="tableform" e-required>
-                 {{$index + 1}}
-               </span>
-             </td>
+</section>
+
+
+<!-- inicio del formulario para modificar datos -->
+<div class="panel-heading">
+  <form method="POST" action="#" editable-form name="tableform" onaftersave="vrg.ModificarGastoPersona()" oncancel="cancel()" >
+
+    <section class="panel-heading">
+      <div class="btn-form" ng-show="tableform.$visible">
+        <div class="btn-group">
+          <button type="submit" ng-disabled="tableform.$waiting" class="btn btn-success">guardar</button>
+          <button type="button" ng-disabled="tableform.$waiting" ng-click="tableform.$cancel()" class="btn btn-danger">cancelar</button>
+        </div>
+      </div>
+
+
+
+    </section>
+
+    <font size=1>
+      <table datatable="ng" class="table table-condensed table-hover p-table dataTables_wrappe table-striped">
+        <div>
+          <thead>
+            <th style="width: 1%;">Id</th>
+            <!-- <th style="width: 10%;">Cliente</th> -->
+            <th style="width: 15%;">Proyecto</th>
+            <th style="width: 15%;">Descripcion</th>
+            <th style="width: 15%;">Gastos</th>
+            <th style="width: 5%;">Cliente</th>
+            <th style="width: 5%;">Reembolso</th>
+            <th style="width: 10%;">Fecha Factura</th>
+            <th style="width: 5%;">N° Factura</th>
+            <th style="width: 8%;">Moneda</th>
+            <th style="width: 15%;">Proveedor</th>
+            <th style="width: 5%;">Neto</th>
+            <th style="width: 5%;">Otros Impuestos</th>
+            <th style="width: 5%;">IGV</th>
+            <th style="width: 5%;">Monto Total</th>
+            <td style="width: 1%"><span ng-show="tableform.$visible">Accion</span></td>
+          </thead>
+
+          <tr ng-repeat="rendiciones in vrg.rendir track by $index">
+            <td>
+              <span text="rendiciones.clienteid" e-from="tableform" e-required>
+               {{$index + 1}}
+             </span>
+           </td>
            <!--   <td>
                 <span editable-select="rendiciones.clienteid" e-from="tableform" >
                  {{rendiciones.clienteid}}
@@ -232,12 +231,12 @@ $("#datepicker1").datepicker
             </td>
             <td>
               <span ng-if="rendiciones.bill_cliente" = 'true' ng-else="No" = 'false' editable-checkbox="rendiciones.bill_cliente" e-from="tableform">
-              Si
+                Si
               </span>
             </td>
             <td>
               <span ng-true-value="'YES'" ng-false-value="'NO'" editable-checkbox="rendiciones.reembolsable" e-from="tableform">
-              Si
+                Si
               </span>
             </td>
             <td>
@@ -245,10 +244,10 @@ $("#datepicker1").datepicker
                 {{rendiciones.fecha_factura | date: 'dd-MM-yyyy'}}
               </span> -->
 
-              <input class="form-control" id="datepicker1" ng-show="tableform.$visible"  type="text" e-form="tableform" ui-date="{ dateFormat: 'yy-mm-dd' }" ename="fecha_factura" ng-model='rendiciones.fecha_factura'/>
-        <span ng-show="!tableform.$visible" ename="fecha_factura" >
-        {{ rendiciones.fecha_factura | date:"dd-MM-yyyy" }}
-        </span>
+              <input class="form-control" id="datepicker1" ng-show="tableform.$visible"  type="datepicker" e-form="tableform" ui-date="{ dateFormat: 'dd-mm-yy' }" ename="fecha_factura" ng-model='rendiciones.fecha_factura'/>
+              <span ng-show="!tableform.$visible" ename="fecha_factura" >
+                {{ rendiciones.fecha_factura | date:"dd-MM-yyyy" }}
+              </span>
             </td>
             <td>
               <span editable-text="rendiciones.num_factura" e-from="tableform">
@@ -325,5 +324,5 @@ $("#datepicker1").datepicker
       }
       for (var selector in config) {
             $(selector).chosen(config[selector]);
-      }*/
-</script>
+          }*/
+        </script>

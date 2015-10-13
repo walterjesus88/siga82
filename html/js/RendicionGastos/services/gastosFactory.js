@@ -76,11 +76,11 @@ app.factory('gastosFactory', ['httpFactory', '$location', '$q',
     },
 
 
-    setGuardarGastos: function(descripcion,gastoid,bill_cliente,reembolsable,fecha_factura,num_factura,moneda,proveedor,monto_igv,otro_impuesto,numero,fecha) {
+    setGuardarGastos: function(descripcion,gastoid,bill_cliente,reembolsable,fecha_factura,num_factura,moneda,proveedor,monto_igv,otro_impuesto,igv,monto_total,numero,fecha) {
       var defered = $q.defer();
       var promise = defered.promise;
 
-      httpFactory.setGuardarGastos(descripcion,gastoid,bill_cliente,reembolsable,fecha_factura,num_factura,moneda,proveedor,monto_igv,otro_impuesto,numero,fecha)
+      httpFactory.setGuardarGastos(descripcion,gastoid,bill_cliente,reembolsable,fecha_factura,num_factura,moneda,proveedor,monto_igv,otro_impuesto,igv,monto_total,numero,fecha)
       .then(function(data) {
         datos = data;
         defered.resolve(datos);
@@ -108,7 +108,27 @@ app.factory('gastosFactory', ['httpFactory', '$location', '$q',
       // console.log("gastosFactory " + listagastos)
     },
 
-  }
 
+      formatoFechas : function(fecha_factura)
+    {
+        fecha_factura = new Date(fecha_factura);
+        day=fecha_factura.getDate();
+        month=fecha_factura.getMonth()+1;
+        year=fecha_factura.getFullYear();
+
+        if (month.toString().length < 2)
+        {
+          month = '0' + month;
+        }
+        if (day.toString().length < 2)
+        {
+          day = '0' + day;
+        }
+
+        fecha_factura=year+"-"+month+"-"+day;
+        return fecha_factura;
+    },
+
+  }
   return publico;
 }]);

@@ -34,7 +34,7 @@ app.controller('RendirGastosCtrl', ['$scope','httpFactory', 'gastosFactory', '$m
 
 
   //obtencion de los datos
-/*--------------cliente--------------------------*/
+  /*--------------cliente--------------------------*/
   httpFactory.getClientes()
   .then(function(data) {
     vrg.listaclientes = data;
@@ -45,8 +45,8 @@ app.controller('RendirGastosCtrl', ['$scope','httpFactory', 'gastosFactory', '$m
     vrg.listaclientes = [];
   });
 
-/*--------------proyecto--------------------------*/
-httpFactory.getProyectos()
+  /*--------------proyecto--------------------------*/
+  httpFactory.getProyectos()
   .then(function(data) {
     vrg.listaproyectos = data;
     // console.log("RendirGastosCtrl " + vrg.listagastos)
@@ -56,8 +56,8 @@ httpFactory.getProyectos()
     vrg.listaproyectos = [];
   });
 
-/*--------------gasto--------------------------*/
-httpFactory.getTiposGasto()
+  /*--------------gasto--------------------------*/
+  httpFactory.getTiposGasto()
   .then(function(data) {
     vrg.listagastos = data;
     // console.log("RendirGastosCtrl " + vrg.listagastos)
@@ -74,8 +74,20 @@ httpFactory.getTiposGasto()
 
  vrg.GuardarGastos= function(){
 
-  gastosFactory.setGuardarGastos(vrg.proyectoid, vrg.descripcion,vrg.gastoid,vrg.bill_cliente,vrg.reembolsable,vrg.fecha_factura,vrg.num_factura,vrg.moneda,vrg.proveedor,vrg.monto_igv,vrg.otro_impuesto,numero,fecha)
-  .then(function(data) {
+    //le da el formato yy-mm-dd a una fecha //
+    if(vrg.fecha_factura==null || vrg.fecha_factura=='' || vrg.fecha_factura=='null' || vrg.fecha_factura=='undefined') 
+    { 
+    }
+    else
+    { 
+     vrg.fecha_factura=gastosFactory.formatoFechas(vrg.fecha_factura);
+    }
+
+    // if(vrg.moneda=='Soles'){vrg.monto_total=(vrg.monto_igv)+(vrg.otro_impuesto)+(vrg.igv);}
+
+
+   gastosFactory.setGuardarGastos(vrg.proyectoid, vrg.descripcion,vrg.gastoid,vrg.bill_cliente,vrg.reembolsable,vrg.fecha_factura,vrg.num_factura,vrg.moneda,vrg.proveedor,vrg.monto_igv,vrg.otro_impuesto,vrg.igv,vrg.monto_total,numero,fecha)
+   .then(function(data) {
     /*insertar una nueva fila*/
     vrg.inserted = {
       proyectoid:vrg.proyectoid,
@@ -89,27 +101,32 @@ httpFactory.getTiposGasto()
       proveedor:vrg.proveedor,
       monto_igv:vrg.monto_igv,
       otro_impuesto:vrg.otro_impuesto,
+      igv:vrg.igv,
+      monto_total:vrg.monto_total,
       numero_rendicion:numero,
       fecha_gasto:fecha,
 
     }
 
+
     console.log("numero de rendicion " + numero);
     vrg.rendir.push(vrg.inserted);
       // console.log('guardar rendir');
       console.log("fecha de rendicion " + fecha);
+      console.log("fecha de factura " + vrg.fecha_factura);
+      console.log("monto total" + vrg.monto_total);
       // vrg.formVisibilityrendir=false;
 
     })
-  .catch(function(err) {
+   .catch(function(err) {
     vrg.rendir = {};
   });
-}
+ }
 
 
 
 
-vrg.CancelarRendir=function(){
+ vrg.CancelarRendir=function(){
   vrg.formVisibilityRendir=false;
 }
 
@@ -141,8 +158,8 @@ app.directive('uiDate', ['uiDateConfig', 'uiDateConverter', function (uiDateConf
 
         function setVal() {
           var keys = ['Hours', 'Minutes', 'Seconds', 'Milliseconds'],
-              isDate = angular.isDate(controller.$modelValue),
-              preserve = {};
+          isDate = angular.isDate(controller.$modelValue),
+          preserve = {};
 
           if(isDate && controller.$modelValue.toDateString() === element.datepicker('getDate').toDateString()) {
             return;
@@ -157,8 +174,8 @@ app.directive('uiDate', ['uiDateConfig', 'uiDateConverter', function (uiDateConf
 
           if (isDate) {
             angular.forEach(keys, function(key) {
-               controller.$viewValue['set' + key](preserve[key]);
-            });
+             controller.$viewValue['set' + key](preserve[key]);
+           });
           }
         }
 
@@ -201,11 +218,11 @@ app.directive('uiDate', ['uiDateConfig', 'uiDateConverter', function (uiDateConf
           controller.$render = function () {
             var date = controller.$modelValue;
             if ( angular.isDefined(date) && date !== null && !angular.isDate(date) ) {
-                if ( angular.isString(controller.$modelValue) ) {
-                    date = uiDateConverter.stringToDate(attrs.uiDateFormat, controller.$modelValue);
-                } else {
-                    throw new Error('ng-Model value must be a Date, or a String object with a date formatter - currently it is a ' + typeof date + ' - use ui-date-format to convert it from a string');
-                }
+              if ( angular.isString(controller.$modelValue) ) {
+                date = uiDateConverter.stringToDate(attrs.uiDateFormat, controller.$modelValue);
+              } else {
+                throw new Error('ng-Model value must be a Date, or a String object with a date formatter - currently it is a ' + typeof date + ' - use ui-date-format to convert it from a string');
+              }
             }
             element.datepicker('setDate', date);
           };
@@ -215,17 +232,17 @@ app.directive('uiDate', ['uiDateConfig', 'uiDateConverter', function (uiDateConf
             // Updates the datepicker options
             element.datepicker('option', opts);
             element.datepicker('refresh');
-        } else {
+          } else {
             // Creates the new datepicker widget
             element.datepicker(opts);
 
             //Cleanup on destroy, prevent memory leaking
             element.on('$destroy', function () {
-               element.datepicker('destroy');
-            });
-        }
+             element.datepicker('destroy');
+           });
+          }
 
-        if ( controller ) {
+          if ( controller ) {
           // Force a render to override whatever is in the input text box
           controller.$render();
         }
@@ -238,37 +255,37 @@ app.directive('uiDate', ['uiDateConfig', 'uiDateConverter', function (uiDateConf
 ])
 app.factory('uiDateConverter', ['uiDateFormatConfig', function(uiDateFormatConfig){
 
-    function dateToString(dateFormat, value){
-        dateFormat = dateFormat || uiDateFormatConfig;
-        if (value) {
-            if (dateFormat) {
-                return jQuery.datepicker.formatDate(dateFormat, value);
-            }
+  function dateToString(dateFormat, value){
+    dateFormat = dateFormat || uiDateFormatConfig;
+    if (value) {
+      if (dateFormat) {
+        return jQuery.datepicker.formatDate(dateFormat, value);
+      }
 
-            if (value.toISOString) {
-                return value.toISOString();
-            }
-        }
-        return null;
+      if (value.toISOString) {
+        return value.toISOString();
+      }
     }
+    return null;
+  }
 
-    function stringToDate(dateFormat, value) {
-        dateFormat = dateFormat || uiDateFormatConfig;
-        if ( angular.isString(value) ) {
-            if (dateFormat) {
-                return jQuery.datepicker.parseDate(dateFormat, value);
-            }
+  function stringToDate(dateFormat, value) {
+    dateFormat = dateFormat || uiDateFormatConfig;
+    if ( angular.isString(value) ) {
+      if (dateFormat) {
+        return jQuery.datepicker.parseDate(dateFormat, value);
+      }
 
-            var isoDate = new Date(value);
-            return isNaN(isoDate.getTime()) ? null : isoDate;
-        }
-        return null;
+      var isoDate = new Date(value);
+      return isNaN(isoDate.getTime()) ? null : isoDate;
     }
+    return null;
+  }
 
-    return {
-        stringToDate: stringToDate,
-        dateToString: dateToString
-    };
+  return {
+    stringToDate: stringToDate,
+    dateToString: dateToString
+  };
 
 }])
 app.constant('uiDateFormatConfig', '')
@@ -276,20 +293,20 @@ app.directive('uiDateFormat', ['uiDateConverter', function(uiDateConverter) {
   var directive = {
     require:'ngModel',
     link: function(scope, element, attrs, modelCtrl) {
-        var dateFormat = attrs.uiDateFormat;
+      var dateFormat = attrs.uiDateFormat;
 
         // Use the datepicker with the attribute value as the dateFormat string to convert to and from a string
         modelCtrl.$formatters.unshift(function(value) {
-            return uiDateConverter.stringToDate(dateFormat, value);
+          return uiDateConverter.stringToDate(dateFormat, value);
         });
 
         modelCtrl.$parsers.push(function(value){
-            return uiDateConverter.dateToString(dateFormat, value);
+          return uiDateConverter.dateToString(dateFormat, value);
         });
 
-    }
-  };
+      }
+    };
 
-  return directive;
-}]);
+    return directive;
+  }]);
 /*=============================datepicker=======================================================*/
