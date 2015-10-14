@@ -1083,8 +1083,18 @@ va.cerrarfechacorte=function(item){
 
   proyectoFactory.getDatosxProyectoxFechaxCorte(va.revi['proyectoid'],va.revi['revision_cronograma'],va.revi['codigo_prop_proy'])
   .then(function(data) {
+    var fechacorte_cambiar
+    var fechacorte_cam
+
+
     for (var i = 0; i < data.length; i++)        
     {
+      if(data[i]['state_performance']=='I')
+      {
+        fechacorte_cam=data[i]['fechacorteid'];
+        //alert(fechacorte_cam);
+      }
+
       if(data[i]['state_performance']=='A')
       {
         proyectoid=data[i]['proyectoid'];
@@ -1096,10 +1106,11 @@ va.cerrarfechacorte=function(item){
         else
         {             
           id_cambiar=i+1;      
-          fechacorte_cambiar=data[i+1]['fechacorteid'];   
+          //fechacorte_cambiar=data[i+1]['fechacorteid'];
+          fechacorte_cambiar=fechacorte_cam;
+          //alert(fechacorte_cambiar);
         } 
 
-        var fechacorte_cambiar
         proyectoFactory.getCerrarxProyectoxFechaxCorte(proyectoid,codigo_prop_proy,fecha_corte,fechacorte_cambiar)
         .then(function(data) {
         })
