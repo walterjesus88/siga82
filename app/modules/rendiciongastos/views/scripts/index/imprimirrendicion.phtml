@@ -1,0 +1,229 @@
+<?php
+    $dir = APPLICATION_LIBRARY."/pdf/MPDF57/mpdf.php";
+    include_once($dir);
+    ob_start();
+    $sesion1  = Zend_Auth::getInstance();
+    $sesion = $sesion1->getStorage()->read();
+?>
+
+<link href="css/bootstrap.min.css" rel="stylesheet">
+<link href='http://fonts.googleapis.com/css?family=Abel' rel='stylesheet' type='text/css'>
+<table  style="width:100%," class="table table-bordered" font-size="9px" style=" font-family: Arial, Helvetica, sans-serif;">
+    <tr>
+        <th ><img style="width: 30%;" src="/img/logo.jpg"></th>
+        <th rowspan="2" style="width: 50%;text-align: center;"> <p>Administracion y Finanzas</p> <p>Rendicion de Gastos </p></th>
+        <th style="width: 30%;">  </th>
+    </tr>   
+    <tr> 
+        <th style="width: 10%;text-align: center;color: #fff;background-color:rgba(0, 105, 173, 1)"> SIG AND </th>         
+        <th style="width: 30%;text-align: center;"> 10-AND-42-FOR-0100 / R0/ <?php echo date('d-m-y')?> </th>
+    </tr>    
+</table>
+<?php 
+if ($this->gasto) { 
+$data_rendicion = $this->data_rendicion;
+list($año, $mes, $dia) = split('[-]', $data_rendicion['fecha']);
+    ?>
+<div class="row">
+    <table style="width : 1000px; font-family: Arial, Helvetica, sans-serif;">
+        <tr>
+            <th style="width: 100px">N° Rendición</th>
+            <th style="width: 120px"><?php echo $data_rendicion['numero_completo'];?></th>
+            <th style="width: 150px">Título Rendición</th>
+            <th style="width: 200px"><?php echo $data_rendicion['nombre'];?></th>
+            <th style="width: 70px">Fecha</th>
+            <th><?php echo $dia.'-'.$mes.'-'.$año;?></th>
+        </tr>
+        <tr>
+            <th style="width: 100px">Registrado Por</th>
+            <th style="width: 120px"><?php if($data_rendicion['uid']=='administracion1')
+                { echo "Patricia Velasquez";}
+                if($data_rendicion['uid']=='administracion2')
+                { echo "Silvia Vasquez";}
+                if($data_rendicion['uid']=='administracion3')
+                { echo "Sara Calderon";}
+                if($data_rendicion['uid']=='administracion4')
+                { echo "Jhon gutierrez";}
+                if($data_rendicion['uid']!='administracion4' and $data_rendicion['uid']!='administracion3' and $data_rendicion['uid']!='administracion2' and $data_rendicion['uid']!='administracion1' )
+                { $porciones = explode(".", $data_rendicion['uid']);
+                  echo (ucwords($porciones[0])); echo " ";echo (ucwords($porciones[1]));}
+            ?></th>
+
+            <th style="width: 100px">DNI Usuario</th>
+            <th style="width: 120px"><?php if($data_rendicion['uid']=='administracion1')
+                { echo "Administracion";}
+                if($data_rendicion['uid']=='administracion2')
+                { echo "Administracion";}
+                if($data_rendicion['uid']=='administracion3')
+                { echo "Administracion";}
+                if($data_rendicion['uid']=='administracion4')
+                { echo "Administracion";}
+                if($data_rendicion['uid']!='administracion4' and $data_rendicion['uid']!='administracion3' and $data_rendicion['uid']!='administracion2' and $data_rendicion['uid']!='administracion1' )
+                { 
+                  echo ($data_rendicion['dni']); }
+            ?></th>
+
+            
+        </tr>
+    </table>
+</div>
+<hr color="black" size=3>
+<div class="row">
+    <div class="col-sm-12">
+    <?php 
+    $gasto = $this->gasto;
+
+    if ($gasto) {
+        $j = 0;
+        foreach ($gasto as $data_gasto) { ?>
+            <section class="panel">
+                <header class="panel-heading modal-header" style="padding : 7px">
+                      <?php echo $data_gasto['proyectoid']. ' - ' .$data_gasto['nombre_proyecto'] ;
+                        echo "<br>";
+                        echo "<strong>"; 
+                        echo "Gerente Proyecto: ";
+                        echo "</strong>";
+                        $editproyect= new Admin_Model_DbTable_Proyecto();
+                        $where = array(
+                        'proyectoid'    =>  $data_gasto['proyectoid'],
+                        );
+                        $edit = $editproyect->_getOnexcodigoproyecto($where);
+                        $porciones = explode(".", $edit['gerente_proyecto']);
+                        echo (ucwords($porciones[0])); echo " ";echo (ucwords($porciones[1]));
+                      ?>
+                </header>
+                <div class="panel-body">
+                    <div class="adv-table">
+                        <table class="display table table-bordered table-striped table-condensed" style="font-size:11px">
+                            <thead>
+                                <tr>
+                                    <th>Descripción</th>
+                                    <th><center>Gasto</center></th>
+                                    <th>Cant.</th>
+                                    <th>PU</th>
+                                    <th>Clien.</th>
+                                    <th>Reemb.</th>
+                                    <th>Fecha</th>
+                                    <th>Moneda</th>
+                                    <th>N° Documento</th>
+                                    <th>Proveedor</th>
+                                    <th>Neto</th>
+                                    <th>Otro Imp.</th>
+                                    <th>IGV (18%)</th>
+                                    <th>Monto Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            <?php 
+                            foreach ($data_gasto['actividades'] as $data_actividades) { ?>
+                                <tr class="gradeX">
+                                    <td>
+                                        <span><?php echo $data_actividades['descripcion']; ?></span>
+                                    </td>
+                                    <td>
+                                    <?php
+                                    if ($data_actividades['gastoid'] != '') {
+                                        list($gastoid, $tipo_gasto) = split('[-]', $data_actividades['gastoid']);
+                                        foreach ($this->all_gastos as $kvalue) {
+                                            if ($gastoid == $kvalue['gastoid'] && $tipo_gasto == $kvalue['tipo_gasto']) $nom_tmp = $kvalue['nombre_gasto'];
+                                            }
+                                    } else {
+                                        $nom_tmp = '';
+                                    } ?>
+                                        <span><?php echo $nom_tmp; ?></span>
+                                    </td>
+                                    <td>
+                                        <span><?php echo $data_actividades['laboratorio_cantidad']; ?></span>
+                                    </td>
+                                    <td>
+                                        <span><?php echo $data_actividades['laboratorio_PU']; ?></span>
+                                    </td>
+                                    <td>
+                                        <span><?php echo ($data_actividades['bill_cliente'] == 'TRUE')? 'Si': 'No'; ?></span>
+                                    </td>
+                                    <td>
+                                        <span><?php echo ($data_actividades['reembolsable'] == 'TRUE')? 'Si': 'No'; ?></span>
+                                    </td>
+                                    <td>
+                                        <span><?php echo $data_actividades['fecha_factura']; ?></span>
+                                    </td>
+                                    <td>
+                                        <span><?php 
+                                                switch ($data_actividades['moneda']) {
+                                                    case 'Soles':
+                                                        echo "S/. ";
+                                                        break;
+                                                    case 'Dolar Americano':
+                                                        echo "$. ";
+                                                        break;
+                                                 } ?></span>
+                                    </td>
+                                    <td>
+                                        <span><?php echo $data_actividades['num_factura']; ?></span>
+                                    </td>
+                                    <td>
+                                        <span><?php echo $data_actividades['proveedor']; ?></span>
+                                    </td>
+                                    <td>
+                                        <span><?php echo $data_actividades['monto_igv']; ?></span>
+                                    </td>
+                                    <td>
+                                        <span><?php echo $data_actividades['otro_impuesto']; ?></span>
+                                    </td>
+                                    <td>
+                                        <span><?php echo $data_actividades['igv']; ?></span>
+                                    </td>
+                                    <td>
+                                        <span><?php echo $data_actividades['monto_total']; ?></span>
+                                    </td>
+                                </tr>
+                            <?php
+                            $j++;
+                            }
+                             ?>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+            <?php
+        }
+    }
+     ?>
+    </div>
+</div>
+<table>
+    <tr>
+        <th style="width: 250px">Total Importe</th>
+        <th style="width: 250px"><?php echo '$. '.$data_rendicion['dolar_monto_total'];?></th>
+
+        
+        <th style="width: 250px">Total Importe</th>
+        <th style="width: 250px"><?php echo 'S/. '.$data_rendicion['monto_total'];?></th>
+    </tr>
+    
+    <!--
+    <tr>
+        <th>Total Cliente</th>
+        <th><?php echo 'S/. '.$data_rendicion['monto_cliente'];?></th>
+        <th>Segundo Cliente</th>
+        <th><?php echo '$. '.$data_rendicion['dolar_monto_cliente'];?></th>
+    </tr>
+    <tr>
+        <th>Total Reembolso</th>
+        <th><?php echo 'S/. '.$data_rendicion['monto_reembolso'];?></th>
+        <th>Segundo Reembolso</th>
+        <th><?php echo '$. '.$data_rendicion['dolar_monto_reembolso'];?></th>
+    </tr>-->
+</table>
+<?php 
+} ?> 
+<?php 
+    $html = ob_get_contents();
+    $mpdf=new mPDF('win-1252','A4','','',15,15,10,12,5,7);
+    $mpdf->SetHTMLHeader($header);
+    /*$mpdf->SetFooter(' {DATE j/m/Y}|Página {PAGENO}|Sistema Anddes');*/
+    ob_end_clean();
+    $mpdf -> WriteHTML($html);
+    $mpdf->Output('Rendición -'. $this->numero.'.pdf','D');
+?>    

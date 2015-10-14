@@ -27,116 +27,6 @@
 //     };
 // });
 
-
-//var chartDirective = function () {
-app.directive('chart', function(){
-    return {
-        restrict: 'E',
-        replace: true,
-        template: '<div></div>',
-        scope: {
-            config: '='
-        },
-        link: function (scope, element, attrs) {
-            var chart;
-            var process = function () {
-                var defaultOptions = {
-
-                    chart: { renderTo: element[0] },
-                };
-                var config = angular.extend(defaultOptions, scope.config);
-                chart = new Highcharts.Chart(config);
-            };
-            process();
-            scope.$watch("config.series", function (loading) {
-                process();
-            });
-            scope.$watch("config.loading", function (loading) {
-                if (!chart) {
-                    return;
-                }
-                if (loading) {
-                    chart.showLoading();
-                } else {
-                    chart.hideLoading();
-                }
-            });
-        }
-    };
-});
-
-// app.directive('myChart', function(){
-//     return {
-//         restrict: 'E',
-//         scope: {},
-//         template: '<highchart config="chartConfig"></highchart>',
-//         controller: function($scope, $element){
-//           console.log($scope);
-//           $scope.namex = $scope.namex;
-//           $scope.datos = $scope.datos;
-//         },
-//         link: function(scope, element, attrs) {
-//             // scope=this;
-//             // scope.namex=scope.namex,
-//             console.log(scope);
-//             scope.chartConfig = {
-//                 options: {
-//                     exporting: {
-//                         enabled: true
-//                     }
-//                 },
-//                 //series: [{'sxxa':'sxxxxas'}],
-
-//               xAxis: {
-//                   categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 
-//                                'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
-//               },
-//               title: {
-//                   text: 'scope.name'
-//               },          
-
-//              subtitle: {
-//                 text: document.ontouchstart === undefined ?
-//                     'Click and drag in the plot area to zoom in' :
-//                     'Pinch the chart to zoom in'
-//             },
-//             yAxis: { title: { text: 'Temperature (Celsius)' } },
-//             tooltip: { valueSuffix: ' celsius' },
-//             legend: { align: 'center', verticalAlign: 'bottom', borderWidth: 0 },
-//                plotOptions: {
-//                 area: {
-//                     fillColor: {
-//                         linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1},
-//                         stops: [
-//                             [0, Highcharts.getOptions().colors[0]],
-//                             [1, Highcharts.Color(Highcharts.getOptions().colors[0]).setOpacity(0).get('rgba')]
-//                         ]
-//                     },
-//                     marker: {
-//                         radius: 2
-//                     },
-//                     lineWidth: 1,
-//                     states: {
-//                         hover: {
-//                             lineWidth: 1
-//                         }
-//                     },
-//                     threshold: null
-//                 }
-//             },
-//             series: [{
-//               type:'area',               
-//               data:  [7.0, 6.9, 9.5, 14.5, 18.2, 21.5, 25.2, 26.5, 23.3, 18.3, 13.9, 9.6]
-//                 //scope.datos
-//             }]
-   
-
-              
-//             };
-//         }
-//     };
-// });
-
 app.directive('uiDate', ['uiDateConfig', 'uiDateConverter', function (uiDateConfig, uiDateConverter) {
   'use strict';
   var options;
@@ -306,6 +196,9 @@ app.directive('uiDateFormat', ['uiDateConverter', function(uiDateConverter) {
   return directive;
 }]);
 
+
+
+
 app.controller('ControlCtrl', ['httpFactory', '$scope','$filter','$q',
 'proyectoFactory',
 function(httpFactory, $scope,$filter,$q,proyectoFactory) {
@@ -327,111 +220,91 @@ proyectoFactory.getLeerSessionUsuario(proyecto['codigo'])
       .then(function(data) {        
           va.statelista=data;
           console.log(data);        
-          status=data['status'];
-          if(data=='' )
-          {
-            if(va.responsable=='S' ||  va.gerente=='S'){
-              va.statelista.indice=1;              
-            }
-
-            if(va.gerente=='S'){
-              //console.log('gggg');
-              va.activareditar=true; 
-            }
-          }
-          else
-          { 
-        //Esto era para activar el agregar segun 
-            switch(data['indice']) 
+          status=data['status']; 
+        switch(data['indice']) 
+        {
+          case 1:
+            if(data['indice']==1 && (va.responsable=='S' || va.gerente=='S'))
             {
-              case 1:
-                if(data['indice']==1 && (va.responsable=='S' ))
-                {
-                  va.activareditar=true;              
-                }
-                else
-                {
-                  va.activareditar=false;              
-                }
-              break;
-              case 2:
-                //if(data['indice']==2 && (va.jefearea=='S' ))
-                //{
-                  //va.activareditar=true;         
-                //} 
-                //else
-                //{
-                  va.activareditar=false;
-                //}   
-              break;
-              case 3:
-                //if(va.responsable=='S' || va.gerente=='S')
-                //{
-                //  va.activareditar=true;    
-                //} 
-                //else
-                //{
-                  va.activareditar=false;
-                //}   
-              break;
-              case 4:
-                //if(data['indice']==4 && va.gerente=='S' )
-                //{
-                //  if(status=='gr')
-                //  {
-                //    va.activareditar=true;                
-                //  } 
-                //  else
-                //  {             
-                //    va.activareditar=false;
-                //  }
-                //} 
-                //else
-                //{
-                  va.activareditar=false;              
-                //}           
-              break;
-              case 5:
-                  //if(va.jefearea=='S')
-                  //{               
-                  //  va.activareditar=true;                
-                  // }
-                  //else
-                  //{
-                    va.activareditar=false; 
-                  //}
-              break;
-              case 6:
-                  va.activareditar=false; 
-              break;
-              case 7:
-                  //if(va.gerente=='S' )
-                  //{
-                  //  va.activareditar=true;
-                  //}
-                  //else
-                  //{                
-                    va.activareditar=false;            
-                  //}
-              break;
-              case 8:                         
-                    va.activareditar=false;
-              break;
-              case 9:                         
-                  va.activareditar=false;
-              break;
-              default:
-                  // if(va.gerente=='S' )
-                  // {
-                  //   va.activareditar=true;                
-                  // }
-                  // else
-                  // {
-                    va.activareditar=false;                
-                  //}
+              va.activareditar=true;
+              //alert('editar 1');
             }
-          }
-
+            else
+            {
+              va.activareditar=false;              
+            }
+          break;
+          case 2:
+            if(data['indice']==2 && (va.jefearea=='S' ))
+            {
+              va.activareditar=true;
+              //alert('editar 2');
+            } 
+            else
+            {
+              va.activareditar=false;
+            }   
+          break;
+          case 3:
+            if(va.responsable=='S'  || va.gerente=='S')
+            {
+              va.activareditar=true;
+              //alert('editar 3');
+            } 
+            else
+            {
+              va.activareditar=false;
+            }   
+          break;
+          case 4:
+            if(data['indice']==4 && va.gerente=='S' )
+            {
+              if(status=='gr')
+              {
+                va.activareditar=true;                
+              } 
+              else
+              {             
+                va.activareditar=false;
+              }
+            } 
+            else
+            {
+              va.activareditar=false;              
+            }           
+          break;
+          case 5:
+              if(va.jefearea=='S')
+              {               
+                va.activareditar=true;                
+              }
+              else
+              {
+                va.activareditar=false; 
+              }
+          break;
+          case 6:
+              va.activareditar=false; 
+          break;
+          case 7:
+              if(va.gerente=='S' )
+              {
+                va.activareditar=true;
+              }
+              else
+              {                
+                va.activareditar=false;            
+              }
+          break;
+          case 8:                         
+                va.activareditar=false;
+          break;
+          case 9:                         
+              va.activareditar=false;
+          break;
+          default:
+              va.activareditar=false;
+        }
       })
       .catch(function(err) {
           console.log("error al eliminar entregable");
@@ -450,12 +323,12 @@ proyectoFactory.getDatosProyecto(proyecto['codigo'])
     .then(function(data)
     {
       if(data=='')
-      {        
+      {
+        
       }
       else
       {     
         revision=data[0]['revision_cronograma'];  
-        //console.log(revision);
         //sirve para cargar datos una vez iniciado //
         httpFactory.getTiempos(revision,va.proyectop.codigo_prop_proy,proyecto['codigo'])
         .success(function(data) {         
@@ -477,8 +350,7 @@ proyectoFactory.getDatosProyecto(proyecto['codigo'])
                return [labelx];
             });    
             
-            va.labels=label[0];         
-
+            va.labels=label[0];
             var array = $.map(data[0], function(value, index)
             {   
               for (var i =0; i < max; i++) {
@@ -491,81 +363,6 @@ proyectoFactory.getDatosProyecto(proyecto['codigo'])
               return [varx,vary];
             });
             va.data = array;
-            console.log(va.data[0]);
-            console.log(va.data[1]);
-
-            this.$scope = $scope;
-            $scope.chartConfig = {
-            xAxis: {
-                categories: va.labels
-                //['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
-            },
-
-            plotBands: [{ // visualize the weekend
-                from: 4.5,
-                to: 6.5,
-                color: 'rgba(68, 170, 213, .2)'
-            }],
-            
-            title: {
-                text: 'PROYECTO'+' '+ proyecto['codigo'] + "-"+' '+'REVISION'+' '+ revision
-            },           
-
-            subtitle: {
-                text: document.ontouchstart === undefined ?
-                    'CURVA REALIZADA A TRAVES DE PORCENTAJES DE PERFORMANCE':'-'
-            },
-
-            yAxis: { title: { text: 'Porcentaje' } },
-
-            tooltip: { valueSuffix: ' celsius' },
-            legend: { align: 'center', verticalAlign: 'bottom', borderWidth: 0 },
-
-            plotOptions: {
-                series: {
-                    animation: {
-                        duration: 10000,
-                        easing: 'easeInOutQuint',
-                        animationSteps: 150,
-                    }
-                },
-                areaspline: {
-                fillOpacity: 0.1
-                },
-        
-                areaspline: {
-                    fillColor: {
-                        linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1},
-                        stops: [
-                            [0, Highcharts.getOptions().colors[0]],
-                            [1, Highcharts.Color(Highcharts.getOptions().colors[0]).setOpacity(0).get('rgba')]
-                        ]
-                    },
-                    marker: {
-                        radius:5
-                    },
-                    lineWidth: 1,
-                    states: {
-                        hover: {
-                            lineWidth: 1
-                        }
-                    },
-                    threshold: null
-                }
-            },
-            series : [
-              {
-              type:'areaspline',
-              name:'Planeado',              
-              data: va.data[0],           
-              },
-              {
-              type:'areaspline',
-              name:'Real',
-              data: va.data[1],           
-              },
-            ]
-          };
 
         })      
         .error(function(data) {
@@ -581,8 +378,6 @@ proyectoFactory.getDatosProyecto(proyecto['codigo'])
 .catch(function(err) {
   va.proyectop = {};
 });
-
-
 
 //T R A E  D A T O S  D E  C R O N O G R A M A//  
 proyectoFactory.getDatosProyectoxCronograma(proyecto['codigo'])
@@ -841,101 +636,31 @@ va.busca = function(revision,codigo,proyectoid) {
       return [varx,vary];
       });
         va.data = array;
-        console.log(va.data);
-
-        this.$scope = $scope;
-        $scope.chartConfig = {
-            xAxis: {
-                categories: va.labels               
-            },
-
-            plotBands: [{ // visualize the weekend
-                from: 4.5,
-                to: 6.5,
-                color: 'rgba(68, 170, 213, .2)'
-            }],
-            
-            title: {
-                text: 'PROYECTO'+' '+ proyecto['codigo'] + "-"+' '+'REVISION'+' '+ revision.revision_cronograma
-            },           
-
-            subtitle: {
-                text: document.ontouchstart === undefined ?
-                    'CURVA REALIZADA A TRAVES DE PORCENTAJES DE PERFORMANCE':'-'
-            },
-
-            yAxis: { title: { text: 'Porcentaje' } },
-
-            tooltip: { valueSuffix: ' celsius' },
-            legend: { align: 'center', verticalAlign: 'bottom', borderWidth: 0 },
-
-            plotOptions: {
-                series: {
-                    animation: {
-                        duration: 10000,
-                        easing: 'easeInOutQuint',
-                        animationSteps: 150,
-                    }
-                },
-                areaspline: {
-                fillOpacity: 0.1
-                },
-        
-                areaspline: {
-                    fillColor: {
-                        linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1},
-                        stops: [
-                            [0, Highcharts.getOptions().colors[0]],
-                            [1, Highcharts.Color(Highcharts.getOptions().colors[0]).setOpacity(0).get('rgba')]
-                        ]
-                    },
-                    marker: {
-                        radius:5
-                    },
-                    lineWidth: 1,
-                    states: {
-                        hover: {
-                            lineWidth: 1
-                        }
-                    },
-                    threshold: null
-                }
-            },
-            series : [
-              {
-              type:'areaspline',
-              name:'Planeado',              
-              data: va.data[0],           
-              },
-              {
-              type:'areaspline',
-              name:'Real',
-              data: va.data[1],           
-              },
-            ]
-          };      
+        console.log(va.data);      
   })
   .error(function(data) {
     va.data = [] ; 
     console.log("no hay datos de busqueda");
   });
 };  
-
 //va.series = ['29 Abr', '14 May', '21 May', '28 May', '04 Jun', '11 Jun', '18 Jun','25 Jun','02 Jun',];
-// va.series = ['Planeado', 'Real'];
-// console.log(va.series);
-// va.options = {  
-//   legend: true,
-//   animationSteps: 150,
-//   animationEasing: "easeInOutQuint",
-//   exporting: { enabled: true },
-// };
-
+va.series = ['Planeado', 'Real'];
+va.options = {  
+  legend: true,
+  animationSteps: 150,
+  animationEasing: "easeInOutQuint"
+};
   // va.data = [
   //   [65/100, 59/100, 80/100, 81/100, 56/100, 55/100, 40/100],
   //   [28/100, 48/100, 40/100, 19/100, 86/100, 27/100, 90/100]
   // ];
-
+  // console.log(va.datas);  
+  //  va.data = [] ; 
+  //  ejemplo de objeto// 
+  //   var myObj = {
+  //   1: [1, 2, 3],
+  //   2: [4, 5, 6]
+  //   };
 ////////////////////////////////////////////////////*P E R F O R M A N C E*////////////////////////////////////////////////////////////////
     //  this.cronogramaxperformance = [
     //   { revision_cronograma: 'A', expanded: true,
@@ -2451,10 +2176,9 @@ va.guardatListaentregable = function(data, id) {
   codigo_cliente=data['codigo_cliente'];
   //fecha_a=data['fecha_a'];
   fecha_a=va.fecha_a;
-  fecha_b=va.fecha_b;
-  fecha_0=va.fecha_0;
-  // fecha_b=data['fecha_b'];
-  // fecha_0=data['fecha_0'];
+
+  fecha_b=data['fecha_b'];
+  fecha_0=data['fecha_0'];
   descripcion_entregable=data['descripcion_entregable'];   
   cod_le=id;
     // fecha_a=(fecha_a=='' || fecha_a==null || fecha_a!='null' || fecha_a!='undefined') ? "" : proyectoFactory.formatoFechas(fecha_a); 

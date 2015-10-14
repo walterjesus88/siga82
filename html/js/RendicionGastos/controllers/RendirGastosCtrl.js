@@ -83,16 +83,17 @@ app.controller('RendirGastosCtrl', ['$scope','httpFactory', 'gastosFactory', '$m
      vrg.fecha_factura=gastosFactory.formatoFechas(vrg.fecha_factura);
     }
 
-    // if(vrg.moneda=='Soles'){vrg.monto_total=(vrg.monto_igv)+(vrg.otro_impuesto)+(vrg.igv);}
+    if(vrg.moneda=='Soles'){parseFloat(vrg.monto_total=(vrg.monto_igv*1)+(vrg.otro_impuesto*1)+(vrg.igv*1),2);}
+    if(vrg.moneda=='Dolar Americano'){parseFloat(vrg.monto_total=(vrg.monto_igv*2)+(vrg.otro_impuesto*2)+(vrg.igv*2),2);}
 
 
-   gastosFactory.setGuardarGastos(vrg.proyectoid, vrg.descripcion,vrg.gastoid,vrg.bill_cliente,vrg.reembolsable,vrg.fecha_factura,vrg.num_factura,vrg.moneda,vrg.proveedor,vrg.monto_igv,vrg.otro_impuesto,vrg.igv,vrg.monto_total,numero,fecha)
+   gastosFactory.setGuardarGastos(vrg.listaproyectos.proyectoid, vrg.descripcion,vrg.listagastos.gastoid,vrg.bill_cliente,vrg.reembolsable,vrg.fecha_factura,vrg.num_factura,vrg.moneda,vrg.proveedor,vrg.monto_igv,vrg.otro_impuesto,vrg.igv,vrg.monto_total,numero,fecha)
    .then(function(data) {
     /*insertar una nueva fila*/
     vrg.inserted = {
-      proyectoid:vrg.proyectoid,
+      proyectoid:vrg.listaproyectos.proyectoid,
       descripcion:vrg.descripcion,
-      gastoid:vrg.gastoid,
+      gastoid:vrg.listagastos.gastoid,
       bill_cliente:vrg.bill_cliente,
       reembolsable:vrg.reembolsable,
       fecha_factura:vrg.fecha_factura,
@@ -112,9 +113,11 @@ app.controller('RendirGastosCtrl', ['$scope','httpFactory', 'gastosFactory', '$m
     console.log("numero de rendicion " + numero);
     vrg.rendir.push(vrg.inserted);
       // console.log('guardar rendir');
+      console.log("proyecto " + vrg.listaproyectos.proyectoid);
+      console.log("gasto " + vrg.listagastos.gastoid);
       console.log("fecha de rendicion " + fecha);
       console.log("fecha de factura " + vrg.fecha_factura);
-      console.log("monto total" + vrg.monto_total);
+      console.log("monto total " + vrg.monto_total);
       // vrg.formVisibilityrendir=false;
 
     })
@@ -123,7 +126,45 @@ app.controller('RendirGastosCtrl', ['$scope','httpFactory', 'gastosFactory', '$m
   });
  }
 
+vrg.Actualizar = function(data) {
+  console.log(data);
+  
+  //alert(lista.fecha_a);
+  //rowform.$visible = !rowform.$visible;
 
+  proyectoid=data['proyectoid'];
+  descripcion=data['descripcion'];   
+  gastoid=data['gastoid'];
+  bill_cliente=data['bill_cliente'];
+  reembolsable=data['reembolsable'];
+  // fecha_factura=vrg.fecha_factura;
+  fecha_factura=data['fecha_factura'];
+  num_factura=data['num_factura'];
+  moneda=data['moneda'];
+  proveedor=data['proveedor'];   
+  monto_igv=data['monto_igv'];   
+  otro_impuesto=data['otro_impuesto'];   
+  igv=data['igv'];   
+  monto_total=data['monto_total'];   
+  numero_rendicion=data['numero_rendicion'];   
+  fecha_gasto=fecha;
+
+  // cod_ga=id;
+
+    //le da el formato yy-mm-dd a una fecha //
+    if(fecha_factura==null || fecha_factura=='' || fecha_factura=='null' || fecha_factura=='undefined'){ }
+    else{ fecha_factura=gastosFactory.formatoFechas(fecha_factura); }
+
+  gastosFactory.setActualizar(listaproyectos.proyectoid, descripcion,listagastos.gastoid,bill_cliente,reembolsable,fecha_factura,num_factura,moneda,proveedor,monto_igv,otro_impuesto,igv,monto_total,numero,fecha)
+  .then(function(data) {
+
+    .catch(function(err) {
+      vrg.entregable = {};
+    })
+  })
+  .catch(function(err) {      
+  })
+};
 
 
  vrg.CancelarRendir=function(){
