@@ -158,11 +158,9 @@ vrg.Actualizar = function(data) {
   gastosFactory.setActualizar(proyectoid,descripcion,gastoid,bill_cliente,reembolsable,fecha_factura,num_factura,moneda,proveedor,monto_igv,otro_impuesto,igv,monto_total,numero,fecha)
   .then(function(data) {
 
-    .catch(function(err) {
-      vrg.entregable = {};
-    })
   })
   .catch(function(err) {      
+      vrg.entregable = {};
   })
 };
 
