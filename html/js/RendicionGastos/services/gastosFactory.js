@@ -105,6 +105,21 @@ app.factory('gastosFactory', ['httpFactory', '$location', '$q',
       return promise;
     },
 
+    setActualizar: function(proyectoid,descripcion,gastoid,bill_cliente,reembolsable,fecha_factura,num_factura,moneda,proveedor,monto_igv,otro_impuesto,igv,monto_total,numero,fecha) {
+      var defered = $q.defer();
+      var promise = defered.promise;
+
+      httpFactory.setActualizar(proyectoid,descripcion,gastoid,bill_cliente,reembolsable,fecha_factura,num_factura,moneda,proveedor,monto_igv,otro_impuesto,igv,monto_total,numero,fecha)
+      .then(function(data) {
+        datos = data;
+        defered.resolve(datos);
+      })
+      .catch(function(err) {
+        defered.reject(err);
+      });
+      return promise;
+    },
+
 
     setCliente: function(listaclientes) {
       datos.listaclientes = listaclientes;
