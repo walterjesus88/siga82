@@ -93,7 +93,7 @@
 
 
 
-
+<!-- 
     <div ng-repeat-start="category in CP.procronograma" class="animate-repeat-category">
           <button class="btn btn-primary btn-block btn-sm" ng-click="CP.toggleCategory(category)">
             	{{ category.codigo_cronograma }}-{{ category.revision_cronograma }}           
@@ -103,7 +103,7 @@
     </div>
      
         <div class="list-items animate-show-item" ng-show="">
-        	<!-- category.expanded -->
+        
 		<form method="POST" action="#" editable-form name="tableform" onaftersave="CP.saveTable()" oncancel="cancel()" >
 			<table class=" table table-striped table-hover table-bordered ">
 				<thead>	
@@ -183,26 +183,11 @@
           <button ng-show="category.expanded" class="btn btn-primary btn-block btn-sm animate-show-item" disabled="disabled">/ {{ category.actividadid}} </button>
           <hr>
     </div>
+ -->
 
 
 
 
-<!-- <div ng-init="accordion=1">
-	<h3 class="accordion" ng-class="{active:accordion==1}">
-		<a href ng-click="accordion = 1">Section 1</a>
-	</h3>
-	<p class="accordion-content" ng-show="accordion==1">Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using</p>
-	    
-	<h3 class="accordion" ng-class="{active:accordion==2}">
-		<a href ng-click="accordion = 2">Section 2</a>
-	</h3>
-	<p class="accordion-content" ng-show="accordion==2">It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using</p>
-	    
-	<h3 class="accordion" ng-class="{active:accordion==3}">
-		<a href ng-click="accordion = 1">Section 3</a>
-	</h3>
-	<p class="accordion-content" ng-show="accordion==3">There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form</p>
-</div> -->
 
 
 
@@ -228,132 +213,4 @@
   </accordion> -->
 
 
-<style type="text/css">
-body {
-  font-size: 12px;
-}
-span.done {
-  text-decoration: line-through;
-}
 
-span.expand-indicator {
-  float: right;
-  margin-right: 15px;
-  font-size: 12px;
-}
-
-div.list-items ul {
-  margin-top: 10px;
-}
-div.list-items li {
-  margin-top: 5px;
-  height: 22px;
-  cursor: default;
-}
-
-div.list-items li:hover {
-  background-color: #EEE;
-}
-
-div.list-items .btn {
-  float: right;
-  margin-right: 10px;
-}
-
-.no-items {
-  color: #999;
-  text-align: center;
-  margin-bottom: 5px;
-}
-
-
-/* Animations */
-.animate-show-item.ng-hide-add,
-.animate-show-item.ng-hide-remove {
-  -webkit-transition:0.33s ease all;
-  transition:0.5s linear all;
-
-  /* remember to add this */
-  display:block!important;
-  position: relative;
-  top: 0;
-  opacity:1;
-}
-.animate-show-item.ng-hide {
-  top: -15px;
-  opacity:0;
-}
-
-.animate-repeat-category.ng-enter,
-.animate-repeat-category.ng-leave,
-.animate-repeat-category.ng-move,
-.animate-repeat-item.ng-enter,
-.animate-repeat-item.ng-leave,
-.animate-repeat-item.ng-move {
-  -webkit-transition: 0.33s ease all;
-  transition: 0.33s eases all;
-  position:relative;
-}
-
-.animate-repeat-item.ng-enter {
-  left:-10px;
-  opacity:0;
-}
-.animate-repeat-item.ng-enter.ng-enter-active {
-  left:0;
-  opacity:1;
-}
-
-.animate-repeat-item.ng-leave {
-  left:0;
-  opacity:1;
-}
-.animate-repeat-item.ng-leave.ng-leave-active {
-  left:-10px;
-  opacity:0;
-}
-
-.animate-repeat-category.ng-enter {
-  top:-10px;
-  opacity:0;
-}
-.animate-repeat-category.ng-enter.ng-enter-active {
-  top:0;
-  opacity:1;
-}
-
-.animate-repeat-category.ng-leave {
-  top:0;
-  opacity:1;
-}
-.animate-repeat-category.ng-leave.ng-leave-active {
-  top:-10px;
-  opacity:0;
-}
-
-.animate-repeat-item.ng-move {
-  opacity:0.5;
-}
-.animate-repeat-item.ng-move.ng-move-active {
-  opacity:1;
-}
-
-/* bootstrap  overrides */
-.page-header {
-  margin: 10px 0 10px;
-  padding-bottom: 0;
-  text-align: center;
-}
-.form-control {
-  font-size: 12px;
-}
-
-.form-group {
-  margin-bottom: 8px;
-}
-
-hr {
-  margin-top: 10px;
-  margin-bottom: 10px;
-}
-</style>

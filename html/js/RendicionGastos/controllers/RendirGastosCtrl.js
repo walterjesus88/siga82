@@ -155,7 +155,7 @@ vrg.Actualizar = function(data) {
     if(fecha_factura==null || fecha_factura=='' || fecha_factura=='null' || fecha_factura=='undefined'){ }
     else{ fecha_factura=gastosFactory.formatoFechas(fecha_factura); }
 
-  gastosFactory.setActualizar(listaproyectos.proyectoid, descripcion,listagastos.gastoid,bill_cliente,reembolsable,fecha_factura,num_factura,moneda,proveedor,monto_igv,otro_impuesto,igv,monto_total,numero,fecha)
+  gastosFactory.setActualizar(proyectoid,descripcion,gastoid,bill_cliente,reembolsable,fecha_factura,num_factura,moneda,proveedor,monto_igv,otro_impuesto,igv,monto_total,numero,fecha)
   .then(function(data) {
 
     .catch(function(err) {
