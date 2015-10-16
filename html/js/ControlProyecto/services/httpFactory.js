@@ -591,6 +591,19 @@ app.factory('httpFactory', ['$http','$q', function($http,$q) {
       )
       .success(function(data) {
         defered.resolve(data);
+        console.log(url + 'setguardarlistaentregables/proyectoid/'+ proyectoid
+      +"/codigo_prop_proy/"+codigo_prop_proy+
+      "/revision_entregable/"+revision_entregable+
+      "/edt/"+edt+
+      "/tipo_documento/"+tipo_documento+
+      "/disciplina/"+disciplina+
+      "/codigo_anddes/"+codigo_anddes+
+      "/codigo_cliente/"+codigo_cliente+
+      "/fecha_0/"+fecha_0+
+      "/fecha_a/"+fecha_a+
+      "/fecha_b/"+fecha_b+
+      "/descripcion_entregable/"+descripcion_entregable+
+      "/cod_le/"+cod_le);
         
       })
       .error(function(err) {

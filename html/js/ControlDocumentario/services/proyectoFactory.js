@@ -39,20 +39,20 @@ function(httpFactory, $q) {
       this.cambiarCarpeta = function() {
         httpFactory.setCarpeta(this.codigo, this.carpeta)
         .then(function(data) {
-          alert('Carpeta cambiada');
+
         })
         .catch(function(err) {
-          alert('No se pudo cambiar la carpeta');
+          
         });
       }
 
       this.cambiarControlDocumentario = function() {
         httpFactory.setControlDocumentario(this.codigo, this.control_documentario)
         .then(function(data) {
-          alert('Control Documentario cambiado');
+
         })
         .catch(function(err) {
-          alert('No se pudo cambiar el Control Documentario');
+
         })
       }
     },

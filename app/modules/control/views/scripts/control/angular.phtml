@@ -4,6 +4,15 @@
       <div ng-app="pruebaApp"  ng-controller="pruebaAppCtrl as alu" >
          {{alu.algo }}
 
+
+    <my-chart></my-chart>
+    
+    <script type="text/javascript" src="/external_library/highcharts/js/highcharts-ng.js"></script>
+    <script type="text/javascript" src="/external_library/highcharts/js/highcharts.js"></script>
+    <script type="text/javascript" src="/external_library/highcharts/modules/exporting.js"></script>
+    <script type="text/javascript" src="/external_library/highcharts/js/highcharts-more.js"></script>
+
+
         <div ng-repeat="alumno in alu.alumnos | orderBy:'nombre' ">
             <div class="nombre">{{alumno.nombre}}-{{alumno.telefono}}</div>
             <span class="curso">{{alumno.curso}}</span>       

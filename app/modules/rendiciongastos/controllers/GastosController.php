@@ -124,6 +124,9 @@ class Rendiciongastos_GastosController extends Zend_Controller_Action {
 
       // $this->_helper->json->sendJson($gastos);
       $this->_helper->json->sendJson($respuesta);
+      echo "========";
+      print_r($respuesta);
+      echo "========";
     }
 
     catch (Exception $ex){
@@ -145,14 +148,14 @@ class Rendiciongastos_GastosController extends Zend_Controller_Action {
       // $rendir = new Admin_Model_DbTable_Gastorendicion();
       // $datos = $rendir->_getOne($data);
 
-      echo "_____xxx_____";
-      print_r($this->_getParam('fecha'));
-      echo "_____xxx_____";
+      // echo "_____xxx_____";
+      // print_r($this->_getParam('fecha'));
+      // echo "_____xxx_____";
 
       $formdata['uid'] = $uid = $this->sesion->uid;
       $formdata['dni'] = $dni = $this->sesion->dni;
       $formdata['codigo_prop_proy']="15.10.128-1204.10.08-A";
-      $formdata['proyectoid']=$proyectoid = $this->_getParam("proyectoid");
+      $formdata['proyectoid']="1204.10.08";
       $formdata['revision']="A";
       $formdata['categoriaid']=$categoriaid = $this->sesion->categoriaid;
       $formdata['cargo']=$ucatcargo = $this->sesion->personal->ucatcargo;
@@ -162,7 +165,7 @@ class Rendiciongastos_GastosController extends Zend_Controller_Action {
       $formdata['numero_rendicion']= $this->_getParam('numero');
       $formdata['asignado']=$uid = $this->sesion->uid;
       $formdata['uid_ingreso']=$uid = $this->sesion->uid;
-      $formdata['descripcion']=$descripcion = $this->_getParam('descripcion');
+      $formdata['descripcion']=$descripcion = $this->_getParam("descripcion");
       $formdata['gastoid']=$gastoid = $this->_getParam("gastoid");
       $formdata['gasto_padre']=$gastoid = $this->_getParam("gastoid");
       $formdata['bill_cliente']=$bill_cliente = $this->_getParam("bill_cliente");
@@ -173,12 +176,24 @@ class Rendiciongastos_GastosController extends Zend_Controller_Action {
       $formdata['proveedor']=$proveedor = $this->_getParam("proveedor");
       $formdata['monto_igv']=$monto_igv = $this->_getParam("monto_igv");
       $formdata['otro_impuesto']=$otro_impuesto = $this->_getParam("otro_impuesto");
+      $formdata['monto_total']=$monto_total = $this->_getParam("monto_total");
       $guardargastos=new Admin_Model_DbTable_Gastopersona();
       $ggastos=$guardargastos->_save2($formdata);
 
-      echo "_____xxx_____";
-      print_r($gastoid);
-      echo "_____xxx_____";
+      // echo "_____<br>_____";
+      // echo "_____PROYECTO_____";
+      // print_r($proyectoid);
+      //       echo "_____<br>_____";
+      // echo "_____GASTO_____";
+      // print_r($gastoid);
+      //       echo "_____<br>_____";
+      // echo "_____FECHA FACTURA_____";
+      // print_r($fecha_factura);
+      //       echo "_____<br>_____";
+      // echo "_____MONTO TOTAL_____";
+      // print_r($monto_total);
+      //       echo "_____<br>_____";
+      // echo "_____xxx_____";
 
       exit();
 
@@ -212,7 +227,7 @@ class Rendiciongastos_GastosController extends Zend_Controller_Action {
       $gasto = new Admin_Model_DbTable_Listagasto();
       $tipos = $gasto->_getGastosAll();
       $this->_helper->json->sendJson($tipos);
-      print_r("GastosController " + $tipos);
+      print_r("GastosController --->" + $tipos);
     }
 
 }

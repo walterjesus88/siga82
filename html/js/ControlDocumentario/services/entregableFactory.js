@@ -45,10 +45,10 @@ app.factory('entregableFactory', ['httpFactory', 'transmittalFactory',
         if (this.codigo != '' && this.codigo !=null && this.codigo !=undefined) {
           httpFactory.setCodigoAnddes(this.codigo, this.codigo_anddes)
           .then(function(data) {
-            alert('Codigo Anddes Actualizado.');
+
           })
           .catch(function(err) {
-            alert('No se pudo actualizar el codigo de Anddes');
+
           });
         }
       }
@@ -57,10 +57,10 @@ app.factory('entregableFactory', ['httpFactory', 'transmittalFactory',
         if (this.codigo != '' && this.codigo !=null && this.codigo !=undefined) {
           httpFactory.setCodigoCliente(this.codigo, this.codigo_cliente)
           .then(function(data) {
-            alert('Codigo Cliente Actualizado.');
+
           })
           .catch(function(err) {
-            alert('No se pudo actualizar el codigo de Cliente');
+
           });
         }
       }
@@ -69,10 +69,10 @@ app.factory('entregableFactory', ['httpFactory', 'transmittalFactory',
         if (this.codigo != '' && this.codigo !=null && this.codigo !=undefined) {
           httpFactory.setTipoEntregable(this.codigo, this.tipo)
           .then(function(data) {
-            alert('Tipo de Documento Actualizado.');
+
           })
           .catch(function(err) {
-            alert('No se pudo actualizar el tipo de documento');
+
           });
         }
       }
@@ -81,10 +81,10 @@ app.factory('entregableFactory', ['httpFactory', 'transmittalFactory',
         if (this.codigo != '' && this.codigo !=null && this.codigo !=undefined) {
           httpFactory.setDisciplina(this.codigo, this.disciplina)
           .then(function(data) {
-            alert('Disciplina Actualizada.');
+
           })
           .catch(function(err) {
-            alert('No se pudo actualizar la Disciplina');
+
           });
         }
       }
@@ -93,10 +93,10 @@ app.factory('entregableFactory', ['httpFactory', 'transmittalFactory',
         if (this.codigo != '' && this.codigo !=null && this.codigo !=undefined) {
           httpFactory.setDescripcion(this.codigo, this.descripcion)
           .then(function(data) {
-            alert('La Descripción ha sido actualizada.');
+
           })
           .catch(function(err) {
-            alert('No se pudo actualizar la descripción');
+
           });
         }
       }
@@ -105,10 +105,10 @@ app.factory('entregableFactory', ['httpFactory', 'transmittalFactory',
         if (this.codigo != '' && this.codigo !=null && this.codigo !=undefined) {
           httpFactory.setRevisionEntregable(this.codigo, this.revision)
           .then(function(data) {
-            alert('La revisión ha sido actualizada.');
+
           })
           .catch(function(err) {
-            alert('No se pudo actualizar la revisión');
+
           });
         }
       }
@@ -160,10 +160,10 @@ app.factory('entregableFactory', ['httpFactory', 'transmittalFactory',
       this.eliminarEntregable = function() {
         httpFactory.deleteEntregable(this.codigo)
         .then(function(data) {
-          alert('Entregable eliminado satisfactoriamente');
+
         })
         .catch(function(err) {
-          alert('No se pudo eliminar el entregable');
+          
         });
       }
 

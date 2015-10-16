@@ -98,21 +98,20 @@ app.factory('transmittalFactory', ['httpFactory', '$q', function(httpFactory, $q
       datos.modo_envio = modo_envio;
       httpFactory.setModoEnvio(datos.codificacion, datos.correlativo, datos.modo_envio)
       .then(function(data) {
-        alert('Tipo de envio guardado');
+
       })
       .catch(function(err) {
-        alert('No se pudo guardar el tipo de envio');
+
       });
     },
 
     guardarCambios: function() {
       httpFactory.setConfiguracionTransmittal(datos)
       .then(function(data) {
-        alert('Transmittal '+ datos.codificacion + '-'  + datos.correlativo +
-        ' creado satisfactoriamente');
+
       })
       .catch(function(err) {
-        alert('No se pudo crear el transmittal solicitado');
+        
       });
     },
     emitirTransmittal: function() {

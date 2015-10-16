@@ -62,6 +62,21 @@ class Admin_Model_DbTable_Gastopersona extends Zend_Db_Table_Abstract
         }
     }
 
+    public function _updategasto($data,$pk)
+    {
+        try{
+            if ($pk=='' ) return false;
+            $where = "numero = '".$pk."' ";
+            return $this->update($data, $where);
+
+            // print_r($this->update($data, $where);
+
+            return false;
+        }catch (Exception $e){
+            print "Error: Update gastos".$e->getMessage();
+        }
+    }
+
     public function _delete($gasto_persona_id){
         try{
             if ($gasto_persona_id=='') return false;

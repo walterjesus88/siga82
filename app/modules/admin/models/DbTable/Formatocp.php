@@ -158,31 +158,28 @@ protected function _rellenarFormatoPerformance()
     }   
       $linea = $a;
       $max = $linea;
-      $page->drawText((string)$i + 1, 7, $a);      
-      $page->drawText($this->data[$i]['actividadid'], 30, $a);
+      $page->drawText((string)$i + 1, 6, $a);      
+      $page->drawText($this->data[$i]['actividadid'], 26, $a);
 
       do {
-        $texto = substr($this->data[$i]['nombre'], 0, 30);
+        $texto = substr($this->data[$i]['nombre'], 0, 33); 
+        // $texto = iconv( "ISO-8859-1//TRANSLIT","Windows-1250", $texto);//print_r($texto);
 
-       // $texto = iconv( "ISO-8859-1//TRANSLIT","Windows-1250", $texto); 
-
-        //print_r($texto);
-
-        $page->drawText($texto, 60, $linea,'UTF-8//IGNORE','ISO-8859-1//TRANSLIT','Windows-1250','UTF-16');
+        $page->drawText($texto, 52, $linea,'UTF-8//IGNORE','ISO-8859-1//TRANSLIT','Windows-1250','UTF-16');
 
         $this->data[$i]['nombre'] = substr($this->data[$i]['nombre'],
-        30, strlen($this->data[$i]['nombre']));
+        33, strlen($this->data[$i]['nombre']));
         $linea = $linea - 10;
       } while (strlen($this->data[$i]['nombre']) > 0);
 
       //$page->drawText($this->data[$i]['nombre'], 80, $a);
-      $page->drawText($this->data[$i]['costo_propuesta'], 180, $a);
-      $page->drawText($this->data[$i]['horas_propuesta'], 230, $a);
-      $page->drawText($this->data[$i]['horas_planificado'], 280, $a);
-      $page->drawText($this->data[$i]['costo_planificado'], 325, $a);
-      $page->drawText($this->data[$i]['porcentaje_planificado'], 368, $a);
-      $page->drawText($this->data[$i]['horas_real'], 410, $a);
-      $page->drawText($this->data[$i]['costo_real'], 450, $a);
+      $page->drawText($this->data[$i]['costo_propuesta'], 200, $a);
+      $page->drawText($this->data[$i]['horas_propuesta'], 250, $a);
+      $page->drawText($this->data[$i]['horas_planificado'], 291, $a);
+      $page->drawText($this->data[$i]['costo_planificado'], 329, $a);
+      $page->drawText($this->data[$i]['porcentaje_planificado'], 373, $a);
+      $page->drawText($this->data[$i]['horas_real'], 415, $a);
+      $page->drawText($this->data[$i]['costo_real'], 457, $a);
       $page->drawText($this->data[$i]['porcentaje_real'], 500, $a);
       $page->drawText($this->data[$i]['fecha_comienzo'], 521, $a);
       $page->drawText($this->data[$i]['fecha_fin'], 569, $a);
@@ -190,7 +187,7 @@ protected function _rellenarFormatoPerformance()
       $page->drawText($this->data[$i]['fecha_comienzo_real'], 657, $a);
       $page->drawText($this->data[$i]['fecha_fin_real'], 705, $a);
       $page->drawText($this->data[$i]['fecha_performance'], 754, $a);
-      $page->drawText($this->data[$i]['porcentaje_performance'], 808, $a);
+      $page->drawText($this->data[$i]['porcentaje_performance'], 811, $a);
      
       //$page->drawText($this->data[$i]['fecha_performance'], 850, $a);
   
@@ -227,7 +224,7 @@ protected function _rellenarFormatoListaEntregable()
       $page->drawText($this->data[$i]['proyectoid'], 755, 568);
       $page->drawText($this->data[$i]['revision_entregable'], 755, 545);
     }   
-      $page->drawText((string)$i + 1, 7, $a);      
+      $page->drawText((string)$i + 1, 7, $a); 
       $page->drawText($this->data[$i]['nombre_edt'], 50, $a);
       $page->drawText($this->data[$i]['tipo_documento'], 110, $a);
       $linea = $a;
@@ -279,8 +276,6 @@ protected function _rellenarFormatoListaEntregable()
         $j = 0;
       }
   }
-
-  //exit(); 
 
   $this->fileName = $this->carpeta.'Lista de Entregable.pdf';
   return $pdf;

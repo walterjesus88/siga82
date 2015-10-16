@@ -77,7 +77,8 @@ class Admin_Model_DbTable_Performancedetalle extends Zend_Db_Table_Abstract
         from proyecto_performance_detalle as p
         inner join actividad as a
         on p.proyectoid=a.proyectoid and  p.actividadid=a.actividadid
-        where p.proyectoid = '".$proyectoid."' and p.revision_cronograma = '".$revision."' " ;
+        where p.proyectoid = '".$proyectoid."' and p.revision_cronograma = '".$revision."'
+        order by p.fecha_performance,p.actividadid " ;
         $sql = $this->_db->query($query1);
         $row = $sql->fetchAll();
         return $row;
