@@ -672,6 +672,7 @@ va.cambiarPanel = function(panel) {
   }
 }
 
+
 va.saveColumn= function(column){
   angular.forEach(va.dat, function(fecha) {  
       //a=results.push($http.post('/saveColumn', {column: column, value: fecha[column], id: fecha.id_tproyecto}));
@@ -914,16 +915,28 @@ va.buscaperformance = function(revision) {
 
 };
 
+va.alerts=[];
+
+// va.addAlert = function() {
+//   va.alerts.push({msg: 'Another alert!'});
+// };
+
+va.closeAlert = function(index) {
+  va.alerts.splice(index, 1);
+};
 /////////////////*******************************F E C H A S  D E  C O R T E ***************************/////////////////
+va.dynamicTooltip = 'Hello, World!';
 va.generarrevision= function()
 {
   codigoproyecto=va.proyectop.codigo_prop_proy;
   proyectoid=va.proyectop.codigo;
   proyectoFactory.getDatosxGenerarxRevision(codigoproyecto,proyectoid)
-  .then(function(data) {    
+  .then(function(data) {
+    va.alerts.push({type: 'success', msg: 'Se ha creado fechas con el nuevo cronograma'});
   })
   .catch(function(err) {
-    va.thi = {};
+    //va.thi = {};
+    va.alerts.push({type: 'danger', msg: 'Error al generar o ya ha sido  generada el ultimo cornograma con sus fechas de corte'});
   });
 }
 

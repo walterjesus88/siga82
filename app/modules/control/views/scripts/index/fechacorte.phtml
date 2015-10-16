@@ -1,118 +1,133 @@
-<div class="form-group" class="col-md-12"  >
-  <div class="col-md-1" >
-      <fecha>Escoja una revision: </fecha> 
-  </div>
-  <div class="col-md-2" >
-    <select class="form-control" ng-model="CP.revi"         
-      ng-options="c.revision_cronograma for c in CP.procronograma ">
-    </select> 
-  </div>
-  <div class="col-md-2" >
-    <button class="btn btn-success" ng-click="CP.buscafecha(CP.revi)" class="btn btn-primary btn-xs">Busca</button>
-  </div>
-  <div class="col-md-2" >
-    <button class="btn btn-success" ng-click="CP.generarrevision()" class="btn btn-primary btn-xs">Generar Revision</button>
-  </div>
-
-</div>
-
-
-<div  class="form-group col-md-12">
-
-  <div class="form-group col-md-8"  >
-  <table class=" table table-striped table-hover table-bordered ">
-    <tr>   
-
-      <td style="width:30%">
-          Fecha de Corte
-          <form editable-form name="nameform_fecha" onaftersave="CP.saveColumnfechacorte('fecha')" ng-show="nameform_fecha.$visible">
-            <button type="submit" ng-disabled="nameform_fecha.$waiting" class="btn btn-warning">
-              guardar
-            </button>
-            <button type="button" ng-disabled="nameform_fecha.$waiting" ng-click="nameform_fecha.$cancel()" class="btn btn-danger">
-              cancelar
-            </button>
-          </form>  
-          <button class="btn btn-success" ng-show="!nameform_fecha.$visible" ng-click="nameform_fecha.$show()">
-            editar
-          </button>
-      </td>
-
-      <td style="width:30%">
-          Tipo de Corte
-          <form editable-form name="nameform_tipo_corte" onaftersave="CP.saveColumnfechacorte('tipo_corte')" ng-show="nameform_tipo_corte.$visible">
-            <button type="submit" ng-disabled="nameform_tipo_corte.$waiting" class="btn btn-warning">
-              guardar
-            </button>
-            <button type="button" ng-disabled="nameform_tipo_corte.$waiting" ng-click="nameform_tipo_corte.$cancel()" class="btn btn-danger">
-              cancelar
-            </button>
-          </form>  
-          <button class="btn btn-success" ng-show="!nameform_tipo_corte.$visible" ng-click="nameform_tipo_corte.$show()">
-            editar
-          </button>
-      </td>
-
-      <td class="col-md-2">Acciones</td>
-    </tr>
-
-    <tr ng-repeat="fecha in CP.thi   ">
-
-      <td >     
-          <span editable-text="fecha.fecha" e-name="fecha" e-form="nameform_fecha" onbeforesave="checkName($data)">
-            {{fecha.fecha}}
-          </span>
-      </td>
-      <td >     
-          <span editable-text="fecha.tipo_corte" e-name="tipo_corte" e-form="nameform_tipo_corte" onbeforesave="checkName($data)">
-            {{fecha.tipo_corte}}
-          </span>
-      </td>
-      <td>
-        <button type="button"  ng-click="CP.EliminarFechaCorte($index,fecha.fechacorteid)" class="btn btn-danger pull-right">Eliminar</button>
-      </td>
-    </tr>
-  </table>
-  </div>
-
-  <!-- anadir fecha corte -->
-  <div class="form-group col-md-4">
-             
-    <div ng-show="CP.formVisibilityFechacorte" class="col-md-12" >
-
-      <div class="col-md-12">
-        <div class="col-md-6" >
-          <label> Fecha de Corte</label>
-            </div>
-        <div class="col-md-6" >
-          <input class="form-control"  type="text" ng-model="CP.fechacorte"></input>
-        </div>
-        </div>
-                    
-      <div class="col-md-12">
-        <div class="col-md-6" >
-          <label> Tipo de Corte</label>
-        </div>        
-        <div class="col-md-6" >
-          <input class="form-control" type="text" ng-model="CP.tipocorte"></input>
-        </div>
-      </div>  
-
-   
-
-      <div class="col-md-12">         
-        <div class="col-md-6" >      
-          <button class="btn btn-warning" ng-click="CP.GuardarFechaCorte()">Guardar</button>
-        </div>            
-        <div class="col-md-6" >      
-          <button class="btn btn-danger" ng-click="CP.CancelarFechaCorte()">Cancelar</button>
-        </div>
-      </div>
-                 
+<div class="row">
+  <div class="form-group" class="col-md-12"  >
+    <div class="col-md-1" >
+        <h4>Escoja una revision:</h4> 
     </div>
-    <button class="btn btn-primary" ng-click="CP.ShowFormFechacorte()" ng-hide="CP.formVisibilityFechacorte">
-        Anadir Fecha Corte
-    </button>
-          
+    <div class="col-md-2" >
+      <select class="form-control" ng-model="CP.revi"         
+        ng-options="c.revision_cronograma for c in CP.procronograma ">
+      </select> 
+    </div>
+    <div class="col-md-2" >
+      <button class="btn btn-shadow  btn-success" ng-click="CP.buscafecha(CP.revi)" class="btn btn-primary btn-xs">Busca</button>
+    </div>
+    <div class="col-md-2" >
+      <button uib-tooltip="{{CP.dynamicTooltip}}" class="btn btn-shadow  btn-warning" ng-click="CP.generarrevision()">Generar Revision</button>
+    </div>
+    <div class="col-md-4" >
+      <alert ng-repeat="alert in CP.alerts" type="{{alert.type}}" close="CP.closeAlert($index)" >{{alert.msg}}</alert>
+    </div>
   </div>
 </div>
+<div class="row">
+  <div  class="form-group col-md-12">
+    <div class="form-group col-md-6"  >
+    <table class=" table table-striped table-hover table-bordered ">
+      <!-- Menu encabezado tabla -->
+      <tr>   
+        
+        <td class="col-md-2">        
+            <center>
+              <span>Fecha de Corte</span>
+              <form editable-form name="nameform_fecha" onaftersave="CP.saveColumnfechacorte('fecha')" ng-show="nameform_fecha.$visible">
+                <button type="submit" ng-disabled="nameform_fecha.$waiting" class="btn btn-shadow btn-warning">
+                  guardar
+                </button>
+                <button type="button" ng-disabled="nameform_fecha.$waiting" ng-click="nameform_fecha.$cancel()" class="btn btn-shadow btn-danger">
+                  cancelar
+                </button>
+              </form>
+
+              <button class="btn btn-shadow btn-success" ng-show="!nameform_fecha.$visible" ng-click="nameform_fecha.$show()">
+                editar
+              </button>
+            </center>
+        </td>
+    
+        <td class="col-md-2">
+
+            <center>        
+              <span>Tipo de Corte</span>
+              <form editable-form name="nameform_tipo_corte" onaftersave="CP.saveColumnfechacorte('tipo_corte')" ng-show="nameform_tipo_corte.$visible">
+                <button type="submit" ng-disabled="nameform_tipo_corte.$waiting" class="btn btn-shadow  btn-warning">
+                  guardar
+                </button>
+                <button type="button" ng-disabled="nameform_tipo_corte.$waiting" ng-click="nameform_tipo_corte.$cancel()" class="btn btn-shadow  btn-danger">
+                  cancelar
+                </button>
+              </form>  
+              <button class="btn btn-shadow btn-success" ng-show="!nameform_tipo_corte.$visible" ng-click="nameform_tipo_corte.$show()">
+                editar
+              </button>
+            </center>
+        </td>
+        <td class="col-md-1">
+          <center>Acciones</center>
+        </td>
+      </tr>
+
+      <tr ng-repeat="fecha in CP.thi">
+        <td> 
+            <center>               
+            <span editable-text="fecha.fecha" e-name="fecha" e-form="nameform_fecha" onbeforesave="checkName($data)">
+              {{fecha.fecha}}
+            </span>
+            </center>
+        </td>
+        <td>   
+            <center>          
+            <span editable-text="fecha.tipo_corte" e-name="tipo_corte" e-form="nameform_tipo_corte" onbeforesave="checkName($data)">
+              {{fecha.tipo_corte}}
+            </span>
+            </center>            
+        </td>
+        <td>
+          <center>
+          <button type="button"  ng-click="CP.EliminarFechaCorte($index,fecha.fechacorteid)" class="btn btn-shadow btn-danger">Eliminar</button>
+          </center>
+        </td>
+      </tr>
+    </table>
+    </div>
+
+    <!-- anadir fecha corte -->
+    <div class="form-group col-md-4">             
+      <div ng-show="CP.formVisibilityFechacorte" class="col-md-12" >
+        <div class="col-md-12">
+          <div class="col-md-6" >
+            <label> Fecha de Corte</label>
+              </div>
+          <div class="col-md-6" >
+            <input class="form-control"  type="text" ng-model="CP.fechacorte"></input>
+          </div>
+          </div>
+                      
+        <div class="col-md-12">
+          <div class="col-md-6" >
+            <label> Tipo de Corte</label>
+          </div>        
+          <div class="col-md-6" >
+            <input class="form-control" type="text" ng-model="CP.tipocorte"></input>
+          </div>
+        </div>  
+
+        <div class="col-md-12">         
+          <div class="col-md-6" >      
+            <button class="btn btn-shadow btn-warning" ng-click="CP.GuardarFechaCorte()">Guardar</button>
+          </div>            
+          <div class="col-md-6" >      
+            <button class="btn btn-shadow btn-danger" ng-click="CP.CancelarFechaCorte()">Cancelar</button>
+          </div>
+        </div>
+                   
+      </div>
+      <button class="btn btn-shadow btn-primary" ng-click="CP.ShowFormFechacorte()" ng-hide="CP.formVisibilityFechacorte">
+          Añadir Fecha Corte
+      </button>
+            
+    </div>
+  </div>
+</div>
+
+
+
