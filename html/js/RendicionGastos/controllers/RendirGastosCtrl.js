@@ -46,16 +46,20 @@ app.controller('RendirGastosCtrl', ['$scope','httpFactory', 'gastosFactory', '$m
   });
 
   /*--------------proyecto--------------------------*/
-  httpFactory.getProyectos()
+  vrg.showProyectos = function() {
+    var clienteid=vrg.clienteid;
+
+  httpFactory.getProyectos(clienteid)
   .then(function(data) {
     vrg.listaproyectos = data;
+    console.log("HOLA " + clienteid);
+    // vrg.lis = data[0].clienteid;
     // console.log("RendirGastosCtrl " + vrg.listagastos)
-    // console.log("HOLA " + data)
   })
   .catch(function(err) {
     vrg.listaproyectos = [];
   });
-
+}
   /*--------------gasto--------------------------*/
   httpFactory.getTiposGasto()
   .then(function(data) {
@@ -72,6 +76,7 @@ app.controller('RendirGastosCtrl', ['$scope','httpFactory', 'gastosFactory', '$m
  }
 
 
+
  vrg.GuardarGastos= function(){
 
     //le da el formato yy-mm-dd a una fecha //
@@ -85,15 +90,26 @@ app.controller('RendirGastosCtrl', ['$scope','httpFactory', 'gastosFactory', '$m
 
     // if(vrg.moneda=='Soles'){parseFloat(vrg.monto_total=(vrg.monto_igv*1)+(vrg.otro_impuesto*1)+(vrg.igv*1),2);}
     // if(vrg.moneda=='Dolar Americano'){parseFloat(vrg.monto_total=(vrg.monto_igv*2)+(vrg.otro_impuesto*2)+(vrg.igv*2),2);}
+    
+    // dividimos codigo_prop_proy para optener el codigo de proyecto y su revision
+    // if (vrg.codigo_prop_proy.count(3)) {
+    var proyectoid=vrg.codigo_prop_proy.split('-')[1];
+    var revision=vrg.codigo_prop_proy.split('-')[2];
+    // };
+
+    // console.log(vrg.codigo_prop_proy.count);
 
 
-   gastosFactory.setGuardarGastos(vrg.listaproyectos.proyectoid,vrg.descripcion,vrg.listagastos.gastoid,true,true,vrg.fecha_factura,vrg.num_factura,vrg.moneda,vrg.proveedor,vrg.monto_igv,vrg.otro_impuesto,vrg.igv,vrg.monto_total,numero,fecha)
+
+   gastosFactory.setGuardarGastos(vrg.codigo_prop_proy,proyectoid,revision,vrg.descripcion," ",true,true,vrg.fecha_factura,vrg.num_factura,vrg.moneda,vrg.proveedor,vrg.monto_igv,vrg.otro_impuesto,vrg.igv,vrg.monto_total,numero,fecha)
    .then(function(data) {
     /*insertar una nueva fila*/
     vrg.inserted = {
-      proyectoid:vrg.listaproyectos.proyectoid,
+      codigo_prop_proy:vrg.codigo_prop_proy,
+      proyectoid:proyectoid,
+      revision:revision,
       descripcion:vrg.descripcion,
-      gastoid:vrg.listagastos.gastoid,
+      gastoid:" ",
       bill_cliente:true,
       reembolsable:true,
       fecha_factura:vrg.fecha_factura,
@@ -110,14 +126,14 @@ app.controller('RendirGastosCtrl', ['$scope','httpFactory', 'gastosFactory', '$m
     }
 
 
-    console.log("numero de rendicion " + numero);
+    // console.log("numero de rendicion " + numero);
     vrg.rendir.push(vrg.inserted);
       // console.log('guardar rendir');
-      console.log("proyecto " + vrg.listaproyectos.proyectoid);
-      console.log("gasto " + vrg.listagastos.gastoid);
-      console.log("fecha de rendicion " + fecha);
-      console.log("fecha de factura " + vrg.fecha_factura);
-      console.log("monto total " + vrg.monto_total);
+      // console.log("proyecto " + vrg.proyectoid);
+      // console.log("gasto " + vrg.revision);
+      // console.log("fecha de rendicion " + fecha);
+      // console.log("fecha de factura " + vrg.fecha_factura);
+      // console.log("monto total " + vrg.monto_total);
       // vrg.formVisibilityrendir=false;
 
     })

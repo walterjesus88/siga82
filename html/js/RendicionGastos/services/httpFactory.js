@@ -82,10 +82,10 @@ var publico = {
       return promise;
     },
 
-    getProyectos: function() {
+    getProyectos: function(clienteid) {
       var defered = $q.defer();
       var promise = defered.promise;
-      $http.get(url_gastos + 'proyecto')
+      $http.get(url_gastos + 'proyecto/clienteid/'+clienteid)
       .success(function(data) {
         defered.resolve(data);
         // console.log("httpFactory " + data);
@@ -110,15 +110,15 @@ var publico = {
       return promise;
     },
 
-    setGuardarGastos: function(proyectoid,descripcion,gastoid,bill_cliente,reembolsable,
+    setGuardarGastos: function(codigo_prop_proy,proyectoid,revision,descripcion,gastoid,bill_cliente,reembolsable,
       fecha_factura,num_factura,moneda,proveedor,monto_igv,otro_impuesto,igv,
       monto_total,numero,fecha) {
       var defered = $q.defer();
       var promise = defered.promise;
-      $http.get(url_gastos + 'guardargastos/proyectoid/'+proyectoid+"/descripcion/"+descripcion+"/gastoid/"+gastoid+"/bill_cliente/"+bill_cliente+"/reembolsable/"+reembolsable+"/fecha_factura/"+fecha_factura+"/num_factura/"+num_factura+"/moneda/"+moneda+"/proveedor/"+proveedor+"/monto_igv/"+monto_igv+"/otro_impuesto/"+otro_impuesto+"/igv/"+igv+"/monto_total/"+monto_total+"/numero/"+numero+"/fecha/"+fecha)
+      $http.get(url_gastos + 'guardargastos/codigo_prop_proy/'+codigo_prop_proy+"/proyectoid/"+proyectoid+"/revision/"+revision+"/descripcion/"+descripcion+"/gastoid/"+gastoid+"/bill_cliente/"+bill_cliente+"/reembolsable/"+reembolsable+"/fecha_factura/"+fecha_factura+"/num_factura/"+num_factura+"/moneda/"+moneda+"/proveedor/"+proveedor+"/monto_igv/"+monto_igv+"/otro_impuesto/"+otro_impuesto+"/igv/"+igv+"/monto_total/"+monto_total+"/numero/"+numero+"/fecha/"+fecha)
       .success(function(data) {
         defered.resolve(data);
-        console.log(url_gastos + 'guardargastos/proyectoid/'+proyectoid+"/descripcion/"+descripcion+"/gastoid/"+gastoid+"/bill_cliente/"+bill_cliente+"/reembolsable/"+reembolsable+"/fecha_factura/"+fecha_factura+"/num_factura/"+num_factura+"/moneda/"+moneda+"/proveedor/"+proveedor+"/monto_igv/"+monto_igv+"/otro_impuesto/"+otro_impuesto+"/igv/"+igv+"/monto_total/"+monto_total+"/numero/"+numero+"/fecha/"+fecha);
+        console.log(url_gastos + 'guardargastos/codigo_prop_proy/'+codigo_prop_proy+"/proyectoid/"+proyectoid+"/revision/"+revision+"/descripcion/"+descripcion+"/gastoid/"+gastoid+"/bill_cliente/"+bill_cliente+"/reembolsable/"+reembolsable+"/fecha_factura/"+fecha_factura+"/num_factura/"+num_factura+"/moneda/"+moneda+"/proveedor/"+proveedor+"/monto_igv/"+monto_igv+"/otro_impuesto/"+otro_impuesto+"/igv/"+igv+"/monto_total/"+monto_total+"/numero/"+numero+"/fecha/"+fecha);
       })
       .error(function(err) {
         defered.reject(err);

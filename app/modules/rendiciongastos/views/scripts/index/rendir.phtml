@@ -43,7 +43,7 @@
 
   <div class="pane-heading">
     <div class=" panel btn-edit">
-      <button type="button" class="btn btn-default" ng-show="!tableform.$visible" ng-click="tableform.$show(); vrg.CancelarRendir()"><i class="glyphicon glyphicon-pencil"> Editar</i></button>
+      <button type="button" class="btn btn-warning" ng-show="!tableform.$visible" ng-click="tableform.$show(); vrg.CancelarRendir()"><i class="glyphicon glyphicon-pencil"> Editar</i></button>
       <button class="btn btn-primary" ng-click="vrg.ShowFormRendir()" ng-hide="vrg.ShowFormRendir; vrg.formVisibilityRendir" ng-show="!tableform.$visible"><i class="glyphicon glyphicon-list-alt"> Agregar</i></button>
   <span class="pull-right">
     <a href="/rendiciongastos#/" class=" btn btn-primary btn-sm" ><i class="glyphicon glyphicon-th-list"> Volver</i></a>
@@ -58,14 +58,21 @@
           <div class="panel">
             <div class="panel-heading">
               <div class="col-xs-3" >
+              <div class="input-group-addon"><i class="glyphicon glyphicon-user"></i></div>
                 <span class="input-group-addon">Cliente</span>
                 <!-- <input type="text" class="form-control input-sm" placeholder='clienteid' name='clienteid' data-ng-model="vrg.clienteid"  required data-ng-class='{error: validinput.clienteid.$invalid && !validinput.$pristine}'> -->
-                <select class="form-control input-sm" option="clientes" ng-model="cliente" ng-options="tipo.listaclientes as tipo.nombre_comercial for tipo in vrg.listaclientes"></select>
+                <select class="form-control input-sm" option="clientes" ng-change="vrg.showProyectos()" ng-model="vrg.clienteid" ng-options="tipo.clienteid as tipo.nombre_comercial for tipo in vrg.listaclientes | orderBy:'nombre_comercial'" required data-ng-class='{error: validinput.clienteid.$invalid && !validinput.$pristine}'><option value="">--Seleccione Cliente--</option></select>
+                <tt>option = {{vrg.clienteid}}</tt><br/>
+                <!-- <select class="form-control input-sm" name="cliente" ng-options="c.clienteid as c.nombre_comercial for s in vrg.cliente track by c.id"></select> -->
               </div>
               <div class="col-xs-7" >
+              <div class="input-group-addon"><i class="glyphicon glyphicon-picture"></i></div>
                 <span class="input-group-addon">Proyecto</span>
                 <!-- <input type="text" class="form-control input-sm" placeholder='proyectoid' name='proyectoid' data-ng-model="vrg.proyectoid"  required data-ng-class='{error: validinput.proyectoid.$invalid && !validinput.$pristine}'> -->
-                <select class="form-control input-sm" option="proyectos" ng-model="vrg.listaproyectos.proyectoid" ng-options="tipo.listaproyectos as tipo.nombre_proyecto for tipo in vrg.listaproyectos" tabindex="2"></select>
+                <select class="form-control input-sm" option="proyectos" ng-model="vrg.codigo_prop_proy" ng-options="tipo.codigo_prop_proy as (tipo.proyectoid +' - '+ tipo.nombre_proyecto) for tipo in vrg.listaproyectos | orderBy:'proyectoid'" required data-ng-class='{error: validinput.proyectoid.$invalid && !validinput.$pristine}'><option value="">--Seleccione Proyecto--</option></select>
+                <tt>option = {{vrg.codigo_prop_proy}}</tt><br/>
+                <tt>option = {{vrg.codigo_prop_proy.split('-')[1] }}</tt><br/>
+                <tt>option = {{vrg.codigo_prop_proy.split('-')[2] }}</tt><br/>
               </div>
               <div class="col-xs-2" style="display:none">
                 <span class="input-group-addon">Descripcion</span>
@@ -85,12 +92,12 @@
                 <input type="checkbox" class="form-control input-sm" placeholder='reembolsable' name='reembolsable' data-ng-model="vrg.reembolsable" />
               </div>
               <div class="col-xs-2" style="">
-              <div class="input-group-addon"><i class=" glyphicon glyphicon-calendar"></i></div>
+              <div class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></div>
                 <span class="input-group-addon">Fecha de Factura</span>
                 <!-- <input type="datepicker" id="datepicker" class="form-control input-sm datefactura hasDatepicker" placeholder='dd-mm-aaaa' name='fecha_factura' data-ng-model="vrg.fecha_factura"/> -->
                 <!-- <input type="text" class="form-control input-sm datefactura hasDatepicker" datepicker-popup ng-model="vrg.fecha_factura" is-open="status.opened" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" close-text="Close" /> -->
                 <!-- <input class="form-control ng-valid hasDatepicker ng-touched ng-dirty ng-valid-parse" type="text" ui-date="{ dateFormat: 'yy-mm-dd' }" ename="fecha_factura" ng-model="vrg.fecha_factura" > -->
-                <input class="form-control input-sm" id="datepicker1" type="datepicker" e-form="tableform" ui-date="{ dateFormat: 'dd-mm-yy' }" ename="fecha_factura" ng-model='vrg.fecha_factura'/>
+                <input class="form-control input-sm" id="datepicker1" type="datepicker" e-form="tableform" ui-date="{ dateFormat: 'dd-mm-yy' }" ename="fecha_factura" ng-model='vrg.fecha_factura'required data-ng-class='{error: validinput.fecha_factura.$invalid && !validinput.$pristine}'/>
               </div>
               <div class="col-xs-2" style="display:none">
                 <span class="input-group-addon">N° Documento</span>
@@ -131,7 +138,7 @@
 
         <div class="panel-heading col-md-6">
           <div class="btn-group">
-            <button class="btn btn-warning" ng-click="vrg.GuardarGastos()" data-ng-disabled='!validinput.$valid'><i class="glyphicon glyphicon-save"> Agregar</i></button>
+            <button class="btn btn-success" ng-click="vrg.GuardarGastos()" data-ng-disabled='!validinput.$valid'><i class="glyphicon glyphicon-save"> Agregar</i></button>
             <button class="btn btn-danger" ng-click="vrg.CancelarRendir()"><i class="glyphicon glyphicon-open"> Cancelar</i></button>
           </div>
         </div>
@@ -200,7 +207,7 @@
               </span>
             </td>
             <td>
-              <span editable-text="rendiciones.descripcion" e-from="tableform">
+              <span editable-textarea="rendiciones.descripcion" e-from="tableform">
                 {{rendiciones.descripcion}}
               </span>
             </td>
@@ -240,7 +247,7 @@
               </span>
             </td>
             <td>
-              <span editable-text="rendiciones.proveedor" e-from="tableform">
+              <span editable-textarea="rendiciones.proveedor" e-from="tableform">
                 {{rendiciones.proveedor}}
               </span>
             </td>
