@@ -233,7 +233,6 @@ app.directive('uiDateFormat', ['uiDateConverter', function(uiDateConverter) {
   return directive;
 }]);
 
-
 app.controller('ControlCtrl', ['httpFactory', '$scope','$filter','$q',
 'proyectoFactory',
 function(httpFactory, $scope,$filter,$q,proyectoFactory) {

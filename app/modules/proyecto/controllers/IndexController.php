@@ -2387,7 +2387,6 @@ public function getleersessionusuarioAction()
   $this->_helper->json->sendJson($session);
 }
 
-
 public function getleerestadoslistaentregableAction()
 {
   $proyectoid= $this->_getParam("proyectoid");
