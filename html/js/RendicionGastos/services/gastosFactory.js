@@ -76,15 +76,15 @@ app.factory('gastosFactory', ['httpFactory', '$location', '$q',
     },
 
 
-    setGuardarGastos: function(proyectoid,descripcion,gastoid,bill_cliente,reembolsable,fecha_factura,num_factura,moneda,proveedor,monto_igv,otro_impuesto,igv,monto_total,numero,fecha) {
+    setGuardarGastos: function(codigo_prop_proy,proyectoid,revision,descripcion,gastoid,bill_cliente,reembolsable,fecha_factura,num_factura,moneda,proveedor,monto_igv,otro_impuesto,igv,monto_total,numero,fecha) {
       var defered = $q.defer();
       var promise = defered.promise;
 
-      httpFactory.setGuardarGastos(proyectoid,descripcion,gastoid,bill_cliente,reembolsable,fecha_factura,num_factura,moneda,proveedor,monto_igv,otro_impuesto,igv,monto_total,numero,fecha)
+      httpFactory.setGuardarGastos(codigo_prop_proy,proyectoid,revision,descripcion,gastoid,bill_cliente,reembolsable,fecha_factura,num_factura,moneda,proveedor,monto_igv,otro_impuesto,igv,monto_total,numero,fecha)
       .then(function(data) {
         datos = data;
         defered.resolve(datos);
-        console.log("guardado " + gastoid);
+        console.log("guardado " + proyectoid);
       })
       .catch(function(err) {
         defered.reject(err);
@@ -100,7 +100,7 @@ app.factory('gastosFactory', ['httpFactory', '$location', '$q',
 
     setProyecto: function(listaproyectos) {
       datos.listaproyectos = listaproyectos;
-      // console.log("gastosFactory " + listagastos)
+      console.log("gastosFactory " + listagastos)
     },
 
     setTipoGasto: function(listagastos) {
