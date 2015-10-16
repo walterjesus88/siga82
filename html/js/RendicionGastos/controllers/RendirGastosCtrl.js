@@ -83,18 +83,19 @@ app.controller('RendirGastosCtrl', ['$scope','httpFactory', 'gastosFactory', '$m
      vrg.fecha_factura=gastosFactory.formatoFechas(vrg.fecha_factura);
     }
 
-    // if(vrg.moneda=='Soles'){vrg.monto_total=(vrg.monto_igv)+(vrg.otro_impuesto)+(vrg.igv);}
+    // if(vrg.moneda=='Soles'){parseFloat(vrg.monto_total=(vrg.monto_igv*1)+(vrg.otro_impuesto*1)+(vrg.igv*1),2);}
+    // if(vrg.moneda=='Dolar Americano'){parseFloat(vrg.monto_total=(vrg.monto_igv*2)+(vrg.otro_impuesto*2)+(vrg.igv*2),2);}
 
 
-   gastosFactory.setGuardarGastos(vrg.proyectoid, vrg.descripcion,vrg.gastoid,vrg.bill_cliente,vrg.reembolsable,vrg.fecha_factura,vrg.num_factura,vrg.moneda,vrg.proveedor,vrg.monto_igv,vrg.otro_impuesto,vrg.igv,vrg.monto_total,numero,fecha)
+   gastosFactory.setGuardarGastos(vrg.listaproyectos.proyectoid,vrg.descripcion,vrg.listagastos.gastoid,true,true,vrg.fecha_factura,vrg.num_factura,vrg.moneda,vrg.proveedor,vrg.monto_igv,vrg.otro_impuesto,vrg.igv,vrg.monto_total,numero,fecha)
    .then(function(data) {
     /*insertar una nueva fila*/
     vrg.inserted = {
-      proyectoid:vrg.proyectoid,
+      proyectoid:vrg.listaproyectos.proyectoid,
       descripcion:vrg.descripcion,
-      gastoid:vrg.gastoid,
-      bill_cliente:vrg.bill_cliente,
-      reembolsable:vrg.reembolsable,
+      gastoid:vrg.listagastos.gastoid,
+      bill_cliente:true,
+      reembolsable:true,
       fecha_factura:vrg.fecha_factura,
       num_factura:vrg.num_factura,
       moneda:vrg.moneda,
@@ -112,9 +113,11 @@ app.controller('RendirGastosCtrl', ['$scope','httpFactory', 'gastosFactory', '$m
     console.log("numero de rendicion " + numero);
     vrg.rendir.push(vrg.inserted);
       // console.log('guardar rendir');
+      console.log("proyecto " + vrg.listaproyectos.proyectoid);
+      console.log("gasto " + vrg.listagastos.gastoid);
       console.log("fecha de rendicion " + fecha);
       console.log("fecha de factura " + vrg.fecha_factura);
-      console.log("monto total" + vrg.monto_total);
+      console.log("monto total " + vrg.monto_total);
       // vrg.formVisibilityrendir=false;
 
     })

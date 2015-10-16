@@ -1,0 +1,459 @@
+<?php
+if ($this->gasto) {
+$data_rendicion = $this->data_rendicion;
+print_r($data_rendicion);
+    ?>
+<div class="row">
+<form action="" id="form_rendicion" class="form-horizontal">
+    <div class="col-lg-4">
+        <section class="panel">
+            <div class="panel-body">
+                <div class="form-group">
+                    <label class="col-lg-4 col-sm-4 control-label" style="font-size : 12px">N° Rendición</label>
+                    <div class="col-lg-8">
+                        <?php echo $data_rendicion['numero_completo'];?>
+                        <input name="numero" type="hidden" value="<?php echo $data_rendicion['numero'];?>">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-lg-4 col-sm-4 control-label" style="font-size : 12px">Título Rendición</label>
+                    <div class="col-lg-8">
+                        <input name="nombre" type="text" class="form-control" value="<?php echo ($data_rendicion['nombre'])? $data_rendicion['nombre']: '';?>"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-lg-4 col-sm-4 control-label" style="font-size : 12px">Fecha</label>
+                    <div class="col-lg-8">
+                        <input name="fecha_rendicion" type="text" class="form-control" value="<?php echo ($data_rendicion['fecha'])? $data_rendicion['fecha']: '';?>" readonly/>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    <div class="col-lg-6">
+        <section class="panel">
+            <div class="panel-body" style="padding : 10x 10px">
+                <div id="load_data_consolidated"></div>
+                <div class="form-group">
+                    <label class="col-lg-3 col-sm-3 control-label" style="font-size : 12px">Total Monto</label>
+                    <div class="col-lg-3">
+                        <input name="monto_total" type="text" class="form-control" value="<?php echo ($data_rendicion['monto_total'])? $data_rendicion['monto_total']: '';?>" readonly/>
+                    </div>
+
+                    <label class="col-lg-3 col-sm-3 control-label" style="font-size : 12px">Segundo Monto</label>
+                    <div class="col-lg-3">
+                        <input name="dolar_monto_total" type="text" class="form-control" value="<?php echo ($data_rendicion['dolar_monto_total'])? $data_rendicion['dolar_monto_total']: '';?>" readonly/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-lg-3 col-sm-3 control-label" style="font-size : 12px">Total Reembolso</label>
+                    <div class="col-lg-3">
+                        <input name="monto_reembolso" type="text" class="form-control" value="<?php echo ($data_rendicion['monto_reembolso'])? $data_rendicion['monto_reembolso']: '';?>" readonly/>
+                    </div>
+
+                    <label class="col-lg-3 col-sm-3 control-label" style="font-size : 12px">Segundo Reembolso</label>
+                    <div class="col-lg-3">
+                        <input name="dolar_monto_reembolso" type="text" class="form-control" value="<?php echo ($data_rendicion['dolar_monto_reembolso'])? $data_rendicion['dolar_monto_reembolso']: '';?>" readonly/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-lg-3 col-sm-3 control-label" style="font-size : 12px">Total Cliente</label>
+                    <div class="col-lg-3">
+                        <input name="monto_cliente" type="text" class="form-control" value="<?php echo ($data_rendicion['monto_cliente'])? $data_rendicion['monto_cliente']: '';?>" readonly/>
+                    </div>
+
+                    <label class="col-lg-3 col-sm-3 control-label" style="font-size : 12px">Segundo Cliente</label>
+                    <div class="col-lg-3">
+                        <input name="dolar_monto_cliente" type="text" class="form-control" value="<?php echo ($data_rendicion['dolar_monto_cliente'])? $data_rendicion['dolar_monto_cliente']: '';?>" readonly/>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</form>
+    <div class="col-lg-2">
+        <section class="panel">
+            <div class="panel-body" style="padding : 28px 15px 28px 15px">
+                <a id="guardar_gastos" class="btn btn-success pull-right btn-sm" href="##">
+                    <i class="fa fa-save"></i> Guardar
+                </a>
+                <a id="enviar_gasto" class="btn btn-warning pull-right btn-sm" href="##">
+                    <i class="fa fa-chevron-circle-right"></i> Enviar
+                </a>
+            </div>
+        </section>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-sm-12">
+    <form action="" id="form_gastos"  style="font-size:10px">
+    <?php 
+    $gasto = $this->gasto;
+    if ($gasto) {
+        $j = 0;
+        foreach ($gasto as $data_gasto) {  print_r($data_gasto);?>
+            <section class="panel">
+                <header class="panel-heading modal-header" style="padding : 7px">
+                     <div id="nombreproyect">
+                            <?php //echo $data_gasto['proyectoid']. ' - ' .$data_gasto['nombre_proyecto'] ?>
+                        </div>
+
+                        <select id="cambiagasto_<?php echo $j?>" class="form-control input-lg m-bot13">
+                            <option><?php echo $data_gasto['proyectoid']. ' - ' .$data_gasto['nombre_proyecto'] ?></option>
+                            <?php
+                                foreach ($this->ekip as $proyect) { ?>
+                                    <option value="<?php echo $proyect['proyectoid'].";--;".$proyect['codigo_prop_proy'].";--;".$proyect['revision']?>" >
+                                    <?php  echo $proyect['proyectoid']. ' - ' .$proyect['nombre_proyecto']. ' - ' .$proyect['codigo_prop_proy'] ?></option>
+                            <?php }?>
+                        </select>
+                        <script type="text/javascript">
+                            $("#cambiagasto_<?php echo $j?>").click(function(){
+                                var pro=$(this).val();
+                                var tmp=pro.split(";--;");
+                                var proyectoid=tmp[0];
+                                var codigo_prop_proy=tmp[1];
+                                var revision_nueva=tmp[2];
+                                //alert(proyectoid);
+                                //alert(codigo_prop_proy);
+                                var revision = "<?php echo $data_gasto['revision']?>";
+                                var numero_rendicion = "<?php echo $data_gasto['numero_rendicion']?>";
+                                var uid = "<?php echo $data_gasto['uid']?>";
+                                var dni = "<?php echo $data_gasto['dni']?>";
+                                var codigo_prop_proy_anterior = "<?php echo $data_gasto['codigo_prop_proy']?>";
+                                var proyectoid_anterior = "<?php echo $data_gasto['proyectoid']?>";
+                                var areaid = "<?php echo $data_gasto['areaid']?>";
+                                var categoriaid = "<?php echo $data_gasto['categoriaid']?>";
+
+                                var url="/expense/index/cambiarproyect/proyectoid/"+proyectoid+"/codigo_prop_proy/"+codigo_prop_proy+"/revision/"+revision+"/numero_rendicion/"+numero_rendicion+"/uid/"+uid+"/dni/"+dni+"/codigo_prop_proy_anterior/"+codigo_prop_proy_anterior+"/proyectoid_anterior/"+proyectoid_anterior+"/areaid/"+areaid+"/categoriaid/"+categoriaid+"/revision_nueva/"+revision_nueva;
+                                //alert(url);
+                                $.ajax({
+                                        type: "POST",
+                                        url: url,
+                                        data: $(this).serialize(),
+                                        dataType: "html",
+                                        success: function(data)
+                                        {
+                                          //$("#modifyproyect").html(data);
+                                          //$("#nombreproyect").hide();
+                                        }
+                                });
+                            });
+                        </script>
+                </header>
+
+
+                <div class="panel-body" style='font-size: 10px; '>
+                    <div class="adv-table">
+                        <table class="display table table-bordered table-striped table-condensed" style="font-size:10px">
+                            <thead>
+                                <tr>
+                                    <?php if ($data_rendicion['estado'] != "E") { ?>
+                                        <th style="width : 30px"></th>
+                                        <?php
+                                    } ?>
+                                    <th style="width : 5px">Item.</th>
+                                    <th>Descripción</th>
+                                    <th colspan="2"><center>Gasto</center></th>
+                                    <th>Can.</th>
+                                    <th>PU</th>
+                                    <th>Clien.</th>
+                                    <th>Reemb.</th>
+                                    <th>Fecha</th>
+                                    <th>Moneda</th>
+                                    <th>N° Documento</th>
+                                    <th>Proveedor</th>
+                                    <th>Neto</th>
+                                    <th>Otro Imp.</th>
+                                    <th>IGV (18%)</th>
+                                    <th>Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            <?php
+                            foreach ($data_gasto['actividades'] as $data_actividades) { ?>
+                                <tr class="gradeX" style="font-size:9px">
+
+                                    <td style="padding-top: 1px;padding-right: 1px;padding-bottom: 1px;padding-left: 1px;">
+                                        <a href="##" class="duplicar_actividad" title="Duplicar" gasto-persona-id="<?php echo $data_actividades['gasto_persona_id'] ?>" proyectoid="<?php echo $data_actividades['proyectoid']?>" codigo-prop-proy="<?php echo $data_actividades['codigo_prop_proy']?>" categoriaid="<?php echo $data_actividades['categoriaid']?>" areaid="<?php echo $data_actividades['areaid']?>" cargo="<?php echo $data_actividades['cargo']?>" revision="<?php echo $data_actividades['revision']?>" actividadid="<?php echo $data_actividades['actividadid']?>">
+                                                <i class="fa fa-plus-square-o"></i>
+                                        </a>
+                                        <a href="##" class="delete_actividad" title="Eliminar" gasto-persona-id = "<?php echo $data_actividades['gasto_persona_id'] ?>" style="margin-top: 2px">
+                                            <i class="fa fa-minus-square-o"></i>
+                                        </a>
+                                    </td>
+                                   <td style="padding-top: 1px;padding-right: 1px;padding-bottom: 1px;padding-left: 1px;width : 5px; top:50%;left: 50%;">
+                                   <center>
+                                   <?php echo $j+1;?></center></td>
+                                    <td style="padding-top: 1px;padding-right: 1px;padding-bottom: 1px;padding-left: 1px;">
+                                        <input name="description[]" type="text" style="padding-top: 1px; padding-right: 1px;padding-bottom: 1px;padding-left: 1px;" class="form-control" value="<?php echo ($data_actividades['descripcion'])? $data_actividades['descripcion'] : ''; ?>" />
+                                    </td>
+                                    <td style="padding-top: 1px;padding-right: 1px;padding-bottom: 1px;padding-left: 1px;">
+                                        <select name="gasto_padre[]" style="padding-top: 1px; padding-right: 1px;padding-bottom: 1px;padding-left: 1px;" id="gasto_padre<?php echo $data_actividades['gasto_persona_id'] ?>" class="list_gasto form-control">
+                                            <?php if ($this->list_gastos): ?>
+                                                <option value="">Seleccione</option>
+                                            <?php foreach ($this->list_gastos as $list_gastos) {
+                                                    if ($data_actividades['tipo_proyecto'] == 'Construcción'){ 
+                                                        if ($list_gastos['tipo_gasto'] == "construccion" || $list_gastos['tipo_gasto'] == "laboratorio") { ?>
+                                                            <option value="<?php echo $list_gastos['gastoid']. '-' .$list_gastos['tipo_gasto'] ?>" <?php print ($data_actividades['gasto_padre']==$list_gastos['gastoid'].'-'.$list_gastos['tipo_gasto'])? 'selected' : ''; ?>><?php echo $list_gastos['gastoid'].' - '.$list_gastos['nombre_gasto'] ?></option>
+                                            <?php       }
+                                                    } else { 
+                                                        if ($list_gastos['tipo_gasto'] != "construccion" || $list_gastos['tipo_gasto'] == "laboratorio") { ?>
+                                                        <option value="<?php echo $list_gastos['gastoid']. '-' .$list_gastos['tipo_gasto'] ?>" <?php print ($data_actividades['gasto_padre']==$list_gastos['gastoid'].'-'.$list_gastos['tipo_gasto'])? 'selected' : ''; ?>><?php echo $list_gastos['gastoid'].' - '.$list_gastos['nombre_gasto'] ?></option>
+                                                    <?php
+                                                        }
+                                                    } 
+                                                } ?>
+                                            <?php else: ?>
+                                                <option value="">No Existen Gastos</option>
+                                            <?php endif ?>
+                                        </select>
+                                    </td>
+                                    <td style="padding-top: 1px;padding-right: 1px;padding-bottom: 1px;padding-left: 1px;">
+                                        <select name="gasto_hijo[]" style="padding-top: 1px; padding-right: 1px;padding-bottom: 1px;padding-left: 1px;" id="gasto_hijo<?php echo $data_actividades['gasto_persona_id'] ?>" class="list_gasto form-control">
+                                            <option value="">Seleccione</option>
+                                        </select>
+                                    </td>
+                                    <td style="width:3px; padding-top: 1px;padding-right: 1px;padding-bottom: 1px;padding-left: 1px;">
+                                        <center><input name="lab_cantidad[]" id="lab_cantidad<?php echo $data_actividades['gasto_persona_id'] ?>" type="text" class="form-control" style="padding-top: 1px; padding-right: 1px;padding-bottom: 1px;padding-left: 1px;" style="width : 3px" value="<?php echo ($data_actividades['laboratorio_cantidad'])? $data_actividades['laboratorio_cantidad'] : ''; ?>" readonly/></center>
+                                    </td>
+                                    <td style="width:3px; padding-top: 1px;padding-right: 1px;padding-bottom: 1px;padding-left: 1px;">
+                                        <center><input name="lab_pu[]" id="lab_pu<?php echo $data_actividades['gasto_persona_id'] ?>" type="text" class="form-control" style="padding-top: 1px; padding-right: 1px;padding-bottom: 1px;padding-left: 1px;" style="width : 3px" value="<?php echo ($data_actividades['laboratorio_PU'])? $data_actividades['laboratorio_PU'] : ''; ?>" readonly/></center>
+                                    </td>
+                                   <td style="padding-top: 1px;padding-right: 1px;padding-bottom: 1px;padding-left: 1px;width : 3px;">
+                                        <center>
+                                            <input name="cliente[<?php echo $j?>]" type="checkbox" class="form-control" style="width : 15px" value="TRUE" <?php print ($data_actividades['bill_cliente']=='TRUE')? 'checked' : ''; ?>/>
+                                        </center>
+                                    </td>
+                                   <td style="padding-top: 1px;padding-right: 1px;padding-bottom: 1px;padding-left: 1px;width : 3px;">
+                                        <center><input name="reembolsable[<?php echo $j?>]" type="checkbox" class="form-control"   style="width : 15px" value="TRUE" <?php print ($data_actividades['reembolsable']=='TRUE')? 'checked' : ''; ?>/></center>
+                                    </td>
+                                    <td style="padding-top: 1px;padding-right: 1px;padding-bottom: 1px;padding-left: 1px;width: 64px;">
+                                        <center><input style="padding-top: 1px; padding-right: 1px;padding-bottom: 1px;padding-left: 1px;" name="fecha[]" id = "fecha<?php echo $data_actividades['gasto_persona_id']?>" type="text" class="form-control datefactura" style="width : 50px" value="<?php echo ($data_actividades['fecha_factura'])? $data_actividades['fecha_factura'] : ''; ?>"></center>
+                                    </td>
+                                    <td style="padding-top: 1px;padding-right: 1px;padding-bottom: 1px;padding-left: 1px;">
+                                        <select style="padding-top: 1px; padding-right: 1px;padding-bottom: 1px;padding-left: 1px;" name="moneda[]" id = "moneda<?php echo $data_actividades['gasto_persona_id']?>" class="form-control">
+                                            <option value="Soles" <?php echo ($data_actividades['moneda']=='Soles')? 'selected':'';?>>Soles</option>
+                                            <option value="Real" <?php echo ($data_actividades['moneda']=='Real')? 'selected':'';?>>Real</option>
+                                            <option value="Dolar Americano" <?php echo ($data_actividades['moneda']=='Dolar Americano')? 'selected':'';?>>Dolar Americano</option>
+                                            <option value="Dolar Canadiense" <?php echo ($data_actividades['moneda']=='Dolar Canadiense')? 'selected':'';?>>Dolar Canadiense</option>
+                                            <option value="Peso Chileno" <?php echo ($data_actividades['moneda']=='Peso Chileno')? 'selected':'';?>>Peso Chileno</option>
+                                            <option value="Peso Argentino" <?php echo ($data_actividades['moneda']=='Peso Argentino')? 'selected':'';?>>Peso Argentino</option>
+                                        </select>
+                                    </td>
+                                    <td style="padding-top: 1px;padding-right: 1px;padding-bottom: 1px;padding-left: 1px;">
+                                        <center><input style="padding-top: 1px; padding-right: 1px;padding-bottom: 1px;padding-left: 1px;" name="documento[]" type="text" class="form-control" style="width : 70px" value="<?php echo ($data_actividades['num_factura'])? $data_actividades['num_factura'] : ''; ?>"></center>
+                                    </td>
+                                    <td style="padding-top: 1px;padding-right: 1px;padding-bottom: 1px;padding-left: 1px;">
+                                        <center><input style="padding-top: 1px; padding-right: 1px;padding-bottom: 1px;padding-left: 1px;" name="proveedor[]" type="text" class="form-control" style="" value="<?php echo ($data_actividades['proveedor'])? $data_actividades['proveedor'] : ''; ?>"></center>
+                                    </td>
+                                   <td style="padding-top: 1px;padding-right: 1px;padding-bottom: 1px;padding-left: 1px;width: 44px;">
+                                        <center><input name="monto[]" style="padding-top: 1px; padding-right: 1px;padding-bottom: 1px;padding-left: 1px;" id="neto<?php echo $data_actividades['gasto_persona_id'] ?>" type="text" class="form-control" style="width : 50px" value="<?php echo ($data_actividades['monto_igv'])? $data_actividades['monto_igv'] : ''; ?>"></center>
+                                    </td>
+                                   <td style="padding-top: 1px;padding-right: 1px;padding-bottom: 1px;padding-left: 1px;width: 44px;">
+                                        <center><input name="otro_impuesto[]" id="otro_imp<?php echo $data_actividades['gasto_persona_id'] ?>" type="text" style="padding-top: 1px; padding-right: 1px;padding-bottom: 1px;padding-left: 1px;" class="form-control" style="width : 50px" value="<?php echo ($data_actividades['otro_impuesto'])? $data_actividades['otro_impuesto'] : ''; ?>"></center>
+                                    </td>
+                                    <td style="padding-top: 1px;padding-right: 1px;padding-bottom: 1px;padding-left: 1px;width: 44px;">
+                                        <center><input style="padding-top: 1px; padding-right: 1px;padding-bottom: 1px;padding-left: 1px;" name="igv[]" id="igv<?php echo $data_actividades['gasto_persona_id'] ?>" type="text" class="form-control" style="width : 50px" value="<?php echo ($data_actividades['igv'])? $data_actividades['igv'] : ''; ?>"></center>
+                                    </td>
+                                   <td style="padding-top: 1px;padding-right: 1px;padding-bottom: 1px;padding-left: 1px;width: 64px;">
+                                        <center><input style="padding-top: 1px; padding-right: 1px;padding-bottom: 1px;padding-left: 1px;" name="monto_total[]" id="total<?php echo $data_actividades['gasto_persona_id'] ?>" type="text" class="form-control" style="width : 50px" value="<?php echo ($data_actividades['monto_total'])? $data_actividades['monto_total'] : ''; ?>"></center>
+                                    </td>
+                                    <input type="hidden" name="gasto_persona_id[]" value="<?php echo $data_actividades['gasto_persona_id'] ?>"/>
+                                    <input type="hidden" name="codigo_prop_proy[]" value="<?php echo $data_actividades['codigo_prop_proy'] ?>"/>
+                                    <input type="hidden" name="proyectoid[]" value="<?php echo $data_actividades['proyectoid'] ?>"/>
+                                </tr>
+                                <script type="text/javascript">
+                                    $("#gasto_padre<?php echo $data_actividades['gasto_persona_id'] ?>").change(function(){
+                                        var gasto = $(this).val();
+                                        var res = gasto.split("-");
+                                        if (res[1]=='laboratorio') {
+                                            $("#lab_cantidad<?php echo $data_actividades['gasto_persona_id'] ?>").attr('readonly', false);
+                                            $("#lab_pu<?php echo $data_actividades['gasto_persona_id'] ?>").attr('readonly', false);
+                                            $("#moneda<?php echo $data_actividades['gasto_persona_id']?>").val("Dolar Americano");
+                                            $("#moneda<?php echo $data_actividades['gasto_persona_id']?>").attr('readonly', true);
+                                        } else {
+                                            $("#lab_cantidad<?php echo $data_actividades['gasto_persona_id'] ?>").attr('readonly', true);
+                                            $("#lab_pu<?php echo $data_actividades['gasto_persona_id'] ?>").attr('readonly', true);
+                                            $("#moneda<?php echo $data_actividades['gasto_persona_id']?>").attr('readonly', false);
+                                        };
+                                    });
+                                    $("#gasto_hijo<?php echo $data_actividades['gasto_persona_id'] ?>").change(function(){
+                                        var gasto = $(this).val();
+                                        var res = gasto.split("-");
+                                        if (res[1] == 'laboratorio') {
+                                            $("#lab_pu<?php echo $data_actividades['gasto_persona_id'] ?>").val(res[2]);
+                                        };
+                                    });
+
+                                    $("#lab_cantidad<?php echo $data_actividades['gasto_persona_id'] ?>").keyup(function(){
+                                        var cant = $(this).val();
+                                        var pu = $("#lab_pu<?php echo $data_actividades['gasto_persona_id'] ?>").val();
+                                        var new_neto1 = parseFloat(cant)*parseFloat(pu);
+                                        if (isNaN(new_neto1)) {
+                                            new_neto1 = '';
+                                        };
+                                        $("#neto<?php echo $data_actividades['gasto_persona_id'] ?>").val(new_neto1);
+                                        var otro = $("#otro_imp<?php echo $data_actividades['gasto_persona_id'] ?>").val();
+                                        if (otro == '' || otro =='0') {
+                                            otro = 0;
+                                        };
+                                        var igv = (new_neto1 * 0.18);
+                                        igv = igv.toFixed(2);
+                                        var total_neto = parseFloat(new_neto1)+parseFloat(igv);
+                                        total_neto = total_neto.toFixed(2);
+                                        var total = parseFloat(total_neto)+parseFloat(otro);
+                                        total = total.toFixed(2);
+                                        if (isNaN(total)) {
+                                            total = 0;
+                                        };
+                                        if (isNaN(igv)) {
+                                            igv = 0;
+                                        };
+                                        $("#igv<?php echo $data_actividades['gasto_persona_id'] ?>").val(igv);
+                                        $("#total<?php echo $data_actividades['gasto_persona_id'] ?>").val(total);
+                                    });
+
+                                    $("#lab_pu<?php echo $data_actividades['gasto_persona_id'] ?>").keyup(function(){
+                                        var pu = $(this).val();
+                                        var cant = $("#lab_cantidad<?php echo $data_actividades['gasto_persona_id'] ?>").val();
+                                        var new_neto1 = parseFloat(cant)*parseFloat(pu);
+                                        if (isNaN(new_neto1)) {
+                                            new_neto1 = '';
+                                        };
+                                        $("#neto<?php echo $data_actividades['gasto_persona_id'] ?>").val(new_neto1);
+                                        var otro = $("#otro_imp<?php echo $data_actividades['gasto_persona_id'] ?>").val();
+                                        if (otro == '' || otro =='0') {
+                                            otro = 0;
+                                        };
+                                        var igv = (new_neto1 * 0.18);
+                                        igv = igv.toFixed(2);
+                                        var total_neto = parseFloat(new_neto1)+parseFloat(igv);
+                                        total_neto = total_neto.toFixed(2);
+                                        var total = parseFloat(total_neto)+parseFloat(otro);
+                                        total = total.toFixed(2);
+                                        if (isNaN(total)) {
+                                            total = 0;
+                                        };
+                                        if (isNaN(igv)) {
+                                            igv = 0;
+                                        };
+                                        $("#igv<?php echo $data_actividades['gasto_persona_id'] ?>").val(igv);
+                                        $("#total<?php echo $data_actividades['gasto_persona_id'] ?>").val(total);
+                                    });
+
+                                    $("#neto<?php echo $data_actividades['gasto_persona_id'] ?>").keyup(function(){
+                                        var neto = $(this).val();
+                                        var otro = $("#otro_imp<?php echo $data_actividades['gasto_persona_id'] ?>").val();
+                                        if (otro == '' || otro =='0') {
+                                            otro = 0;
+                                        };
+                                        var igv = (neto * 0.18);
+                                        igv = igv.toFixed(2);
+                                        var total_neto = parseFloat(neto)+parseFloat(igv);
+                                        total_neto = total_neto.toFixed(2);
+                                        var total = parseFloat(total_neto)+parseFloat(otro);
+                                        total = total.toFixed(2);
+                                        if (isNaN(total)) {
+                                            total = 0;
+                                        };
+                                        if (isNaN(igv)) {
+                                            igv = 0;
+                                        };
+                                        $("#igv<?php echo $data_actividades['gasto_persona_id'] ?>").val(igv);
+                                        $("#total<?php echo $data_actividades['gasto_persona_id'] ?>").val(total);
+                                    });
+
+                                    $("#otro_imp<?php echo $data_actividades['gasto_persona_id'] ?>").keyup(function(){
+                                        var neto = $("#neto<?php echo $data_actividades['gasto_persona_id'] ?>").val();
+                                        var otro = $(this).val();
+                                        if (otro == '' || otro =='0') {
+                                            otro = 0;
+                                        };
+                                        var igv = (neto * 0.18);
+                                        var total_neto = parseFloat(neto)+parseFloat(igv);
+                                        var total = parseFloat(total_neto)+parseFloat(otro);
+                                        if (isNaN(total)) {
+                                            total = 0;
+                                        };
+                                        if (isNaN(igv)) {
+                                            igv = 0;
+                                        };
+                                        $("#igv<?php echo $data_actividades['gasto_persona_id'] ?>").val(igv);
+                                        $("#total<?php echo $data_actividades['gasto_persona_id'] ?>").val(total);
+                                    });
+
+                                    $("#igv<?php echo $data_actividades['gasto_persona_id'] ?>").keyup(function(){
+                                        var neto = $("#neto<?php echo $data_actividades['gasto_persona_id'] ?>").val();
+                                        var otro = $("#otro_imp<?php echo $data_actividades['gasto_persona_id'] ?>").val();
+                                        var igv_tmp = $(this).val();
+                                        if (otro == '' || otro =='0') {
+                                            otro = 0;
+                                        };
+                                        if (igv_tmp == '' || igv_tmp =='0') {
+                                            new_igv = 0;
+                                        } else {
+                                            new_igv = igv_tmp;
+                                        };
+                                        var total_neto = parseFloat(neto)+parseFloat(new_igv);
+                                        var total = parseFloat(total_neto)+parseFloat(otro);
+                                        $("#total<?php echo $data_actividades['gasto_persona_id'] ?>").val(total);
+                                    });
+
+                                    $("#gasto_padre<?php echo $data_actividades['gasto_persona_id'] ?>").change(function(){
+                                        var gasto_padre = $(this).val();
+                                        $("#gasto_hijo<?php echo $data_actividades['gasto_persona_id'] ?>").load("/expense/index/gastohijo/gastoid/"+gasto_padre);
+                                    });
+
+                                    $("#gasto_padre<?php echo $data_actividades['gasto_persona_id'] ?> option:selected").each(function() {
+                                        var gasto_padre = $(this).val();
+                                        var gasto_persona_id = "<?php echo $data_actividades['gasto_persona_id'] ?>";
+                                        if (gasto_padre) {
+                                            $("#gasto_hijo<?php echo $data_actividades['gasto_persona_id'] ?>").load("/expense/index/gastohijo/gastoid/"+gasto_padre+"/gasto_persona_id/"+gasto_persona_id);
+                                        };
+                                    });
+                                    $("#moneda<?php echo $data_actividades['gasto_persona_id'] ?>").change(function(){
+                                        var moneda = $(this).val();
+                                        if (moneda !='') {
+                                            var fecha = $("#fecha<?php echo $data_actividades['gasto_persona_id'] ?>").val();
+                                            if (fecha == '') {
+                                                alert("Ingrese una fecha de Factura.");
+                                            };
+                                        };
+                                    });
+                                </script>
+                            <?php
+                            $j++;
+                            }
+                             ?>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <?php
+        }
+    }
+     ?>
+    </form>
+    </div>
+</div>
+<div id="load_duplicidad"></div>
+
+<script type="text/javascript">
+    $(".datefactura").datepicker(
+        {maxDate:0, dateFormat:'dd/mm/yy', yearRange: '-100:+0'}
+        //, changeMonth:true, changeYear: true,
+    );
+</script>
+
+<?php 
+} ?>
+
+<style>
+.form-control {
+  
+  font-size: 11px; 
+  }
+</style>
