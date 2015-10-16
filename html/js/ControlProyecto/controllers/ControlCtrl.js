@@ -230,7 +230,6 @@ app.directive('uiDateFormat', ['uiDateConverter', function(uiDateConverter) {
 
     }
   };
-
   return directive;
 }]);
 
