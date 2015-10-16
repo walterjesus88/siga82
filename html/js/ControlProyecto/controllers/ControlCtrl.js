@@ -844,6 +844,9 @@ va.generarrevision= function()
   proyectoid=va.proyectop.codigo;
   proyectoFactory.getDatosxGenerarxRevision(codigoproyecto,proyectoid)
   .then(function(data) {
+    
+    console.log(data);
+
     va.alerts.push({type: 'success', msg: 'Se ha creado fechas con el nuevo cronograma'});
   })
   .catch(function(err) {
@@ -855,11 +858,12 @@ va.generarrevision= function()
 va.buscafecha = function(revision) { 
   revision_cronograma=revision.revision_cronograma;
   proyectoid=revision.proyectoid;
-  codigoproy=revision.codigo_prop_proy;
+  codigoproy=revision.codigo_prop_proy; 
   proyectoFactory.getDatosxProyectoxFechaxCorte(proyectoid,revision_cronograma,codigoproy)
   .then(function(data)
   {
     va.thi=data;
+    console.log(data);
   })
   .catch(function(err) {
     va.thi = {};

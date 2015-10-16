@@ -2142,7 +2142,7 @@ public function generarrevisionAction()
   $generarrevision=new Admin_Model_DbTable_Proyectofechacorte();
   $data = array('codigo_prop_proy' =>$codigo_prop_proy,'proyectoid' =>$proyectoid,);
 
-  $grevision=$generarrevision->_getRevisionxGenerar($data);  
+  $grevision=$generarrevision->_getRevisionxGenerar($data);
 
   $this->_helper->json->sendJson($grevision);
 
@@ -2398,116 +2398,25 @@ public function getleerestadoslistaentregableAction()
 
   $entregableactivo= new Admin_Model_DbTable_Listaentregable();
   $eactivo=$entregableactivo->_getentregablexActivo($proyectoid);
-  $revisionentregable=$eactivo[0]['revision_entregable'];
-  
-  $leerestadoLE=new Admin_Model_DbTable_Listaentregabledetalle();
 
-
-  $estados = array('1','2','3','4','5','6','7','8','9');     
-  if($gerente=='S' and $jefearea=='S')
+  if($eactivo)
   {
-  //  echo "estoy aqui";
-    $leerLE=$leerestadoLE->_getFilteristaentregable($proyectoid,$revisionentregable);    
-    $numberlista=count($leerLE);
-
-    $leerLE1=$leerestadoLE->_getFilteristaentregablexArea($proyectoid,$revisionentregable,$areaid);  
-    $numberlista1=count($leerLE1);
-    /*  GERENTE GENERAL*/
-    //$concentrar=[]; 
-    for ($i=0; $i <count($estados) ; $i++) {        
-      $cont[$i]=0;   
-        
-      foreach ($leerLE as $value) 
-      {
-        if($value['estado_entregable']==$estados[$i])
-        { 
-          $cont[$i]=$cont[$i]+1;     
-        } 
-      }       
-    }       
-    //print_r($cont);
-    $indice=1;
-    $data1=[];
-
-    foreach ($cont as $value) {
-      if($value==$numberlista)
-      {
-        $data1['state']=true;
-        $data1['indice']=$indice;
-        $data1['status']='gr';
-      }
-      $indice++;
-    }
-
-  // print_r($data);
-
-    /*  AREAID*/
-  /************************/
-      for ($j=0; $j <count($estados) ; $j++) { 
-        
-        $cont1[$j]=0;   
-        
-        foreach ($leerLE1 as $value) 
-        {
-          if($value['estado_entregable']==$estados[$j])
-          { 
-            $cont1[$j]=$cont1[$j]+1;     
-          } 
-        }       
-      }       
-    //print_r($cont1);
-    $indice1=1;
-    $data2=[];
-
-    foreach ($cont1 as $value) {
-      if($value==$numberlista1)
-      {
-        $data2['state']=true;
-        $data2['indice']=$indice1;
-        $data2['status']='jf';
-      }
-      $indice1++;
-    }
-
-    if($data1)
+    $revisionentregable=$eactivo[0]['revision_entregable'];
+    $leerestadoLE=new Admin_Model_DbTable_Listaentregabledetalle();
+    $estados = array('1','2','3','4','5','6','7','8','9');     
+    if($gerente=='S' and $jefearea=='S')
     {
-      $data=$data1;
-    
-    }
-    else
-    {
-      $data=$data2;
-    }
 
-  }
+      $leerLE=$leerestadoLE->_getFilteristaentregable($proyectoid,$revisionentregable);    
+      $numberlista=count($leerLE);
 
-  else
-  {
-
-    if($gerente=='S' and $jefearea=='N')
-    {
-        $data=[];
-        $leerLE=$leerestadoLE->_getFilteristaentregable($proyectoid,$revisionentregable);    
-        $data['status']='gr';
-    }
-    else
-    {
-        $data=[];      
-        $leerLE=$leerestadoLE->_getFilteristaentregablexArea($proyectoid,$revisionentregable,$areaid);
-        //echo "llego akakak";
-        //print_r($leerLE);
-    }
-
-    $numberlista=count($leerLE);
-    //echo $numberlista;
-    if($numberlista==0)
-    {
-      $data=[];
-    }
-    else
-    {
-       for ($i=0; $i <count($estados) ; $i++) {        
-        $cont[$i]=0;
+      $leerLE1=$leerestadoLE->_getFilteristaentregablexArea($proyectoid,$revisionentregable,$areaid);  
+      $numberlista1=count($leerLE1);
+      /*  GERENTE GENERAL*/
+      //$concentrar=[]; 
+      for ($i=0; $i <count($estados) ; $i++) {        
+        $cont[$i]=0;   
+          
         foreach ($leerLE as $value) 
         {
           if($value['estado_entregable']==$estados[$i])
@@ -2515,27 +2424,120 @@ public function getleerestadoslistaentregableAction()
             $cont[$i]=$cont[$i]+1;     
           } 
         }       
-      } 
-      //print_r($cont);   
-      $indice=0;
-      foreach ($cont as $value) 
-      {
+      }       
+     
+      $indice=1;
+      $data1=[];
+
+      foreach ($cont as $value) {
         if($value==$numberlista)
-        {    
-          $data['state']=true;
-          $data['indice']=$indice+1; 
-          //echo $value;    
+        {
+          $data1['state']=true;
+          $data1['indice']=$indice;
+          $data1['status']='gr';
         }
         $indice++;
-      }    
-      //  print_r($data);
-      //  exit();     
+      }  
+
+      /*  AREAID*/
+      /************************/
+        for ($j=0; $j <count($estados) ; $j++) { 
+          
+          $cont1[$j]=0;   
+          
+          foreach ($leerLE1 as $value) 
+          {
+            if($value['estado_entregable']==$estados[$j])
+            { 
+              $cont1[$j]=$cont1[$j]+1;     
+            } 
+          }       
+        }       
+      //print_r($cont1);
+      $indice1=1;
+      $data2=[];
+
+      foreach ($cont1 as $value) {
+        if($value==$numberlista1)
+        {
+          $data2['state']=true;
+          $data2['indice']=$indice1;
+          $data2['status']='jf';
+        }
+        $indice1++;
+      }
+
+      if($data1)
+      {
+        $data=$data1;
+      
+      }
+      else
+      {
+        $data=$data2;
+      }
+
     }
+    else
+    {
+
+      if($gerente=='S' and $jefearea=='N')
+      {
+          $data=[];
+          $leerLE=$leerestadoLE->_getFilteristaentregable($proyectoid,$revisionentregable);    
+          $data['status']='gr';
+      }
+      else
+      {
+          $data=[];      
+          $leerLE=$leerestadoLE->_getFilteristaentregablexArea($proyectoid,$revisionentregable,$areaid);
+          //echo "llego akakak";
+          //print_r($leerLE);
+      }
+
+      $numberlista=count($leerLE);
+      //echo $numberlista;
+      if($numberlista==0)
+      {
+        $data=[];
+      }
+      else
+      {
+         for ($i=0; $i <count($estados) ; $i++) {        
+          $cont[$i]=0;
+          foreach ($leerLE as $value) 
+          {
+            if($value['estado_entregable']==$estados[$i])
+            { 
+              $cont[$i]=$cont[$i]+1;     
+            } 
+          }       
+        } 
+        //print_r($cont);   
+        $indice=0;
+        foreach ($cont as $value) 
+        {
+          if($value==$numberlista)
+          {    
+            $data['state']=true;
+            $data['indice']=$indice+1; 
+            //echo $value;    
+          }
+          $indice++;
+        }    
+        //  print_r($data);
+        //  exit();     
+      }
 
 
+    }
+  }
+  else
+  {
+    $data=[];
   }
 
-$this->_helper->json->sendJson($data);
+  $this->_helper->json->sendJson($data);
   
 }
 
