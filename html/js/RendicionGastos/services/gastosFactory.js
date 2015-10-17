@@ -29,7 +29,7 @@ app.factory('gastosFactory', ['httpFactory', '$location', '$q',
         this.monto_total = item.monto_total;
         this.estado = estados[item.estado];
 
-    this.verInformacion = function() {
+        this.verInformacion = function() {
 
         // console.log("verInformacion");
         // console.log(item);
@@ -84,7 +84,7 @@ app.factory('gastosFactory', ['httpFactory', '$location', '$q',
       .then(function(data) {
         datos = data;
         defered.resolve(datos);
-        console.log("guardado " + proyectoid);
+        // console.log("guardado " + proyectoid);
       })
       .catch(function(err) {
         defered.reject(err);
@@ -100,7 +100,7 @@ app.factory('gastosFactory', ['httpFactory', '$location', '$q',
 
     setProyecto: function(listaproyectos) {
       datos.listaproyectos = listaproyectos;
-      console.log("gastosFactory " + listagastos)
+      // console.log("gastosFactory " + listagastos)
     },
 
     setTipoGasto: function(listagastos) {
@@ -109,24 +109,24 @@ app.factory('gastosFactory', ['httpFactory', '$location', '$q',
     },
 
 
-      formatoFechas : function(fecha_factura)
+    formatoFechas : function(fecha_factura)
     {
-        fecha_factura = new Date(fecha_factura);
-        day=fecha_factura.getDate();
-        month=fecha_factura.getMonth()+1;
-        year=fecha_factura.getFullYear();
+      fecha_factura = new Date(fecha_factura);
+      day=fecha_factura.getDate();
+      month=fecha_factura.getMonth()+1;
+      year=fecha_factura.getFullYear();
 
-        if (month.toString().length < 2)
-        {
-          month = '0' + month;
-        }
-        if (day.toString().length < 2)
-        {
-          day = '0' + day;
-        }
+      if (month.toString().length < 2)
+      {
+        month = '0' + month;
+      }
+      if (day.toString().length < 2)
+      {
+        day = '1' + day;
+      }
 
-        fecha_factura=year+"-"+month+"-"+day;
-        return fecha_factura;
+      fecha_factura=year+"-"+month+"-"+day;
+      return fecha_factura;
     },
 
   }

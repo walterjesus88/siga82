@@ -68,10 +68,10 @@ var publico = {
       return promise;
     },
 
-    getClientes: function() {
+    getClientes: function(iscliente) {
       var defered = $q.defer();
       var promise = defered.promise;
-      $http.get(url_gastos + 'cliente')
+      $http.get(url_gastos + 'cliente/iscliente/'+iscliente)
       .success(function(data) {
         defered.resolve(data);
         // console.log("httpFactory " + data);

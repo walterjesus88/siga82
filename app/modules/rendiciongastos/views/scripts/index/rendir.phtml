@@ -62,7 +62,7 @@
                 <span class="input-group-addon">Cliente</span>
                 <!-- <input type="text" class="form-control input-sm" placeholder='clienteid' name='clienteid' data-ng-model="vrg.clienteid"  required data-ng-class='{error: validinput.clienteid.$invalid && !validinput.$pristine}'> -->
                 <select class="form-control input-sm" option="clientes" ng-change="vrg.showProyectos()" ng-model="vrg.clienteid" ng-options="tipo.clienteid as tipo.nombre_comercial for tipo in vrg.listaclientes | orderBy:'nombre_comercial'" required data-ng-class='{error: validinput.clienteid.$invalid && !validinput.$pristine}'><option value="">--Seleccione Cliente--</option></select>
-                <tt>option = {{vrg.clienteid}}</tt><br/>
+                <tt>clienteid = {{vrg.clienteid}}</tt><br/>
                 <!-- <select class="form-control input-sm" name="cliente" ng-options="c.clienteid as c.nombre_comercial for s in vrg.cliente track by c.id"></select> -->
               </div>
               <div class="col-xs-7" >
@@ -70,9 +70,9 @@
                 <span class="input-group-addon">Proyecto</span>
                 <!-- <input type="text" class="form-control input-sm" placeholder='proyectoid' name='proyectoid' data-ng-model="vrg.proyectoid"  required data-ng-class='{error: validinput.proyectoid.$invalid && !validinput.$pristine}'> -->
                 <select class="form-control input-sm" option="proyectos" ng-model="vrg.codigo_prop_proy" ng-options="tipo.codigo_prop_proy as (tipo.proyectoid +' - '+ tipo.nombre_proyecto) for tipo in vrg.listaproyectos | orderBy:'proyectoid'" required data-ng-class='{error: validinput.proyectoid.$invalid && !validinput.$pristine}'><option value="">--Seleccione Proyecto--</option></select>
-                <tt>option = {{vrg.codigo_prop_proy}}</tt><br/>
-                <tt>option = {{vrg.codigo_prop_proy.split('-')[1] }}</tt><br/>
-                <tt>option = {{vrg.codigo_prop_proy.split('-')[2] }}</tt><br/>
+                <tt>codigo_prop_proy = {{vrg.codigo_prop_proy}}</tt><br/>
+                <tt>proyectoid = {{vrg.codigo_prop_proy.split('-')[1] }}</tt><br/>
+                <tt>revision = {{vrg.codigo_prop_proy.split('-')[2] }}</tt><br/>
               </div>
               <div class="col-xs-2" style="display:none">
                 <span class="input-group-addon">Descripcion</span>
@@ -97,7 +97,7 @@
                 <!-- <input type="datepicker" id="datepicker" class="form-control input-sm datefactura hasDatepicker" placeholder='dd-mm-aaaa' name='fecha_factura' data-ng-model="vrg.fecha_factura"/> -->
                 <!-- <input type="text" class="form-control input-sm datefactura hasDatepicker" datepicker-popup ng-model="vrg.fecha_factura" is-open="status.opened" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" close-text="Close" /> -->
                 <!-- <input class="form-control ng-valid hasDatepicker ng-touched ng-dirty ng-valid-parse" type="text" ui-date="{ dateFormat: 'yy-mm-dd' }" ename="fecha_factura" ng-model="vrg.fecha_factura" > -->
-                <input class="form-control input-sm" id="datepicker1" type="datepicker" e-form="tableform" ui-date="{ dateFormat: 'dd-mm-yy' }" ename="fecha_factura" ng-model='vrg.fecha_factura'required data-ng-class='{error: validinput.fecha_factura.$invalid && !validinput.$pristine}'/>
+                <input class="form-control input-sm" id="datepicker1" type="text" e-form="tableform" ui-date="{ dateFormat: 'dd-mm-yy' }" ename="fecha_factura" ng-model='vrg.fecha_factura' />
               </div>
               <div class="col-xs-2" style="display:none">
                 <span class="input-group-addon">N° Documento</span>

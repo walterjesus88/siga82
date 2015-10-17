@@ -35,7 +35,8 @@ app.controller('RendirGastosCtrl', ['$scope','httpFactory', 'gastosFactory', '$m
 
   //obtencion de los datos
   /*--------------cliente--------------------------*/
-  httpFactory.getClientes()
+  var iscliente = 'S';
+  httpFactory.getClientes(iscliente)
   .then(function(data) {
     vrg.listaclientes = data;
     // console.log("RendirGastosCtrl " + vrg.listagastos)
@@ -52,7 +53,7 @@ app.controller('RendirGastosCtrl', ['$scope','httpFactory', 'gastosFactory', '$m
   httpFactory.getProyectos(clienteid)
   .then(function(data) {
     vrg.listaproyectos = data;
-    console.log("HOLA " + clienteid);
+    // console.log("HOLA " + clienteid);
     // vrg.lis = data[0].clienteid;
     // console.log("RendirGastosCtrl " + vrg.listagastos)
   })
@@ -90,14 +91,21 @@ app.controller('RendirGastosCtrl', ['$scope','httpFactory', 'gastosFactory', '$m
 
     // if(vrg.moneda=='Soles'){parseFloat(vrg.monto_total=(vrg.monto_igv*1)+(vrg.otro_impuesto*1)+(vrg.igv*1),2);}
     // if(vrg.moneda=='Dolar Americano'){parseFloat(vrg.monto_total=(vrg.monto_igv*2)+(vrg.otro_impuesto*2)+(vrg.igv*2),2);}
-    
+
     // dividimos codigo_prop_proy para optener el codigo de proyecto y su revision
-    // if (vrg.codigo_prop_proy.count(3)) {
+    if (vrg.codigo_prop_proy.split('-')[2] ==null) {
+    var proyectoid=vrg.codigo_prop_proy.split('-')[0];
+    var revision=vrg.codigo_prop_proy.split('-')[1];
+      // console.log("2 "+vrg.codigo_prop_proy.split('-')[1]);
+    }
+    else if (vrg.codigo_prop_proy.split('-')[1] ==null) {
+    var proyectoid=vrg.codigo_prop_proy.split('-')[0];
+    var revision=' ';
+    }
+    else {
     var proyectoid=vrg.codigo_prop_proy.split('-')[1];
     var revision=vrg.codigo_prop_proy.split('-')[2];
-    // };
-
-    // console.log(vrg.codigo_prop_proy.count);
+    }
 
 
 

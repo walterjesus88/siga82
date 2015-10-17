@@ -205,9 +205,10 @@ class Rendiciongastos_GastosController extends Zend_Controller_Action {
 
       //Devuelve la lista de tipos de gastos de la tabla listagasto
     public function clienteAction()
-    {
+    { $iscliente=$this->_getParam("iscliente");
+    $where=array('iscliente' => $iscliente );
       $cliente = new Admin_Model_DbTable_Cliente();
-      $tiposcli = $cliente->_getClienteAll();
+      $tiposcli = $cliente->_getFilter2($where);
       $this->_helper->json->sendJson($tiposcli);
       print_r("GastosController cliente --->" + $tiposcli);
     }
