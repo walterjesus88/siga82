@@ -24,8 +24,7 @@
     <div class="form-group col-md-6"  >
     <table class=" table table-striped table-hover table-bordered ">
       <!-- Menu encabezado tabla -->
-      <tr>   
-        
+      <tr>           
         <td class="col-md-2">        
             <center>
               <span>Fecha de Corte</span>
@@ -42,10 +41,8 @@
                 editar
               </button>
             </center>
-        </td>
-    
+        </td>    
         <td class="col-md-2">
-
             <center>        
               <span>Tipo de Corte</span>
               <form editable-form name="nameform_tipo_corte" onaftersave="CP.saveColumnfechacorte('tipo_corte')" ng-show="nameform_tipo_corte.$visible">
@@ -65,7 +62,6 @@
           <center>Acciones</center>
         </td>
       </tr>
-
       <tr ng-repeat="fecha in CP.thi">
         <td> 
             <center>               
@@ -89,7 +85,6 @@
       </tr>
     </table>
     </div>
-
     <!-- anadir fecha corte -->
     <div class="form-group col-md-4">             
       <div ng-show="CP.formVisibilityFechacorte" class="col-md-12" >
@@ -98,7 +93,7 @@
             <label> Fecha de Corte</label>
               </div>
           <div class="col-md-6" >
-            <input class="form-control"  type="text" ng-model="CP.fechacorte"></input>
+            <input class="form-control" ui-date="{ dateFormat: 'yy-mm-dd'}" type="text" ng-model="CP.fechacorte"></input>
           </div>
           </div>
                       
@@ -128,6 +123,8 @@
     </div>
   </div>
 </div>
+
+
 
 
 

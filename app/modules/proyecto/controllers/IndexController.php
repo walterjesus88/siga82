@@ -2387,7 +2387,6 @@ public function getleersessionusuarioAction()
   $this->_helper->json->sendJson($session);
 }
 
-
 public function getleerestadoslistaentregableAction()
 {
   $proyectoid= $this->_getParam("proyectoid");
@@ -2395,7 +2394,6 @@ public function getleerestadoslistaentregableAction()
   $gerente= $this->_getParam("gerente");
   $jefearea= $this->_getParam("jefearea");
   $responsable= $this->_getParam("responsable");
-
   $entregableactivo= new Admin_Model_DbTable_Listaentregable();
   $eactivo=$entregableactivo->_getentregablexActivo($proyectoid);
 
