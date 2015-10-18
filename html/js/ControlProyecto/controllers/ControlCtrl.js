@@ -369,9 +369,7 @@ proyectoFactory.getDatosProyecto(proyecto['codigo'])
     .then(function(data)
     {
       if(data=='')
-      {
-        
-      }
+      { }
       else
       {     
         revision=data[0]['revision_cronograma'];  
@@ -817,8 +815,7 @@ va.buscaperformance = function(revision) {
   codigoproy=revision.codigo_prop_proy;
 
   proyectoFactory.getDatosxProyectoxFechaxCorte(proyectoid,revision_cronograma,codigoproy)
-  .then(function(data) {
-    //onsole.log(data);
+  .then(function(data) {  
     va.thi=data; 
   })
   .catch(function(err) {
@@ -903,6 +900,8 @@ va.GuardarFechaCorte = function() {
   proyectoid=va.proyectop.codigo;
   fechacorte=va.fechacorte;
   tipocorte=va.tipocorte;
+
+  fechacorte=proyectoFactory.formatoFechas(fechacorte)
 
   proyectoFactory.setDatosxGuardarxFechaCorte(revision,codigoproyecto,proyectoid,fechacorte,tipocorte)
   .then(function(data) {
@@ -989,6 +988,7 @@ proyectoFactory.getVerCronogramaxActivo(proyecto['codigo'])
     proyectoFactory.getDatosProyectoxPerfomance(proyecto['codigo'],revision)
     .then(function(datax) {
         va.performance=datax;
+        console.log(va.performance);
 
         angular.forEach(va.performance, function(val) {      
           actividad1digito= val['actividadid'].length;
@@ -1023,13 +1023,14 @@ va.cerrarfechacorte=function(item){
     var fechacorte_cambiar
     var fechacorte_cam
 
+    console.log(data);
 
     for (var i = 0; i < data.length; i++)        
     {
       if(data[i]['state_performance']=='I')
       {
-        fechacorte_cam=data[i]['fechacorteid'];
-        //alert(fechacorte_cam);
+        fechacorte_cam=data[i]['fechacorteid'];     
+        console.log(fechacorte_cam);
       }
 
       if(data[i]['state_performance']=='A')
@@ -1043,18 +1044,34 @@ va.cerrarfechacorte=function(item){
         else
         {             
           id_cambiar=i+1;      
-          //fechacorte_cambiar=data[i+1]['fechacorteid'];
-          fechacorte_cambiar=fechacorte_cam;
-          //alert(fechacorte_cambiar);
-        } 
-
-        proyectoFactory.getCerrarxProyectoxFechaxCorte(proyectoid,codigo_prop_proy,fecha_corte,fechacorte_cambiar)
-        .then(function(data) {
-        })
-        .catch(function(err) {       
-        });
+          fechacorte_cambiar=data[i+1]['fechacorteid'];
+          //alert(fechacorte_cam);
+          //fechacorte_cambiar=fechacorte_cam;
+          //alert('LLEGO');
+        }   
       } 
-    };     
+    };  
+    
+      proyectoFactory.getCerrarxProyectoxFechaxCorte(proyectoid,codigo_prop_proy,fecha_corte,fechacorte_cambiar)
+      .then(function(data) {
+          proyectoFactory.getDatosxProyectoxFechaxCorte(proyectoid,revision_cronograma,codigo_prop_proy)
+          .then(function(data) {  
+            va.thi=data; 
+          })
+          .catch(function(err) {
+            va.thi = {};
+          });
+          proyectoFactory.getDatosProyectoxPerfomance(proyectoid,revision_cronograma)
+          .then(function(datax) {
+              va.performance=datax;
+          })
+          .catch(function(err) {
+              va.performance = {};
+          })
+
+      })
+      .catch(function(err) {       
+      });   
   })
   .catch(function(err) {
         alert('intentelo de nuevo');
@@ -1146,6 +1163,7 @@ va.checkName=function(data, id)
   fecha_comienzo_real =va.performance[id]['fecha_comienzo_real'];
   fecha_fin_real =va.performance[id]['fecha_fin_real'];
   fecha_corte0 =va.fecha_corte_activa;
+  //alert(fecha_corte0);
  /////C A L C U L A  H O R A S  P L A N I F I C A D A S//////
   h_dias_propuesta=horas_propuesta/duracion;
   c_propuesta=costo_propuesta/duracion;
@@ -2113,9 +2131,6 @@ va.showTipodoc = function(lista) {
   return selected.length ? selected[0].text : 'eitar tipo_documento';
 };
 
-
-
-
 va.showDisciplina = function(lista) {
   var selected = [];
   if(lista.disciplina) {
@@ -2206,6 +2221,7 @@ va.toggleCategory = function(revision) {
   proyectoFactory.getDatosProyectoxPerfomance(proyectoid,revision_cronograma)
   .then(function(datax) {
     va.performance=datax;
+    console.log(va.performance);
   })
   .catch(function(err) {
     va.performance = {};
@@ -2218,12 +2234,28 @@ va.imprimirperformance=function(){
   revision_cro=va.revi['revision_cronograma'];
 
   httpFactory.createPdfPerformance(proyectoid,revision_cro)
-  .then(function(data) {
-    //console.log(data);
+  .then(function(data) {  
     window.open(data.archivo, '_blank');
   })
   .catch(function(err) {
   });
+}
+
+va.traerperformance=function(fechaperformance)
+{
+  
+  revision_cronograma=va.revi['revision_cronograma'];
+  codigoproy=va.revi['codigo_prop_proy'];
+  
+  proyectoFactory.getDatosxPerformancexLlamar(proyecto['codigo'],fechaperformance,revision_cronograma,codigoproy)
+  .then(function(data) {
+    va.performance=data;    
+    //console.log(data);
+  })
+  .catch(function(err) {
+    //va.listaentregable = {};
+  })
+    
 }
 
 ////////////// L I S T A  D E  E N T R E G A B L E ///////////////////////////////////
@@ -2317,11 +2349,8 @@ va.addListaEntregable= function() {
 
 
 va.guardatListaentregable = function(data, id) {
-  console.log(data);
+  console.log(data);  
   
-  //alert(lista.fecha_a);
-  //rowform.$visible = !rowform.$visible;
-
   edt=data['edt'];
   tipo_documento=data['tipo_documento'];   
   disciplina=data['disciplina'];
@@ -2329,9 +2358,8 @@ va.guardatListaentregable = function(data, id) {
   codigo_cliente=data['codigo_cliente'];
   //fecha_a=data['fecha_a'];
   fecha_a=va.fecha_a;
-
-  fecha_b=data['fecha_b'];
-  fecha_0=data['fecha_0'];
+  fecha_b=va.fecha_b;
+  fecha_0=va.fecha_0;
   descripcion_entregable=data['descripcion_entregable'];   
   cod_le=id;
     // fecha_a=(fecha_a=='' || fecha_a==null || fecha_a!='null' || fecha_a!='undefined') ? "" : proyectoFactory.formatoFechas(fecha_a); 

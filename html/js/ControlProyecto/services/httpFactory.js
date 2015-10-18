@@ -180,10 +180,25 @@ app.factory('httpFactory', ['$http','$q', function($http,$q) {
       return promise;
     },
 
+
     setGuardarxPorcentajexCurvas: function(proyectoid,revision,fecha,porcentaje) {
       var defered = $q.defer();
       var promise = defered.promise;
       $http.get(url + 'setguardarxporcentajexcurvas/proyectoid/' + proyectoid+'/revision/'+revision+'/fecha/'+fecha+'/porcentaje/'+porcentaje)
+      .success(function(data) {
+        defered.resolve(data);
+      })
+      .error(function(err) {
+        defered.reject(err);
+      });
+      return promise;
+    },
+
+
+    getDatosxPerformancexLlamar: function(proyectoid,fechaperformance,revision_cronograma,codigoproy) {
+      var defered = $q.defer();
+      var promise = defered.promise;
+      $http.get(url + 'getdatosxperformancexllamar/proyectoid/' + proyectoid+'/fechaperformance/'+fechaperformance+'/revision_cronograma/'+revision_cronograma+'/codigoproy/'+codigoproy)
       .success(function(data) {
         defered.resolve(data);
       })

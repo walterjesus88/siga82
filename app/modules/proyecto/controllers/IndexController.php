@@ -437,8 +437,6 @@ class Proyecto_IndexController extends Zend_Controller_Action {
         $this->view->form = $form;
         $form->populate($edit);
 
-
-
         if ($this->getRequest()->isPost()) {
             $formdata = $this->getRequest()->getPost();
               if ($form->isValid($formdata)) {
@@ -467,14 +465,9 @@ class Proyecto_IndexController extends Zend_Controller_Action {
                           </script>
                          <?php
                     } 
-
               }
-        }
-
-      
+        }      
     }
-
-
 
     public function buscarAction() {
         $this->_helper->layout()->disableLayout();
@@ -589,7 +582,6 @@ class Proyecto_IndexController extends Zend_Controller_Action {
                   {
                     echo "------ ERROR NO SE GUARADO REVISARLO ---- ";
                     echo "<br>";
-
                   }
               }
             }
@@ -597,12 +589,8 @@ class Proyecto_IndexController extends Zend_Controller_Action {
             {
               echo "no existe proyecto";
             }
-          }
-
-
-        
+          }        
       }
-
     }
     catch (Exception $e) {
         print "Error: ".$e->getMessage();
@@ -670,7 +658,7 @@ class Proyecto_IndexController extends Zend_Controller_Action {
                 $datosactividadpadre["actividad_padre"]=$existeactividad[0]['actividadid'];
                 $datosactividadpadre["actividadid"]=$existeactividad[0]['actividadid']."-".$numero;
                 $guardaractividad=$bdactividad->_save($datosactividadpadre);
-                print_r($guardaractividad);
+                //print_r($guardaractividad);
                /* if ($guardaractividad)
                   {
                     echo "---------SE GUARDO LA ACTIVIDAD ------";
@@ -682,8 +670,7 @@ class Proyecto_IndexController extends Zend_Controller_Action {
                     echo "------ ERROR NO SE GUARADO REVISARLO ---- ";
                     echo "<br>";
 
-                  }*/
-                
+                  }*/                
               }
               else {
 
@@ -693,10 +680,7 @@ class Proyecto_IndexController extends Zend_Controller_Action {
             {
               echo "no existe proyecto";
             }
-          }
-
-
-        
+          }        
       }
 
     }
@@ -1772,103 +1756,94 @@ public function proyectoxperformanceAction() {
   $perf=$performance->_getBuscarActividadxPerformance($proyectoid,$revision);
 
   $state_fechacorte=new Admin_Model_DbTable_Proyectofechacorte();
-  // $f_state_corte=$state_fechacorte->_getProyectoxFechaxCortexActivaxProyecto($proyectoid);
-  // $fecha_corte_activa=$f_state_corte[0]['fecha'];
-
   $where = array('revision_cronograma' => $revision ,
                'proyectoid' => $proyectoid ,'state_performance' =>'A');
   
   $fecha_corte=$state_fechacorte->_getFilter($where);
   $fecha_corte_activa=$fecha_corte[0]['fecha'];
-  //print_r($fecha_corte[0]['fecha']); exit();
 
   if($perf)
   {
       $i=0;
-      foreach ($perf as $keyper) {
-
-      if(strlen($keyper['codigo_actividad'])=='1')
+      foreach ($perf as $keyper) 
       {
-        $actividadpadre=true;
-      }
-      else
-      {
-        $actividadpadre=false;
-      }
-     
-      $wheredet['codigo_prop_proy']=$keyper['codigo_prop_proy'];
-      $wheredet['codigo_actividad']=$keyper['codigo_actividad']; 
-      $wheredet['proyectoid']=$keyper['proyectoid'];      
-      $wheredet['cronogramaid']=$keyper['cronogramaid'];
-      $wheredet['codigo_cronograma']=$keyper['codigo_cronograma'];
-      $wheredet['revision_cronograma']=$keyper['revision_cronograma'];
-      $wheredet['actividadid']=$keyper['actividadid'];
-      $wheredet['codigo_performance']=$keyper['codigo_performance']; 
-      $attrib = null;
-      $order = array('fecha_performance asc');
+        if(strlen($keyper['actividadid'])=='1')
+        {
+          $actividadpadre=true;
+          //print_r($actividadid);exit();
+        }
+        else
+        {
+          $actividadpadre=false;
+        }
+       
+        $wheredet['codigo_prop_proy']=$keyper['codigo_prop_proy'];
+        $wheredet['codigo_actividad']=$keyper['codigo_actividad']; 
+        $wheredet['proyectoid']=$keyper['proyectoid'];      
+        $wheredet['cronogramaid']=$keyper['cronogramaid'];
+        $wheredet['codigo_cronograma']=$keyper['codigo_cronograma'];
+        $wheredet['revision_cronograma']=$keyper['revision_cronograma'];
+        $wheredet['actividadid']=$keyper['actividadid'];
+        $wheredet['codigo_performance']=$keyper['codigo_performance']; 
+        $attrib = null;
+        $order = array('fecha_performance asc');
 
-      $performancedetalle=new Admin_Model_DbTable_Performancedetalle();
-      $pdetalle=$performancedetalle->_getFilter($wheredet,$attrib,$order);
-
-      
-      $shorastareo=$performance->_getSumaxHoraxTareopxActividades($proyectoid,$fecha_inicio,$fecha_corte_activa,$keyper['actividadid']);
-      $costohoras=$performance->_getCostoxHoraxTareopxActividades($proyectoid,$fecha_inicio,$fecha_corte_activa,$keyper['actividadid']);
-      $horas_tareo=$shorastareo[0]['suma'];  
-      $costohoras=$costohoras[0]['costo'];  
-
-      if($keyper['costo_propuesta']==null || $keyper['costo_propuesta']=='null')
-      {
-        $porcentaje_real=0;
-      }
-      else
-      {
-
-      $porcentaje_real= round((floatval($costohoras)/floatval($keyper['costo_propuesta']))*100);
-      }
-
-      //$porcentaje_planificado= (floatval($keyper['costo_planificado'])/floatval($keyper['costo_propuesta']))*100;
-
-      $ek[] = array(
-        'nombre' =>$keyper['nombre'],
-        //'fecha_corte_activa'=> $fecha_corte_activa,
-        'actividadpadre'=>$actividadpadre,
-        'codigo_prop_proy' =>$keyper['codigo_prop_proy'],
-        'proyectoid' =>$keyper['proyectoid'],
-        'codigo_actividad' =>$keyper['codigo_actividad'],
-        'actividadid' =>$keyper['actividadid'],
-        'cronogramaid' =>$keyper['cronogramaid'],
-        'codigo_cronograma' =>$keyper['codigo_cronograma'],
-        'revision_cronograma' =>$keyper['revision_cronograma'],
-        'codigo_performance' =>$keyper['codigo_performance'],
-        'revision_propuesta' =>$keyper['revision_propuesta'],
-        'fecha_ingreso_performance' =>$keyper['fecha_ingreso_performance'],
-        'costo_real' =>$costohoras,
-        'costo_propuesta' =>$keyper['costo_propuesta'],
-        'horas_propuesta' =>$keyper['horas_propuesta'],
-        'horas_planificado' =>$keyper['horas_planificado'],
-        'costo_planificado' =>$keyper['costo_planificado'],
-
-        'duracion' =>$keyper['duracion'],
-        //'porcentaje_planificado' =>$porcentaje_planificado,
-        'porcentaje_planificado' =>$keyper['porcentaje_planificado'],
-        'porcentaje_real' =>$porcentaje_real,
+        $performancedetalle=new Admin_Model_DbTable_Performancedetalle();
+        $pdetalle=$performancedetalle->_getFilter($wheredet,$attrib,$order);
         
+        $shorastareo=$performance->_getSumaxHoraxTareopxActividades($proyectoid,$fecha_inicio,$fecha_corte_activa,$keyper['actividadid']);
+        $costohoras=$performance->_getCostoxHoraxTareopxActividades($proyectoid,$fecha_inicio,$fecha_corte_activa,$keyper['actividadid']);
+        $horas_tareo=$shorastareo[0]['suma'];  
+        $costohoras=$costohoras[0]['costo'];  
 
-        'fecha_comienzo_real' =>$keyper['fecha_comienzo_real'],
-        'fecha_fin_real' =>$keyper['fecha_fin_real'],
-        'fecha_comienzo' =>$keyper['fecha_comienzo'],
-        'fecha_fin' =>$keyper['fecha_fin'],
-        
-        'nivel_esquema' =>$keyper['nivel_esquema'],
-        'predecesoras' =>$keyper['predecesoras'],
-        'sucesoras' =>$keyper['sucesoras'],
-   
+        if($keyper['costo_propuesta']==null || $keyper['costo_propuesta']=='null')
+        {
+          $porcentaje_real=0;
+        }
+        else
+        {
+        $porcentaje_real= round((floatval($costohoras)/floatval($keyper['costo_propuesta']))*100);
+        }
 
-        'horas_real' =>$horas_tareo,
+        //$porcentaje_planificado= (floatval($keyper['costo_planificado'])/floatval($keyper['costo_propuesta']))*100;
 
-        'items'=> $pdetalle);
+        $ek[] = array(
+          'nombre' =>$keyper['nombre'],
+          //'fecha_corte_activa'=> $fecha_corte_activa,
+          'actividadpadre'=>$actividadpadre,
+          'codigo_prop_proy' =>$keyper['codigo_prop_proy'],
+          'proyectoid' =>$keyper['proyectoid'],
+          'codigo_actividad' =>$keyper['codigo_actividad'],
+          'actividadid' =>$keyper['actividadid'],
+          'cronogramaid' =>$keyper['cronogramaid'],
+          'codigo_cronograma' =>$keyper['codigo_cronograma'],
+          'revision_cronograma' =>$keyper['revision_cronograma'],
+          'codigo_performance' =>$keyper['codigo_performance'],
+          'revision_propuesta' =>$keyper['revision_propuesta'],
+          'fecha_ingreso_performance' =>$keyper['fecha_ingreso_performance'],
+          'costo_real' =>$costohoras,
+          'costo_propuesta' =>$keyper['costo_propuesta'],
+          'horas_propuesta' =>$keyper['horas_propuesta'],
+          'horas_planificado' =>$keyper['horas_planificado'],
+          'costo_planificado' =>$keyper['costo_planificado'],
+
+          'duracion' =>$keyper['duracion'],         
+          'porcentaje_planificado' =>$keyper['porcentaje_planificado'],
+          'porcentaje_real' =>$porcentaje_real,        
+
+          'fecha_comienzo_real' =>$keyper['fecha_comienzo_real'],
+          'fecha_fin_real' =>$keyper['fecha_fin_real'],
+          'fecha_comienzo' =>$keyper['fecha_comienzo'],
+          'fecha_fin' =>$keyper['fecha_fin'],
+          
+          'nivel_esquema' =>$keyper['nivel_esquema'],
+          'predecesoras' =>$keyper['predecesoras'],
+          'sucesoras' =>$keyper['sucesoras'],     
+
+          'horas_real' =>$horas_tareo,
+          'items'=> $pdetalle);
     
-      $i++;  
+        $i++;  
       } 
   }
   else
@@ -2060,10 +2035,8 @@ public function guardarxfechaxcorteAction()
   $data['state']= 'A';
 
   $guardarfechaxcorte=new Admin_Model_DbTable_Proyectofechacorte();
-
   $where = array('revision_cronograma' => $data['revision_cronograma'] ,
                'proyectoid' => $data['proyectoid'] ,'state_performance' =>'A');
-
   $vfechaxcorte=$guardarfechaxcorte->_getFilter($where);
 
   if($vfechaxcorte)
@@ -2074,12 +2047,9 @@ public function guardarxfechaxcorteAction()
   {
     $state_per='A';
   }
-
-
- $data['state_performance']= $state_per;
-
- $gfechaxcorte=$guardarfechaxcorte->_save($data);;
-
+  $data['state_performance']= $state_per;
+  $gfechaxcorte=$guardarfechaxcorte->_save($data);
+// print_r($gfechaxcorte);exit();
  $this->_helper->json->sendJson($gfechaxcorte);
 }
 
@@ -2557,7 +2527,8 @@ public function disciplinasAction() {
   $this->_helper->json->sendJson($earea);
 }
 
-public function setguardarxporcentajexcurvasAction() {
+public function setguardarxporcentajexcurvasAction() 
+{
   $proyectoid= $this->_getParam("proyectoid");
   $revision= $this->_getParam("revision");
   $fecha= $this->_getParam("fecha");
@@ -2569,8 +2540,84 @@ public function setguardarxporcentajexcurvasAction() {
   $uporcentajecurvas=new Admin_Model_DbTable_Tiempoproyecto(); 
   $uporc=$uporcentajecurvas->_update_revision($data,$where);
   $this->_helper->json->sendJson($uporc);
+}
+
+public function getdatosxperformancexllamarAction() 
+{
+  $proyectoid= $this->_getParam("proyectoid");
+  $fechaperformance= $this->_getParam("fechaperformance");
+  $revision_cronograma= $this->_getParam("revision_cronograma");
+  $codigoproy= $this->_getParam("codigoproy");
+  
+ 
+  $verperformance= new Admin_Model_DbTable_Performancedetalle();  
+  $traerperformance=$verperformance->_getBuscarActividadxPerformancexfecha($proyectoid,$revision_cronograma,$fechaperformance,$codigoproy);
+
+  $i=0;
+  foreach ($traerperformance as $keyper) 
+  {
+    if(strlen($keyper['codigo_actividad'])=='1')
+    {
+      $actividadpadre=true;
+    }
+    else
+    {
+          $actividadpadre=false;
+        }
+    $wheredet['codigo_prop_proy']=$keyper['codigo_prop_proy'];
+    $wheredet['codigo_actividad']=$keyper['codigo_actividad']; 
+    $wheredet['proyectoid']=$keyper['proyectoid'];      
+    $wheredet['cronogramaid']=$keyper['cronogramaid'];
+    $wheredet['codigo_cronograma']=$keyper['codigo_cronograma'];
+    $wheredet['revision_cronograma']=$keyper['revision_cronograma'];
+    $wheredet['actividadid']=$keyper['actividadid'];
+    $wheredet['codigo_performance']=$keyper['codigo_performance']; 
+    $attrib = null;
+    $order = array('fecha_performance asc');
+
+    $performancedetalle=new Admin_Model_DbTable_Performancedetalle();
+    $pdetalle=$performancedetalle->_getFilter($wheredet,$attrib,$order);
+
+    $ek[] = array(
+      'nombre' =>$keyper['nombre'],       
+      'actividadpadre'=>$actividadpadre,
+      'codigo_prop_proy' =>$keyper['codigo_prop_proy'],
+      'proyectoid' =>$keyper['proyectoid'],
+      'codigo_actividad' =>$keyper['codigo_actividad'],
+      'actividadid' =>$keyper['actividadid'],
+      'cronogramaid' =>$keyper['cronogramaid'],
+      'codigo_cronograma' =>$keyper['codigo_cronograma'],
+      'revision_cronograma' =>$keyper['revision_cronograma'],
+      'codigo_performance' =>$keyper['codigo_performance'],   
+      'fecha_ingreso_performance' =>$keyper['fecha_ingreso_performance'],
+      'costo_real' =>$keyper['costo_real'],
+      'costo_propuesta' =>$keyper['costo_propuesta'],
+      'horas_propuesta' =>$keyper['horas_propuesta'],
+      'horas_planificado' =>$keyper['horas_planificado'],
+      'costo_planificado' =>$keyper['costo_planificado'],
+      'duracion' =>$keyper['duracion'],         
+      'porcentaje_planificado' =>$keyper['porcentaje_planificado'],
+      'porcentaje_real' =>$keyper['porcentaje_real'],        
+      'fecha_comienzo_real' =>$keyper['fecha_comienzo_real'],
+      'fecha_fin_real' =>$keyper['fecha_fin_real'],
+      'fecha_comienzo' =>$keyper['fecha_comienzo'],
+      'fecha_fin' =>$keyper['fecha_fin'],
+      'nivel_esquema' =>$keyper['nivel_esquema'],
+      'predecesoras' =>$keyper['predecesoras'],
+      'sucesoras' =>$keyper['sucesoras'],
+      'horas_real' =>$keyper['horas_real'],
+      'items'=> $pdetalle);
+      
+      $i++;  
+  } 
+
+  //print_r($ek);exit();
+
+  $this->_helper->json->sendJson($ek);
+
 
 }
+
 
 ////////////////// /F I N  D E  F U N C I O N E S  A N G U L A R //////
 

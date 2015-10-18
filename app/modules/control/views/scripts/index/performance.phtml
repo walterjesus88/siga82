@@ -1,216 +1,231 @@
 
 
 <div class="panel" style="overflow:scroll">
+	<div class="container-fluid" class="col-md-4"  >
+		<div class="row">
+		    <div class="col-md-1" >
+		      <label><b><h5>Escoja una revision:</h5></b></label> 
+		    </div>
+		    <div class="col-md-1" >
+		    <select class="form-control" ng-model="CP.revi"         
+		      ng-options="c.revision_cronograma for c in CP.procronograma ">
+		    </select> 
+		    </div>
+		    <div class="col-md-1" >
+		      <button class="btn btn-shadow btn-success" ng-click="CP.buscaperformance(CP.revi)" class="btn btn-primary ">Busca</button>
+		    </div>		
+		</div>		
+	
+		<form method="POST" action="#" editable-form name="tableform" onaftersave="CP.saveTable()" oncancel="cancel()" >
+			<div class="panel row">
+				<div class="btn-edit">
+				    <button type="button" class="btn btn-shadow btn-primary" ng-show="!tableform.$visible" ng-click="tableform.$show()">
+				        editar
+				    </button>
+				    <button type="button" class="btn btn-shadow btn-success" ng-click="CP.imprimirperformance()">Imprimir</button>	
+				</div>
+			
+				<div class="btn-form" ng-show="tableform.$visible">
+				    <button type="submit" ng-disabled="tableform.$waiting" class="btn btn-shadow btn-primary">guardar</button>
+				    <button type="button" ng-disabled="tableform.$waiting" ng-click="tableform.$cancel()" class="btn btn-shadow btn-default">cancelar</button>
+				</div>
+			</div>
+			<div class="row">
+				<table class=" table table-striped table-hover table-bordered scrollTable">
+					<thead >
+			 			<tr class="menu1">    
+					        <th class"col-md-3" colspan="3"><center>Informe de Trabajo</center></th> 
+					        <th class"col-md-3" colspan="3"><center>Propuesta</center></th>
+				 	        <th class"col-md-3" colspan="3"><center>Planificado</center></th>
+				 	        <th class"col-md-3" colspan="3"><center>Real</center></th>
+				 	        <th class"col-md-5" colspan="5"><center>Fechas</center></th>
+					        <th class"col-md-3" colspan="5"><center>fechas corte (Performance y Curva s)</center></th>
+					    </tr>  
+				 	    <tr>    
+					        <th  >Item</th>
+					        <th  >ActId</th>
+					        <th  >Descripcion de Tareas</th>
+					        <th  >Predecesora</th>
+				 	        <th  >Presupuesto</th>
+					        <th  >duracion</th> 
+					        <th  >hrs/item</th>	
+					        <th >US$/item</th>		        
+					        <th  >%</th>	
+					        <th  >hrs/item</th>	
+					        <th  >US$/item</th>		        
+					        <th  >%</th>	
+					        <th  >Inicio Planificado</th>
+					        <th  >Fin Planificado</th>
+					        <th  >Duracion</th>
+					        <th  >Inicio Real</th>
+					        <th  >Fin Real</th>
+					        <th ng-repeat="item in CP.thi" ng-class="{'pending-delete': item.checked,'activo':item.state_performance==='A','cerrado':item.state_performance==='C',}">
+								
+				    			<button type="button" class="btn btn-shadow btn-primary" ng-click="CP.traerperformance(item.fecha)">{{ item.fecha }}</button>	
 
-	<div class="form-group" class="col-md-12"  >
-	  <div class="col-md-2" >
-	      <label><h5>Escoja una revision:</h5></label> 
-	  </div>
-	  <div class="col-md-2" >
-	    <select class="form-control" ng-model="CP.revi"         
-	      ng-options="c.revision_cronograma for c in CP.procronograma ">
-	    </select> 
-	  </div>
-	  <div class="col-md-2" >
-	    <button class="btn btn-shadow btn-success" ng-click="CP.buscaperformance(CP.revi)" class="btn btn-primary btn-xs">Busca</button>
-	  </div>
+								<input  ng-disabled="item.state_performance==='C' || item.state_performance==='I' "  type="checkbox" ng-model="item.checked" ng-click="CP.cerrarfechacorte(item.checked)" ng-hide="item.checked"  >
+								<span ng-show="item.checked">(cerrado)</span>				
+							</th>		    
+					    </tr> 
+					</thead>
+					<tbody class="scrollContentw">			
+				  		<tr ng-repeat="performance in CP.performance"   >	      
+				          	<td ng-class="{ 'actividadpadre':performance.actividadpadre }" >
+				            	{{ $index }}  
+				          	</td>
+				          	<td ng-class="{ 'actividadpadre':performance.actividadpadre }"  >
+				            	{{ performance.actividadid }}  
+				          	</td>	       
+
+				          	<td ng-class="{ 'actividadpadre':performance.actividadpadre }">
+								{{ performance.nombre}}
+							</td>
+
+				 			<td  ng-class="{ 'actividadpadre':performance.actividadpadre }">
+				 				<span editable-text="performance.predecesoras" e-form="tableform" onaftersave="CP.checkName($data,$index)" e-ng-change="CP.cambio($data,$index)" ng-model="performance.predecesoras">
+								{{ performance.predecesoras }}
+								</span>
+							</td>
+
+							<td ng-class="{ 'actividadpadre':performance.actividadpadre }" >	
+								<span editable-text="performance.costo_propuesta" e-form="tableform" onbeforesave="checkName($data, performance.codigo_performance)">
+								{{ performance.costo_propuesta }}
+								</span>
+							</td>
+
+				        	<td ng-class="{ 'actividadpadre':performance.actividadpadre }" >			
+								<span editable-text="performance.horas_propuesta" e-form="tableform" onbeforesave="checkName($data, performance.codigo_performance)">
+								{{ performance.horas_propuesta }}
+								</span>
+							</td>
+						
+							<td ng-class="{ 'actividadpadre':performance.actividadpadre }" >			
+								<span editable-text="performance.horas_planificado" e-form="tableform" onbeforesave="checkName($data, performance.codigo_performance)">
+								{{ performance.horas_planificado }}
+								</span>
+							</td>
+
+							<td ng-class="{ 'actividadpadre':performance.actividadpadre }" >			
+								<span editable-text="performance.costo_planificado" e-form="tableform" onbeforesave="checkName($data, performance.codigo_performance)">
+								{{ performance.costo_planificado }}
+								</span>
+							</td>
+
+							<td ng-class="{ 'actividadpadre':performance.actividadpadre }" >			
+								<span editable-text="performance.porcentaje_planificado" e-form="tableform" onbeforesave="checkName($data, performance.codigo_performance)">
+								{{ performance.porcentaje_planificado }}
+								</span>
+							</td>
+
+							<td ng-class="{ 'actividadpadre':performance.actividadpadre }" >			
+								<span editable-text="performance.horas_real" e-form="tableform" onbeforesave="checkName($data, performance.codigo_performance)">
+								{{ performance.horas_real }}
+								</span>
+							</td> 
+
+							<td ng-class="{ 'actividadpadre':performance.actividadpadre }" >
+								<span editable-text="performance.costo_real" e-form="tableform" onbeforesave="checkName($data, performance.codigo_performance)">
+								{{ performance.costo_real }}
+								</span>
+							</td>
+					
+							<td ng-class="{ 'actividadpadre':performance.actividadpadre }" >
+								<span editable-text="performance.porcentaje_real" e-form="tableform" onbeforesave="checkName($data, performance.porcentaje_real)">
+								{{ performance.porcentaje_real }}
+								</span>
+							</td>
+
+							<td ng-class="{ 'actividadpadre':performance.actividadpadre }" >
+								<span editable-text="performance.fecha_comienzo" e-form="tableform" onbeforesave="checkName($data, performance.codigo_performance)"
+								>
+								{{ (performance.fecha_comienzo | date:'medium')  || 'empty' }}
+								</span>				
+							</td>
+
+							<td ng-class="{ 'actividadpadre':performance.actividadpadre }" >
+								<span editable-text="performance.fecha_fin" e-form="tableform" onbeforesave="checkName($data, performance.codigo_performance)">
+								{{ (performance.fecha_fin | date:'medium')  || 'empty' }}
+								</span>
+							</td>
+
+							<td ng-class="{ 'actividadpadre':performance.actividadpadre }" >			
+								<span editable-text="performance.duracion" e-form="tableform" onbeforesave="checkName($data, performance.codigo_performance)" ng-enter="CP.calculafechafin()">
+								{{ performance.duracion }}
+								</span>
+							</td>
+
+							<td ng-class="{ 'actividadpadre':performance.actividadpadre }" >
+								<span editable-text="performance.fecha_comienzo_real" e-form="tableform" onbeforesave="checkName($data, performance.codigo_performance)">
+								{{ performance.fecha_comienzo_real }}
+								</span>
+							</td> 
+							
+							<td ng-class="{ 'actividadpadre':performance.actividadpadre }" >
+					          <span editable-text="performance.fecha_fin_real" e-form="tableform" onbeforesave="checkName($data, performance.codigo_performance)">
+					            {{ performance.fecha_fin_real }}
+					          </span>
+					        </td>
+
+					   		<td ng-repeat="item in performance.items"
+					   		 	ng-class="{'activo': item.state==='A',
+					   		 			   'cerrado': item.state==='C', }" >	          
+					          	<center><input
+					           class="form-control" ng-show="tableform.$visible" ename="porcentaje_performance"  ng-disabled="item.state==='C' || item.state==='I'" ng-model="item.porcentaje_performance"  type="text" e-form="tableform" 
+					          ></center>
+					         	
+					          	<center>
+								<span ng-show="!tableform.$visible" ename="porcentaje_performance" >
+								{{ item.porcentaje_performance }}					
+								</span>
+					          	</center>
+					          		
+
+					           	
+						<!-- 			<span  ng-disabled="item.state==='C' || item.state==='I'" editable-text="item.porcentaje_performance" e-form="tableform" onbeforesave="checkName($data, item.porcentaje_performance)">
+									            {{ item.porcentaje_performance }} 
+									          </span>	 -->
+					        </td>		   
+				        </tr>
+					</tbody>
+
+			    	<tfoot  class="fixedFooterw" >
+					    <tr>
+					        <th > </th>
+					        <th ></th>
+					        <th ></th>
+					        <th ></th>
+					        <th >{{ CP.subtotal_costopro }}</th>
+					        <th >{{ CP.subtotal_horaspro }}</th>
+					        <th ></th>
+					        <th ></th>
+					        <th > {{ CP.subtotal_porcplani }}   </th>
+					        <th ></th>
+					        <th ></th>
+					        <th > {{ CP.subtotal_porcreal }}</th>
+					        <th ></th>
+					        <th ></th>
+					        <th ></th>
+					        <th ></th>
+					        <th ></th>
+					        <th ng-repeat="item in CP.dat" >	            
+					            {{ item.porcentaje_ejecutado }}               	
+					        </th>
+					    </tr>
+				    </tfoot>
+				</table>
+			</div>
+
+			<!-- </scrollable-table> -->
+		</form>
+	
 	</div>
 
-	<form method="POST" action="#" editable-form name="tableform" onaftersave="CP.saveTable()" oncancel="cancel()" >
-		<div class="btn-edit">
-		    <button type="button" class="btn btn-shadow btn-default" ng-show="!tableform.$visible" ng-click="tableform.$show()">
-		        editar
-		    </button>
-		</div>
-		<div class="btn-form" ng-show="tableform.$visible">
-		    <button type="submit" ng-disabled="tableform.$waiting" class="btn btn-shadow btn-primary">guardar</button>
-		    <button type="button" ng-disabled="tableform.$waiting" ng-click="tableform.$cancel()" class="btn btn-shadow btn-default">cancelar</button>
-		</div>
-		<div class="panel" >	
-		  <!--   <button type="button" class="btn btn-default" ng-click="CP.exportarToXml()">Exportar</button> -->
-		    <button type="button" class="btn btn-shadow btn-success" ng-click="CP.imprimirperformance()">Imprimir</button>	
-		</div>
-
-		<table class=" table table-striped table-hover table-bordered scrollTable">
-			<thead class="fixedHeaderw">
-	 			<tr class="menu1">    
-			        <th class"col-md-3" colspan="3"><center>Informe de Trabajo</center></th> 
-			        <th class"col-md-3" colspan="3"><center>Propuesta</center></th>
-		 	        <th class"col-md-3" colspan="3"><center>Planificado</center></th>
-		 	        <th class"col-md-3" colspan="3"><center>Real</center></th>
-		 	        <th class"col-md-5" colspan="5"><center>Fechas</center></th>
-			        <th class"col-md-3" colspan="5"><center>fechas corte (Performance y Curva s)</center></th>
-			    </tr>  
-		 	    <tr class="menu2">    
-			        <th  >Item</th>
-			        <th  >ActId</th>
-			        <th  >Descripcion de Tareas</th>
-			        <th  >Predecesora</th>
-		 	        <th  >Presupuesto</th>
-			        <th  >duracion</th> 
-			        <th  >hrs/item</th>	
-			        <th >US$/item</th>		        
-			        <th  >%</th>	
-			        <th  >hrs/item</th>	
-			        <th  >US$/item</th>		        
-			        <th  >%</th>	
-			        <th  >Inicio Planificado</th>
-			        <th  >Fin Planificado</th>
-			        <th  >Duracion</th>
-			        <th  >Inicio Real</th>
-			        <th  >Fin Real</th>
-			        <th ng-repeat="item in CP.thi" ng-class="{'pending-delete': item.checked,'activo':item.state_performance==='A','cerrado':item.state_performance==='C',}">
-						{{ item.fecha }}
-						<input  ng-disabled="item.state_performance==='C' || item.state_performance==='I' "  type="checkbox" ng-model="item.checked" ng-click="CP.cerrarfechacorte(item.checked)" ng-hide="item.checked"  >
-						<span ng-show="item.checked">(cerrado)</span>				
-					</th>		    
-			    </tr> 
-			</thead>
-			<tbody class="scrollContentw">			
-		  		<tr ng-repeat="performance in CP.performance"   >	      
-		          	<td ng-class="{ 'actividadpadre':performance.actividadpadre }" >
-		            	{{ $index }}  
-		          	</td>
-		          	<td ng-class="{ 'actividadpadre':performance.actividadpadre }"  >
-		            	{{ performance.actividadid }}  
-		          	</td>	       
-
-		          	<td ng-class="{ 'actividadpadre':performance.actividadpadre }">
-						{{ performance.nombre}}
-					</td>
-
-		 			<td  ng-class="{ 'actividadpadre':performance.actividadpadre }">
-		 				<span editable-text="performance.predecesoras" e-form="tableform" onaftersave="CP.checkName($data,$index)" e-ng-change="CP.cambio($data,$index)" ng-model="performance.predecesoras">
-						{{ performance.predecesoras }}
-						</span>
-					</td>
-
-					<td ng-class="{ 'actividadpadre':performance.actividadpadre }" >	
-						<span editable-text="performance.costo_propuesta" e-form="tableform" onbeforesave="checkName($data, performance.codigo_performance)">
-						{{ performance.costo_propuesta }}
-						</span>
-					</td>
-
-		        	<td ng-class="{ 'actividadpadre':performance.actividadpadre }" >			
-						<span editable-text="performance.horas_propuesta" e-form="tableform" onbeforesave="checkName($data, performance.codigo_performance)">
-						{{ performance.horas_propuesta }}
-						</span>
-					</td>
-				
-					<td ng-class="{ 'actividadpadre':performance.actividadpadre }" >			
-						<span editable-text="performance.horas_planificado" e-form="tableform" onbeforesave="checkName($data, performance.codigo_performance)">
-						{{ performance.horas_planificado }}
-						</span>
-					</td>
-
-					<td ng-class="{ 'actividadpadre':performance.actividadpadre }" >			
-						<span editable-text="performance.costo_planificado" e-form="tableform" onbeforesave="checkName($data, performance.codigo_performance)">
-						{{ performance.costo_planificado }}
-						</span>
-					</td>
-
-					<td ng-class="{ 'actividadpadre':performance.actividadpadre }" >			
-						<span editable-text="performance.porcentaje_planificado" e-form="tableform" onbeforesave="checkName($data, performance.codigo_performance)">
-						{{ performance.porcentaje_planificado }}
-						</span>
-					</td>
-
-					<td ng-class="{ 'actividadpadre':performance.actividadpadre }" >			
-						<span editable-text="performance.horas_real" e-form="tableform" onbeforesave="checkName($data, performance.codigo_performance)">
-						{{ performance.horas_real }}
-						</span>
-					</td> 
-
-					<td ng-class="{ 'actividadpadre':performance.actividadpadre }" >
-						<span editable-text="performance.costo_real" e-form="tableform" onbeforesave="checkName($data, performance.codigo_performance)">
-						{{ performance.costo_real }}
-						</span>
-					</td>
-			
-					<td ng-class="{ 'actividadpadre':performance.actividadpadre }" >
-						<span editable-text="performance.porcentaje_real" e-form="tableform" onbeforesave="checkName($data, performance.porcentaje_real)">
-						{{ performance.porcentaje_real }}
-						</span>
-					</td>
-
-					<td ng-class="{ 'actividadpadre':performance.actividadpadre }" >
-						<span editable-text="performance.fecha_comienzo" e-form="tableform" onbeforesave="checkName($data, performance.codigo_performance)"
-						>
-						{{ (performance.fecha_comienzo | date:'medium')  || 'empty' }}
-						</span>				
-					</td>
-
-					<td ng-class="{ 'actividadpadre':performance.actividadpadre }" >
-						<span editable-text="performance.fecha_fin" e-form="tableform" onbeforesave="checkName($data, performance.codigo_performance)">
-						{{ (performance.fecha_fin | date:'medium')  || 'empty' }}
-						</span>
-					</td>
-
-					<td ng-class="{ 'actividadpadre':performance.actividadpadre }" >			
-						<span editable-text="performance.duracion" e-form="tableform" onbeforesave="checkName($data, performance.codigo_performance)" ng-enter="CP.calculafechafin()">
-						{{ performance.duracion }}
-						</span>
-					</td>
-
-					<td ng-class="{ 'actividadpadre':performance.actividadpadre }" >
-						<span editable-text="performance.fecha_comienzo_real" e-form="tableform" onbeforesave="checkName($data, performance.codigo_performance)">
-						{{ performance.fecha_comienzo_real }}
-						</span>
-					</td> 
-					
-					<td ng-class="{ 'actividadpadre':performance.actividadpadre }" >
-			          <span editable-text="performance.fecha_fin_real" e-form="tableform" onbeforesave="checkName($data, performance.codigo_performance)">
-			            {{ performance.fecha_fin_real }}
-			          </span>
-			        </td>
-
-			   		<td ng-repeat="item in performance.items"
-			   		 	ng-class="{'activo': item.state==='A',
-			   		 			   'cerrado': item.state==='C', }" >	          
-			          <input
-			           class="form-control" ng-model="item.porcentaje_performance"  ng-disabled="item.state==='C' || item.state==='I'" type="text"  >
-
-			           		<!-- editable-text="item.porcentaje_performance" onbeforesave="checkName($data, item.porcentaje_performance)" -->
-							<!-- <span  editable-text="item.porcentaje_performance" e-form="tableform" onbeforesave="checkName($data, item.porcentaje_performance)">
-							            {{ item.porcentaje_performance }} 
-							          </span>	 -->
-			        </td>		   
-		        </tr>
-			</tbody>
-
-	    	<tfoot  class="fixedFooterw" >
-			    <tr>
-			        <th > </th>
-			        <th ></th>
-			        <th ></th>
-			        <th ></th>
-			        <th >{{ CP.subtotal_costopro }}</th>
-			        <th >{{ CP.subtotal_horaspro }}</th>
-			        <th ></th>
-			        <th ></th>
-			        <th > {{ CP.subtotal_porcplani }}   </th>
-			        <th ></th>
-			        <th ></th>
-			        <th > {{ CP.subtotal_porcreal }}</th>
-			        <th ></th>
-			        <th ></th>
-			        <th ></th>
-			        <th ></th>
-			        <th ></th>
-			        <th ng-repeat="item in CP.dat" >	            
-			            {{ item.porcentaje_ejecutado }}               	
-			        </th>
-			    </tr>
-		    </tfoot>
-		</table>
-		<!-- </scrollable-table> -->
-	</form>
 	
 </div>
 <!-- </div> -->
 <style type="text/css">
 .ng-delete { background-color: pink }
-.activo { Background: #6dbb4a}
+.activo { Background: #6dbb4a;color:white;}
 .cerrado { Background: rgb(203,115,100);color:white;}
 .actividadpadre { 
 	background-color: #1ABC9C ;

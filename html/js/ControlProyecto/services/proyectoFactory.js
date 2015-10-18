@@ -248,10 +248,6 @@ function(httpFactory, $location, $q) {
 
     },
 
-    // calc : function(fecha_fin)
-    // {
-
-    // }
     setDatosxCambiarxEstadoproyecto: function(codigo,estado,codigo_prop_proy) {
       var defered = $q.defer();
       var promise = defered.promise;
@@ -265,8 +261,6 @@ function(httpFactory, $location, $q) {
       });
       return promise;      
     },
-
-
 
     getDatosProyecto: function(proyectoid) {
       var defered = $q.defer();
@@ -351,9 +345,7 @@ function(httpFactory, $location, $q) {
       {
       var defered = $q.defer();
       var promise = defered.promise; 
-
-      //console.log(fecha_comienzo);
-      //console.log(fecha_fin);
+ 
       httpFactory.setModificarxPerformance(
         codigo_prop_proy,codigo_actividad,actividadid,cronogramaid,codigo_cronograma,codigo_performance,
         proyectoid,revision_cronograma,fecha_ingreso_performance,revision_propuesta,
@@ -361,6 +353,21 @@ function(httpFactory, $location, $q) {
         porcentaje_real,fecha_comienzo_real,fecha_fin_real,
         fecha_fin,fecha_comienzo,nivel_esquema,predecesoras,sucesoras,duracion
         )
+      .then(function(data) {
+        datos = data;
+        defered.resolve(datos);
+      })
+      .catch(function(err) {
+        defered.reject(err);
+      });
+      return promise;      
+    },
+
+    getDatosxPerformancexLlamar: function(proyectoid,fechaperformance,revision_cronograma,codigoproy) {
+      var defered = $q.defer();
+      var promise = defered.promise;
+     
+      httpFactory.getDatosxPerformancexLlamar(proyectoid,fechaperformance,revision_cronograma,codigoproy)
       .then(function(data) {
         datos = data;
         defered.resolve(datos);
@@ -553,7 +560,6 @@ function(httpFactory, $location, $q) {
       return promise;      
     },
 
-
     setDatosxModificarxCronograma: function(codigo_cronograma,codigoproyecto,proyectoid,revision_cronograma,cronogramaid) {
       var defered = $q.defer();
       var promise = defered.promise; 
@@ -714,10 +720,7 @@ function(httpFactory, $location, $q) {
     },
     getDisciplinaxProyecto: function(proyectoid,gerente,areaid) {
       var defered = $q.defer();
-      var promise = defered.promise;   
-
-      //alert(proyectoid);  
-      //alert(gerente);  
+      var promise = defered.promise; 
 
       httpFactory.getDisciplinas(proyectoid,gerente,areaid)
       .then(function(data) {

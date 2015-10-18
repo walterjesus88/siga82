@@ -12,7 +12,7 @@
       <button class="btn btn-shadow  btn-success" ng-click="CP.buscafecha(CP.revi)" class="btn btn-primary btn-xs">Busca</button>
     </div>
     <div class="col-md-2" >
-      <button uib-tooltip="{{CP.dynamicTooltip}}" class="btn btn-shadow  btn-warning" ng-click="CP.generarrevision()">Generar Revision</button>
+      <button uib-tooltip="On the Left!" class="btn btn-shadow  btn-warning" ng-click="CP.generarrevision()">Generar Revision</button>
     </div>
     <div class="col-md-4" >
       <alert ng-repeat="alert in CP.alerts" type="{{alert.type}}" close="CP.closeAlert($index)" >{{alert.msg}}</alert>

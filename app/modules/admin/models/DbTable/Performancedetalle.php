@@ -87,4 +87,34 @@ class Admin_Model_DbTable_Performancedetalle extends Zend_Db_Table_Abstract
       }
     }
 
+    public function _getBuscarActividadxPerformancexfecha($proyectoid,$revision,$fechaperformance,$codigoproy)
+    {
+        try{
+            $sql=$this->_db->query("              
+                select p.codigo_prop_proy,p.codigo_actividad,p.proyectoid,p.cronogramaid,p.codigo_cronograma,
+                p.revision_cronograma,p.actividadid,p.codigo_performance,a.nombre
+                ,p.fecha_ingreso_performance,p.costo_real,p.horas_real,
+                p.fecha_comienzo_real,p.fecha_fin_real,p.fecha_comienzo,p.fecha_fin,
+                p.nivel_esquema,p.predecesoras,p.sucesoras,p.costo_propuesta,
+                p.duracion,p.porcentaje_planificado,p.porcentaje_real,p.horas_propuesta,p.horas_planificado,
+                p.costo_planificado                
+                from proyecto_performance_detalle as p
+                 inner join actividad as a
+                on a.codigo_prop_proy=p.codigo_prop_proy 
+                and a.codigo_actividad=p.codigo_actividad 
+                and a.actividadid=p.actividadid 
+                where p.proyectoid='$proyectoid' and p.revision_cronograma='$revision'
+                      and p.fecha_performance='$fechaperformance' and p.codigo_prop_proy='$codigoproy'
+             
+                order by p.actividadid asc
+            ");
+            $row=$sql->fetchAll();
+            return $row;           
+            }  
+           catch (Exception $ex){
+            print $ex->getMessage();
+        }
+    }
+
+
 }
